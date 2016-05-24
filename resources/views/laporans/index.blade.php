@@ -6,7 +6,7 @@ Klinik Jati Elok | Home
 @stop
 @section('page-title') 
 
- <h2>Laporan aja deh</h2>
+ <h2>Laporan gitu aja deh</h2>
  <ol class="breadcrumb">
       <li class="active">
           <strong>Home</strong>
