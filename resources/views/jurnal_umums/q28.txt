@@ -1,0 +1,140 @@
+
+update asuransis set coa_id='110000' where coa_id ='1100000';
+
+update asuransis set coa_id='110001' where coa_id ='1100010';
+
+update asuransis set coa_id='110002' where coa_id ='1100020';
+
+update asuransis set coa_id='110003' where coa_id ='1100030';
+
+update asuransis set coa_id='111000' where coa_id ='1110000';
+
+update asuransis set coa_id='111001' where coa_id ='1110010';
+
+update asuransis set coa_id='111002' where coa_id ='1110020';
+
+update asuransis set coa_id='111003' where coa_id ='1110030';
+
+update asuransis set coa_id='111004' where coa_id ='1110040';
+
+update asuransis set coa_id='111005' where coa_id ='1110050';
+
+update asuransis set coa_id='111006' where coa_id ='1110060';
+
+update asuransis set coa_id='111007' where coa_id ='1110070';
+
+update asuransis set coa_id='111008' where coa_id ='1110080';
+
+update asuransis set coa_id='111009' where coa_id ='1110090';
+
+update asuransis set coa_id='111010' where coa_id ='1110100';
+
+update asuransis set coa_id='111011' where coa_id ='1110110';
+
+update asuransis set coa_id='111012' where coa_id ='1110120';
+
+update asuransis set coa_id='111013' where coa_id ='1110130';
+
+update asuransis set coa_id='111014' where coa_id ='1110140';
+
+update asuransis set coa_id='111015' where coa_id ='1110150';
+
+update asuransis set coa_id='111016' where coa_id ='1110160';
+
+update asuransis set coa_id='111017' where coa_id ='1110170';
+
+update asuransis set coa_id='111018' where coa_id ='1110180';
+
+update asuransis set coa_id='111019' where coa_id ='1110190';
+
+update asuransis set coa_id='111020' where coa_id ='1110200';
+
+update asuransis set coa_id='111021' where coa_id ='1110210';
+
+update asuransis set coa_id='111022' where coa_id ='1110220';
+
+update asuransis set coa_id='111023' where coa_id ='1110230';
+
+update asuransis set coa_id='111024' where coa_id ='1110240';
+
+update asuransis set coa_id='111025' where coa_id ='1110250';
+
+update asuransis set coa_id='111026' where coa_id ='1110260';
+
+update asuransis set coa_id='111027' where coa_id ='1110270';
+
+update asuransis set coa_id='111028' where coa_id ='1110280';
+
+update asuransis set coa_id='111029' where coa_id ='1110290';
+
+update asuransis set coa_id='111030' where coa_id ='1110300';
+
+update asuransis set coa_id='111031' where coa_id ='1110310';
+
+update asuransis set coa_id='111032' where coa_id ='1110320';
+
+update asuransis set coa_id='111033' where coa_id ='1110330';
+
+update asuransis set coa_id='111034' where coa_id ='1110340';
+
+update asuransis set coa_id='111035' where coa_id ='1110350';
+
+update asuransis set coa_id='111036' where coa_id ='1110360';
+
+update asuransis set coa_id='111037' where coa_id ='1110370';
+
+update asuransis set coa_id='111038' where coa_id ='1110380';
+
+update asuransis set coa_id='111039' where coa_id ='1110390';
+
+update asuransis set coa_id='111040' where coa_id ='1110400';
+
+update asuransis set coa_id='111041' where coa_id ='1110410';
+
+update asuransis set coa_id='111042' where coa_id ='1110420';
+
+update asuransis set coa_id='111043' where coa_id ='1110430';
+
+update asuransis set coa_id='111044' where coa_id ='1110440';
+
+update asuransis set coa_id='111045' where coa_id ='1110450';
+
+update asuransis set coa_id='111046' where coa_id ='1110460';
+
+update asuransis set coa_id='111047' where coa_id ='1110470';
+
+update asuransis set coa_id='111048' where coa_id ='1110480';
+
+update asuransis set coa_id='111049' where coa_id ='1110490';
+
+update asuransis set coa_id='111050' where coa_id ='1110500';
+
+update asuransis set coa_id='111051' where coa_id ='1110510';
+
+update asuransis set coa_id='111052' where coa_id ='1110520';
+
+update asuransis set coa_id='111053' where coa_id ='1110530';
+
+update asuransis set coa_id='111054' where coa_id ='1110540';
+
+update asuransis set coa_id='111055' where coa_id ='1110550';
+
+update asuransis set coa_id='111056' where coa_id ='1110560';
+
+update asuransis set coa_id='111057' where coa_id ='1110570';
+
+update asuransis set coa_id='111058' where coa_id ='1110580';
+
+update asuransis set coa_id='111059' where coa_id ='1110590';
+
+update asuransis set coa_id='111060' where coa_id ='1110600';
+
+update asuransis set coa_id='111061' where coa_id ='1110610';
+
+update asuransis set coa_id='111062' where coa_id ='1110620';
+
+update asuransis set coa_id='111063' where coa_id ='1110630';
+
+update asuransis set coa_id='111064' where coa_id ='1110640';
+
+update asuransis set coa_id='112000' where coa_id ='1120000';

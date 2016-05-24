@@ -1,0 +1,1 @@
+/home/vagrant/Code/jatielok/app/views/TipeLaporanAdmedikas/show.blade.php

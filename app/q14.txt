@@ -1,0 +1,13 @@
+alter table raks add column class int(1) default 2;
+
+update raks set class = '1' where
+id='L6' or
+id='L7' or
+id='L8' or
+id='L9' or
+id='L10' or
+id='L11' or
+id='L12' or
+id='L13' or
+id='L14';
+ 	 	 	 

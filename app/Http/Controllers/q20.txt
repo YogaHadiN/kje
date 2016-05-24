@@ -1,0 +1,341 @@
+alter table jenis_tarifs add column coa_id varchar(255);
+
+update periksas set terapi='[]' where terapi='<table class="RESEP table table-condensed"></tr></table>';
+
+alter table asuransis add column coa_id varchar(255);
+INSERT INTO coas (id, coa, kelompok_coa_id) VALUES 
+('100000',	'Kas di tangan', 	'1'),
+('100001',	'Kas di Bank Mandiri Yoga'	,'1'),
+('100002',	'Kas di Bank Mandiri Siti'	,'1'),
+('100003',	'Kas di Bank BCA'	,'1'),
+('110000',	'Piutang Biaya Pribadi'	,'1'),
+('110001',	'Piutang ASURANSI PAN PASIFIC'	,'1'),
+('110002',	'Piutang PT. CIBADAK FEED MILL'	,'1'),
+('110003',	'Piutang PT. DKBI'	,'1'),
+('110004',	'Piutang PT. KURNIA Insurance'	,'1'),
+('110005',	'Piutang PT. OSTEC'	,'1'),
+('110006',	'Piutang PT. JSA'	,'1'),
+('110007',	'Piutang Tugu Mandiri non Gesek'	,'1'),
+('110008',	'Piutang PT.Wieny Graha Mulia'	,'1'),
+('110009',	'Piutang hanwha life'	,'1'),
+('110010',	'Piutang PT SEJIN'	,'1'),
+('110011',	'Piutang PT CIBADAK BROILER'	,'1'),
+('110012',	'Piutang Biaya Pribadi'	,'1'),
+('110013',	'Piutang PT. LA FARM'	,'1'),
+('110014',	'Piutang Karyawan Dan Keluarga Admedika (admedika Pry),'	,'1'),
+('110015',	'Piutang Asuransi Axa (admedika Pyr),'	,'1'),
+('110016',	'Piutang Asuransi Tokio Marine Life (admedika Pyr),'	,'1'),
+('110017',	'Piutang Sun Life Financial (admedika Pyr),'	,'1'),
+('110018',	'Piutang Financial Wiramitra Danadyaksa (admedika Pyr),'	,'1'),
+('110019',	'Piutang Icon Plus (admedika Pyr),'	,'1'),
+('110020',	'Piutang Pt Job Pertamina Talisman (admedika Pyr),'	,'1'),
+('110021',	'Piutang Aia Financial Individu (admedika Pyr),'	,'1'),
+('110022',	'Piutang Indosurya Life (admedika Pyr),'	,'1'),
+('110023',	'Piutang Asuransi Mega Life Individu (admedika Pyr),'	,'1'),
+('110024',	'Piutang Pt Nusantara Regas (admedika Pyr),'	,'1'),
+('110025',	'Piutang Inhealth Mandiri (admedika Pyr),'	,'1'),
+('110026',	'Piutang Pt Tugu Mandiri (admedika Pyr),'	,'1'),
+('110027',	'Piutang Pensiunan Prum Bulog (admedika Pyr),'	,'1'),
+('110028',	'Piutang Infomedia Solusi Humanika (admedika Pyr),'	,'1'),
+('110029',	'Piutang Pt Patra (admedika Pyr),'	,'1'),
+('110030',	'Piutang Hdi Family Of Companies Ind (admedika Pyr),'	,'1'),
+('110031',	'Piutang Asuransi Bumi Putera Muda (admedika Pyr),'	,'1'),
+('110032',	'Piutang Pertamina Internasional (admedika Pyr),'	,'1'),
+('110033',	'Piutang Asuransi Sompo Japan Nipponkoa (admedika Pyr),'	,'1'),
+('110034',	'Piutang Yankes Pertamina (admedika Pyr),'	,'1'),
+('110035',	'Piutang Siloam Care (admedika Pyr),'	,'1'),
+('110036',	'Piutang Pt Pelita Air (admedika Pyr),'	,'1'),
+('110037',	'Piutang Tms Healthcare'	,'1'),
+('110038',	'Piutang PT. YA FARM'	,'1'),
+('110039',	'Piutang PT. HJ FARM'	,'1'),
+('110040',	'Piutang EQUITY LIFE'	,'1'),
+('110041',	'Piutang PT AJ CENTRAL ASIA RAYA'	,'1'),
+('110042',	'Piutang BRInginlife'	,'1'),
+('110043',	'Piutang CAR'	,'1'),
+('110044',	'Piutang PT. MNC'	,'1'),
+('110045',	'Piutang BNILife'	,'1'),
+('110046',	'Piutang RASAPALA'	,'1'),
+('110047',	'Piutang PT ASURANSI RMAYANA tbk'	,'1'),
+('110048',	'Piutang Great Eastern Life'	,'1'),
+('110049',	'Piutang BINTANG'	,'1'),
+('110050',	'Piutang ADONAI Insurance'	,'1'),
+('110051',	'Piutang RAMAYANA Insurance'	,'1'),
+('110052',	'Piutang INHEALTH'	,'1'),
+('110053',	'Piutang Mandiri' 	,'1'),
+('110054',	'Piutang PT.ADIRA' 	,'1'),
+('110055',	'Piutang BPJS'	,'1'),
+('110056',	'Piutang PT ASURANSI UMUM MEGA'	,'1'),
+('110057',	'Piutang PT PACIFIC CROSS'	,'1'),
+('110058',	'Piutang pemasaran'	,'1'),
+('110059',	'Piutang PT SYNTECH MITRA INTEGRAS'	,'1'),
+('110060',	'Piutang RELIANCE'	,'1'),
+('110061',	'Piutang MEDICILIN'	,'1'),
+('110062',	'Piutang PT. CTC'	,'1'),
+('110063',	'Piutang PT. SPBU'	,'1'),
+('110064',	'Piutang Asuransi Wanaartha'	,'1'),
+('400001',		'Pendapatan Jasa Dokter',	'5'),
+('400002',		'Pendapatan Obat',	'5'),
+('400003',		'Pendapatan Hekting',	'5'),
+('400004',		'Pendapatan Injeksi',	'5'),
+('400005',		'Pendapatan Proris Supp',	'5'),
+('400006',		'Pendapatan Asam Urat',	'5'),
+('400007',		'Pendapatan Paket GDS/AU/CHOL',	'5'),
+('400008',		'Pendapatan Wound Toilet',	'5'),
+('400009',		'Pendapatan Ganti Verban',	'5'),
+('400010',		'Pendapatan Angkat Jahitan',	'5'),
+('400011',		'Pendapatan Ekstraksi Kuku',	'5'),
+('400012',		'Pendapatan Eksisi Clavus',	'5'),
+('400013',		'Pendapatan Eksisi Clavus',	'5'),
+('400014',		'Pendapatan Corpus Alienum Kornea',	'5'),
+('400015',		'Pendapatan IUD',	'5'),
+('400016',		'Pendapatan Irigasi Mata',	'5'),
+('400017',		'Pendapatan Nebulizer',	'5'),
+('400018',		'Pendapatan Sirkumsisi',	'5'),
+('400019',		'Pendapatan USG',	'5'),
+('400020',		'Pendapatan GDS',	'5'),
+('400021',		'Pendapatan Ekstraksi Serumen',	'5'),
+('400022',		'Pendapatan Jam Malam',	'5'),
+('400023',		'Pendapatan Surat Keterangan Sehat',	'5'),
+('400024',		'Pendapatan Konsultasi Gigi',	'5'),
+('400025',		'Pendapatan Administrasi',	'5'),
+('400026',		'Pendapatan Cabut Gigi',	'5'),
+('400027',		'Pendapatan Test Pack',	'5'),
+('400028',		'Penapatan Cek Kolesterol',	'5'),
+('400029',		'Pendapatan Ekstraksi Corpus Alienum Mata',	'5'),
+('400030',		'Pendapatan Injeksi Streptomycin',	'5'),
+('400031',		'Pendapatan ANC Tanpa USG',	'5'),
+('400032',		'Pendapatan Pencabutan IUD',	'5'),
+('400033',		'Pendapatan Pasang Kateter',	'5'),
+('400034',		'Pendapatan Lepas Kateter',	'5'),
+('400035',		'Pendapatan Pasang Infus',	'5'),
+('400036',		'Penapatan Lepas Infus',	'5'),
+('400037',		'Pendapatan Observasi Dokter',	'5'),
+('400038',		'Pendapatan Bahan Habis Pakai',	'5'),
+('400039',		'Pendapatan Tes Protein Urin',	'5'),
+('400040',		'Pendapatan Trombosit',	'5');
+
+
+
+	
+	
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Jasa Dokter') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Jasa Dokter';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Obat') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Biaya Obat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 1 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 2 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 3 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 4 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 5 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 6 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 7 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 8 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 9 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 10 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 11 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 12 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 13 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 14 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 15 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 16 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 17 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 18 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 19 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting 20 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Hekting') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Hekting diatas 20 jahitan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Dexamethasone 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Dekamidon 1cc';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Dekamidon 2cc';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Dekamidon 3cc';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Dekadril 1 cc';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Dekadril 2 cc';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Dekadril 3 cc';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Ketorolac 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Neurobion 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Ethiferan 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Ranitidine 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Tramadol 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Scopamin 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Epinephrine 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Transamin 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Tetanus Toksoid 0,5 cc';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Pehacaine 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Lidocaine 1 ampul';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'KB 1 Bulan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'KB 3 Bulan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Vitamin C 1 gr IV';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj VIt C + Tationil';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Tationil 1 vial IV';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Kanamycin 2 gr IM';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Proris Supp') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Proris Supp';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Asam Urat') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Asam Urat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Paket GDS/AU/CHOL') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Cek Paket (GDS /AU / CHOL)';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Wound Toilet') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'WT Ringan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Wound Toilet') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'WT Sedang';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Wound Toilet') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'WT Berat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ganti Verban') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ganti Verban Ringan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ganti Verban') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ganti Verban Sedang';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ganti Verban') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ganti Verban Berat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Angkat Jahitan') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Angkat jahitan < 3';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Angkat Jahitan') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Angkat Jahitan > 3';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ekstraksi Kuku') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstraksi Kuku Ringan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ekstraksi Kuku') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstraksi Kuku Sedang';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ekstraksi Kuku') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstraksi Kuku Berat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Eksisi Clavus') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Eksisi Clavus Ringan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Eksisi Clavus') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Eksisi Clavus Sedang';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Eksisi Clavus') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Eksisi Clavus Berat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Corpus Alienum Kornea') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstraksi Corpus Alienum Cornea Sedang';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan IUD') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Pasang IUD';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Irigasi Mata') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Irigasi Mata Ringan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Irigasi Mata') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Irigasi Mata Sedang';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Nebulizer') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Nebulizer Anak';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Nebulizer') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Nebulizer Dewasa';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Sirkumsisi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Sirkumsisi Anak-anak';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Sirkumsisi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Sirkumsisi Dewasa';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Sirkumsisi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Sirkumsisi Anak Gendut';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan USG') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'USG';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan GDS') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Gula Darah';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ekstraksi Serumen') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstraksi Serumen Ringan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ekstraksi Serumen') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstraksi Serumen Sedang';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ekstraksi Serumen') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstrakwsi Serumen Berat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Jam Malam') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Jam Malam';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Surat Keterangan Sehat') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'surat keterangan sehat';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Konsultasi Gigi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Jasa Konsultasi Dokter Gigi';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Administrasi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Administrasi';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Cabut Gigi') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Cabut Gigi';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Test Pack') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'tes pack';
+update jenis_tarifs jt, (SELECT * from coas where coa='Penapatan Cek Kolesterol') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	' cek cholestrol';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Ekstraksi Corpus Alienum Mata') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Ekstraksi Corpus Alienum Mata Ringan';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Injeksi Streptomycin') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Inj Streptomicyn';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan ANC Tanpa USG') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Periksa Hamil';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Pencabutan IUD') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'pencabutan kb iud';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Pencabutan IUD') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'pencabuta iud';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Pasang Kateter') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Pasang Kateter';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Lepas Kateter') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Lepas Kateter';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Pasang Infus') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Pasang Infus';
+update jenis_tarifs jt, (SELECT * from coas where coa='Penapatan Lepas Infus') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Lepas Infus';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Observasi Dokter') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Observasi 1 jam';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Observasi Dokter') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Observasi 2 jam';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Observasi Dokter') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Observasi 3 jam';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Bahan Habis Pakai') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'BHP';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Tes Protein Urin') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Protein Urine';
+update jenis_tarifs jt, (SELECT * from coas where coa='Pendapatan Trombosit') coa set jt.coa_id=coa.id  where jt.jenis_tarif=	'Trombosit';
+	
+
+
+update asuransis set coa_id='110000' where id=	'0'	;
+update asuransis set coa_id='110001' where id=	'1'	;
+update asuransis set coa_id='110002' where id=	'10'	;
+update asuransis set coa_id='110003' where id=	'11'	;
+update asuransis set coa_id='110004' where id=	'12'	;
+update asuransis set coa_id='110005' where id=	'13'	;
+update asuransis set coa_id='110006' where id=	'15'	;
+update asuransis set coa_id='110007' where id=	'150821001'	;
+update asuransis set coa_id='110008' where id=	'150922001'	;
+update asuransis set coa_id='110009' where id=	'151020001'	;
+update asuransis set coa_id='110010' where id=	'151117001'	;
+update asuransis set coa_id='110011' where id=	'151222001'	;
+update asuransis set coa_id='110012' where id=	'151222002'	;
+update asuransis set coa_id='110013' where id=	'16'	;
+update asuransis set coa_id='110014' where id=	'160207001'	;
+update asuransis set coa_id='110015' where id=	'160207002'	;
+update asuransis set coa_id='110016' where id=	'160207003'	;
+update asuransis set coa_id='110017' where id=	'160207004'	;
+update asuransis set coa_id='110018' where id=	'160207005'	;
+update asuransis set coa_id='110019' where id=	'160207006'	;
+update asuransis set coa_id='110020' where id=	'160207007'	;
+update asuransis set coa_id='110021' where id=	'160207008'	;
+update asuransis set coa_id='110022' where id=	'160207009'	;
+update asuransis set coa_id='110023' where id=	'160207010'	;
+update asuransis set coa_id='110024' where id=	'160207011'	;
+update asuransis set coa_id='110025' where id=	'160207012'	;
+update asuransis set coa_id='110026' where id=	'160207013'	;
+update asuransis set coa_id='110027' where id=	'160207014'	;
+update asuransis set coa_id='110028' where id=	'160207015'	;
+update asuransis set coa_id='110029' where id=	'160207016'	;
+update asuransis set coa_id='110030' where id=	'160207017'	;
+update asuransis set coa_id='110031' where id=	'160207018'	;
+update asuransis set coa_id='110032' where id=	'160207019'	;
+update asuransis set coa_id='110033' where id=	'160207020'	;
+update asuransis set coa_id='110034' where id=	'160207021'	;
+update asuransis set coa_id='110035' where id=	'160207022'	;
+update asuransis set coa_id='110036' where id=	'160207023'	;
+update asuransis set coa_id='110037' where id=	'160221001'	;
+update asuransis set coa_id='110038' where id=	'17'	;
+update asuransis set coa_id='110039' where id=	'18'	;
+update asuransis set coa_id='110040' where id=	'19'	;
+update asuransis set coa_id='110041' where id=	'2'	;
+update asuransis set coa_id='110042' where id=	'20'	;
+update asuransis set coa_id='110043' where id=	'21'	;
+update asuransis set coa_id='110044' where id=	'22'	;
+update asuransis set coa_id='110045' where id=	'23'	;
+update asuransis set coa_id='110046' where id=	'24'	;
+update asuransis set coa_id='110047' where id=	'25'	;
+update asuransis set coa_id='110048' where id=	'26'	;
+update asuransis set coa_id='110049' where id=	'27'	;
+update asuransis set coa_id='110050' where id=	'28'	;
+update asuransis set coa_id='110051' where id=	'29'	;
+update asuransis set coa_id='110052' where id=	'3'	;
+update asuransis set coa_id='110053' where id=	'30'	;
+update asuransis set coa_id='110054' where id=	'31'	;
+update asuransis set coa_id='110055' where id=	'32'	;
+update asuransis set coa_id='110056' where id=	'34'	;
+update asuransis set coa_id='110057' where id=	'37'	;
+update asuransis set coa_id='110058' where id=	'39'	;
+update asuransis set coa_id='110059' where id=	'4'	;
+update asuransis set coa_id='110060' where id=	'5'	;
+update asuransis set coa_id='110061' where id=	'6'	;
+update asuransis set coa_id='110062' where id=	'8'	;
+update asuransis set coa_id='110063' where id=	'9'	;
+update asuransis set coa_id='110064' where id=	'90'	;
+
+alter table pasiens add column ktp_image varchar(255);
+
+update terapis set harga_beli_satuan = 0 where merek_id<0;
+update terapis set harga_beli_satuan=3000 where merek_id='150811038';
+update raks set harga_beli=3000 where id='Z50';
+
+alter table jurnal_umums add column periksa_id varchar(255);
+
+update mereks set rak_id='G7' where merek like '%farizol syr%';
+
+  alter table jurnal_umums modify `transaksi_periksa_id` varchar(255) COLLATE utf8_unicode_ci;
+
+  alter table jurnal_umums modify `pendapatan_id` varchar(255) COLLATE utf8_unicode_ci;
+
+  alter table jurnal_umums modify `pembelian_id` varchar(255) COLLATE utf8_unicode_ci;
+
+  alter table jurnal_umums modify `pengeluaran_id` varchar(255) COLLATE utf8_unicode_ci;
+
+  alter table jurnal_umums modify `penjualan_id` varchar(255) COLLATE utf8_unicode_ci;
+
+  alter table jurnal_umums change `debet` `debit` int(11);
+
+  alter table jurnal_umums modify `kredit` int(11);
+
+  alter table jurnal_umums change `coa_debet_id` `coa_debit_id` varchar(255) COLLATE utf8_unicode_ci;
+
+  alter table jurnal_umums modify `coa_kredit_id` varchar(255) COLLATE utf8_unicode_ci;
+
+  alter table jurnal_umums modify `keterangan` varchar(255) COLLATE utf8_unicode_ci;
+
+
+
+drop table jurnal_umums;
+
+CREATE TABLE `jurnal_umums` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `transaksi_periksa_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pendapatan_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pembelian_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pengeluaran_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `penjualan_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `periksa_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `debit` int(1) NOT NULL,
+  `nilai` int(11) DEFAULT 0,
+  `coa_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `keterangan` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+alter table terapis drop column merek_obat;

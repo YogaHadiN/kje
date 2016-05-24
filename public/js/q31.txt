@@ -1,0 +1,92 @@
+SET SQL_SAFE_UPDATES = 0;
+
+
+alter table rumah_sakits add column bpjs int(1) default 0;
+
+update rumah_sakits set bpjs=1 where id=23;
+update rumah_sakits set bpjs=1 where id=24;
+update rumah_sakits set bpjs=1 where id=25;
+update rumah_sakits set bpjs=1 where id=28;
+update rumah_sakits set bpjs=1 where id=30;
+update rumah_sakits set bpjs=1 where id=33;
+update rumah_sakits set bpjs=1 where id=37;
+update rumah_sakits set bpjs=1 where id=43;
+
+
+insert fasilitas (rumah_sakit_id, tujuan_rujuk_id) values 
+(33, 51),
+(37, 51),
+(68, 51);
+
+
+create table `bpjs_centers` (`id` int unsigned not null auto_increment primary key, `nama` varchar(255) not null, `telp` varchar(255) not null, `rumah_sakit_id` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+update raks set fornas=1 where id='B9';
+update raks set fornas=0 where id='B7';
+update raks set fornas=0 where id='B8';
+update raks set fornas=0 where id='F12';
+
+
+
+insert into bpjs_centers (rumah_sakit_id, nama, telp) values 
+
+(37, 'Rita Oktafitria',	'08111877116'),
+(37, 'Syahrias Sidik',	'081297159018'),
+(37, 'Ennisa Sonia',	'081934187896'),
+(37, 'Dini Mini Suryani',	'081317841176'),
+(37, 'Monika Juventiana VF',	'08562859904'),
+(37, 'Aditya Wisnusaputra',	'085643346300'),
+(33	,'Lucky Pranajati',	'08119123500'),
+(33	,'Mutia Mahdarina',	'081617331900'),
+(33	,'Wachidyah Anggraini',	'08111367778'),
+(33	,'Weny Anggraini',	'085669247544'),
+(47	,'Desti Fajarwati',	'085694964244'),
+(47	,'M. Thofa NA',	'081311451911'),
+(25,	'Iwan S',	'081280855920'),
+(31,	'Norita MMT',	'081386760533'),
+(50,	'Iwan S',	'081280855920'),
+(30,	'Noviana Suci Prihartini',	'082137669220'),
+(53,	'Iwan S',	'081280855920'),
+(23,	'Hasrin M',	'082210378936'),
+(54,	'Iwan S',	'081280855920'),
+(24,	'Heny A',	'087877188716'),
+(57,	'Lidya Ayu Lestari',	'082123792210'),
+(43,	'Herawati Ningsih',	'08119449988'),
+(60,	'Nurhasanah',	'081519067852'),
+(62,	'Fallah Adi Wijayanti',	'081285021414'),
+(64,	'Eva Dita Prestyana',	'082111034487'),
+(66,	'Nopi Dwi Puspitasari',	'08119893824'),
+(34,	'Ranap Gultom',	'082277881458'),
+(69,	'Norita MMT',	'081386760533'),
+(70,	'Suriyani Syamsu',	'085263615770'),
+(61,	'Siti Aisyah',	'08111489414'),
+(40,	'Meriana Sinaga',	'08118622221'),
+(72,	'Meriana Sinaga',	'08118622221'),
+(74,	'Dewi Maranti Siregar',	'081362242568'),
+(77,	'Meriana Sinaga',	'08118622221'),
+(79,	'Tia Erniasih',	'081315180090'),
+(78,	'Ade Ayu Araswati Putra',	'081318302437'),
+(59	, 'Yuliarni Wika WBS',	'081223001988'),
+(59	, 'Achmad Bazhuri',	'081381372788'),
+(39	, 'Yuliarni Wika WBS',	'081223001988'),
+(39	, 'Achmad Bazhuri',	'081381372788'),
+(65	, 'Rivia Handayani',	'0811168381'),
+(65	, 'Muhamad Afyudin',	'081280986104'),
+(56	,'Siti Aisyah',	'08111489414'),
+(56	,'SCiska A',	'081219692730'),
+(75	, 'Dhita Ekawati',	'085716611458'),
+(75	, 'Dhina Nurlita N',	'082299448777'),
+(73	, 'Tia Erniasih', '081315180090'),
+(73	, 'ndah Mawar Sari',	'08111096400'),
+(76	, 'Tia Erniasih', '081315180090'),
+(76	, 'ndah Mawar Sari',	'08111096400');
+
+
+
+alter table rumah_sakits add column ugd varchar(255);
+
+update asuransis set umum = '["Obat dibatasi 30 ribu rupiah setiap kali berobat","Diusahakan untuk membuat resep kurang dari 30 ribu rupiah, karena sisanya bisa digunakan untuk pasien lain yang membutuhkan.","Sekiranya hanya terpakai 10 ribu rupiah, 20 ribu rupiah bisa digunakan untuk pasien lain untuk perusahaan yang sama","Penanganan dan perhitungan biaya untuk kecelakaan kerja sama seperti pasien umum, tidak dibatasi","Obat dibatasi hanya untuk 2 hari, kecuali untuk obat yang harus dihabiskan bisa untuk 3 hari, termasuk obat typhoid fever","Tinea cruris bisa untuk 10 hari","obat untuk asma bisa untuk 3 hari"]' where id=15;
+
+delete from jenis_tarifs where id=123;
+delete from tarifs where jenis_tarif_id=123;
+

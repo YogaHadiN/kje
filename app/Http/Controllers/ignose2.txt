@@ -1,0 +1,39 @@
+id, tanggal, asuransi_id, pasien_id, staf_id, anamnesa, pemeriksaan_fisik, pemeriksaan_penunjang, diagnosa_id, keterangan_diagnosa, terapi, piutang, tunai, poli, jam, lewat_kasir, antrian, jam_resep, lewat_poli, lewat_kasir2, transaksi, berat_badan, approve_id, satisfaction_index, created_at, updated_at, piutang_dibayar, tanggal_piutang_dibayar, asisten_id, periksa_awal, jam_periksa, jam_terima_obat, jam_selesai_periksa
+
+
+INSERT IGNORE INTO jatielok.periksas (id, tanggal, asuransi_id, pasien_id, staf_id, anamnesa, pemeriksaan_fisik, pemeriksaan_penunjang, diagnosa_id, keterangan_diagnosa, terapi, piutang, tunai, poli, jam, lewat_kasir, antrian, jam_resep, lewat_poli, lewat_kasir2, transaksi, berat_badan, approve_id, satisfaction_index, created_at, updated_at, piutang_dibayar, tanggal_piutang_dibayar, asisten_id, periksa_awal, jam_periksa, jam_terima_obat, jam_selesai_periksa)
+SELECT Distinct id, tanggal, asuransi_id, pasien_id, staf_id, anamnesa, pemeriksaan_fisik, pemeriksaan_penunjang, diagnosa_id, keterangan_diagnosa, terapi, piutang, tunai, poli, jam, lewat_kasir, antrian, jam_resep, lewat_poli, lewat_kasir2, transaksi, berat_badan, approve_id, satisfaction_index, created_at, updated_at, piutang_dibayar, tanggal_piutang_dibayar, asisten_id, periksa_awal, jam_periksa, jam_terima_obat, jam_selesai_periksa 
+FROM tempp.periksas where tanggal = '2016-03-21';
+
+
+id,merek_id,merek_obat,signa,aturan_minum,jumlah,harga_beli_satuan,harga_jual_satuan,periksa_id,created_at,updated_at
+
+
+
+INSERT IGNORE INTO jatielok.terapis (id,merek_id,merek_obat,signa,aturan_minum,jumlah,harga_beli_satuan,harga_jual_satuan,periksa_id,created_at,updated_at) 
+SELECT id,merek_id,merek_obat,signa,aturan_minum,jumlah,harga_beli_satuan,harga_jual_satuan,periksa_id,created_at,updated_at FROM tempp.terapis where tanggal = '2016-03-21';
+
+
+
+INSERT IGNORE INTO newDatabase.table1 (Column1, Column2) 
+SELECT column1, column2 FROM oldDatabase.table1;
+
+
+
+
+
+INSERT IGNORE INTO jatielok.rujukans (id, periksa_id, tujuan_rujuk_id, rumah_sakit_id, alasan_rujuk, created_at, updated_at, register_hamil_id) 
+SELECT id, periksa_id, tujuan_rujuk_id, rumah_sakit_id, alasan_rujuk, created_at, updated_at, register_hamil_id FROM tempp.rujukans;
+
+
+
+
+
+INSERT IGNORE INTO jatielok.surat_sakits (id, periksa_id, tanggal_mulai, hari, created_at, updated_at) 
+SELECT id, periksa_id, tanggal_mulai, hari, created_at, updated_at FROM tempp.surat_sakits;
+
+
+
+
+INSERT IGNORE INTO jatielok.dispensings (id, tanggal, rak_id, keluar, masuk, created_at, updated_at, faktur_belanja_id, periksa_id, nota_jual_id) 
+SELECT id, tanggal, rak_id, keluar, masuk, created_at, updated_at, faktur_belanja_id, periksa_id, nota_jual_id FROM tempp.dispensings;

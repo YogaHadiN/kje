@@ -1,0 +1,24 @@
+@if(App\Classes\Yoga::cekGDSBulanIni($antrianperiksa->pasien_id)['bayar'])
+        <div class="row">
+            <div class="alert alert-danger">
+                <strong>Pemeriksaan Gula Darah Tidak ditanggung untuk pasien ini-</strong>
+                @if(App\Classes\Yoga::cekGDSBulanIni($antrianperiksa->pasien_id)['sudahGDS'])
+                    <div class="font-small"> pasien sudah pernah periksa Gula Darah bulan ini tanggal 
+                        <span id="sudahGDS">{!! App\Classes\Yoga::updateDatePrep(App\Classes\Yoga::cekGDSBulanIni($antrianperiksa->pasien_id)['tanggal']) !!}</span>
+                        , pemeriksaan Gula Darah saat ini harus bayar Rp. 15.000,- 
+                    </div>
+                @else
+                    <div class="font-small"> gratis khusus hanya untuk pasien peserta BPJS > 50 tahun atau riwayat Diabetes Mellitus dan plafon hanya sebulan sekaliddfd
+                    </div>
+                @endif
+            </div>
+        </div>
+    @else
+        <div class="row">
+            <div class="alert alert-success">
+                <strong>Pemeriksaan Gula Darah Ditanggung untuk pasien ini-</strong>
+                <div class="font-small"> gratis khusus hanya untuk pasien peserta BPJS > 50 tahun atau riwayat Diabetes Mellitus dan plafon hanya sebulan sekali
+                </div>
+            </div>
+        </div>
+    @endif

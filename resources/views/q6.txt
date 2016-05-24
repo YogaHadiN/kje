@@ -1,0 +1,11 @@
+alter table periksas ADD COLUMN piutang_dibayar int(11) default 0;
+alter table periksas ADD COLUMN tanggal_piutang_dibayar date;
+
+
+create table `pendapatans` (`id` varchar(255) not null primary key, `pendapatan` varchar(255) not null, `biaya` int not null default '0, `keterangan` text, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+alter table perujuks CHANGE perujuk nama varchar(255) not null;
+alter table perujuks ADD COLUMN no_telp varchar(255);
+
+
+alter table stafs add column dibantu int(1) default 1;

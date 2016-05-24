@@ -1,0 +1,10 @@
+alter table periksas add column jam_periksa time;
+alter table periksas add column jam_terima_obat time;
+alter table periksas add column jam_selesai_periksa time;
+
+delete from tipe_asuransis where id = '1';
+delete from tipe_asuransis where id = '2';
+
+update asuransis set tipe_asuransi = '3' where tipe_asuransi='1' or tipe_asuransi is null or tipe_asuransi like '';
+
+update tipe_asuransis set tipe_asuransi='admedika/perusahaan bebas dan umum' where id ='3';

@@ -1,0 +1,351 @@
+alter table jenis_tarifs add column tipe_laporan_admedika_id int(11) default 0;
+
+create table `tipe_laporan_admedikas` (`id` int unsigned not null auto_increment primary key, `tipe_laporan_admedika` varchar(255), `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into `tipe_laporan_admedikas` (tipe_laporan_admedika) values 
+('Jasa Dokter + Adm'),
+('Obat'),
+('KB'),
+('Periksa Hamil'),
+('Fisioterapi'),
+('Lab'),
+('R. Dasar');
+
+insert into jenis_tarifs (jenis_tarif) values ('BHP');
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=1;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=9;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=20;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=21;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=22;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=34;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=35;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=36;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=37;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=38;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=39;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=40;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=41;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=42;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=43;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=44;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=45;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=46;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=47;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=48;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=49;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=50;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=51;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=52;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=53;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=54;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=55;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=56;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=57;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=58;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=59;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=60;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=61;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=62;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=63;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=64;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=65;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=66;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=67;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=68;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=69;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='3' where id=70;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='3' where id=72;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=73;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=75;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=76;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=77;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=78;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='6' where id=80;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='6' where id=82;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=83;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=84;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=85;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=86;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=87;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=88;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=89;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=90;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=91;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=92;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=93;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=94;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=95;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=96;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=98;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=99;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=100;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=101;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='5' where id=102;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='5' where id=103;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=104;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=105;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=106;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='4' where id=111;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='6' where id=116;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=117;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=118;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=119;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=120;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=121;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='7' where id=122;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='7' where id=123;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='7' where id=124;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='6' where id=126;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='6' where id=127;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=128;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=129;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='4' where id=130;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='3' where id=131;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='3' where id=132;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=133;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=134;
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=135;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=136;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=137;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=138;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='1' where id=139;	
+
+update jenis_tarifs set tipe_laporan_admedika_id='2' where id=140;	
+
+delete from jenis_tarifs where tipe_laporan_admedika_id=0;
+
+delete from tarifs where jenis_tarif_id =10	
+or jenis_tarif_id = 11	
+or jenis_tarif_id = 12	
+or jenis_tarif_id = 13	
+or jenis_tarif_id = 109	
+or jenis_tarif_id = 110	
+or jenis_tarif_id = 125;
+
+alter table jenis_tarifs add column tipe_laporan_kasir_id int(11) default 0;
+
+
+create table `tipe_laporan_kasirs` (`id` int unsigned not null auto_increment primary key, `tipe_laporan_kasir` varchar(255), `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+Insert into tipe_laporan_kasirs (tipe_laporan_kasir) values
+('Jasa dokter'),
+('Obat'),
+('Surat Sehat'),
+('Tindakan'),
+('Laboratorium'),
+('Suntik'),
+('USG'),
+('Nebu'),
+('KB'),
+('Periksa Hamil'),
+('Vit. C + Tat'),
+('JM'),
+('Oksigen'),
+('Home Visit'),
+('Tationil'),
+('Asisten Uap'),
+('Vit. C  '),
+('Observasi'),
+('Tindakan Gigi'),
+('Rawat Luka'),
+('ADM'),
+('Rujuk RS'),
+('Perusahaan'),
+('Lain-lain');
+
+
+update jenis_tarifs set tipe_laporan_kasir_id= 1 where id= 1	;
+update jenis_tarifs set tipe_laporan_kasir_id= 12 where id= 120	;
+update jenis_tarifs set tipe_laporan_kasir_id= 1 where id= 121	;
+update jenis_tarifs set tipe_laporan_kasir_id= 1 where id= 123	;
+update jenis_tarifs set tipe_laporan_kasir_id= 10 where id= 130	;
+update jenis_tarifs set tipe_laporan_kasir_id= 11 where id= 75	;
+update jenis_tarifs set tipe_laporan_kasir_id= 15 where id= 76	;
+update jenis_tarifs set tipe_laporan_kasir_id= 17 where id= 73	;
+update jenis_tarifs set tipe_laporan_kasir_id= 19 where id= 122	;
+update jenis_tarifs set tipe_laporan_kasir_id= 19 where id= 124	;
+update jenis_tarifs set tipe_laporan_kasir_id= 2 where id= 9	;
+update jenis_tarifs set tipe_laporan_kasir_id= 2 where id= 78	;
+update jenis_tarifs set tipe_laporan_kasir_id= 2 where id= 140	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 20	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 21	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 22	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 34	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 35	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 36	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 37	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 38	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 39	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 40	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 41	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 42	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 43	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 44	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 45	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 46	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 47	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 48	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 49	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 50	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 51	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 83	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 84	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 85	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 86	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 87	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 88	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 89	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 90	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 91	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 92	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 93	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 94	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 95	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 96	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 98	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 99	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 100	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 101	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 102	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 103	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 104	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 105	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 106	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 117	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 118	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 119	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 128	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 131	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 132	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 133	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 134	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 135	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 136	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 137	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 138	;
+update jenis_tarifs set tipe_laporan_kasir_id= 4 where id= 139	;
+update jenis_tarifs set tipe_laporan_kasir_id= 5 where id= 80	;
+update jenis_tarifs set tipe_laporan_kasir_id= 5 where id= 82	;
+update jenis_tarifs set tipe_laporan_kasir_id= 5 where id= 116	;
+update jenis_tarifs set tipe_laporan_kasir_id= 5 where id= 126	;
+update jenis_tarifs set tipe_laporan_kasir_id= 5 where id= 127	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 52	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 53	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 54	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 55	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 56	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 57	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 58	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 59	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 60	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 61	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 62	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 63	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 64	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 65	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 66	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 67	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 68	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 69	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 77	;
+update jenis_tarifs set tipe_laporan_kasir_id= 6 where id= 129	;
+update jenis_tarifs set tipe_laporan_kasir_id= 7 where id= 111	;
+update jenis_tarifs set tipe_laporan_kasir_id= 9 where id= 70	;
+update jenis_tarifs set tipe_laporan_kasir_id= 9 where id= 72	;

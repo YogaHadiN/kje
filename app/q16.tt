@@ -1,0 +1,24 @@
+alter table pembelians add column staf_id varchar(255);
+update pembelians set staf_id = (select staf_id from faktur_belanjas where id = '{$faktur_belanja_id}') where faktur_belanja_id='{$faktur_belanja_id}';
+alter table faktu_belanjas drop column staf_id;
+
+alter table dispensings add column faktur_belanja_id varchar(255);
+alter table dispensings add column periksa_id varchar(255);
+alter table dispensings drop column ref_id;
+
+
+
+create table `stok_opnames` (
+
+`id` int unsigned not null auto_increment primary key,
+`rak_id` varchar(255),
+`stok_komputer` int(11),
+`stok_fisik` int(11),
+`exp_date` date,
+`tanggal` date,
+`staf_id` varchar(255),
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+)
+
+efault character set utf8 collate utf8_unicode_ci;

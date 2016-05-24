@@ -1,0 +1,311 @@
+alter table bahan_habis_pakais drop column id;
+alter table bahan_habis_pakais add column id int(11) not null auto_increment primary key;
+
+insert into tipe_asuransis (id, tipe_asuransi) values ('2', 'seperti pasien umum');
+update tipe_asuransis set tipe_asuransi='admedika' where id=3;
+
+update raks set fornas=1 where id='F13';
+update raks set fornas=1 where id='I8';
+
+
+delete from bahan_habis_pakais;
+
+alter table jurnal_umums drop column penjualan_id;
+
+
+insert into bahan_habis_pakais (jenis_tarif_id, merek_id, jumlah) values 
+('20', '150803009' , 2), (20, 150803015, 2), (20, 150811002, 2), ( 20, 160301008,  2),
+('21', '150803009' , 2), (21, 150803015, 2), (21, 150811002, 2), ( 21, 160301008,  2),
+('22', '150803009' , 2), (22, 150803015, 2), (22, 150811002, 2), ( 22, 160301008,  2),
+('34', '150803009' , 2), (34, 150803015, 2), (34, 150811002, 2), ( 34, 160301008,  2),
+('35', '150803009' , 2), (35, 150803015, 2), (35, 150811002, 2), ( 35, 160301008,  2),
+('36', '150803009' , 2), (36, 150803015, 2), (36, 150811002, 2), ( 36, 160301008,  2),
+('37', '150803009' , 2), (37, 150803015, 2), (37, 150811002, 2), ( 37, 160301008,  2),
+('38', '150803009' , 2), (38, 150803015, 2), (38, 150811002, 2), ( 38, 160301008,  2),
+('39', '150803009' , 2), (39, 150803015, 2), (39, 150811002, 2), ( 39, 160301008,  2),
+('40', '150803009' , 2), (40, 150803015, 2), (40, 150811002, 2), ( 40, 160301008,  2),
+('41', '150803009' , 2), (41, 150803015, 2), (41, 150811002, 2), ( 41, 160301008,  2),
+('42', '150803009' , 2), (42, 150803015, 2), (42, 150811002, 2), ( 42, 160301008,  2),
+('43', '150803009' , 2), (43, 150803015, 2), (43, 150811002, 2), ( 43, 160301008,  2),
+('44', '150803009' , 2), (44, 150803015, 2), (44, 150811002, 2), ( 44, 160301008,  2),
+('45', '150803009' , 2), (45, 150803015, 2), (45, 150811002, 2), ( 45, 160301008,  2),
+('46', '150803009' , 2), (46, 150803015, 2), (46, 150811002, 2), ( 46, 160301008,  2),
+('47', '150803009' , 2), (47, 150803015, 2), (47, 150811002, 2), ( 47, 160301008,  2),
+('48', '150803009' , 2), (48, 150803015, 2), (48, 150811002, 2), ( 48, 160301008,  2),
+('49', '150803009' , 2), (49, 150803015, 2), (49, 150811002, 2), ( 49, 160301008,  2),
+('50', '150803009' , 2), (50, 150803015, 2), (50, 150811002, 2), ( 50, 160301008,  2),
+('51', '150803009' , 2), (51, 150803015, 2), (51, 150811002, 2), ( 51, 160301008,  2);
+
+insert into bahan_habis_pakais (jenis_tarif_id, merek_id, jumlah) VALUES
+(52, 150803011, 1), (52, 150811002, 1), (52, 160301008, 1),
+(53, 160301002, 1), (53, 150811002, 1), (53, 160301006, 1),
+(54, 160301002, 2), (54, 150811002, 1), (54, 160301006, 1),
+(55, 160301002, 3), (55, 150811002, 1), (55, 160301006, 1),
+(56, 150803017, 1), (56, 150811002, 1), (56, 160301006, 1),
+(57, 150803017, 2), (57, 150811002, 1), (57, 160301006, 1),
+(58, 150803017, 3), (58, 150811002, 1), (58, 160301006, 1),
+(59, 150803032, 1), (59, 150811002, 1), (59, 160301006, 1),
+(60, 160301005, 1), (60, 150811002, 1), (60, 160301006, 1),
+(61, 150803016, 1), (61, 150811002, 1), (61, 160301006, 1),
+(62, 150803010, 1), (62, 150811002, 1), (62, 160301006, 1),
+(63, 150803031, 1), (63, 150811002, 1), (63, 160301006, 1),
+(64, 150803034, 1), (64, 150811002, 1), (64, 160301006, 1),
+(65, 160301009, 1), (65, 150811002, 1), (65, 160301006, 1),
+(66, 160301023, 1), (66, 150811002, 1), (66, 160301006, 1),
+(68, 150803015, 1),	(68, 150803015, 1), (68, 150811002, 1) ,(68, 160301006, 1),
+(69, 150803009, 1), (69, 150803009, 1), (69, 150811002, 1), (69, 160301006, 1),
+(70, 150803020, 1), (70, 150811002, 1), (70, 160301006, 1),	
+(72, 150808014, 1), (72, 150811002, 1), (72, 160301006, 1),
+(77, 150803012, 2), (77, 150811002, 1), (77, 160301006, 1),
+(91, 150803009, 2), (91, 150803015, 2), (91, 150811002, 2), (91, 160301008,  2),
+(92, 150803009, 2), (92, 150803015, 2), (92, 150811002, 2), (92, 160301008,  2),
+(93, 150803009, 2), (93, 150803015, 2), (93, 150811002, 2), (93, 160301008,  2),
+(94, 150803009, 2), (94, 150803015, 2), (94, 150811002, 2), (94, 160301008,  2),
+(95, 150803009, 2), (95, 150803015, 2), (95, 150811002, 2), (95, 160301008,  2),
+(96, 150803009, 2), (96, 150803015, 2), (96, 150811002, 2), (96, 160301008,  2),
+(98, 150803009, 2), (98, 150811002, 2), (98, 160301008, 2),
+(102, 150802034, 1),
+(103, 150802034, 1),
+(104, 150803009, 2), (104, 150803015, 2), (104, 150811002, 2), (104, 160301008,  2),
+(128, 150803009, 2), (128, 150811002, 2), (128, 160301008, 2),
+(105, 150803009, 2), (105, 150803015, 2), (105, 150811002, 2), (105, 160301008,  2),
+(106, 150803009, 2), (106, 150803015, 2), (106, 150811002, 2), (106, 160301008,  2);
+
+
+
+create table `kelas_obats` (`id` int unsigned not null auto_increment primary key, `kelas_obat` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into `kelas_obats` (kelas_obat) values
+('paten'), ('umum'), ('generik');
+
+alter table raks change `class` kelas_obat_id int(11) default 2;
+
+alter table tarifs drop column bahan_habis_pakai;
+alter table tarifs drop column dibayar_asuransi;
+
+
+create table `haris` (`id` int unsigned not null auto_increment primary key, `hari` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into haris (hari) values 
+	('senin'),
+	('selasa'),
+	('rabu'),
+	('kamis'),
+	('jumat'),
+	('sabtu'),
+	('minggu');
+
+create table `rayons` (`id` int unsigned not null auto_increment primary key, `rayon` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into rayons (rayon) values 
+	('KABUPATEN TANGERANG'),
+	('KOTA TANGERANG'),
+	('KOTA TANGERANG SELATAN');
+
+
+create table `fasilitas` (
+	`id` int unsigned not null auto_increment primary key, 
+	`rumah_sakit_id` varchar(255) not null, 
+	`tujuan_rujuk_id` varchar(255) not null, 
+	`nama_dokter` varchar(255) not null, 
+	`hari_id` varchar(255) not null, 
+	`mulai_jam` time,  
+	`sampai_jam` time, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+
+update rujukans set rumah_sakit_id=33 where rumah_sakit_id=32;
+delete from rumah_sakits where id=32;
+
+update rujukans set rumah_sakit_id=23 where rumah_sakit_id=26;
+delete from rumah_sakits where id=26;
+
+update rujukans set rumah_sakit_id=30 where rumah_sakit_id=27;
+delete from rumah_sakits where id=27;
+
+update rujukans set rumah_sakit_id=24 where rumah_sakit_id=29;
+delete from rumah_sakits where id=29;
+
+update rujukans set rumah_sakit_id=34 where rumah_sakit_id=44;
+delete from rumah_sakits where id=44;
+
+update rujukans set tujuan_rujuk_id=40 where tujuan_rujuk_id in (48,49,58);
+delete from rumah_sakits where id in (48,49,58);
+
+alter table rumah_sakits add column rayon_id int(11) default 0;
+
+
+1||||||||||37||||||||||RSUD KABUPATEN TANGERANG||||||||||4||||||||||B||||||||||JL. AHMAD YANI NO.09 TANGERANG||||||||||021-5523507 / 021-5512948||||||||||		
+Anak	
+Dalam	
+Bedah	
+Obgyn	
+Mata	
+THT	Saraf	
+Paru	
+Jiwa	
+Kulit dan Kelamin	
+Jantung	
+"Bedah Syaraf"	
+Bedah Orthopedi	
+"Bedah Urologi"	
+"Bedah Plastik"	
+Rehabilitasi Medik
+Bedah Mulut
+
+
+
+
+1||||||||||33||||||||||RS SILOAM||||||||||4||||||||||B||||||||||Jl. Siloam No.6 Lippo Karawaci 1600, Tangerang||||||||||021- 5420775
+Anak	
+Dalam	
+Bedah	
+Obgyn	
+Mata	
+THT	Saraf	
+Paru	
+Jiwa	
+Kulit dan Kelamin	
+Jantung	
+"Bedah Syaraf"	
+Bedah Orthopedi
+"Bedah Urologi"
+"Bedah Plastik"
+Rehabilitasi Medik
+
+																																
+1||||||||||25||||||||||RS SELARAS||||||||||4||||||||||D||||||||||Jl. Raya Lapan Rumpin, Kelurahan Suradita, Kecamatan Cisauk, Tangerang||||||||||021- 75791849 / 021-75791852
+Anak	
+Dalam	
+Bedah	
+Obgyn	
+Mata
+Saraf
+Jantung
+
+1||||||||||31||||||||||RS MULIA INSANI||||||||||4||||||||||C||||||||||Jl. Raya Serang Km. 16,8 Desa Sukamulya Kecamatan Cikupa, Tangerang||||||||||021-5962790
+Anak
+Dalam
+Bedah
+Obgyn
+Mata
+THT
+Saraf
+Paru
+Kulit dan Kelamin
+"Bedah Syaraf"
+Bedah Orthopedi
+"Bedah Urologi"
+
+1||||||||||30||||||||||RSIA KELUARGA KITA||||||||||2||||||||||C||||||||||Jl. Raya Plp No.8 Km. 4 Curug, Tangerang||||||||||021-59491011 / 021-5986572
+Anak
+Dalam
+Bedah
+Obgyn
+THT
+Saraf
+Bedah Orthopedi
+Bedah Mulut
+
+1||||||||||23||||||||||RSIA MURNI ASIH||||||||||2||||||||||C||||||||||Jl. Raya Bojong Nangka, No.86, Medang, Pagedangan, Tangerang||||||||||021-5470263 / 021-54218311
+Anak
+Dalam
+Bedah
+Obgyn
+THT
+																																
+																																
+1||||||||||24||||||||||RS QADR||||||||||4||||||||||C||||||||||Komplek Islamic Village, Kelapa Dua, Kab. Tangerang||||||||||021-5464466
+Anak
+Dalam
+Bedah
+Obgyn
+Mata
+THT
+Saraf
+Paru
+Jiwa
+Kulit dan Kelamin
+Jantung
+Bedah Orthopedi
+"Bedah Urologi"
+Bedah Mulut
+																																
+																																
+KOTA TANGERANG||||||||||43||||||||||RS AWAL BROS TANGERANG||||||||||4||||||||||B||||||||||JL. M.H. THAMRIN NO.3 KEBON NANAS, CIKOKOL, TANGERANG 15117||||||||||021-55758888
+Anak
+Dalam
+Bedah
+Obgyn
+Mata
+THT
+Saraf
+Paru
+Jiwa
+Kulit dan Kelamin
+Jantung
+"Bedah Syaraf"
+Bedah Orthopedi
+"Bedah Urologi"
+"Bedah Plastik"
+Rehabilitasi Medik
+Bedah Mulut
+
+																																
+																																
+																																
+KOTA TANGERANG||||||||||39||||||||||RS ARYA MEDIKA||||||||||4||||||||||C||||||||||Jl. Industri Raya I Blok A No.1-6 Jatake, Tangerang||||||||||021-5902229/ 021- 5902226
+Anak
+Dalam
+Bedah
+Obgyn
+THT
+Saraf
+Paru
+																																
+																																
+																																
+KOTA TANGERANG||||||||||34||||||||||RS SARI ASIH KARAWACI||||||||||4||||||||||B||||||||||Jl. Imam Bonjol No.38 Karawaci Kota Tangerang||||||||||021 - 5522794 / 021-5523239
+Anak
+Dalam
+Bedah
+Obgyn
+Mata
+THT
+Saraf
+Paru
+Kulit dan Kelamin
+Jantung
+"Bedah Syaraf"
+Bedah Orthopedi
+"Bedah Urologi"
+"Bedah Plastik"
+Rehabilitasi Medik
+																																
+																																
+																																
+KOTA TANGERANG SELATAN||||||||||40||||||||||RS OMNI ALAM SUTERA||||||||||4||||||||||B||||||||||JL. Alam Sutera Bouelvard Kav.25 Serpong||||||||||(021) 2977 9999	
+
+Anak
+Dalam
+Bedah
+Obgyn
+Mata
+THT
+Saraf
+Paru
+Jiwa
+Kulit dan Kelamin
+Jantung
+Bedah Orthopedi
+"Bedah Urologi"
+Rehabilitasi Medik
+
+
+
+
+
+
+

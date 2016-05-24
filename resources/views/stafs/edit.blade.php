@@ -1,0 +1,60 @@
+ @extends('layout.master')
+
+ @section('title') 
+Klinik Jati Elok | edit Staf
+
+ @stop
+ @section('head')
+    <link href="{{ url('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
+
+ @stop
+ @section('page-title') 
+ <h2>Update Staf</h2>
+ <ol class="breadcrumb">
+      <li>
+          <a href="{{ url('laporans')}}">Home</a>
+      </li>
+      <li>
+          <a href="{{ url('stafs')}}">Staf</a>
+      </li>
+      <li class="active">
+          <strong>Update Staf</strong>
+      </li>
+</ol>
+ @stop
+
+ @section('content') 
+
+ <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+     
+  {!! Form::model($staf, array(
+      "url"   => "stafs/". $staf->id,
+      "class" => "m-t", 
+      "role"  => "form",
+      "method"=> "put"
+  ))!!}
+
+    @include('stafs.form', [
+    'tanggal_mulai' => App\Classes\Yoga::updateDatePrep($staf->tanggal_mulai),
+    'tanggal_lulus' => App\Classes\Yoga::updateDatePrep($staf->tanggal_lulus),
+    'tanggal_lahir' => App\Classes\Yoga::updateDatePrep($staf->tanggal_lahir),
+    'image'         => $staf->image,
+    'ktp_image'     => $staf->ktp_image
+    ])
+
+  {!! Form::close() !!}
+
+  {!! Form::open(array('url' => 'stafs/' . $staf->id,'method' => 'DELETE'))!!} 
+      {!! Form::submit('DELETE', array('class' => 'btn btn-danger btn-block', 'onclick' => 'return confirm("Anda akan menghapus data Staf ' . $staf->id . ' - '. $staf->nama .', Lanjutkan? ");'))!!}
+  {!! Form::close() !!}
+ </div>
+
+ @stop
+ @section('footer') 
+{!! HTML::script('js/togglepanel.js')!!}
+{!! HTML::script('js/plugins/webcam/photo.js')!!}
+
+ @stop
+
+
+       

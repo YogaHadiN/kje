@@ -1,0 +1,4 @@
+update `generiks` set peroral = 'a;c'WHERE pregnancy_safety_index like '%peroral : a;c%';
+update `generiks` set peroral = 'a;d'WHERE pregnancy_safety_index like '%peroral : a;d%';
+update `generiks` set peroral = 'b;c'WHERE pregnancy_safety_index like '%peroral : b;c%';
+update `generiks` set peroral = 'b;d'WHERE pregnancy_safety_index like '%peroral : b;d%';

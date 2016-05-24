@@ -1,0 +1,1 @@
+/home/vagrant/Code/jatielok/app/views/tipe_rumah_sakits/index.blade.php

@@ -1,0 +1,1 @@
+/home/vagrant/Code/jatielok/app/views/TipeLaporanKasirs/index.blade.php

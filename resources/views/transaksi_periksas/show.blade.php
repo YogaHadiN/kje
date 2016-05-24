@@ -1,0 +1,1 @@
+/home/vagrant/Code/jatielok/app/views/transaksi_periksas/show.blade.php

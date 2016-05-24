@@ -1,0 +1,29 @@
+@if(App\Classes\Yoga::cekGDSBulanIni($pasien_id)['bayar'])
+    <div class="row">
+        <div class="alert alert-danger">
+            <strong>Pemeriksaan Gula Darah Tidak ditanggung untuk pasien ini-</strong>
+            @if(App\Classes\Yoga::cekGDSBulanIni($pasien_id)['sudahGDS'])
+                <div class="font-small"> pasien sudah pernah periksa Gula Darah bulan ini tanggal 
+                    <span id="sudahGDS">{!! App\Classes\Yoga::updateDatePrep(App\Classes\Yoga::cekGDSBulanIni($pasien_id)['tanggal']) !!}</span>
+                    , pemeriksaan Gula Darah saat ini harus bayar Rp. 15.000,- 
+                </div>
+            @else
+                <div class="font-small"> gratis khusus hanya untuk pasien peserta BPJS > 50 tahun atau riwayat Diabetes Mellitus dan plafon hanya sebulan sekali
+                </div>
+            @endif
+        </div>
+    </div>
+@else
+    <div class="row">
+        <div class="alert alert-success">
+            <strong>Pemeriksaan Gula Darah Ditanggung untuk pasien ini-</strong>
+            <div class="font-small"> 
+                @if( App\Classes\Yoga::umur(App\Pasien::find($pasien_id)->tanggal_lahir) > 50)
+                    Karena Usia Pasien diatas 50 Tahun
+                @else 
+                    Pasien pernah menderita Kencing Manis
+                @endif
+            </div>
+        </div>
+    </div>
+@endif

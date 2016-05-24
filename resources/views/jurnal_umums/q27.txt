@@ -1,0 +1,1191 @@
+SET SQL_SAFE_UPDATES = 0;
+
+delete from dispensings;
+
+alter table dispensings drop column periksa_id;
+alter table dispensings drop column nota_jual_id;
+alter table dispensings drop column faktur_belanja_id;
+
+alter table dispensings add column dispensable_id varchar(255) not null;
+alter table dispensings add column dispensable_type varchar(255) not null;
+
+alter table pendapatans add column staf_id varchar(255) not null;
+
+
+alter table bukan_obats add column jenis_pengeluaran_id int(11) not null;
+alter table bukan_obats add column harga_beli int(11) not null;
+
+
+update coas set kelompok_coa_id = 4 where kelompok_coa_id = 5;
+insert into coas (id, kelompok_coa_id, coa) values ('400041', '4', 'Pendapata Lain-lain');
+insert into coas (id, kelompok_coa_id, coa) values ('120000', '1', 'Persediaan Obat');
+
+update jurnal_umums set jurnalable_type = 'App\\Pengeluaran' where jurnalable_type = 'Pengeluaran';
+update jurnal_umums set jurnalable_type = 'App\\Periksa' where jurnalable_type = 'Periksa';
+update jurnal_umums set jurnalable_type = 'App\\Pendapatan' where jurnalable_type = 'Pendapatan';
+
+insert into coas (id, coa, kelompok_coa_id) values ('102010', 'Inventaris', 1) ON DUPLICATE KEY UPDATE kelompok_coa_id = 1;
+
+insert into coas (id, coa, kelompok_coa_id) values ('102020', 'Kendaraan', 1) ON DUPLICATE KEY UPDATE kelompok_coa_id = 1;
+
+insert into coas (id, coa, kelompok_coa_id) values ('301000', 'Modal', 3) ON DUPLICATE KEY UPDATE kelompok_coa_id = 3;
+
+insert into coas (id, coa, kelompok_coa_id) values ('501020', 'Ongkos Angkut Pembelian', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502000', 'B. Obat', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502010', 'B. Produksi Jasa Dokter', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502020', 'B. Produksi Bonus Per Pasien', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502030', 'B. Produksi Plastik ', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('601010', 'B. Operasional Gaji Karyawan', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('601020', 'B. Operasional Alat Tulis', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602010', 'B. Operasional Konsumsi', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602020', 'B. Operasional Marketing', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602030', 'B. Operasional Listrik A6', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602040', 'B. Operasional Listrik A7', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602050', 'B. Operasional Listrik A8', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602060', 'B. Operasional Renovasi', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602070', 'B. Operasional Administrasi', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('701000', 'Pendapatan lain-lain', 7) ON DUPLICATE KEY UPDATE kelompok_coa_id = 7;
+
+insert into coas (id, coa, kelompok_coa_id) values ('801010', 'Beban Pajak Penghasilan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('801020', 'Beban Pajak Bumi dan Bangunan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('802010', 'Beban BPJS Ketenagakerjaam', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('802020', 'Beban BPJS Kesehatan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('802030', 'Beban Penyusutan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('50204', 'B. Produksi : Obat', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+
+drop table terapi;
+
+
+delete from coas where id='10201';
+
+delete from coas where id='10202';
+
+
+
+update coas set id='1100000' where id ='100000';
+update coas set id='1100010' where id ='100001';
+update coas set id='1100020' where id ='100002';
+update coas set id='1100030' where id ='100003';
+update coas set id='1110000' where id ='110000';
+update coas set id='1110010' where id ='110001';
+update coas set id='1110020' where id ='110002';
+update coas set id='1110030' where id ='110003';
+update coas set id='1110040' where id ='110004';
+update coas set id='1110050' where id ='110005';
+update coas set id='1110060' where id ='110006';
+update coas set id='1110070' where id ='110007';
+update coas set id='1110080' where id ='110008';
+update coas set id='1110090' where id ='110009';
+update coas set id='1110100' where id ='110010';
+update coas set id='1110110' where id ='110011';
+update coas set id='1110120' where id ='110012';
+update coas set id='1110130' where id ='110013';
+update coas set id='1110140' where id ='110014';
+update coas set id='1110150' where id ='110015';
+update coas set id='1110160' where id ='110016';
+update coas set id='1110170' where id ='110017';
+update coas set id='1110180' where id ='110018';
+update coas set id='1110190' where id ='110019';
+update coas set id='1110200' where id ='110020';
+update coas set id='1110210' where id ='110021';
+update coas set id='1110220' where id ='110022';
+update coas set id='1110230' where id ='110023';
+update coas set id='1110240' where id ='110024';
+update coas set id='1110250' where id ='110025';
+update coas set id='1110260' where id ='110026';
+update coas set id='1110270' where id ='110027';
+update coas set id='1110280' where id ='110028';
+update coas set id='1110290' where id ='110029';
+update coas set id='1110300' where id ='110030';
+update coas set id='1110310' where id ='110031';
+update coas set id='1110320' where id ='110032';
+update coas set id='1110330' where id ='110033';
+update coas set id='1110340' where id ='110034';
+update coas set id='1110350' where id ='110035';
+update coas set id='1110360' where id ='110036';
+update coas set id='1110370' where id ='110037';
+update coas set id='1110380' where id ='110038';
+update coas set id='1110390' where id ='110039';
+update coas set id='1110400' where id ='110040';
+update coas set id='1110410' where id ='110041';
+update coas set id='1110420' where id ='110042';
+update coas set id='1110430' where id ='110043';
+update coas set id='1110440' where id ='110044';
+update coas set id='1110450' where id ='110045';
+update coas set id='1110460' where id ='110046';
+update coas set id='1110470' where id ='110047';
+update coas set id='1110480' where id ='110048';
+update coas set id='1110490' where id ='110049';
+update coas set id='1110500' where id ='110050';
+update coas set id='1110510' where id ='110051';
+update coas set id='1110520' where id ='110052';
+update coas set id='1110530' where id ='110053';
+update coas set id='1110540' where id ='110054';
+update coas set id='1110550' where id ='110055';
+update coas set id='1110560' where id ='110056';
+update coas set id='1110570' where id ='110057';
+update coas set id='1110580' where id ='110058';
+update coas set id='1110590' where id ='110059';
+update coas set id='1110600' where id ='110060';
+update coas set id='1110610' where id ='110061';
+update coas set id='1110620' where id ='110062';
+update coas set id='1110630' where id ='110063';
+update coas set id='1110640' where id ='110064';
+update coas set id='1120000' where id ='120000';
+
+
+
+update coas set id='110000' where id ='1100000';
+
+update coas set id='110001' where id ='1100010';
+
+update coas set id='110002' where id ='1100020';
+
+update coas set id='110003' where id ='1100030';
+
+update coas set id='111000' where id ='1110000';
+
+update coas set id='111001' where id ='1110010';
+
+update coas set id='111002' where id ='1110020';
+
+update coas set id='111003' where id ='1110030';
+
+update coas set id='111004' where id ='1110040';
+
+update coas set id='111005' where id ='1110050';
+
+update coas set id='111006' where id ='1110060';
+
+update coas set id='111007' where id ='1110070';
+
+update coas set id='111008' where id ='1110080';
+
+update coas set id='111009' where id ='1110090';
+
+update coas set id='111010' where id ='1110100';
+
+update coas set id='111011' where id ='1110110';
+
+update coas set id='111012' where id ='1110120';
+
+update coas set id='111013' where id ='1110130';
+
+update coas set id='111014' where id ='1110140';
+
+update coas set id='111015' where id ='1110150';
+
+update coas set id='111016' where id ='1110160';
+
+update coas set id='111017' where id ='1110170';
+
+update coas set id='111018' where id ='1110180';
+
+update coas set id='111019' where id ='1110190';
+
+update coas set id='111020' where id ='1110200';
+
+update coas set id='111021' where id ='1110210';
+
+update coas set id='111022' where id ='1110220';
+
+update coas set id='111023' where id ='1110230';
+
+update coas set id='111024' where id ='1110240';
+
+update coas set id='111025' where id ='1110250';
+
+update coas set id='111026' where id ='1110260';
+
+update coas set id='111027' where id ='1110270';
+
+update coas set id='111028' where id ='1110280';
+
+update coas set id='111029' where id ='1110290';
+
+update coas set id='111030' where id ='1110300';
+
+update coas set id='111031' where id ='1110310';
+
+update coas set id='111032' where id ='1110320';
+
+update coas set id='111033' where id ='1110330';
+
+update coas set id='111034' where id ='1110340';
+
+update coas set id='111035' where id ='1110350';
+
+update coas set id='111036' where id ='1110360';
+
+update coas set id='111037' where id ='1110370';
+
+update coas set id='111038' where id ='1110380';
+
+update coas set id='111039' where id ='1110390';
+
+update coas set id='111040' where id ='1110400';
+
+update coas set id='111041' where id ='1110410';
+
+update coas set id='111042' where id ='1110420';
+
+update coas set id='111043' where id ='1110430';
+
+update coas set id='111044' where id ='1110440';
+
+update coas set id='111045' where id ='1110450';
+
+update coas set id='111046' where id ='1110460';
+
+update coas set id='111047' where id ='1110470';
+
+update coas set id='111048' where id ='1110480';
+
+update coas set id='111049' where id ='1110490';
+
+update coas set id='111050' where id ='1110500';
+
+update coas set id='111051' where id ='1110510';
+
+update coas set id='111052' where id ='1110520';
+
+update coas set id='111053' where id ='1110530';
+
+update coas set id='111054' where id ='1110540';
+
+update coas set id='111055' where id ='1110550';
+
+update coas set id='111056' where id ='1110560';
+
+update coas set id='111057' where id ='1110570';
+
+update coas set id='111058' where id ='1110580';
+
+update coas set id='111059' where id ='1110590';
+
+update coas set id='111060' where id ='1110600';
+
+update coas set id='111061' where id ='1110610';
+
+update coas set id='111062' where id ='1110620';
+
+update coas set id='111063' where id ='1110630';
+
+update coas set id='111064' where id ='1110640';
+
+update coas set id='112000' where id ='1120000';
+
+update jurnal_umums set coa_id='1100000' where coa_id ='100000';
+update jurnal_umums set coa_id='1100010' where coa_id ='100001';
+update jurnal_umums set coa_id='1100020' where coa_id ='100002';
+update jurnal_umums set coa_id='1100030' where coa_id ='100003';
+update jurnal_umums set coa_id='1110000' where coa_id ='110000';
+update jurnal_umums set coa_id='1110010' where coa_id ='110001';
+update jurnal_umums set coa_id='1110020' where coa_id ='110002';
+update jurnal_umums set coa_id='1110030' where coa_id ='110003';
+update jurnal_umums set coa_id='1110040' where coa_id ='110004';
+update jurnal_umums set coa_id='1110050' where coa_id ='110005';
+update jurnal_umums set coa_id='1110060' where coa_id ='110006';
+update jurnal_umums set coa_id='1110070' where coa_id ='110007';
+update jurnal_umums set coa_id='1110080' where coa_id ='110008';
+update jurnal_umums set coa_id='1110090' where coa_id ='110009';
+update jurnal_umums set coa_id='1110100' where coa_id ='110010';
+update jurnal_umums set coa_id='1110110' where coa_id ='110011';
+update jurnal_umums set coa_id='1110120' where coa_id ='110012';
+update jurnal_umums set coa_id='1110130' where coa_id ='110013';
+update jurnal_umums set coa_id='1110140' where coa_id ='110014';
+update jurnal_umums set coa_id='1110150' where coa_id ='110015';
+update jurnal_umums set coa_id='1110160' where coa_id ='110016';
+update jurnal_umums set coa_id='1110170' where coa_id ='110017';
+update jurnal_umums set coa_id='1110180' where coa_id ='110018';
+update jurnal_umums set coa_id='1110190' where coa_id ='110019';
+update jurnal_umums set coa_id='1110200' where coa_id ='110020';
+update jurnal_umums set coa_id='1110210' where coa_id ='110021';
+update jurnal_umums set coa_id='1110220' where coa_id ='110022';
+update jurnal_umums set coa_id='1110230' where coa_id ='110023';
+update jurnal_umums set coa_id='1110240' where coa_id ='110024';
+update jurnal_umums set coa_id='1110250' where coa_id ='110025';
+update jurnal_umums set coa_id='1110260' where coa_id ='110026';
+update jurnal_umums set coa_id='1110270' where coa_id ='110027';
+update jurnal_umums set coa_id='1110280' where coa_id ='110028';
+update jurnal_umums set coa_id='1110290' where coa_id ='110029';
+update jurnal_umums set coa_id='1110300' where coa_id ='110030';
+update jurnal_umums set coa_id='1110310' where coa_id ='110031';
+update jurnal_umums set coa_id='1110320' where coa_id ='110032';
+update jurnal_umums set coa_id='1110330' where coa_id ='110033';
+update jurnal_umums set coa_id='1110340' where coa_id ='110034';
+update jurnal_umums set coa_id='1110350' where coa_id ='110035';
+update jurnal_umums set coa_id='1110360' where coa_id ='110036';
+update jurnal_umums set coa_id='1110370' where coa_id ='110037';
+update jurnal_umums set coa_id='1110380' where coa_id ='110038';
+update jurnal_umums set coa_id='1110390' where coa_id ='110039';
+update jurnal_umums set coa_id='1110400' where coa_id ='110040';
+update jurnal_umums set coa_id='1110410' where coa_id ='110041';
+update jurnal_umums set coa_id='1110420' where coa_id ='110042';
+update jurnal_umums set coa_id='1110430' where coa_id ='110043';
+update jurnal_umums set coa_id='1110440' where coa_id ='110044';
+update jurnal_umums set coa_id='1110450' where coa_id ='110045';
+update jurnal_umums set coa_id='1110460' where coa_id ='110046';
+update jurnal_umums set coa_id='1110470' where coa_id ='110047';
+update jurnal_umums set coa_id='1110480' where coa_id ='110048';
+update jurnal_umums set coa_id='1110490' where coa_id ='110049';
+update jurnal_umums set coa_id='1110500' where coa_id ='110050';
+update jurnal_umums set coa_id='1110510' where coa_id ='110051';
+update jurnal_umums set coa_id='1110520' where coa_id ='110052';
+update jurnal_umums set coa_id='1110530' where coa_id ='110053';
+update jurnal_umums set coa_id='1110540' where coa_id ='110054';
+update jurnal_umums set coa_id='1110550' where coa_id ='110055';
+update jurnal_umums set coa_id='1110560' where coa_id ='110056';
+update jurnal_umums set coa_id='1110570' where coa_id ='110057';
+update jurnal_umums set coa_id='1110580' where coa_id ='110058';
+update jurnal_umums set coa_id='1110590' where coa_id ='110059';
+update jurnal_umums set coa_id='1110600' where coa_id ='110060';
+update jurnal_umums set coa_id='1110610' where coa_id ='110061';
+update jurnal_umums set coa_id='1110620' where coa_id ='110062';
+update jurnal_umums set coa_id='1110630' where coa_id ='110063';
+update jurnal_umums set coa_id='1110640' where coa_id ='110064';
+update jurnal_umums set coa_id='1120000' where coa_id ='120000';
+
+
+
+update jurnal_umums set coa_id='110000' where coa_id ='1100000';
+
+update jurnal_umums set coa_id='110001' where coa_id ='1100010';
+
+update jurnal_umums set coa_id='110002' where coa_id ='1100020';
+
+update jurnal_umums set coa_id='110003' where coa_id ='1100030';
+
+update jurnal_umums set coa_id='111000' where coa_id ='1110000';
+
+update jurnal_umums set coa_id='111001' where coa_id ='1110010';
+
+update jurnal_umums set coa_id='111002' where coa_id ='1110020';
+
+update jurnal_umums set coa_id='111003' where coa_id ='1110030';
+
+update jurnal_umums set coa_id='111004' where coa_id ='1110040';
+
+update jurnal_umums set coa_id='111005' where coa_id ='1110050';
+
+update jurnal_umums set coa_id='111006' where coa_id ='1110060';
+
+update jurnal_umums set coa_id='111007' where coa_id ='1110070';
+
+update jurnal_umums set coa_id='111008' where coa_id ='1110080';
+
+update jurnal_umums set coa_id='111009' where coa_id ='1110090';
+
+update jurnal_umums set coa_id='111010' where coa_id ='1110100';
+
+update jurnal_umums set coa_id='111011' where coa_id ='1110110';
+
+update jurnal_umums set coa_id='111012' where coa_id ='1110120';
+
+update jurnal_umums set coa_id='111013' where coa_id ='1110130';
+
+update jurnal_umums set coa_id='111014' where coa_id ='1110140';
+
+update jurnal_umums set coa_id='111015' where coa_id ='1110150';
+
+update jurnal_umums set coa_id='111016' where coa_id ='1110160';
+
+update jurnal_umums set coa_id='111017' where coa_id ='1110170';
+
+update jurnal_umums set coa_id='111018' where coa_id ='1110180';
+
+update jurnal_umums set coa_id='111019' where coa_id ='1110190';
+
+update jurnal_umums set coa_id='111020' where coa_id ='1110200';
+
+update jurnal_umums set coa_id='111021' where coa_id ='1110210';
+
+update jurnal_umums set coa_id='111022' where coa_id ='1110220';
+
+update jurnal_umums set coa_id='111023' where coa_id ='1110230';
+
+update jurnal_umums set coa_id='111024' where coa_id ='1110240';
+
+update jurnal_umums set coa_id='111025' where coa_id ='1110250';
+
+update jurnal_umums set coa_id='111026' where coa_id ='1110260';
+
+update jurnal_umums set coa_id='111027' where coa_id ='1110270';
+
+update jurnal_umums set coa_id='111028' where coa_id ='1110280';
+
+update jurnal_umums set coa_id='111029' where coa_id ='1110290';
+
+update jurnal_umums set coa_id='111030' where coa_id ='1110300';
+
+update jurnal_umums set coa_id='111031' where coa_id ='1110310';
+
+update jurnal_umums set coa_id='111032' where coa_id ='1110320';
+
+update jurnal_umums set coa_id='111033' where coa_id ='1110330';
+
+update jurnal_umums set coa_id='111034' where coa_id ='1110340';
+
+update jurnal_umums set coa_id='111035' where coa_id ='1110350';
+
+update jurnal_umums set coa_id='111036' where coa_id ='1110360';
+
+update jurnal_umums set coa_id='111037' where coa_id ='1110370';
+
+update jurnal_umums set coa_id='111038' where coa_id ='1110380';
+
+update jurnal_umums set coa_id='111039' where coa_id ='1110390';
+
+update jurnal_umums set coa_id='111040' where coa_id ='1110400';
+
+update jurnal_umums set coa_id='111041' where coa_id ='1110410';
+
+update jurnal_umums set coa_id='111042' where coa_id ='1110420';
+
+update jurnal_umums set coa_id='111043' where coa_id ='1110430';
+
+update jurnal_umums set coa_id='111044' where coa_id ='1110440';
+
+update jurnal_umums set coa_id='111045' where coa_id ='1110450';
+
+update jurnal_umums set coa_id='111046' where coa_id ='1110460';
+
+update jurnal_umums set coa_id='111047' where coa_id ='1110470';
+
+update jurnal_umums set coa_id='111048' where coa_id ='1110480';
+
+update jurnal_umums set coa_id='111049' where coa_id ='1110490';
+
+update jurnal_umums set coa_id='111050' where coa_id ='1110500';
+
+update jurnal_umums set coa_id='111051' where coa_id ='1110510';
+
+update jurnal_umums set coa_id='111052' where coa_id ='1110520';
+
+update jurnal_umums set coa_id='111053' where coa_id ='1110530';
+
+update jurnal_umums set coa_id='111054' where coa_id ='1110540';
+
+update jurnal_umums set coa_id='111055' where coa_id ='1110550';
+
+update jurnal_umums set coa_id='111056' where coa_id ='1110560';
+
+update jurnal_umums set coa_id='111057' where coa_id ='1110570';
+
+update jurnal_umums set coa_id='111058' where coa_id ='1110580';
+
+update jurnal_umums set coa_id='111059' where coa_id ='1110590';
+
+update jurnal_umums set coa_id='111060' where coa_id ='1110600';
+
+update jurnal_umums set coa_id='111061' where coa_id ='1110610';
+
+update jurnal_umums set coa_id='111062' where coa_id ='1110620';
+
+update jurnal_umums set coa_id='111063' where coa_id ='1110630';
+
+update jurnal_umums set coa_id='111064' where coa_id ='1110640';
+
+update jurnal_umums set coa_id='112000' where coa_id ='1120000';
+
+
+
+update kelompok_coas set kelompok_coa = 'Asset/Aktiva Lancar', id='11' where id = 1;
+insert into kelompok_coas (id, kelompok_coa) values ('12', 'Asset/Aktiva Tidak Lancar');	
+
+update coas set kelompok_coa_id = '11' where kelompok_coa_id='1';
+
+alter table stafs add column coa_biaya varchar(255);
+alter table stafs add column coa_hutang varchar(255);
+
+
+insert into coas (id, kelompok_coa_id, coa) values ('200001', '2', 'Hutang Kepada Karyawan');
+insert into coas (id, kelompok_coa_id, coa) values ('200002', '2', 'Hutang Kepada Asisten Dokter');
+
+alter table tarifs add column jasa_dokter_tanpa_sip int(11);
+
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=0 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=1 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=10 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=11 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanSET SQL_SAFE_UPDATES = 0;
+
+delete from dispensings;
+
+alter table dispensings drop column periksa_id;
+alter table dispensings drop column nota_jual_id;
+alter table dispensings drop column faktur_belanja_id;
+
+alter table dispensings add column dispensable_id varchar(255) not null;
+alter table dispensings add column dispensable_type varchar(255) not null;
+
+alter table pendapatans add column staf_id varchar(255) not null;
+
+
+alter table bukan_obats add column jenis_pengeluaran_id int(11) not null;
+alter table bukan_obats add column harga_beli int(11) not null;
+
+
+update coas set kelompok_coa_id = 4 where kelompok_coa_id = 5;
+insert into coas (id, kelompok_coa_id, coa) values ('400041', '4', 'Pendapata Lain-lain');
+insert into coas (id, kelompok_coa_id, coa) values ('120000', '1', 'Persediaan Obat');
+
+update jurnal_umums set jurnalable_type = 'App\\Pengeluaran' where jurnalable_type = 'Pengeluaran';
+update jurnal_umums set jurnalable_type = 'App\\Periksa' where jurnalable_type = 'Periksa';
+update jurnal_umums set jurnalable_type = 'App\\Pendapatan' where jurnalable_type = 'Pendapatan';
+
+insert into coas (id, coa, kelompok_coa_id) values ('102010', 'Inventaris', 1) ON DUPLICATE KEY UPDATE kelompok_coa_id = 1;
+
+insert into coas (id, coa, kelompok_coa_id) values ('102020', 'Kendaraan', 1) ON DUPLICATE KEY UPDATE kelompok_coa_id = 1;
+
+insert into coas (id, coa, kelompok_coa_id) values ('301000', 'Modal', 3) ON DUPLICATE KEY UPDATE kelompok_coa_id = 3;
+
+insert into coas (id, coa, kelompok_coa_id) values ('501020', 'Ongkos Angkut Pembelian', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502000', 'B. Obat', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502010', 'B. Produksi Jasa Dokter', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502020', 'B. Produksi Bonus Per Pasien', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('502030', 'B. Produksi Plastik ', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 5;
+
+insert into coas (id, coa, kelompok_coa_id) values ('601010', 'B. Operasional Gaji Karyawan', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('601020', 'B. Operasional Alat Tulis', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602010', 'B. Operasional Konsumsi', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602020', 'B. Operasional Marketing', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602030', 'B. Operasional Listrik A6', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602040', 'B. Operasional Listrik A7', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602050', 'B. Operasional Listrik A8', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602060', 'B. Operasional Renovasi', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('602070', 'B. Operasional Administrasi', 6) ON DUPLICATE KEY UPDATE kelompok_coa_id = 6;
+
+insert into coas (id, coa, kelompok_coa_id) values ('701000', 'Pendapatan lain-lain', 7) ON DUPLICATE KEY UPDATE kelompok_coa_id = 7;
+
+insert into coas (id, coa, kelompok_coa_id) values ('801010', 'Beban Pajak Penghasilan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('801020', 'Beban Pajak Bumi dan Bangunan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('802010', 'Beban BPJS Ketenagakerjaam', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('802020', 'Beban BPJS Kesehatan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('802030', 'Beban Penyusutan', 8) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+insert into coas (id, coa, kelompok_coa_id) values ('50204', 'B. Produksi : Obat', 5) ON DUPLICATE KEY UPDATE kelompok_coa_id = 8;
+
+
+drop table terapi;
+
+
+delete from coas where id='10201';
+
+delete from coas where id='10202';
+
+
+
+update coas set id='1100000' where id ='100000';
+update coas set id='1100010' where id ='100001';
+update coas set id='1100020' where id ='100002';
+update coas set id='1100030' where id ='100003';
+update coas set id='1110000' where id ='110000';
+update coas set id='1110010' where id ='110001';
+update coas set id='1110020' where id ='110002';
+update coas set id='1110030' where id ='110003';
+update coas set id='1110040' where id ='110004';
+update coas set id='1110050' where id ='110005';
+update coas set id='1110060' where id ='110006';
+update coas set id='1110070' where id ='110007';
+update coas set id='1110080' where id ='110008';
+update coas set id='1110090' where id ='110009';
+update coas set id='1110100' where id ='110010';
+update coas set id='1110110' where id ='110011';
+update coas set id='1110120' where id ='110012';
+update coas set id='1110130' where id ='110013';
+update coas set id='1110140' where id ='110014';
+update coas set id='1110150' where id ='110015';
+update coas set id='1110160' where id ='110016';
+update coas set id='1110170' where id ='110017';
+update coas set id='1110180' where id ='110018';
+update coas set id='1110190' where id ='110019';
+update coas set id='1110200' where id ='110020';
+update coas set id='1110210' where id ='110021';
+update coas set id='1110220' where id ='110022';
+update coas set id='1110230' where id ='110023';
+update coas set id='1110240' where id ='110024';
+update coas set id='1110250' where id ='110025';
+update coas set id='1110260' where id ='110026';
+update coas set id='1110270' where id ='110027';
+update coas set id='1110280' where id ='110028';
+update coas set id='1110290' where id ='110029';
+update coas set id='1110300' where id ='110030';
+update coas set id='1110310' where id ='110031';
+update coas set id='1110320' where id ='110032';
+update coas set id='1110330' where id ='110033';
+update coas set id='1110340' where id ='110034';
+update coas set id='1110350' where id ='110035';
+update coas set id='1110360' where id ='110036';
+update coas set id='1110370' where id ='110037';
+update coas set id='1110380' where id ='110038';
+update coas set id='1110390' where id ='110039';
+update coas set id='1110400' where id ='110040';
+update coas set id='1110410' where id ='110041';
+update coas set id='1110420' where id ='110042';
+update coas set id='1110430' where id ='110043';
+update coas set id='1110440' where id ='110044';
+update coas set id='1110450' where id ='110045';
+update coas set id='1110460' where id ='110046';
+update coas set id='1110470' where id ='110047';
+update coas set id='1110480' where id ='110048';
+update coas set id='1110490' where id ='110049';
+update coas set id='1110500' where id ='110050';
+update coas set id='1110510' where id ='110051';
+update coas set id='1110520' where id ='110052';
+update coas set id='1110530' where id ='110053';
+update coas set id='1110540' where id ='110054';
+update coas set id='1110550' where id ='110055';
+update coas set id='1110560' where id ='110056';
+update coas set id='1110570' where id ='110057';
+update coas set id='1110580' where id ='110058';
+update coas set id='1110590' where id ='110059';
+update coas set id='1110600' where id ='110060';
+update coas set id='1110610' where id ='110061';
+update coas set id='1110620' where id ='110062';
+update coas set id='1110630' where id ='110063';
+update coas set id='1110640' where id ='110064';
+update coas set id='1120000' where id ='120000';
+
+
+
+update coas set id='110000' where id ='1100000';
+
+update coas set id='110001' where id ='1100010';
+
+update coas set id='110002' where id ='1100020';
+
+update coas set id='110003' where id ='1100030';
+
+update coas set id='111000' where id ='1110000';
+
+update coas set id='111001' where id ='1110010';
+
+update coas set id='111002' where id ='1110020';
+
+update coas set id='111003' where id ='1110030';
+
+update coas set id='111004' where id ='1110040';
+
+update coas set id='111005' where id ='1110050';
+
+update coas set id='111006' where id ='1110060';
+
+update coas set id='111007' where id ='1110070';
+
+update coas set id='111008' where id ='1110080';
+
+update coas set id='111009' where id ='1110090';
+
+update coas set id='111010' where id ='1110100';
+
+update coas set id='111011' where id ='1110110';
+
+update coas set id='111012' where id ='1110120';
+
+update coas set id='111013' where id ='1110130';
+
+update coas set id='111014' where id ='1110140';
+
+update coas set id='111015' where id ='1110150';
+
+update coas set id='111016' where id ='1110160';
+
+update coas set id='111017' where id ='1110170';
+
+update coas set id='111018' where id ='1110180';
+
+update coas set id='111019' where id ='1110190';
+
+update coas set id='111020' where id ='1110200';
+
+update coas set id='111021' where id ='1110210';
+
+update coas set id='111022' where id ='1110220';
+
+update coas set id='111023' where id ='1110230';
+
+update coas set id='111024' where id ='1110240';
+
+update coas set id='111025' where id ='1110250';
+
+update coas set id='111026' where id ='1110260';
+
+update coas set id='111027' where id ='1110270';
+
+update coas set id='111028' where id ='1110280';
+
+update coas set id='111029' where id ='1110290';
+
+update coas set id='111030' where id ='1110300';
+
+update coas set id='111031' where id ='1110310';
+
+update coas set id='111032' where id ='1110320';
+
+update coas set id='111033' where id ='1110330';
+
+update coas set id='111034' where id ='1110340';
+
+update coas set id='111035' where id ='1110350';
+
+update coas set id='111036' where id ='1110360';
+
+update coas set id='111037' where id ='1110370';
+
+update coas set id='111038' where id ='1110380';
+
+update coas set id='111039' where id ='1110390';
+
+update coas set id='111040' where id ='1110400';
+
+update coas set id='111041' where id ='1110410';
+
+update coas set id='111042' where id ='1110420';
+
+update coas set id='111043' where id ='1110430';
+
+update coas set id='111044' where id ='1110440';
+
+update coas set id='111045' where id ='1110450';
+
+update coas set id='111046' where id ='1110460';
+
+update coas set id='111047' where id ='1110470';
+
+update coas set id='111048' where id ='1110480';
+
+update coas set id='111049' where id ='1110490';
+
+update coas set id='111050' where id ='1110500';
+
+update coas set id='111051' where id ='1110510';
+
+update coas set id='111052' where id ='1110520';
+
+update coas set id='111053' where id ='1110530';
+
+update coas set id='111054' where id ='1110540';
+
+update coas set id='111055' where id ='1110550';
+
+update coas set id='111056' where id ='1110560';
+
+update coas set id='111057' where id ='1110570';
+
+update coas set id='111058' where id ='1110580';
+
+update coas set id='111059' where id ='1110590';
+
+update coas set id='111060' where id ='1110600';
+
+update coas set id='111061' where id ='1110610';
+
+update coas set id='111062' where id ='1110620';
+
+update coas set id='111063' where id ='1110630';
+
+update coas set id='111064' where id ='1110640';
+
+update coas set id='112000' where id ='1120000';
+
+update jurnal_umums set coa_id='1100000' where coa_id ='100000';
+update jurnal_umums set coa_id='1100010' where coa_id ='100001';
+update jurnal_umums set coa_id='1100020' where coa_id ='100002';
+update jurnal_umums set coa_id='1100030' where coa_id ='100003';
+update jurnal_umums set coa_id='1110000' where coa_id ='110000';
+update jurnal_umums set coa_id='1110010' where coa_id ='110001';
+update jurnal_umums set coa_id='1110020' where coa_id ='110002';
+update jurnal_umums set coa_id='1110030' where coa_id ='110003';
+update jurnal_umums set coa_id='1110040' where coa_id ='110004';
+update jurnal_umums set coa_id='1110050' where coa_id ='110005';
+update jurnal_umums set coa_id='1110060' where coa_id ='110006';
+update jurnal_umums set coa_id='1110070' where coa_id ='110007';
+update jurnal_umums set coa_id='1110080' where coa_id ='110008';
+update jurnal_umums set coa_id='1110090' where coa_id ='110009';
+update jurnal_umums set coa_id='1110100' where coa_id ='110010';
+update jurnal_umums set coa_id='1110110' where coa_id ='110011';
+update jurnal_umums set coa_id='1110120' where coa_id ='110012';
+update jurnal_umums set coa_id='1110130' where coa_id ='110013';
+update jurnal_umums set coa_id='1110140' where coa_id ='110014';
+update jurnal_umums set coa_id='1110150' where coa_id ='110015';
+update jurnal_umums set coa_id='1110160' where coa_id ='110016';
+update jurnal_umums set coa_id='1110170' where coa_id ='110017';
+update jurnal_umums set coa_id='1110180' where coa_id ='110018';
+update jurnal_umums set coa_id='1110190' where coa_id ='110019';
+update jurnal_umums set coa_id='1110200' where coa_id ='110020';
+update jurnal_umums set coa_id='1110210' where coa_id ='110021';
+update jurnal_umums set coa_id='1110220' where coa_id ='110022';
+update jurnal_umums set coa_id='1110230' where coa_id ='110023';
+update jurnal_umums set coa_id='1110240' where coa_id ='110024';
+update jurnal_umums set coa_id='1110250' where coa_id ='110025';
+update jurnal_umums set coa_id='1110260' where coa_id ='110026';
+update jurnal_umums set coa_id='1110270' where coa_id ='110027';
+update jurnal_umums set coa_id='1110280' where coa_id ='110028';
+update jurnal_umums set coa_id='1110290' where coa_id ='110029';
+update jurnal_umums set coa_id='1110300' where coa_id ='110030';
+update jurnal_umums set coa_id='1110310' where coa_id ='110031';
+update jurnal_umums set coa_id='1110320' where coa_id ='110032';
+update jurnal_umums set coa_id='1110330' where coa_id ='110033';
+update jurnal_umums set coa_id='1110340' where coa_id ='110034';
+update jurnal_umums set coa_id='1110350' where coa_id ='110035';
+update jurnal_umums set coa_id='1110360' where coa_id ='110036';
+update jurnal_umums set coa_id='1110370' where coa_id ='110037';
+update jurnal_umums set coa_id='1110380' where coa_id ='110038';
+update jurnal_umums set coa_id='1110390' where coa_id ='110039';
+update jurnal_umums set coa_id='1110400' where coa_id ='110040';
+update jurnal_umums set coa_id='1110410' where coa_id ='110041';
+update jurnal_umums set coa_id='1110420' where coa_id ='110042';
+update jurnal_umums set coa_id='1110430' where coa_id ='110043';
+update jurnal_umums set coa_id='1110440' where coa_id ='110044';
+update jurnal_umums set coa_id='1110450' where coa_id ='110045';
+update jurnal_umums set coa_id='1110460' where coa_id ='110046';
+update jurnal_umums set coa_id='1110470' where coa_id ='110047';
+update jurnal_umums set coa_id='1110480' where coa_id ='110048';
+update jurnal_umums set coa_id='1110490' where coa_id ='110049';
+update jurnal_umums set coa_id='1110500' where coa_id ='110050';
+update jurnal_umums set coa_id='1110510' where coa_id ='110051';
+update jurnal_umums set coa_id='1110520' where coa_id ='110052';
+update jurnal_umums set coa_id='1110530' where coa_id ='110053';
+update jurnal_umums set coa_id='1110540' where coa_id ='110054';
+update jurnal_umums set coa_id='1110550' where coa_id ='110055';
+update jurnal_umums set coa_id='1110560' where coa_id ='110056';
+update jurnal_umums set coa_id='1110570' where coa_id ='110057';
+update jurnal_umums set coa_id='1110580' where coa_id ='110058';
+update jurnal_umums set coa_id='1110590' where coa_id ='110059';
+update jurnal_umums set coa_id='1110600' where coa_id ='110060';
+update jurnal_umums set coa_id='1110610' where coa_id ='110061';
+update jurnal_umums set coa_id='1110620' where coa_id ='110062';
+update jurnal_umums set coa_id='1110630' where coa_id ='110063';
+update jurnal_umums set coa_id='1110640' where coa_id ='110064';
+update jurnal_umums set coa_id='1120000' where coa_id ='120000';
+
+
+
+update jurnal_umums set coa_id='110000' where coa_id ='1100000';
+
+update jurnal_umums set coa_id='110001' where coa_id ='1100010';
+
+update jurnal_umums set coa_id='110002' where coa_id ='1100020';
+
+update jurnal_umums set coa_id='110003' where coa_id ='1100030';
+
+update jurnal_umums set coa_id='111000' where coa_id ='1110000';
+
+update jurnal_umums set coa_id='111001' where coa_id ='1110010';
+
+update jurnal_umums set coa_id='111002' where coa_id ='1110020';
+
+update jurnal_umums set coa_id='111003' where coa_id ='1110030';
+
+update jurnal_umums set coa_id='111004' where coa_id ='1110040';
+
+update jurnal_umums set coa_id='111005' where coa_id ='1110050';
+
+update jurnal_umums set coa_id='111006' where coa_id ='1110060';
+
+update jurnal_umums set coa_id='111007' where coa_id ='1110070';
+
+update jurnal_umums set coa_id='111008' where coa_id ='1110080';
+
+update jurnal_umums set coa_id='111009' where coa_id ='1110090';
+
+update jurnal_umums set coa_id='111010' where coa_id ='1110100';
+
+update jurnal_umums set coa_id='111011' where coa_id ='1110110';
+
+update jurnal_umums set coa_id='111012' where coa_id ='1110120';
+
+update jurnal_umums set coa_id='111013' where coa_id ='1110130';
+
+update jurnal_umums set coa_id='111014' where coa_id ='1110140';
+
+update jurnal_umums set coa_id='111015' where coa_id ='1110150';
+
+update jurnal_umums set coa_id='111016' where coa_id ='1110160';
+
+update jurnal_umums set coa_id='111017' where coa_id ='1110170';
+
+update jurnal_umums set coa_id='111018' where coa_id ='1110180';
+
+update jurnal_umums set coa_id='111019' where coa_id ='1110190';
+
+update jurnal_umums set coa_id='111020' where coa_id ='1110200';
+
+update jurnal_umums set coa_id='111021' where coa_id ='1110210';
+
+update jurnal_umums set coa_id='111022' where coa_id ='1110220';
+
+update jurnal_umums set coa_id='111023' where coa_id ='1110230';
+
+update jurnal_umums set coa_id='111024' where coa_id ='1110240';
+
+update jurnal_umums set coa_id='111025' where coa_id ='1110250';
+
+update jurnal_umums set coa_id='111026' where coa_id ='1110260';
+
+update jurnal_umums set coa_id='111027' where coa_id ='1110270';
+
+update jurnal_umums set coa_id='111028' where coa_id ='1110280';
+
+update jurnal_umums set coa_id='111029' where coa_id ='1110290';
+
+update jurnal_umums set coa_id='111030' where coa_id ='1110300';
+
+update jurnal_umums set coa_id='111031' where coa_id ='1110310';
+
+update jurnal_umums set coa_id='111032' where coa_id ='1110320';
+
+update jurnal_umums set coa_id='111033' where coa_id ='1110330';
+
+update jurnal_umums set coa_id='111034' where coa_id ='1110340';
+
+update jurnal_umums set coa_id='111035' where coa_id ='1110350';
+
+update jurnal_umums set coa_id='111036' where coa_id ='1110360';
+
+update jurnal_umums set coa_id='111037' where coa_id ='1110370';
+
+update jurnal_umums set coa_id='111038' where coa_id ='1110380';
+
+update jurnal_umums set coa_id='111039' where coa_id ='1110390';
+
+update jurnal_umums set coa_id='111040' where coa_id ='1110400';
+
+update jurnal_umums set coa_id='111041' where coa_id ='1110410';
+
+update jurnal_umums set coa_id='111042' where coa_id ='1110420';
+
+update jurnal_umums set coa_id='111043' where coa_id ='1110430';
+
+update jurnal_umums set coa_id='111044' where coa_id ='1110440';
+
+update jurnal_umums set coa_id='111045' where coa_id ='1110450';
+
+update jurnal_umums set coa_id='111046' where coa_id ='1110460';
+
+update jurnal_umums set coa_id='111047' where coa_id ='1110470';
+
+update jurnal_umums set coa_id='111048' where coa_id ='1110480';
+
+update jurnal_umums set coa_id='111049' where coa_id ='1110490';
+
+update jurnal_umums set coa_id='111050' where coa_id ='1110500';
+
+update jurnal_umums set coa_id='111051' where coa_id ='1110510';
+
+update jurnal_umums set coa_id='111052' where coa_id ='1110520';
+
+update jurnal_umums set coa_id='111053' where coa_id ='1110530';
+
+update jurnal_umums set coa_id='111054' where coa_id ='1110540';
+
+update jurnal_umums set coa_id='111055' where coa_id ='1110550';
+
+update jurnal_umums set coa_id='111056' where coa_id ='1110560';
+
+update jurnal_umums set coa_id='111057' where coa_id ='1110570';
+
+update jurnal_umums set coa_id='111058' where coa_id ='1110580';
+
+update jurnal_umums set coa_id='111059' where coa_id ='1110590';
+
+update jurnal_umums set coa_id='111060' where coa_id ='1110600';
+
+update jurnal_umums set coa_id='111061' where coa_id ='1110610';
+
+update jurnal_umums set coa_id='111062' where coa_id ='1110620';
+
+update jurnal_umums set coa_id='111063' where coa_id ='1110630';
+
+update jurnal_umums set coa_id='111064' where coa_id ='1110640';
+
+update jurnal_umums set coa_id='112000' where coa_id ='1120000';
+
+
+
+update kelompok_coas set kelompok_coa = 'Asset/Aktiva Lancar', id='11' where id = 1;
+insert into kelompok_coas (id, kelompok_coa) values ('12', 'Asset/Aktiva Tidak Lancar');	
+
+update coas set kelompok_coa_id = '11' where kelompok_coa_id='1';
+
+alter table stafs add column coa_biaya varchar(255);
+alter table stafs add column coa_hutang varchar(255);
+
+
+insert into coas (id, kelompok_coa_id, coa) values ('200001', '2', 'Hutang Kepada Karyawan');
+insert into coas (id, kelompok_coa_id, coa) values ('200002', '2', 'Hutang Kepada Asisten Dokter');
+
+alter table tarifs add column jasa_dokter_tanpa_sip int(11);
+
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=0 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=1 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=10 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=11 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=12 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=13 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=15 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=150821001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=150922001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=151020001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=151117001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=151222001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=151222002 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=16 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207002 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207003 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207004 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207005 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207006 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207007 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207008 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207009 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207010 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207011 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207012 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207013 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207014 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207015 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207016 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207017 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207018 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207019 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207020 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207021 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207022 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207023 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160221001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160406001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160416001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=17 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=18 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=19 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=2 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=20 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=21 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=22 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=23 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=24 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=25 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=26 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=27 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=28 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=29 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=3 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=30 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=31 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=32 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=34 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=37 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=39 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=4 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=5 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=6 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=8 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=9 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=90 and jenis_tarif_id=1;
+
+
+update coas set coa='Hutang Kepada Dokter' where id='200001';pa_sip = 5000 where asuransi_id=12 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=13 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=15 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=150821001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=150922001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=151020001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=151117001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=151222001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=151222002 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=16 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207002 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207003 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207004 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207005 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207006 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207007 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207008 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207009 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207010 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207011 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207012 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207013 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207014 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207015 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207016 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207017 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207018 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207019 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207020 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207021 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207022 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160207023 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160221001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160406001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=160416001 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=17 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=18 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=19 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=2 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=20 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=21 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=22 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=23 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=24 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=25 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=26 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=27 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=28 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=29 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=3 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=30 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=31 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=32 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=34 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=37 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=39 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=4 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=5 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=6 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=8 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 5000, jasa_dokter_tanpa_sip = 5000 where asuransi_id=9 and jenis_tarif_id=1;
+update tarifs set jasa_dokter= 12000, jasa_dokter_tanpa_sip = 10000 where asuransi_id=90 and jenis_tarif_id=1;
+
+
+update coas set coa='Hutang Kepada Dokter' where id='200001';

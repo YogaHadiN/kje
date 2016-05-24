@@ -1,0 +1,24 @@
+create table `points` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`periksa_id` varchar(255), 
+`suhu` varchar(255), 
+`tinggi_badan` int(11), 
+`berat_badan` int(11), 
+`tekanan_darah` varchar(255),
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+alter table bukan_obats add column jenis_pengeluaran_id int(11) default 0;
+alter table bukan_obats add column harga_beli int(11) default 0;
+
+
+
+alter table perujuks drop column id;
+alter table perujuks add column id int unsigned not null auto_increment primary key;
+
+

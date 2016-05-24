@@ -1,0 +1,28 @@
+alter table stafs add column aktif int(1) default 1;
+alter table stafs add column user_id varchar(255);
+
+
+update stafs set aktif=0 where id='3';
+update stafs set aktif=0 where id='5';
+update stafs set aktif=0 where id='7';
+update stafs set aktif=0 where id='D11';
+update stafs set aktif=0 where id='D13';
+update stafs set aktif=0 where id='D14';
+update stafs set aktif=0 where id='D17';
+update stafs set aktif=0 where id='D19';
+update stafs set aktif=0 where id='D20';
+update stafs set aktif=0 where id='D21';
+update stafs set aktif=0 where id='D26';
+update stafs set aktif=0 where id='D33';
+update stafs set aktif=0 where id='D36';
+update stafs set aktif=0 where id='D37';
+update stafs set aktif=0 where id='D44';
+update stafs set aktif=0 where id='D45';
+
+alter table antrian_periksas add column asisten_id varchar(255) not null;
+alter table antrian_periksas add column periksa_awal text;
+
+alter table periksas add column asisten_id varchar(255) not null;
+alter table periksas add column periksa_awal text;
+
+drop table points;

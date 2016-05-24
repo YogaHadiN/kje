@@ -1,0 +1,17 @@
+update raks set fornas=0 where id in ( 'L1', 'L13', 'L12', 'L11', 'L10', 'L13', 'L12' );
+update raks set fornas=1 where id = 'h15';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

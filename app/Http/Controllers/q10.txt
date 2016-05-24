@@ -1,0 +1,277 @@
+create table `points` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`periksa_id` varchar(255), 
+`suhu` varchar(255), 
+`tinggi_badan` int(11), 
+`berat_badan` int(11), 
+`tekanan_darah` varchar(255),
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+create table `register_hamils` (
+
+`id` int unsigned not null auto_increment primary key, 
+`pasien_id` varchar(255), 
+`nama_suami` varchar(255), 
+`tb` int(11), 
+`buku_id` int(11), 
+`golongan_darah` varchar(255), 
+`tinggi_badan` int(11),
+`tanggal_lahir_anak_terakhir` date,
+`bb_sebelum_hamil` int(11),
+`g` int(2),
+`p` int(2),
+`a` int(2),
+`status_imunisasi_tt_id` int(11),
+`riwayat_persalinan_sebelumnya` text,
+`jumlah_janin` int(11),
+`hpht` date,
+`rencana_penolong` varchar(255),
+`rencana_tempat` varchar(255),
+`rencana_pendamping` varchar(255),
+`rencana_transportasi` varchar(255),
+`rencana_pendonor` varchar(255),
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+create table `register_kbs` (
+
+`id` int unsigned not null auto_increment primary key, 
+`periksa_id` varchar(255),
+`alat_kontrasepsi` varchar(255),
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+create table `register_ancs` (
+
+`id` int unsigned not null auto_increment primary key, 
+`periksa_id` varchar(255), 
+`register_hamil_id` int(11), 
+`td` varchar(255), 
+`tfu` varchar(255), 
+`lila` varchar(255), 
+`bb` varchar(255), 
+`refleks_patela_id` varchar(255), 
+`djj` int(11),
+`kepala_terhadap_pap_id` int(11),
+`jumlah_janin` int(11),
+`presentasi_id` int(11),
+`hpht` date,
+`catat_di_kia` int(11),
+`inj_tt` int(1),
+`fe_tablet` int(1),
+`periksa_hb` int(1),
+`protein_urin` int(1),
+`gula_darah` int(1),
+`thalasemia` int(1),
+`sifilis` int(1),
+`hbsag` int(1),
+`pmtct_konseling` int(1),
+`pmtct_periksa_darah` int(1),
+`pmtct_serologi` int(1),
+`pmtct_arv` int(1),
+`malaria_periksa_darah` int(1),
+`malaria_positif` int(1),
+`malaria_dikasih_obat` int(1),
+`malaria_dikasih_kelambu` int(1),
+`tbc_periksa_dahak` int(1),
+`tbc_positif` int(1),
+`tbc_dikasih_obat` int(1),
+`komplikasi_hdk` int(1),
+`komplikasi_abortus` int(1),
+`komplikasi_perdarahan` int(1),
+`komplikasi_infeksi` int(1),
+`komplikasi_kpd` int(1),
+`komplikasi_lain_lain` varchar(255),
+`rujukan_puskesmas` int(1),
+`rujukan_RB` int(1),
+`rujukan_RSIA_RSB` int(1),
+`rujukan_RS` int(1),
+`rujukan_lain` varchar(255),
+`rujukan_tiba_masih_hidup` varchar(255),
+`rujukan_tiba_meninggal` varchar(255),
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+create table `bukus` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`buku` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+insert into bukus (buku) values
+('kia'),
+('kms');
+
+create table `refleks_patelas` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`refleks_patela` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+insert into refleks_patelas (refleks_patela) values
+('sangat kurang'),
+('kurang'),
+('cukup'),
+('baik'),
+('berlebihan');
+
+create table `kepala_terhadap_paps` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`kepala_terhadap_pap` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+insert into kepala_terhadap_paps (kepala_terhadap_pap) values
+('0/5'),
+('1/5'),
+('2/5'),
+('3/5'),
+('4/5'),
+('5/5');
+
+
+create table `status_imunisasi_tts` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`status_imunisasi_tt` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+insert into status_imunisasi_tts (status_imunisasi_tt) values
+('tidak pernah diimunisasi dalam 5 tahun terakhir'),
+('pernah diimunisasi sebelum hamil'),
+('diimunisasi pada saat hamil');
+
+create table `presentasis` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`presentasi` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+insert into presentasis (presentasi) values
+('tidak tahu'),
+('kepala'),
+('lintang'),
+('bokong');
+
+create table `confirms` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`confirm` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+insert into confirms (confirm) values
+('tidak tahu'),
+('tidak'),
+('ya');
+
+create table `jenis_rumah_sakits` (
+
+`id` int unsigned not null auto_increment primary key, 
+ 
+`jenis_rumah_sakit` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+insert into jenis_rumah_sakits (jenis_rumah_sakit) values
+('Puskesmas'),
+('Rumah Sakit Ibu dan Anak'),
+('Rumah Bersalin'),
+('Rumah Sakit Umum'),
+('Lain-lain');
+
+
+alter table rumah_sakits add column jenis_rumah_sakit_id INT(2);	
+
+drop table rumah_sakits;
+CREATE TABLE `rumah_sakits` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT primary key,
+  `nama` varchar(255) NOT NULL DEFAULT '',
+  `jenis_rumah_sakit` varchar(255) DEFAULT NULL,
+  `tipe_rumah_sakit` varchar(255) DEFAULT NULL,
+  `alamat` varchar(255) DEFAULT NULL,
+  `kode_pos` varchar(255) DEFAULT NULL,
+  `telepon` varchar(255) DEFAULT NULL,
+  `fax` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `created_at` timestamp default 0 not null, 
+  `updated_at` timestamp default 0 not null
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+
+alter table rujukans add column register_hamil_id int(11);
+
+alter table perujuks drop column id;
+alter table perujuks add column id  int(11) unsigned NOT NULL AUTO_INCREMENT primary key;
+
+
+alter table antrian_periksas drop column usg;
+
+alter table antrian_periksas drop column hpht;
+
+alter table antrian_periksas drop column umur_kehamilan;
+
+alter table antrian_periksas drop column gpa;
+
+alter table antrian_periksas drop column riwayat_kehamilan_sebelumnya;
+
+
+update rumah_sakits set jenis_rumah_sakit=null where tipe_rumah_sakit='Belum ditetapkan';
+update rumah_sakits set tipe_rumah_sakit=null where tipe_rumah_sakit='Belum ditetapkan';
+
+
+
+
+update rumah_sakits set jenis_rumah_sakit='2' where jenis_rumah_sakit='RSIA' or jenis_rumah_sakit='RSAB'; 
+
+update rumah_sakits set jenis_rumah_sakit='3' where jenis_rumah_sakit='RS B'; 
+
+update rumah_sakits set jenis_rumah_sakit='4' where jenis_rumah_sakit='RSU';
+
+alter table antrian_periksas add column g int(2);
+alter table antrian_periksas add column p int(2);
+alter table antrian_periksas add column a int(2);
+alter table antrian_periksas add column hpht date;
+
+

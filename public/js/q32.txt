@@ -1,0 +1,291 @@
+SET SQL_SAFE_UPDATES = 0;
+
+
+update raks set fornas=0 where id='F7';
+
+
+
+create table `polis` (
+
+`id` varchar(255) not null primary key,
+`poli` varchar(255) not null,
+`created_at` timestamp default 0 not null,
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+insert into polis (id, poli) values 
+('umum', 'Poli Umum - Sakit'),
+('sks', 'Poli Umum - Surat Keterangan Sehat'),
+('luka', 'Poli Umum - Luka'),
+('usgabdomen', 'Poli USG Abdomen'),
+('kandungan', 'Poli Kandungan'),
+('gigi', 'Poli Gigi'),
+('anc', 'Poli ANC'),
+('usg', 'Poli USG Kebidanan'),
+('darurat', 'Poli Gawat Darurat');
+
+delete from jenis_tarifs where id > 142;
+delete from tarifs where jenis_tarif_id > 142;
+
+update asuransis set tipe_asuransi = 0 where id=0;
+update asuransis set tipe_asuransi = 0 where id='160406001';
+
+alter table stafs drop column coa_hutang;
+alter table stafs drop column coa_biaya;
+
+alter table stafs add column image varchar(255);
+alter table stafs add column ktp_image varchar(255);
+
+update asuransis set umum = '["Antibiotik maksimal 3 hari","<strong>Khusus untuk Levofloxacine untuk Demam Tifoid, Boleh dan disarankan langsung pemberian 6 hari, pasien diharapkan tidak kontrol kalau membaik, simtomatik lain selama 3 hari </strong>","<strong>Pengobatan Tinea Cruris, untuk ketoconazole tablet diberikan selama 10 hari </strong>","<strong> Decafil untuk asma yang sering kambuh langsung berikan 20 tablet untuk persediaan</strong>","Pengobatan darah tinggi pertama kali harus pakai HCT dulu"," Penyakit lainSimtomatik maksimal 2 hari, termasuk darah tinggi dan kencing manis","Obat yang tidak masuk dalam FORNAS, pasien bayar atau dokter bisa kasih obat alternatif yang lain yang ditanggung BPJS","Dalam keadaan mendesak, obat yang diberikan boleh bebas, selama masih dalam FORNAS (Formularium Nasional)","Semua tindakan ditanggung atas indikasi medis, bukan atas indikasi kosmetis, kecuali KECELAKAAN KERJA (Ditanggung BPJS Ketenagakerjaan Bukan BPJS Kesehatan) dan KECELAKAAN LALU LINTAS (Ditanggung Jasa Marga) tidak ditanggung BPJS Kesehatan","Pemeriksaan GDS atas indikasi medis dilakukan maksimal 1 kali sebulan, indikasi screening boleh dilakukan untuk manula maksimal 1 bulan sekali","Penunjang lain untuk screening tidak diperkenankan","Diagnosis yang masuk ke dalam 144 Penyakit tidak boleh dirujuk, bila memang tidak memungkinkan, dokter bisa pilih diagnosis lain yang mirip yang tidak masuk ke dalam 144 penyakit tersebut","Nebulizer pasien bayar obatnya saja 20 ribu, tidak ada jasa tambahan untuk dokter","Penyakit Darah Tinggi, Kencing Manis, Jantung, Skizophrenia, Gagal Ginjal, Asma Persisten (lebih dari 1 minggu sekali kambuh) harus dirujuk ke rumah sakit untuk mendapatkan pengobatan 1 bulan","Tindakan sunat atas indikasi fimosis janjian dengan dr. Yoga"]' where id=32;
+
+
+
+update tarifs set biaya = 0 where id=3295;
+update tarifs set biaya = 0 where id=3334;
+update tarifs set biaya = 0 where id=3373;
+update tarifs set biaya = 0 where id=3139;
+update tarifs set biaya = 0 where id=3646;
+
+
+
+update raks set fornas=0 where id= '0'	;
+update raks set fornas=0 where id= 'A1'	;
+update raks set fornas=0 where id= 'A10'	;
+update raks set fornas=1 where id= 'A11'	;
+update raks set fornas=0 where id= 'A12'	;
+update raks set fornas=1 where id= 'A13'	;
+update raks set fornas=0 where id= 'A14'	;
+update raks set fornas=0 where id= 'A15'	;
+update raks set fornas=0 where id= 'A2'	;
+update raks set fornas=1 where id= 'A3'	;
+update raks set fornas=1 where id= 'A4'	;
+update raks set fornas=1 where id= 'A5'	;
+update raks set fornas=1 where id= 'A6'	;
+update raks set fornas=1 where id= 'A7'	;
+update raks set fornas=0 where id= 'A8'	;
+update raks set fornas=0 where id= 'A9'	;
+update raks set fornas=1 where id= 'B1'	;
+update raks set fornas=0 where id= 'B10'	;
+update raks set fornas=1 where id= 'B11'	;
+update raks set fornas=1 where id= 'B12'	;
+update raks set fornas=1 where id= 'B13'	;
+update raks set fornas=1 where id= 'B14'	;
+update raks set fornas=0 where id= 'B2'	;
+update raks set fornas=1 where id= 'B3'	;
+update raks set fornas=1 where id= 'B4'	;
+update raks set fornas=0 where id= 'B5'	;
+update raks set fornas=1 where id= 'B6'	;
+update raks set fornas=0 where id= 'B7'	;
+update raks set fornas=0 where id= 'B8'	;
+update raks set fornas=1 where id= 'B9'	;
+update raks set fornas=0 where id= 'C1'	;
+update raks set fornas=1 where id= 'C10'	;
+update raks set fornas=0 where id= 'C11'	;
+update raks set fornas=0 where id= 'C12'	;
+update raks set fornas=0 where id= 'C13'	;
+update raks set fornas=0 where id= 'C14'	;
+update raks set fornas=0 where id= 'C15'	;
+update raks set fornas=1 where id= 'C2'	;
+update raks set fornas=1 where id= 'C3'	;
+update raks set fornas=1 where id= 'C4'	;
+update raks set fornas=1 where id= 'C5'	;
+update raks set fornas=1 where id= 'C6'	;
+update raks set fornas=0 where id= 'C7'	;
+update raks set fornas=1 where id= 'C8'	;
+update raks set fornas=0 where id= 'C9'	;
+update raks set fornas=0 where id= 'D1'	;
+update raks set fornas=1 where id= 'D10'	;
+update raks set fornas=1 where id= 'D11'	;
+update raks set fornas=1 where id= 'D12'	;
+update raks set fornas=1 where id= 'D13'	;
+update raks set fornas=1 where id= 'D14'	;
+update raks set fornas=1 where id= 'D15'	;
+update raks set fornas=1 where id= 'D2'	;
+update raks set fornas=1 where id= 'D3'	;
+update raks set fornas=0 where id= 'D4'	;
+update raks set fornas=1 where id= 'D5'	;
+update raks set fornas=0 where id= 'D6'	;
+update raks set fornas=0 where id= 'D7'	;
+update raks set fornas=1 where id= 'D8'	;
+update raks set fornas=1 where id= 'D9'	;
+update raks set fornas=0 where id= 'E1'	;
+update raks set fornas=0 where id= 'E10'	;
+update raks set fornas=1 where id= 'E11'	;
+update raks set fornas=1 where id= 'E12'	;
+update raks set fornas=1 where id= 'E13'	;
+update raks set fornas=1 where id= 'E14'	;
+update raks set fornas=1 where id= 'E15'	;
+update raks set fornas=1 where id= 'E16'	;
+update raks set fornas=0 where id= 'E2'	;
+update raks set fornas=0 where id= 'E3'	;
+update raks set fornas=0 where id= 'E4'	;
+update raks set fornas=1 where id= 'E5'	;
+update raks set fornas=1 where id= 'E6'	;
+update raks set fornas=1 where id= 'E7'	;
+update raks set fornas=1 where id= 'E8'	;
+update raks set fornas=1 where id= 'E9'	;
+update raks set fornas=1 where id= 'F1'	;
+update raks set fornas=0 where id= 'F10'	;
+update raks set fornas=0 where id= 'F12'	;
+update raks set fornas=1 where id= 'F13'	;
+update raks set fornas=1 where id= 'F14'	;
+update raks set fornas=1 where id= 'F15'	;
+update raks set fornas=0 where id= 'F2'	;
+update raks set fornas=0 where id= 'F3'	;
+update raks set fornas=0 where id= 'F4'	;
+update raks set fornas=0 where id= 'F5'	;
+update raks set fornas=1 where id= 'F6'	;
+update raks set fornas=0 where id= 'F7'	;
+update raks set fornas=0 where id= 'F8'	;
+update raks set fornas=0 where id= 'F9'	;
+update raks set fornas=0 where id= 'G1'	;
+update raks set fornas=0 where id= 'G10'	;
+update raks set fornas=1 where id= 'G11'	;
+update raks set fornas=1 where id= 'G12'	;
+update raks set fornas=0 where id= 'G13'	;
+update raks set fornas=0 where id= 'G14'	;
+update raks set fornas=1 where id= 'G15'	;
+update raks set fornas=1 where id= 'G2'	;
+update raks set fornas=1 where id= 'G3'	;
+update raks set fornas=0 where id= 'G4'	;
+update raks set fornas=1 where id= 'G6'	;
+update raks set fornas=1 where id= 'G7'	;
+update raks set fornas=0 where id= 'G8'	;
+update raks set fornas=0 where id= 'G9'	;
+update raks set fornas=1 where id= 'H1'	;
+update raks set fornas=1 where id= 'H10'	;
+update raks set fornas=0 where id= 'H11'	;
+update raks set fornas=1 where id= 'H12'	;
+update raks set fornas=1 where id= 'H13'	;
+update raks set fornas=0 where id= 'H14'	;
+update raks set fornas=1 where id= 'H15'	;
+update raks set fornas=0 where id= 'H16'	;
+update raks set fornas=1 where id= 'H2'	;
+update raks set fornas=1 where id= 'H4'	;
+update raks set fornas=1 where id= 'H5'	;
+update raks set fornas=1 where id= 'H6'	;
+update raks set fornas=0 where id= 'H7'	;
+update raks set fornas=1 where id= 'H8'	;
+update raks set fornas=0 where id= 'H9'	;
+update raks set fornas=0 where id= 'I10'	;
+update raks set fornas=0 where id= 'I11'	;
+update raks set fornas=1 where id= 'I12'	;
+update raks set fornas=0 where id= 'I13'	;
+update raks set fornas=0 where id= 'I14'	;
+update raks set fornas=1 where id= 'I2'	;
+update raks set fornas=1 where id= 'I3'	;
+update raks set fornas=1 where id= 'I4'	;
+update raks set fornas=0 where id= 'I5'	;
+update raks set fornas=0 where id= 'I6'	;
+update raks set fornas=1 where id= 'I7'	;
+update raks set fornas=1 where id= 'I8'	;
+update raks set fornas=1 where id= 'I9'	;
+update raks set fornas=1 where id= 'J1'	;
+update raks set fornas=1 where id= 'J10'	;
+update raks set fornas=0 where id= 'J12'	;
+update raks set fornas=1 where id= 'J13'	;
+update raks set fornas=1 where id= 'J14'	;
+update raks set fornas=0 where id= 'J15'	;
+update raks set fornas=1 where id= 'J2'	;
+update raks set fornas=1 where id= 'J3'	;
+update raks set fornas=1 where id= 'J4'	;
+update raks set fornas=1 where id= 'J5'	;
+update raks set fornas=1 where id= 'J6'	;
+update raks set fornas=1 where id= 'J7'	;
+update raks set fornas=1 where id= 'J8'	;
+update raks set fornas=1 where id= 'J9'	;
+update raks set fornas=1 where id= 'k0'	;
+update raks set fornas=1 where id= 'K1'	;
+update raks set fornas=1 where id= 'K10'	;
+update raks set fornas=1 where id= 'K3'	;
+update raks set fornas=1 where id= 'K4'	;
+update raks set fornas=1 where id= 'K5'	;
+update raks set fornas=1 where id= 'K6'	;
+update raks set fornas=1 where id= 'K7'	;
+update raks set fornas=0 where id= 'K8'	;
+update raks set fornas=1 where id= 'K9'	;
+update raks set fornas=1 where id= 'Kulkas'	;
+update raks set fornas=1 where id= 'L1'	;
+update raks set fornas=1 where id= 'L10'	;
+update raks set fornas=1 where id= 'L11'	;
+update raks set fornas=1 where id= 'L12'	;
+update raks set fornas=1 where id= 'L13'	;
+update raks set fornas=0 where id= 'L14'	;
+update raks set fornas=0 where id= 'L2'	;
+update raks set fornas=0 where id= 'L3'	;
+update raks set fornas=0 where id= 'L5'	;
+update raks set fornas=0 where id= 'L6'	;
+update raks set fornas=0 where id= 'L7'	;
+update raks set fornas=0 where id= 'L8'	;
+update raks set fornas=0 where id= 'L9'	;
+update raks set fornas=0 where id= 'M10'	;
+update raks set fornas=0 where id= 'm11'	;
+update raks set fornas=0 where id= 'M12'	;
+update raks set fornas=0 where id= 'M13'	;
+update raks set fornas=1 where id= 'M14'	;
+update raks set fornas=0 where id= 'M15'	;
+update raks set fornas=1 where id= 'M16'	;
+update raks set fornas=1 where id= 'M17'	;
+update raks set fornas=0 where id= 'M18'	;
+update raks set fornas=1 where id= 'M19'	;
+update raks set fornas=1 where id= 'M2'	;
+update raks set fornas=1 where id= 'M6'	;
+update raks set fornas=0 where id= 'M7'	;
+update raks set fornas=0 where id= 'm8'	;
+update raks set fornas=0 where id= 'M9'	;
+update raks set fornas=1 where id= 'N1'	;
+update raks set fornas=1 where id= 'N10'	;
+update raks set fornas=0 where id= 'N11'	;
+update raks set fornas=1 where id= 'N12'	;
+update raks set fornas=0 where id= 'N13'	;
+update raks set fornas=1 where id= 'N2'	;
+update raks set fornas=1 where id= 'N3'	;
+update raks set fornas=1 where id= 'N4'	;
+update raks set fornas=1 where id= 'N5'	;
+update raks set fornas=1 where id= 'N6'	;
+update raks set fornas=0 where id= 'N7'	;
+update raks set fornas=1 where id= 'N8'	;
+update raks set fornas=1 where id= 'N9'	;
+update raks set fornas=1 where id= 'O1'	;
+update raks set fornas=0 where id= 'O10'	;
+update raks set fornas=1 where id= 'O11'	;
+update raks set fornas=1 where id= 'O12'	;
+update raks set fornas=0 where id= 'O123'	;
+update raks set fornas=1 where id= 'O13'	;
+update raks set fornas=1 where id= 'O2'	;
+update raks set fornas=1 where id= 'O3'	;
+update raks set fornas=1 where id= 'O4'	;
+update raks set fornas=1 where id= 'O5'	;
+update raks set fornas=1 where id= 'O6'	;
+update raks set fornas=1 where id= 'O7'	;
+update raks set fornas=1 where id= 'O8'	;
+update raks set fornas=0 where id= 'O9'	;
+update raks set fornas=1 where id= 'P1'	;
+update raks set fornas=1 where id= 'P2'	;
+update raks set fornas=1 where id= 'p3'	;
+update raks set fornas=1 where id= 'R33'	;
+update raks set fornas=0 where id= 'S1'	;
+update raks set fornas=1 where id= 'Y6'	;
+update raks set fornas=1 where id= 'Z1'	;
+update raks set fornas=1 where id= 'Z11'	;
+update raks set fornas=1 where id= 'Z12'	;
+update raks set fornas=1 where id= 'Z13'	;
+update raks set fornas=1 where id= 'Z2'	;
+update raks set fornas=1 where id= 'Z3'	;
+update raks set fornas=1 where id= 'Z4'	;
+update raks set fornas=1 where id= 'Z5'	;
+update raks set fornas=1 where id= 'Z50'	;
+update raks set fornas=1 where id= 'Z6'	;
+update raks set fornas=1 where id= 'Z60'	;
+update raks set fornas=1 where id= 'Z7'	;
+update raks set fornas=1 where id= 'Z8'	;
+update raks set fornas=1 where id= 'Z9'	;
+
+
+alter table periksas add column keterangan varchar(255);
+alter table periksas add column rujukan_image varchar(255);
+alter table antrian_periksas add column keterangan varchar(255);
+
+update pasiens set asuransi_id=0 where asuransi_id='';

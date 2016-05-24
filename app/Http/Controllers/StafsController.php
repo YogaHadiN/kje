@@ -1,0 +1,168 @@
+<?php
+
+
+namespace App\Http\Controllers;
+
+use Input;
+use App\Http\Requests;
+use App\Staf;
+use App\Classes\Yoga;
+
+class StafsController extends Controller
+{
+
+
+	  public function __construct()
+    {
+        $this->middleware('super', ['only' => ['delete', 'update']]);
+    }
+
+	/**
+	 * Display a listing of stafs
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		$stafs = Staf::all();
+		// return 'oke';
+		return view('stafs.index', compact('stafs'));
+	}
+
+	/**
+	 * Show the form for creating a new staf
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		return view('stafs.create');
+	}
+
+	/**
+	 * Store a newly created staf in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		$validator = \Validator::make(Input::all(), Staf::$rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$nama = ucwords(strtolower(Input::get('nama'))) . ', ' . Input::get('titel');
+
+		$staf_id                = Yoga::customId('App\Staf');
+		$staf                   = new Staf;
+		$staf->id               = $staf_id;
+		$staf->alamat_domisili  = Input::get('alamat_domisili'); 
+		$staf->alamat_ktp       = Input::get('alamat_ktp'); 
+		$staf->email            = Input::get('email'); 
+		$staf->titel            = Input::get('titel'); 
+		$staf->ktp              = Input::get('ktp'); 
+		$staf->nama             = $nama; 
+		$staf->no_hp            = Input::get('no_hp'); 
+		$staf->no_telp          = Input::get('no_telp'); 
+		$staf->str              = Input::get('str'); 
+		$staf->tanggal_lahir    = Input::get('tanggal_lahir'); 
+		$staf->tanggal_lulus    = Input::get('tanggal_lulus'); 
+		$staf->tanggal_mulai    = Input::get('tanggal_mulai'); 
+		$staf->universitas_asal = Input::get('universitas_asal'); 
+		
+		if (!empty(Input::get('image'))) {
+			$staf->image      	= Yoga::inputStafImageIfNotEmpty(Input::get('image'), $staf_id);
+		}
+		if (!empty(Input::get('ktp_image'))) {
+			$staf->ktp_image      = Yoga::inputStafKtpIfNotEmpty(Input::get('ktp_image'), $staf_id);
+		}
+
+		$staf->save();
+
+
+		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf baru <strong>' . $nama . '</strong> Berhasil <strong>Dimasukkan</strong>'));
+	}
+
+	/**
+	 * Display the specified staf.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		$staf = Staf::findOrFail($id);
+
+		return view('stafs.show', compact('staf'));
+	}
+
+	/**
+	 * Show the form for editing the specified staf.
+	 *
+	 * @param  int  $id
+     * @return Response
+	 */
+	public function edit($id)
+	{
+		$staf = Staf::find($id);
+
+		return view('stafs.edit', compact('staf'));
+	}
+
+	/**
+	 * Update the specified staf in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		$staf = Staf::findOrFail($id);
+
+		$staf = Staf::find($id);
+		$staf->alamat_domisili = Input::get('alamat_domisili'); 
+		$staf->alamat_ktp = Input::get('alamat_ktp'); 
+		$staf->email = Input::get('email'); 
+		$staf->titel = Input::get('titel'); 
+		$staf->ktp = Input::get('ktp'); 
+		$staf->nama = Input::get('nama'); 
+		$staf->no_hp = Input::get('no_hp'); 
+		$staf->no_telp = Input::get('no_telp'); 
+		$staf->str = Input::get('str'); 
+		$staf->tanggal_lahir = Yoga::datePrep(Input::get('tanggal_lahir')); 
+		$staf->tanggal_lulus = Yoga::datePrep(Input::get('tanggal_lulus')); 
+		$staf->tanggal_mulai = Yoga::datePrep(Input::get('tanggal_mulai')); 
+		$staf->universitas_asal = Input::get('universitas_asal');
+
+		if (!empty(Input::get('image'))) {
+			$staf->image      	= Yoga::inputStafImageIfNotEmpty(Input::get('image'), $id);
+		}
+		if (!empty(Input::get('ktp_image'))) {
+			$staf->ktp_image      = Yoga::inputStafKtpIfNotEmpty(Input::get('ktp_image'), $id);
+		}
+
+		$staf->save();
+
+		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf <strong>' . Input::get('nama') . '</strong> Berhasil <strong>Diubah</strong>'));
+	}
+
+	/**
+	 * Remove the specified staf from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		$staf = Staf::find($id);
+
+		$nama = $staf->nama;
+
+		$staf->delete();
+
+		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf <strong>' . $nama . '</strong> Berhasil <strong>Dihapus</strong>'));
+	}
+
+}

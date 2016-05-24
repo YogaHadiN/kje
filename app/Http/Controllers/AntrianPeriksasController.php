@@ -1,0 +1,152 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Input;
+
+use App\Http\Requests;
+use App\Asuransi;
+use App\Staf;
+use App\Classes\Yoga;
+use App\AntrianPeriksa;
+use App\Pasien;
+use App\AntrianPoli;
+use App\Kabur;
+use App\Periksa;
+use App\Terapi;
+use App\TransaksiPeriksa;
+use App\Rujukan;
+use App\SuratSakit;
+use App\RegisterAnc;
+use App\Usg;
+
+
+
+class AntrianPeriksasController extends Controller
+{
+
+	/**
+	 * Display a listing of antrianperiksas
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		$asu = array('0' => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
+
+		$jenis_peserta = array(
+
+			null => ' - pilih asuransi -',
+            "P" => 'Peserta',
+            "S" => 'Suami',
+            "I" => 'Istri',
+            "A" => 'Anak'
+
+					);
+
+		$staf = array('0' => '- Pilih Staf -') + Staf::lists('nama', 'id')->all();
+
+		$poli = Yoga::poliList();
+
+
+		$antrianperiksas = AntrianPeriksa::all();
+		return view('antrianperiksas.index', compact('antrianperiksas', 'postperiksa'));
+	}
+
+
+	/**
+	 * Store a newly created antrianperiksa in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+
+		$tekanan_darah 			= Input::get('tekanan_darah');
+		$berat_badan 			= Input::get('berat_badan');
+		$suhu 					= Input::get('suhu');
+		$tinggi_badan 			= Input::get('tinggi_badan');
+		$periksa_awal 			= Yoga::periksaAwal($tekanan_darah, $berat_badan, $suhu, $tinggi_badan);
+
+		$ap = new AntrianPeriksa;
+		
+		$kecelakaan_kerja = Input::get('kecelakaan_kerja');
+		$asuransi_id      = Input::get('asuransi_id');
+
+
+
+
+		$antrianperiksa_id       = Yoga::customId('App\AntrianPeriksa');
+		$ap->antrian             = Input::get('antrian');
+		$ap->berat_badan         = $berat_badan;
+		$ap->hamil               = Input::get('hamil');
+		$ap->asisten_id          = Input::get('asisten_id');
+		$ap->periksa_awal        = $periksa_awal;
+		if ($kecelakaan_kerja == '1' && $asuransi_id == '32') {
+			$asuransi_id = '0';
+			$ap->keterangan = 'Pasien ini tadinya pakai asuransi BPJS tapi diganti menjadi Biaya Pribadi karena Kecelakaan Kerja / Kecelakaan Lalu Lintas tidak ditanggung BPJS, tpi PT. Jasa Raharja';
+		}
+		$ap->asuransi_id         = $asuransi_id;
+		$ap->pasien_id           = Input::get('pasien_id');
+		$ap->poli                = Input::get('poli');
+		$ap->staf_id             = Input::get('staf_id');
+		$ap->jam                 = Input::get('jam');
+		$ap->menyusui            = Input::get('menyusui');
+		$ap->riwayat_alergi_obat = Input::get('riwayat_alergi_obat');
+		$ap->suhu                = $suhu;
+		$ap->g                   = Yoga::returnNull(Input::get('G'));
+		$ap->p                   = Yoga::returnNull(Input::get('P'));
+		$ap->a                   = Yoga::returnNull(Input::get('A'));
+		$ap->hpht                = Yoga::datePrep(Input::get('hpht'));
+		$ap->tanggal             = Input::get('tanggal');
+		$ap->kecelakaan_kerja    = $kecelakaan_kerja;
+		$ap->tekanan_darah       = $tekanan_darah;
+		$ap->tinggi_badan        = $tinggi_badan;
+		$ap->id                  = $antrianperiksa_id;
+		$ap->save();
+
+
+		$antrian_id              = Input::get('antrian_id');
+		$pasien                  = Pasien::find(Input::get('pasien_id'));
+		$hapus                   = AntrianPoli::find($antrian_id);
+		$hapus->delete();
+
+		return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$pasien->id . ' - ' . $pasien->nama . '</strong> berhasil masuk antrian periksa'));
+	}
+
+
+	/**
+	 * Remove the specified antrianperiksa from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		// return Input::all();
+		$ap = AntrianPeriksa::find($id);
+
+		$kabur            = new Kabur;
+		$kabur->pasien_id = $ap->pasien_id;
+		$kabur->jam       = date('H:i:s');
+		$kabur->tanggal   = date('Y-m-d');
+		$kabur->alasan    = Input::get('alasan');
+		$conf             = $kabur->save();
+
+		$periksa = Periksa::where('pasien_id', $ap->pasien_id)->where('jam', $ap->jam)->where('tanggal', $ap->tanggal)->first();
+		if(isset($periksa)){
+			TransaksiPeriksa::where('periksa_id', $periksa->id)->delete(); // Haput Transaksi bila ada periksa id
+			Terapi::where('periksa_id', $periksa->id)->delete(); // Haput Terapi bila ada periksa id
+			$periksa->delete(); // hapus row di tabel periksa
+			Rujukan::where('periksa_id', $periksa->id)->delete(); //hapus rujukan yang memiliki id periksa ini
+			SuratSakit::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
+			RegisterAnc::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
+			Usg::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
+		}
+		$ap->delete();
+
+
+		return redirect('ruangperiksa/' . $ap->poli)->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
+	}
+
+}

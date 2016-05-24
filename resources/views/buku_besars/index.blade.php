@@ -1,0 +1,64 @@
+@extends('layout.master')
+
+@section('title') 
+Klinik Jati Elok | Buku Besar
+
+@stop
+@section('page-title') 
+ <h2>List Buku Besar</h2>
+ <ol class="breadcrumb">
+      <li>
+          <a href="{!! url('laporans')!!}">Home</a>
+      </li>
+      <li class="active">
+          <strong>List Buku Besar</strong>
+      </li>
+</ol>
+@stop
+@section('content') 
+{!! Form::open(['url' => 'buku_besars/show', 'method' => 'get']) !!}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h1>Pilih Buku Besar</h1>
+    <hr>
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+          {!! Form::label('coa_id', 'Chart Of Account') !!}
+          {!! Form::select('coa_id', $coa_list, null, ['class' => 'form-control rq']) !!}
+        </div>
+        <div class="form-group">
+          {!! Form::label('bulan') !!}
+          {!! Form::select('bulan', App\Classes\Yoga::bulanList(), date('m'), ['class' => 'form-control rq']) !!}
+        </div>
+        <div class="form-group">
+          {!! Form::label('tahun') !!}
+          {!! Form::text('tahun', date('Y'), ['class' => 'form-control rq']) !!}
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+              <button class="btn btn-success btn-block btn-lg" type="button" onclick="dummySubmit(); return false;">Submit</button>
+              <button class="btn btn-success btn-block btn-lg hide" id="submit" type="submit">Submit</button>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+              <a href="{{ url('buku_besars') }}" class="btn btn-danger btn-block btn-lg">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{!! Form::close() !!}
+@stop
+@section('footer') 
+<script>
+  function dummySubmit(){
+    if (validatePass()) {
+      $('#submit').click();
+    }
+  }
+</script>
+
+@stop

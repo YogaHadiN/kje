@@ -1,0 +1,1 @@
+alter table faktu_belanjas drop column staf_id;

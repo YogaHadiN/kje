@@ -1,0 +1,113 @@
+alter table jurnal_umums drop column transaksi_periksa_id;
+alter table jurnal_umums drop column pendapatan_id;
+alter table jurnal_umums drop column pembelian_id;
+alter table jurnal_umums drop column pengeluaran_id;
+
+
+alter table jurnal_umums add column jurnalable_type varchar(255) not null;
+
+alter table jurnal_umums change periksa_id jurnalable_id varchar(255) not null;
+
+update raks set harga_beli = 10, harga_jual = 0 where id = 'o8';
+
+update tarifs set tipe_tindakan_id = 3 where jenis_tarif_id = 111;
+
+create table `tipe_tindakans` (`id` int unsigned not null auto_increment primary key, `tipe_tindakan` varchar(255) not null,`keterangan` varchar(255), `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into `tipe_tindakans` (tipe_tindakan, keterangan) values 
+('non paket', 'perhitungan seperti pasien umum biasa'),
+('paket jasa dokter + obat', 'paket pengobatan membuat jasa dokter = 0 dan obat yang diberikan juga 0'),
+('paket jasa dokter tanpa obat', 'paket pengobatan membuat jasa dokter = 0, tapi untuk obat minum dibayarkan sesuai dengan jumlah biayanya');
+
+
+
+update tarifs set tipe_tindakan_id = 3 where jenis_tarif_id=70;
+update tarifs set tipe_tindakan_id = 3 where jenis_tarif_id=73;
+update tarifs set tipe_tindakan_id = 3 where jenis_tarif_id=75;
+update tarifs set tipe_tindakan_id = 3 where jenis_tarif_id=76;
+update tarifs set tipe_tindakan_id = 3 where jenis_tarif_id=121;
+
+update tarifs set tipe_tindakan_id=2 where jenis_tarif_id=77;
+
+delete from mereks where id = '';
+
+
+alter table tarifs change jasa_dokter jasa_dokter int(11) not null default 0;
+
+alter table tarifs change bahan_habis_pakai bahan_habis_pakai int(11) not null default 0;
+
+alter table tarifs change dibayar_asuransi dibayar_asuransi int(11) not null default 0;
+alter table tarifs change tipe_tindakan_id tipe_tindakan_id varchar(255) not null default '1';
+
+
+insert into tarifs (asuransi_id, jenis_tarif_id) values
+('0', '140'),
+('1', '140'),
+('10', '140'),
+('11', '140'),
+('12', '140'),
+('13', '140'),
+('15', '140'),
+('150821001', '140'),
+('150922001', '140'),
+('151020001', '140'),
+('151117001', '140'),
+('151222001', '140'),
+('151222002', '140'),
+('16', '140'),
+('160207001', '140'),
+('160207002', '140'),
+('160207003', '140'),
+('160207004', '140'),
+('160207005', '140'),
+('160207006', '140'),
+('160207007', '140'),
+('160207008', '140'),
+('160207009', '140'),
+('160207010', '140'),
+('160207011', '140'),
+('160207012', '140'),
+('160207013', '140'),
+('160207014', '140'),
+('160207015', '140'),
+('160207016', '140'),
+('160207017', '140'),
+('160207018', '140'),
+('160207019', '140'),
+('160207020', '140'),
+('160207021', '140'),
+('160207022', '140'),
+('160207023', '140'),
+('160221001', '140'),
+('160406001', '140'),
+('17', '140'),
+('18', '140'),
+('19', '140'),
+('2', '140'),
+('20', '140'),
+('21', '140'),
+('22', '140'),
+('23', '140'),
+('24', '140'),
+('25', '140'),
+('26', '140'),
+('27', '140'),
+('28', '140'),
+('29', '140'),
+('3', '140'),
+('30', '140'),
+('31', '140'),
+('32', '140'),
+('34', '140'),
+('37', '140'),
+('39', '140'),
+('4', '140'),
+('5', '140'),
+('6', '140'),
+('8', '140'),
+('9', '140'),
+('90', '140');
+
+update raks set harga_beli = 105 where id='Z8';
+delete from jurnal_umums;
+

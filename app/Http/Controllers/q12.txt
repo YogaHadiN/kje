@@ -1,0 +1,14 @@
+update rumah_sakits set jenis_rumah_sakit=null where tipe_rumah_sakit='Belum ditetapkan';
+update rumah_sakits set tipe_rumah_sakit=null where tipe_rumah_sakit='Belum ditetapkan';
+
+
+
+
+update rumah_sakits set jenis_rumah_sakit='2' where jenis_rumah_sakit='RSIA' or jenis_rumah_sakit='RSAB'; 
+
+update rumah_sakits set jenis_rumah_sakit='3' where jenis_rumah_sakit='RS B'; 
+
+update rumah_sakits set jenis_rumah_sakit='4' where jenis_rumah_sakit='RSU';
+
+
+

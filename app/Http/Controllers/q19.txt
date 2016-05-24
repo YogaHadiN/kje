@@ -1,0 +1,11 @@
+drop table terapi;
+
+alter table antrian_polis add column kecelakaan_kerja int(1) default 0;
+alter table antrian_periksas add column kecelakaan_kerja int(1) default 0;
+alter table periksas add column kecelakaan_kerja int(1) default 0;
+
+alter table pasiens add column image text;
+
+insert into kelompok_coas (kelompok_coa) values ('Asset/Aktiva'), ('Hutang/Liability'),('Modal/Equity'),('Income/pendapatan'),('Cost of sales (HPP/Harga Pokok Penjualan)'), ('Biaya/Expense'),	('Other Income');
+
+create table `terapi` (`id` int unsigned not null auto_increment primary key, `merek_id` varchar(255) not null, `jumlah` varchar(255) not null, `aturan_minum` varchar(255) not null, `signa` varchar(255) not null, `periksa_id` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;;

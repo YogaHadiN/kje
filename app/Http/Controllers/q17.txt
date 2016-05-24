@@ -1,0 +1,31 @@
+update formulas set sediaan = 'dry syrup' where id = '150803003';
+update formulas set sediaan = 'dry syrup' where id = '150803006';
+update formulas set sediaan = 'dry syrup' where id = '150803008';
+update formulas set sediaan = 'dry syrup' where id = '150921001';
+
+insert into sediaans (sediaan) values ('dry syrup');
+
+alter table formulas add column tidak_dipuyer int(1) default 0;
+
+update formulas set tidak_dipuyer = 1 where
+id = '150801018' or
+id = '150802042' or
+id = '150802043' or
+id = '150802046' or
+id = '150806004' or
+id = '150806010' or
+id = '150802021' or
+id = '150807015' or
+id = '150806004' or
+id = '150806011';
+
+
+Omeprazole capsul 20 mg	
+Metronidazole tablet 500 mg	
+
+update raks set fornas=1 where 
+id='E6' or
+id='D5' or
+id='G12' or
+id='B14';
+
