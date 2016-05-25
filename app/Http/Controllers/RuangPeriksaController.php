@@ -17,7 +17,8 @@ class RuangPeriksaController extends Controller
 		->orWhere('poli', 'luka')
 		->orWhere('poli', 'sks')
 		->orderBy('antrian', 'asc')->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and ( poli='umum' or poli='sks' or poli='luka' )")->get();
+
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and ( poli='umum' or poli='sks' or poli='luka' )")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
@@ -26,7 +27,7 @@ class RuangPeriksaController extends Controller
 	public function kandungan(){
 		$poli = 'kandungan';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and ( poli='kandungan' or poli='KB 1 Bulan' or poli='KB 3 Bulan')")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and ( poli='kandungan' or poli='KB 1 Bulan' or poli='KB 3 Bulan')")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
@@ -34,7 +35,7 @@ class RuangPeriksaController extends Controller
 	}
 	public function suntikkb(){
 		$antrianperiksa = AntrianPeriksa::where('poli', 'like', 'kb %')->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='kandungan'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='kandungan'")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
@@ -43,16 +44,17 @@ class RuangPeriksaController extends Controller
 	public function anc(){
 		$poli = 'anc';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='{$poli}'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='{$poli}'")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
 			->withPoli($poli);
 	}
-	public function usg(){
+    pubf expand("%") == ""|browse confirm w|else|confirm w|endif
+        :lic function usg(){
 		$poli = 'usg';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='{$poli}'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='{$poli}'")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
@@ -61,7 +63,7 @@ class RuangPeriksaController extends Controller
 	public function usgabdomen(){
 		$poli = 'usgabdomen';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='{$poli}'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='{$poli}'")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
@@ -70,7 +72,7 @@ class RuangPeriksaController extends Controller
 	public function gigi(){
 		$poli = 'gigi';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='gigi'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='gigi'")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
@@ -79,7 +81,7 @@ class RuangPeriksaController extends Controller
 	public function darurat(){
 		$poli = 'darurat';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='darurat'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='darurat'")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
