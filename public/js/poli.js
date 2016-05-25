@@ -308,7 +308,7 @@
                     tindakanTambahan++;
                 }
             }
-            if (tindakanTambahan > 0) {
+            if (tindakanTambahan == 0) {
                 var r = confirm('Apa Anda lupa isi kolom tindakan? Jika anda yakin bahwa tidak ada tindakan tambahan, tekan tombol OK');
                 if (r) {
                     $('#submitFormPeriksa').click();
