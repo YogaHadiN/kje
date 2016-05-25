@@ -1,4 +1,4 @@
-
+<?php
 
 
 namespace App\Http\Controllers;
@@ -505,14 +505,8 @@ class PeriksasController extends Controller
 		if($confirm){
 			AntrianPeriksa::where('pasien_id', Input::get('pasien_id'))->delete();
 		}
-        $poli = Input::get('poli');
-		if ($poli == 'sks' || $poli == 'luka') {
-			$poli = 'umum';
-		} else if ($poli == 'KB 1 Bulan' || $poli == 'KB 3 Bulan' ){
-			$poli='kandungan';
-		}
 		$pasien = Pasien::find(Input::get('pasien_id'));
-		return redirect('ruangperiksa/' . $poli)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+		return redirect('ruangperiksa/' . Input::get('poli'))->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 	}
 
 	/**

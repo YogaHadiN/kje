@@ -285,7 +285,11 @@ border-spacing: -1px;
 					{!! $periksa->terapi_htmlll !!}
 					<br>
 					@if($periksa->rujukan)
-						dirujuk ke {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} karena {!! $periksa->rujukan->alasan_rujuk!!}
+						dirujuk ke 
+						@if($periksa->rujukan->tujuanRujuk)
+							{!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} 
+						@endif
+						karena {!! $periksa->rujukan->alasan_rujuk!!}
 					@endif
 					@if($bayarGDS)
 					    @include('warninggds2', ['pasien_id' => $periksa->pasien_id ])
@@ -539,7 +543,10 @@ border-spacing: -1px;
 							<hr>
 						</div>
 						<div class="text">
-							Kepada Yth dr. {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!}<br>
+							Kepada Yth dr. 
+							@if($periksa->rujukan->tujuanRujuk)
+								{!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!}<br>
+							@endif
 							Mohon Evaluasi dan Tatalaksana Pasien
 						</div>
 						<div class="identitas">
@@ -585,16 +592,22 @@ border-spacing: -1px;
 									<tr>
 										<td class="border-all">
 											Rujukan ke :  <br>
-											{!! $periksa->rujukan->rumahSakit->nama !!}
+											@if($periksa->rujukan->rumahSakit)
+												{!! $periksa->rujukan->rumahSakit->nama !!}
+											@endif
 											<span class="font-smaller">
+											@if($periksa->rujukan->rumahSakit)
 												{!! $periksa->rujukan->rumahSakit->alamat !!}, {!! $periksa->rujukan->rumahSakit->telepon !!}, telp UGD : {!! $periksa->rujukan->rumahSakit->ugd !!}
+											@endif
 											</span>
 											@if($periksa->asuransi_id=='32')
 											<br>BPJS Center :
 											<div class="font-smaller">
-												@foreach($periksa->rujukan->rumahSakit->bpjsCenter as $telp)
-													{!! $telp->telp !!} ({!! $telp->nama !!}), 
-												@endforeach
+												@if($periksa->rujukan->rumahSakit)
+													@foreach($periksa->rujukan->rumahSakit->bpjsCenter as $telp)
+														{!! $telp->telp !!} ({!! $telp->nama !!}), 
+													@endforeach
+												@endif
 											</div>
 											@endif
 										</td>

@@ -73,7 +73,10 @@
                             @if($periksa->rujukan)
                             <hr>
                                 <div class="alert alert-warning">
-                                  dirujuk ke {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} <br>
+                                  dirujuk ke 
+                                  @if(isset($periksa->rujukan->tujuanRujuk))
+                                      {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} <br>
+                                  @endif
                                   karena {!!$periksa->rujukan->alasan_rujuk !!}
                                 </div>
                                 <a href="{{ url('rujukans/'.$periksa->id) }}">Show Rujukan</a>

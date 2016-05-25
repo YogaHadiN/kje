@@ -19,7 +19,6 @@
     
     -->
 <link rel="stylesheet" href="{{ asset('css/all.css') }}"> <!-- Yang ini berhasil -->
-<!-- <link rel="stylesheet" href="{{ elixir('css/all.css') }}"> --> <!-- Yang ini tidak berhasil -->
 <link href="{!! asset('font-awesome/css/font-awesome.css') !!}" rel="stylesheet"> <!-- Yang ini berhasil -->
 
     @yield('head')
@@ -227,7 +226,6 @@
         </div>
         </div>
         <script src='{!! url("js/all.js") !!}'></script> <!-- Yang ini berhasil --> 
-        <!-- <script src='{!! elixir("js/all.js") !!}'></script> --> <!-- Yang ini gak berhasil -->
         <script src="{!! url('js/autoNumeric.js') !!}"></script>
     <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
