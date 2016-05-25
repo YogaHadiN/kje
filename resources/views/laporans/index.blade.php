@@ -315,6 +315,16 @@ Klinik Jati Elok | Home
                                             <td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
                                         {!! Form::close()!!}
                                     </tr>
+
+                                    <tr>
+                                        {!! Form::open(['url' => 'perbaikanreseps/show', 'method' => 'get'])!!}
+                                        <td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+                                        <td>Laporan Perbaikan Resep</td>
+                                        <td></td>
+                                            <td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+                                            <td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+                                        {!! Form::close()!!}
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

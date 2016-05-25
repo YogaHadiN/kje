@@ -15,6 +15,7 @@ Klinik Jati Elok | Kasir
 </ol>
 @stop
 @section('content') 
+    
 <input type="hidden" id="asuransi_id" value="{{ $periksa->asuransi_id }}">
             <div class="row">
                 <div class="col-lg-12">
@@ -40,7 +41,6 @@ Klinik Jati Elok | Kasir
                         </div>
                     </div>
                     <div class="ibox-content">
-
                         @if($pasien->periksa->count() == 0)
                             <p class="text-center">Tidak ada Riwayat untuk ditampilkan / Pasien adalah pasien baru</p>
                         @else
@@ -190,6 +190,14 @@ Klinik Jati Elok | Kasir
                             </table>
                           </div>
                     </div>
+                   <div class="row">
+                       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                           {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control']) !!}
+                       </div>
+                       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                           {!! Form::textarea('terapi2', null, ['class' => 'form-control', 'id' => 'terapi2'])!!} 
+                       </div>
+                   </div>
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <button class="btn btn-success btn-block btn-lg" type="button" onclick="dummyClick();return false;">Submit</button>
@@ -229,13 +237,16 @@ Klinik Jati Elok | Kasir
 
             console.log('awal = ' + awal);
             console.log('id = ' + id);
+
             if (parseInt($(this).val()) > awal) {
                 $(this).val(awal)
             } else if($(this).val() < 0){
                 $(this).val('0');
             }
+
             var n = $(this).val();
             updateJumlah(id,n,this);
+
         });
     });
 
@@ -308,6 +319,7 @@ Klinik Jati Elok | Kasir
         if (data.confirm == '1') {
             var terapi = data.terapi;
             $('#terapih').html(terapi);
+            $('#terapi2').val(JSON.stringify( data.terapiJson )); 
         }
     }
 

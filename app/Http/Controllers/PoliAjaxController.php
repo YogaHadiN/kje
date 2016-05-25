@@ -72,41 +72,27 @@ class PoliAjaxController extends Controller
 
 	public function sopterapi(){
 		
-		$berat_badan = Input::get('berat_badan');
+		$bb = Input::get('berat_badan');
 		$asuransi_id = Input::get('asuransi_id');
 		$diagnosa_id = Input::get('diagnosa_id');
 		$staf_id = Input::get('staf_id');
 
 		$icd10 = Diagnosa::find($diagnosa_id)->icd10_id;
 
-		$berat_badan_id = Yoga::beratBadanId($berat_badan);
-		$response = [
-			'berat_badan_id' => $berat_badan_id,
-			'asuransi_id' => $asuransi_id,
-			'icd10_id'	  => $icd10
-		];
-
-		$bb = BeratBadan::find($berat_badan_id);
-
-		$bb_min = $bb->bb_min;
-		$bb_max = $bb->bb_max;
-
-
 		$tipe_asuransi = Asuransi::find($asuransi_id)->tipe_asuransi;
 
-		if ($tipe_asuransi == '4') {
-			if($berat_badan_id != '12'){
-				$query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and (asu.tipe_asuransi = '4' or asu.tipe_asuransi = '5') and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and p.berat_badan BETWEEN '{$bb_min}' AND '{$bb_max}' and p.created_at > '0000-00-00 00:00:00'group by terapih order by jumlah desc limit 10";
-			} else {
-				$query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah FROM `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and (asu.tipe_asuransi = '4' or asu.tipe_asuransi = '5') and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' AND (p.berat_badan > 50 OR p.berat_badan = 0 OR p.berat_badan = '' OR p.berat_badan is null) and p.created_at > '0000-00-00 00:00:00'group by terapih order by jumlah desc limit 10";
-			}
-		} else {
-			if($berat_badan_id != '12'){
-				$query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and asu.tipe_asuransi = '{$tipe_asuransi}' and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and p.berat_badan BETWEEN '{$bb_min}' AND '{$bb_max}'  and p.created_at > '0000-00-00 00:00:00'group by terapih order by jumlah desc limit 10";
-			} else {
-				$query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah FROM `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and asu.tipe_asuransi = '{$tipe_asuransi}' and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' AND (p.berat_badan > 50 OR p.berat_badan = 0 OR p.berat_badan = '' OR p.berat_badan is null) and p.created_at > '0000-00-00 00:00:00'group by terapih order by jumlah desc limit 10";
-			}
-		}
+        if ($bb < 40 && $bb != '') {
+            
+            if ($tipe_asuransi == '4' || $tipe_asuransi == '5') {
+                $query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and (asu.tipe_asuransi > 3) and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and p.berat_badan = '{$bb}' and p.created_at > '0000-00-00 00:00:00'group by terapih order by jumlah desc limit 10";
+            } else {
+                $query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and asu.tipe_asuransi < 4 and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and p.berat_badan = '{$bb}'  and p.created_at > '0000-00-00 00:00:00'group by terapih order by jumlah desc limit 10";
+            }
+
+        } else{
+            
+            $query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and asu.tipe_asuransi < 4 and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and (p.berat_badan > 40 or p.berat_badan is null or p.berat_badan = 0)  and p.created_at > '0000-00-00 00:00:00'group by terapih order by jumlah desc limit 10";
+        }
 
 		$query = DB::select($query);
         $asuransi = Asuransi::find($asuransi_id);

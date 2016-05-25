@@ -337,6 +337,8 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('perbaikantrxs', 'PerbaikantrxsController@index');
 			Route::get('perbaikantrxs/show', 'PerbaikantrxsController@show');
 
+			Route::get('perbaikanreseps/show', 'PerbaikanresepsController@show');
+
 			//membuat merek baru berdasarkan merek_id
 			Route::post('kasir/submit', 'KasirBaseController@kasir_submit');
 
