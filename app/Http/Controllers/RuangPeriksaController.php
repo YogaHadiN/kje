@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
-
 use App\AntrianPeriksa;
 use App\Periksa;
 
@@ -19,7 +17,7 @@ class RuangPeriksaController extends Controller
 		->orWhere('poli', 'luka')
 		->orWhere('poli', 'sks')
 		->orderBy('antrian', 'asc')->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='umum'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and ( poli='umum' or poli='sks' or poli='luka' )")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
@@ -28,7 +26,7 @@ class RuangPeriksaController extends Controller
 	public function kandungan(){
 		$poli = 'kandungan';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and poli='kandungan'")->get();
+		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and (lewat_kasir = 0 or lewat_kasir2 = 0) and ( poli='kandungan' or poli='KB 1 Bulan' or poli='KB 3 Bulan')")->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)
