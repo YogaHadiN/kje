@@ -50,8 +50,7 @@ class RuangPeriksaController extends Controller
 			->withAntrianperiksa($antrianperiksa)
 			->withPoli($poli);
 	}
-    pubf expand("%") == ""|browse confirm w|else|confirm w|endif
-        :lic function usg(){
+    public function usg(){
 		$poli = 'usg';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='{$poli}'")->get();
