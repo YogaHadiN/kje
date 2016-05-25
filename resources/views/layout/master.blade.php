@@ -18,7 +18,8 @@
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
     
     -->
-<link rel="stylesheet" href="{{ asset('css/all.css') }}"> <!-- Yang ini berhasil -->
+{!! HTML::style( asset('css/all.css') )   !!}
+
 <link href="{!! asset('font-awesome/css/font-awesome.css') !!}" rel="stylesheet"> <!-- Yang ini berhasil -->
 
     @yield('head')
@@ -225,8 +226,8 @@
             </div>
         </div>
         </div>
-        <script src='{!! url("js/all.js") !!}'></script> <!-- Yang ini berhasil --> 
-        <script src="{!! url('js/autoNumeric.js') !!}"></script>
+            {!! HTML::script(asset("js/all.js"))!!}
+
     <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
     <script src="{!! url('js/bootstrap.min.js') !!}"></script>

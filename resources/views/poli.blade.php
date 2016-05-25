@@ -94,14 +94,9 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
 var base = '{!! url('/') !!}';
 console.log(base);
 </script>
-<script src="{!! url('js/poli.js') !!}" type="text/javascript"></script>
-<script src="{!! url('js/fotozoom.js') !!}" type="text/javascript"></script>
-<script src="{!! url('js/togglepanel.js') !!}" type="text/javascript"></script>
-<script src="{!! url('js/resepjson.js') !!}" type="text/javascript"></script>
-<script src="{!! url('js/informasi_obat.js') !!}" type="text/javascript"></script>
-{!! HTML::script('js/riwobs.js')!!} 
-<script src="{!! url('js/uk.js') !!}" type="text/javascript"></script>
+{!! HTML::script('js/allpoli.js')!!} 
 <script>
     afiCount();
 </script>
 @stop
+
