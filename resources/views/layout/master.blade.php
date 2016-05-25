@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title')</title>
+    <!-- Data Tables 
     <link href="{!! asset('css/bootstrap.min.css') !!}" rel="stylesheet">
-    <link href="{!! asset('font-awesome/css/font-awesome.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet">
-     <!-- Data Tables -->
     <link href="{!! asset('css/plugins/dataTables/dataTables.bootstrap.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/plugins/dataTables/dataTables.responsive.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/plugins/dataTables/dataTables.tableTools.min.css') !!}" rel="stylesheet">
-    <!-- Data Tables -->
     <link href="{!! asset('css/animate.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/style.css') !!}" rel="stylesheet">
-    <!-- Autocomplete-->
     <link href="{!! asset('css/jquery-ui.min.css') !!}" rel="stylesheet">
-    <!-- date picker css -->
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
+    
+    -->
+<link rel="stylesheet" href="{{ asset('css/all.css') }}"> 
+<link href="{!! asset('font-awesome/css/font-awesome.css') !!}" rel="stylesheet">
+
     @yield('head')
 </head>
 <body>
@@ -224,28 +225,23 @@
             </div>
         </div>
         </div>
-    <!-- Mainly scripts -->
+        <script src='{!! url("js/all.js") !!}'></script> 
+        <script src="{!! url('js/autoNumeric.js') !!}"></script>
+    <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
     <script src="{!! url('js/bootstrap.min.js') !!}"></script>
     <script src="{!! url('js/plugins/metisMenu/jquery.metisMenu.js') !!}"></script>
     <script src="{!! url('js/plugins/slimscroll/jquery.slimscroll.min.js') !!}"></script>
     <script src="{!! url('js/plugins/jeditable/jquery.jeditable.js') !!}"></script>
-    <!-- Custom and plugin javascript -->
-    <!-- SelectPicker js -->
     <script src="{!! url('js/bootstrap-select.min.js') !!}"></script>
-    <!-- autonumeric js -->
-    <script src="{!! url('js/autoNumeric.js') !!}"></script>
-    <!-- datepicker JavaScript -->
     <script src="{!! url('js/plugins/datepicker/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
-    <!-- Data Tables -->
     <script src="{!! url('js/plugins/dataTables/jquery.dataTables.min.js') !!}"></script>
     <script src="{!! url('js/plugins/dataTables/dataTables.bootstrap.min.js') !!}"></script>
     <script src="{!! url('js/plugins/dataTables/dataTables.responsive.min.js') !!}"></script>
     <script src="{!! url('js/plugins/dataTables/dataTables.tableTools.min.js') !!}"></script>
     <script src="{!! url('js/inspinia.js') !!}"></script>
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
-
-    <!-- WebCam -->
+    WebCam -->
     <script>
         $.ajaxSetup({
             headers: {

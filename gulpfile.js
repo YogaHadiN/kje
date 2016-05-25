@@ -12,5 +12,30 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix.styles([
+        'bootstrap.min.css',
+        'bootstrap-select.min.css',
+        'plugins/dataTables/dataTables.bootstrap.css',
+        'plugins/dataTables/dataTables.responsive.css',
+        'plugins/dataTables/dataTables.tableTools.min.css',
+        'animate.css',
+        'style.css',
+        'jquery-ui.min.css',
+        'plugins/datepicker/datepicker3.css',
+    ])
+    .scripts([
+        'jquery-2.1.1.js',
+        'bootstrap.min.js',
+        'plugins/metisMenu/jquery.metisMenu.js',
+        'plugins/slimscroll/jquery.slimscroll.min.js',
+        'plugins/jeditable/jquery.jeditable.js',
+        'bootstrap-select.min.js',
+        'plugins/datepicker/bootstrap-datepicker.js',
+        'plugins/dataTables/jquery.dataTables.min.js',
+        'plugins/dataTables/dataTables.bootstrap.min.js',
+        'plugins/dataTables/dataTables.responsive.min.js',
+        'plugins/dataTables/dataTables.tableTools.min.js',
+        'inspinia.js',
+        'plugins/pace/pace.min.js',
+    ])
 });
