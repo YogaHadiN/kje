@@ -44,6 +44,14 @@ Klinik Jati Elok | Buat Rujukan
 
   ])
 {!! Form::close()!!}
+@if($periksa->asuransi_id == '32')
+    <div class="alert alert-danger">
+        Pasien BPJS <strong>Laki-laki dewasa</strong>  tidak bisa dirujuk ke Sp.PD 
+        di RSIA, harus ke RS tapi
+        untuk pasien wanita dewasa bisa dirujuk Sp.PD
+        di RSIA
+    </div>
+@endif
 @stop
 @section('footer') 
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>

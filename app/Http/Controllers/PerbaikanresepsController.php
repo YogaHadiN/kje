@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Input;
 
 use App\Http\Requests;
+
+use App\Perbaikanresep;
+use App\Classes\Yoga;
+
 
 class PerbaikanresepsController extends Controller
 {
@@ -13,8 +17,8 @@ class PerbaikanresepsController extends Controller
 		$mulai = Yoga::datePrep(Input::get('mulai'));
 		$akhir = Yoga::datePrep(Input::get('akhir'));
 
-		$perbaikans = Perbaikanreseps::whereRaw("created_at between '{$mulai} 00:00:00' and '{$akhir} 23:59:59'")->orderBy('id', 'desc')->paginate(20);
+		$perbaikans = Perbaikanresep::whereRaw("created_at between '{$mulai} 00:00:00' and '{$akhir} 23:59:59'")->orderBy('id', 'desc')->paginate(20);
 
-		return view('perbaikantrxs.show', compact('perbaikans', 'mulai', 'akhir'));
+		return view('perbaikanreseps.show', compact('perbaikans', 'mulai', 'akhir'));
 	}
 }

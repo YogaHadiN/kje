@@ -1,8 +1,6 @@
 @extends('layout.master')
-
 @section('title') 
 Klinik Jati Elok | rujukans
-
 @stop
 @section('page-title') 
  <h2>List User</h2>
@@ -16,7 +14,6 @@ Klinik Jati Elok | rujukans
 </ol>
 @stop
 @section('content') 
-
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">
@@ -57,6 +54,4 @@ Klinik Jati Elok | rujukans
 </div>
 @stop
 @section('footer') 
-
-
 @stop
