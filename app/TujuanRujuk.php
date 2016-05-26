@@ -20,4 +20,8 @@ class TujuanRujuk extends Model
 		
 	}
 
+    public function rumahSakit(){
+         return $this->belongsToMany('RumahSakit', 'fasilitas');
+    }
+
 }

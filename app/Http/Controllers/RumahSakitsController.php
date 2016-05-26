@@ -7,6 +7,9 @@ use Input;
 use App\Http\Requests;
 
 use App\Rumahsakit;
+use App\Fasilitas;
+use App\BpjsCenter;
+use App\Classes\Yoga;
 
 class RumahSakitsController extends Controller
 {
@@ -36,7 +39,7 @@ class RumahSakitsController extends Controller
 	/**
 	 * Store a newly created rumahsakit in storage.
 	 *
-	 * @return Response
+	 * return Response
 	 */
 	public function store()
 	{
@@ -86,18 +89,80 @@ class RumahSakitsController extends Controller
 	 */
 	public function update($id)
 	{
-		$rumahsakit = Rumahsakit::findOrFail($id);
+        
+       //Perintah untuk menghapus SPESIALISASI 
+        $spesialis = Input::get('spesialis');
+        $bpjscenter = Input::get('bpjscenter');
 
-		$validator = \Validator::make($data = Input::all(), Rumahsakit::$rules);
+        $spesialis = json_decode($spesialis, true);
+        $bpjscenter = json_decode($bpjscenter, true);
+        $spesialis_awal = RumahSakit::find($id)->tujuanRujuk;
+        $delete_tujuan_rujuk = [];
+        foreach ($spesialis_awal as $sp) {
+            $kosong = true;
+            foreach ($spesialis as $s) {
+                if ($sp->id == $s['id']) {
+                    $kosong = false;
+                    break;
+                }
+            }
+            if ($kosong) {
+               $delete_tujuan_rujuk[] = $sp->id; 
+            }    
+        }
+        Fasilitas::where('rumah_sakit_id', $id)->whereIn('tujuan_rujuk_id', $delete_tujuan_rujuk)->delete();
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
+        // create spesialis kalo tidak ada
+        foreach ($spesialis as $sp) {
+            $kosong = true;
+            foreach ($spesialis_awal as $s) {
+                if ($s->id == $sp['id']) {
+                   $kosong = false; 
+                   break;
+                }
+            }
+            if ($kosong) {
+                $f = new Fasilitas;
+                $f->tujuan_rujuk_id = $sp['id'];
+                $f->rumah_sakit_id = $id;
+                $f->save();
+            }
+        }
 
-		$rumahsakit->update($data);
+       //menghapus BPJS center yang dihapus 
+        $bpjscenter_awal = RumahSakit::find($id)->bpjsCenter;
+        $delete_bpjscenter = [];
+        foreach ($bpjscenter as $b) {
+                if ($b['id'] == null) {
+                    $bp = new BpjsCenter;
+                    $bp->nama = $b['nama'];
+                    $bp->telp = $b['telp'];
+                    $bp->rumah_sakit_id = $id;
+                    $bp->save();
+                }else{
+                    $bp = BpjsCenter::find($b['id']);
+                    $bp->nama = $b['nama'];
+                    $bp->telp = $b['telp'];
+                    $bp->save();
+                }
+            }
+        
+        foreach ($bpjscenter_awal as $bp) {
+            $kosong = true;
+            foreach ($bpjscenter as $b) {
+                if ($bp->id == $b['id']) {
+                    $kosong = false;
+                    break;
+                }
+            }
+            if ($kosong) {
+                $delete_bpjscenter[] = $bp->id;
+            }
+        }
+        BpjsCenter::destroy($delete_bpjscenter);
 
-		return \Redirect::route('rumahsakits.index');
+        $pesan = Yoga::suksesFlash('Update berhasil');
+        return redirect('rumahsakits')->withPesan($pesan);
 	}
 
 	/**
@@ -108,9 +173,14 @@ class RumahSakitsController extends Controller
 	 */
 	public function destroy($id)
 	{
-		Rumahsakit::destroy($id);
+		$confirm = Rumahsakit::destroy($id);
+        if ($confirm) {
+            $pesan = Yoga::suksesFlash('Rumah Sakit Berhasil Dihapus');
+        } else {
+            $pesan = Yoga::gagalFlash('Rumah Sakit Gagal Dihapus');
+        }
 
-		return \Redirect::route('rumahsakits.index');
+		return redirect('rumahsakits/'. $id)->withPesan($pesan);
 	}
 
 }

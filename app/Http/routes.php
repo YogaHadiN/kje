@@ -270,6 +270,9 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('asuransis/riwayat/{id}', 'AsuransisExtraController@riwayat');
 
 			Route::get('rumahsakits', 'RumahSakitsController@index'); //penjualan obat tanpa resep
+			Route::get('rumahsakits/{id}', 'RumahSakitsController@show'); //penjualan obat tanpa resep
+			Route::put('rumahsakits/{id}', 'RumahSakitsController@update'); //penjualan obat tanpa resep
+			Route::post('rumahsakits', 'RumahSakitsController@destroy'); //penjualan obat tanpa resep
 
 
 			Route::get('penjualans', 'PenjualansController@index'); //penjualan obat tanpa resep
@@ -291,6 +294,8 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 
+			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
+			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
 
 			Route::get('cek/cek', function(){
 				return View::make('antrianpolis.oke');

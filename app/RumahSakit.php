@@ -17,5 +17,19 @@ class RumahSakit extends Model{
 
 	public function bpjsCenter(){
 		return $this->hasMany('App\BpjsCenter');
-	}
+    }
+    
+    public function tujuanRujuk(){
+         return $this->belongsToMany('App\TujuanRujuk', 'fasilitas');
+    }
+
+    public function getPicsAttribute(){
+         $temp = '<ul id="tujuanRujuk">';
+         foreach ($this->bpjsCenter as $pic) {
+            $temp .= '<li>' . $pic->nama . ' (' . $pic->telp . ')' . '</li>';
+         }
+         $temp .= '</ul>';
+         return $temp;
+    }
+    
 }
