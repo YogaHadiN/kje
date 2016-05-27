@@ -112,6 +112,7 @@ class PeriksasController extends Controller
 		$periksa->lewat_poli 			= '1';
 		$periksa->lewat_kasir 			= '0';
 		$periksa->lewat_kasir2 			= '0';
+		$periksa->resepluar 			= Input::get('resepluar');
 		$periksa->pemeriksaan_fisik 	= Input::get('pemeriksaan_fisik');
 		$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
 		$periksa->tanggal 				= Input::get('tanggal');
@@ -325,7 +326,8 @@ class PeriksasController extends Controller
 		// INPUT DATA PERIKSA FINAL!!!!!
 
 		// 
-		// 
+        //
+        
 		$periksa->anamnesa 				= Input::get('anamnesa');
 		$periksa->asuransi_id 			= $asuransi->id;
 		$periksa->diagnosa_id 			= Input::get('diagnosa_id');
@@ -336,6 +338,7 @@ class PeriksasController extends Controller
 		$periksa->lewat_poli 			= '1';
 		$periksa->lewat_kasir 			= '0';
 		$periksa->lewat_kasir2 			= '0';
+		$periksa->resepluar 			= Input::get('resepluar');
 		$periksa->pemeriksaan_fisik 	= Input::get('pemeriksaan_fisik');
 		$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
 		$periksa->terapi 				= $this->terapisBaru($terapis);

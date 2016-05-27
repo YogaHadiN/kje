@@ -89,6 +89,11 @@ Klinik Jati Elok | Asuransi
                           </div>
                           <div class="panel-body">
                                 {!! $periksa->terapi_htmll!!}
+                               @if (!empty($periksa->resepluar))
+                                   <hr>
+                                   <p>Resep ditebut di apotek di Luar :</p>
+                                   {!! $periksa->resepluar !!}
+                               @endif
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                      <a href="#" id="dummySubmit" class="btn btn-primary btn-lg btn-block" onclick="submitPage();return false">Submit</a>

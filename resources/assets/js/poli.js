@@ -22,15 +22,17 @@
             // $('#ajaxTindakan').html(viewTindakan(dataTindakan));
         }
 
-    $('.hide-panel').closest('.panel').find('.panel-heading').css('border', '3px border red');
-    $('.hide-panel').closest('.panel').find('.panel-heading').css('cursor', 'pointer');
-    $('.hide-panel').closest('.panel').find('.panel-heading').click(function(e) {
-        $(this).closest('.panel').find('.hide-panel').slideToggle();
-    });;
+    //$('.hide-panel').closest('.panel').find('.panel-heading').css('border', '3px border red');
+    //$('.hide-panel').closest('.panel').find('.panel-heading').css('cursor', 'pointer');
+    //$('.hide-panel').closest('.panel').find('.panel-heading').click(function(e) {
+        //$(this).closest('.panel').find('.hide-panel').slideToggle();
+    //});
 
 
    jQuery(document).ready(function($) {
-
+       if ( $('#resepluar').val() != '' ) {
+          $('#panel-resepluar').show(); 
+       }
         $('#cekFoto').modal({backdrop: 'static', keyboard: false});
 
         uk_exec('uk', 'hpht');

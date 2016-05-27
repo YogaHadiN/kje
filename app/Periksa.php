@@ -1023,5 +1023,9 @@ class Periksa extends Model{
                 }
 
     }
+    public function resepLuar(){
+         return $this->hasOne('App\ResepLuar');
+    }
+    
 
 }

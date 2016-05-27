@@ -72,7 +72,14 @@ Klinik Jati Elok | Kasir
                                             <strong>Diagnosa :</strong> <br>
                                             {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
                                         </td>
-                                        <td id='terapih'>{!! $periksa->terapi_html !!}</td>
+                                        <td id='terapih'>{!! $periksa->terapi_html !!}
+                                           @if (!empty($periksa->resepluar))
+                                               <hr>
+                                               <p>Resep ditebut di apotek di Luar :</p>
+                                               {!! $periksa->resepluar !!}
+                                           @endif
+                                           
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -187,15 +194,24 @@ Klinik Jati Elok | Kasir
                                         @endif
                                     </tr>
                                 </tfoot>
+
+
+
+
                             </table>
+                                @if (!empty($periksa->resepluar))
+                                <hr>
+                                <p>Resep ditebut di apotek di Luar :</p>
+                                {!! $periksa->resepluar !!}
+                                @endif
                           </div>
                     </div>
                    <div class="row">
                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                           {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control']) !!}
+                           {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control hide']) !!}
                        </div>
                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                           {!! Form::textarea('terapi2', null, ['class' => 'form-control', 'id' => 'terapi2'])!!} 
+                           {!! Form::textarea('terapi2', null, ['class' => 'form-control hide', 'id' => 'terapi2'])!!} 
                        </div>
                    </div>
                     <div class="row">
