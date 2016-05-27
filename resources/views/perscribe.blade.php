@@ -108,7 +108,7 @@
        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
            <div class="panel panel-primary">
                <div class="panel-heading">
-                   <div class="panel-title"><h3>Resep Luar</h3></div>
+                   <div class="panel-title"><h3>Klik Disini Untuk Menginput Resep yang di tebus di luar</h3></div>
                </div>
                <div class="panel-body hide-panel" id="panel-resepluar">
                   <p>Ketik Resep Secara Manual di bawah ini </p> 
