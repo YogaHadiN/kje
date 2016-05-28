@@ -204,19 +204,48 @@ Klinik Jati Elok | Asuransi
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="title-print text-center">
             <h1>Klinik Jati Elok</h1>
-            <h5>Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten</h5>
-        </div>
+            <h5>
+                Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten
+                Telp : 021 5977529  
+            </h5>
+           <hr> 
+        </div
        <hr> 
+       <div>
+           <table>
+               <tbody>
+                   <tr>
+                       <td>Nama Pasien</td>
+                       <td>:</td>
+                       <td>{{ $periksa->pasien->nama }}</td>
+                   </tr>
+                   <tr>
+                       <td>Tanggal</td>
+                       <td>:</td>
+                       <td>{{App\Classes\Yoga::updateDatePrep(  $periksa->tanggal  )}}</td>
+                   </tr>
+                   <tr>
+                       <td>Jam Datang</td>
+                       <td>:</td>
+                       <td>{{ $periksa->jam }}</td>
+                   </tr>
+                  <tr>
+                      <td>Nomor Kuitansi</td>
+                      <td>:</td>
+                      <td>{{ $periksa->id }}
+                  </tr> 
+               </tbody>
+           </table>
+          <hr> 
+       </div>
         <div>
             <table class="table table-condensed">
                 <tbody id="transaksi-print">
-                    <tr>
-                        <td></td>
-                    </tr>
                 </tbody>
                 <tfoot>
                     <tr class="border-top">
                         <td class="">Total:</td>
+                        <td>:</td>
                         <td class="uang text-right" id="biaya-print"></td>
                     </tr>
                     @if($periksa->asuransi_id != 0)
@@ -224,6 +253,7 @@ Klinik Jati Elok | Asuransi
                         <td nowrap>
                             Dibayar Asuransi
                         </td>
+                        <td>:</td>
                         <td class="uang text-right" id="dibayarAsuransi-print">
 
                         </td>
@@ -233,6 +263,7 @@ Klinik Jati Elok | Asuransi
                         <td>
                             Pembayaran
                         </td>
+                        <td>:</td>
                         <td class="uang text-right" id="pembayaran-print">
 
                         </td>
@@ -241,6 +272,7 @@ Klinik Jati Elok | Asuransi
                         <td>
                             Kembalian
                         </td>
+                        <td>:</td>
                         <td class="uang text-right" id="kembalian-print">
 
                         </td>
@@ -249,15 +281,12 @@ Klinik Jati Elok | Asuransi
                 </tfoot>
             </table>
            <hr> 
-<div class="text-center">
+<div class="text-center footer">
     Semoga Lekas Sembuh
 </div>
+.
         </div>
         </div>
-        <footer>
-            
-        </footer>
-
 @stop
 @section('footer') 
 <script>
@@ -573,7 +602,8 @@ Klinik Jati Elok | Asuransi
             for (var i = 0; i < MyArray.length; i++) {
                 temp += '<tr>';
                 temp += '<td>' + MyArray[i].jenis_tarif + '</td>'
-                    temp += '<td class="uang text-right">' + MyArray[i].biaya + '</td>';
+                temp += '<td>:</td>';
+                temp += '<td class="uang text-right">' + MyArray[i].biaya + '</td>';
                 temp += '</tr>';
 
                 biaya += parseInt( MyArray[i].biaya );

@@ -3,6 +3,7 @@
     size: auto;   /* auto is the initial value */ 
     /* this affects the margin in the printer settings */ 
     margin: 0mm 3mm 3mm 3mm;  
+    padding:0mm 0mm 0mm 0mm;
     font-size : 12px;
 
 } 
@@ -16,6 +17,16 @@ table{
 }
 h5{
     font-weight:normal;
+    margin:0mm;
+    padding:0mm;
+}
+h1{
+    font-weight:normal;
+    margin:0mm;
+    padding:0mm;
+}
+h4{
+    font-weight:normal;
 }
 
 .text-center {
@@ -23,5 +34,11 @@ h5{
 }
 .text-right {
     text-align : right;
+}
+.footer {
+    padding-bottom:5mm;
+}
+.hide {
+    color: #EBEBEB;
 }
 
