@@ -1,0 +1,3 @@
+  $perbaikan->periksa_id =
+  $perbaikan->terapi1 =
+  $perbaikan->terapi2 =

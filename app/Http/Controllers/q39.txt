@@ -1,0 +1,5 @@
+alter table periksas add column resepluar text; 
+
+["Hanya untuk kecelakaan kerja saja"]
+
+update asuransis set umum='["Vitamin Mungkin tidak ditanggung asuransi, harap konfirmasi kembali dengan kasir apakah vitamin ditanggung"]' where tipe_asuransi = 3;

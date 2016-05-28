@@ -9,6 +9,7 @@ use App\Signa;
 use App\Terapi;
 use App\Tarif;
 use App\Pasien;
+use App\Perbaikanresep;
 use App\Merek;
 use App\Asuransi;
 
@@ -87,6 +88,14 @@ class KasirBaseController extends Controller
 		$prx->lewat_kasir = '1';
 		$prx->save();
 
+        if (!empty(Input::get('terapi2'))) {
+            $perbaikan = new Perbaikanresep;
+            $perbaikan->periksa_id = $periksa_id;
+            $perbaikan->terapi1 = Input::get('terapi1');
+            $perbaikan->terapi2 = Input::get('terapi2');
+            $perbaikan->save();
+        }
+
 
 		return redirect('antriankasirs')->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'));
 
@@ -145,8 +154,9 @@ class KasirBaseController extends Controller
 
 		return json_encode([
 			'confirm' => $submitted,
-			'terapi'  => Periksa::find($periksa_id)->terapi_html
-			]);
+			'terapi'  => Periksa::find($periksa_id)->terapi_html,
+			'terapiJson'  => Periksa::find($periksa_id)->terapii
+        ]);
 
 	}
 

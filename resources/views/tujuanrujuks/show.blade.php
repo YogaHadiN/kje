@@ -1,17 +1,20 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Rumah Sakit
+Klinik Jati Elok | Detail
 
 @stop
 @section('page-title') 
-<h2>List Semua Rumah Sakit</h2>
+<h2>Detail Rumah Sakit</h2>
 <ol class="breadcrumb">
       <li>
           <a href="{{ url('laporans')}}">Home</a>
       </li>
+      <li>
+          <a href="{{ url('rumahsakits')}}">Rumah Sakit</a>
+      </li>
       <li class="active">
-          <strong>Rumah Sakit</strong>
+          <strong>Detail</strong>
       </li>
 </ol>
 @stop
@@ -34,7 +37,7 @@ Klinik Jati Elok | Rumah Sakit
                   <thead>
                     <tr>
                     	<th>ID</th>
-                    	<th>Nama Rumah Sakit</th>
+                    	<th>Nama Detail</th>
                     	<th>Alamat</th>
                     	<th>PIC</th>
                         <th>HP PIC</th>
@@ -65,7 +68,7 @@ Klinik Jati Elok | Rumah Sakit
                          {!! $rumahsakit->hp_pic !!}
                        </td>
                       <td>
-                          <a href="{{ url('rumahsakits/'. $rumahsakit->id) }}" class="btn btn-success">Detail</a>                         
+                        
                       </td> 
                  
                      </tr>
@@ -79,3 +82,4 @@ Klinik Jati Elok | Rumah Sakit
 @section('footer') 
 	
 @stop
+

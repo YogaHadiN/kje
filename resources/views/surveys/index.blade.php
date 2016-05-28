@@ -5,6 +5,7 @@ Klinik Jati Elok | Asuransi
 
 @stop
 @section('head')
+    <link href="{!! asset('css/print.css') !!}" rel="stylesheet" media="print">
 @stop
 @section('page-title') 
 <h2>List Semua Asuransi</h2>
@@ -89,6 +90,11 @@ Klinik Jati Elok | Asuransi
                           </div>
                           <div class="panel-body">
                                 {!! $periksa->terapi_htmll!!}
+                               @if (!empty($periksa->resepluar))
+                                   <hr>
+                                   <p>Resep ditebut di apotek di Luar :</p>
+                                   {!! $periksa->resepluar !!}
+                               @endif
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                      <a href="#" id="dummySubmit" class="btn btn-primary btn-lg btn-block" onclick="submitPage();return false">Submit</a>
@@ -195,18 +201,14 @@ Klinik Jati Elok | Asuransi
     {!! Form::close()!!}
 <button type="button" class="btn btn-info" onclick="testPrint();return false;">klik</button>
 <div class="row" id="content-print">
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-        <div class="title-print">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="title-print text-center">
             <h1>Klinik Jati Elok</h1>
-            <p>Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten</p>
+            <h5>Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten</h5>
         </div>
+       <hr> 
         <div>
             <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th colspan='2'>Rincian Transaksi</th>
-                    </tr>
-                </thead>
                 <tbody id="transaksi-print">
                     <tr>
                         <td></td>
@@ -215,15 +217,15 @@ Klinik Jati Elok | Asuransi
                 <tfoot>
                     <tr class="border-top">
                         <td class="">Total:</td>
-                        <td class="uang" id="biaya-print"></td>
+                        <td class="uang text-right" id="biaya-print"></td>
                     </tr>
                     @if($periksa->asuransi_id != 0)
                     <tr>
                         <td nowrap>
-                           Dibayar Asuransi
+                            Dibayar Asuransi
                         </td>
-                        <td class="uang" id="dibayarAsuransi-print">
-                            
+                        <td class="uang text-right" id="dibayarAsuransi-print">
+
                         </td>
                     </tr>
                     @endif
@@ -231,23 +233,30 @@ Klinik Jati Elok | Asuransi
                         <td>
                             Pembayaran
                         </td>
-                        <td class="uang" id="pembayaran-print">
-                            
+                        <td class="uang text-right" id="pembayaran-print">
+
                         </td>
                     </tr>
                     <tr>
                         <td>
                             Kembalian
                         </td>
-                        <td class="uang" id="kembalian-print">
-                            
+                        <td class="uang text-right" id="kembalian-print">
+
                         </td>
                     </tr>
 
                 </tfoot>
             </table>
+           <hr> 
+<div class="text-center">
+    Semoga Lekas Sembuh
+</div>
         </div>
         </div>
+        <footer>
+            
+        </footer>
 
 @stop
 @section('footer') 
@@ -564,7 +573,7 @@ Klinik Jati Elok | Asuransi
             for (var i = 0; i < MyArray.length; i++) {
                 temp += '<tr>';
                 temp += '<td>' + MyArray[i].jenis_tarif + '</td>'
-                temp += '<td class="uang">' + MyArray[i].biaya + '</td>'
+                    temp += '<td class="uang text-right">' + MyArray[i].biaya + '</td>';
                 temp += '</tr>';
 
                 biaya += parseInt( MyArray[i].biaya );

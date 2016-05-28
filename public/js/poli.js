@@ -30,7 +30,7 @@
 
 
    jQuery(document).ready(function($) {
-
+        alert('uooooooiii');
         $('#cekFoto').modal({backdrop: 'static', keyboard: false});
 
         uk_exec('uk', 'hpht');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html moznomarginboxes mozdisallowselectionprint>
 
 <head>
     <meta charset="utf-8">
@@ -18,7 +18,7 @@
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
     
     -->
-{!! HTML::style( asset('css/all.css') )   !!}
+    <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
 
 <link href="{!! asset('font-awesome/css/font-awesome.css') !!}" rel="stylesheet"> <!-- Yang ini berhasil -->
 

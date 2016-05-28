@@ -283,6 +283,10 @@ border-spacing: -1px;
 				<td class="content2 half">
 					<strong>RESEP :</strong>
 					{!! $periksa->terapi_htmlll !!}
+                   @if (!empty($periksa->resepluar))
+                       Resep ditebut di apotek di Luar : <br>
+                       {!! $periksa->resepluar !!}
+                   @endif
 					<br>
 					@if($periksa->rujukan)
 						dirujuk ke 
@@ -342,6 +346,10 @@ border-spacing: -1px;
 							<td>{!! $periksa->anamnesa !!}</td>
 							<td>{!! $periksa->pemeriksaan_penunjang!!}</td>
 							<td>{!! $periksa->terapi_inline !!}</td>
+                               @if (!empty($periksa->resepluar))
+                                   Resep ditebut di apotek di Luar : <br> 
+                                   {!! $periksa->resepluar !!}
+                               @endif
 						</tr>
 					</table>
 					<div class="content1">
@@ -582,6 +590,10 @@ border-spacing: -1px;
 							</table>
 							<div class="font-smaller">
 								{!! $periksa->terapi_htmllll !!}
+                               @if (!empty($periksa->resepluar))
+                                   Resep ditebut di apotek di Luar : <br>
+                                   {!! $periksa->resepluar !!}
+                               @endif
 							</div>
 						</div>
 							<div class="text2">

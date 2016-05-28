@@ -27,6 +27,7 @@ use Cache;
 use App\JenisPengeluaran;
 use DB;
 use App\Terapi;
+use App\TujuanRujuk;
 
 
 
@@ -2080,5 +2081,7 @@ class Yoga {
 		}
 		return json_encode($terapis_baru);
 	}
-
+    public static function TujuanRujukList(){
+		return array('' => '- Pilih Dokter Spesialis -') + TujuanRujuk::lists('tujuan_rujuk', 'id')->all();
+    }
 }
