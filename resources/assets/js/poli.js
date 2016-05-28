@@ -317,7 +317,9 @@
                 } else {
                     return false;
                 }
-            };
+            } else {
+                $('#submitFormPeriksa').click();
+            }
         } else {
             $('#submitFormPeriksa').click();
         }
