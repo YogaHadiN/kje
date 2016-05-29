@@ -5080,5 +5080,5 @@ table.tabelTerapi tr td {
 }
 
 #content-print{
-     font-size : smaller;
+    display: none;
 }

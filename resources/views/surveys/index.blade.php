@@ -199,7 +199,7 @@ Klinik Jati Elok | Asuransi
             </div>
         </div>
     {!! Form::close()!!}
-<button type="button" class="btn btn-info" id="print" onclick="testPrint();return false;">klik</button>
+<button type="button" class="btn btn-info hide" id="print" onclick="testPrint();return false;">klik</button>
 <div class="row" id="content-print">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box title-print text-center">
@@ -535,7 +535,6 @@ Klinik Jati Elok | Asuransi
             }
         });
         if(submit){
-
             if($('#dibayar_asuransi').val() == ''){
                 alert('Asuransi harus diisi walaupun dengan angka 0 ..');
                 validasi('#dibayar_asuransi', 'harus diisi walau dengan 0');
@@ -638,11 +637,12 @@ Klinik Jati Elok | Asuransi
             $('#pembayaran-print').html(pembayaran +  ',-');
             $('#kembalian-print').html(kembalian +  ',-');
             formatUang();
-            window.print();
             $('#submitthis').click();
+            window.print();
         } else {
             $('#transaksi-print').html('');
             $('#biaya-print').html('');
+            $('#submitthis').click();
         }
     }
 </script>

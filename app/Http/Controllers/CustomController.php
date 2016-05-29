@@ -24,6 +24,7 @@ use App\TransaksiPeriksa;
 use App\JurnalUmum;
 use App\Fakturbeli;
 use App\Pembelian;
+use App\Receipt;
 use DB;
 
 class CustomController extends Controller
@@ -460,7 +461,18 @@ class CustomController extends Controller
 				}
 
 			}
-		}
+        }
+
+        if ( Input::get('dibayar_pasien') > 0 ) {
+            $data = [
+                'pembayaran' => Input::get('pembayaran'),
+                'kembalian' => Input::get('kembalian')
+            ];
+            $receipt = new Receipt;
+            $receipt->periksa_id = $periksa_id;
+            $receipt->receipt = json_encode(data);
+            $receipt->save();
+        }
 
 		if ($fix) {
 			$mess =  '<strong> dan Perbaikan Sudah Didokumentasi </strong>';
