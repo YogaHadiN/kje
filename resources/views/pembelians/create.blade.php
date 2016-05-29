@@ -86,13 +86,13 @@ Klinik Jati Elok | Entri Beli Obat
                     </tr>
                 </tfoot>
             </table>
-
             {!! Form::textarea('tempBeli', null, ['class' => 'form-control hide', 'id' => 'tempBeli', 'autocomplete' => 'on'])!!}
             <input type="text" class="displayNone" id="faktur_belanja_id" name="faktur_belanja_id" value="{!! $id !!}">
             <div id="pesan2"></div>
             <div class="row">
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                  {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block'])!!} 
+                    <button class="btn btn-primary btn-block" onclick="dummySubmit();return false;" type="button">Submit</button>
+                    {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block hide', 'id'=>'submit'])!!} 
               </div>
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                   <a href="{{ url('fakturbelanjas')}}" class="btn btn-danger btn-block">cancel</a>
@@ -102,8 +102,6 @@ Klinik Jati Elok | Entri Beli Obat
               </div>
             </div>
           {!! Form::close()!!}
-
-
       </div>
 </div>
 <a href="#" onclick='buatObat();return false;'>Obat Tidak Ditemukan?</a>
@@ -755,7 +753,31 @@ Klinik Jati Elok | Entri Beli Obat
 
 
     }
-    
+    function dummySubmit(){
+        var staf_id = $('#staf_id').val();
+        var tempBeli = $('#tempBeli').val();
+        var arrau_yang_kosong = [];
+        if(staf_id == '' || tempBeli == ''){
+         if(staf_id == ''){
+          validasi('#staf_id', 'Harus Diisi');
+          arrau_yang_kosong[arrau_yang_kosong.length] = 'Staf Penanggung Jawab'
+         }
+         if(tempBeli == ''){
+          validasi('#tempBeli', 'Harus Diisi');
+          arrau_yang_kosong[arrau_yang_kosong.length] = 'Daftar Belanja'
+         }
+         if(arrau_yang_kosong.length == 1){
+          var pesan = arrau_yang_kosong[0] + ' harus diisi terlebih dahulu';
+         } else {
+             var pesan = arrau_yang_kosong[0] + ' dan ' + arrau_yang_kosong[1] + ' harus diisi terlebih dahulu';
+         }
+         alert(pesan);
+        } else {
+             $('#submit').click();
+        }
+        
+    }
+        
 
 
   </script>

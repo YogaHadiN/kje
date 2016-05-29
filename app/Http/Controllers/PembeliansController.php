@@ -112,6 +112,7 @@ class PembeliansController extends Controller
 			$pb->exp_date = Yoga::datePrep($dt['exp_date']);
 			$pb->harga_beli = $dt['harga_beli'];
 			$pb->harga_jual = $dt['harga_jual'];
+			$pb->staf_id = Input::get('staf_id');
 			$pb->faktur_belanja_id = $faktur_belanja_id;
 			$pb->merek_id = $dt['merek_id'];
 			$pb->harga_naik = $dt['harga_berubah'];
