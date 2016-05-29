@@ -323,6 +323,9 @@ function cleanUang(uang){
     uang = uang.replace(/\./g,'');
     uang = uang.split(",")[0];
     uang = uang.split(" ")[1];
+    if (uang == 0) {
+        uang = 0;
+    }
     return uang;
 }
 
@@ -362,3 +365,4 @@ function uang(content){
         number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
         return 'Rp. ' + number + ',-';
 }
+

@@ -15,7 +15,16 @@ Klinik Jati Elok | Supplier
 </ol>
 @stop
 @section('content') 
-
+<div class="alert alert-success">
+    <ul>
+        <li>
+            Untuk Belanja, Pilih Supplier yang sesuai, lalu klik tombol <strong>Belanja</strong> di baris yang sama
+        </li>
+        <li>
+            Bila Supplier tidak ada, buat daftar Supplier baru sebelum belanja 
+        </li>
+    </ul>
+</div>
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">
