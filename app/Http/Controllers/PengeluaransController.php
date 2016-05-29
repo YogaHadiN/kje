@@ -44,7 +44,6 @@ class PengeluaransController extends Controller
 	}
 
 	public function store() {
-
 		$messages = array(
 			'required' => ':attribute harus diisi terlebih dahulu',
 		);
@@ -103,6 +102,7 @@ class PengeluaransController extends Controller
 			$pg->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
 			$pg->harga_satuan = $data['harga_satuan'];
 			$pg->jumlah = $data['jumlah'];
+            $pg->staf_id = $staf_id;
 			$confirm = $pg->save();
 
 			if ($confirm) {

@@ -4,6 +4,9 @@
 Klinik Jati Elok | Entri Beli Obat
 
 @stop
+@section('head')
+    <link href="{!! asset('css/print.css') !!}" rel="stylesheet" media="print">
+@stop
 @section('page-title') 
 <h2>Pembelian Obat</h2>
 <ol class="breadcrumb">
@@ -308,7 +311,73 @@ Klinik Jati Elok | Entri Beli Obat
     </div>
   </div>
 </div>
-
+<button class="btn btn-info" type="button" onclick="testPrint();return false;">print</button>
+<div class="row" id="content-print">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box title-print text-center">
+            <h1>Klinik Jati Elok</h1>
+        </div>
+       <hr> 
+       <div class="box">
+           <table class="table table-condensed">
+               <tbody>
+                   <tr>
+                       <td>Supplier</td> 
+                       <td>{{ $fakturbelanja->supplier->nama }}</td> 
+                   </tr>  
+                   <tr>
+                       <td>Tanggal</td>
+                       <td>{{ $fakturbelanja->tanggal }}</td>
+                   </tr>
+                   <tr>
+                       <td>Nomor Faktur</td>
+                       <td>{{ $fakturbelanja->nomor_faktur }}</td>
+                   </tr>
+                   <tr>
+                       <td>Staf Penginput</td>
+                       <td class='staf-print'></td>
+                   </tr>
+               </tbody>
+           </table>
+          <hr> 
+       </div>
+        <div class="font-small">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Merek</th>
+                        <th>Qty</th>
+                        <th>Rp</th>
+                        <th>Harga</th>
+                    </tr>
+                </thead>
+                <tbody id="daftarBelanja">
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Total</td>
+                        <td id="totalBiaya"></td>
+                    </tr>    
+                </tfoot>
+            </table>
+           <hr> 
+        </div>
+        </div>
+        <table>
+            <tr>
+                <td>Penginput</td>
+                <td>Disahkan Oleh</td>
+            </tr>
+            <tr class="tanda-tangan">
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="staf-print"></td>
+                <td>( ................. )</td>
+            </tr>
+        </table>
+    </div>
 @stop
 @section('footer') 
 <script>
@@ -778,6 +847,29 @@ Klinik Jati Elok | Entri Beli Obat
         
     }
         
+function testPrint(){
+    var tempBeli = $('#tempBeli').val();
+    tempBeli = $.parseJSON(tempBeli);
+    var staf= $('#staf_id option:selected').text();
+    $('.staf-print').val(staf);
+    
+    var temp = '';
+    var totalBiaya = 0;
+    for (var i = 0; i < tempBeli.length; i++) {
+        var harga = tempBeli[i].harga_beli * tempBeli[i].jumlah;
+        temp += '<tr>';
+        temp += '<td>' + tempBeli[i].merek + '</td>'
+        temp += '<td>' + uang( tempBeli[i].harga_beli ) + '</td>'
+        temp += '<td>' + tempBeli[i].jumlah + '</td>'
+        temp += '<td>' + uang( harga ) + '</td>'
+        temp += '</tr>';
+        totalBiaya += harga;
+    };
+    $('#totalBiaya').html(uang( totalBiaya ));
+    $('#daftarBelanja').html(temp);
+    window.print();
+}
+
 
 
   </script>

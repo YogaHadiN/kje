@@ -575,14 +575,6 @@ Klinik Jati Elok | Asuransi
 
     }
 
-    function rupiahDibayarPasien(control) {
-        var number = $(control).val();
-        if (number.indexOf("Rp. ") >= 0){
-            number = clean(number);
-        }
-        number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-        $(control).val('Rp. ' + number);
-    }
 
     function asuransiKeyup2(control, choose){
 

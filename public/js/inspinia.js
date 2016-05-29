@@ -365,3 +365,4 @@ function uang(content){
         number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
         return 'Rp. ' + number + ',-';
 }
+

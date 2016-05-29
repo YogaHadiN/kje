@@ -17,6 +17,7 @@ Klinik Jati Elok | Pengeluaran Klinik
 
 @stop
 @section('content') 
+{!! Form::open(['url' => 'pengeluarans', 'method' =>'post'])!!}
 <div class="row">
   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <div class="panel panel-default">
@@ -34,7 +35,6 @@ Klinik Jati Elok | Pengeluaran Klinik
       <h3 class="panel-title">Informasi Supplier</h3>
     </div>
     <div class="panel-body">
-        {!! Form::open(['url' => 'pengeluarans', 'method' =>'post'])!!}
 
             <table class="table table-condensed table-bordered table-hover">
               <thead>
@@ -183,7 +183,6 @@ Klinik Jati Elok | Pengeluaran Klinik
         if (pass){
 
             var nomor_faktur = $('#nomor_faktur').val();
-            var staf_id = $('#staf_id').val();
             var supplier_id = $('#supplier_id').val();
             var keterangan = $(control).closest('tr').find('td:nth-child(1) input').val();
             var harga_satuan = $(control).closest('tr').find('td:nth-child(3) input').val();
@@ -195,7 +194,6 @@ Klinik Jati Elok | Pengeluaran Klinik
               'keterangan' : keterangan,
               'harga_satuan' : harga_satuan,
               'jumlah' : jumlah,
-              'staf_id' : staf_id,
               'jenis_pengeluaran_id' : jenis_pengeluaran_id,
               'jenis_pengeluaran' : jenis_pengeluaran
             };

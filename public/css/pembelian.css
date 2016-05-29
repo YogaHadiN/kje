@@ -2,10 +2,14 @@
 { 
     size: auto;   /* auto is the initial value */ 
     /* this affects the margin in the printer settings */ 
-    margin: 0mm 0mm 10mm 5mm;  
+    margin: 0mm 2mm 10mm 5mm;  
     padding:0mm 0mm 0mm 0mm;
+    font-size : 12px;
 
 } 
+body {
+    width:100%;
+}
   body * {
     visibility: hidden;
   }
@@ -24,7 +28,7 @@
 body  
 { 
     font-size : 53px;
-    font-family: "helvetica neue", helvetica, arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     visibility: hidden;
 }
 hr {
@@ -36,7 +40,6 @@ table{
     border-collapse : collapse;
 }
 table td {
-    border: 1px solid black;
     padding:10px;
 }
 h5{
@@ -75,4 +78,10 @@ h4{
 }
 .box {
      padding: 20px 0px;
+}
+.font-small {
+     font-size : 30px;
+}
+tr.tanda-tangan td {
+     height:50mm;
 }
