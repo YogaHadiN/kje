@@ -145,7 +145,6 @@
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Keuangan</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('jurnal_umums', 'Jurnal Umum')!!}</li>
-                            <li>{!! HTML::link('bayardokter', 'Bayar Dokter')!!}</li>
                             <li>{!! HTML::link('buku_besars', 'Buku Besar')!!}</li>
                             <li>{!! HTML::link('neraca_saldos', 'Neraca Saldo')!!}</li>
                             <li>{!! HTML::link('laporan_laba_rugis', 'Laporan Laba Rugi')!!}</li>
