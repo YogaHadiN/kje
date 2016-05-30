@@ -1,0 +1,13 @@
+array:10 [▼
+  "_token" => "PfG19nLOfQkJF4bxSgaTbTqAcq3XeyxkIVYfVtji"
+  "submit" => "lanjutkan"
+  "slcTindakan" => ""
+  "dibayar_asuransi" => "Rp. 0"
+  "dibayar_pasien" => ""
+  "pembayaran" => "Rp. 250.000"
+  "kembalian" => "Rp. 45.000"
+  "sebelum" => "[{"jenis_tarif_id":"1","jenis_tarif":"Jasa Dokter","biaya":30000},{"jenis_tarif_id":"9","jenis_tarif":"Biaya Obat","biaya":165000},{"jenis_tarif_id":"120","jenis_tarif":"Jam Malam","biaya":10000}]"
+  "tarif" => "[{"jenis_tarif_id":"1","jenis_tarif":"Jasa Dokter","biaya":30000},{"jenis_tarif_id":"9","jenis_tarif":"Biaya Obat","biaya":165000},{"jenis_tarif_id":"120","jenis_tarif":"Jam Malam","biaya":10000}]"
+  "periksa_id" => "160528008"
+]
+

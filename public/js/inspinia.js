@@ -323,7 +323,10 @@ function cleanUang(uang){
     uang = uang.replace(/\./g,'');
     uang = uang.split(",")[0];
     uang = uang.split(" ")[1];
-    return uang;
+    if (uang == '' || undefined) {
+        uang = 0;
+    }
+    return parseInt( uang );
 }
 
 function validatePass(){
@@ -362,3 +365,4 @@ function uang(content){
         number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
         return 'Rp. ' + number + ',-';
 }
+

@@ -2,11 +2,15 @@
 { 
     size: auto;   /* auto is the initial value */ 
     /* this affects the margin in the printer settings */ 
-    margin: 0mm 2mm 10mm 5mm;  
+    margin: 0mm 5mm 10mm 5mm;  
     padding:0mm 0mm 0mm 0mm;
     font-size : 12px;
+    width:100%;
 
 } 
+body {
+    width:100%;
+}
   body * {
     visibility: hidden;
   }
@@ -17,6 +21,7 @@
     position: absolute;
     left: 0;
     top: 0;
+    width:100%;
   }
 
   tbody {
@@ -65,8 +70,8 @@ h4{
 .hide {
     display : none;
 }
-#biaya-print {
-     font-size : 85px;
+.biaya-print {
+     font-size : 60px;
      font-weight : bold;
 }
 
@@ -75,4 +80,20 @@ h4{
 }
 .box {
      padding: 20px 0px;
+}
+.font-small {
+     font-size : 45px;
+}
+tr.tanda-tangan td {
+     height:50mm;
+}
+.bordered td {
+    border : 1px solid black;
+}
+.table-center tr td {
+     text-align:center;
+     padding-top :10px;
+}
+.only-padding{
+     height:10px;
 }

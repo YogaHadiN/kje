@@ -4,6 +4,9 @@
 Klinik Jati Elok | Pengeluaran Klinik
 
 @stop
+@section('head')
+    <link href="{!! asset('css/pembelian.css') !!}" rel="stylesheet" media="print">
+@stop
 @section('page-title') 
 <h2>Pengeluaran Klinik</h2>
 <ol class="breadcrumb">
@@ -17,6 +20,7 @@ Klinik Jati Elok | Pengeluaran Klinik
 
 @stop
 @section('content') 
+{!! Form::open(['url' => 'pengeluarans', 'method' =>'post'])!!}
 <div class="row">
   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <div class="panel panel-default">
@@ -34,7 +38,6 @@ Klinik Jati Elok | Pengeluaran Klinik
       <h3 class="panel-title">Informasi Supplier</h3>
     </div>
     <div class="panel-body">
-        {!! Form::open(['url' => 'pengeluarans', 'method' =>'post'])!!}
 
             <table class="table table-condensed table-bordered table-hover">
               <thead>
@@ -109,6 +112,74 @@ Klinik Jati Elok | Pengeluaran Klinik
           {!! Form::close()!!}
       </div>
 </div>
+<button class="btn btn-info" type="button" onclick="testPrint();return false;">print</button>
+<div class="row" id="content-print">
+    <div class="box title-print text-center">
+        <h2>Laporan Penerimaan Obat</h2>
+    </div>
+    <hr> 
+    <div class="box">
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <td>Supplier</td> 
+                    <td>:</td>
+                    <td>{{ $fakturbelanja->supplier->nama }}</td> 
+                </tr>  
+                <tr>
+                    <td>Tanggal</td>
+                    <td>:</td>
+                    <td>{{App\Classes\Yoga::updateDatePrep(  $fakturbelanja->tanggal  )}}</td>
+                </tr>
+                <tr>
+                    <td>Nomor Faktur</td>
+                    <td>:</td>
+                    <td>{{ $fakturbelanja->nomor_faktur }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr> 
+    </div>
+    <div class="font-small">
+        <table class="table table-condensed bordered">
+            <thead>
+                <tr>
+                    <th>Merek</th>
+                    <th>Rp</th>
+                    <th>Qty</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody id="daftarBelanja">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td id="totalBiaya" class="biaya-print" nowrap colspan="2"></td>
+                </tr>    
+            </tfoot>
+        </table>
+        <hr> 
+    </div>
+
+       <div class="only-padding">
+           
+       </div> 
+        <table class="table-center">
+            <tr>
+                <td>Penginput</td>
+                <td>Disahkan Oleh</td>
+            </tr>
+            <tr class="tanda-tangan">
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="staf-print"></td>
+                <td>( ................. )</td>
+            </tr>
+        </table>
+    </div>
 @stop
 @section('footer') 
   <!-- script untuk Jquery UI (isinya autocomplete)-->
@@ -183,7 +254,6 @@ Klinik Jati Elok | Pengeluaran Klinik
         if (pass){
 
             var nomor_faktur = $('#nomor_faktur').val();
-            var staf_id = $('#staf_id').val();
             var supplier_id = $('#supplier_id').val();
             var keterangan = $(control).closest('tr').find('td:nth-child(1) input').val();
             var harga_satuan = $(control).closest('tr').find('td:nth-child(3) input').val();
@@ -195,7 +265,6 @@ Klinik Jati Elok | Pengeluaran Klinik
               'keterangan' : keterangan,
               'harga_satuan' : harga_satuan,
               'jumlah' : jumlah,
-              'staf_id' : staf_id,
               'jenis_pengeluaran_id' : jenis_pengeluaran_id,
               'jenis_pengeluaran' : jenis_pengeluaran
             };
@@ -338,6 +407,30 @@ Klinik Jati Elok | Pengeluaran Klinik
       $('#keterangan').focus();
     }
 
+function testPrint(){
+    var tempBeli = $('#tempBeli').val();
+    tempBeli = $.parseJSON(tempBeli);
+    console.log(tempBeli);
+    var staf = $('#staf_id option:selected').text();
+    $('.staf-print').html(staf);
+    var temp = '';
+    var totalBiaya = 0;
+    for (var i = 0; i < tempBeli.length; i++) {
+        var harga = tempBeli[i].harga_satuan * tempBeli[i].jumlah;
+        console.log(harga);
+        temp += '<tr>';
+        temp += '<td>' + tempBeli[i].keterangan+ '</td>'
+        temp += '<td>' + uang( tempBeli[i].harga_satuan ) + '</td>'
+        temp += '<td>' + tempBeli[i].jumlah + '</td>'
+        temp += '<td>' + uang( harga ) + '</td>'
+        temp += '</tr>';
+        totalBiaya += harga;
+    }
+    console.log(temp);
+    $('#totalBiaya').html(uang( totalBiaya ));
+    $('#daftarBelanja').html(temp);
+    window.print();
+}
     
 
 

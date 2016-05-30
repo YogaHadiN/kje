@@ -226,7 +226,7 @@
             </div>
         </div>
         </div>
-            {!! HTML::script(asset("js/all.js"))!!}
+            {!! HTML::script("js/all.js")!!}
 
     <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>

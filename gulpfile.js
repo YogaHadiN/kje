@@ -47,5 +47,9 @@ elixir(function(mix) {
         'informasi_obat.js',
         'riwobs.js',
         'uk.js'
-    ], './public/js/allpoli.js');
+    ], './public/js/allpoli.js')
+    .version([
+        'public/css/all.css',
+        'public/js/all.js'
+    ]);
 });

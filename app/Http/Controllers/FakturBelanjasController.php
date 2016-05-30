@@ -42,7 +42,7 @@ class FakturBelanjasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		$count = FakturBelanja::where('supplier_id', Input::get('supplier_id'))
 					->where('nomor_faktur', Input::get('nomor_faktur'))

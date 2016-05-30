@@ -323,6 +323,9 @@ function cleanUang(uang){
     uang = uang.replace(/\./g,'');
     uang = uang.split(",")[0];
     uang = uang.split(" ")[1];
+    if (uang == 0) {
+        uang = 0;
+    }
     return uang;
 }
 
@@ -347,7 +350,6 @@ function validatePass(){
     }
     return pass;
 }
-
 function formatUang(){
     $('.uang:not(:contains("Rp."))').each(function() {
         var number = $(this).html();
@@ -358,7 +360,40 @@ function formatUang(){
 
 
 function uang(content){
-        var number = content;
-        number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-        return 'Rp. ' + number + ',-';
+    var number = content;
+    number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
+    return 'Rp. ' + number + ',-';
+}
+
+function rupiahDibayarPasien(control) {
+    var number = $(control).val();
+    if (number.indexOf("Rp. ") >= 0){
+        number = clean(number);
+    }
+    number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
+    $(control).val('Rp. ' + number);
+}
+function print_tanpa_dialog(){
+    console.log('im in');
+    // set portrait orientation
+    jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation);
+    // set top margins in millimeters
+    jsPrintSetup.setOption('marginTop', 15);
+    jsPrintSetup.setOption('marginBottom', 15);
+    jsPrintSetup.setOption('marginLeft', 20);
+    jsPrintSetup.setOption('marginRight', 10);
+    // set page header
+    jsPrintSetup.setOption('headerStrLeft', 'My custom header');
+    jsPrintSetup.setOption('headerStrCenter', '');
+    jsPrintSetup.setOption('headerStrRight', '&PT');
+    // set empty page footer
+    jsPrintSetup.setOption('footerStrLeft', '');
+    jsPrintSetup.setOption('footerStrCenter', '');
+    jsPrintSetup.setOption('footerStrRight', '');
+    // Suppress print dialog
+    jsPrintSetup.setSilentPrint(true);
+    // Do Print
+    window.print();
+    // Restore print dialog
+    jsPrintSetup.setSilentPrint(false);
 }

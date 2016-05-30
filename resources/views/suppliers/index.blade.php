@@ -15,7 +15,16 @@ Klinik Jati Elok | Supplier
 </ol>
 @stop
 @section('content') 
-
+<div class="alert alert-success">
+    <ul>
+        <li>
+            Untuk Belanja, Pilih Supplier yang sesuai, lalu klik tombol <strong>Belanja</strong> di baris yang sama
+        </li>
+        <li>
+            Bila Supplier tidak ada, buat daftar Supplier baru sebelum belanja 
+        </li>
+    </ul>
+</div>
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">
@@ -152,7 +161,7 @@ Klinik Jati Elok | Supplier
         if (
             $('input[name="tanggal"]').val() == '' ||
             $('input[name="nomor_faktur"]').val() == '' ||
-            $('input[name="belanja_id"]').val() == '' ||
+            $('select[name="belanja_id"]').val() == '' ||
             $('input[name="supplier_id"]').val() == '' ||
             $('select[name="staf_id"]').val() == ''
 
@@ -164,8 +173,8 @@ Klinik Jati Elok | Supplier
             if($('input[name="nomor_faktur"]').val() == '' ) {
               validasi('input[name="nomor_faktur"]', 'Harus Diisi!!');
             } 
-            if($('input[name="belanja_id"]').val() == '' ) {
-              validasi('input[name="belanja_id"]', 'Harus Diisi!!');
+            if($('select[name="belanja_id"]').val() == '' ) {
+              validasi('select[name="belanja_id"]', 'Harus Diisi!!');
             } 
             if($('input[name="supplier_id"]').val() == '' ) {
               validasi('input[name="supplier_id"]', 'Harus Diisi!!');

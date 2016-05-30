@@ -98,7 +98,7 @@ Klinik Jati Elok | Asuransi
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                      <a href="#" id="dummySubmit" class="btn btn-primary btn-lg btn-block" onclick="submitPage();return false">Submit</a>
-                                    <input type="submit" name="submit" value="lanjutkan" class="btn btn-info btn-block btn-lg hide" />
+                                    <input type="submit" name="submit" value="lanjutkan" class="btn btn-info btn-block btn-lg hide" id="submitthis" />
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     
@@ -175,7 +175,7 @@ Klinik Jati Elok | Asuransi
                                     <tr>
                                 @endif
                                     <td>Dibayar Pasien</td>
-                                    <td><input type="text" autocomplete="off"  dir="rtl" class="form-control uang" id="dibayar_pasien" name="dibayar_pasien" readonly/></td>
+                                    <td><input type="text" autocomplete="off"  dir="rtl" class="form-control uang" id="dibayar_pasien" name="dibayar_pasien" readonly /></td>
                                 </tr>
                                 <tr>
                                     <td>Pembayaran</td>
@@ -188,7 +188,7 @@ Klinik Jati Elok | Asuransi
                                     <td>
                                         <input type="text" autocomplete="off"  dir="rtl" class="form-control uang" id="kembalian_pasien" name="kembalian" readonly/>
                                     </td>
-                                </tr>
+                                </tr> 
                             </tfoot>
                         </table>
                         {!! Form::textarea('sebelum', $periksa->transaksi, ['class' => 'hide', 'id' => 'sebelum'])!!}
@@ -199,24 +199,52 @@ Klinik Jati Elok | Asuransi
             </div>
         </div>
     {!! Form::close()!!}
-<button type="button" class="btn btn-info" onclick="testPrint();return false;">klik</button>
+<button type="button" class="btn btn-info hide" id="print" onclick="testPrint();return false;">klik</button>
 <div class="row" id="content-print">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="title-print text-center">
+        <div class="box title-print text-center">
             <h1>Klinik Jati Elok</h1>
-            <h5>Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten</h5>
+            <h5>
+                Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten
+                Telp : 021 5977529  
+            </h5>
         </div>
        <hr> 
+       <div class="box">
+           <table>
+               <tbody>
+                   <tr>
+                       <td>Nama Pasien</td>
+                       <td>:</td>
+                       <td>{{ $periksa->pasien->nama }}</td>
+                   </tr>
+                   <tr>
+                       <td>Tanggal</td>
+                       <td>:</td>
+                       <td>{{App\Classes\Yoga::updateDatePrep(  $periksa->tanggal  )}}</td>
+                   </tr>
+                   <tr>
+                       <td>Jam Datang</td>
+                       <td>:</td>
+                       <td>{{ $periksa->jam }}</td>
+                   </tr>
+                  <tr>
+                      <td>Nomor Kuitansi</td>
+                      <td>:</td>
+                      <td>{{ $periksa->id }}
+                  </tr> 
+               </tbody>
+           </table>
+          <hr> 
+       </div>
         <div>
             <table class="table table-condensed">
                 <tbody id="transaksi-print">
-                    <tr>
-                        <td></td>
-                    </tr>
                 </tbody>
                 <tfoot>
                     <tr class="border-top">
                         <td class="">Total:</td>
+                        <td>:</td>
                         <td class="uang text-right" id="biaya-print"></td>
                     </tr>
                     @if($periksa->asuransi_id != 0)
@@ -224,6 +252,7 @@ Klinik Jati Elok | Asuransi
                         <td nowrap>
                             Dibayar Asuransi
                         </td>
+                        <td>:</td>
                         <td class="uang text-right" id="dibayarAsuransi-print">
 
                         </td>
@@ -233,6 +262,7 @@ Klinik Jati Elok | Asuransi
                         <td>
                             Pembayaran
                         </td>
+                        <td>:</td>
                         <td class="uang text-right" id="pembayaran-print">
 
                         </td>
@@ -241,6 +271,7 @@ Klinik Jati Elok | Asuransi
                         <td>
                             Kembalian
                         </td>
+                        <td>:</td>
                         <td class="uang text-right" id="kembalian-print">
 
                         </td>
@@ -249,15 +280,13 @@ Klinik Jati Elok | Asuransi
                 </tfoot>
             </table>
            <hr> 
-<div class="text-center">
+<div class="text-center footer box">
     Semoga Lekas Sembuh
 </div>
+.
         </div>
         </div>
-        <footer>
-            
-        </footer>
-
+        </div>
 @stop
 @section('footer') 
 <script>
@@ -390,8 +419,6 @@ Klinik Jati Elok | Asuransi
 
         dibayar_asuransi = clean(dibayar_asuransi);
 
-        console.log( 'dibayar_asuransi adalah : ' +  dibayar_asuransi);
-
         if($('#txtBHP').val() == '0' || $('#txtBHP').val() == undefined || $('#txtBHP').val() == null ){
             BHP = 0;
         } else {
@@ -401,20 +428,23 @@ Klinik Jati Elok | Asuransi
         if(dibayar_asuransi == ''){
             dibayar_asuransi = 0;
         }
-
-
         
         $('#dibayar_pasien').val(parseInt(totalBiaya) - parseInt(dibayar_asuransi));
-        if ($('#dibayar_pasien').val() > 0) {
+        var dibayar_pasien_baru = $('#dibayar_pasien').val();
+        if (dibayar_pasien_baru > 0) {
             $('#pembayaran_pasien').removeAttr('readonly');
-        } else {
+        } else if ( dibayar_pasien_baru == 0  ){
             $('#pembayaran_pasien')
             .val(0)
             .attr('readonly', 'readonly');
             rupiahDibayarPasien('#pembayaran_pasien');
             $('#kembalian_pasien').val(0).attr('readonly', 'readonly');;
             rupiahDibayarPasien('#kembalian_pasien');
-        }
+        } else {
+            $('#pembayaran_pasien')
+            .val(0)
+            .attr('readonly', 'readonly');
+        } 
         rupiahDibayarPasien(control);
         rupiahDibayarPasien('#dibayar_pasien');
         formatUang();
@@ -493,6 +523,11 @@ Klinik Jati Elok | Asuransi
 
     function submitPage(){
         var submit = true;
+        var dibayar_pasien = $('#dibayar_pasien').val();
+        dibayar_pasien = cleanUang(dibayar_pasien);
+        var pembayaran_pasien = $('#pembayaran_pasien').val();
+        var pembayaran_pasien_clean = cleanUang(pembayaran_pasien);
+
         $('.tabelTerapi2 td').each(function(e) {
             if($(this).css('color') !='rgb(255, 0, 0)' ){
                 submit = false;
@@ -500,12 +535,17 @@ Klinik Jati Elok | Asuransi
             }
         });
         if(submit){
-
             if($('#dibayar_asuransi').val() == ''){
                 alert('Asuransi harus diisi walaupun dengan angka 0 ..');
                 validasi('#dibayar_asuransi', 'harus diisi walau dengan 0');
-            }else {
-                $('input[type="submit"]').click();
+            }else if(dibayar_pasien > 0 && pembayaran_pasien == '' ){
+                alert('Pembayaran harus diisi walaupun dengan angka 0 ..');
+                validasi('#pembayaran_pasien', 'harus diisi walau dengan 0');
+            }else if( parseInt( dibayar_pasien ) > parseInt( pembayaran_pasien_clean ) ) {
+                alert('Pembayaran Pasien tidak benar');
+                validasi('#pembayaran_pasien', 'Pembayaran Pasien tidak benar');
+            }else { 
+                $('#print').click();
             }
         } else {
            alert('Mohon Periksa / Cek ulang apakah obat yang akan diberikan sesuai dengan resep!');
@@ -535,12 +575,6 @@ Klinik Jati Elok | Asuransi
 
     }
 
-    function rupiahDibayarPasien(control) {
-
-        var number = $(control).val();
-        number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-        $(control).val("Rp. " + number);
-    }
 
     function asuransiKeyup2(control, choose){
 
@@ -564,16 +598,17 @@ Klinik Jati Elok | Asuransi
 
     function testPrint(){
         var dibayar_pasien = cleanUang($('#dibayar_pasien').val());
+        var biaya = 0;
         if (dibayar_pasien != 0) {
             var json = $('#txtTarif').val();
             var MyArray = $.parseJSON(json);
-            var biaya = 0;
             var temp = '';
 
             for (var i = 0; i < MyArray.length; i++) {
                 temp += '<tr>';
                 temp += '<td>' + MyArray[i].jenis_tarif + '</td>'
-                    temp += '<td class="uang text-right">' + MyArray[i].biaya + '</td>';
+                temp += '<td>:</td>';
+                temp += '<td class="uang text-right">' + MyArray[i].biaya + '</td>';
                 temp += '</tr>';
 
                 biaya += parseInt( MyArray[i].biaya );
@@ -581,25 +616,27 @@ Klinik Jati Elok | Asuransi
 
             var pembayaran = $('#pembayaran_pasien').val();
             var kembalian = $('#kembalian_pasien').val();
-
+            var dibayar_asuransi = cleanUang( $('#dibayar_asuransi').val() );
+            console.log('dibayar asuransi =   +++' + dibayar_asuransi);
+            if(dibayar_asuransi > 0){
+                $('#dibayarAsuransi-print').html(dibayar_asuransi);
+            } else {
+                $('#dibayarAsuransi-print').closest('tr').addClass('hide');
+            }
+            
             $('#transaksi-print').html(temp);
             $('#biaya-print').html(biaya);
-            $('#pembayaran-print').html(pembayaran);
-            $('#kembalian-print').html(kembalian);
-
+            $('#pembayaran-print').html(pembayaran +  ',-');
+            $('#kembalian-print').html(kembalian +  ',-');
             formatUang();
-            var tampung = $('#content-print').html();
-            var body_tampung = $('body').html();
-
-            alert(tampung);
-
-            $('body').html(tampung);
-            window.print();
-            $('body').html(body_tampung);
-
+            alert('hello im new');
+            $('#submitthis').click();
+            print_tanpa_dialog();
+            //window.print();
         } else {
             $('#transaksi-print').html('');
             $('#biaya-print').html('');
+            $('#submitthis').click();
         }
     }
 </script>
