@@ -212,6 +212,7 @@ class PengeluaransController extends Controller
     
     public function dokterdibayar(){
         $staf_id = Input::get('staf_id');
+        $hutang = Input::get('hutang');
         $staf = Staf::find($staf_id);
         $jasa_dokter = Input::get('jasa_dokter');        
         $dibayar = Input::get('dibayar');
@@ -219,6 +220,7 @@ class PengeluaransController extends Controller
             $bayar = new BayarDokter;
             $bayar->staf_id = $staf_id;
             $bayar->bayar_dokter = $dibayar;
+            $bayar->hutang = $hutang;
             $confirm = $bayar->save();
             if ($confirm) {
 				$jurnal                  = new JurnalUmum;

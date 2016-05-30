@@ -397,3 +397,23 @@ function print_tanpa_dialog(){
     // Restore print dialog
     jsPrintSetup.setSilentPrint(false);
 }
+function date() {
+    var currentdate = new Date(); 
+    var date = currentdate.getDate() + "-"
+                    + (currentdate.getMonth()+1)  + "-" 
+                    + currentdate.getFullYear();
+    var time = currentdate.getHours() + ":"  
+                    + currentdate.getMinutes() + ":" 
+                    + currentdate.getSeconds();
+    return date;
+}
+function time() {
+    var currentdate = new Date(); 
+    var date = currentdate.getDate() + "-"
+                    + (currentdate.getMonth()+1)  + "-" 
+                    + currentdate.getFullYear();
+    var time = currentdate.getHours() + ":"  
+                    + currentdate.getMinutes() + ":" 
+                    + currentdate.getSeconds();
+    return time;
+}

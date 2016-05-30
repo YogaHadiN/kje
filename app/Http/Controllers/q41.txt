@@ -1,0 +1,1 @@
+alter table bayar_dokters add column hutang int(11) not null;
