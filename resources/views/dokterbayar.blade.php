@@ -53,7 +53,6 @@ Klinik Jati Elok | Gaji Dokter
         </div>
       </div>
     </div>
-    <button class="btn btn-info" type="button" onclick="testPrint();return false;">Print</button>
 <div id="content-print">
     <h1>
         Pembayaran Jasa Dokter 
@@ -176,10 +175,7 @@ Klinik Jati Elok | Gaji Dokter
          testPrint();
         }
     }
-    
-    
 </script>
-
 @stop
 
 
