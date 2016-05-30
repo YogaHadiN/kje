@@ -88,6 +88,7 @@
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('pembelians', 'Pembelian ')!!}</li>
                             <li>{!! HTML::link('fakturbelanjas/cari', 'Cari Faktur Belanja ')!!}</li>
+                            <li>{!! HTML::link('bayardokters', 'Pembayaran Dokter')!!}</li>
                         </ul>
                     </li>
                     <li>
@@ -144,6 +145,7 @@
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Keuangan</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('jurnal_umums', 'Jurnal Umum')!!}</li>
+                            <li>{!! HTML::link('bayardokter', 'Bayar Dokter')!!}</li>
                             <li>{!! HTML::link('buku_besars', 'Buku Besar')!!}</li>
                             <li>{!! HTML::link('neraca_saldos', 'Neraca Saldo')!!}</li>
                             <li>{!! HTML::link('laporan_laba_rugis', 'Laporan Laba Rugi')!!}</li>
@@ -239,7 +241,6 @@
     <script src="{!! url('js/plugins/dataTables/jquery.dataTables.min.js') !!}"></script>
     <script src="{!! url('js/plugins/dataTables/dataTables.bootstrap.min.js') !!}"></script>
     <script src="{!! url('js/plugins/dataTables/dataTables.responsive.min.js') !!}"></script>
-    <script src="{!! url('js/plugins/dataTables/dataTables.tableTools.min.js') !!}"></script>
     <script src="{!! url('js/inspinia.js') !!}"></script>
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
     WebCam -->
@@ -297,13 +298,18 @@
                 minViewMode: 'months'
             });
 
+//            $('.DT').dataTable({
+//                responsive: true,
+//                "dom": 'T<"clear">lfrtip',
+//                "bSort" : false,
+//                "tableTools": {
+//                    "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
+//                }
+//            });
             $('.DT').dataTable({
                 responsive: true,
                 "dom": 'T<"clear">lfrtip',
-                "bSort" : false,
-                "tableTools": {
-                    "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
-                }
+                "bSort" : false
             });
             $('.DTi').dataTable({
                 "aaSorting": [[ 6, "desc" ]],

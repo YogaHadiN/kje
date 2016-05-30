@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Asuransi;
 use App\AntrianPeriksa;
 use App\Periksa;
+use App\BayarDokter;
+use App\Staf;
 use App\FakturBelanja;
 use App\AntrianPoli;
 use Auth;
@@ -433,6 +435,35 @@ class LaporansController extends Controller
 
 		return view('laporans.rujukankebidanan', compact('rujukans'));
 	}
+    public function bayardokter(){
+		// return 'oke';
+		$id = Input::get('id');
+        $nama_staf = Staf::find($id)->nama;
+		$mulai = Input::get('mulai');
+		$akhir = Input::get('akhir');
+
+		$mulai = Yoga::nowIfEmptyMulai($mulai);
+		$akhir = Yoga::nowIfEmptyAkhir($akhir);
+         
+        $query = "select p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
+        $hutangs = DB::select($query);
+        $total = 0;
+        foreach ($hutangs as $hutang) {
+            $total += $hutang->nilai;
+        }
+        return view('gajidokter', compact('hutangs', 'total', 'nama_staf', 'mulai', 'akhir'));
+    }
+    public function pembayarandokter(){
+		$mulai = Input::get('mulai');
+		$akhir = Input::get('akhir');
+		$mulai = Yoga::nowIfEmptyMulai($mulai);
+		$akhir = Yoga::nowIfEmptyAkhir($akhir);
+         
+        $bayardokters = BayarDokter::whereRaw("created_at between '{$mulai}' and '{$akhir}'")->get();
+        return view('bayar_dokters.index', compact('bayardokters'));
+         
+    }
+        
 
 
 

@@ -31,6 +31,6 @@ class JurnalUmum extends Model{
 		return $this->morphTo();
 		
 	}
-
+    
 
 }

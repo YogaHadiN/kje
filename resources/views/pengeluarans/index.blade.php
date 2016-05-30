@@ -112,10 +112,10 @@ Klinik Jati Elok | Pengeluaran Klinik
           {!! Form::close()!!}
       </div>
 </div>
-<button class="btn btn-info" type="button" onclick="testPrint();return false;">print</button>
+<button class="btn btn-info" type="button" onclick="testPrint();return false;" id="print">print</button>
 <div class="row" id="content-print">
     <div class="box title-print text-center">
-        <h2>Laporan Penerimaan Obat</h2>
+        <h2>Laporan Belanja Bukan Obat</h2>
     </div>
     <hr> 
     <div class="box">
@@ -154,8 +154,8 @@ Klinik Jati Elok | Pengeluaran Klinik
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="2">Total</td>
-                    <td id="totalBiaya" class="biaya-print" nowrap colspan="2"></td>
+                    <td>Total</td>
+                    <td id="totalBiaya" class="biaya-print" nowrap colspan="3"></td>
                 </tr>    
             </tfoot>
         </table>
@@ -179,6 +179,9 @@ Klinik Jati Elok | Pengeluaran Klinik
                 <td>( ................. )</td>
             </tr>
         </table>
+       <div class="small-padding">
+           
+       </div> 
     </div>
 @stop
 @section('footer') 
@@ -231,7 +234,7 @@ Klinik Jati Elok | Pengeluaran Klinik
             validasi('select[name="staf_id"]', 'Harus diisi!');
           }
         } else {
-          $('#submit').click();
+          $('#print').click();
         }
       });
 
@@ -410,7 +413,6 @@ Klinik Jati Elok | Pengeluaran Klinik
 function testPrint(){
     var tempBeli = $('#tempBeli').val();
     tempBeli = $.parseJSON(tempBeli);
-    console.log(tempBeli);
     var staf = $('#staf_id option:selected').text();
     $('.staf-print').html(staf);
     var temp = '';
@@ -426,13 +428,10 @@ function testPrint(){
         temp += '</tr>';
         totalBiaya += harga;
     }
-    console.log(temp);
     $('#totalBiaya').html(uang( totalBiaya ));
     $('#daftarBelanja').html(temp);
-    window.print();
+    $('#submit').click();
+    print_tanpa_dialog();
 }
-    
-
-
   </script>
 @stop

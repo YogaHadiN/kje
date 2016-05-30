@@ -73,6 +73,7 @@ h4{
 .biaya-print {
      font-size : 60px;
      font-weight : bold;
+     text-align :right;
 }
 
 .border-top td {
@@ -96,4 +97,7 @@ tr.tanda-tangan td {
 }
 .only-padding{
      height:10px;
+}
+.small-padding {
+     height:5px;
 }

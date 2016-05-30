@@ -94,7 +94,7 @@ Klinik Jati Elok | Entri Beli Obat
             <div id="pesan2"></div>
             <div class="row">
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    <button class="btn btn-primary btn-block" onclick="dummySubmit();return false;" type="button">Submit</button>
+                    <button class="btn btn-primary btn-block" id="dummySubmit" type="button">Submit</button>
                     {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block hide', 'id'=>'submit'])!!} 
               </div>
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -311,7 +311,7 @@ Klinik Jati Elok | Entri Beli Obat
     </div>
   </div>
 </div>
-<button class="btn btn-info" type="button" onclick="testPrint();return false;">print</button>
+<button class="btn btn-info" type="button" onclick="testPrint();return false;" id="print">print</button>
 <div class="row" id="content-print">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box title-print text-center">
@@ -354,8 +354,8 @@ Klinik Jati Elok | Entri Beli Obat
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="2">Total</td>
-                        <td id="totalBiaya" class="biaya-print" nowrap colspan="2"></td>
+                        <td>Total</td>
+                        <td id="totalBiaya" class="biaya-print" nowrap colspan="3"></td>
                     </tr>    
                 </tfoot>
             </table>
@@ -379,7 +379,13 @@ Klinik Jati Elok | Entri Beli Obat
                 <td>( ................. )</td>
             </tr>
         </table>
+       <div class="small-padding">
+           
+
+       </div> 
+       .
     </div>
+
 @stop
 @section('footer') 
 <script>
@@ -398,7 +404,31 @@ Klinik Jati Elok | Entri Beli Obat
 
 
     $(document).ready(function() {
-
+      $('#dummySubmit').click(function(){
+         $('.btn').attr('disabled', 'disabled'); 
+          var staf_id = $('#staf_id').val();
+          var tempBeli = $('#tempBeli').val();
+          var arrau_yang_kosong = [];
+          if(staf_id == '' || tempBeli == ''){
+           if(staf_id == ''){
+            validasi('#staf_id', 'Harus Diisi');
+            arrau_yang_kosong[arrau_yang_kosong.length] = 'Staf Penanggung Jawab'
+           }
+           if(tempBeli == ''){
+            validasi('#tempBeli', 'Harus Diisi');
+            arrau_yang_kosong[arrau_yang_kosong.length] = 'Daftar Belanja'
+           }
+           if(arrau_yang_kosong.length == 1){
+            var pesan = arrau_yang_kosong[0] + ' harus diisi terlebih dahulu';
+           } else {
+               var pesan = arrau_yang_kosong[0] + ' dan ' + arrau_yang_kosong[1] + ' harus diisi terlebih dahulu';
+           }
+           alert(pesan);
+           $('.btn').removeAttr('disabled');
+          } else {
+              testPrint();
+         }
+      }); 
       $('#buatObat').hide();
       if ($('#tempBeli').val() == '' || $('#tempBeli').val == '[]') {
       } else {
@@ -823,6 +853,7 @@ Klinik Jati Elok | Entri Beli Obat
 
     }
     function dummySubmit(){
+       $('.btn').attr('disabled', 'disabled'); 
         var staf_id = $('#staf_id').val();
         var tempBeli = $('#tempBeli').val();
         var arrau_yang_kosong = [];
@@ -841,18 +872,16 @@ Klinik Jati Elok | Entri Beli Obat
              var pesan = arrau_yang_kosong[0] + ' dan ' + arrau_yang_kosong[1] + ' harus diisi terlebih dahulu';
          }
          alert(pesan);
+         $('.btn').removeAttr('disabled');
         } else {
-             $('#submit').click();
-        }
-        
+            $('#print').removeAttr('disabled').click();
+       }
     }
-        
 function testPrint(){
     var tempBeli = $('#tempBeli').val();
     tempBeli = $.parseJSON(tempBeli);
     var staf= $('#staf_id option:selected').text();
     $('.staf-print').html(staf);
-    
     var temp = '';
     var totalBiaya = 0;
     for (var i = 0; i < tempBeli.length; i++) {
@@ -864,13 +893,12 @@ function testPrint(){
         temp += '<td class="text-right" nowrap>' + uang( harga ) + '</td>'
         temp += '</tr>';
         totalBiaya += harga;
-    };
+    }
     $('#totalBiaya').html(uang( totalBiaya ));
     $('#daftarBelanja').html(temp);
+    $('#submit').removeAttr('disabled').click();
     window.print();
 }
-
-
 
   </script>
 @stop

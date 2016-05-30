@@ -23,4 +23,8 @@ class Staf extends Model{
 		return $this->hasMany('App\Periksa');
 	}
 
+    public function jurnalUmums(){
+         return $this->hasManyThrough('App\JurnalUmum', 'App\Periksa', 'staf_id', 'jurnalable_id');
+    }
+    
 }

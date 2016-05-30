@@ -10,7 +10,9 @@ use App\FakturBelanja;
 use App\JenisPengeluaran;
 use App\Classes\Yoga;
 use App\BukanObat;
+use App\BayarDokter;
 use App\JurnalUmum;
+use App\Staf;
 use DB;
 use App\Pengeluaran;
 
@@ -167,8 +169,79 @@ class PengeluaransController extends Controller
 		}
 
 		return json_encode($result);
-	}
+    }
 
-	
+    public function bayardokterdetail(){
+        $tanggal_mulai = Input::get('tanggal_mulai');
+        $tanggal_akhir = Input::get('tanggal_akhir');
+        $query = "select p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 where p.tanggal between '{$tanggal_mulai}' and '{$tanggal_akhir}';";
+        $hutangs = DB::select($query);
+        $total = 0;
+        foreach ($hutangs as $hutang) {
+            $total += $hutang->nilai;
+        }
+        return view('bayardokterdetail', compact('hutangs', 'total'));
 
+    }
+
+    public function bayardokter($id){
+         
+        $staf = Staf::find($id);
+        return view('bayardokter', compact('staf'));
+    }
+
+    public function dokterbayar(){
+         
+        $id = Input::get('staf_id');
+        $nama_staf = Staf::find($id)->nama;
+		$mulai = Input::get('mulai');
+		$akhir = Input::get('akhir');
+
+		$mulai = Yoga::nowIfEmptyMulai($mulai);
+		$akhir = Yoga::nowIfEmptyAkhir($akhir);
+         
+        $query = "select p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
+        $hutangs = DB::select($query);
+        $total = 0;
+        foreach ($hutangs as $hutang) {
+            $total += $hutang->nilai;
+        }
+        return view('dokterbayar', compact('hutangs', 'total', 'nama_staf', 'mulai', 'akhir', 'id'));
+    }
+
+    
+    public function dokterdibayar(){
+        $staf_id = Input::get('staf_id');
+        $staf = Staf::find($staf_id);
+        $jasa_dokter = Input::get('jasa_dokter');        
+        $dibayar = Input::get('dibayar');
+        if ($dibayar > 0) {
+            $bayar = new BayarDokter;
+            $bayar->staf_id = $staf_id;
+            $bayar->bayar_dokter = $dibayar;
+            $confirm = $bayar->save();
+            if ($confirm) {
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $bayar->id;
+				$jurnal->jurnalable_type = 'App\BayarDokter';
+				$jurnal->coa_id          = 200001; // Kas di tangan
+				$jurnal->debit           = 1;
+				$jurnal->nilai           = $bayar->bayar_dokter;
+				$jurnal->save();
+                
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $bayar->id;
+				$jurnal->jurnalable_type = 'App\BayarDokter';
+				$jurnal->coa_id          = 110000; // Kas di tangan
+				$jurnal->debit           = 0;
+				$jurnal->nilai           = $bayar->bayar_dokter;
+				$jurnal->save();
+
+                $pesan = Yoga::suksesFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Berhasil diinput' );
+            } else {
+                $pesan = Yoga::gagalFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Gagal diinput' );
+            }            
+        }
+        return redirect('stafs')->withPesan($pesan);
+    }
 }

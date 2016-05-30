@@ -1,4 +1,5 @@
-
 create table `receipts` (`id` int unsigned not null auto_increment primary key, `periksa_id` varchar(255) not null, `receipt` text not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
-
 alter table pengeluarans add column staf_id varchar(255) not null;
+update stafs set titel = 'dr' where id in ( 12, 16, 160120001, 18, 7, 8 );
+alter table jurnal_umums drop column penjualan_id;
+create table `bayar_dokters` (`id` int unsigned not null auto_increment primary key, `staf_id` varchar(255) not null, `bayar_dokter` int(11) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
