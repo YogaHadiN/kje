@@ -274,6 +274,7 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::put('rumahsakits/{id}', 'RumahSakitsController@update'); //penjualan obat tanpa resep
 			Route::post('rumahsakits', 'RumahSakitsController@destroy'); //penjualan obat tanpa resep
 
+			Route::get('bayardokters', 'BayarDoktersController@index'); //penjualan obat tanpa resep
 
 			Route::get('penjualans', 'PenjualansController@index'); //penjualan obat tanpa resep
 			Route::post('penjualans', 'PenjualansController@indexPost'); //penjualan obat tanpa resep
@@ -293,6 +294,11 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::post('pengeluarans', 'PengeluaransController@store');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
+
+			Route::get('pengeluarans/bayardoker/{id}', 'PengeluaransController@bayardokter');
+			Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
+			Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
+
 
 			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
 			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
@@ -492,8 +498,10 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('laporans/status', 'LaporansController@status');
 			Route::get('laporans/points', 'LaporansController@points');
 			Route::get('laporans/rujukankebidanan', 'LaporansController@rujukankebidanan');
+            Route::get('laporans/bayardokter', 'LaporansController@bayardokter');
 			Route::post('laporans/pendapatan', 'LaporansController@pendapatan');
 			Route::post('laporans/payment', 'LaporansController@paymentpost');
+            Route::get('laporans/pembayaran/dokter', 'LaporansController@pembayarandokter');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');

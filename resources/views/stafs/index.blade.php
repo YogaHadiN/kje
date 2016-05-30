@@ -32,15 +32,11 @@ Klinik Jati Elok | Staf
                     <tr>
                         <th class="hide">id</th>
                         <th>nama</th>
-            						<th>email</th>
-            						{{-- <th>tanggal_lahir</th> --}}
-            						<th>alamat</th>
-            						<th>telp</th>
-            						{{-- <th>no_ktp</th> --}}
-                        {{-- <th>terapi</th> --}}
-                        @if(\Auth::user()->role == '6')
-                          <th>action</th>
-                        @endif
+                        <th>email</th>
+                        <th>alamat</th>
+                        <th>telp</th>
+                        <th> Jasa Dokter </th>
+                        <th>action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,18 +45,16 @@ Klinik Jati Elok | Staf
                             <td class="hide">{!!$user->id!!}</td>
                             <td>{!!$user->nama!!}</td>
                             <td>{!!$user->email!!}</td>
-                            {{-- <td>{!!$user->tanggal_lahir!!}</td> --}}
                             <td>{!!$user->alamat_domisili!!}</td>
-                            {{-- <td>{!!$user->no_telp!!}</td> --}}
                             <td>{!!$user->ktp!!}</td>
-                     {{--        <td>
-                              <a href="stafs/{!!$user->id!!}/terapi" class="btn btn-info block btn-sm">10 terapi</a>
-                            </td> --}}
-                          @if(\Auth::user()->role == '6')
-                              <td>
+                            <td>
+                                @if ($user->titel == 'dr' )
+                                    <a href="{{ url('pengeluarans/bayardoker/'. $user->id) }}" class="btn btn-primary block btn-sm">Jasa Dokter</a>
+                                @endif
+                            </td>
+                            <td>
                                 <a href="stafs/{!!$user->id!!}/edit" class="btn btn-success block btn-sm">Edit</a>
-                              </td>
-                          @endif
+                            </td>
                         </tr>
                    @endforeach
                     </tr>

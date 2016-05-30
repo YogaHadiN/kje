@@ -35,7 +35,6 @@ elixir(function(mix) {
         'plugins/dataTables/jquery.dataTables.min.js',
         'plugins/dataTables/dataTables.bootstrap.min.js',
         'plugins/dataTables/dataTables.responsive.min.js',
-        'plugins/dataTables/dataTables.tableTools.min.js',
         'inspinia.js',
         'plugins/pace/pace.min.js',
     ])

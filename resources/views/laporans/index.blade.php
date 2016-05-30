@@ -131,7 +131,7 @@ Klinik Jati Elok | Home
     </div>
 </div>
         <div class="row marginAtas">
-            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                 @if ($auth->role != '1')
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -325,6 +325,24 @@ Klinik Jati Elok | Home
                                             <td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
                                         {!! Form::close()!!}
                                     </tr>
+                                    <tr>
+                                        {!! Form::open(['url'=>'laporans/bayardokter', 'method'=> 'get']) !!} 
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+                                            <td>Laporan Gaji Dokter</td>
+                                            <td> {!! Form::select('id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
+                                            <td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+                                            <td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+                                        {!! Form::close() !!}
+                                    </tr> 
+                                    <tr>
+                                        {!! Form::open(['url'=>'laporans/pembayaran/dokter', 'method'=> 'get']) !!} 
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+                                            <td>Laporan Pembayaran Dokter </td>
+                                            <td></td>
+                                            <td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+                                            <td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+                                        {!! Form::close() !!}
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -353,7 +371,7 @@ Klinik Jati Elok | Home
                     </div>
                 @endif
             </div>
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div class="panel panel-danger">
                     <div class="panel-heading">
                             RINGKASAN PASIEN HARI INI 
