@@ -4,6 +4,9 @@
 Klinik Jati Elok | Gaji Dokter
 
 @stop
+@section('head') 
+    <link href="{!! asset('css/pembelian.css') !!}" rel="stylesheet" media="print">
+@stop
 @section('page-title') 
 <h2>Bayar Dokter</h2>
 <ol class="breadcrumb">
@@ -33,26 +36,78 @@ Klinik Jati Elok | Gaji Dokter
                   {!! Form::label('staf_id', 'Staf') !!}
                   {!! Form::text('staf_id' , $id, ['class' => 'form-control']) !!}
                 </div>
-                
-                
                 <div class="form-group">
                     {!! Form::label('hutang', 'Jasa Dokter') !!}
-                    {!! Form::text('hutang' , $total, ['class' => 'form-control']) !!}
+                    {!! Form::text('hutang' , $total, ['class' => 'form-control', 'readonly' => 'readonly']) !!}
                 </div>  
                 <div class="form-group">
                     {!! Form::label('dibayar', 'Pembayaran') !!}
-                    {!! Form::text('dibayar', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('dibayar', null, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::submit('Bayar', ['class' => 'btn btn-success']) !!}
+                    <button class="btn btn-success" type="button" onclick="submitPage();return false;">Submit</button>
+                    {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>
         </div>
       </div>
     </div>
-
-
+    <button class="btn btn-info" type="button" onclick="testPrint();return false;">Print</button>
+<div id="content-print">
+    <h1>
+        Pembayaran Jasa Dokter 
+    </h1>
+<hr>
+    <div class="box">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Tanggal Mulai</td>
+                    <td>{{ $mulai }}</td>
+                </tr>
+                <tr>
+                    <td>Tanggal Akhir</td>
+                    <td>{{ $akhir }}</td>
+                </tr>
+                <tr>
+                    <td>Nama Dokter</td>
+                    <td>{{ $nama_staf }}</td>
+                </tr>
+                <tr class="border-top">
+                    <td>Total</td>
+                    <td>
+                        <h2 id="pembayaranDokter">
+                                <!--pembayaran goes here-->
+                        </h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        Diserahkan pada <span id="tanggal"></span> jam <span id="jam"></span>
+        <table class="table-center">
+            <tbody>
+                <tr class="border-top">
+                    <td>Diserahkan Oleh</td>
+                    <td>Diterima Oleh</td>
+                </tr>
+                <tr class="tanda-tangan">
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>( ............. )</td>
+                    <td>{{ $nama_staf }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="small-padding">
+        
+    </div>
+</div>
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">
@@ -104,10 +159,27 @@ Klinik Jati Elok | Gaji Dokter
       </div>
 </div>
 
-
 @stop
 @section('footer') 
-	
+<script type="text/javascript" charset="utf-8">
+    function testPrint(){
+       var pembayaran = $('#pembayaran').val(); 
+       $('#pembayaranDokter').html(uang( pembayaran ));
+       $('#tanggal').html(date()); 
+       $('#jam').html(time()); 
+        print_tanpa_dialog();
+    }
+    
+    function submitPage(){
+        if(validatePass()){
+         $('#submit').click();
+         testPrint();
+        }
+    }
+    
+    
+</script>
+
 @stop
 
 
