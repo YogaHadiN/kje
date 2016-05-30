@@ -88,8 +88,8 @@ Klinik Jati Elok | Entri Beli Obat
                 </tfoot>
             </table>
 
-            {!! Form::textarea('tempBeli', json_encode($exist), ['class' => 'form-control', 'id' => 'tempBeli', 'autocomplete' => 'on'])!!}
-            {!! Form::textarea('tempBefore', json_encode($exist), ['class' => 'form-control', 'id' => 'tempBefore', 'autocomplete' => 'on'])!!}
+            {!! Form::textarea('tempBeli', json_encode($exist), ['class' => 'form-control hide', 'id' => 'tempBeli', 'autocomplete' => 'on'])!!}
+            {!! Form::textarea('tempBefore', json_encode($exist), ['class' => 'form-control hide', 'id' => 'tempBefore', 'autocomplete' => 'on'])!!}
             <input type="text" class="displayNone" id="faktur_belanja_id" name="faktur_belanja_id" value="{!! $id !!}">
             <div id="pesan2"></div>
             <div class="row">

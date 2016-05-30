@@ -24,11 +24,8 @@ class PengeluaransController extends Controller
 	 */
 	public function index($id)
 	{
-		/// return 'penjualan index';
-
 		$fakturbelanja = FakturBelanja::find($id);
 
-		// return JenisPengeluaran::all();
 		$jenis_pengeluarans = Yoga::jenisPengeluaranList();
 		$bukanObat = BukanObat::all(['nama']);
 
@@ -38,9 +35,7 @@ class PengeluaransController extends Controller
 			$temp[] = $nama->nama;
 		}
 		$bukanObat = json_encode($temp);
-		// return $fakturbelanja->staf->nama;
 		return view('pengeluarans.index', compact('fakturbelanja', 'jenis_pengeluarans', 'bukanObat'));
-		// return $faktur_beli_id;
 	}
 
 	public function store() {

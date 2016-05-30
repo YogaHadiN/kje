@@ -58,16 +58,28 @@ class FakturBelanja extends Model{
 		return $harga;
 	}
 	public function getItemsAttribute(){
-		$arr = $this->pembelian;
+        if ($this->belanja->belanja == 'Belanja Obat') {
+            $arr = $this->pembelian;
+        } else {
+            $arr = $this->pengeluaran;
+        }
 		return count($arr);
 	}
 	public function getTotalbiayaAttribute(){
-		$arr = $this->pembelian;
-		$biaya = 0;
-		foreach ($arr as $k => $v) {
-			$biaya += $v['harga_beli'] * $v['jumlah'];
-		}
 
+        if ($this->belanja->belanja == 'Belanja Obat') {
+            $arr = $this->pembelian;
+            $biaya = 0;
+            foreach ($arr as $k => $v) {
+                $biaya += $v['harga_beli'] * $v['jumlah'];
+            }
+        } else {
+            $arr = $this->pengeluaran;
+            $biaya = 0;
+            foreach ($arr as $k => $v) {
+                $biaya += $v['harga_satuan'] * $v['jumlah'];
+            }
+        }
 		return $biaya;
 	}
 

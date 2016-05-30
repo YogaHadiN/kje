@@ -49,7 +49,6 @@ Klinik Jati Elok | Detil Pengeluaran
                      <td class="uang"> {!! $pengeluaran->jumlah * $pengeluaran->harga_satuan !!} </td>
                 	</tr>
                 	@endforeach
-                	
                 </tbody>
                 <tfoot>
                     <tr>

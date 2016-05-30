@@ -54,7 +54,7 @@ Klinik Jati Elok | Antrian Beli Obat
                         <td><div>{!!$faktur_beli->items!!} pcs</div></td>
                         <td><div class="uang">{!!$faktur_beli->totalbiaya!!}</div></td>
                         <td>
-                            @if ($faktur_beli->belanja->belanja == 'Bukan Obat')
+                            @if ($faktur_beli->belanja->belanja == 'Belanja Obat')
                                 <a href="{{ url('pembelians/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
                             @else
                                 <a href="{{ url('pengeluarans/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>

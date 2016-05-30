@@ -5,7 +5,7 @@ Klinik Jati Elok | Entri Beli Obat
 
 @stop
 @section('head')
-    <link href="{!! asset('css/print.css') !!}" rel="stylesheet" media="print">
+    <link href="{!! asset('css/pembelian.css') !!}" rel="stylesheet" media="print">
 @stop
 @section('page-title') 
 <h2>Pembelian Obat</h2>
@@ -315,7 +315,7 @@ Klinik Jati Elok | Entri Beli Obat
 <div class="row" id="content-print">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box title-print text-center">
-            <h1>Klinik Jati Elok</h1>
+            <h2>Laporan Penerimaan Obat</h2>
         </div>
        <hr> 
        <div class="box">
@@ -323,31 +323,30 @@ Klinik Jati Elok | Entri Beli Obat
                <tbody>
                    <tr>
                        <td>Supplier</td> 
+                        <td>:</td>
                        <td>{{ $fakturbelanja->supplier->nama }}</td> 
                    </tr>  
                    <tr>
                        <td>Tanggal</td>
-                       <td>{{ $fakturbelanja->tanggal }}</td>
+                        <td>:</td>
+                       <td>{{App\Classes\Yoga::updateDatePrep(  $fakturbelanja->tanggal  )}}</td>
                    </tr>
                    <tr>
                        <td>Nomor Faktur</td>
+                        <td>:</td>
                        <td>{{ $fakturbelanja->nomor_faktur }}</td>
-                   </tr>
-                   <tr>
-                       <td>Staf Penginput</td>
-                       <td class='staf-print'></td>
                    </tr>
                </tbody>
            </table>
           <hr> 
        </div>
         <div class="font-small">
-            <table class="table table-condensed">
+            <table class="table table-condensed bordered">
                 <thead>
                     <tr>
                         <th>Merek</th>
-                        <th>Qty</th>
                         <th>Rp</th>
+                        <th>Qty</th>
                         <th>Harga</th>
                     </tr>
                 </thead>
@@ -355,15 +354,18 @@ Klinik Jati Elok | Entri Beli Obat
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3">Total</td>
-                        <td id="totalBiaya"></td>
+                        <td colspan="2">Total</td>
+                        <td id="totalBiaya" class="biaya-print" nowrap colspan="2"></td>
                     </tr>    
                 </tfoot>
             </table>
            <hr> 
         </div>
         </div>
-        <table>
+       <div class="only-padding">
+           
+       </div> 
+        <table class="table-center">
             <tr>
                 <td>Penginput</td>
                 <td>Disahkan Oleh</td>
@@ -579,8 +581,6 @@ Klinik Jati Elok | Entri Beli Obat
               };
 
               lanjut = true;
-
-
       }
     }
 
@@ -609,7 +609,7 @@ Klinik Jati Elok | Entri Beli Obat
 
       $('#tableEntriBeli tbody').html(temp);
       $('#tempBeli').val(JSON.stringify(dataf));
-      $('#totalHargaObat').html(total);
+      $('#totalHargaObat').html(uang( total ));
 
       $('.uang2').each(function() {
           var number = $(this).html();
@@ -851,7 +851,7 @@ function testPrint(){
     var tempBeli = $('#tempBeli').val();
     tempBeli = $.parseJSON(tempBeli);
     var staf= $('#staf_id option:selected').text();
-    $('.staf-print').val(staf);
+    $('.staf-print').html(staf);
     
     var temp = '';
     var totalBiaya = 0;
@@ -859,9 +859,9 @@ function testPrint(){
         var harga = tempBeli[i].harga_beli * tempBeli[i].jumlah;
         temp += '<tr>';
         temp += '<td>' + tempBeli[i].merek + '</td>'
-        temp += '<td>' + uang( tempBeli[i].harga_beli ) + '</td>'
-        temp += '<td>' + tempBeli[i].jumlah + '</td>'
-        temp += '<td>' + uang( harga ) + '</td>'
+        temp += '<td class="text-right" nowrap>' + uang( tempBeli[i].harga_beli ) + '</td>'
+        temp += '<td class="text-right" nowrap>' + tempBeli[i].jumlah + '</td>'
+        temp += '<td class="text-right" nowrap>' + uang( harga ) + '</td>'
         temp += '</tr>';
         totalBiaya += harga;
     };

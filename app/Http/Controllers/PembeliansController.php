@@ -205,15 +205,11 @@ class PembeliansController extends Controller
 	public function edit($id)
 	{
 		$fakturbelanja = FakturBelanja::find($id);
-
 		$mereks = Merek::all();
-
 		$rak = Rak::first();
-
 		$formula = Formula::first();
 		$fornas = Yoga::fornas();
 		$alternatif_fornas = array('0' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
-		
 		$sediaan = [
 			null 				=> '- pilih -',
 			'tablet'  			=> 'tablet',
@@ -230,21 +226,16 @@ class PembeliansController extends Controller
 		];
 
 		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
-
 		$dijual_bebas = array(
                         null        => '- Pilih -',
                         '0'         => 'Tidak Dijual Bebas',
                         '1'         => 'Dijual Bebas'
                     );
-
 		$generik = array('0' => '- Pilih Generik -') + Generik::lists('generik', 'id')->all();
-
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
 
 		$exist = [];
-
-		// return var_dump($fakturbelanja->pembelian[0]);
 
 		foreach ($fakturbelanja->pembelian as $k => $v) {
 			$exist[] = [

@@ -616,10 +616,10 @@ Klinik Jati Elok | Asuransi
 
             var pembayaran = $('#pembayaran_pasien').val();
             var kembalian = $('#kembalian_pasien').val();
-            var dibayar_asuransi = $('#dibayar_asuransi').val();
+            var dibayar_asuransi = cleanUang( $('#dibayar_asuransi').val() );
             console.log('dibayar asuransi =   +++' + dibayar_asuransi);
             if(dibayar_asuransi > 0){
-                $('#dibayarAsuransi-print').html(dibayar_asuransi + ',-');
+                $('#dibayarAsuransi-print').html(dibayar_asuransi);
             } else {
                 $('#dibayarAsuransi-print').closest('tr').addClass('hide');
             }
@@ -629,8 +629,10 @@ Klinik Jati Elok | Asuransi
             $('#pembayaran-print').html(pembayaran +  ',-');
             $('#kembalian-print').html(kembalian +  ',-');
             formatUang();
+            alert('hello im new');
             $('#submitthis').click();
-            window.print();
+            print_tanpa_dialog();
+            //window.print();
         } else {
             $('#transaksi-print').html('');
             $('#biaya-print').html('');
