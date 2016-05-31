@@ -72,36 +72,31 @@ class PoliAjaxController extends Controller
 
 	public function sopterapi(){
 		
-		$bb = Input::get('berat_badan');
+		$bb = input::get('berat_badan');
+        $bb = (int)$bb;
         if (empty( $bb )) {
             $bb = '';
         }
-		$asuransi_id = Input::get('asuransi_id');
-		$diagnosa_id = Input::get('diagnosa_id');
-		$staf_id = Input::get('staf_id');
-
-		$icd10 = Diagnosa::find($diagnosa_id)->icd10_id;
-
-		$tipe_asuransi = Asuransi::find($asuransi_id)->tipe_asuransi;
-
+        $asuransi_id = input::get('asuransi_id');
+        $diagnosa_id = input::get('diagnosa_id');
+        $staf_id = input::get('staf_id');
+        $icd10 = diagnosa::find($diagnosa_id)->icd10_id;
+        $tipe_asuransi = asuransi::find($asuransi_id)->tipe_asuransi;
         $parameter_asuransi = '';
         $parameter_berat_badan = '';
+
+        if ($tipe_asuransi > 3) {
+            $parameter_asuransi = "(asu.tipe_asuransi > 3)";
+        } else {
+            $parameter_asuransi = "(asu.tipe_asuransi < 4)";
+        }
+
         if ($bb < 40 && $bb != '') {
            $parameter_berat_badan = "( p.berat_badan = '{$bb}' )";
-            if ($tipe_asuransi == '5' || $tipe_asuransi = '4') {
-                $parameter_asuransi = "(asu.tipe_asuransi > 3)";
-            } else {
-                $parameter_asuransi = "(asu.tipe_asuransi < 4)";
-            }
         } else{
            $parameter_berat_badan = "(p.berat_badan > 40 or p.berat_badan is null or p.berat_badan = 0)";
-            if ($tipe_asuransi == '5' || $tipe_asuransi = '4') {
-                $parameter_asuransi = "(asu.tipe_asuransi > 3)";
-            } else {
-                $parameter_asuransi = "(asu.tipe_asuransi < 4)";
-            }
         }
-        $query = "SELECT p.id as periksa_id, REPLACE(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id WHERE (staf_id='{$staf_id}' or staf_id='16' ) and {$parameter_asuransi} and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and {$parameter_berat_badan}  and p.created_at > '0000-00-00 00:00:00' group by terapih order by jumlah desc limit 10";
+        $query = "select p.id as periksa_id, replace(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id where (staf_id='{$staf_id}' or staf_id='16' ) and {$parameter_asuransi} and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and {$parameter_berat_badan}  and p.created_at > '0000-00-00 00:00:00' group by terapih order by jumlah desc limit 10";
 
 		$query = DB::select($query);
         $asuransi = Asuransi::find($asuransi_id);
@@ -118,8 +113,6 @@ class PoliAjaxController extends Controller
 		}
 		return json_encode($query);
 	}
-
-
 	public function diagcha(){
 		$diagnosa_id = Input::get('diagnosa_id');
 		$icd10 = Diagnosa::find($diagnosa_id)->icd10_id;
@@ -129,10 +122,7 @@ class PoliAjaxController extends Controller
 		} else {
 			return '0';
 		}
-
-
 	}
-
 
 	public function indiag(){
 
@@ -170,8 +160,6 @@ class PoliAjaxController extends Controller
 	}
 
 	public function insigna(){
-
-		// return 'insign';
 
 		$signa = str_replace(' ', '', Input::get('signa'));
 		$warningSama = '';
