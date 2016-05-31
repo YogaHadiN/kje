@@ -96,8 +96,10 @@ class PoliAjaxController extends Controller
            $parameter_berat_badan = "( p.berat_badan = '{$bb}' )";
         }else if ($bb > 24 && $bb < 31 && $bb != ''){
            $parameter_berat_badan = "(p.berat_badan > 24 and p.berat_badan < 31)";
-        }else if ($bb > 30 && $bb < 41 && $bb != ''){
-           $parameter_berat_badan = "(p.berat_badan > 30 and p.berat_badan < 41)";
+        }else if ($bb > 30 && $bb < 36 && $bb != ''){
+           $parameter_berat_badan = "(p.berat_badan > 30 and p.berat_badan < 36)";
+        }else if ($bb > 35 && $bb < 41 && $bb != ''){
+           $parameter_berat_badan = "(p.berat_badan > 35 and p.berat_badan < 41)";
         } else{
            $parameter_berat_badan = "(p.berat_badan > 40 or p.berat_badan is null or p.berat_badan = 0)";
         }
