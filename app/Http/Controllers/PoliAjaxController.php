@@ -92,12 +92,14 @@ class PoliAjaxController extends Controller
         }
 
         //jika dibawah 25 kg, maka query di setiap kilo tanpa range diatas itu pakai range  
-        if ($bb < 25 && $bb != '') {
+        if ($bb < 18 && $bb != '') {
            $parameter_berat_badan = "( p.berat_badan = '{$bb}' )";
-        }else if ($bb > 24 && $bb < 31 && $bb != ''){
-           $parameter_berat_badan = "(p.berat_badan > 24 and p.berat_badan < 31)";
-        }else if ($bb > 30 && $bb < 36 && $bb != ''){
-           $parameter_berat_badan = "(p.berat_badan > 30 and p.berat_badan < 36)";
+        }else if ($bb > 17 && $bb < 24 && $bb != ''){
+           $parameter_berat_badan = "(p.berat_badan > 17 and p.berat_badan < 24)";
+        }else if ($bb > 23 && $bb < 28 && $bb != ''){
+           $parameter_berat_badan = "(p.berat_badan > 23 and p.berat_badan < 28)";
+        }else if ($bb > 27 && $bb < 36 && $bb != ''){
+           $parameter_berat_badan = "(p.berat_badan > 27 and p.berat_badan < 36)";
         }else if ($bb > 35 && $bb < 41 && $bb != ''){
            $parameter_berat_badan = "(p.berat_badan > 35 and p.berat_badan < 41)";
         } else{
