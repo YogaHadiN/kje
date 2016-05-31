@@ -292,10 +292,12 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::post('pengeluarans/list', 'PengeluaransController@lists');
 			Route::get('pengeluarans/show/{id}', 'PengeluaransController@show');
 			Route::post('pengeluarans', 'PengeluaransController@store');
+            Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 
 			Route::get('pengeluarans/bayardoker/{id}', 'PengeluaransController@bayardokter');
+			Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
 			Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
 			Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
 
