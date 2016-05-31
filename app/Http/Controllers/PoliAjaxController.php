@@ -91,11 +91,17 @@ class PoliAjaxController extends Controller
             $parameter_asuransi = "(asu.tipe_asuransi < 4)";
         }
 
-        if ($bb < 40 && $bb != '') {
+        //jika dibawah 25 kg, maka query di setiap kilo tanpa range diatas itu pakai range  
+        if ($bb < 25 && $bb != '') {
            $parameter_berat_badan = "( p.berat_badan = '{$bb}' )";
+        }else if ($bb > 24 && $bb < 31 && $bb != ''){
+           $parameter_berat_badan = "(p.berat_badan > 24 and p.berat_badan < 31)";
+        }else if ($bb > 30 && $bb < 41 && $bb != ''){
+           $parameter_berat_badan = "(p.berat_badan > 30 and p.berat_badan < 41)";
         } else{
            $parameter_berat_badan = "(p.berat_badan > 40 or p.berat_badan is null or p.berat_badan = 0)";
         }
+
         $query = "select p.id as periksa_id, replace(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id where (staf_id='{$staf_id}' or staf_id='16' ) and {$parameter_asuransi} and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and {$parameter_berat_badan}  and p.created_at > '0000-00-00 00:00:00' group by terapih order by jumlah desc limit 10";
 
 		$query = DB::select($query);
