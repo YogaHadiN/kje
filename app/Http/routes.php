@@ -248,6 +248,9 @@ Route::get('jangan', 'PolisController@jangan');
 				return View::make('perujuks.kecil');
 			});
 
+			Route::post('suppliers/ajax/ceknotalama', 'SuppliersAjaxController@ceknotalama');
+			Route::get('suppliers/belanja_obat', 'SupplierBelanjasController@belanja_obat');
+			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');
 
 			// dari menu users
 			Route::resource('pasiens', 'PasiensController');
@@ -293,11 +296,11 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('pengeluarans/show/{id}', 'PengeluaransController@show');
 			Route::post('pengeluarans', 'PengeluaransController@store');
             Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
+            Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 
 			Route::get('pengeluarans/bayardoker/{id}', 'PengeluaransController@bayardokter');
-			Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
 			Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
 			Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
 
@@ -514,7 +517,6 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::post('stokopnames/change', 'StokOpnamesController@change');
 			Route::post('stokopnames/destroy', 'StokOpnamesController@destroy');
 
-			Route::post('suppliers/ajax/ceknotalama', 'SuppliersAjaxController@ceknotalama');
 
 			Route::get('terapis/{periksa_id}', 'TerapisController@index');
 

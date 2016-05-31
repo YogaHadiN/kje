@@ -252,7 +252,7 @@ class PengeluaransController extends Controller
     }
     
     public function nota_z(){
-        return view('notaz');
+        return view('pengeluarans.notaz');
     }
     
 }
