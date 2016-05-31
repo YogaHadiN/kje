@@ -246,4 +246,13 @@ class PengeluaransController extends Controller
         }
         return redirect('stafs')->withPesan($pesan);
     }
+    public function bayar(){
+         
+        return view('formbayardokter');
+    }
+    
+    public function nota_z(){
+        return view('notaz');
+    }
+    
 }

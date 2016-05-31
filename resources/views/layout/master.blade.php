@@ -113,10 +113,6 @@
 
 
                             <li><a href="{{ url('ruangperiksa/darurat') }}">Poli Gawat Darurat {!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', '=', 'darurat')->orderBy('antrian', 'asc')->count())!!}</a> </li>
-                            {{-- <li>{!! HTML::link('ruangperiksa/kandungan', 'Poli Kandungan')!!}</li> --}}
-                            {{-- <li>{!! HTML::link('ruangperiksa/gigi', 'Poli Gigi')!!}</li> --}}
-                            {{-- <li>{!! HTML::link('ruangperiksa/darurat', 'Poli Gawat')!!}</li> --}}
-
                         </ul>
                     </li>
                     <li>
@@ -142,7 +138,7 @@
                         <a href="{{ url('pendapatans/create') }}"><i class="fa fa-flask"></i> <span class="nav-label">Pendapatan Lain </span> </a>
                     </li>
                      <li>
-                        <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Keuangan</span><span class="fa arrow"></span></a>
+                        <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Laporan Keuangan</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('jurnal_umums', 'Jurnal Umum')!!}</li>
                             <li>{!! HTML::link('buku_besars', 'Buku Besar')!!}</li>
@@ -151,24 +147,20 @@
                             <li>{!! HTML::link('laporan_arus_kass', 'Laporan Arus Kas')!!}</li>
                             <li>{!! HTML::link('laporan_neracas', 'Laporan Neraca')!!}</li>
                         </ul>
-                    </li>
+                     </li>
                      <li>
-                        <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Laporan Keuangan</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">Transaksi Kasir</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li>{!! HTML::link('laporan_laba_rugis', 'Laba Rugi')!!}</li>
-                            <li>{!! HTML::link('laporan_keuangans/cashflow', 'Cashflow')!!}</li>
-                            <li>{!! HTML::link('laporan_keuangans/perubahan_ekuitas', 'Perubahan Ekuitas')!!}</li>
-                            <li>{!! HTML::link('laporan_keuangans/neraca', 'Neraca')!!}</li>
+                            <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
+                            <li>{!! HTML::link('suppliers/belanja_obat', 'Belanja Obat')!!}</li>
+                            <li>{!! HTML::link('suppliers/belanja_bukan_obat', 'Belanja Bukan Obat')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/bayardoker', 'Bayar Dokter')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
                         </ul>
                     </li>
-                   {{--  <li>
-                        <a href="{{ url('pengeluarans/')}!}"><i class="fa fa-flask"></i> <span class="nav-label">Tidak Dirujuk </span> </a>
-                    </li> --}}
-
                 </ul>
             </div>
         </nav>
-
         <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
         <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
