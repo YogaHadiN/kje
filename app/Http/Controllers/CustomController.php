@@ -208,6 +208,7 @@ class CustomController extends Controller
 		->withTindakans($tindakans);
 	}
 	public function survey_post(){
+        //return Periksa::find( Input::get('periksa_id') )->terapii[0]->id;
 		$tarif         = Input::get('tarif');
 		$sebelum       = Input::get('sebelum');
 		$sebelum_array = json_decode($sebelum, true);
@@ -228,7 +229,6 @@ class CustomController extends Controller
 		//JIKA ADA KOREKSI DALAM transaksi, maka masukkan ke dalam tabel perbaikantrxs
 		if (json_encode($sebelum_array) == json_encode($tarif_array)) {
 		} else {
-			
 			$fix                   = true;
 			$perbaikan             = new Perbaikantrx;
 			$perbaikan->periksa_id =Input::get('periksa_id');
@@ -258,6 +258,7 @@ class CustomController extends Controller
 			}
 			$rujukan->save();
 		}
+
 		$px->lewat_kasir2    = '1';
 		$confirm             = $px->save();
 
@@ -267,7 +268,6 @@ class CustomController extends Controller
 
 		foreach ($resep as $key => $value) {
 			$rak_id = $merek->find($resep[$key]['merek_id'])->rak_id;
-
 			$rak       = Rak::find($rak_id);
 			$rak->stok = $rak->stok - $resep[$key]['jumlah'];
 			$confirm   = $rak->save();
@@ -277,8 +277,8 @@ class CustomController extends Controller
 				$disp->id               = Yoga::customId('App\Dispensing');
 				$disp->rak_id           = $rak_id;
 				$disp->keluar           = $resep[$key]['jumlah'];
-				$disp->dispensable_id   = Input::get('periksa_id');
-				$disp->dispensable_type = 'App\Periksa';
+				$disp->dispensable_id   = $value->id;
+				$disp->dispensable_type = 'App\Terapi';
 				$disp->tanggal          = Periksa::find($periksa_id)->tanggal;
 				$disp->save();
 			}
@@ -302,6 +302,7 @@ class CustomController extends Controller
 				$jurnal->nilai           = $px->tunai;
 				$jurnal->save();
 			}
+
 			if ($px->piutang>0) {
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $px->id;
@@ -311,8 +312,6 @@ class CustomController extends Controller
 				$jurnal->nilai           = $px->piutang;
 				$jurnal->save();
 			}
-
-
 
 			$transaksis = $px->transaksi;
 			$transaksis = json_decode($transaksis, true);
@@ -325,7 +324,7 @@ class CustomController extends Controller
 				$trx->periksa_id     = $periksa_id;
 				$trx->jenis_tarif_id = $transaksi['jenis_tarif_id'];
 				$trx->biaya          = $transaksi['biaya'];
-				$oke = $trx->save();
+				$oke                 = $trx->save();
 				$feeDokter += Tarif::where('asuransi_id', $px->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
 				if ($oke) {
 					if ($transaksi['biaya'] > 0) {

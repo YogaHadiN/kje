@@ -11,24 +11,23 @@ class Pengeluaran extends Model{
 	protected $guarded = [];
 
     protected $morphClass = 'App\Pengeluaran';
-	
 
 	public function staf(){
-
 		return $this->belongsTo('App\Staf');
 	}
-	public function nota_beli(){
 
+	public function nota_beli(){
 		return $this->belongsTo('App\Notabeli');
 	}
 
 	public function supplier(){
-
 		return $this->belongsTo('App\Supplier');
 	}
+
 	public function bukanObat(){
 		return $this->belongsTo('App\Bukanobat');
 	}
+
 	public function fakturBelanja(){
 		return $this->belongsTo('App\FakturBelanja');
 	}
@@ -37,14 +36,9 @@ class Pengeluaran extends Model{
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }
 
-
     public function getKetjurnalAttribute(){
-
 		$supplier = $this->fakturBelanja->supplier->nama;
-		$biaya    = $this->harga_satuan * $this->jumlah;
-		$barang   = $this->bukanObat->nama;
-
-        return 'Pembelian ' . $barang . ', sebesar : <span class="uang">' . $biaya . '</span>, dibeli di  : ' . $supplier;
-
+        $barang = $this->bukanObat->nama;
+        return 'Pembelanjaan ' . $barang . ' di  : ' . $supplier;
     }
 }
