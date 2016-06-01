@@ -7,6 +7,9 @@ use Input;
 use App\Http\Requests;
 
 use App\JurnalUmum;
+use App\Pengeluaran;
+use App\BukanObat;
+use App\Classes\Yoga;
 use App\Coa;
 
 
@@ -84,11 +87,25 @@ class JurnalUmumsController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function coaPost()
 	{
-		$jurnalumum = Jurnalumum::findOrFail($id);
+        $temp = Input::get('temp');
+        $temp = json_decode($temp, true);
+        foreach ($temp as $tp) {
 
-		return view('jurnalumums.show', compact('jurnalumum'));
+            $ju = JurnalUmum::find($tp['id']);
+            $ju->coa_id = $tp['coa_id'];
+            $ju->save();            
+
+            if ($tp['jurnalable_type'] == 'App\Pengeluaran') {
+                $bukan_obat_id = Pengeluaran::find($tp['jurnalable_id'])->bukan_obat_id;
+                $bo = BukanObat::find($bukan_obat_id);
+                $bo->coa_id = $tp['coa_id'];
+                $bo->save();
+            }
+
+        }
+        return redirect('jurnal_umums');
 	}
 
 	/**

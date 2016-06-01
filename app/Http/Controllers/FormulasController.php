@@ -348,8 +348,6 @@ class FormulasController extends Controller
 		$dose->formula_id = $formula_id;
 		$dose->save();
 
-		//isian komposisi
-
 		$komposisis = Input::get('json');
 
 		$MyArray = json_decode($komposisis, true);
@@ -361,8 +359,6 @@ class FormulasController extends Controller
 			$komposisi->generik_id = $MyArray[$i]['generik_id'];
 			$komposisi->save();
 		}
-
-		//isian merek
 
 		$merek_id_custom = Yoga::customId('App\Merek');;
 		$merek = new Merek;
@@ -377,22 +373,15 @@ class FormulasController extends Controller
 		$merek->save();
 
 		if (Input::ajax()) {
-			
 			$returnData = [
 				'merek_id' => $merek_id_custom,
 				'merek'	=> $merekCustom,
 				'custom_value' => Merek::find($merek_id_custom)->custid
 			];
-
 			return json_encode($returnData);
-
 		} else {
 			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('Formula obat <strong>' . $formula_id . '</strong> telah <strong>BERHASIL</strong> dibuat'));
 		}
-
-
-
-		
 	}
 
 	/**

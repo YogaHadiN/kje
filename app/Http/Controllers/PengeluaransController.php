@@ -45,7 +45,6 @@ class PengeluaransController extends Controller
 			'required' => ':attribute harus diisi terlebih dahulu',
 		);
 
-
 		$rules = [
 			'transaksi_beli' 	=> 'required',
 		];
@@ -80,12 +79,12 @@ class PengeluaransController extends Controller
 			if (count($query) > 0) {
 			 	$pg->bukan_obat_id = $query[0]->id;
 					
-					$bo                       = Bukanobat::find($query[0]->id);
+					$bo                       = BukanObat::find($query[0]->id);
 					$bo->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
 					$bo->harga_beli           = $data['harga_satuan'];
 					$bo->save();
 			 } else {
-					$bo                       = new Bukanobat;
+					$bo                       = new BukanObat;
 					$bo->nama                 = $data['keterangan'];
 					$bo->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
 					$bo->harga_beli           = $data['harga_satuan'];
@@ -131,14 +130,11 @@ class PengeluaransController extends Controller
 	}
 
 	public function lists() {
-		// return Input::all();
 		$mulai = Yoga::datePrep(Input::get('mulai'));
 		$akhir = Yoga::datePrep(Input::get('akhir'));
 
 		$notas = FakturBelanja::where('tanggal', '>=', $mulai)->where('tanggal', '<=', $akhir)->get();
-		// return dd($notas);
 		return view('pengeluarans.list', compact('notas', 'mulai', 'akhir'));
-
 	}
 
 

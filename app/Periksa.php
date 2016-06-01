@@ -57,12 +57,8 @@ class Periksa extends Model{
         return $this->hasMany('App\TransaksiPeriksa');
     }
     public function registerAnc(){
-
         return $this->hasOne('App\RegisterAnc');
-
     }
-
-
     public function suratSakit(){
         return $this->hasOne('App\SuratSakit');
     }

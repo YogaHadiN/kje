@@ -1,0 +1,2 @@
+alter table bukan_obats add column coa_id varchar(255);
+

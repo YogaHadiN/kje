@@ -11,6 +11,8 @@ class FakturBelanja extends Model{
 	];
 
     protected $morphClass = 'App\FakturBelanja';
+
+    protected $dates = ['tanggal'];
 	
 
 	// Don't forget to fill this array
@@ -85,6 +87,25 @@ class FakturBelanja extends Model{
 
 
     public function dispenses(){
-        return $this->morphMany('App\Dispensing', 'dispensable');
+        return $this->morphmany('App\Dispensing', 'dispensable');
     }
+
+    public function jurnals(){
+        return $this->morphMany('App\JurnalUmum', 'jurnalable');
+    }
+
+    public function getKetjurnalAttribute(){
+        $tanggal = $this->tanggal->format('d-m-Y');
+        $supplier = $this->supplier->nama;
+        $total_pembelians = $this->pembelian;
+        $total_pembelian = 0;
+        foreach ($total_pembelians as $pembelian) {
+            $total_pembelian += $pembelian->harga_beli * $pembelian->jumlah;
+        }
+        
+        return 'Pembelian Obat di ' . $supplier . ', sebesar : <span class="uang">' . $total_pembelian . '</span>, tanggal : ' . $tanggal;
+
+    }
+    
 }
+
