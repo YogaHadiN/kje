@@ -8,6 +8,10 @@ use App\Http\Requests;
 
 use App\Merek;
 use App\Staf;
+use App\Penjualan;
+use App\Dispensing;
+use App\NotaJual;
+use App\JurnalUmum;
 use App\Classes\Yoga;
 use App\Rak;
 
@@ -32,11 +36,8 @@ class PenjualansController extends Controller
 	}
 	public function indexPost()
 	{
-		// return 'oyeeee';
 		$datas = Input::get('tempBeli');
-
 		$datas = json_decode($datas, true);
-
 		$nota_jual_id = Yoga::customId('App\Notajual');
 		$biaya = 0;
 		foreach ($datas as $data) {
@@ -47,7 +48,6 @@ class PenjualansController extends Controller
 			$pj->harga_jual = $data['harga_jual'];
 			$pj->jumlah = $data['jumlah'];
 			$conf1 = $pj->save();
-
 			$rak_id = Merek::find($data['merek_id'])->rak_id;
 
 			$rak = Rak::find($rak_id);
@@ -93,7 +93,8 @@ class PenjualansController extends Controller
 		}
 
 		// return 'oke';
-		return redirect('laporans')->withPesan('<strong>Transaksi Penjualan Tanpa Resep</strong> Berhasil dilakukan');
+        $pesan = '<strong>Transaksi Penjualan Tanpa Resep</strong> Berhasil dilakukan';
+		return redirect('laporans')->withPesan(Yoga::suksesFlash($pesan));
 	}
 
 }

@@ -10,7 +10,12 @@ use App\FakturBelanja;
 use App\JenisPengeluaran;
 use App\Classes\Yoga;
 use App\BukanObat;
+use App\Pembelian;
+use App\Penjualan;
+use App\TransaksiPeriksa;
+use App\CheckoutKasir;
 use App\BayarDokter;
+use App\Periksa;
 use App\JurnalUmum;
 use App\Staf;
 use DB;
@@ -248,7 +253,38 @@ class PengeluaransController extends Controller
     }
     
     public function nota_z(){
-        return view('pengeluarans.notaz');
+        $check = CheckoutKasir::all();
+        if ($check->count() == 0) {
+
+            $c = new CheckoutKasir;
+            $c->save();
+            
+        }
+        
+        $checkout = CheckoutKasir::latest()->first();
+        $tanggal = $checkout->created_at;
+        $modal_awal = $checkout->modal_akhir;
+        $tindakans = [];
+        $periksa_id = Periksa::where('created_at', '>=', $tanggal)->first()->id;
+        $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
+        $uang_masuks = JurnalUmum::where('created_at', '>=', $tanggal)
+                                    ->where('coa_id', 110000)
+                                    ->where('debit', '1')
+                                    ->get();
+        $uang_keluar = JurnalUmum::where('created_at', '>=', $tanggal)
+                                    ->where('coa_id', 110000)
+                                    ->where('debit', '0')
+                                    ->get();
+        $total_uang_masuk = 0;
+        foreach ($uang_masuks as $penjualan) {
+            $total_uang_masuk += $penjualan->nilai;
+        }
+        $total_uang_keluar = 0;
+        foreach ($uang_keluar as $penjualan) {
+            $total_uang_keluar += $penjualan->nilai;
+        }
+        $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
+        $transaksis = TransaksiPeriksa::where('periksa_id', '>=', $periksa_id)->groupBy('jenis_tarif_id')->get();
+        return view('pengeluarans.notaz', compact('transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal'));
     }
-    
 }

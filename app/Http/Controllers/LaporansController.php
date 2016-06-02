@@ -9,8 +9,10 @@ use App\Asuransi;
 use App\AntrianPeriksa;
 use App\Periksa;
 use App\BayarDokter;
+use App\TransaksiPeriksa;
 use App\Staf;
 use App\FakturBelanja;
+use App\Terapi;
 use App\AntrianPoli;
 use Auth;
 use App\Classes\Yoga;
@@ -463,8 +465,35 @@ class LaporansController extends Controller
         return view('bayar_dokters.index', compact('bayardokters'));
          
     }
+    public function no_asisten(){
+		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
+        $periksas = Periksa::where('tanggal', 'like', $tanggal . '%')->where('periksa_awal', '[]')->get();
+        //return $periksas;
+        return view('laporans.no_asisten', compact('periksas'));
+    }
+    public function gigiBulanan(){
+		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
+        $periksas = Periksa::where('tanggal', 'like', $tanggal . '%')->where('poli', 'gigi')->get();
+        //return $periksas;
+        return view('laporans.gigi', compact('periksas'));
+    }
+    public function anc(){
+		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
+        $query = "select px.tanggal as tanggal, st.nama as nama_staf, px.jam as jam, ps.nama as nama_pasien, px.poli as poli, px.pemeriksaan_fisik as pf from periksas as px join stafs as st on st.id=px.staf_id join pasiens as ps on ps.id=px.pasien_id join diagnosas as dg on dg.id = px.diagnosa_id where st.titel = 'bd' and tanggal like '{$tanggal}%' and (px.poli = 'anc');";
+        $periksas = DB::select($query);
+        $query = "select min( st.nama ) as nama_staf, count(*) as jumlah from periksas as px join stafs as st on st.id=px.staf_id join pasiens as ps on ps.id=px.pasien_id join diagnosas as dg on dg.id = px.diagnosa_id where st.titel = 'bd' and tanggal like '{$tanggal}%' and (px.poli = 'anc') group by staf_id;";
+        $group_by_stafs = DB::select($query);
+        //return $periksas;
+        return view('laporans.anc', compact('periksas', 'group_by_stafs'));
+    }
+    public function kb(){
+		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
+        $query = "select px.tanggal as tanggal, st.nama as nama_staf, px.jam as jam, ps.nama as nama_pasien, px.poli as poli, px.pemeriksaan_fisik as pf from periksas as px join stafs as st on st.id=px.staf_id join pasiens as ps on ps.id=px.pasien_id where st.titel = 'bd' and tanggal like '{$tanggal}%' and diagnosa_id in (19,941);";
+        $periksas_diagnosa_kb = DB::select($query);
+        $query = "select min( st.nama ) as nama_staf, count(*) as jumlah from periksas as px join stafs as st on st.id=px.staf_id join pasiens as ps on ps.id=px.pasien_id where st.titel = 'bd' and tanggal like '{$tanggal}%' and diagnosa_id in (19,941) group by staf_id;";
+        $group_by_stafs = DB::select($query);
         
-
-
-
+        //return $periksas;
+        return view('laporans.kb', compact('periksas_diagnosa_kb', 'group_by_stafs'));
+    }
 }

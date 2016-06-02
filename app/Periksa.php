@@ -18,6 +18,7 @@ class Periksa extends Model{
 
 
 	protected $guarded = [];
+    protected $dates = ['tanggal', 'created_at'];
 
 	public function asuransi(){
 
