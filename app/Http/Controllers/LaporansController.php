@@ -28,7 +28,7 @@ class LaporansController extends Controller
 
 	public function __construct()
 	 {
-	     $this->middleware('super', ['except' => ['index', 'harian','penyakit', 'points', 'rujukankebidanan']]);
+	     $this->middleware('super', ['except' => ['index', 'harian','penyakit', 'points', 'rujukankebidanan', 'no_asisten']]);
 	 }
 
 	public function index()
