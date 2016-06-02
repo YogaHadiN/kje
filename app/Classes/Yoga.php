@@ -2084,4 +2084,14 @@ class Yoga {
     public static function TujuanRujukList(){
 		return array('' => '- Pilih Dokter Spesialis -') + TujuanRujuk::lists('tujuan_rujuk', 'id')->all();
     }
+    public static function hitungTindakan($asuransi_id, $jenis_tarif_id, $tanggal){
+        $query = "SELECT * FROM transaksi_periksas as tp join periksas as px on px.id = tp.periksa_id join jenis_tarifs as jt on jt.id=tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' and tp.jenis_tarif_id = {$jenis_tarif_id} and px.asuransi_id = '{$asuransi_id}';";
+        $biaya = 0;
+        foreach (DB::select($query) as $trx) {
+            $biaya += $trx->biaya;
+            
+        }
+        return count(DB::select($query)) . '<br />' . '( <span class="uang"> ' . $biaya . '</span> )';
+    }
+    
 }

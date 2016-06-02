@@ -415,6 +415,7 @@ Route::get('jangan', 'PolisController@jangan');
 
 			Route::get('pendapatans/create', 'PendapatansController@create');
 			Route::post('pendapatans/index', 'PendapatansController@store');
+			Route::get('pendapatans/pembayaran/asuransi', 'PendapatansController@pembayaran_asuransi');
 
 			Route::post('rujuajax/rs', 'RujukansAjaxController@rs');
 			Route::post('rujuajax/rschange', 'RujukansAjaxController@rschange');
@@ -507,6 +508,10 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::post('laporans/pendapatan', 'LaporansController@pendapatan');
 			Route::post('laporans/payment', 'LaporansController@paymentpost');
             Route::get('laporans/pembayaran/dokter', 'LaporansController@pembayarandokter');
+            Route::get('laporans/no_asisten', 'LaporansController@no_asisten');
+            Route::get('laporans/gigi', 'LaporansController@gigiBulanan');
+            Route::get('laporans/anc', 'LaporansController@anc');
+            Route::get('laporans/kb', 'LaporansController@kb');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');

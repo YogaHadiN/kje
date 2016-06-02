@@ -343,6 +343,38 @@ Klinik Jati Elok | Home
                                             <td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
                                         {!! Form::close() !!}
                                     </tr>
+                                    <tr>
+                                        <form action="{{ url('laporans/no_asisten') }}" method="get">
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                            <td>Laporan Tidak Ada Asisten</td>
+                                            <td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+                                            <td colspan="2"></td>
+                                        </form>
+                                    </tr>
+                                    <tr>
+                                        <form action="{{ url('laporans/gigi') }}" method="get">
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                            <td>Laporan Bulanan Gigi</td>
+                                            <td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+                                            <td colspan="2"></td>
+                                        </form>
+                                    </tr>
+                                    <tr>
+                                        <form action="{{ url('laporans/kb') }}" method="get">
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                            <td>Laporan Bulanan KB</td>
+                                            <td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+                                            <td colspan="2"></td>
+                                        </form>
+                                    </tr>
+                                    <tr>
+                                        <form action="{{ url('laporans/anc') }}" method="get">
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                            <td>Laporan Bulanan ANC</td>
+                                            <td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+                                            <td colspan="2"></td>
+                                        </form>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

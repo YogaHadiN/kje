@@ -136,5 +136,12 @@ class PendapatansController extends Controller
 
 		return \Redirect::route('pendapatans.index');
 	}
-
+    public function pembayaran_asuransi(){
+         return 'pembayaran_asuransi';
+    }
+    public function pembayaran_asuransi_by_id($id){
+        return 'asuransi '. $id;
+         return 'pembayaran_asuransi';
+    }
+    
 }
