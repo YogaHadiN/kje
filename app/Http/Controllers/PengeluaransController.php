@@ -284,7 +284,15 @@ class PengeluaransController extends Controller
             $total_uang_keluar += $penjualan->nilai;
         }
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
-        $transaksis = TransaksiPeriksa::where('periksa_id', '>=', $periksa_id)->groupBy('jenis_tarif_id')->get();
+        $query = "select min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where px.tanggal >= '{$tanggal}' group by tp.jenis_tarif_id";
+        $transaksis = DB::select($query);
+        //$transaksis = TransaksiPeriksa::where('periksa_id', '>=', $periksa_id)->groupBy('jenis_tarif_id')->get();
+        
         return view('pengeluarans.notaz', compact('transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal'));
     }
+    public function notaz_post(){
+        CheckoutKasir::create( Input::all() );
+        //tambah semua komponen yang masuk kas, retrieve semua last id nya
+    }
+
 }
