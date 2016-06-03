@@ -298,6 +298,7 @@ Route::get('jangan', 'PolisController@jangan');
             Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
             Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
             Route::post('pengeluarans/nota_z', 'PengeluaransController@notaz_post');
+            Route::get('pengeluarans/rc', 'PengeluaransController@erce');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 

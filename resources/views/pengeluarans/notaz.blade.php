@@ -24,31 +24,14 @@ Klinik Jati Elok | Checkout Kasir
                     <div class="panel-title">Entri Nota Z</div>
                 </div>
                 <div class="panel-body">
-                    {!! Form::open(['url'=>'pengeluarans/nota_z', 'method'=> 'post']) !!} 
-                        {!! Form::hidden('modal_akhir', $modal_awal, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('uang_di_kasir', $uang_di_kasir, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('hasil_penjualan', null, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('uang_keluar', $total_uang_keluar, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('uang_masuk', $total_uang_masuk, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('debit', null, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('kredit', null, ['class' => 'form-control']) !!} 
-                        
-                        
-                        <div class="form-group">
-                          {!! Form::label('modal_awal', 'Modal Awal') !!}
-                          {!! Form::text('modal_awal' , null, ['class' => 'form-control rq']) !!}
-                        </div>
-                        <div class="form-group">
-                          {!! Form::label('uang_hilang', 'Uang Hilang') !!}
-                          {!! Form::text('uang_hilang' , null, ['class' => 'form-control rq']) !!}
-                        </div>
-                        
-                        
-                        <button class="btn btn-primary btn-lg btn-block" type="button" onclick="validate();return false;"> Checkout </button>
-                        <div class="form-group">
-                            {!! Form::submit('Submit', ['class' => 'hide', 'id'=>'submit']) !!}
-                        </div>
-                    {!! Form::close() !!}
+                    <button class="btn btn-primary btn-lg btn-block" type="button" onclick="validate();return false;"> Checkout </button>
+                   {!! Form::open(['url'=>'pengeluarans/nota_z', 'method'=> 'post']) !!} 
+                       <div class="form-group">
+                           {!! Form::submit('Submit', ['class' => 'hide', 'id'=>'submit']) !!}
+                       </div>
+                   {!! Form::close() !!}
+                   
+                    
                 </div>
             </div>
       </div>

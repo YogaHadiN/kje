@@ -157,6 +157,7 @@
                             <li>{!! HTML::link('suppliers/belanja_bukan_obat', 'Belanja Bukan Obat')!!}</li>
                             <li>{!! HTML::link('pengeluarans/bayardoker', 'Bayar Dokter')!!}</li>
                             <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/rc', 'RC')!!}</li>
                         </ul>
                     </li>
                 </ul>

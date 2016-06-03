@@ -315,7 +315,7 @@ Klinik Jati Elok | Asuransi
         var dibayar_asuransi_awal = $('#dibayar_asuransi').val();
         asuransiKeyup2(dibayar_asuransi_awal, '#dibayar_pasien');
 
-        formatUang();
+        formatUangIni();
 
     });
 
@@ -349,7 +349,8 @@ Klinik Jati Elok | Asuransi
         temp = JSON.stringify(data);
         $('#txtTarif').val(temp);
 
-        var dibayar_asuransi = parseInt($('#dibayar_asuransi').val());
+        var dibayar_asuransi = parseInt(clean( $('#dibayar_asuransi').val() ));
+        console.log('view_tarif dibayar asuransi' + dibayar_asuransi);
         if(dibayar_asuransi == ''){
             dibayar_asuransi = 0;
         }
@@ -380,10 +381,10 @@ Klinik Jati Elok | Asuransi
         $('.total').each(function() {
             var number = $(this).html();
             number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-            $(this).html('Rp. ' + number + ',-');
+            $(this).html('Rp. ' + number);
         });
 
-        formatUang();
+        formatUangIni();
 
          
 
@@ -447,14 +448,15 @@ Klinik Jati Elok | Asuransi
         } 
         rupiahDibayarPasien(control);
         rupiahDibayarPasien('#dibayar_pasien');
-        formatUang();
+        formatUangIni();
 
     }
 
     function pembayaranKeyup(control){
         var pembayaran = $(control).val();
-        pembayaran = cleanUang(pembayaran);
+        pembayaran = cleanUangIni(pembayaran);
         var dibayar_pasien = clean($('#dibayar_pasien').val());
+        console.log('dibayar_pasien = ' + $('#dibayar_pasien').val());
         console.log('dibayar_pasien = ' + dibayar_pasien);
         console.log('pembayaran = ' + pembayaran);
         if(pembayaran == ''){
@@ -495,21 +497,26 @@ Klinik Jati Elok | Asuransi
 
         var dibayar_asuransi = $('#dibayar_asuransi').val();
 
+        console.log('number dibayar asuransi = ' + dibayar_asuransi);
+        console.log('number dibayar total = ' + total);
         if(dibayar_asuransi == ''){
             $('#dibayar_pasien').val(total);
         } else {
-            $('#dibayar_pasien').val(parseInt(total) - parseInt(dibayar_asuransi));
+            $('#dibayar_pasien').val(parseInt(total) - parseInt(clean( dibayar_asuransi )));
         }
-
-        rupiahDibayarPasien(control);
+        console.log($('#dibayar_pasien').val());
+        rupiahDibayarPasien('#dibayar_pasien');
 
 
         $('.total').each(function() {
             var number = $(this).html();
+            console.log('number before = ' + number);
             number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-            $(this).html('Rp. ' + number + ',-');
+            number = 'Rp. ' + number;
+            console.log('number after = ' + number);
+            $(this).html(number);
         });
-        formatUang();
+        formatUangIni();
          
     }
 
@@ -564,7 +571,6 @@ Klinik Jati Elok | Asuransi
       $('.total').html(parseInt(totalAwal)+parseInt(bhp));
       data[i].biaya = String(bhp);
       updateTotal(data);
-
     }
 
     function clean(num) {
@@ -592,7 +598,7 @@ Klinik Jati Elok | Asuransi
         
         $('#dibayar_pasien').val(parseInt(totalBiaya) - parseInt(dibayar_asuransi));
         rupiahDibayarPasien(choose);
-        formatUang();
+        formatUangIni();
 
     }
 
@@ -618,6 +624,7 @@ Klinik Jati Elok | Asuransi
             var kembalian = $('#kembalian_pasien').val();
             var dibayar_asuransi = cleanUang( $('#dibayar_asuransi').val() );
             console.log('dibayar asuransi =   +++' + dibayar_asuransi);
+
             if(dibayar_asuransi > 0){
                 $('#dibayarAsuransi-print').html(dibayar_asuransi);
             } else {
@@ -628,16 +635,36 @@ Klinik Jati Elok | Asuransi
             $('#biaya-print').html(biaya);
             $('#pembayaran-print').html(pembayaran +  ',-');
             $('#kembalian-print').html(kembalian +  ',-');
-            formatUang();
-            alert('hello im new');
+            formatUangIni();
             $('#submitthis').click();
             print_tanpa_dialog();
-            //window.print();
+
         } else {
+
             $('#transaksi-print').html('');
             $('#biaya-print').html('');
             $('#submitthis').click();
+
         }
+    
     }
+function formatUangIni(){
+    $('.uang:not(:contains("Rp."))').each(function() {
+        var number = $(this).html();
+        number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
+        $(this).html('Rp. ' + number);
+    });
+}
+
+function cleanUangIni(uang){
+    uang = uang.replace(/\./g,'');
+    uang = uang.split(" ")[1];
+    if (uang == 0) {
+        uang = 0;
+    }
+    return uang;
+}
+
+
 </script>
 @stop

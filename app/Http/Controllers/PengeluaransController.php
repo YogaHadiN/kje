@@ -11,6 +11,7 @@ use App\JenisPengeluaran;
 use App\Classes\Yoga;
 use App\BukanObat;
 use App\Pembelian;
+use App\Diagnosa;
 use App\Penjualan;
 use App\TransaksiPeriksa;
 use App\CheckoutKasir;
@@ -255,44 +256,57 @@ class PengeluaransController extends Controller
     public function nota_z(){
         $check = CheckoutKasir::all();
         if ($check->count() == 0) {
-
             $c = new CheckoutKasir;
             $c->save();
-            
         }
         
         $checkout = CheckoutKasir::latest()->first();
         $tanggal = $checkout->created_at;
         $modal_awal = $checkout->modal_akhir;
         $tindakans = [];
-        $periksa_id = Periksa::where('created_at', '>=', $tanggal)->first()->id;
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
+
         $uang_masuks = JurnalUmum::where('created_at', '>=', $tanggal)
                                     ->where('coa_id', 110000)
                                     ->where('debit', '1')
                                     ->get();
+
         $uang_keluar = JurnalUmum::where('created_at', '>=', $tanggal)
                                     ->where('coa_id', 110000)
                                     ->where('debit', '0')
                                     ->get();
+
         $total_uang_masuk = 0;
         foreach ($uang_masuks as $penjualan) {
             $total_uang_masuk += $penjualan->nilai;
         }
+
         $total_uang_keluar = 0;
         foreach ($uang_keluar as $penjualan) {
             $total_uang_keluar += $penjualan->nilai;
         }
+
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
         $query = "select min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where px.tanggal >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
-        //$transaksis = TransaksiPeriksa::where('periksa_id', '>=', $periksa_id)->groupBy('jenis_tarif_id')->get();
         
         return view('pengeluarans.notaz', compact('transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal'));
+
     }
     public function notaz_post(){
-        CheckoutKasir::create( Input::all() );
+        $last_chekcout = CheckoutKasir::latest()->first();
+        $tanggal_last_chekcout = $last_chekcout->created_at;
+        $modal_awal_last_chekcout = $last_chekcout->modal_awal;
+        $jurnal_umum_id = JurnalUmum::all()->last()->id;
+        return $jurnal_umum_id;
+    
         //tambah semua komponen yang masuk kas, retrieve semua last id nya
     }
+
+    public function erce(){
+         return view('pengeluarans.rc');
+
+    }
+    
 
 }

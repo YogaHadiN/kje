@@ -428,6 +428,15 @@ class PembeliansController extends Controller
 			$fb->submit = '1';
 			$fb->save();
 
+            $nilai_baru = 0;
+            foreach (Pembelian::where('faktur_belanja_id', $faktur_belanja_id)->get() as $pembelian) {
+                $nilai_baru += $pembelian->harga_beli * $pembelian->jumlah;
+            }
+
+            $ju = JurnalUmum::where('jurnalable_id', $faktur_belanja_id)
+                            ->where('jurnalable_type', 'App\FakturBelanja')
+                            ->update(['nilai' => $nilai_baru]);
+
 			return redirect('pembelians/show/' . $id)->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $pb->fakturbelanjas . '</strong> di <strong>' . $supplier . '</strong> telah berhasil'));
 		} else {
 			$supplier = FakturBelanja::find($faktur_belanja_id)->supplier->nama;

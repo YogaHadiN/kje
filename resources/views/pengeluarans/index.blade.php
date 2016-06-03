@@ -105,14 +105,14 @@ Klinik Jati Elok | Pengeluaran Klinik
                 </tfoot>
             </table>
 
-            {!! Form::textarea('transaksi_beli', null, ['class' => 'form-control', 'id' => 'tempBeli'])!!}
+            {!! Form::textarea('transaksi_beli', null, ['class' => 'form-control hide', 'id' => 'tempBeli'])!!}
             <button type="button" class="btn btn-primary" id="submitForm">Submit</button>
             {!! Form::submit('Submit', ['class' => 'btn btn-primary displayNone', 'id' => 'submit'])!!} 
             <a href="" class="btn btn-danger">cancel</a>
           {!! Form::close()!!}
       </div>
 </div>
-<button class="btn btn-info" type="button" onclick="testPrint();return false;" id="print">print</button>
+<button class="btn btn-info hide" type="button" onclick="testPrint();return false;" id="print">print</button>
 <div class="row" id="content-print">
     <div class="box title-print text-center">
         <h2>Laporan Belanja Bukan Obat</h2>

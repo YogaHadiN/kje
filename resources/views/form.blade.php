@@ -11,13 +11,13 @@
                 '1'  => 'Ya',
                 '0'  => 'bukan '
              ], $antrianperiksa->kecelakaan_kerja, [
-             'class' => 'selectpick',
+             'class' => 'form-control',
              'onchange' => 'kecelakaanKerjaChange(this);return false;',
              'id' => 'kecelakaanKerja'])!!}
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            Pembayaran : 
-             <select name="asuransi_id" id="asuransi_id" class="selectpick" onchange="asuransiIdChange(this);return false;">
+              Pembayaran : 
+             <select name="asuransi_id" id="asuransi_id" class="form-control" onchange="asuransiIdChange(this);return false;">
                 @if($antrianperiksa->asuransi_id == '0' && $antrianperiksa->pasien->asuransi_id != '0')
                     <option value="0" selected>Biaya Pribadi</option>
                     <option value="{!! $antrianperiksa->pasien->asuransi_id !!}">{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
@@ -35,11 +35,11 @@
                 null => 'tidak tau',
                 '1'  => 'hamil',
                 '0'  => 'tidak hamil'
-             ], $antrianperiksa->hamil, ['class' => 'selectpick', 'id' => 'hamil'])!!}
+             ], $antrianperiksa->hamil, ['class' => 'form-control', 'id' => 'hamil'])!!}
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             Pemeriksa : 
-            {!! Form::select('staf_id', $stafs, $antrianperiksa->staf_id, ['class' => 'form-control selectpick', 'id' => 'staf_id', 'data-live-search' =>'true'])!!}
+            {!! Form::select('staf_id', $stafs, $antrianperiksa->staf_id, ['class' => 'form-control', 'id' => 'staf_id'])!!}
         </div>
     </div>
 </div>
