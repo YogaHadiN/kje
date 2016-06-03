@@ -323,6 +323,7 @@ class CustomController extends Controller
 			$feeDokter = 0;
 
 			$adaBiaya = false;
+            $hutang_asisten_tindakan = 0;
 			foreach ($transaksis as $k => $transaksi) {
 				$trx                 = new TransaksiPeriksa;
 				$trx->periksa_id     = $periksa_id;
@@ -344,22 +345,7 @@ class CustomController extends Controller
 					}
 
 					if (JenisTarif::find($transaksi['jenis_tarif_id'])->dengan_asisten == '1') {
-							$jurnal                  = new JurnalUmum;
-							$jurnal->jurnalable_id   = $px->id;
-							$jurnal->jurnalable_type = 'App\Periksa';
-							$jurnal->coa_id          = 200003; // Hutang Kepada Asisten Dokter
-							$jurnal->debit           = 1;
-							$jurnal->nilai           = $this->biayaJasa($transaksi['jenis_tarif_id'], $trx);
-							$jurnal->save();
-							
-							$jurnal                  = new JurnalUmum;
-							$jurnal->jurnalable_id   = $px->id;
-							$jurnal->jurnalable_type = 'App\Periksa';
-							$jurnal->coa_id          = 50205; // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
-							$jurnal->debit           = 0;
-
-							$jurnal->nilai           = $this->biayaJasa($transaksi['jenis_tarif_id'], $trx);
-							$jurnal->save();
+                        $hutang_asisten_tindakan += $this->biayaJasa($transaksi['jenis_tarif_id'], $trx);
 					}
 
 				}
@@ -379,6 +365,25 @@ class CustomController extends Controller
 					$d->save();
 				}
 			}
+
+            if ($hutang_asisten_tindakan > 0) {
+                $jurnal                  = new JurnalUmum;
+                $jurnal->jurnalable_id   = $px->id;
+                $jurnal->jurnalable_type = 'App\Periksa';
+                $jurnal->coa_id          = 200003; // Hutang Kepada Asisten Dokter
+                $jurnal->debit           = 1;
+                $jurnal->nilai           = $hutang_asisten_tindakan;
+                $jurnal->save();
+                
+                $jurnal                  = new JurnalUmum;
+                $jurnal->jurnalable_id   = $px->id;
+                $jurnal->jurnalable_type = 'App\Periksa';
+                $jurnal->coa_id          = 50205; // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
+                $jurnal->debit           = 0;
+
+                $jurnal->nilai           = $hutang_asisten_tindakan;
+                $jurnal->save();
+            }
 
 			//Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
 			if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {

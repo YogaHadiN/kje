@@ -10,6 +10,7 @@ use App\Diagnosa;
 use App\Classes\Yoga;
 use App\BeratBadan;
 use App\Asuransi;
+use App\BahanHabisPakai;
 use App\Rak;
 use DB;
 use App\Terapi;
@@ -250,6 +251,8 @@ class PoliAjaxController extends Controller
 
 		$komposisi = Komposisi::where('formula_id', $formula_id)->get();
 
+        $komposisis = [];
+
 		foreach ($komposisi as $key => $komp) {
 			$komposisis[] = [
 				'komposisi' => $komp->generik->generik . ' ' . $komp->bobot,
@@ -424,6 +427,39 @@ class PoliAjaxController extends Controller
         }
         return $terapi;
     }
+    public function bhp_tindakan(){
+         $jsonData = Input::get('jsonData');
+         $jsonData = json_decode($jsonData, true);
+         $bahan_habis_pakais = [];
+
+         foreach ($jsonData as $data) {
+             $jenis_tarif_id = $data['jenis_tarif_id'];
+             $bhps = BahanHabisPakai::where('jenis_tarif_id', $jenis_tarif_id)->get();
+             foreach ($bhps as $bhp) {
+                 $sama = false;
+                 if (count($bahan_habis_pakais) > 0) {
+                     foreach ($bahan_habis_pakais as $k=>$b) {
+                         if ($b['merek_id'] == $bhp['merek_id']) {
+                            $bahan_habis_pakais[$k]['jumlah'] = $b['jumlah'] + $bhp['jumlah']; 
+                            $sama = true;
+                            break;
+                         }
+                     }
+                 }
+                 if (!$sama) {
+                     $bahan_habis_pakais[] = [
+                         'merek_id' => $bhp['merek_id'],
+                         'merek' => Merek::find($bhp['merek_id'])->merek,
+                         'jumlah' => $bhp['jumlah']
+                     ];
+                 }
+             }
+         }
+
+         return json_encode($bahan_habis_pakais);
+
+    }
+    
 
 
 }

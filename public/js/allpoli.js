@@ -30,6 +30,7 @@
 
 
    jQuery(document).ready(function($) {
+       bahanHabisPakai();
        if ( $('#resepluar').val() != '' ) {
           $('#panel-resepluar').show(); 
        }
@@ -375,15 +376,7 @@
     });
     // valueTextArea();
     $('#modalTindakan').on('hidden.bs.modal', function () {
-
-        var MyArray = dataTindakan;
-        var temp = '';
-
-        for (var i = 0; i < MyArray.length; i++) {
-            temp += MyArray[i].jenis_tarif + ' : ' + MyArray[i].keterangan_tindakan + ', \n';
-        }
-
-        $('#pemeriksaan_penunjang').val(temp).focus();
+        bahanHabisPakai();
     });
 
        $('#modalSigna').on('hidden.bs.modal', function (e) {
@@ -2161,6 +2154,44 @@ function updateKeteranganNebuBpjs(ket, bool){
     $('#option_bila_nebu_bpjs').hide().fadeIn(500);
 
 }
+function bahanHabisPakai(){
+
+        var MyArray = dataTindakan;
+        var temp = '';
+
+        for (var i = 0; i < MyArray.length; i++) {
+            temp += MyArray[i].jenis_tarif + ' : ' + MyArray[i].keterangan_tindakan + ', \n';
+        }
+        console.log(dataTindakan);
+        var jsonData = JSON.stringify(dataTindakan);
+
+        $.post(base + '/poli/ajax/bhp_tindakan',
+            { 'jsonData' : jsonData,  '_token' : $('#token').val() },
+            function (data, textStatus, jqXHR) {
+                console.log(data);
+                var data = $.parseJSON(data);
+                if (data.length > 0) {
+                    var temp = '<div class="alert alert-success">';
+                    temp += '<h3 class="text-center">Daftar Bahan Habis Pakai Tindakan</h3>';
+                    temp += '<table class="table table-condensed"><tbody>';
+                    for (var i = 0, l = data.length; i < l; i++) {
+                        temp += '<tr>';
+                        temp += '<td> R/ <a nowrap="" href="#" onclick="informasi(this); return false; " data-value="' + data[i].merek_id + '" data-toggle="modal" data-target=".bs-example-modal-lg">' + data[i].merek + '</a></td>';
+                        temp += '<td class"text-right"> No : ' + data[i].jumlah + '</td>';
+                        temp += '</tr>';
+                    }
+                    temp += '</tbody></table>';
+                    temp += '<p class="text-center">Tidak Perlu diinput lagi</p></div>';
+
+                    $('#bhp_tindakan').html(temp);
+                } else {
+                    $('#bhp_tindakan').html('');
+                }
+            }
+        );
+
+        $('#pemeriksaan_penunjang').val(temp).focus();
+}
 
 
 function showFotoZoom(){
@@ -2913,12 +2944,17 @@ function informasi(control){
         data = $.parseJSON(data);
         var MyArray = data.komposisis;
         var temp = '';
-
-        for (var i = 0; i < MyArray.length; i++) {
-            temp += '<tr>';
-            temp += '<td>' + MyArray[i].komposisi + '</td>';
-            temp += '<td>' + MyArray[i].pregnancy_safety_index + '</td>';
-            temp += '</tr>';
+        if (MyArray.length > 0) {
+            for (var i = 0; i < MyArray.length; i++) {
+                temp += '<tr>';
+                temp += '<td>' + MyArray[i].komposisi + '</td>';
+                temp += '<td>' + MyArray[i].pregnancy_safety_index + '</td>';
+                temp += '</tr>';
+            }
+        } else {
+                temp += '<tr>';
+                temp += '<td colspan="2" class="text-center">Komposisi Tidak Terdaftar</td>';
+                temp += '</tr>';
         }
 
         $('#nama_obat').text($(control).text());
@@ -2930,6 +2966,7 @@ function informasi(control){
 
     });
 }
+
 var riwayat = [];
 
 $('#input_riwayat').keydown(function(e) {

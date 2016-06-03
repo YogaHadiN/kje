@@ -91,8 +91,7 @@ class KasirBaseController extends Controller
         if (!empty(Input::get('terapi2'))) {
             $perbaikan = new Perbaikanresep;
             $perbaikan->periksa_id = $periksa_id;
-            $perbaikan->terapi1 = Input::get('terapi1');
-            $perbaikan->terapi2 = Input::get('terapi2');
+            $perbaikan->terapi = Input::get('terapi1');
             $perbaikan->save();
         }
 

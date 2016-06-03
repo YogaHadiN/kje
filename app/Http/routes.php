@@ -441,6 +441,7 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::post('poli/ajax/pilih', 'PoliAjaxController@pilih');
 			Route::post('poli/ajax/kkchange', 'PoliAjaxController@kkchange');
 			Route::post('poli/ajax/asuridchange', 'PoliAjaxController@asuridchange');
+			Route::post('poli/ajax/bhp_tindakan', 'PoliAjaxController@bhp_tindakan');
 
 
 
