@@ -1744,11 +1744,12 @@ function optionSyrup(ID_MEREK){
             }
             var plafon = $('#plafon_total').val() - totalBiayaObat;
             console.log('totalBiayaObat = ' + totalBiayaObat);
+            console.log('plafon adalah = ' + Math.abs( plafon ));
             $('#plafon').html(Math.abs(plafon));
 
             if (plafon < 0) {
 
-                $('#uangKekuranganFlat').html(rataAtas5000(abs(plafon)));
+                $('#uangKekuranganFlat').html(rataAtas5000(Math.abs(plafon)));
 
                 if ($('#kekuranganFlat').hasClass('hide')) {
                     $('#kekuranganFlat').removeClass('hide');
