@@ -18,7 +18,7 @@ elixir(function(mix) {
         'plugins/dataTables/dataTables.bootstrap.css',
         'plugins/dataTables/dataTables.responsive.css',
         'plugins/dataTables/dataTables.tableTools.min.css',
-        'animate.css',
+        //'animate.css',
         'style.css',
         'jquery-ui.min.css',
         'plugins/datepicker/datepicker3.css',
