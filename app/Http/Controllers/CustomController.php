@@ -134,8 +134,6 @@ class CustomController extends Controller
 		 } else {
 		 	$usg = '0';
 		 }
-
-
 		$antrian_id = Yoga::customId('App\AntrianPeriksa');
 
 		$antrian = new AntrianPeriksa;
@@ -150,8 +148,14 @@ class CustomController extends Controller
 		$antrian->save();
 
 		$pasien = Pasien::find($periksa->pasien_id);
+        $poli = $periksa->poli;
+		if ($poli == 'sks' || $poli == 'luka') {
+			$poli = 'umum';
+		} else if ($poli == 'KB 1 Bulan' || $poli == 'KB 3 Bulan' ){
+			$poli='kandungan';
+		}
 
-		return redirect('ruangperiksa/' .$periksa->poli)
+		return redirect('ruangperiksa/' . $poli)
 		->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . ' </strong>Berhasil dikembalikan ke Ruang Periksa <strong>Poli ' . ucwords(strtolower($periksa->poli)) . '</strong>'));
 
 	}

@@ -494,12 +494,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Pastikan Foto Pasien Benar Adanya !!</h4>
-                    <h4>{!! $antrianperiksa->pasien->nama!!}, {!! App\Classes\Yoga::datediff($antrianperiksa->pasien->tanggal_lahir, date('Y-m-d'))!!}</h4>
-                    <h4>Jika foto pasien tidak cocok, minta pasien untuk mendaftar lagi sebagai pasien umum</h4>
+                    <h4 class="text-center">{!! $antrianperiksa->pasien->nama!!}, {!! App\Classes\Yoga::datediff($antrianperiksa->pasien->tanggal_lahir, date('Y-m-d'))!!}</h4>
                 </div>
                 <div class="modal-body text-center">
                     <img src="{!! url($antrianperiksa->pasien->image) !!}? {{ time() }}" alt="" width="500px" height="375px">
+                    <h4 class="text-center">Jika foto pasien tidak cocok, minta pasien untuk mendaftar lagi sebagai pasien umum</h4>
                 </div>
                 <div class="modal-footer">
                     <div class="row">
