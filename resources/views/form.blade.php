@@ -490,8 +490,8 @@
     </div>
 </div>
 @if($antrianperiksa->asuransi_id == '32')
-    <div class="modal fade" id="cekFoto">
-        <div class="modal-dialog modal-lg">
+    <div class="modal" id="cekFoto">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Pastikan Foto Pasien Benar Adanya !!</h4>
@@ -499,7 +499,7 @@
                     <h4>Jika foto pasien tidak cocok, minta pasien untuk mendaftar lagi sebagai pasien umum</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <img src="{!! url($antrianperiksa->pasien->image) !!}? {{ time() }}" alt="" width="800px" height="600px">
+                    <img src="{!! url($antrianperiksa->pasien->image) !!}? {{ time() }}" alt="" width="500px" height="375px">
                 </div>
                 <div class="modal-footer">
                     <div class="row">
