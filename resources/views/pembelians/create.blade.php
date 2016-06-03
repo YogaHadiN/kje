@@ -49,7 +49,6 @@ Klinik Jati Elok | Entri Beli Obat
                 <div class="panelRight bold">
                   <span class="">Total : </span><span class="uang " id="totalHargaObat">0</span>
                 </div>
-
             </div>
       </div>
       <div class="panel-body">
@@ -475,7 +474,7 @@ Klinik Jati Elok | Entri Beli Obat
 
       $('#txt_harga_beli').keyup(function(e) {
         var dua_kali = 0;
-        if ($('#class_rak').val() == '1') {
+        if ($('#class_rak').val() == '3') {
           dua_kali = $(this).val() * 1.3;
         } else {
           dua_kali = $(this).val() * 2;
@@ -665,6 +664,7 @@ Klinik Jati Elok | Entri Beli Obat
       if ($(control).val() != '') {
 
             control = $('#ddl_merek_id option:selected').attr('data-value');
+            console.log(control);
             control = $.parseJSON(control);
 
             console.log(control);
