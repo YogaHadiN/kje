@@ -130,8 +130,7 @@ Klinik Jati Elok | Gaji Dokter
                         <th>Tanggal</th>
                         <th>Nama Pasien</th>
                         <th>Asuransi</th>
-                        <th>Tunai</th>
-                        <th>Piutang</th>
+                        <th>Transaksi</th>
                         <th>Jasa Dokter</th>
                     </tr>
                 </thead>
@@ -142,8 +141,14 @@ Klinik Jati Elok | Gaji Dokter
                             <td>{!! App\Classes\Yoga::updateDatePrep( $hutang->tanggal  )!!}</td>
                             <td>{!! $hutang->nama !!}</td>
                             <td>{!! $hutang->nama_asuransi !!}</td>
-                            <td class="uang">{!! $hutang->tunai !!}</td>
-                            <td class="uang">{!! $hutang->piutang !!}</td>
+                            <td>
+
+                               <table class="table table-condensed">
+                                   <tbody>
+                                       {!! App\Periksa::find( $hutang->periksa_id )->tindakan_html !!}
+                                   </tbody>
+                               </table> 
+                            </td>
                             <td class="uang">{!! $hutang->nilai !!}</td>
                         </tr>
                     @endforeach
