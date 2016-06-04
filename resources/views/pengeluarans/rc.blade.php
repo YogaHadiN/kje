@@ -42,6 +42,43 @@ Klinik Jati Elok | Tambah Modal
        </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Daftar Masuk Modal</div>
+            </div>
+            <div class="panel-body">
+                <?php echo $modals->appends(Input::except('page'))->links(); ?>
+                <div class-"table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Uang Masuk</th>
+                                <th>coa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($modals as $modal)
+                            <tr>
+                                <td>{{  $modal->created_at->format('d-m-Y')  }}</td>
+                                <td>{{  $modal->modal  }}</td>
+                                <td>{{  $modal->coa->coa  }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <?php echo $modals->appends(Input::except('page'))->links(); ?>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
 @stop
 @section('footer') 
     

@@ -306,6 +306,7 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
 			Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
 
+			Route::get('pengelurans/checkout/{id}', 'PengeluaransController@show_checkout');
 
 			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
 			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
