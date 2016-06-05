@@ -17,3 +17,5 @@ drop table checkout_details;
 create table `checkout_details` (`id` int unsigned not null auto_increment primary key, `jenis_tarif_id` text not null , `jumlah` int(11) not null default 0, `checkout_kasir_id` int(11), `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
 
 create table `modals` (`id` int unsigned not null auto_increment primary key, `modal` int(11), `coa_kas_id` int(11) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+update asuransis set tipe_asuransi = 0 where id='150922001';

@@ -144,6 +144,13 @@ Klinik Jati Elok | Gaji Dokter
                             <td>
 
                                <table class="table table-condensed">
+                                   <thead>
+                                       <tr>
+                                           <th class="text-center">Jenis Transaksi</th>
+                                           <th class="text-center"></th>
+                                           <th class="text-center">Biaya</th>
+                                       </tr>
+                                   </thead>
                                    <tbody>
                                        {!! App\Periksa::find( $hutang->periksa_id )->tindakan_html !!}
                                    </tbody>

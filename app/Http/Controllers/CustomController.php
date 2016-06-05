@@ -387,7 +387,7 @@ class CustomController extends Controller
 
 			//Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
 			if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {
-				$feeDokter = 3000;
+				$feeDokter += 3000;
 			}
 
 			// Input hutang kepada dokter
