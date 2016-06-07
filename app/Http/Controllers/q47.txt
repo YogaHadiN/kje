@@ -1,0 +1,2 @@
+alter table checkout_kasirs drop column hasil_penjualan;
+delete from jurnal_umums where jurnalable_id = '160606060' and jurnalable_type = 'App\\Periksa';

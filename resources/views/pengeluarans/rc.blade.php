@@ -30,11 +30,16 @@ Klinik Jati Elok | Tambah Modal
                    {!! Form::label('kas_masuk', 'Kas Masuk') !!}
                      <div class="input-group">
                           <div class="input-group-addon">Rp. </div>
-                           {!! Form::text('kas_masuk' , null, ['class' => 'form-control']) !!}
+                           {!! Form::text('kas_masuk' , null, ['class' => 'form-control rq']) !!}
                      </div>
                </div>
                <div class="form-group">
-                   {!! Form::submit('Submit', ['class' => 'btn btn-success']) !!}
+                 {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+                 {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
+               </div>
+               <div class="form-group">
+                   <button class="btn btn-success" onclick="dummySubmit();return false;" type="button">Submit</button>
+                   {!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
                </div>
                {!! Form::close() !!}
               
@@ -44,7 +49,7 @@ Klinik Jati Elok | Tambah Modal
 </div>
 <div class="row">
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">Daftar Masuk Modal</div>
             </div>
@@ -63,7 +68,7 @@ Klinik Jati Elok | Tambah Modal
                             @foreach($modals as $modal)
                             <tr>
                                 <td>{{  $modal->created_at->format('d-m-Y')  }}</td>
-                                <td>{{  $modal->modal  }}</td>
+                                <td class="uang">{{  $modal->modal  }}</td>
                                 <td>{{  $modal->coa->coa  }}</td>
                             </tr>
                             @endforeach
@@ -81,14 +86,20 @@ Klinik Jati Elok | Tambah Modal
 
 @stop
 @section('footer') 
-    
-            {!! HTML::script("js/chosen.jquery.js")!!}
+{!! HTML::script("js/chosen.jquery.js")!!}
 <script type="text/javascript" charset="utf-8">
     $(function () {
         $('.chosen-select').chosen();
         $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
     });
 </script>    
+<script type="text/javascript" charset="utf-8">
+function dummySubmit(){
+     if(validatePass()){
+         $('#submit').click();
+     }
+}
+</script>
 @stop
 
 

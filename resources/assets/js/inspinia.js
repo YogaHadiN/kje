@@ -1,4 +1,25 @@
 // Custom scripts
+// jQuery plugin to prevent double submission of forms
+jQuery.fn.preventDoubleSubmission = function () {
+    $(this).on('submit', function (e) {
+        var $form = $(this);
+
+        if ($form.data('submitted') === true) {
+            // Previously submitted - don't submit again
+            alert('Form already submitted. Please wait.');
+            e.preventDefault();
+        } else {
+            // Mark it so that the next submit can be ignored
+            // ADDED requirement that form be valid
+            if($form.valid()) {
+                $form.data('submitted', true);
+            }
+        }
+    });
+
+    // Keep chainability
+    return this;
+};
 $(document).ready(function () {
     // MetsiMenu
     $('#side-menu').metisMenu();
@@ -86,9 +107,8 @@ $(document).ready(function () {
         var before = $(this).val();
         $(this).val(parseInt(before) || '');
     });
-
-
-
+    
+    $('form').preventDoubleSubmission();
     
 });
 

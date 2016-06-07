@@ -3867,6 +3867,27 @@ type:"inline"},orthogonal:"display"};var o=c.fn.dataTable.Api;o.register("respon
 o.register("responsive.hasHidden()",function(){var a=this.context[0];return a._responsive?-1!==c.inArray(!1,a._responsive.s.current):!1});j.version="2.0.0";c.fn.dataTable.Responsive=j;c.fn.DataTable.Responsive=j;c(k).on("init.dt.dtr",function(a,b){if("dt"===a.namespace&&(c(b.nTable).hasClass("responsive")||c(b.nTable).hasClass("dt-responsive")||b.oInit.responsive||n.defaults.responsive)){var d=b.oInit.responsive;!1!==d&&new j(b,c.isPlainObject(d)?d:{})}});return j});
 
 // Custom scripts
+// jQuery plugin to prevent double submission of forms
+jQuery.fn.preventDoubleSubmission = function () {
+    $(this).on('submit', function (e) {
+        var $form = $(this);
+
+        if ($form.data('submitted') === true) {
+            // Previously submitted - don't submit again
+            alert('Form already submitted. Please wait.');
+            e.preventDefault();
+        } else {
+            // Mark it so that the next submit can be ignored
+            // ADDED requirement that form be valid
+            if($form.valid()) {
+                $form.data('submitted', true);
+            }
+        }
+    });
+
+    // Keep chainability
+    return this;
+};
 $(document).ready(function () {
     // MetsiMenu
     $('#side-menu').metisMenu();
@@ -3954,9 +3975,8 @@ $(document).ready(function () {
         var before = $(this).val();
         $(this).val(parseInt(before) || '');
     });
-
-
-
+    
+    $('form').preventDoubleSubmission();
     
 });
 

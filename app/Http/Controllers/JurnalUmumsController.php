@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\JurnalUmum;
 use App\Pengeluaran;
+use App\Periksa;
+use App\Modal;
 use App\BukanObat;
 use App\Classes\Yoga;
 use App\Coa;
@@ -33,7 +35,19 @@ class JurnalUmumsController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
-		$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->paginate(10);
+        $jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->paginate(10);
+        //
+        //$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
+        //$errors = [];
+        //foreach ($jurnalumums as $ju) {
+            //try {
+                //$ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
+            //} catch (\Exception $e) {
+                //$errors[] = $ju->id;
+            //}
+        //}
+
+        //return dd( $errors );
 
 		return view('jurnal_umums.index', compact('jurnalumums'));
 	}

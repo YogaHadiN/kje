@@ -354,16 +354,16 @@ Klinik Jati Elok | Asuransi
         if(dibayar_asuransi == ''){
             dibayar_asuransi = 0;
         }
-
+        console.log('total = ' + total);
         totalBiaya = parseInt(total);
+        console.log('totalBiaya = ' + totalBiaya);
  
        $('.total').html(totalBiaya);
-        var dibayar_asuransi = $('#dibayar_asuransi').val();
 
         if(dibayar_asuransi == ''){
-            $('#dibayar_pasien').val(totalBiaya || '0');
+            $('#dibayar_pasien').val(totalBiaya);
         } else {
-            $('#dibayar_pasien').val(parseInt(totalBiaya) - parseInt(dibayar_asuransi) || '0');
+            $('#dibayar_pasien').val(parseInt(totalBiaya) - parseInt(dibayar_asuransi));
         }
 
         var id = $('#dibayar_pasien').attr('id');
@@ -553,6 +553,8 @@ Klinik Jati Elok | Asuransi
                 validasi('#pembayaran_pasien', 'Pembayaran Pasien tidak benar');
             }else { 
                 $('#print').click();
+                $('.btn').attr('disabled','disabled');
+
             }
         } else {
            alert('Mohon Periksa / Cek ulang apakah obat yang akan diberikan sesuai dengan resep!');
