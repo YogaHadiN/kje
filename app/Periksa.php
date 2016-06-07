@@ -774,8 +774,9 @@ class Periksa extends Model{
         $pasien = $this->pasien->nama;
         $diagnosis = $this->diagnosa->diagnosa .' - ' . $this->diagnosa->icd10->diagnosaICD;
         $pembayaran = $this->asuransi->nama;
+        $pemeriksa = $this->staf->nama;
 
-        return 'Pasien ' . $pasien . ', diagnosa : ' . $diagnosis . ', pembayaran : ' . $pembayaran;
+        return 'Pasien ' . $pasien . ', diagnosa : ' . $diagnosis . ', pembayaran : ' . $pembayaran . ', Pemeriksa : ' . $pemeriksa;
 
     }
 
