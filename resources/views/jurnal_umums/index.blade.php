@@ -66,8 +66,8 @@ Klinik Jati Elok | Jurnal Umum
                                   <a href="{{ url('periksas/' . $ju->jurnalable_id)}}" class="btn btn-primary btn-xs btn-block">Detail</a> 
                               @elseif($ju->jurnalable_type == 'App\FakturBelanja' && $ju->jurnalable_type::find($ju->jurnalable_id)->belanja_id == '1')
                                   <a href="{{ url('pembelians/show/' . $ju->jurnalable_id)}}" class="btn btn-primary btn-xs btn-block">Detail</a> 
-                              @elseif($ju->jurnalable_type == 'App\Pengeluaran')
-                                  <a href="{{ url('pengeluarans/show/' . App\Pengeluaran::find($ju->jurnalable_id)->faktur_belanja_id)}}" class="btn btn-primary btn-xs btn-block">Detail</a> 
+                              @elseif($ju->jurnalable_type == 'App\FakturBelanja'&& $ju->jurnalable_type::find($ju->jurnalable_id)->belanja_id == '3')
+                                  <a href="{{ url('pengeluarans/show/' . $ju->jurnalable_id) }}" class="btn btn-primary btn-xs btn-block">Detail</a> 
                               @endif
                               </td>
                             </tr>

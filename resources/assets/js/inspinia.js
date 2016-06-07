@@ -1,25 +1,4 @@
-// Custom scripts
-// jQuery plugin to prevent double submission of forms
-jQuery.fn.preventDoubleSubmission = function () {
-    $(this).on('submit', function (e) {
-        var $form = $(this);
-
-        if ($form.data('submitted') === true) {
-            // Previously submitted - don't submit again
-            alert('Form already submitted. Please wait.');
-            e.preventDefault();
-        } else {
-            // Mark it so that the next submit can be ignored
-            // ADDED requirement that form be valid
-            if($form.valid()) {
-                $form.data('submitted', true);
-            }
-        }
-    });
-
-    // Keep chainability
-    return this;
-};
+// Custom script
 $(document).ready(function () {
     // MetsiMenu
     $('#side-menu').metisMenu();
@@ -80,16 +59,6 @@ $(document).ready(function () {
 
     $('.nav-tabs').addClass('nav-justified')
 
-    // Fixed Sidebar
-    // unComment this only whe you have a fixed-sidebar
-            //    $(window).bind("load", function() {
-            //        if($("body").hasClass('fixed-sidebar')) {
-            //            $('.sidebar-collapse').slimScroll({
-            //                height: 'auto',
-            //                railOpacity: 0.9,
-            //            });
-            //        }
-            //    })
 
     $(window).bind("load resize click scroll", function() {
         if(!$("body").hasClass('body-small')) {
@@ -108,7 +77,9 @@ $(document).ready(function () {
         $(this).val(parseInt(before) || '');
     });
     
-    $('form').preventDoubleSubmission();
+    $('form').submit(function(){
+        $('.btn').attr('disabled', 'disabled'); // but this doesn't work
+    });
     
 });
 

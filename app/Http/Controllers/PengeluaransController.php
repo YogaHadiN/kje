@@ -56,6 +56,7 @@ class PengeluaransController extends Controller
 		$rules = [
 			'transaksi_beli' 	=> 'required',
 		];
+
 		$validator = \Validator::make($data = Input::all(), $rules, $messages);
 
 		if ($validator->fails())
@@ -70,7 +71,7 @@ class PengeluaransController extends Controller
 		$faktur_belanja_id = Input::get('faktur_belanja_id');
 
 		$datas = json_decode($datas, true);
-
+        $kas_keluar = 0;
 		foreach ($datas as $data) {
 			$pg_id = Yoga::customId('App\Pengeluaran');
 			$pg = new Pengeluaran;
@@ -111,24 +112,27 @@ class PengeluaransController extends Controller
 
 			if ($confirm) {
 				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $pg_id;
-				$jurnal->jurnalable_type = 'App\Pengeluaran';
+				$jurnal->jurnalable_id   = $faktur_belanja_id;
+				$jurnal->jurnalable_type = 'App\FakturBelanja';
 				if (!empty($bo->coa_id)) {
 					$jurnal->coa_id = $bo->coa_id; //khusu untuk pengeluaran ini, coa belum dibuat
 				}
 				$jurnal->debit           = 1;
 				$jurnal->nilai           = $data['harga_satuan'] * $data['jumlah'];
 				$jurnal->save();
+                
+                $kas_keluar += $data['harga_satuan'] * $data['jumlah'];
 
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $pg_id;
-				$jurnal->jurnalable_type = 'App\Pengeluaran';
-				$jurnal->coa_id          = 110000; // kas di tangan
-				$jurnal->debit           = 0;
-				$jurnal->nilai           = $data['harga_satuan'] * $data['jumlah'];
-				$jurnal->save();
 			}
 		}
+
+        $jurnal                  = new JurnalUmum;
+        $jurnal->jurnalable_id   = $faktur_belanja_id;
+        $jurnal->jurnalable_type = 'App\FakturBelanja';
+        $jurnal->coa_id          = 110000; // kas di tangan
+        $jurnal->debit           = 0;
+        $jurnal->nilai           = $kas_keluar;
+        $jurnal->save();
 
 		$fb = FakturBelanja::find($faktur_belanja_id);
 		$fb->submit = '1';
@@ -392,8 +396,6 @@ class PengeluaransController extends Controller
             $sumberModal = false;
         }
         //return dd( $sumberModal );
-
-
         if ($sumberModal) {
             $jurnal                  = new JurnalUmum;
             $jurnal->jurnalable_id   = $modal->id;

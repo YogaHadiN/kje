@@ -3866,28 +3866,7 @@ a&&a.header&&h.find("div.dtr-modal-content").prepend("<h2>"+a.header(b)+"</h2>")
 type:"inline"},orthogonal:"display"};var o=c.fn.dataTable.Api;o.register("responsive()",function(){return this});o.register("responsive.index()",function(a){a=c(a);return{column:a.data("dtr-index"),row:a.parent().data("dtr-index")}});o.register("responsive.rebuild()",function(){return this.iterator("table",function(a){a._responsive&&a._responsive._classLogic()})});o.register("responsive.recalc()",function(){return this.iterator("table",function(a){a._responsive&&(a._responsive._resizeAuto(),a._responsive._resize())})});
 o.register("responsive.hasHidden()",function(){var a=this.context[0];return a._responsive?-1!==c.inArray(!1,a._responsive.s.current):!1});j.version="2.0.0";c.fn.dataTable.Responsive=j;c.fn.DataTable.Responsive=j;c(k).on("init.dt.dtr",function(a,b){if("dt"===a.namespace&&(c(b.nTable).hasClass("responsive")||c(b.nTable).hasClass("dt-responsive")||b.oInit.responsive||n.defaults.responsive)){var d=b.oInit.responsive;!1!==d&&new j(b,c.isPlainObject(d)?d:{})}});return j});
 
-// Custom scripts
-// jQuery plugin to prevent double submission of forms
-jQuery.fn.preventDoubleSubmission = function () {
-    $(this).on('submit', function (e) {
-        var $form = $(this);
-
-        if ($form.data('submitted') === true) {
-            // Previously submitted - don't submit again
-            alert('Form already submitted. Please wait.');
-            e.preventDefault();
-        } else {
-            // Mark it so that the next submit can be ignored
-            // ADDED requirement that form be valid
-            if($form.valid()) {
-                $form.data('submitted', true);
-            }
-        }
-    });
-
-    // Keep chainability
-    return this;
-};
+// Custom script
 $(document).ready(function () {
     // MetsiMenu
     $('#side-menu').metisMenu();
@@ -3948,16 +3927,6 @@ $(document).ready(function () {
 
     $('.nav-tabs').addClass('nav-justified')
 
-    // Fixed Sidebar
-    // unComment this only whe you have a fixed-sidebar
-            //    $(window).bind("load", function() {
-            //        if($("body").hasClass('fixed-sidebar')) {
-            //            $('.sidebar-collapse').slimScroll({
-            //                height: 'auto',
-            //                railOpacity: 0.9,
-            //            });
-            //        }
-            //    })
 
     $(window).bind("load resize click scroll", function() {
         if(!$("body").hasClass('body-small')) {
@@ -3976,7 +3945,9 @@ $(document).ready(function () {
         $(this).val(parseInt(before) || '');
     });
     
-    $('form').preventDoubleSubmission();
+    $('form').submit(function(){
+        $('.btn').attr('disabled', 'disabled'); // but this doesn't work
+    });
     
 });
 
