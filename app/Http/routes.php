@@ -336,6 +336,9 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('jurnal_umums', 'JurnalUmumsController@index');
 			Route::get('jurnal_umums/coa', 'JurnalUmumsController@coa');
 			Route::post('jurnal_umums/coa', 'JurnalUmumsController@coaPost');
+			Route::get('jurnal_umums/coa_list', 'JurnalUmumsController@coa_list');
+			Route::get('jurnal_umums/coa_keterangan', 'JurnalUmumsController@coa_keterangan');
+			Route::post('jurnal_umums/coa_entry', 'JurnalUmumsController@coa_entry');
 
 
 			Route::get('buku_besars', 'BukuBesarsController@index');

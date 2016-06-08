@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\JurnalUmum;
 use App\Pengeluaran;
 use App\Periksa;
+use App\KelompokCoa;
 use App\Modal;
 use App\BukanObat;
 use App\CheckoutKasir;
@@ -89,9 +90,12 @@ class JurnalUmumsController extends Controller
                                 ->get();
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
+        $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
+        //return $kelompokCoaList;
 
 		return view('jurnal_umums.coa', compact(
 			'jurnalumums', 
+			'kelompokCoaList', 
 			'bebanCoaList',
 			'pendapatanCoaList'
 		));
@@ -171,5 +175,37 @@ class JurnalUmumsController extends Controller
 
 		return \Redirect::route('jurnalumums.index');
 	}
+    public function coa_list(){
+         
+        $coa_id = Input::get('coa_id');
+
+        $coas = Coa::where('id', 'like', "%$coa_id%")
+                    ->take(10)->get();
+        return json_encode($coas);
+    }
+    public function coa_keterangan(){
+         
+        $keterangan = Input::get('keterangan');
+
+        $coas = Coa::where('coa', 'like', "%$keterangan%")
+                    ->take(10)->get();
+        return json_encode($coas);
+    }
+    public function coa_entry(){
+         $coa_id = Input::get('coa_id');
+         $kelompok_coa_id = Input::get('kelompok_coa_id');
+         $coa = Input::get('coa');
+
+         $c = new Coa;
+         $c->id = $coa_id;
+         $c->kelompok_coa_id = $kelompok_coa_id;
+         $c->coa = $coa;
+         $c->save();
+
+
+        return json_encode( [ null => '- pilih -' ] + Coa::lists('coa', 'id')->all() );
+    }
+    
+    
 
 }

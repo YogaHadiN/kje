@@ -10,5 +10,9 @@ class Penjualan extends Model{
 	protected $fillable = [];
 	protected $guarded = [];
 
+    public function merek(){
+         return $this->belongsTo('App\Merek');
+    }
+    
 	
 }
