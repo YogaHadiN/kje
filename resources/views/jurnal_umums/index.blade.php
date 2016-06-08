@@ -33,10 +33,10 @@ Klinik Jati Elok | Jurnal Umum
                     <tr>
                         <th>No</th>
                         <th>Tanggal</th>
-            						<th>Akun </th>
+                        <th>Akun </th>
                         <th>Debet</th>
                         <th>Kredit</th>
-            						<th>Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>

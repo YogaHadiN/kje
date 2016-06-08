@@ -36,15 +36,19 @@ Klinik Jati Elok | Coa belum di set
                 </thead>
                 <tbody>
                     @foreach($jurnalumums as $ju)
-                      @if($ju['jurnalable_type'] == 'App\Pengeluaran')
+                      @if($ju['jurnalable_type'] == 'App\FakturBelanja')
                         <tr>
-                          <td class="hide field_id">{!! $ju->id !!}</td>
-                          <td>{!! $ju->tanggal !!}</td>
-                          <td>{!! $ju->jurnalable->bukanObat->nama !!}</td>
-                          <td class="uang">{!! $ju->nilai !!}</td>
-                           <td>
-                            {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq', 'onchange' => 'coaChange(this); return false;']) !!}
-                          </td>
+                          @foreach ($ju->jurnalable->pengeluaran as $penge)
+                              @if(empty( $penge->coa_id ))
+                                  <td class="hide field_id">{!! $ju->id !!}</td>
+                                  <td>{!! $ju->tanggal !!}</td>
+                                  <td>{!! $penge->bukanObat->nama !!}</td>
+                                  <td class="uang">{!! $ju->nilai !!}</td>
+                                  <td>
+                                      {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq', 'onchange' => 'coaChange(this); return false;']) !!}
+                                  </td>
+                              @endif
+                          @endforeach
                         </tr>
                       @endif
                     @endforeach

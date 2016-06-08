@@ -37,18 +37,24 @@ class JurnalUmumsController extends Controller
 			}
 		}
         $jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->paginate(10);
-        //
-        //$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
-        //$errors = [];
-        //foreach ($jurnalumums as $ju) {
-            //try {
-                //$ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
-            //} catch (\Exception $e) {
-                //$errors[] = $ju->id;
+        
+        $jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
+        $errors = [];
+        foreach ($jurnalumums as $ju) {
+            //if ($ju->id = 31007) {
+                //return $ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
             //}
-        //}
+            try {
+                //$ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
+                foreach ($ju->jurnalable_type::find($ju->jurnalable_id)->jurnals as $ju) {
+                    
+                }
+            } catch (\Exception $e) {
+                $errors[] = $ju->id;
+            }
+        }
 
-        //return dd( $errors );
+        return dd( $errors );
 
 		return view('jurnal_umums.index', compact('jurnalumums'));
 	}
@@ -83,7 +89,10 @@ class JurnalUmumsController extends Controller
 
 
 		// return $ids;
-		$jurnalumums = JurnalUmum::whereIn('id', $ids)->get();
+        $jurnalumums = JurnalUmum::whereIn('id', $ids)
+                                ->where('jurnalable_type', 'App\FakturBelanja')
+                                ->groupBy('jurnalable_id')
+                                ->get();
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
 
@@ -92,8 +101,6 @@ class JurnalUmumsController extends Controller
 			'bebanCoaList',
 			'pendapatanCoaList'
 		));
-		// return $jurnalumums;
-
 	}
 
 	/**
