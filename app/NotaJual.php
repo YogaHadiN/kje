@@ -14,4 +14,7 @@ class NotaJual extends Model{
     public function dispenses(){
         return $this->morphMany('App\Dispensing', 'dispensable');
     }
+    public function jurnals(){
+        return $this->morphMany('App\JurnalUmum', 'jurnalable');
+    }
 }

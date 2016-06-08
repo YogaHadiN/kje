@@ -38,23 +38,17 @@ class JurnalUmumsController extends Controller
 		}
         $jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->paginate(10);
         
-        $jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
-        $errors = [];
-        foreach ($jurnalumums as $ju) {
-            //if ($ju->id = 31007) {
-                //return $ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
+        //$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
+        //$errors = [];
+        //foreach ($jurnalumums as $ju) {
+            //try {
+                //foreach ($ju->jurnalable_type::find($ju->jurnalable_id)->jurnals as $ju) {
+                //}
+            //} catch (\Exception $e) {
+                //$errors[] = $ju->id;
             //}
-            try {
-                //$ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
-                foreach ($ju->jurnalable_type::find($ju->jurnalable_id)->jurnals as $ju) {
-                    
-                }
-            } catch (\Exception $e) {
-                $errors[] = $ju->id;
-            }
-        }
-
-        return dd( $errors );
+        //}
+        //return dd( $errors );
 
 		return view('jurnal_umums.index', compact('jurnalumums'));
 	}
