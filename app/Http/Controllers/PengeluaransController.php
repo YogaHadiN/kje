@@ -10,6 +10,7 @@ use App\FakturBelanja;
 use App\JenisPengeluaran;
 use App\Classes\Yoga;
 use App\BukanObat;
+use App\CheckoutDetail;
 use App\Pembelian;
 use App\Diagnosa;
 use App\Modal;
@@ -268,11 +269,15 @@ class PengeluaransController extends Controller
 
         $uang_masuks = JurnalUmum::where('created_at', '>=', $tanggal)
                                     ->where('coa_id', 110000)
+                                    ->where('jurnalable_type', '!=', 'App\Modal')
+                                    ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
                                     ->where('debit', '1')
                                     ->get();
 
         $uang_keluar = JurnalUmum::where('created_at', '>=', $tanggal)
                                     ->where('coa_id', 110000)
+                                    ->where('jurnalable_type', '!=', 'App\Modal')
+                                    ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
                                     ->where('debit', '0')
                                     ->get();
 
@@ -300,6 +305,7 @@ class PengeluaransController extends Controller
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal = $last_chekcout->created_at;
+        //return 'jurnal umum terakhir id = ' .$jurnal_umum_id_last_cehckout;
         //Modal awal dihitung dari id jurnal umum terakhir checkout
         $jurnal_umums = JurnalUmum::where('id', '>=', $jurnal_umum_id_last_cehckout)
                         ->where('jurnalable_type', 'App\Modal')
@@ -313,46 +319,57 @@ class PengeluaransController extends Controller
                $modal_awal +=  $ju->nilai;
             }
         }
-        $total_uang_masuk = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
+        $uang_masuks = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
                                 ->where('coa_id', 110000) 
                                 ->where('jurnalable_type', '!=', 'App\Modal')
-                                ->orWhereNull('jurnalable_type')
-                                ->where('debit', 1)
+                                ->where('debit', '1')
                                 ->get();
-        $total_uang_keluar = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
+        $total_uang_masuk = 0;
+        foreach ($uang_masuks as $masuk) {
+            $total_uang_masuk += $masuk->nilai;
+        }
+        $uang_keluars = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
                                 ->where('coa_id', 110000) 
                                 ->where('jurnalable_type', '!=', 'App\Modal')
-                                ->orWhereNull('jurnalable_type')
-                                ->where('debit', 0)
+                                ->where('debit', '0')
                                 ->get();
+        $total_uang_keluar = 0;
+        foreach ($uang_keluars as $keluar) {
+            $total_uang_keluar += $keluar->nilai;
+        }
+        //return dd( $uang_masuks );
+        //return dd( $uang_keluars );
+        //return 'total_uang_masuk = ' . $total_uang_masuk;
+        //return 'total_uang_keluar = ' . $total_uang_keluar;
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
         $query = "select min(jenis_tarif_id) as jenis_tarif_id, min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
         //pindahkan semua kas di kasir menjadi kas di tangan
-        $jurnal                  = new JurnalUmum;
-        $jurnal->jurnalable_id   = $new_z->id;
-        $jurnal->jurnalable_type = 'App\CheckoutKasir';
-        $jurnal->coa_id          = 110004; // Kas di tangan
-        $jurnal->debit           = 1;
-        $jurnal->nilai           = $uang_di_kasir;
-        $jurnal->save();
-
-        $jurnal                  = new JurnalUmum;
-        $jurnal->jurnalable_id   = $new_z->id;
-        $jurnal->jurnalable_type = 'App\CheckoutKasir';
-        $jurnal->coa_id          = 110000; // Kas di kasir
-        $jurnal->debit           = 0;
-        $jurnal->nilai           = $uang_di_kasir;
-        $jurnal->save();
-
         $new_z = new CheckoutKasir;
         $new_z->modal_awal = $modal_awal;
         $new_z->uang_di_kasir = $uang_di_kasir;
         $new_z->uang_di_tangan = $uang_di_tangan + $uang_di_kasir;
-        $new_z->jurnal_umum_id = $jurnal->id;
+        $new_z->jurnal_umum_id = JurnalUmum::all()->last()->id;
         $new_z->uang_masuk = $total_uang_masuk;
         $new_z->uang_keluar = $total_uang_keluar;
-        $new_z->save();
+        $confirm = $new_z->save();
+        if ($confirm) {
+            $jurnal                  = new JurnalUmum;
+            $jurnal->jurnalable_id   = $new_z->id;
+            $jurnal->jurnalable_type = 'App\CheckoutKasir';
+            $jurnal->coa_id          = 110004; // Kas di tangan
+            $jurnal->debit           = 1;
+            $jurnal->nilai           = $uang_di_kasir;
+            $jurnal->save();
+
+            $jurnal                  = new JurnalUmum;
+            $jurnal->jurnalable_id   = $new_z->id;
+            $jurnal->jurnalable_type = 'App\CheckoutKasir';
+            $jurnal->coa_id          = 110000; // Kas di kasir
+            $jurnal->debit           = 0;
+            $jurnal->nilai           = $uang_di_kasir;
+            $jurnal->save();
+        }
     
         foreach ($transaksis as $transaksi) {
             $detail = new CheckoutDetail; 
@@ -363,7 +380,7 @@ class PengeluaransController extends Controller
         }
         //tambah semua komponen yang masuk kas, retrieve semua last id nya
         $pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
-        return redirect('pengeluarans.notaz')->withPesan($pesan);
+        return redirect('pengeluarans/nota_z')->withPesan($pesan);
     }
 
     public function erce(){

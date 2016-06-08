@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Modal extends Model
 {
     
-    protected $morphClass = 'App\Modal';
     protected $dates = ['created_at'];
     public function coa(){
          return $this->belongsTo('App\Coa', 'coa_kas_id');
     }
     
+    protected $morphClass = 'App\Modal';
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }

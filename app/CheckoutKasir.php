@@ -12,4 +12,18 @@ class CheckoutKasir extends Model
         return $this->created_at->format('d-m-Y');
     }
     
+    protected $morphClass = 'App\CheckoutKasir';
+    public function jurnals(){
+        return $this->morphMany('App\JurnalUmum', 'jurnalable');
+    }
+
+    
+    public function getKetjurnalAttribute(){
+        $tanggal = $this->created_at->format('d-m-Y');
+        $uang = $this->nilai;
+
+        return 'Checkout sebesar <span class="uang">' . $uang . '</span> dipindahkan  ke kas di tangan  pada tanggal ' . $tanggal;
+
+    }
 }
+

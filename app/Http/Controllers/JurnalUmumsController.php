@@ -11,6 +11,7 @@ use App\Pengeluaran;
 use App\Periksa;
 use App\Modal;
 use App\BukanObat;
+use App\CheckoutKasir;
 use App\Classes\Yoga;
 use App\Coa;
 

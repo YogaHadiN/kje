@@ -54,10 +54,10 @@ Klinik Jati Elok | Checkout Kasir
                                 @foreach($checkouts as $checkout)
                                 <tr>
                                     <td>{{  $checkout->created_at->format('d-m-Y')  }}</td>
-                                    <td>{{  $checkout->modal_awal  }}</td>
-                                    <td>{{  $checkout->uang_keluar  }}</td>
-                                    <td>{{  $checkout->uang_masuk  }}</td>
-                                    <td>{{  $checkout->hasil_penjualan  }}</td>
+                                    <td class="uang">{{  $checkout->modal_awal  }}</td>
+                                    <td class="uang">{{  $checkout->uang_keluar  }}</td>
+                                    <td class="uang">{{  $checkout->uang_masuk  }}</td>
+                                    <td class="uang">{{  $checkout->hasil_penjualan  }}</td>
                                     <td> <a href="{{ url('pengelurans/checkout/' . $checkout->id) }}" class="btn btn-primary btn-xs">details</a> </td>
                                 </tr>
                                 @endforeach
