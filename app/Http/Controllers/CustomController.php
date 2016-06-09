@@ -365,6 +365,11 @@ class CustomController extends Controller
 					$d->tanggal          = Periksa::find($periksa_id)->tanggal;
 					$d->save();
 				}
+                
+                //Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
+                if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {
+                    $feeDokter += 3000;
+                }
 			}
 
             if ($hutang_asisten_tindakan > 0) {
@@ -386,10 +391,6 @@ class CustomController extends Controller
                 $jurnal->save();
             }
 
-			//Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
-			if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {
-				$feeDokter += 3000;
-			}
 
 			// Input hutang kepada dokter
 			if ($feeDokter > 0) {
