@@ -322,9 +322,10 @@ class CustomController extends Controller
 			$adaJasaDokter = false;
 			$feeDokter = 0;
 
-			$adaBiaya = false;
             $hutang_asisten_tindakan = 0;
 			foreach ($transaksis as $k => $transaksi) {
+                $adaBiaya = false;
+
 				$trx                 = new TransaksiPeriksa;
 				$trx->periksa_id     = $periksa_id;
 				$trx->jenis_tarif_id = $transaksi['jenis_tarif_id'];
