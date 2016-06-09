@@ -312,10 +312,6 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
 			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
 
-			Route::get('cek/cek', function(){
-				return View::make('antrianpolis.oke');
-			});
-
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
 			Route::get('fakturbelanjas/cari', 'FakturBelanjasController@cari');
@@ -334,6 +330,7 @@ Route::get('jangan', 'PolisController@jangan');
 
 			
 			Route::get('jurnal_umums', 'JurnalUmumsController@index');
+			Route::get('jurnal_umums/show', 'JurnalUmumsController@show');
 			Route::get('jurnal_umums/coa', 'JurnalUmumsController@coa');
 			Route::post('jurnal_umums/coa', 'JurnalUmumsController@coaPost');
 			Route::get('jurnal_umums/coa_list', 'JurnalUmumsController@coa_list');

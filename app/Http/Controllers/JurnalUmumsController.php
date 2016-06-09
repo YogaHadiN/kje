@@ -25,11 +25,16 @@ class JurnalUmumsController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+    public function index(){
+    	return view('jurnal_umums.index');
+    }
+    
+	public function show()
 	{
 
+        $bulan  = Input::get('bulan');
+        $tahun  = Input::get('tahun');
 		$jurnalumums = JurnalUmum::all();
-
 		foreach ($jurnalumums as $k => $ju) {
 			try {
 				$ju->coa->coa;
@@ -37,8 +42,12 @@ class JurnalUmumsController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
-        $jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->paginate(10);
+        $jurnalumums = JurnalUmum::groupBy('created_at')
+            ->orderBy('created_at', 'desc')
+            ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
+            ->paginate(10);
         
+        //return dd( $jurnalumums );
         //$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
         //$errors = [];
         //foreach ($jurnalumums as $ju) {
@@ -51,7 +60,7 @@ class JurnalUmumsController extends Controller
         //}
         //return dd( $errors );
 
-		return view('jurnal_umums.index', compact('jurnalumums'));
+		return view('jurnal_umums.show', compact('jurnalumums'));
 	}
 
 	/**

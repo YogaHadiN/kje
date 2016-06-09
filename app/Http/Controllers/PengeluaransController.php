@@ -209,49 +209,120 @@ class PengeluaransController extends Controller
 		$mulai = Yoga::nowIfEmptyMulai($mulai);
 		$akhir = Yoga::nowIfEmptyAkhir($akhir);
          
-        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
-        $hutangs = DB::select($query);
-        $total = 0;
-        foreach ($hutangs as $hutang) {
-            $total += $hutang->nilai;
-        }
+        $hutangs = $this->hutangs($id, $mulai, $akhir);
+        $total = $this->total($id, $mulai, $akhir);
         return view('dokterbayar', compact('hutangs', 'total', 'nama_staf', 'mulai', 'akhir', 'id'));
     }
 
     
     public function dokterdibayar(){
         $staf_id = Input::get('staf_id');
+        $mulai = Input::get('mulai');
+        $akhir = Input::get('akhir');
+        $total = $this->total($staf_id, $mulai, $akhir);
         $hutang = Input::get('hutang');
         $staf = Staf::find($staf_id);
         $jasa_dokter = Input::get('jasa_dokter');        
         $dibayar = Input::get('dibayar');
         if ($dibayar > 0) {
-            $bayar = new BayarDokter;
-            $bayar->staf_id = $staf_id;
-            $bayar->bayar_dokter = $dibayar;
-            $bayar->hutang = $hutang;
-            $confirm = $bayar->save();
-            if ($confirm) {
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $bayar->id;
-				$jurnal->jurnalable_type = 'App\BayarDokter';
-				$jurnal->coa_id          = 200001; // Kas di tangan
-				$jurnal->debit           = 1;
-				$jurnal->nilai           = $bayar->bayar_dokter;
-				$jurnal->save();
-                
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $bayar->id;
-				$jurnal->jurnalable_type = 'App\BayarDokter';
-				$jurnal->coa_id          = 110000; // Kas di tangan
-				$jurnal->debit           = 0;
-				$jurnal->nilai           = $bayar->bayar_dokter;
-				$jurnal->save();
+                $bayar = new BayarDokter;
+                $bayar->staf_id = $staf_id;
+                $bayar->bayar_dokter = $dibayar;
+                $bayar->hutang = $hutang;
+                $confirm = $bayar->save();
+                if ($confirm) {
 
-                $pesan = Yoga::suksesFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Berhasil diinput' );
-            } else {
-                $pesan = Yoga::gagalFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Gagal diinput' );
-            }            
+                    if ($dibayar == $hutang) {
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 200001; // Kas di tangan
+                        $jurnal->debit           = 1;
+                        $jurnal->nilai           = $bayar->bayar_dokter;
+                        $jurnal->save();
+
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 110000; // Kas di tangan
+                        $jurnal->debit           = 0;
+                        $jurnal->nilai           = $bayar->bayar_dokter;
+                        $jurnal->save();
+                    } else if($dibayar  > $hutang){
+                        //Create Jurnal Umum untuk hutang saja
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 200001; // Kas di tangan
+                        $jurnal->debit           = 1;
+                        $jurnal->nilai           = $hutang;
+                        $jurnal->save();
+
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 110000; // Kas di kasir
+                        $jurnal->debit           = 0;
+                        $jurnal->nilai           = $hutang;
+                        $jurnal->save();
+                        //Jurnal Umum untuk sisa dengan b. operasional jasa dokter
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 50201; // B. Produksi Jasa Dokter
+                        $jurnal->debit           = 1;
+                        $jurnal->nilai           = $dibayar - $hutang;
+                        $jurnal->save();
+
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 110000; // Kas di kasir
+                        $jurnal->debit           = 0;
+                        $jurnal->nilai           = $dibayar - $hutang;
+                        $jurnal->save();
+                        
+
+                } else if($dibayar  < $hutang){
+
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 50201; // B. Produksi Jasa Dokter
+                        $jurnal->debit           = 1;
+                        $jurnal->nilai           = $hutang- $dibayar;
+                        $jurnal->save();
+                        
+                        //Jurnal Umum untuk sisa dengan b. operasional jasa dokter
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 200001; // Hutang kepada dokter
+                        $jurnal->debit           = 0;
+                        $jurnal->nilai           = $hutang- $dibayar;
+                        $jurnal->save();
+
+                        //Create Jurnal Umum untuk hutang saja
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 200001; // Hutang kepada dokter
+                        $jurnal->debit           = 1;
+                        $jurnal->nilai           = $hutang;
+                        $jurnal->save();
+
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 110000; // Kas di kasir
+                        $jurnal->debit           = 0;
+                        $jurnal->nilai           = $hutang;
+                        $jurnal->save();
+                }
+            }
+            $pesan = Yoga::suksesFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Berhasil diinput' );
+        } else {
+            $pesan = Yoga::gagalFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Gagal diinput' );
         }
         return redirect('stafs')->withPesan($pesan);
     }
@@ -444,5 +515,22 @@ class PengeluaransController extends Controller
     }
     
     
+    private function hutangs($id, $mulai, $akhir){
+         
+        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
+        $hutangs = DB::select($query);
+
+        return $hutangs;
+    }
+    private function total($id, $mulai, $akhir){
+         
+        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
+        $hutangs = DB::select($query);
+        $total = 0;
+        foreach ($hutangs as $hutang) {
+            $total += $hutang->nilai;
+        }
+        return $total;
+    }
 
 }
