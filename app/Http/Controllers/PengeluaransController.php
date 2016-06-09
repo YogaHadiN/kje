@@ -308,7 +308,7 @@ class PengeluaransController extends Controller
                         $jurnal->jurnalable_type = 'App\BayarDokter';
                         $jurnal->coa_id          = 200001; // Hutang kepada dokter
                         $jurnal->debit           = 1;
-                        $jurnal->nilai           = $hutang;
+                        $jurnal->nilai           = $dibayar;
                         $jurnal->save();
 
                         $jurnal                  = new JurnalUmum;
@@ -316,7 +316,7 @@ class PengeluaransController extends Controller
                         $jurnal->jurnalable_type = 'App\BayarDokter';
                         $jurnal->coa_id          = 110000; // Kas di kasir
                         $jurnal->debit           = 0;
-                        $jurnal->nilai           = $hutang;
+                        $jurnal->nilai           = $dibayar;
                         $jurnal->save();
                 }
             }
