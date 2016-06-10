@@ -331,7 +331,9 @@ class CustomController extends Controller
 				$trx->jenis_tarif_id = $transaksi['jenis_tarif_id'];
 				$trx->biaya          = $transaksi['biaya'];
 				$oke                 = $trx->save();
-				$feeDokter += Tarif::where('asuransi_id', $px->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
+                if ( !($transaksi['jenis_tarif_id'] == '116' && $transaksi['biaya'] == 0) ) {
+                    $feeDokter += Tarif::where('asuransi_id', $px->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
+                }
 				if ($oke) {
 					if ($transaksi['biaya'] > 0) {
 						$jurnal                  = new JurnalUmum;
@@ -608,5 +610,44 @@ class CustomController extends Controller
 			return $trx->biaya * 0.1;
 		}
 	}
+    public function test(){
+         //return 'test';
+        return view('test');
+    }
+    public function getmereks(){
+        $q = Input::get('q');
+        $query = "select min(mr.id) as merek_id, min(mr.merek) as merek, min(rk.fornas) as fornas, min(atu.aturan_minum) as aturan_minum, min(rk.stok) as stok from mereks as mr join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id = rk.formula_id join komposisis as kp on kp.formula_id = fr.id join generiks as gk on gk.id=kp.generik_id join aturan_minums as atu on atu.id = fr.aturan_minum_id where merek like '%$q%' or gk.generik like '%$q%' or atu.aturan_minum like '%$q%' group by mr.id limit 20;";
+        $mereks = DB::select($query);
+        $data = [];
+        foreach ($mereks as $mrk) {
+            $komposisis = Merek::find( $mrk->merek_id )->rak->formula->komposisi;
+            $fornas_id = $mrk->fornas;
+            if ($fornas_id == 1) {
+                $fornas = 'fornas';
+            } else {
+                $fornas = 'non fornas';
+            }
+            $komposisi = '<ul>';
+            foreach ($komposisis as $komp) {
+                $komposisi .= '<li>' . $komp->generik->generik . ' ' . $komp->bobot . '</li>';
+            }
+            $komposisi .= '</ul>';
+            $data[]= [
+                 'id' => $mrk->merek_id,
+                 'merek' => $mrk->merek,
+                 'komposisi' => $komposisi,
+                 'stok' => $mrk->stok,
+                 'aturan_minum' => $mrk->aturan_minum,
+                 'fornas' => $fornas
+            ];
+        }
+         return json_encode($data);
+    }
+    public function test_post(){
+         return 'this post';
+    }
+    
+    
+    
 
 }
