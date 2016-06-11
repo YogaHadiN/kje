@@ -59,6 +59,16 @@ list-style-type: none;
       <div class="form-group">
         <input id="cg" style="width:150px" class="form-control"></input>
       </div>
+
+      <div class="row">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+              <button class="btn btn-success" type="button" onclick="get_value();return false;">Value</button>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+              <button class="btn btn-warning" type="button" onclick="get_text();return false;">Value</button>
+          </div>
+      </div>
+      
       
       
     {!! Form::open(['url'=>'test/test', 'method'=> 'post']) !!} 
@@ -76,7 +86,7 @@ list-style-type: none;
 @section('footer') 
     <script src="{!! url('js/jquery.easyui.min.js') !!}"></script>
 	<script type="text/javascript" charset="utf-8">
-	    $(function () {
+    var zzz = 'aaa';
             $('#cg').combogrid({
 				panelWidth:800,
 				url: '{{ url("test/getmereks") }}',
@@ -92,7 +102,33 @@ list-style-type: none;
 					{field:'fornas',title:'Fornas',align:'left',width:60}
 				]]
 			});
+//                  $('.textbox-text').keypress(function(e){
+//                      console.log('keyup');
+//                      var key = e.keyCode || e.which;
+//                      if(key == '9'){
+//                           var text = $('table.datagrid-btable tbody tr:first-child td:first-child div').html();
+//                           $(this).val(text);
+//                      }
+//                      
+//                  });
+//                  var x=[];
+//                  for (var i in window){
+//                      x.push(i)
+//                  };
+//                  console.dir(window);
+            //console.log(x.join("\\"));
+
+	    $(function () {
         });
+
+        function get_value(){
+            alert($('#cg').combogrid('getValue'));
+        }
+        function get_text(){
+            alert($('#cg').combogrid('getText'));
+        }
+        
 	</script>
+
 @stop
 

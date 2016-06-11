@@ -12,6 +12,7 @@ use App\Merek;
 use App\Rak;
 use App\BahanHabisPakai;
 use App\JenisTarif;
+use App\PiutangAsuransi;
 use App\Periksa;
 use App\Rujukan;
 use App\Pasien;
@@ -275,7 +276,6 @@ class CustomController extends Controller
 			$rak       = Rak::find($rak_id);
 			$rak->stok = $rak->stok - $resep[$key]['jumlah'];
 			$confirm   = $rak->save();
-			
 			if($confirm){
 				$disp                   = new Dispensing;
 				$disp->id               = Yoga::customId('App\Dispensing');
@@ -315,6 +315,12 @@ class CustomController extends Controller
 				$jurnal->coa_id          = $px->asuransi->coa_id; // Piutang berdasarkan masing2 asuransi
 				$jurnal->nilai           = $px->piutang;
 				$jurnal->save();
+
+                $pt = new PiutangAsuransi;
+                $pt->periksa_id = $periksa_id;
+                $pt->piutang = $px->piutang;
+                $pt->tunai = $px->tunai;
+                $pt->save();
 			}
 
 			$transaksis = $px->transaksi;
@@ -615,8 +621,13 @@ class CustomController extends Controller
         return view('test');
     }
     public function getmereks(){
-        $q = Input::get('q');
-        $query = "select min(mr.id) as merek_id, min(mr.merek) as merek, min(rk.fornas) as fornas, min(atu.aturan_minum) as aturan_minum, min(rk.stok) as stok from mereks as mr join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id = rk.formula_id join komposisis as kp on kp.formula_id = fr.id join generiks as gk on gk.id=kp.generik_id join aturan_minums as atu on atu.id = fr.aturan_minum_id where merek like '%$q%' or gk.generik like '%$q%' or atu.aturan_minum like '%$q%' group by mr.id limit 20;";
+        $qs = str_split( Input::get('q') );
+        $temp = '';
+        foreach ($qs as $q) {
+            $temp .= $q . '%';
+        }
+        
+        $query = "select min(mr.id) as merek_id, min(mr.merek) as merek, min(rk.fornas) as fornas, min(atu.aturan_minum) as aturan_minum, min(rk.stok) as stok from mereks as mr join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id = rk.formula_id join komposisis as kp on kp.formula_id = fr.id join generiks as gk on gk.id=kp.generik_id join aturan_minums as atu on atu.id = fr.aturan_minum_id where merek like '%$temp' or gk.generik like '%$temp' or atu.aturan_minum like '%$temp' group by mr.id limit 20;";
         $mereks = DB::select($query);
         $data = [];
         foreach ($mereks as $mrk) {
@@ -646,8 +657,4 @@ class CustomController extends Controller
     public function test_post(){
          return 'this post';
     }
-    
-    
-    
-
 }

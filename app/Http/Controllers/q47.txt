@@ -1,3 +1,3 @@
-alter table checkout_kasirs drop column hasil_penjualan;
+    alter table checkout_kasirs drop column hasil_penjualan;
 delete from jurnal_umums where jurnalable_id = '160606060' and jurnalable_type = 'App\\Periksa';
 update tarifs set jasa_dokter = 30000 where id = 5360;
