@@ -4,14 +4,9 @@
 Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
 @stop
 @section('head')
-  <style>
-    .padding {
-      padding: 10px;
-    }
-    .panel-title {
-      font-size: 24px;
-    }
-  </style>
+  
+  <style></style>
+
 @stop
 @section('page-title') 
      <h2>RUANG PERIKSA Poli {!! ucfirst($antrianperiksa->poli)!!}</h2>
@@ -95,6 +90,45 @@ console.log(base);
 {!! HTML::script('js/allpoli.js')!!} 
 <script>
     afiCount();
+
+            $('#cg').combogrid({
+				panelWidth:800,
+				url: '{{ url("test/getmereks") }}',
+				idField:'id',
+				textField:'merek',
+				mode:'remote',
+				fitColumns:true,
+				columns:[[
+					{field:'merek',title:'Merek',width:100},
+					{field:'stok',title:'Stok',width:20},
+					{field:'komposisi',title:'Komposisi',align:'left',width:80},
+					{field:'aturan_minum',title:'Aturan Minum',align:'left',width:80},
+					{field:'fornas',title:'Fornas',align:'left',width:60}
+				]]
+			});
+//                  $('.textbox-text').keypress(function(e){
+//                      console.log('keyup');
+//                      var key = e.keyCode || e.which;
+//                      if(key == '9'){
+//                           var text = $('table.datagrid-btable tbody tr:first-child td:first-child div').html();
+//                           $(this).val(text);
+//                      }
+//                      
+//                  });
+//                  var x=[];
+//                  for (var i in window){
+//                      x.push(i)
+//                  };
+//                  console.dir(window);
+            //console.log(x.join("\\"));
+
+        function get_value(){
+            alert($('#cg').combogrid('getValue'));
+        }
+        function get_text(){
+            alert($('#cg').combogrid('getText'));
+        }
 </script>
 @stop
+
 

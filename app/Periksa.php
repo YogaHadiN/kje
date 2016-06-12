@@ -1012,18 +1012,16 @@ class Periksa extends Model{
                 }
              }
             $temp .= '</tr></table>';
-
-
                 if (trim($temp) == $tempFirst . '</tr></table>') {
                     return nl2br(html_entity_decode($this->terapi));
                 } elseif ($temp !='[]') {
                     return $temp;
                 }
-
     }
     public function resepLuar(){
          return $this->hasOne('App\ResepLuar');
     }
-    
-
+    public function piutangAsuransi(){
+        return $this->hasOne('App\PiutangAsuransi');
+    }
 }

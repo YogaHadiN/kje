@@ -1,4 +1,4 @@
-.panel {
+.panel-easy-ui {
   overflow: hidden;
   text-align: left;
   margin: 0;
@@ -7,22 +7,22 @@
   -webkit-border-radius: 0 0 0 0;
   border-radius: 0 0 0 0;
 }
-.panel-header,
-.panel-body {
+.panel-easy-ui-header,
+.panel-easy-ui-body {
   border-width: 1px;
   border-style: solid;
 }
-.panel-header {
+.panel-easy-ui-header {
   padding: 5px;
   position: relative;
 }
-.panel-title {
+.panel-easy-ui-title {
   background: url('images/blank.gif') no-repeat;
 }
-.panel-header-noborder {
+.panel-easy-ui-header-noborder {
   border-width: 0 0 1px 0;
 }
-.panel-body {
+.panel-ui-body {
   overflow: auto;
   border-top-width: 0;
   padding: 0;
@@ -124,6 +124,7 @@
   background-color: #ffffff;
   color: #000000;
   font-size: 12px;
+  padding: 15px !important;
 }
 .panel-title {
   font-size: 12px;
@@ -544,18 +545,6 @@
   background: #ddd;
 }
 .textbox {
-  position: relative;
-  border: 1px solid #95B8E7;
-  background-color: #fff;
-  vertical-align: middle;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  margin: 0;
-  padding: 0;
-  -moz-border-radius: 5px 5px 5px 5px;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
 }
 .textbox .textbox-text {
   font-size: 12px;

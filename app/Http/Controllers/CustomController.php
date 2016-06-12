@@ -315,12 +315,6 @@ class CustomController extends Controller
 				$jurnal->coa_id          = $px->asuransi->coa_id; // Piutang berdasarkan masing2 asuransi
 				$jurnal->nilai           = $px->piutang;
 				$jurnal->save();
-
-                $pt = new PiutangAsuransi;
-                $pt->periksa_id = $periksa_id;
-                $pt->piutang = $px->piutang;
-                $pt->tunai = $px->tunai;
-                $pt->save();
 			}
 
 			$transaksis = $px->transaksi;

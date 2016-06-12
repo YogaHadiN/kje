@@ -65,6 +65,8 @@ Klinik Jati Elok | Jurnal Umum
                                   <a href="{{ url('pembelians/show/' . $ju->jurnalable_id)}}" class="btn btn-primary btn-xs btn-block">Detail</a> 
                               @elseif($ju->jurnalable_type == 'App\FakturBelanja'&& $ju->jurnalable_type::find($ju->jurnalable_id)->belanja_id == '3')
                                   <a href="{{ url('pengeluarans/show/' . $ju->jurnalable_id) }}" class="btn btn-primary btn-xs btn-block">Detail</a> 
+                              @elseif($ju->jurnalable_type == 'App\NotaJual'&& $ju->jurnalable_type::find($ju->jurnalable_id)->pembayaranAsuransi->count() > '0')
+                                  <a href="{{ url('pendapatans/pembayaran/asuransi/show/' . $ju->jurnalable_id) }}" class="btn btn-primary btn-xs btn-block">Detail</a> 
                               @endif
                               </td>
                             </tr>

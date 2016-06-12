@@ -57,7 +57,7 @@ list-style-type: none;
       </div>
       <div class="panel-body">
       <div class="form-group">
-        <input id="cg" style="width:150px" class="form-control"></input>
+        <input id="cg" class="form-control"></input>
       </div>
 
       <div class="row">
@@ -86,7 +86,6 @@ list-style-type: none;
 @section('footer') 
     <script src="{!! url('js/jquery.easyui.min.js') !!}"></script>
 	<script type="text/javascript" charset="utf-8">
-    var zzz = 'aaa';
             $('#cg').combogrid({
 				panelWidth:800,
 				url: '{{ url("test/getmereks") }}',

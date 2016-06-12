@@ -8,14 +8,16 @@ class NotaJual extends Model{
 	public $incrementing = false; 
 	
 	protected $fillable = [];
+	protected $dates = [ 'tanggal' ];
 
     protected $morphClass = 'App\NotaJual';
 
     public function penjualan(){
          return $this->hasMany('App\Penjualan');
     }
-    
-
+    public function pembayaranAsuransi(){
+         return $this->hasMany('App\PembayaranAsuransi');
+    }
     public function dispenses(){
         return $this->morphMany('App\Dispensing', 'dispensable');
     }
@@ -24,16 +26,29 @@ class NotaJual extends Model{
     }
     public function getKetjurnalAttribute(){
 
-        $penjualans = $this->penjualan;
-        $juals = '<ul>';
-        $nilai = 0;
-        foreach ($penjualans as $penj) {
-            $merek = $penj->merek->merek;
-            $juals .= '<li>' . $merek . '(' . $penj->jumlah . ' pcs), </li> ';
-            $nilai += $penj->jumlah * $penj->harga_jual;
-        }
-        $juals .= '</ul>';
-        return 'Penjualan ' .  $juals .  ' sebesar <span class="uang">' . $nilai . '</span>';
+        $pembayaran_asuransis = $this->pembayaranAsuransi;
+        //return $pembayaran_asuransis[0]->periksa->asuransi->nama;
 
+        if ($pembayaran_asuransis->count() > 0){
+            $biaya = 0;
+            foreach ($pembayaran_asuransis as $pemb) {
+                $biaya += $pemb->pembayaran;
+            }
+             $temp = 'Pembayaran Piutang<strong> Asuransi ' . $pembayaran_asuransis[0]->periksa->asuransi->nama . '</strong>';
+             $temp .= '<br />pada tanggal ' . $this->tanggal->format('d-m-Y');
+             $temp .= '<br />sebesar<strong> <span class="uang">' . $biaya . '</span></strong>';
+             return $temp;
+        }else {
+            $penjualans = $this->penjualan;
+            $juals = '<ul>';
+            $nilai = 0;
+            foreach ($penjualans as $penj) {
+                $merek = $penj->merek->merek;
+                $juals .= '<li>' . $merek . '(' . $penj->jumlah . ' pcs), </li> ';
+                $nilai += $penj->jumlah * $penj->harga_jual;
+            }
+            $juals .= '</ul>';
+            return 'Penjualan ' .  $juals .  ' sebesar <span class="uang">' . $nilai . '</span>';
+        }
     }
 }

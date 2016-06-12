@@ -1,17 +1,17 @@
-view('pendapatan.pembayaran_asuransi');
+@extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pendapatans Lain
+Klinik Jati Elok | Pembayaran Asuransi
 
 @stop
 @section('page-title') 
-<h2>Pendapatan Lain</h2>
+<h2>Pilih Asuransi Yang Mau Dilihat Pembayarannya</h2>
 <ol class="breadcrumb">
       <li>
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li class="active">
-          <strong>Pendapatan Lain</strong>
+          <strong>Pilih Asuransi</strong>
       </li>
 </ol>
 
@@ -25,8 +25,6 @@ Klinik Jati Elok | Pendapatans Lain
                     <h3>Total : </h3>
                 </div>
                 <div class="panelRight">
-                   <a href="{{ url('asuransis/create')}}" type="button" class="btn btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ASURANSI Baru</a>
-
                 </div>
             </div>
       </div>
@@ -41,7 +39,6 @@ Klinik Jati Elok | Pendapatans Lain
                       <th>HP PIC</th>
                       <th>Belum Dibayar</th>
                       <th>Jatuh Tempo</th>
-                      <th>Edit</th>
                     	<th>Pembayaran</th>
                     </tr>
                 </thead>
@@ -70,13 +67,10 @@ Klinik Jati Elok | Pendapatans Lain
                           
                        </td>
                        <td>
-                          {!! HTML::link('asuransis/' . $asuransi['id'] . '/edit', 'Edit', ['class' => 'btn btn-sm btn-info'])!!}
-                       </td>
-                       <td>
                           {!! HTML::link('laporans/payment/' . $asuransi['id'], 'Payment', ['class' => 'btn btn-sm btn-primary'])!!}
                        </td>
                      </tr>
-                     
+                     {{-- expr --}}
                    @endforeach
                 </tbody>
             </table>
@@ -88,3 +82,4 @@ Klinik Jati Elok | Pendapatans Lain
 @section('footer') 
 	
 @stop
+

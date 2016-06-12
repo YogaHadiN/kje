@@ -10,7 +10,11 @@ use App\AntrianPeriksa;
 use App\Periksa;
 use App\BayarDokter;
 use App\TransaksiPeriksa;
+use App\PembayaranAsuransi;
 use App\Staf;
+use App\JurnalUmum;
+use App\NotaJual;
+use App\Coa;
 use App\FakturBelanja;
 use App\Terapi;
 use App\AntrianPoli;
@@ -322,12 +326,24 @@ class LaporansController extends Controller
 	{
 
 		// $periksas = Periksa::where('asuransi_id', $id)->where('piutang', '>' , '0')->where('piutang', '>', 'piutang_dibayar')->get(['id', 'tanggal', 'pasien_id', 'asuransi_id', 'piutang', 'piutang_dibayar']);
-		$query = "SELECT px.id as id, p.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, px.piutang as piutang, px.piutang_dibayar as piutang_dibayar , px.piutang_dibayar as piutang_dibayar_awal from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$id}';";
+		$query = "SELECT px.id as id, p.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, px.piutang as piutang, sum( pasu.pembayaran ) as piutang_dibayar, sum( pasu.pembayaran ) as piutang_dibayar_awal from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id left join pembayaran_asuransis as pasu on pasu.periksa_id = px.id where px.piutang > 0 and px.asuransi_id = '{$id}' and (pembayaran is null or piutang > pembayaran) group by id;";
+
+		//$query = "SELECT px.id as id, p.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, px.piutang as piutang, px.piutang_dibayar as piutang_dibayar , px.piutang_dibayar as piutang_dibayar_awal, pasu.pembayaran as pembayaran from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id left join pembayaran_asuransis as pasu on pasu.periksa_id = px.id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$id}';";
+
 		$periksas = DB::select($query);
+        foreach ($periksas as $periksa) {
+            if ($periksa->piutang_dibayar == null) {
+                $periksa->piutang_dibayar = 0;
+            }
+            if ($periksa->piutang_dibayar_awal == null) {
+                $periksa->piutang_dibayar_awal = 0;
+            }
+        }
 
 		$asuransi = Asuransi::find($id);
+        $terima_coa_list = [null => '-pilih-'] + Coa::where('id', 'like', '110%')->lists('coa', 'id')->all();
 		// return $periksas[0];
-		return view('laporans.payment', compact('periksas','asuransi'));
+		return view('laporans.payment', compact('periksas','asuransi', 'terima_coa_list'));
 
 	}
 	public function paymentpost()
@@ -337,26 +353,46 @@ class LaporansController extends Controller
 		$array = json_decode($temp, true);
 		$id = Input::get('asuransi_id');
 
-		foreach ($array as $key => $arr) {
-			if ($arr['piutang_dibayar'] != $arr['piutang_dibayar_awal']) {
-				$px = Periksa::find($arr['id']);
-				$px->piutang_dibayar = $arr['piutang_dibayar'];
-				$px->save();
-			}
-		}
-
-		if ($biaya > 0) {
-			$pn = new Pendapatan;
-			$pn->id = Yoga::customId('App\Pendapatan');
-			$pn->pendapatan = 'Pembayaran Asuransi ' . $id . ' - ' .  Asuransi::find($id)->nama;
-			$pn->biaya = $biaya;
-			$pn->keterangan = $temp;
-			$pn->save();
-		}
-
 		$asuransi = Asuransi::find($id);
 
-		return redirect('asuransis')->withPesan(Yoga::suksesFlash('Telah dilakukan pembayaran untuk <strong>Asuransi ' .$id. ' - ' . $asuransi->nama. '</strong> sebesar <strong>Rp. ' . $biaya . ',-</strong>'));
+		if ($biaya > 0) {
+            $nota_jual_id = Yoga::customId('App\NotaJual');
+			$pn = new NotaJual;
+			$pn->id = $nota_jual_id;
+			$pn->tanggal = Yoga::datePrep( Input::get('tanggal') );
+			$confirm = $pn->save();
+
+            if ($confirm) {
+                foreach ($array as $key => $arr) {
+                    if ($arr['piutang_dibayar'] > $arr['piutang_dibayar_awal']) {
+                        $px = new PembayaranAsuransi;
+                        $px->periksa_id = $arr['id'];
+                        $px->nota_jual_id = $nota_jual_id;
+                        $px->pembayaran =(int)$arr['piutang_dibayar'] - (int)$arr['piutang_dibayar_awal'];
+                        $px->save();
+                    }
+                }
+
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $nota_jual_id;
+				$jurnal->jurnalable_type = 'App\NotaJual';
+				$jurnal->coa_id          = 110000; // Kas di tangan
+				$jurnal->debit           = 1;
+				$jurnal->nilai           = $biaya;
+				$jurnal->save();
+
+
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $nota_jual_id;
+				$jurnal->jurnalable_type = 'App\NotaJual';
+				$jurnal->coa_id          = $asuransi->coa_id;
+				$jurnal->debit           = 0;
+				$jurnal->nilai           = $biaya;
+				$jurnal->save();
+            }
+		}
+
+		return redirect('asuransis')->withPesan(Yoga::suksesFlash('Telah dilakukan pembayaran untuk <strong>Asuransi ' .$id. ' - ' . $asuransi->nama. '</strong> sebesar <strong class="uang">' . $biaya . '</strong>'));
 
 	}
 	public function penyakit()
