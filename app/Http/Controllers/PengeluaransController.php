@@ -333,6 +333,7 @@ class PengeluaransController extends Controller
     public function nota_z(){
         $checkout = CheckoutKasir::latest()->first();
         $tanggal = $checkout->created_at;
+        $jurnal_umum_id = $checkout->jurnal_umum_id;
         $tindakans = [];
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
         $uang_masuks = JurnalUmum::where('created_at', '>=', $tanggal)
@@ -367,33 +368,36 @@ class PengeluaransController extends Controller
         foreach ($uang_keluar as $penjualan) {
             $total_uang_keluar += $penjualan->nilai;
         }
-        $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 group by jurnalable_id;";
+        $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
         $rinci = DB::select($query);
         $table = [];
         foreach ($rinci as $rc) {
             $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
-            foreach ($arrs as $ar) {
-                if ( !($ar->coa_id == 110000 && $ar->debit == 1) ){
-                    if ($ar->debit == 0) {
-                        $sama = false;
-                        foreach ($table as $k=> $tab) {
-                            if( $tab['coa_id'] == $ar->coa_id){
-                                $table[$k]['nilai'] = $tab['nilai'] + $ar->nilai;
-                                //return $tab['nilai'];
-                                $sama = true;
-                                //return 'oke';
-                            }
+            $valid = false;
+            foreach ($arrs as $key => $ar) {
+                if ( $key > 0 && $arrs[$key-1]->coa_id == 110000 && $arrs[$key-1]->debit == 1 ){
+                    $valid = true;
+                }
+                if ($valid && $ar->debit == 0) {
+                    $sama = false;
+                    foreach ($table as $k=> $tab) {
+                        if( $tab['coa_id'] == $ar->coa_id){
+                            $table[$k]['nilai'] = $tab['nilai'] + $ar->nilai;
+                            $table[$k]['jumlah'] = $tab['jumlah'] + 1;
+                            $sama = true;
                         }
-                        if (!$sama) {
-                            $table[] =[
-                                'coa_id' => $ar->coa_id,
-                                'coa'    => $ar->coa->coa,
-                                'nilai'  => $ar->nilai
-                            ]; 
-                        }
-                    } else if ($ar->debit == 1 && $ar->coa_id != 110000 ) {
-                            break;
                     }
+                    if (!$sama) {
+                        $table[] =[
+                            'coa_id' => $ar->coa_id,
+                            'coa'    => $ar->coa->coa,
+                            'nilai'  => $ar->nilai,
+                            'jumlah' => 1
+
+                        ]; 
+                    }
+                } else if ($ar->debit == 1 && $ar->coa_id != 110000 ) {
+                        break;
                 }
             }
         }
