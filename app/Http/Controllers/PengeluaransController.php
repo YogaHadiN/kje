@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Input;
@@ -368,11 +367,42 @@ class PengeluaransController extends Controller
         foreach ($uang_keluar as $penjualan) {
             $total_uang_keluar += $penjualan->nilai;
         }
+        $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 group by jurnalable_id;";
+        $rinci = DB::select($query);
+        $table = [];
+        foreach ($rinci as $rc) {
+            $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
+            foreach ($arrs as $ar) {
+                if ( !($ar->coa_id == 110000 && $ar->debit == 1) ){
+                    if ($ar->debit == 0) {
+                        $sama = false;
+                        foreach ($table as $k=> $tab) {
+                            if( $tab['coa_id'] == $ar->coa_id){
+                                $table[$k]['nilai'] = $tab['nilai'] + $ar->nilai;
+                                //return $tab['nilai'];
+                                $sama = true;
+                                //return 'oke';
+                            }
+                        }
+                        if (!$sama) {
+                            $table[] =[
+                                'coa_id' => $ar->coa_id,
+                                'coa'    => $ar->coa->coa,
+                                'nilai'  => $ar->nilai
+                            ]; 
+                        }
+                    } else if ($ar->debit == 1 && $ar->coa_id != 110000 ) {
+                            break;
+                    }
+                }
+            }
+        }
+
         $checkouts = CheckoutKasir::latest()->paginate(20);
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
         $query = "select min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where px.tanggal >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
-        return view('pengeluarans.notaz', compact('checkouts','transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal'));
+        return view('pengeluarans.notaz', compact('checkouts','transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table'));
     }
     public function notaz_post(){
 
