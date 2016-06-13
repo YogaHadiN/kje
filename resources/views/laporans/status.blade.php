@@ -55,6 +55,8 @@ Klinik Jati Elok | Laporan Pemeriksaan
                         {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} <br>
                         <br>Umur :
                         {!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir, date('Y-m-d'))!!}
+                        <br>Pembayaran : 
+                        {!! $periksa->asuransi->nama !!}
                       </td>
                       <td>
                           
