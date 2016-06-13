@@ -83,11 +83,11 @@ Klinik Jati Elok | Pasien
                                   <tbody>
                                     <tr>
                                       <td>Pembayaran tunai</td>
-                                      <td class="uang">{!! $periksa->terapii->first()->periksa->tunai !!}</td>
+                                      <td class="uang">{!! $periksa->tunai !!}</td>
                                     </tr>
                                     <tr>
                                       <td>Pembayaran Piutang</td>
-                                      <td class="uang">{!! $periksa->terapii->first()->periksa->piutang !!}</td>
+                                      <td class="uang">{!! $periksa->piutang !!}</td>
                                     </tr>
                                   </tbody>
                                 </table>

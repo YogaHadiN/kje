@@ -1,0 +1,106 @@
+@extends('layout.master')
+
+@section('title') 
+Klinik Jati Elok | Tambah Modal
+@stop
+@section('head')
+    <link href="{!! asset('css/bootstrap-chosen.css') !!}" rel="stylesheet">
+@stop
+@section('page-title') 
+ <h2>Tambah Modal</h2>
+ <ol class="breadcrumb">
+      <li>
+          <a href="{!! url('laporans')!!}">Home</a>
+      </li>
+      <li class="active">
+          <strong>Tambah Modal</strong>
+      </li>
+</ol>
+@stop
+@section('content') 
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">Form Tambah Modal</div>
+            </div>
+            <div class="panel-body">
+               {!! Form::open(['url'=>'pengeluarans/rc', 'method'=> 'post']) !!} 
+               <div class="form-group">
+                   {!! Form::label('kas_masuk', 'Kas Masuk') !!}
+                     <div class="input-group">
+                          <div class="input-group-addon">Rp. </div>
+                           {!! Form::text('kas_masuk' , null, ['class' => 'form-control rq']) !!}
+                     </div>
+               </div>
+               <div class="form-group">
+                 {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+                 {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
+               </div>
+               <div class="form-group">
+                   <button class="btn btn-success" onclick="dummySubmit();return false;" type="button">Submit</button>
+                   {!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+               </div>
+               {!! Form::close() !!}
+              
+           </div>
+       </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Daftar Masuk Modal</div>
+            </div>
+            <div class="panel-body">
+                <?php echo $modals->appends(Input::except('page'))->links(); ?>
+                <div class-"table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Uang Masuk</th>
+                                <th>coa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($modals as $modal)
+                            <tr>
+                                <td>{{  $modal->created_at->format('d-m-Y')  }}</td>
+                                <td class="uang">{{  $modal->modal  }}</td>
+                                <td>{{  $modal->coa->coa  }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <?php echo $modals->appends(Input::except('page'))->links(); ?>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
+@stop
+@section('footer') 
+{!! HTML::script("js/chosen.jquery.js")!!}
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $('.chosen-select').chosen();
+        $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
+    });
+</script>    
+<script type="text/javascript" charset="utf-8">
+function dummySubmit(){
+     if(validatePass()){
+         $('#submit').click();
+     }
+}
+</script>
+@stop
+
+
+

@@ -12,4 +12,16 @@ class BayarDokter extends Model
          return $this->belongsTo('App\Staf');
     }
     
+    protected $morphClass = 'App\BayarDokter';
+    public function jurnals(){
+        return $this->morphMany('App\JurnalUmum', 'jurnalable');
+    }
+    public function getKetjurnalAttribute(){
+        $tanggal = $this->created_at->format('d-m-Y');
+        $uang = $this->bayar_dokter;
+        $nama = $this->staf->nama;
+
+        return 'Bayar ' . $nama . ' sebesar <span class="uang">' . $uang . '</span> pada tanggal ' . $tanggal;
+
+    }
 }

@@ -28,4 +28,10 @@ class Diagnosa extends Model{
 	    return $this->diagnosa . ' - ' . $icd->diagnosaICD . ' (' . $icd->id. ')';
 	}
 
+	public function getDiagnosaIcddAttribute()
+	{
+		$icd = Icd10::find($this->icd10_id);
+	    return $this->diagnosa . ' - ' . $icd->diagnosaICD . '</span>aaaaak (' . $icd->id. ')';
+	}
+
 }

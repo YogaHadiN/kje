@@ -46,6 +46,9 @@
             </div> --}}
         </div>
         <hr>
+        <div id="bhp_tindakan">
+            
+        </div>
         <div id="ajax5"></div>
         
         <a href="" id="legendpop" data-toggle="popover" title="Popover title" data-content="this" data-placement="left" data-html="true" class="red-tooltip"></a><legend>Isian Resep</legend>
@@ -118,7 +121,6 @@
            </div>
        </div>
    </div>
-    
         </div><!-- end panel body -->
     </div><!-- end panel primary -->
     <div class="alert alert-info">

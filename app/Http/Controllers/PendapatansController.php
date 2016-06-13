@@ -8,7 +8,10 @@ use App\Classes\Yoga;
 use App\Http\Requests;
 
 use App\Pendapatan;
+use App\NotaJual;
+use App\Asuransi;
 use App\JurnalUmum;
+use DB;
 
 class PendapatansController extends Controller
 {
@@ -137,11 +140,46 @@ class PendapatansController extends Controller
 		return \Redirect::route('pendapatans.index');
 	}
     public function pembayaran_asuransi(){
-         return 'pembayaran_asuransi';
+		$asuransis = Asuransi::where('id', '>', 0)->get();
+		$asur = [];
+
+		foreach ($asuransis as $key => $asu) {
+			$asur[] = [
+				'belum' => $asu->belum,
+				'id' => $asu->id,
+				'nama' => $asu->nama,
+				'alamat' => $asu->alamat,
+				'pic' => $asu->pic,
+				'hp_pic' => $asu->hp_pic
+			];
+		}
+		
+		usort($asur, function($a,$b){return $b['belum']-$a['belum'];});
+		$asuransis = $asur;
+
+		return view('pendapatans.pembayaran_asuransi', compact('asuransis'));
     }
     public function pembayaran_asuransi_by_id($id){
         return 'asuransi '. $id;
          return 'pembayaran_asuransi';
     }
+
+    public function pembayaran_asuransi_show($id){
+        $pembayarans = NotaJual::find($id)->pembayaranAsuransi; 
+        return view('pendapatans.pembayaran_show', compact('pembayarans'));
+
+        $asuransi_id = Input::get('asuransi_id');
+        $asuransi = Asuransi::find($asuransi_id);
+        $mulai = Yoga::nowIfEmptyMulai(Input::get('mulai'));
+        $akhir = Yoga::nowIfEmptyMulai(Input::get('akhir'));
+        $query = "select px.id as id, ps.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, pa.piutang as piutang, px.piutang_dibayar as piutang_dibayar , px.piutang_dibayar as piutang_dibayar_awal from piutang_asuransis as pa join periksas as px on px.id = pa.periksa_id join pasiens as ps on ps.id = px.pasien_id join asuransis as asu on asu.id=px.asuransi_id where px.asuransi_id='{$asuransi_id}' and px.tanggal between '{$mulai}' and '{$akhir}';";
+        $periksas = DB::select($query);
+        
+		$query = "SELECT px.id as id, p.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, px.piutang as piutang, px.piutang_dibayar as piutang_dibayar , px.piutang_dibayar as piutang_dibayar_awal from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$id}';";
+		$periksas = DB::select($query);
+
+        return view('pendapatans.pembayaran_show', compact('asuransi', 'periksas'));
+    }
+    
     
 }

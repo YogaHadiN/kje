@@ -12,6 +12,7 @@ use App\Merek;
 use App\Rak;
 use App\BahanHabisPakai;
 use App\JenisTarif;
+use App\PiutangAsuransi;
 use App\Periksa;
 use App\Rujukan;
 use App\Pasien;
@@ -134,8 +135,6 @@ class CustomController extends Controller
 		 } else {
 		 	$usg = '0';
 		 }
-
-
 		$antrian_id = Yoga::customId('App\AntrianPeriksa');
 
 		$antrian = new AntrianPeriksa;
@@ -150,8 +149,14 @@ class CustomController extends Controller
 		$antrian->save();
 
 		$pasien = Pasien::find($periksa->pasien_id);
+        $poli = $periksa->poli;
+		if ($poli == 'sks' || $poli == 'luka') {
+			$poli = 'umum';
+		} else if ($poli == 'KB 1 Bulan' || $poli == 'KB 3 Bulan' ){
+			$poli='kandungan';
+		}
 
-		return redirect('ruangperiksa/' .$periksa->poli)
+		return redirect('ruangperiksa/' . $poli)
 		->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . ' </strong>Berhasil dikembalikan ke Ruang Periksa <strong>Poli ' . ucwords(strtolower($periksa->poli)) . '</strong>'));
 
 	}
@@ -271,7 +276,6 @@ class CustomController extends Controller
 			$rak       = Rak::find($rak_id);
 			$rak->stok = $rak->stok - $resep[$key]['jumlah'];
 			$confirm   = $rak->save();
-			
 			if($confirm){
 				$disp                   = new Dispensing;
 				$disp->id               = Yoga::customId('App\Dispensing');
@@ -318,14 +322,18 @@ class CustomController extends Controller
 			$adaJasaDokter = false;
 			$feeDokter = 0;
 
-			$adaBiaya = false;
+            $hutang_asisten_tindakan = 0;
 			foreach ($transaksis as $k => $transaksi) {
+                $adaBiaya = false;
+
 				$trx                 = new TransaksiPeriksa;
 				$trx->periksa_id     = $periksa_id;
 				$trx->jenis_tarif_id = $transaksi['jenis_tarif_id'];
 				$trx->biaya          = $transaksi['biaya'];
 				$oke                 = $trx->save();
-				$feeDokter += Tarif::where('asuransi_id', $px->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
+                if ( !($transaksi['jenis_tarif_id'] == '116' && $transaksi['biaya'] == 0) ) {
+                    $feeDokter += Tarif::where('asuransi_id', $px->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
+                }
 				if ($oke) {
 					if ($transaksi['biaya'] > 0) {
 						$jurnal                  = new JurnalUmum;
@@ -340,22 +348,7 @@ class CustomController extends Controller
 					}
 
 					if (JenisTarif::find($transaksi['jenis_tarif_id'])->dengan_asisten == '1') {
-							$jurnal                  = new JurnalUmum;
-							$jurnal->jurnalable_id   = $px->id;
-							$jurnal->jurnalable_type = 'App\Periksa';
-							$jurnal->coa_id          = 200003; // Hutang Kepada Asisten Dokter
-							$jurnal->debit           = 1;
-							$jurnal->nilai           = $this->biayaJasa($transaksi['jenis_tarif_id'], $trx);
-							$jurnal->save();
-							
-							$jurnal                  = new JurnalUmum;
-							$jurnal->jurnalable_id   = $px->id;
-							$jurnal->jurnalable_type = 'App\Periksa';
-							$jurnal->coa_id          = 50205; // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
-							$jurnal->debit           = 0;
-
-							$jurnal->nilai           = $this->biayaJasa($transaksi['jenis_tarif_id'], $trx);
-							$jurnal->save();
+                        $hutang_asisten_tindakan += $this->biayaJasa($transaksi['jenis_tarif_id'], $trx);
 					}
 
 				}
@@ -374,12 +367,32 @@ class CustomController extends Controller
 					$d->tanggal          = Periksa::find($periksa_id)->tanggal;
 					$d->save();
 				}
+                
+                //Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
+                if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {
+                    $feeDokter += 3000;
+                }
 			}
 
-			//Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
-			if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {
-				$feeDokter = 3000;
-			}
+            if ($hutang_asisten_tindakan > 0) {
+                $jurnal                  = new JurnalUmum;
+                $jurnal->jurnalable_id   = $px->id;
+                $jurnal->jurnalable_type = 'App\Periksa';
+                $jurnal->coa_id          = 200003; // Hutang Kepada Asisten Dokter
+                $jurnal->debit           = 1;
+                $jurnal->nilai           = $hutang_asisten_tindakan;
+                $jurnal->save();
+                
+                $jurnal                  = new JurnalUmum;
+                $jurnal->jurnalable_id   = $px->id;
+                $jurnal->jurnalable_type = 'App\Periksa';
+                $jurnal->coa_id          = 50205; // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
+                $jurnal->debit           = 0;
+
+                $jurnal->nilai           = $hutang_asisten_tindakan;
+                $jurnal->save();
+            }
+
 
 			// Input hutang kepada dokter
 			if ($feeDokter > 0) {
@@ -597,5 +610,45 @@ class CustomController extends Controller
 			return $trx->biaya * 0.1;
 		}
 	}
-
+    public function test(){
+         //return 'test';
+        return view('test');
+    }
+    public function getmereks(){
+        $qs = str_split( Input::get('q') );
+        $temp = '';
+        foreach ($qs as $q) {
+            $temp .= $q . '%';
+        }
+        
+        $query = "select min(mr.id) as merek_id, min(mr.merek) as merek, min(rk.fornas) as fornas, min(atu.aturan_minum) as aturan_minum, min(rk.stok) as stok from mereks as mr join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id = rk.formula_id join komposisis as kp on kp.formula_id = fr.id join generiks as gk on gk.id=kp.generik_id join aturan_minums as atu on atu.id = fr.aturan_minum_id where merek like '%$temp' or gk.generik like '%$temp' or atu.aturan_minum like '%$temp' group by mr.id limit 20;";
+        $mereks = DB::select($query);
+        $data = [];
+        foreach ($mereks as $mrk) {
+            $komposisis = Merek::find( $mrk->merek_id )->rak->formula->komposisi;
+            $fornas_id = $mrk->fornas;
+            if ($fornas_id == 1) {
+                $fornas = 'fornas';
+            } else {
+                $fornas = 'non fornas';
+            }
+            $komposisi = '<ul>';
+            foreach ($komposisis as $komp) {
+                $komposisi .= '<li>' . $komp->generik->generik . ' ' . $komp->bobot . '</li>';
+            }
+            $komposisi .= '</ul>';
+            $data[]= [
+                 'id' => $mrk->merek_id,
+                 'merek' => $mrk->merek,
+                 'komposisi' => $komposisi,
+                 'stok' => $mrk->stok,
+                 'aturan_minum' => $mrk->aturan_minum,
+                 'fornas' => $fornas
+            ];
+        }
+         return json_encode($data);
+    }
+    public function test_post(){
+         return 'this post';
+    }
 }

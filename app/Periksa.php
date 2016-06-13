@@ -774,8 +774,10 @@ class Periksa extends Model{
         $pasien = $this->pasien->nama;
         $diagnosis = $this->diagnosa->diagnosa .' - ' . $this->diagnosa->icd10->diagnosaICD;
         $pembayaran = $this->asuransi->nama;
+        $pemeriksa = $this->staf->nama;
+        $poli = $this->poli;
 
-        return 'Pasien ' . $pasien . ', diagnosa : ' . $diagnosis . ', pembayaran : ' . $pembayaran;
+        return 'Pasien ' . $pasien . ', diagnosa : ' . $diagnosis . ', pembayaran : ' . $pembayaran . ', Pemeriksa : ' . $pemeriksa . ' Poli: ' . $poli;
 
     }
 
@@ -1010,18 +1012,16 @@ class Periksa extends Model{
                 }
              }
             $temp .= '</tr></table>';
-
-
                 if (trim($temp) == $tempFirst . '</tr></table>') {
                     return nl2br(html_entity_decode($this->terapi));
                 } elseif ($temp !='[]') {
                     return $temp;
                 }
-
     }
     public function resepLuar(){
          return $this->hasOne('App\ResepLuar');
     }
-    
-
+    public function piutangAsuransi(){
+        return $this->hasOne('App\PiutangAsuransi');
+    }
 }

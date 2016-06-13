@@ -32,6 +32,8 @@ Klinik Jati Elok | Gaji Dokter
             <div class="panel-body">
                 <h1>Dokter {{ $nama_staf }}</h1>
                 {!! Form::open(['url'=>'pengeluarans/bayardokter/bayar', 'method'=> 'post']) !!} 
+                    {!! Form::hidden('mulai', $mulai, ['class' => 'form-control']) !!} 
+                    {!! Form::hidden('mulai', $akhir, ['class' => 'form-control']) !!} 
                 <div class="form-group hide">
                     {!! Form::label('staf_id', 'Staf') !!}
                     {!! Form::text('staf_id' , $id, ['class' => 'form-control']) !!}
@@ -130,8 +132,7 @@ Klinik Jati Elok | Gaji Dokter
                         <th>Tanggal</th>
                         <th>Nama Pasien</th>
                         <th>Asuransi</th>
-                        <th>Tunai</th>
-                        <th>Piutang</th>
+                        <th>Transaksi</th>
                         <th>Jasa Dokter</th>
                     </tr>
                 </thead>
@@ -142,8 +143,21 @@ Klinik Jati Elok | Gaji Dokter
                             <td>{!! App\Classes\Yoga::updateDatePrep( $hutang->tanggal  )!!}</td>
                             <td>{!! $hutang->nama !!}</td>
                             <td>{!! $hutang->nama_asuransi !!}</td>
-                            <td class="uang">{!! $hutang->tunai !!}</td>
-                            <td class="uang">{!! $hutang->piutang !!}</td>
+                            <td>
+
+                               <table class="table table-condensed">
+                                   <thead>
+                                       <tr>
+                                           <th class="text-center">Jenis Transaksi</th>
+                                           <th class="text-center"></th>
+                                           <th class="text-center">Biaya</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       {!! App\Periksa::find( $hutang->periksa_id )->tindakan_html !!}
+                                   </tbody>
+                               </table> 
+                            </td>
                             <td class="uang">{!! $hutang->nilai !!}</td>
                         </tr>
                     @endforeach

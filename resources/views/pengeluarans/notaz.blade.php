@@ -18,70 +18,57 @@ Klinik Jati Elok | Checkout Kasir
 
 
   <div class="row">
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="panel-title">Entri Nota Z</div>
                 </div>
                 <div class="panel-body">
-                    {!! Form::open(['url'=>'pengeluarans/nota_z', 'method'=> 'post']) !!} 
-                        {!! Form::hidden('modal_akhir', $modal_awal, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('uang_di_kasir', $uang_di_kasir, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('hasil_penjualan', null, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('uang_keluar', $total_uang_keluar, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('uang_masuk', $total_uang_masuk, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('debit', null, ['class' => 'form-control']) !!} 
-                        {!! Form::hidden('kredit', null, ['class' => 'form-control']) !!} 
-                        
-                        
-                        <div class="form-group">
-                          {!! Form::label('modal_awal', 'Modal Awal') !!}
-                          {!! Form::text('modal_awal' , null, ['class' => 'form-control rq']) !!}
-                        </div>
-                        <div class="form-group">
-                          {!! Form::label('uang_hilang', 'Uang Hilang') !!}
-                          {!! Form::text('uang_hilang' , null, ['class' => 'form-control rq']) !!}
-                        </div>
-                        
-                        
-                        <button class="btn btn-primary btn-lg btn-block" type="button" onclick="validate();return false;"> Checkout </button>
-                        <div class="form-group">
-                            {!! Form::submit('Submit', ['class' => 'hide', 'id'=>'submit']) !!}
-                        </div>
-                    {!! Form::close() !!}
+                    <button class="btn btn-primary btn-lg btn-block" type="button" onclick="validate();return false;"> Checkout </button>
+                   {!! Form::open(['url'=>'pengeluarans/nota_z', 'method'=> 'post']) !!} 
+                       <div class="form-group">
+                           {!! Form::submit('Submit', ['class' => 'hide', 'id'=>'submit']) !!}
+                       </div>
+                   {!! Form::close() !!}
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">List Checkout (Nota Z)</div>
+                </div>
+                <div class="panel-body">
+                    <?php echo $checkouts->appends(Input::except('page'))->links(); ?>
+                    <div class-"table-responsive">
+                        <table class="table table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Modal Awal</th>
+                                    <th>Uang Keluar</th>
+                                    <th>Uang Masuk</th>
+                                    <th>Hasil Penjualan</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($checkouts as $checkout)
+                                <tr>
+                                    <td>{{  $checkout->created_at->format('d-m-Y')  }}</td>
+                                    <td class="uang">{{  $checkout->modal_awal  }}</td>
+                                    <td class="uang">{{  $checkout->uang_keluar  }}</td>
+                                    <td class="uang">{{  $checkout->uang_masuk  }}</td>
+                                    <td class="uang">{{  $checkout->hasil_penjualan  }}</td>
+                                    <td> <a href="{{ url('pengelurans/checkout/' . $checkout->id) }}" class="btn btn-primary btn-xs">details</a> </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <?php echo $checkouts->appends(Input::except('page'))->links(); ?>
                 </div>
             </div>
       </div>
-  </div>
-   <div class="row">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <div class="panel-title">Panel Oke</div>
-            </div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Jenis Tarif</th> 
-                                <th>Jumlah</th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($transaksis as $trx)
-                            <tr>
-                                <td>{!! $trx->jenis_tarif !!}</td>        
-                                <td>{!! $trx->jumlah !!}</td>        
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
           <div class="panel panel-success">
               <div class="panel-heading">
                   <div class="panel-title">Informasi Kasir</div>
@@ -112,6 +99,37 @@ Klinik Jati Elok | Checkout Kasir
                   </div>
               </div>
           </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">Panel Oke</div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Jenis Tarif</th> 
+                                <th>Jumlah</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($transaksis as $trx)
+                            <tr>
+                                <td>{!! $trx->jenis_tarif !!}</td>        
+                                <td>{!! $trx->jumlah !!}</td>        
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+   <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+    </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       </div>
 </div>
     

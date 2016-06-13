@@ -880,9 +880,11 @@ class Yoga {
 							$biaya = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya - $selisihPlafon;
 						}
 					}
-					// $biaya = 20000;
-					$biaya = Yoga::rataAtas5000($biaya);
-					// return $biaya;
+                    if ($biaya < 30000 && ( $asuransi->id == '151222001' || $asuransi->id == '10' )) {
+                        $biaya = 30000;
+                    } else {
+                        $biaya = Yoga::rataAtas5000($biaya);
+                    }
 					$plus = [
 						'jenis_tarif_id' => $tarif->jenis_tarif_id,
 						'jenis_tarif' => $tarif->jenisTarif->jenis_tarif,

@@ -17,30 +17,50 @@ Klinik Jati Elok | Laporan Pembayaran
 @stop
 @section('content') 
 <input type="hidden" name="_token" id="token" value="{{ Session::token() }}">
-
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="alert alert-success">
-        <div class="row">
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              Mulai Tanggal
-              <input type="text" class="form-control tanggal" id="tanggalMulai">
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              Sampai Tanggal
-              <input type="text" class="form-control tanggal" id="tanggalAkhir">
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <br>
-            <button class="btn btn-success" onclick='filter();return false;'>Filter</button>
-          </div>
-          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <br>
-              <button type="submit" class="btn btn-lg btn-primary btn-block" onclick="submit(); return false;">Bayar <span id="berapa"></span></button>
-          </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="alert alert-success">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        Mulai Tanggal
+                        <input type="text" class="form-control tanggal" id="tanggalMulai">
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        Sampai Tanggal
+                        <input type="text" class="form-control tanggal" id="tanggalAkhir">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button class="btn btn-success btn-lg btn-block" onclick='filter();return false;'>Filter</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-  </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="alert alert-warning">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        {!! Form::label('terima_coa_id', 'Tujuan Uang') !!}
+                        {!! Form::select('terima_coa_id', $terima_coa_list, null, ['class' => 'form-control req', 'onchange' => 'change_tujuan_uang(this);return false;']) !!}
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                      {!! Form::label('tanggal', 'Tanggal Diterima') !!}
+                      {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal', 'onclick' => 'tanggal_change(this);return false;']) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button type="submit" class="btn btn-lg btn-primary btn-block" onclick="submit(); return false;">Bayar <span id="berapa"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
             <div class="col-lg-12">
@@ -55,7 +75,9 @@ Klinik Jati Elok | Laporan Pembayaran
                       </div>
                       <div class="panel-body">
                         {!! Form::open(['url' => 'laporans/payment', 'method' => 'post'])!!}
-                            {!! Form::textarea('temp', json_encode($periksas), ['class' => 'form-control hide', 'id' => 'temp'])!!}
+                            {!! Form::textarea('temp', json_encode($periksas), ['class' => 'form-control', 'id' => 'temp'])!!}
+                            {!! Form::text('terima_coa_id', null, ['class' => 'form-control', 'id' => 'terima_coa_id']) !!} 
+                            {!! Form::text('tanggal', null, ['class' => 'form-control', 'id' => 'tanggal']) !!} 
                             {!! Form::text('biaya', null, ['class' => 'form-control hide', 'id' => 'biaya'])!!}
                             {!! Form::text('asuransi_id', $asuransi->id, ['class' => 'hide', 'id' => 'asuransi_id'])!!}
                             {!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit'])!!}
@@ -212,6 +234,16 @@ Klinik Jati Elok | Laporan Pembayaran
         hitung_bayar();
         // alert($(control).closest('tr').find('input').val());
       }
+    function change_tujuan_uang(control){
+        var coa_id = $(control).val();
+        $('#terima_coa_id').val(coa_id);
+    }
+    
+    function tanggal_change(control){
+        var tanggal = $(control).val();
+        $('#tanggal').val(tanggal);
+    }
+    
 
   </script>
 @stop

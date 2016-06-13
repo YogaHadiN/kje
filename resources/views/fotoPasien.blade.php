@@ -11,15 +11,15 @@
 </div>
 
 <a class="btn btn-primary hide" data-toggle="modal" href='#fotozoom'>Trigger modal</a>
-<div class="modal fade" id="fotozoom">
-	<div class="modal-dialog modal-lg">
+<div class="modal" id="fotozoom">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title">{!! $pasien->nama !!}</h4>
 			</div>
 			<div class="modal-body">
-                <img src="{!! url('/') !!}//{{$pasien->image}}?{{ time() }}" alt="" width="800px" height="600px">
+                <img src="{!! url('/') !!}//{{$pasien->image}}?{{ time() }}" alt="" width="500px" height="375px">
 			</div>
 		</div>
 	</div>

@@ -413,7 +413,6 @@ class PolisController extends Controller
 	}
 
 
-
 	public function jangan(){
 		return view('jangan');
 	}

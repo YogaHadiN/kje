@@ -1,4 +1,4 @@
-@extends('layout.master')
+view('pendapatan.pembayaran_asuransi');
 
 @section('title') 
 Klinik Jati Elok | Pendapatans Lain

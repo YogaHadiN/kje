@@ -20,222 +20,92 @@ Route::get('login', 'AuthController@index')->name('login');
 Route::get('logout', 'AuthController@logout');
 Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
+
+Route::get('sesuaikan/sesuaikan', function(){
+
+
+    $query = "select px.id from periksas as px join terapis as tr on tr.periksa_id = px.id where signa = 'Add' group by px.id;";
+    $periksas = DB::select($query);
+    $data = '';
+    foreach ($periksas as $p) {
+        $terapis = App\Terapi::where('periksa_id', $p->id)->get();
+        $bayarAdd = 0;
+        $syrupAdd = 0;
+        $temp = '';
+        foreach ($terapis as $terapi) {
+            $formula_id = $terapi->merek->rak->formula_id;
+            if ($terapi->signa == 'Add' &&
+                (
+                    $formula_id == '150803003' || //Decamox Syr
+                    $formula_id == '150803008' || //Lostacef Syr
+                    $formula_id == '150921001' || //cefixime syr
+                    $formula_id == '150803006'  //Dionicol sy
+                )
+            ) {
+                $syrupAdd = 1;
+            }
+
+            if (!$bayarAdd && $terapi->merek_id == -2 && $terapi->jumlah > 0) {
+                $terapi->jumlah = 0;
+                $terapi->save(); 
+            } else if ($bayarAdd && $terapi->merek_id == -2 && $terapi->jumlah < 1) {
+                $terapi->jumlah = 1;
+                $terapi->save(); 
+            }
+
+            if ($syrupAdd && $terapi->signa != 'Add') {
+                $syrupAdd = 0;
+                $bayarAdd = 0;    
+            } else if ($syrupAdd && $terapi->signa == 'Add' &&
+                !(
+
+                    $formula_id == '150803003' || //Decamox Syr
+                    $formula_id == '150803008' || //Lostacef Syr
+                    $formula_id == '150921001' || //cefixime syr
+                    $formula_id == '150803006' || //Dionicol sy
+                    $formula_id == '150806007' || //Decamox Syr
+                    $formula_id == '150802040' || //Lostacef Syr
+                    $formula_id == '150806005' || //cefixime syr
+                    $terapi->merek_id == '-2' || //cefixime syr
+                    $formula_id == '150803047'  //Dionicol sy
+                )
+            ) {
+                $bayarAdd = 1;    
+            }
+
+            $temp .= $terapi->merek->merek . ' ' . $terapi->signa . ' '. $terapi->jumlah . ' '. $terapi->aturan_minum  . ' merek_id = ' . $terapi->merek_id . ' ' . $syrupAdd . ' ' . $bayarAdd . '<br />';
+        }
+        if($bayarAdd){
+            $text = '<span style="color:red;">';
+             $text .= 'Add di bayar';
+             $text .= '</span>';
+         } else {
+            $text = '<span style="color:red;">';
+             $text .= 'Add tidak di bayar';
+             $text .= '</span>';
+         }
+         $data .= $temp . $text . '<br /><br />';
+    }
+    return $data;
+});
+Route::get('sesuaikan/cek', function(){
+    $query = "select px.id from periksas as px join terapis as tr on tr.periksa_id = px.id where signa = 'Add' group by px.id limit 10;";
+    $periksas = DB::select($query);
+    $data = '';
+    foreach ($periksas as $p) {
+        $terapis = App\Terapi::where('periksa_id', $p->id)->get();
+        $bayarAdd = 0;
+        $syrupAdd = 0;
+        $temp = '';
+        foreach ($terapis as $terapi) {
+        $temp .= $terapi->merek->merek . ' ' . $terapi->signa . ' '. $terapi->jumlah . ' '. $terapi->aturan_minum . '<br />';
+        }
+        $data .= $temp . '<br />';
+    }
+    return $data;
+    return dd($data);
+});
 		
-  		Route::get('name/name', function(){
-			return 'yoga';
-		});
-
-		Route::get('bb/bb', function(){
-			// $periksas = DB::select("select * from periksas where berat_badan is null");
-			$periksas = DB::select("select * from periksas where pemeriksaan_fisik like '%kg%' and berat_badan is null");
-			// return count($periksas);
-				$i = 0;
-				$a = 0;
-				$x = 0;
-			$temp = '';
-			$temp2 = '';
-			foreach ($periksas as $k => $periksa) {
-				$a++;
-				$pemeriksaan_fisik = $periksa->pemeriksaan_fisik;
-				$arr = preg_split('/\s+/', $pemeriksaan_fisik);
-				// $temp .= $pemeriksaan_fisik . '<br />';
-				foreach ($arr as $key => $ar) {
-					if (preg_match('/kg/',strtolower($ar))) {
-						$prx = Periksa::find($periksa->id);
-						if ($key > 0) {
-							$prx->berat_badan = (int)preg_replace("/[^0-9,.]/", "", str_replace(',', '.', $arr[$key -1]));
-						} else{
-							$prx->berat_badan = '0';
-						}
-						$prx->save();
-					}
-				}
-			}
-			return 'jumlah = '. $i  . 'dari = ' .$a. 'yang lebih dari 50 kg ada = ' .$x .'<br /><br />' . $temp2 .'<br /><br />' . $temp;
-		});
-			Route::get('test/test', function(){
-				$asuransi_id = '3';
-				$periksas = Periksa::where('asuransi_id', $asuransi_id)->where('tanggal', 'like', date('Y-m') . '%')->get();
-				$plafon = 0;
-				$totalDigunakan = 0;
-				$tunai = 0;
-
-				foreach ($periksas as $key => $periksa) {
-					$terapis = Terapi::where('periksa_id', $periksa->id)->get();
-					foreach ($terapis as $key => $terapi) {
-						$totalDigunakan += $terapi->merek->rak->harga_jual * $terapi->jumlah * $periksa->asuransi->kali_obat;
-					}
-					$tunai = $periksa->tunai;
-					$plafon += Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;
-				}
-				return 'totalDigunakan = ' . $totalDigunakan .
-				 'plafon = ' . $plafon .
-				 'tunai = ' . $tunai;
-
-			});
-			Route::get('sesuaikan/query', function(){
-				$periksas = Periksa::where('created_at', '>', '0000-00-00 00:00:00')->get();
-				foreach ($periksas as $k => $periksa) {
-					$tr_json = $periksa->transaksi;
-					$tr_arr = json_decode($tr_json,true);
-					foreach ($tr_arr as $k => $tr) {
-						$jenis_tarif_id = JenisTarif::where('jenis_tarif', $tr['jenis_tarif'])->first()->id;
-						$tr_arr[$k]['jenis_tarif_id'] = $jenis_tarif_id;
-					}
-
-					$periksa->transaksi = json_encode($tr_arr);
-					$periksa->save();
-				}
-			});
-			// insert terapi saat baru mulai pakai laravel sudah dilakukan
-			Route::get('terapi/terapi', function(){
-				$periksas = Periksa::where('created_at', '>', '0000-00-00 00:00:00')->get();
-				$periksa_array = [];
-				foreach ($periksas as $k => $periksa) {
-					if (Terapi::where('periksa_id', $periksa->id)->count() == 0) {
-						$periksa_array[] = $periksa;
-					}
-				}
-				foreach ($periksa_array as $k => $periksa) {
-					$terapi_json = $periksa['terapi'];
-					$terapi_arr = json_decode($terapi_json,true);
-					if ($terapi_arr !='' && count($terapi_arr) != 0) {
-						foreach ($terapi_arr as $k => $terapi) {
-							if (isset($terapi['merek_id'])) {
-								$t = new Terapi;
-								$t->merek_id = $terapi['merek_id'];
-								$t->signa = $terapi['signa'];
-								$t->aturan_minum = $terapi['aturan_minum'];
-								$t->jumlah = $terapi['jumlah'];
-								$t->harga_beli_satuan = Merek::find($terapi['merek_id'])->rak->harga_beli;
-								$t->harga_jual_satuan = Merek::find($terapi['merek_id'])->rak->harga_jual * $periksa->asuransi->kali_obat;
-								$t->periksa_id = $periksa['id'];
-								$t->created_at = $periksa['created_at'];
-								$t->updated_at = $periksa['updated_at'];
-								$t->save();
-							}
-						}
-					}
-				}
-			});
-
-			//insert tabel periksa kolom terapi terapijson agar lebih mudah mengurutkan sejak dimulai laravel sudah dilakukan
-			Route::get('terapi3/terapi3', function(){
-				$periksas = DB::select("SELECT id, terapi FROM periksas where created_at > '0000-00-00 00:00:00'");
-				$inserted = 0;
-				foreach ($periksas as $key => $periksa) {
-					$terapi = $periksa->terapi;
-					$terapi = json_decode($terapi, true);
-					$terapi_baru = [];
-					$prx = Periksa::find($periksa->id);
-					if ($terapi != '') {
-						foreach ($terapi as $k => $trp) {
-							if (isset($trp['merek_id'])) {
-								$merek_id     = $trp['merek_id'];
-								$formula_id   = Merek::find($merek_id)->rak->formula_id;
-								$signa        = $trp['signa'];
-								$jumlah       = $trp['jumlah'];
-
-								$terapi_baru[] = [
-									'formula_id' => $formula_id,
-									'signa'      => $signa,
-									'jumlah'     => $jumlah
-								];
-							}
-						}
-						array_multisort($terapi_baru);
-						$prx->terapi = json_encode($terapi_baru);
-						$confirm = $prx->save();
-						if ($confirm) {
-							$inserted++;
-						}
-					}
-				}
-				return $inserted . ' updated';
-			});
-
-			//memasukkan terapi json terbaru ke kolom terapi tabel periksa untuk memudahkan pengurutan sebelum pakai laravel sesudah pakai aplikasi sendiri
-			//belum dikerjakan
-			Route::get('terapi4/terapi4', function(){
-				$periksas = DB::select("SELECT id, terapi FROM periksas where created_at = '0000-00-00 00:00:00' and id in (select periksa_id from terapis)");
-				foreach ($periksas as $key => $periksa) {
-					$terapi = Terapi::where('periksa_id', $periksa->id)->get();
-					// return var_dump(Periksa::find($periksa->id));
-					$terapi_baru = [];
-					$prx = Periksa::find($periksa->id);
-						foreach ($terapi as $k => $trp) {
-							$merek_id     = $trp['merek_id'];
-							$formula_id   = Merek::find($merek_id)->rak->formula_id;
-							$signa        = $trp['signa'];
-							$jumlah       = $trp['jumlah'];
-
-							$terapi_baru[] = [
-								'formula_id' => $formula_id,
-								'signa'      => $signa,
-								'jumlah'     => $jumlah
-							];
-						}
-						array_multisort($terapi_baru);
-						// return $terapi_baru;
-						$prx->terapi = json_encode($terapi_baru);
-						$prx->save();
-				}
-
-			});
-			//insert terapis saat bikin punya sendiri
-			////belum dikerjakan
-
-
-			Route::get('terapi2/terapi2', function(){
-				$updated = 0;
-				$periksas = Periksa::where('id', '>=', '150810001')->get();
-				foreach($periksas as $periksa){
-					if (Terapi::where('periksa_id', $periksa->id)->count() == 0) {
-						$terapis = DB::select("select asu.kali_obat as kali_obat, t.merek_id as merek_id, m.merek, s.signa, am.aturan_minum, t.jumlah, t.periksa_id as periksa_id from terapi as t join mereks as m on m.id = t.merek_id join signas as s on s.id = t.signa join aturan_minums as am on am.id = t.aturan_minum join periksas as px on px.id = t.periksa_id join asuransis as asu on asu.id = px.asuransi_id where periksa_id = '{$periksa->id}' order by t.id;");
-						foreach ($terapis as $k => $terapi) {
-							$t = new Terapi;
-							$t->merek_id = $terapi->merek_id;
-							$t->signa = $terapi->signa;
-							$t->aturan_minum = $terapi->aturan_minum;
-							$t->harga_beli_satuan = Merek::find($terapi->merek_id)->rak->harga_beli;
-							$t->harga_jual_satuan = Merek::find($terapi->merek_id)->rak->harga_jual * $terapi->kali_obat;
-							$t->jumlah = $terapi->jumlah;
-							$t->periksa_id = $terapi->periksa_id;
-							$confirm = $t->save();
-							if ($confirm) {
-								$updated++;
-							}
-						}
-					}
-				}
-
-				return $updated . ' data inserted';
-
-			});
-			//insert ke tabel transaksi dari tabel yang ada transaksi json nya
-			////belum dilakukan
-			Route::get('transaksi/transaksi', function(){
-				$periksas = Periksa::where('created_at', '>', '0000-00-00 00:00:00')->get();
-				foreach ($periksas as $k => $periksa) {
-					if (TransaksiPeriksa::where('periksa_id', $periksa->id)->count() == 0) {
-						$terapi_json = $periksa->transaksi;
-						$terapi_arr = json_decode($terapi_json,true);
-						foreach ($terapi_arr as $k => $terapi) {
-							$t = new TransaksiPeriksa;
-							$t->periksa_id = $periksa->id;
-							if (isset($terapi['jenis_tarif_id'])) {
-								$t->jenis_tarif_id = $terapi['jenis_tarif_id'];
-							} else {
-								return $periksa->id;
-							}
-							$t->biaya = $terapi['biaya'];
-							$t->created_at = $periksa->created_at;
-							$t->updated_at = $periksa->updated_at;
-							$t->save();
-						}
-					}
-				}
-			});
     Route::resource('users', 'UsersController');
   	Route::group(['middleware' => 'auth'], function(){
 
@@ -298,6 +168,8 @@ Route::get('jangan', 'PolisController@jangan');
             Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
             Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
             Route::post('pengeluarans/nota_z', 'PengeluaransController@notaz_post');
+            Route::get('pengeluarans/rc', 'PengeluaransController@erce');
+            Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 
@@ -305,13 +177,10 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
 			Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
 
+			Route::get('pengelurans/checkout/{id}', 'PengeluaransController@show_checkout');
 
 			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
 			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
-
-			Route::get('cek/cek', function(){
-				return View::make('antrianpolis.oke');
-			});
 
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
@@ -331,8 +200,12 @@ Route::get('jangan', 'PolisController@jangan');
 
 			
 			Route::get('jurnal_umums', 'JurnalUmumsController@index');
+			Route::get('jurnal_umums/show', 'JurnalUmumsController@show');
 			Route::get('jurnal_umums/coa', 'JurnalUmumsController@coa');
 			Route::post('jurnal_umums/coa', 'JurnalUmumsController@coaPost');
+			Route::get('jurnal_umums/coa_list', 'JurnalUmumsController@coa_list');
+			Route::get('jurnal_umums/coa_keterangan', 'JurnalUmumsController@coa_keterangan');
+			Route::post('jurnal_umums/coa_entry', 'JurnalUmumsController@coa_entry');
 
 
 			Route::get('buku_besars', 'BukuBesarsController@index');
@@ -417,6 +290,7 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::get('pendapatans/create', 'PendapatansController@create');
 			Route::post('pendapatans/index', 'PendapatansController@store');
 			Route::get('pendapatans/pembayaran/asuransi', 'PendapatansController@pembayaran_asuransi');
+			Route::get('pendapatans/pembayaran/asuransi/show/{id}', 'PendapatansController@pembayaran_asuransi_show');
 
 			Route::post('rujuajax/rs', 'RujukansAjaxController@rs');
 			Route::post('rujuajax/rschange', 'RujukansAjaxController@rschange');
@@ -440,6 +314,7 @@ Route::get('jangan', 'PolisController@jangan');
 			Route::post('poli/ajax/pilih', 'PoliAjaxController@pilih');
 			Route::post('poli/ajax/kkchange', 'PoliAjaxController@kkchange');
 			Route::post('poli/ajax/asuridchange', 'PoliAjaxController@asuridchange');
+			Route::post('poli/ajax/bhp_tindakan', 'PoliAjaxController@bhp_tindakan');
 
 
 
@@ -525,7 +400,10 @@ Route::get('jangan', 'PolisController@jangan');
 
 
 			Route::get('terapis/{periksa_id}', 'TerapisController@index');
+			Route::post('test/test', 'CustomController@test_post');
 
+			Route::get('test/test', 'CustomController@test');
+			Route::post('test/getmereks', 'CustomController@getmereks');
   	});
 
 

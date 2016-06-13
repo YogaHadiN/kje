@@ -52,6 +52,7 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
+        //return dd( Input::all() );
 		// return var_dump(json_decode(Input::get('terapi'), true));
 		//Pada tahap ini ada beberapa yang perlu ditambahkan
 		//BHP (Bahan Habis Pakai) ditambahkan dalam json transaksis bila tindakan tidak kosong
@@ -74,15 +75,11 @@ class PeriksasController extends Controller
 		
 		$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
 
-		// return $terapis;
 
 
 		//sesuaikan Transaksi
 		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis);
 
-		// return dd($transaksis);
-
-		// return $transaksis;
 		//INPUT TRANSAKSI JAM MALAM
 		//JIKA PASIEN DATANG > JAM 10 MALAM, untuk pasien umum dan admedika, maka ditambah 10 ribu untuk jam malam
 		if ((Input::get('jam') > '22:00:00' || Input::get('jam') < '06:00:00') && ($asuransi->id == 0 || $asuransi->tipe_asuransi == '3')) {

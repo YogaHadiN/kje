@@ -10,21 +10,23 @@
        <div class="panel panel-info">
               <div class="panel-heading">
                 <div class="panel-title">
-                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                        @if(!$pasien->periksa->count() == 0)
-                        <h4>
+                    <div class="row">
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            @if(!$pasien->periksa->count() == 0)
+                            <h4>
 
-                            Tanggal {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} 
-                             |
-                          Pemeriksa : 
-                            @if($periksa->staf)
-                                <strong>{!! $periksa->staf->nama !!}</strong> <br><br>
+                                Tanggal {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} 
+                                 |
+                              Pemeriksa : 
+                                @if($periksa->staf)
+                                    <strong>{!! $periksa->staf->nama !!}</strong> <br><br>
+                                @endif
+                            </h4>
                             @endif
-                        </h4>
-                        @endif
-                    </div>
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right">
-                       <a href="{!! url('pasiens/' . $antrianperiksa->pasien_id) !!} " class="btn btn-success" target="_blank">Semua Riwayat</a>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right">
+                           <a href="{!! url('pasiens/' . $antrianperiksa->pasien_id) !!} " class="btn btn-success" target="_blank">Semua Riwayat</a>
+                        </div>
                     </div>
                 </div>
               </div>

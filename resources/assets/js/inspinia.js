@@ -1,4 +1,4 @@
-// Custom scripts
+// Custom script
 $(document).ready(function () {
     // MetsiMenu
     $('#side-menu').metisMenu();
@@ -59,16 +59,6 @@ $(document).ready(function () {
 
     $('.nav-tabs').addClass('nav-justified')
 
-    // Fixed Sidebar
-    // unComment this only whe you have a fixed-sidebar
-            //    $(window).bind("load", function() {
-            //        if($("body").hasClass('fixed-sidebar')) {
-            //            $('.sidebar-collapse').slimScroll({
-            //                height: 'auto',
-            //                railOpacity: 0.9,
-            //            });
-            //        }
-            //    })
 
     $(window).bind("load resize click scroll", function() {
         if(!$("body").hasClass('body-small')) {
@@ -86,9 +76,10 @@ $(document).ready(function () {
         var before = $(this).val();
         $(this).val(parseInt(before) || '');
     });
-
-
-
+    
+    $('form').submit(function(){
+        $('.btn').attr('disabled', 'disabled'); // but this doesn't work
+    });
     
 });
 

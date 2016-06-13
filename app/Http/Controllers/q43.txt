@@ -1,0 +1,12 @@
+update raks set harga_jual=13800 where id='L10';
+update raks set harga_jual=57900 where id='L11';
+update raks set harga_jual=40100 where id='L12';
+update raks set harga_jual=5100 where id='L13';
+update raks set harga_jual=7200 where id='L14';
+update raks set harga_jual=11000 where id='L2';
+update raks set harga_jual=20400 where id='L3';
+update raks set harga_jual=138200 where id='L5';
+update raks set harga_jual=15300 where id='L6';
+update raks set harga_jual=8300 where id='L7';
+update raks set harga_jual=3800 where id='L8';
+update raks set harga_jual=27200 where id='L9';

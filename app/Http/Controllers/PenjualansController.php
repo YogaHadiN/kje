@@ -38,7 +38,7 @@ class PenjualansController extends Controller
 	{
 		$datas = Input::get('tempBeli');
 		$datas = json_decode($datas, true);
-		$nota_jual_id = Yoga::customId('App\Notajual');
+		$nota_jual_id = Yoga::customId('App\NotaJual');
 		$biaya = 0;
 		foreach ($datas as $data) {
 			$pj = new Penjualan;
@@ -68,7 +68,7 @@ class PenjualansController extends Controller
 			}
 		}
 
-		$nj = new Notajual;
+		$nj = new NotaJual;
 		$nj->id = $nota_jual_id;
 		$nj->tanggal = Yoga::datePrep(Input::get('tanggal'));
 		$nj->staf_id = Input::get('staf_id');

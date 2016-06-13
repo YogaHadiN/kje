@@ -7,12 +7,17 @@ function informasi(control){
         data = $.parseJSON(data);
         var MyArray = data.komposisis;
         var temp = '';
-
-        for (var i = 0; i < MyArray.length; i++) {
-            temp += '<tr>';
-            temp += '<td>' + MyArray[i].komposisi + '</td>';
-            temp += '<td>' + MyArray[i].pregnancy_safety_index + '</td>';
-            temp += '</tr>';
+        if (MyArray.length > 0) {
+            for (var i = 0; i < MyArray.length; i++) {
+                temp += '<tr>';
+                temp += '<td>' + MyArray[i].komposisi + '</td>';
+                temp += '<td>' + MyArray[i].pregnancy_safety_index + '</td>';
+                temp += '</tr>';
+            }
+        } else {
+                temp += '<tr>';
+                temp += '<td colspan="2" class="text-center">Komposisi Tidak Terdaftar</td>';
+                temp += '</tr>';
         }
 
         $('#nama_obat').text($(control).text());

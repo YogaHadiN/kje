@@ -8,7 +8,11 @@ use App\Http\Requests;
 
 use App\JurnalUmum;
 use App\Pengeluaran;
+use App\Periksa;
+use App\KelompokCoa;
+use App\Modal;
 use App\BukanObat;
+use App\CheckoutKasir;
 use App\Classes\Yoga;
 use App\Coa;
 
@@ -21,11 +25,16 @@ class JurnalUmumsController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+    public function index(){
+    	return view('jurnal_umums.index');
+    }
+    
+	public function show()
 	{
 
+        $bulan  = Input::get('bulan');
+        $tahun  = Input::get('tahun');
 		$jurnalumums = JurnalUmum::all();
-
 		foreach ($jurnalumums as $k => $ju) {
 			try {
 				$ju->coa->coa;
@@ -33,9 +42,25 @@ class JurnalUmumsController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
-		$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->paginate(10);
+        $jurnalumums = JurnalUmum::groupBy('created_at')
+            ->orderBy('created_at', 'desc')
+            ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
+            ->paginate(10);
+        
+        //return dd( $jurnalumums );
+        //$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
+        //$errors = [];
+        //foreach ($jurnalumums as $ju) {
+            //try {
+                //foreach ($ju->jurnalable_type::find($ju->jurnalable_id)->jurnals as $ju) {
+                //}
+            //} catch (\Exception $e) {
+                //$errors[] = $ju->id;
+            //}
+        //}
+        //return dd( $errors );
 
-		return view('jurnal_umums.index', compact('jurnalumums'));
+		return view('jurnal_umums.show', compact('jurnalumums'));
 	}
 
 	/**
@@ -68,17 +93,21 @@ class JurnalUmumsController extends Controller
 
 
 		// return $ids;
-		$jurnalumums = JurnalUmum::whereIn('id', $ids)->get();
+        $jurnalumums = JurnalUmum::whereIn('id', $ids)
+                                ->where('jurnalable_type', 'App\FakturBelanja')
+                                ->groupBy('jurnalable_id')
+                                ->get();
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
+        $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
+        //return $kelompokCoaList;
 
 		return view('jurnal_umums.coa', compact(
 			'jurnalumums', 
+			'kelompokCoaList', 
 			'bebanCoaList',
 			'pendapatanCoaList'
 		));
-		// return $jurnalumums;
-
 	}
 
 	/**
@@ -155,5 +184,37 @@ class JurnalUmumsController extends Controller
 
 		return \Redirect::route('jurnalumums.index');
 	}
+    public function coa_list(){
+         
+        $coa_id = Input::get('coa_id');
+
+        $coas = Coa::where('id', 'like', "%$coa_id%")
+                    ->take(10)->get();
+        return json_encode($coas);
+    }
+    public function coa_keterangan(){
+         
+        $keterangan = Input::get('keterangan');
+
+        $coas = Coa::where('coa', 'like', "%$keterangan%")
+                    ->take(10)->get();
+        return json_encode($coas);
+    }
+    public function coa_entry(){
+         $coa_id = Input::get('coa_id');
+         $kelompok_coa_id = Input::get('kelompok_coa_id');
+         $coa = Input::get('coa');
+
+         $c = new Coa;
+         $c->id = $coa_id;
+         $c->kelompok_coa_id = $kelompok_coa_id;
+         $c->coa = $coa;
+         $c->save();
+
+
+        return json_encode( [ null => '- pilih -' ] + Coa::lists('coa', 'id')->all() );
+    }
+    
+    
 
 }

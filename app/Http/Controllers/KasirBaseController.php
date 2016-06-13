@@ -91,11 +91,9 @@ class KasirBaseController extends Controller
         if (!empty(Input::get('terapi2'))) {
             $perbaikan = new Perbaikanresep;
             $perbaikan->periksa_id = $periksa_id;
-            $perbaikan->terapi1 = Input::get('terapi1');
-            $perbaikan->terapi2 = Input::get('terapi2');
+            $perbaikan->terapi = Input::get('terapi1');
             $perbaikan->save();
         }
-
 
 		return redirect('antriankasirs')->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'));
 
@@ -183,6 +181,9 @@ class KasirBaseController extends Controller
 		if ($periksa->asuransi->tipe_asuransi != '4') {
 			foreach ($transaksis as $k => $trx) {
 				if ($trx['jenis_tarif'] == "Biaya Obat") {
+                    if ($harga_obat < 30000 && ( $periksa->asuransi_id == '151222001' || $periksa->asuransi_id == '10' )) {
+                       $harga_obat = 30000; 
+                    }
 					$transaksis[$k]['biaya'] = $harga_obat;
 				}
 			}

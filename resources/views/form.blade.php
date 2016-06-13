@@ -11,13 +11,13 @@
                 '1'  => 'Ya',
                 '0'  => 'bukan '
              ], $antrianperiksa->kecelakaan_kerja, [
-             'class' => 'selectpick',
+             'class' => 'form-control',
              'onchange' => 'kecelakaanKerjaChange(this);return false;',
              'id' => 'kecelakaanKerja'])!!}
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            Pembayaran : 
-             <select name="asuransi_id" id="asuransi_id" class="selectpick" onchange="asuransiIdChange(this);return false;">
+              Pembayaran : 
+             <select name="asuransi_id" id="asuransi_id" class="form-control" onchange="asuransiIdChange(this);return false;">
                 @if($antrianperiksa->asuransi_id == '0' && $antrianperiksa->pasien->asuransi_id != '0')
                     <option value="0" selected>Biaya Pribadi</option>
                     <option value="{!! $antrianperiksa->pasien->asuransi_id !!}">{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
@@ -35,11 +35,11 @@
                 null => 'tidak tau',
                 '1'  => 'hamil',
                 '0'  => 'tidak hamil'
-             ], $antrianperiksa->hamil, ['class' => 'selectpick', 'id' => 'hamil'])!!}
+             ], $antrianperiksa->hamil, ['class' => 'form-control', 'id' => 'hamil'])!!}
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             Pemeriksa : 
-            {!! Form::select('staf_id', $stafs, $antrianperiksa->staf_id, ['class' => 'form-control selectpick', 'id' => 'staf_id', 'data-live-search' =>'true'])!!}
+            {!! Form::select('staf_id', $stafs, $antrianperiksa->staf_id, ['class' => 'form-control selectpick', 'id' => 'staf_id', 'data-live-search' => 'true'])!!}
         </div>
     </div>
 </div>
@@ -490,16 +490,15 @@
     </div>
 </div>
 @if($antrianperiksa->asuransi_id == '32')
-    <div class="modal fade" id="cekFoto">
-        <div class="modal-dialog modal-lg">
+    <div class="modal" id="cekFoto">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Pastikan Foto Pasien Benar Adanya !!</h4>
-                    <h4>{!! $antrianperiksa->pasien->nama!!}, {!! App\Classes\Yoga::datediff($antrianperiksa->pasien->tanggal_lahir, date('Y-m-d'))!!}</h4>
-                    <h4>Jika foto pasien tidak cocok, minta pasien untuk mendaftar lagi sebagai pasien umum</h4>
+                    <h4 class="text-center">{!! $antrianperiksa->pasien->nama!!}, {!! App\Classes\Yoga::datediff($antrianperiksa->pasien->tanggal_lahir, date('Y-m-d'))!!}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <img src="{!! url($antrianperiksa->pasien->image) !!}? {{ time() }}" alt="" width="800px" height="600px">
+                    <img src="{!! url($antrianperiksa->pasien->image) !!}? {{ time() }}" alt="" width="500px" height="375px">
+                    <h4 class="text-center">Jika foto pasien tidak cocok, minta pasien untuk mendaftar lagi sebagai pasien umum</h4>
                 </div>
                 <div class="modal-footer">
                     <div class="row">

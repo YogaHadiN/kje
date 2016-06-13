@@ -4,7 +4,6 @@
 Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
 @stop
 @section('head')
-  
   <style>
     .padding {
       padding: 10px;
@@ -13,7 +12,6 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
       font-size: 24px;
     }
   </style>
-
 @stop
 @section('page-title') 
      <h2>RUANG PERIKSA Poli {!! ucfirst($antrianperiksa->poli)!!}</h2>

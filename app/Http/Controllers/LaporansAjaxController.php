@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
-
 use App\Classes\Yoga;
-use App\DB;
+use DB;
 
 class LaporansAjaxController extends Controller
 {

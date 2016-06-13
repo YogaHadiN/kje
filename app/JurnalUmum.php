@@ -27,9 +27,7 @@ class JurnalUmum extends Model{
 	}
 
 	public function jurnalable(){
-
 		return $this->morphTo();
-		
 	}
     
 

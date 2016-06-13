@@ -25,8 +25,18 @@ class PasiensAjaxController extends Controller
 		if(Input::ajax()){
 
 			$ID_PASIEN = Input::get('id');
-		    $namaPasien = Input::get('nama');
-		    $alamat = Input::get('alamat');
+		    $nama= Input::get('nama');
+            $array = str_split($nama);
+            $namaPasien = '';
+            foreach ($array as $arr) {
+                $namaPasien .= $arr . '%';
+            }
+		    $alamats = Input::get('alamat');
+            $array = str_split($alamats);
+            $alamat = '';
+            foreach ($array as $arr) {
+                $alamat .= $arr . '%';
+            }
 		    $tanggalLahir = Input::get('tanggal_lahir');
 		    $noTelp = Input::get('no_telp');
 		    $namaIbu = Input::get('nama_ibu');
@@ -39,8 +49,8 @@ class PasiensAjaxController extends Controller
 		    $query .= "FROM pasiens as p left outer join asuransis as asu on p.asuransi_id = asu.id ";
 		    $query .= "WHERE ";
 		    $query .= "(p.id like '%{$ID_PASIEN}%' or '{$ID_PASIEN}' = '') ";
-		    $query .= "AND (p.nama like '%{$namaPasien}%' or '{$namaPasien}' = '') ";
-		    $query .= "AND (p.alamat like '%{$alamat}%' or '{$alamat}' = '') ";
+		    $query .= "AND (p.nama like '%{$namaPasien}' or '{$namaPasien}' = '') ";
+		    $query .= "AND (p.alamat like '%{$alamat}' or '{$alamat}' = '') ";
 		    $query .= "AND (p.tanggal_lahir like '%{$tanggalLahir}%' or '{$tanggalLahir}' = '') ";
 		    $query .= "AND (p.no_telp like '%{$noTelp}%' or '{$noTelp}' = '') ";
 		    $query .= "AND (asu.nama like '%{$namaAsuransi}%' or '{$namaAsuransi}' = '') ";
