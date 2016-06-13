@@ -38,7 +38,7 @@ Klinik Jati Elok | Laporan Pemeriksaan
                     	<th>Tanggal</th>
                     	<th>Pemeriksaan</th>
                       <th>Terapi</th>
-                    	<th>Action</th>
+                        <!--<th>Action</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -140,12 +140,12 @@ Klinik Jati Elok | Laporan Pemeriksaan
                             </table>
                         </div>
                       </td>
-                      <td>
-                        <button type="button" class="btn btn-default btn-block"><i class="fa fa-question" onclick="unchecked(this)"></i></button>
-                        <button type="button" class="btn btn-danger btn-block"><i class="fa fa-warning" onclick="koreksi(this)"></i></button>
-                        <button type="button" class="btn btn-success btn-block"><i class="fa fa-check" onclick="betul(this)"></i></button>
-                        <button type="button" class="btn btn-primary btn-block"><i class="fa fa-thumbs-o-up" onclick="sop(this)"></i></button>
-                      </td>
+                      <!--<td>-->
+                        <!--<button type="button" class="btn btn-default btn-block"><i class="fa fa-question" onclick="unchecked(this)"></i></button>-->
+                        <!--<button type="button" class="btn btn-danger btn-block"><i class="fa fa-warning" onclick="koreksi(this)"></i></button>-->
+                        <!--<button type="button" class="btn btn-success btn-block"><i class="fa fa-check" onclick="betul(this)"></i></button>-->
+                        <!--<button type="button" class="btn btn-primary btn-block"><i class="fa fa-thumbs-o-up" onclick="sop(this)"></i></button>-->
+                      <!--</td>-->
                     </tr>
                    @endforeach
                    @else
