@@ -104,6 +104,9 @@ Klinik Jati Elok | Laporan Pemeriksaan
                           </div>
                         </div>
                         {!! $periksa->terapi_html !!}
+                        <div>
+                            {!! $periksa->jurnals !!}
+                        </div>
                       </td>
                       <td>
                         <button type="button" class="btn btn-default btn-block"><i class="fa fa-question" onclick="unchecked(this)"></i></button>
