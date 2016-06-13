@@ -69,6 +69,10 @@ Klinik Jati Elok | Laporan Pemeriksaan
                           <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
                           {!! $periksa->pemeriksaan_fisik !!} <br>
                           {!! $periksa->pemeriksaan_penunjang !!}<br>
+                          <h3>
+                             Transaksi 
+                          </h3>
+                          {!! $periksa->transaksii !!}
 
                       </td>
                       <td>
