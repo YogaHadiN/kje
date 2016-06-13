@@ -76,12 +76,20 @@ Klinik Jati Elok | Laporan Pemeriksaan
                           </h3>
                           <table class="table table-bordered table-hover table-condensed ">
                               <thead>
-                                  <th colspan="2">Jenis Tarif</th>
-                                  <th>Biaya</th>
+                                  <tr>
+                                      <th colspan="2">Jenis Tarif</th>
+                                      <th>Biaya</th>
+                                  </tr>
                               </thead>
                               <tbody>
                                   {!! $periksa->tindakan_html !!}
                               </tbody>
+                              <tfoot>
+                                  <tr>
+                                      <th colspan="2">Total</th>
+                                      <th>{!! $periksa->total_transaksi !!}</th>
+                                  </tr>
+                              </tfoot>
                               
                           </table>
                       </td>
