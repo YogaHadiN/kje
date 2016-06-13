@@ -99,6 +99,10 @@ Klinik Jati Elok | Checkout Kasir
                   </div>
               </div>
           </div>
+      </div>
+  </div>
+   <div class="row">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
         <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-title">Panel Oke</div>
@@ -117,7 +121,7 @@ Klinik Jati Elok | Checkout Kasir
                             @foreach ($table as $trx)
                             <tr>
                                 <td>{!! $trx['coa'] !!}</td>        
-                                <td>{!! $trx['jumlah'] !!}</td>        
+                                <td class="text-right">{!! $trx['jumlah'] !!}</td>        
                                 <td class="uang">{!! $trx['nilai'] !!}</td>        
                             </tr>
                             @endforeach
@@ -126,13 +130,7 @@ Klinik Jati Elok | Checkout Kasir
                 </div>
             </div>
         </div>
-      </div>
-  </div>
-   <div class="row">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
     </div>
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      </div>
 </div>
     
     
