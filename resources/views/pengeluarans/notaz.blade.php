@@ -110,12 +110,14 @@ Klinik Jati Elok | Checkout Kasir
                             <tr>
                                 <th>Jenis Tarif</th> 
                                 <th>Jumlah</th> 
+                                <th>Nilai</th> 
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($table as $trx)
                             <tr>
                                 <td>{!! $trx['coa'] !!}</td>        
+                                <td>{!! $trx['jumlah'] !!}</td>        
                                 <td class="uang">{!! $trx['nilai'] !!}</td>        
                             </tr>
                             @endforeach
