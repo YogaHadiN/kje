@@ -72,7 +72,7 @@ Klinik Jati Elok | Laporan Pemeriksaan
                           <h3>
                              Transaksi 
                           </h3>
-                          {!! $periksa->transaksii !!}
+                          {!! $periksa->transaksi !!}
 
                       </td>
                       <td>
