@@ -385,6 +385,15 @@ class PengeluaransController extends Controller
                             $table[$k]['nilai'] = $tab['nilai'] + $ar->nilai;
                             $table[$k]['jumlah'] = $tab['jumlah'] + 1;
                             $sama = true;
+                            $id_sama = false;
+                            foreach ($tab['jurnalable_id'] as $jurnl) {
+                                if ($jurnl == $rc->jurnalable_id) {
+                                    $id_sama = true;
+                                }
+                            }
+                            if (!$id_sama) {
+                                $table[$k]['jurnalable_id'][] = $rc->jurnalable_id;
+                            }
                         }
                     }
                     if (!$sama) {
@@ -392,7 +401,10 @@ class PengeluaransController extends Controller
                             'coa_id' => $ar->coa_id,
                             'coa'    => $ar->coa->coa,
                             'nilai'  => $ar->nilai,
-                            'jumlah' => 1
+                            'jumlah' => 1,
+                            'jurnalable_id' => [
+                                 $rc->jurnalable_id
+                            ]
 
                         ]; 
                     }
@@ -566,5 +578,11 @@ class PengeluaransController extends Controller
         }
         return $total;
     }
+    public function notaz_detail($id){
+         $ids = json_decode($id, true);
+         $periksas = Periksa::whereIn('id', $ids)->paginate(4);
+		return view('pengeluarans.detail_transaksi', compact('periksas'));
+    }
+    
 
 }

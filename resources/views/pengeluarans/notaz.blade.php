@@ -114,16 +114,21 @@ Klinik Jati Elok | Checkout Kasir
                             <tr>
                                 <th>Jenis Tarif</th> 
                                 <th>Jumlah</th> 
-                                <th>Nilai</th> 
+                                <th>Nilai</th>
+                                <th>Detail</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($table as $trx)
-                            <tr>
-                                <td>{!! $trx['coa'] !!}</td>        
-                                <td class="text-right">{!! $trx['jumlah'] !!}</td>        
-                                <td class="uang">{!! $trx['nilai'] !!}</td>        
-                            </tr>
+                                @if ($trx['coa'] != 'Kas di tangan')
+                                    <tr>
+                                        <td>{!! $trx['coa'] !!}</td>        
+                                        <td class="text-right">{!! $trx['jumlah'] !!}</td>        
+                                        <td class="uang">{!! $trx['nilai'] !!}</td>        
+                                        <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode($trx["jurnalable_id"])) !!}' class="btn btn-info btn-sm">Detail</a> </td>
+                                         
+                                    </tr>
+                               @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -138,9 +143,13 @@ Klinik Jati Elok | Checkout Kasir
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
     function validate(){
-        if(validatePass()){
-         $('#submit').click();
+        var r = confirm('Anda akan melakukan Checkout yang hanya bisa dilakukan oleh Admin. Klik tombol OK hanya jika anda yakin apa yang anda lakukan');
+        if(r){
+            if(validatePass()){
+             $('#submit').click();
+            }
         }
+        
     }
 </script>
 @stop

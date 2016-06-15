@@ -34,10 +34,8 @@ Klinik Jati Elok | Laporan Pemeriksaan
             <table class="table table-bordered" id="tableAsuransi">
                   <thead>
                     <tr>
-                      <th>No</th>
-                    	<th>Tanggal</th>
-                    	<th>Pemeriksaan</th>
-                      <th>Terapi</th>
+                    	<th>Informasi</th>
+                      <th>Jurnal Umum</th>
                         <!--<th>Action</th>-->
                     </tr>
                 </thead>
@@ -49,31 +47,33 @@ Klinik Jati Elok | Laporan Pemeriksaan
                     
                     <tr>
                       <td>
-                        {!! $key + 1!!}
-                      </td>
-                      <td>
+                          <div class="row">
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} <br>
                         <br>Umur :
                         {!! App\Classes\Yoga::datediff($periksa->pasien->tanggal_lahir, date('Y-m-d'))!!}
                         <br>Pembayaran : 
                         {!! $periksa->asuransi->nama !!}
-                      </td>
-                      <td>
-                          
+                        <br>Staf :
                         {!! $periksa->staf->nama !!} <br>
+                        <strong>{!! $periksa->id !!}</strong> <br>
+                          </div>
+                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                          <strong>Diagnosa :</strong> <br>
+                              @if($periksa->diagnosa_id)
 
-                        <strong>{!! $periksa->id !!}</strong> <br><br>
+                                {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!} <br>
+                                {!! $periksa->keterangan_diagnosa !!}
 
-                          <strong>Nama :</strong> <br>
-                          {!! $periksa->pasien->nama !!} <br>
-                          <strong>Anamnesa :</strong> <br>
-                          {!! $periksa->anamnesa !!} <br>
-                          <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
-                          {!! $periksa->pemeriksaan_fisik !!} <br>
-                          {!! $periksa->pemeriksaan_penunjang !!}<br>
-                          <h3>
-                             Transaksi 
-                          </h3>
+                              @else
+                                {!! $periksa->keterangan_diagnosa !!}
+                              @endif
+                              <br>
+                            <strong>Pembayaran :</strong> <br>
+                            {!! $periksa->asuransi->nama !!} <br>
+                            <br>
+                          </div>
+                        </div>
                           <table class="table table-bordered table-hover table-condensed ">
                               <thead>
                                   <tr>
@@ -94,26 +94,7 @@ Klinik Jati Elok | Laporan Pemeriksaan
                           </table>
                       </td>
                       <td>
-                        <div class="row">
-                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <strong>Pembayaran :</strong> <br>
-                            {!! $periksa->asuransi->nama !!} <br><br>
-                          </div>
-                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                          <strong>Diagnosa :</strong> <br>
-                              @if($periksa->diagnosa_id)
-
-                                {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!} <br>
-                                {!! $periksa->keterangan_diagnosa !!}
-
-                              @else
-                                {!! $periksa->keterangan_diagnosa !!}
-                              @endif
-                          </div>
-                        </div>
-                        {!! $periksa->terapi_html !!}
                         <div>
-                            <h3>Jurnal Umum</h3>
                             <table class="table borderless table-condensed">
                                 <thead>
                                     <tr>
@@ -149,12 +130,6 @@ Klinik Jati Elok | Laporan Pemeriksaan
                             </table>
                         </div>
                       </td>
-                      <!--<td>-->
-                        <!--<button type="button" class="btn btn-default btn-block"><i class="fa fa-question" onclick="unchecked(this)"></i></button>-->
-                        <!--<button type="button" class="btn btn-danger btn-block"><i class="fa fa-warning" onclick="koreksi(this)"></i></button>-->
-                        <!--<button type="button" class="btn btn-success btn-block"><i class="fa fa-check" onclick="betul(this)"></i></button>-->
-                        <!--<button type="button" class="btn btn-primary btn-block"><i class="fa fa-thumbs-o-up" onclick="sop(this)"></i></button>-->
-                      <!--</td>-->
                     </tr>
                    @endforeach
                    @else
@@ -174,5 +149,5 @@ Klinik Jati Elok | Laporan Pemeriksaan
   var base = "{{ url('/') }}";
 </script>
 {!! HTML::script('js/informasi_obat.js')!!} 
-	
 @stop
+
