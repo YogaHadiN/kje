@@ -403,6 +403,10 @@ Klinik Jati Elok | Entri Beli Obat
 
 
     $(document).ready(function() {
+        alert('sundul gan');
+        $('.modal').on('hidden.bs.modal', function(){
+            $('.btn').removeAttr('disabled');
+        }); 
       $('#dummySubmit').click(function(){
          $('.btn').attr('disabled', 'disabled'); 
           var staf_id = $('#staf_id').val();

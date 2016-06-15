@@ -167,6 +167,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('pengeluarans', 'PengeluaransController@store');
             Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
             Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
+            Route::get('pengeluarans/nota_z/detail/{id}', 'PengeluaransController@notaz_detail');
             Route::post('pengeluarans/nota_z', 'PengeluaransController@notaz_post');
             Route::get('pengeluarans/rc', 'PengeluaransController@erce');
             Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');

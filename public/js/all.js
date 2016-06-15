@@ -3945,7 +3945,7 @@ $(document).ready(function () {
         $(this).val(parseInt(before) || '');
     });
     
-    $('form').submit(function(){
+    $('form').on('submit', function(){
         $('.btn').attr('disabled', 'disabled'); // but this doesn't work
     });
     
