@@ -43,6 +43,7 @@ Klinik Jati Elok | Checkout Kasir
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
+                                    <th>Jam</th>
                                     <th>Modal Awal</th>
                                     <th>Uang Keluar</th>
                                     <th>Uang Masuk</th>
@@ -54,6 +55,7 @@ Klinik Jati Elok | Checkout Kasir
                                 @foreach($checkouts as $checkout)
                                 <tr>
                                     <td>{{  $checkout->created_at->format('d-m-Y')  }}</td>
+                                    <td>{{ $checkout->created_at->format('H:i:s') }}</td>
                                     <td class="uang">{{  $checkout->modal_awal  }}</td>
                                     <td class="uang">{{  $checkout->uang_keluar  }}</td>
                                     <td class="uang">{{  $checkout->uang_masuk  }}</td>
