@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
 use DB;
+use Auth;
+use Hash;
 use App\AntrianPoli;
+use App\User;
+use App\Periksa;
+use App\Staf;
 use App\AntrianPeriksa;
 use App\Pasien;
 use App\Classes\Yoga;
@@ -184,5 +189,40 @@ class PasiensAjaxController extends Controller
 		return json_encode($kembali);
 	}
 
+    public function confirm_staf(){
+        $email = Input::get('email');
+        $password = Input::get('password');
+        $pasien_id = Input::get('pasien_id');
+        //return Input::all();
+
+        $user = User::where('email', $email)->first();
+        if ($user) {
+           $hashedPassword = $user->password; 
+        } else {
+            $pesan = Yoga::gagalFlash('User belum terdaftar');
+            return redirect('pasiens')->withPesan($pesan);
+        }
+
+		if( Hash::check($password, $hashedPassword) ){
+            $staf= Staf::where('email', $email)->first();
+            //return $staf->id;
+            $count = Periksa::where('pasien_id', $pasien_id)
+                            ->where('staf_id', $staf->id)
+                            ->count();
+            if ($count > 0 || $email == 'yoga_email@yahoo.com') {
+                $pesan = Yoga::suksesFlash('Anda diizinkan untuk melihat status pasien ini <strong>harap jaga kerahasiannya</strong>');
+                return redirect('pasiens/' . Input::get('pasien_id'))->withPesan($pesan);
+            }else{
+                $pesan = Yoga::gagalFlash('Anda tidak memiliki wewenang untuk melihat riwayat pasien ini');
+                return redirect('pasiens')->withPesan($pesan);
+            }
+		}else {
+            $pesan = Yoga::gagalFlash('Kombinasi email / password <strong>salah</strong>');
+			return redirect('pasiens')
+			->withPesan($pesan);
+		}
+
+    }
+    
 
 }
