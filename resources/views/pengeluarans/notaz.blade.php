@@ -143,19 +143,72 @@ Klinik Jati Elok | Checkout Kasir
         </div>
     </div>
 </div>
-    
-    
+ <div class="modal fade" tabindex="-1" role="dialog" id="confirm_staf">
+  <div class="modal-dialog">
+<input style="display:none"><input type="password" style="display:none">
+    <input type="hidden" name="pasien_id" id="pasien_id_stafs" value=""> 
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Konfirmasi Staf</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger">
+            <h4>Akses Terbatas</h4>
+            <p>Hanya Super Administrator yang berhak mengklik</p>
+        </div> 
+        <div class="form-group">
+          {!! Form::label('email', 'Email') !!}
+          {!! Form::text('email' , null, ['class' => 'form-control rq', 'autocomplete' => 'off', 'id'=>'email_staf']) !!}
+
+        </div>
+        <div class="form-group">
+          {!! Form::label('password', 'Password') !!}
+          {!! Form::password('password',  array('placeholder' => 'password', 'class'=>'form-control rq', 'autocomplete' => 'false', 'id'=>'password_staf'))!!}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="confirmStaf();return false;">Submit</button>
+        {!! Form::submit('Submit', ['class' => 'hide', 'id' => 'submit_confirm_staf', 'onclick' => 'clickThis();return false;']) !!}
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>   
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
+
+    $('#confirm_staf').on('show.bs.modal', function(){
+        $('#confirm_staf input[type!="hidden"]').val('');
+    });
+    $('#confirm_staf').on('shown.bs.modal', function(){
+        $('#email_staf').focus();
+    });
+
     function validate(){
-        var r = confirm('Anda akan melakukan Checkout yang hanya bisa dilakukan oleh Admin. Klik tombol OK hanya jika anda yakin apa yang anda lakukan');
-        if(r){
-            if(validatePass()){
-             $('#submit').click();
-            }
+       $('#confirm_staf').modal('show'); 
+    }
+    function confirmStaf(){
+        if(validatePass()){
+             $('#submit_confirm_staf').click();
         }
-        
+    }
+    function clickThis(){
+        $.post('{{ url("pengeluarans/confirm_staf") }}',
+                { 'email' : $('#email_staf').val(), 'password' : $('#password_staf').val() },
+            function (data, textStatus, jqXHR) {
+                if(data == '1'){
+                    $('#submit').click();
+                } else if (data == '0'){
+                     alert('User Belum Terdaftar');
+                } else if (data == '2') {
+                    alert('User tidak punya wewenang');
+                } else if(data == '3'){
+                    alert('kombinasi email / password salah');
+                }
+            }
+        );
     }
 </script>
 @stop
