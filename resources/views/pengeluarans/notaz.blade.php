@@ -132,6 +132,10 @@ Klinik Jati Elok | Checkout Kasir
                                     </tr>
                                @endif
                             @endforeach
+                            <tr>
+                                <td colspan="3">Semua Transaksi Kasir</td>        
+                                <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode( $all_id )) !!}' class="btn btn-info btn-sm">Detail</a> </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
