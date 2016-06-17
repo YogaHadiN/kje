@@ -590,7 +590,6 @@ class PengeluaransController extends Controller
     public function notaz_detail($id){
          $ids = json_decode($id, true);
          $periksas = Periksa::whereIn('id', $ids)->paginate(4);
-         return $periksas[0]->pasien;
 		return view('pengeluarans.detail_transaksi', compact('periksas'));
     }
     
