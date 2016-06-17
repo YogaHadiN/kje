@@ -13,6 +13,7 @@ use App\CheckoutDetail;
 use App\Pembelian;
 use App\Diagnosa;
 use App\Modal;
+use App\User;
 use App\Coa;
 use App\Penjualan;
 use App\TransaksiPeriksa;
@@ -22,6 +23,7 @@ use App\Periksa;
 use App\JurnalUmum;
 use App\Staf;
 use DB;
+use Hash;
 use App\Pengeluaran;
 
 class PengeluaransController extends Controller
@@ -592,6 +594,29 @@ class PengeluaransController extends Controller
          $periksas = Periksa::whereIn('id', $ids)->paginate(4);
 		return view('pengeluarans.detail_transaksi', compact('periksas'));
     }
+    public function confirm_staf(){
+        $email = Input::get('email');
+        $password = Input::get('password');
+
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            $hashedPassword = $user->password; 
+        } else {
+            return '0';// user belum terdaftar
+        }
+
+        if( Hash::check($password, $hashedPassword) ){
+            if ($email == 'yoga_email@yahoo.com') {
+                return '1'; // user berhasil confirm
+            }else{
+                return '2';// user tidak punya otoritas
+            }
+        }else {
+            return '3'; // kombinasi email / password salah
+        }
+
+    }
+    
     
 
 }

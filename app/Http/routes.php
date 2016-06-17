@@ -179,6 +179,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
 
 			Route::get('pengelurans/checkout/{id}', 'PengeluaransController@show_checkout');
+			Route::post('pengeluarans/confirm_staf', 'PengeluaransController@confirm_staf');
 
 			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
 			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
