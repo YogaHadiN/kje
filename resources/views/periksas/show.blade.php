@@ -58,6 +58,19 @@ Klinik Jati Elok | Pasien
                                 {!! $periksa->pemeriksaan_penunjang !!}<br>
                                 <strong>Diagnosa :</strong> <br>
                                 {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
+                                <br> <br>
+                                <div class="row">
+                                    @if($periksa->usg)
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <a href="{{ url('usgs/' . $periksa->id) }}" class="btn btn-primary btn-block">Hasil USG</a>
+                                        </div>
+                                    @endif
+                                    @if($periksa->registerAnc)
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <a href="{{ url('ancs/' . $periksa->id) }}" class="btn btn-info btn-block">Hasil ANC</a>
+                                        </div>
+                                    @endif
+                                </div>
                             </td>
                             <td>{!! $periksa->terapi_html !!}</td>
                         </tr>

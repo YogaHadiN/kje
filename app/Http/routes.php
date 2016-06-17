@@ -350,6 +350,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('pasiens/ajax/ajaxpasien', 'PasiensAjaxController@ajaxpasien');
 			Route::post('pasiens/ajax/create', 'PasiensAjaxController@create');
 			Route::post('pasiens/ajax/cekbpjskontrol', 'PasiensAjaxController@cekbpjskontrol');
+			Route::post('pasiens/ajax/confirm_staf', 'PasiensAjaxController@confirm_staf');
 			
 
 			Route::get('survey', 'KasirsController@index');

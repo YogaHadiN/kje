@@ -366,6 +366,39 @@ Klinik Jati Elok | Pasien
         </div>
     </div>
 </div>  
+<div class="modal fade" tabindex="-1" role="dialog" id="confirm_staf">
+  <div class="modal-dialog">
+  {!! Form::open(['url'=>'pasiens/ajax/confirm_staf', 'method'=> 'post', 'autocomplete' => 'off']) !!} 
+<input style="display:none"><input type="password" style="display:none">
+    <input type="hidden" name="pasien_id" id="pasien_id_stafs" value=""> 
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Konfirmasi Staf</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger">
+            <h4>Riwayat Pemeriksaan Pasien Adalah RAHASIA</h4>
+            <p>Hanya Dokter / Staf yang pernah periksa pasien ini yang memiliki wewenang untuk melihat riwayat pasien</p>
+        </div> 
+        <div class="form-group">
+          {!! Form::label('email', 'Email') !!}
+          {!! Form::text('email' , null, ['class' => 'form-control rq', 'autocomplete' => 'off']) !!}
+        </div>
+        <div class="form-group">
+          {!! Form::label('password', 'Password') !!}
+          {!! Form::password('password',  array('placeholder' => 'password', 'class'=>'form-control rq', 'autocomplete' => 'false'))!!}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="confirmStaf(this);return false;">Submit</button>
+        {!! Form::submit('Submit', ['class' => 'hide', 'id' => 'submit_confirm_staf']) !!}
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+    {!! Form::close() !!}
+  </div><!-- /.modal-dialog -->
+</div>
 @stop
 @section('footer') 
 <script>
@@ -377,6 +410,16 @@ Klinik Jati Elok | Pasien
 <script type="text/javascript">
 
     $(document).ready(function() {
+
+        $('#confirm_staf').on('show.bs.modal', function(){
+            $('#confirm_staf input[type!="hidden"]').val('');
+        });
+
+        $('#confirm_staf').on('shown.bs.modal', function(){
+            $('#email').focus();
+            // setTimeout(function(){ $('#email').focus(); }, 300);
+        });
+
        var request;
         $('#dummyButton').click(function(e) {
                  if(
@@ -384,8 +427,6 @@ Klinik Jati Elok | Pasien
                     $('select#ddlPembayaran').val() == '' ||
                     $('select[name="poli"]').val() == '' ||
                     $('input[name="antrian"]').val() == '' ){
-
-                    
 
                     if($('select[name="staf_id"]').val() == '' ){
                         validasi('select[name="staf_id"]', 'Harus Diisi');
@@ -491,7 +532,7 @@ Klinik Jati Elok | Pasien
                     temp += "<td nowrap class='displayNone'><div>" + result[0].image + "</div></td>";
                     temp += "<td nowrap nowrap><div class='invisible'><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk periksa pasien\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "/edit\" style=\"color: ##337AB7; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk ubah data pasien\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
-                    temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "\" style=\"color: orange; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk melihat riwayat pasien\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>";
+                    temp += "&nbsp;&nbsp;&nbsp;<a data-value='" + MyArray[i].ID_PASIEN + "' onclick='confirmStafModal();' data-value=\"pasiens/" + result[0].id + "\" style=\"color: orange; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk melihat riwayat pasien\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>";
                    temp += "</tr>";
 
                     $('#ajax').prepend(temp);
@@ -727,7 +768,7 @@ Klinik Jati Elok | Pasien
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].image + "</div></td>";
                     temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + MyArray[i].ID_PASIEN + "/edit\" style=\"color: ##337AB7; font-size: large;\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
-                    temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + MyArray[i].ID_PASIEN + "\" style=\"color: orange; font-size: large;\" ><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a> </td>";
+                    temp += "&nbsp;&nbsp;&nbsp;<a data-value='" + MyArray[i].ID_PASIEN + "' onclick='confirmStafModal(this);' href='#' style=\"color: orange; font-size: large;\" ><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a> </td>";
          
                     temp += "</tr>";
                  }
@@ -897,6 +938,18 @@ Klinik Jati Elok | Pasien
                 $('#staf_id_complain').val('').selectpicker('refresh');
             });
         }
+        function confirmStafModal(control){
+            var pasien_id = $(control).attr('data-value');
+            $('#confirm_staf').modal('show');
+            $('#pasien_id_stafs').val(pasien_id);
+        }
+function confirmStaf(){
+    if(validatePass()){
+       $('#submit_confirm_staf').click(); 
+    }    
+}
+
+
     </script>
 
 @stop
