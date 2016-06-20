@@ -140,7 +140,8 @@ class PengeluaransController extends Controller
 		$fb->submit = '1';
 		$fb->save();
 
-		return redirect('fakturbelanjas')->withPesan(Yoga::suksesFlash('<strong>Transaksi Uang Keluar</strong> berhasil dilakukan'));
+        return redirect('fakturbelanjas/cari')->withPesan(Yoga::suksesFlash('<strong>Transaksi Uang Keluar</strong> berhasil dilakukan'))
+            ->withPrint($faktur_belanja_id);
 	}
 
 	public function lists() {
@@ -230,6 +231,8 @@ class PengeluaransController extends Controller
                 $bayar->staf_id = $staf_id;
                 $bayar->bayar_dokter = $dibayar;
                 $bayar->hutang = $hutang;
+                $bayar->mulai =  $mulai ;
+                $bayar->akhir =  $akhir ;
                 $confirm = $bayar->save();
                 if ($confirm) {
 
@@ -322,10 +325,11 @@ class PengeluaransController extends Controller
                 }
             }
             $pesan = Yoga::suksesFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Berhasil diinput' );
+            return redirect('stafs')->withPesan($pesan)->withPrint($bayar->id);
         } else {
             $pesan = Yoga::gagalFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Gagal diinput' );
+            return redirect('stafs')->withPesan($pesan);
         }
-        return redirect('stafs')->withPesan($pesan);
     }
     public function bayar(){
          
@@ -333,6 +337,14 @@ class PengeluaransController extends Controller
     }
     
     public function nota_z(){
+        $jurnalumums = JurnalUmum::all();
+		foreach ($jurnalumums as $k => $ju) {
+			try {
+				$ju->coa->coa;
+			} catch (\Exception $e) {
+				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
+			}
+		}
         $checkout = CheckoutKasir::latest()->first();
         $tanggal = $checkout->created_at;
         $jurnal_umum_id = $checkout->jurnal_umum_id;

@@ -1,5 +1,4 @@
 @extends('layout.master')
-
 @section('title') 
 Klinik Jati Elok | Antrian Kasir
 
@@ -16,6 +15,11 @@ Klinik Jati Elok | Antrian Kasir
   </ol>
 @stop
 @section('content') 
+@if (Session::has('print'))
+<div id="print-struk" class="hide">
+    <a target="_blank" id="print_button" class="btn btn-primary" href="{{ url('pdfs/struk/' . Session::get('print')) }}">Print Struk</a>
+</div>
+@endif
 <input type="hidden" name="_token" id="token" value="{{ Session::token() }}">
 <div class="panel panel-primary">
       <div class="panel-heading">
@@ -80,6 +84,11 @@ Klinik Jati Elok | Antrian Kasir
 @stop
 @section('footer') 
 	<script>
+       $(function () {
+            if( $('#print-struk').length > 0 ){
+                window.open("{{ url('pdfs/struk/' . Session::get('print')) }}", '_blank');
+            }
+       }); 
       function monitor_available(control){
         $('#pleaseWaitDialog').modal({backdrop: 'static', keyboard: false});
         $.post('{{ url("monitor/avail")}}', {}, function(data) {
@@ -94,5 +103,6 @@ Klinik Jati Elok | Antrian Kasir
               
         });
       }
+        
     </script>
 @stop

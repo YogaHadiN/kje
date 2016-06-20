@@ -629,7 +629,11 @@ class Yoga {
 
 		public static function clean($str){
 			$data = str_replace(".", "", substr($str, 4));
-			return $data;
+            if ($data != '') {
+                return $data;
+            }else {
+                return '0';
+            }
 		}
 
 		public static function sesuaikanResep($json, $order){
@@ -2095,5 +2099,10 @@ class Yoga {
         }
         return count(DB::select($query)) . '<br />' . '( <span class="uang"> ' . $biaya . '</span> )';
     }
+    public static function buatrp($angka){
+        $jadi = "Rp. " . number_format($angka,0,',','.') . ',-';
+        return $jadi;
+    }
+    
     
 }

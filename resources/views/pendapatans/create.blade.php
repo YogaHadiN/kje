@@ -18,6 +18,7 @@ Klinik Jati Elok | Pendapatans Lain
 @stop
 @section('content') 
 
+{!! Form::open(['url' => 'pendapatans/index']) !!}
 <div class="row">
   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <div class="panel panel-default">
@@ -63,14 +64,12 @@ Klinik Jati Elok | Pendapatans Lain
                 		{!! Form::text('keterangan', null, ['class' => 'rq form-control ini', 'placeholder' => 'contoh: RS Murni Asih', 'content' => 'Yang Menyerahkan Uang', 'id' => 'keterangan'])!!}
                 	</td>
                 	<td>
-                		<button type='button' class="btn btn-primary" onclick="input(this); return false;" id='input'>Input</button>
+                		<button type='button' class="btn btn-primary" onclick="inputt(this); return false;" id='input'>Input</button>
                 	</td>
                 </tfoot>
             </table>
-            {!! Form::open(['url' => 'pendapatans/index']) !!}
 				{!! Form::textarea('array', '[]', ['class' => 'form-control hide', 'id' => 'array']) !!}
 				{!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit'])!!}
-			{!! Form::close() !!}
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                <button class="btn btn-primary btn-lg btn-block" onclick="submit(); return false;">Submit</button>
@@ -81,6 +80,7 @@ Klinik Jati Elok | Pendapatans Lain
           </div>
       </div>
 </div>
+{!! Form::close() !!}
 
 
 @stop
@@ -98,7 +98,7 @@ Klinik Jati Elok | Pendapatans Lain
     });
   });
 
-	function input(control){
+	function inputt(control){
 
     var pass = true;
     var string = '';

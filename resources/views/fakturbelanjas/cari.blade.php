@@ -16,6 +16,11 @@ Klinik Jati Elok | Antrian Beli Obat
 </ol>
 @stop
 @section('content') 
+@if (Session::has('print'))
+   <div id="print-struk">
+       
+   </div> 
+@endif
 
 <div class="panel panel-primary">
       <div class="panel-heading">
@@ -60,6 +65,7 @@ Klinik Jati Elok | Antrian Beli Obat
                                 <a href="{{ url('pengeluarans/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
                             @endif
                             
+                                <a class="btn btn-info btn-xs" href="{{ url('pdfs/pembelian/' . $faktur_beli->id) }}" target="_blank">Print Struk</a>
                         </td>
                   	</tr>
                   	@endforeach
@@ -72,6 +78,12 @@ Klinik Jati Elok | Antrian Beli Obat
 </div>
 @stop
 @section('footer') 
-
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        if( $('#print-struk').length ){
+            window.open("{{ url('pdfs/pembelian/' . Session::get('print')) }}", '_blank');
+        }
+    });
+</script>
 
 @stop

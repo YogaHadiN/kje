@@ -8,6 +8,9 @@ use Input;
 use App\Http\Requests;
 use App\Classes\Yoga;
 use App\Periksa;
+use App\BayarDokter;
+use App\NotaJual;
+use App\FakturBelanja;
 use App\Tarif;
 use PDF;
 
@@ -100,8 +103,97 @@ class PdfsController extends Controller
 	{
         return view('pdfs.kuitansi');
 	}
+	public function struk($periksa_id)
+	{
+		$periksa = Periksa::find($periksa_id);
+        $transaksis = $periksa->transaksii;
+        $total_biaya = 0;
+        $dibayar_asuransi = 0;
+        $dibayar_pasien = 0;
+        $pembayaran = 0;
+        $kembalian = 0;
+        $bhp = 0;
+        foreach ($transaksis as $trx) {
+            if ($trx->jenis_tarif_id != 147 && $trx->jenis_tarif_id != 148) {
+                $total_biaya += $trx->biaya;
+            }
+            if ($trx->jenis_tarif_id == 147) {
+                $pembayaran = $trx->biaya;
+            }
+            if ($trx->jenis_tarif_id == 148) {
+                $kembalian = $trx->biaya;
+            }
+            if ($trx->jenis_tarif_id == 149) {
+                $dibayar_asuransi = $trx->biaya;
+            }
+            if ($trx->jenis_tarif_id == 150) {
+                $dibayar_pasien = $trx->biaya;
+            }
+            if ($trx->jenis_tarif_id == 140) {
+                $bhp = $trx->biaya;
+            }
+        }
+        //return dd( $transaksis );
+        $trxa = json_encode($transaksis);
+        $trxa = json_decode($trxa, true);
+        foreach ($trxa as $k=>$trx) {
+            if ($trx['jenis_tarif_id'] == 9) {
+                $trxa[$k]['biaya'] = Yoga::buatrp($trx['biaya'] + $bhp);
+                $trxa[$k]['jenis_tarif'] = $transaksis[$k]->jenisTarif->jenis_tarif;
+
+            }else if($trx['jenis_tarif_id'] == 140){
+                unset($trxa[$k]);
+            } else {
+                $trxa[$k]['biaya'] = Yoga::buatrp($trx['biaya']);
+                $trxa[$k]['jenis_tarif'] = $transaksis[$k]->jenisTarif->jenis_tarif;
+            }
+        }
+        $total_biaya = Yoga::buatrp( $total_biaya );
+        $dibayar_asuransi = Yoga::buatrp( $dibayar_asuransi );
+        $dibayar_pasien = Yoga::buatrp( $dibayar_pasien );
+        $pembayaran = Yoga::buatrp( $pembayaran );
+        $kembalian = Yoga::buatrp( $kembalian );
+        //return dd( $trxa );
+        $pdf = PDF::loadView('pdfs.struk', compact('trxa', 'periksa', 'total_biaya', 'dibayar_asuransi', 'dibayar_pasien', 'pembayaran', 'kembalian'))->setPaper(array(0, 0, 80, 270),'potrait')->setWarnings(false);
+        return $pdf->stream();
+	}
+    public function jasa_dokter($bayar_dokter_id){
+        $bayar = BayarDokter::find($bayar_dokter_id);
+        $pdf = PDF::loadView('pdfs.jasa_dokter', compact('bayar'))->setPaper(array(0, 0, 80, 270),'potrait')->setWarnings(false);
+        return $pdf->stream();
+    }
+    
+    public function pembelian($faktur_belanja_id){
+        $fakturbelanja = FakturBelanja::find($faktur_belanja_id);
+        $total = 0;
+        if ($fakturbelanja->belanja_id == 1) {
+            foreach ($fakturbelanja->pembelian as $pemb) {
+                $total += $pemb->harga_beli * $pemb->jumlah;
+            }
+        } else {
+            foreach ($fakturbelanja->pengeluaran as $pemb) {
+                $total += $pemb->harga_satuan * $pemb->jumlah;
+            }
+        }
+        $pdf = PDF::loadView('pdfs.pembelian', compact('fakturbelanja', 'total'))->setPaper(array(0, 0, 80, 270),'potrait')->setWarnings(false);
+        return $pdf->stream();
+    }
+    public function penjualan($nota_jual_id){
+        $nota_jual = NotaJual::find($nota_jual_id);
+        $total = 0;
+        if ($nota_jual->tipe_jual_id == 1) {
+            foreach ($nota_jual->penjualan as $penj) {
+                $total += $penj->harga_jual * $penj->jumlah;
+            }
+        } else if($nota_jual->tipe_jual_id == 2){
+            foreach ($nota_jual->pendapatan as $penj) {
+                $total += $penj->biaya;
+            }
+        }
+
+        $pdf = PDF::loadView('pdfs.penjualan', compact('nota_jual', 'total'))->setPaper(array(0, 0, 80, 270),'potrait')->setWarnings(false);
+        return $pdf->stream();
 
 
-
-	
+    }
 }

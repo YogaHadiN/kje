@@ -15,6 +15,11 @@ Klinik Jati Elok | Staf
 </ol>
 @stop
 @section('content') 
+@if (Session::has('print'))
+<div class="hide" id="print-struk">
+    
+</div>
+@endif
 
 <div class="panel panel-primary">
       <div class="panel-heading">
@@ -64,7 +69,13 @@ Klinik Jati Elok | Staf
 </div>
 @stop
 @section('footer') 
-
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        if( $('#print-struk').length ){
+            window.open("{{ url('pdfs/jasadokter/' . Session::get('print')) }}", '_blank');
+        }
+    });
+</script>
 
 
 @stop

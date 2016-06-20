@@ -190,6 +190,9 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('fakturbelanjas', 'FakturBelanjasController@store');
 			Route::get('fakturbelanjas/{id}', 'FakturBelanjasController@destroy');
 
+			Route::get('nota_juals', 'NotaJualsController@index');
+			Route::get('nota_juals/{id}', 'NotaJualsController@show');
+
 			Route::get('sops/{icd10}/{diagnosa_id}/{asuransi_id}/{berat_badan_id}', 'SopsController@index');
 			Route::post('sops', 'SopsController@store');
 
@@ -289,11 +292,12 @@ Route::get('sesuaikan/cek', function(){
 			Route::put('perujuks/{id}', 'PerujuksController@update');
 			Route::delete('perujuks/{id}', 'PerujuksController@destroy');
 
+			Route::get('pendapatans', 'PendapatansController@index');
 			Route::get('pendapatans/create', 'PendapatansController@create');
 			Route::post('pendapatans/index', 'PendapatansController@store');
 			Route::get('pendapatans/pembayaran/asuransi', 'PendapatansController@pembayaran_asuransi');
+			Route::get('pengeluarans/pembayaran_asuransi/show ', 'PendapatansController@lihat_pembayaran_asuransi');
 			Route::get('pendapatans/pembayaran/asuransi/show/{id}', 'PendapatansController@pembayaran_asuransi_show');
-
 			Route::post('rujuajax/rs', 'RujukansAjaxController@rs');
 			Route::post('rujuajax/rschange', 'RujukansAjaxController@rschange');
 			Route::post('rujuajax/tujurujuk', 'RujukansAjaxController@tujurujuk');
@@ -394,6 +398,11 @@ Route::get('sesuaikan/cek', function(){
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');
+			Route::get('pdfs/struk/{periksa_id}', 'PdfsController@struk');
+			Route::get('pdfs/jasadokter/{bayar_dokter_id}', 'PdfsController@jasa_dokter');
+			Route::get('pdfs/pembelian/{faktur_belanja_id}', 'PdfsController@pembelian');
+			Route::get('pdfs/penjualan/{nota_jual_id}', 'PdfsController@penjualan');
+			Route::get('pdfs/pendapatan/{nota_jual_id}', 'PdfsController@pendapatan');
 
 			Route::get('stokopnames', 'StokOpnamesController@index');
 			Route::post('stokopnames', 'StokOpnamesController@store');

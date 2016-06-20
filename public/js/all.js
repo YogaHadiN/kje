@@ -3873,6 +3873,10 @@ $(document).ready(function () {
 
     imgError();
 
+    $('.modal').on('hidden.bs.modal', function(){
+        $('.btn').removeAttr('disabled');
+    });
+
     // Collapse ibox function
     $('.collapse-link').click( function() {
         var ibox = $(this).closest('div.ibox');

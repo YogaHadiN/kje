@@ -8,12 +8,21 @@ class NotaJual extends Model{
 	public $incrementing = false; 
 	
 	protected $fillable = [];
-	protected $dates = [ 'tanggal' ];
+	protected $dates = [ 'tanggal' , 'created_at'];
 
     protected $morphClass = 'App\NotaJual';
 
     public function penjualan(){
          return $this->hasMany('App\Penjualan');
+    }
+    public function pendapatan(){
+         return $this->hasMany('App\Pendapatan');
+    }
+    public function staf(){
+         return $this->belongsTo('App\Staf');
+    }
+    public function tipeJual(){
+         return $this->belongsTo('App\TipeJual');
     }
     public function pembayaranAsuransi(){
          return $this->hasMany('App\PembayaranAsuransi');
@@ -23,6 +32,21 @@ class NotaJual extends Model{
     }
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
+    }
+    public function getTotalAttribute(){
+        $total = 0;
+        if ($this->tipe_jual_id == 1) {
+            $penjualans = $this->penjualan;
+            foreach ($penjualans as $penj) {
+                $total += $penj->harga_jual * $penj->jumlah;
+            }
+        }else if($this->tipe_jual_id == 2){
+            $pendapatans = $this->pendapatan;
+            foreach ($pendapatans as $penj) {
+                $total += $penj->biaya;
+            }
+        }
+        return $total;
     }
     public function getKetjurnalAttribute(){
 

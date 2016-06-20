@@ -33,7 +33,7 @@ Klinik Jati Elok | Entri Beli Obat
       <div class="panel-body">
           <div class="form-group">
             <label for="staf_id">Nama Penginput</label>
-            {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class'=>'form-control', 'id'=>'staf_id'])!!}
+            {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class'=>'form-control selectpick', 'id'=>'staf_id', 'data-live-search' => 'true'])!!}
           </div>
       </div>
     </div>

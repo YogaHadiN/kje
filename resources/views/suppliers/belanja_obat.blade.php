@@ -37,7 +37,7 @@ Klinik Jati Elok | Supplier
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover DT">
                 <thead>
                     <tr>
                         <th>id</th>

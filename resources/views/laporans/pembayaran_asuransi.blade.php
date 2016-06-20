@@ -15,7 +15,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
 </ol>
 @stop
 @section('content') 
-{!! Form::open(['url' => 'pengeluarans/pembayaran_asuransi/show', 'method' => 'get']) !!}
+{!! Form::open(['url' => 'pengeluarans/bayardokter/bayar', 'method' => 'get']) !!}
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-default">
@@ -61,5 +61,4 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
 </script>
 
 @stop
-
 
