@@ -190,7 +190,9 @@ class PembeliansController extends Controller
             $jurnal->nilai           = $total_pembelian;
             $jurnal->save();
 
-			return redirect('fakturbelanjas/cari')->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $pb->fakturbelanjas . '</strong> di <strong>' . $supplier . '</strong> telah berhasil'));
+            return redirect('fakturbelanjas/cari')
+                ->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $pb->fakturbelanjas . '</strong> di <strong>' . $supplier . '</strong> telah berhasil'))
+                ->withPrint($faktur_belanja_id);
 		} else {
 			$supplier = FakturBelanja::find($faktur_belanja_id)->supplier->nama;
 			return redirect('fakturbelanjas/cari')->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $pb->fakturbelanjas . '</strong> di <strong>' . $supplier . '</strong> telah GAGAL'));

@@ -1,7 +1,7 @@
-view('pendapatan.pembayaran_asuransi');
+@extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pendapatans Lain
+Klinik Jati Elok | Pendapatan Lain
 
 @stop
 @section('page-title') 

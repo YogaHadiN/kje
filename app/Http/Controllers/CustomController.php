@@ -213,7 +213,9 @@ class CustomController extends Controller
 		->withTindakans($tindakans);
 	}
 	public function survey_post(){
+
         //return Periksa::find( Input::get('periksa_id') )->terapii[0]->id;
+        //return dd( Input::all() );
 		$tarif         = Input::get('tarif');
 		$sebelum       = Input::get('sebelum');
 		$sebelum_array = json_decode($sebelum, true);
@@ -244,10 +246,14 @@ class CustomController extends Controller
 		$periksa_id       = Input::get('periksa_id');
 		$dibayar_pasien   = Yoga::clean(Input::get('dibayar_pasien'));
 		$dibayar_asuransi = Yoga::clean(Input::get('dibayar_asuransi'));
+		$pembayaran = Yoga::clean(Input::get('pembayaran'));
+		$kembalian = Yoga::clean(Input::get('kembalian'));
 
 		$px                  = Periksa::find($periksa_id);
 		$px->tunai           = $dibayar_pasien;
 		$px->piutang         = $dibayar_asuransi;
+		$px->pembayaran         = $pembayaran;
+		$px->kembalian         = $kembalian;
 		$px->transaksi       = $tarif;
 
 		if ($px->asuransi_id == 32 && !empty($px->keterangan)) {
@@ -315,6 +321,12 @@ class CustomController extends Controller
 				$jurnal->coa_id          = $px->asuransi->coa_id; // Piutang berdasarkan masing2 asuransi
 				$jurnal->nilai           = $px->piutang;
 				$jurnal->save();
+
+                $piutang = new PiutangAsuransi;
+                $piutang->periksa_id = $periksa_id;
+                $piutang->tunai = $px->tunai;
+                $piutang->piutang = $px->piutang;
+                $piutang->save();
 			}
 
 			$transaksis = $px->transaksi;
@@ -331,6 +343,7 @@ class CustomController extends Controller
 				$trx->jenis_tarif_id = $transaksi['jenis_tarif_id'];
 				$trx->biaya          = $transaksi['biaya'];
 				$oke                 = $trx->save();
+
                 if ( !($transaksi['jenis_tarif_id'] == '116' && $transaksi['biaya'] == 0) ) {
                     $feeDokter += Tarif::where('asuransi_id', $px->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
                 }
@@ -374,6 +387,7 @@ class CustomController extends Controller
                 }
 			}
 
+            //Masukkan pembayaran ke dalam Transaksi
             if ($hutang_asisten_tindakan > 0) {
                 $jurnal                  = new JurnalUmum;
                 $jurnal->jurnalable_id   = $px->id;
@@ -490,7 +504,9 @@ class CustomController extends Controller
 			$mess =  '<strong> dan Perbaikan Sudah Didokumentasi </strong>';
 		}
 		if($confirm){
-			return redirect('antriankasirs')->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $px->pasien_id . '-' . $px->pasien->nama . '</strong> telah selesai' . $mess));
+            return redirect('antriankasirs')
+                ->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $px->pasien_id . '-' . $px->pasien->nama . '</strong> telah selesai' . $mess))
+                ->withPrint($px->id);
 		} else {
 			return redirect('antriankasirs')->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $px->pasien_id . '-' . $px->pasien->nama . '</strong> gagal dilakukan' . $mess));
 		}

@@ -711,7 +711,7 @@ Klinik Jati Elok | Entri Beli Obat
 
     function buatRak(control) {
 
-      var formula_id = $(control).closest('tr').find('td:first-child div').html();
+      var formula_id = $(control).closest('tr').find('td:first-child').html();
       $('#ket_formula_id').html(formula_id);
       $('#formulaIdOnRak').val(formula_id);
 
@@ -744,7 +744,7 @@ Klinik Jati Elok | Entri Beli Obat
     }
 
     function buatMerek(control) {
-          var rak_id = $(control).closest('tr').find('td:first-child div').html();
+          var rak_id = $(control).closest('tr').find('td:first-child').html();
 
           $.post(base + '/pembelians/ajax/rakbyid', {'rak_id': rak_id, '_token' : '{{ Session::token() }}' }, function(data) {
 

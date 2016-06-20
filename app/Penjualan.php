@@ -14,5 +14,8 @@ class Penjualan extends Model{
          return $this->belongsTo('App\Merek');
     }
     
+    public function notaJual(){
+         return $this->belongsTo('App\NotaJual');
+    }
 	
 }

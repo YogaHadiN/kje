@@ -88,6 +88,7 @@
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('pembelians', 'Pembelian ')!!}</li>
                             <li>{!! HTML::link('fakturbelanjas/cari', 'Cari Faktur Belanja ')!!}</li>
+                            <li>{!! HTML::link('nota_juals', 'Cari Nota Jual ')!!}</li>
                             <li>{!! HTML::link('bayardokters', 'Pembayaran Dokter')!!}</li>
                         </ul>
                     </li>
@@ -152,6 +153,7 @@
                         <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">Transaksi Kasir</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
+                            <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
                             <li>{!! HTML::link('pendapatans/pembayaran/asuransi', 'Pembayaran Asuransi')!!}</li>
                             <li>{!! HTML::link('suppliers/belanja_obat', 'Belanja Obat')!!}</li>
                             <li>{!! HTML::link('suppliers/belanja_bukan_obat', 'Belanja Bukan Obat')!!}</li>

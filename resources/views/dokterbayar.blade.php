@@ -33,7 +33,7 @@ Klinik Jati Elok | Gaji Dokter
                 <h1>Dokter {{ $nama_staf }}</h1>
                 {!! Form::open(['url'=>'pengeluarans/bayardokter/bayar', 'method'=> 'post']) !!} 
                     {!! Form::hidden('mulai', $mulai, ['class' => 'form-control']) !!} 
-                    {!! Form::hidden('mulai', $akhir, ['class' => 'form-control']) !!} 
+                    {!! Form::hidden('akhir', $akhir, ['class' => 'form-control']) !!} 
                 <div class="form-group hide">
                     {!! Form::label('staf_id', 'Staf') !!}
                     {!! Form::text('staf_id' , $id, ['class' => 'form-control']) !!}

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BayarDokter extends Model
 {
     //
-    protected $dates = ['created_at'];
+    protected $dates = ['created_at', 'mulai', 'akhir'];
     public function staf(){
          return $this->belongsTo('App\Staf');
     }

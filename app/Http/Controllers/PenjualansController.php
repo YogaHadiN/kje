@@ -94,7 +94,8 @@ class PenjualansController extends Controller
 
 		// return 'oke';
         $pesan = '<strong>Transaksi Penjualan Tanpa Resep</strong> Berhasil dilakukan';
-		return redirect('laporans')->withPesan(Yoga::suksesFlash($pesan));
+        return redirect('nota_juals')->withPesan(Yoga::suksesFlash($pesan))
+            ->withPrint($nota_jual_id);
 	}
 
 }

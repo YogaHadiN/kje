@@ -832,5 +832,8 @@ border-spacing: -1px;
 		</div>
 		@endfor
 	@endif
+    <script type="text/javascript" charset="utf-8">
+        window.print();
+    </script>
 </body>
 </html>

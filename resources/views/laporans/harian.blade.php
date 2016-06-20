@@ -4,6 +4,9 @@
 Klinik Jati Elok | Laporan Harian
 
 @stop
+@section('head')
+    <link href="{!! asset('css/print.css') !!}" rel="stylesheet" media="print">
+@stop
 @section('page-title') 
 
  <h2>Laporan Harian</h2>
@@ -72,6 +75,7 @@ Klinik Jati Elok | Laporan Harian
                 <table class="table table-bordered table-hover" id="tableAsuransi">
                       <thead>
                         <tr>
+                            <th class="hide">ID PERIKSA</th>
                             <th>No</th>
                             <th>Nama Pasien</th>
                             <th>Pembayaran</th>
@@ -84,12 +88,18 @@ Klinik Jati Elok | Laporan Harian
                         @if (count($periksas) > 0)
                             @foreach ($periksas as $key => $periksa)
                             <tr>
+                                <td class="hide periksa_id">{!! $periksa->periksa_id !!}</td>
                                 <td>{!! $key + 1 !!}</td>
                                 <td>{!! $periksa->nama_pasien !!}</td>
                                 <td>{!! $periksa->nama_asuransi !!}</td>
                                 <td class='uang'>{!! $periksa->tunai !!}</td>
                                 <td class='uang'>{!! $periksa->piutang !!}</td>
-                                <td><a href="{{ url('pdfs/kuitansi/' . $periksa->periksa_id ) }}">Kuitansi</a> | <a href="{{ url('pdfs/status/' . $periksa->periksa_id ) }}" target="_blank">Resep</a> | <a href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank">Detail</a></td>
+                                <td>
+                                    <a href="{{ url('pdfs/kuitansi/' . $periksa->periksa_id ) }}">Kuitansi</a> | 
+                                    <a href="{{ url('pdfs/status/' . $periksa->periksa_id ) }}" target="_blank">Resep</a> | 
+                                    <a href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank">Detail</a> | 
+                                    <a href="{{ url('pdfs/struk/' . $periksa->periksa_id ) }}" target="_blank">Struk</a>  
+                                </td>
                             </tr>
                             @endforeach
                         @else
@@ -110,8 +120,13 @@ Klinik Jati Elok | Laporan Harian
     </div>
 </div>
 </div>
-
 @stop
 @section('footer') 
 	
+<script type="text/javascript" charset="utf-8">
+    function printStruk(control){
+        alert( $(control).closest('tr').find('.periksa_id').html() );
+    }
+    
+</script>
 @stop

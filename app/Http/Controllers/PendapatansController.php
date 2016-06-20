@@ -24,7 +24,6 @@ class PendapatansController extends Controller
 	public function index()
 	{
 		$pendapatans = Pendapatan::all();
-
 		return view('pendapatans.index', compact('pendapatans'));
 	}
 
@@ -46,37 +45,53 @@ class PendapatansController extends Controller
 	 */
 	public function store()
 	{
-
 		$array = json_decode(Input::get('array'), true);
 		$biaya = 0;
-		foreach ($array as $key => $arr) {
 
-			$pendapatan             = new Pendapatan;
-			$pendapatan->pendapatan = $arr['pendapatan'];
-			$pendapatan->biaya      = $arr['jumlah'];
-			$pendapatan->staf_id    = $arr['staf_id'];
-			$pendapatan->keterangan = $arr['keterangan'];
-			$confirm                = $pendapatan->save();
-			
 
-			if ($confirm) {
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $pendapatan->id; // kenapa ini nilainya empty / null padahal di database ada id
-				$jurnal->jurnalable_type = 'App\Pendapatan';
-				$jurnal->coa_id          = 110000;
-				$jurnal->debit           = 1;
-				$jurnal->nilai           = $arr['jumlah'];
-				$jurnal->save();
+		$nota_jual_id = Yoga::customId('App\NotaJual');
 
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $pendapatan->id;
-				$jurnal->jurnalable_type = 'App\Pendapatan';
-				$jurnal->debit           = 0;
-				$jurnal->nilai           = $arr['jumlah'];
-				$jurnal->save();
-			}
-		}
-		return redirect('laporans')->withPesan(Yoga::suksesFlash('<strong>Pendapatan</strong> telah berhasil dimasukkan'));
+		$nj = new NotaJual;
+		$nj->id = $nota_jual_id;
+        $nj->tanggal = date('Y-m-d');
+		$nj->staf_id = Input::get('staf_id');
+		$nj->tipe_jual_id = '2';
+		$confirm = $nj->save();
+
+        if ($confirm) {
+            foreach ($array as $key => $arr) {
+
+                $pendapatan             = new Pendapatan;
+                $pendapatan->pendapatan = $arr['pendapatan'];
+                $pendapatan->biaya      = $arr['jumlah'];
+                $pendapatan->staf_id    = $arr['staf_id'];
+                $pendapatan->nota_jual_id    = $nota_jual_id;
+                $pendapatan->keterangan = $arr['keterangan'];
+                $confirm                = $pendapatan->save();
+                
+
+                if ($confirm) {
+                    $jurnal                  = new JurnalUmum;
+                    $jurnal->jurnalable_id   = $pendapatan->id; // kenapa ini nilainya empty / null padahal di database ada id
+                    $jurnal->jurnalable_type = 'App\Pendapatan';
+                    $jurnal->coa_id          = 110000;
+                    $jurnal->debit           = 1;
+                    $jurnal->nilai           = $arr['jumlah'];
+                    $jurnal->save();
+
+                    $jurnal                  = new JurnalUmum;
+                    $jurnal->jurnalable_id   = $pendapatan->id;
+                    $jurnal->jurnalable_type = 'App\Pendapatan';
+                    $jurnal->debit           = 0;
+                    $jurnal->nilai           = $arr['jumlah'];
+                    $jurnal->save();
+                }
+            }
+            return redirect('nota_juals')->withPesan(Yoga::suksesFlash('<strong>Pendapatan</strong> telah berhasil dimasukkan'))
+                ->withPrint($nota_jual_id);
+        } else {
+            return redirect('nota_juals')->withPesan(Yoga::gagalFlash('<strong>Pendapatan</strong> telah GAGAL dimasukkan'));
+        }
 	}
 
 	/**
@@ -140,24 +155,8 @@ class PendapatansController extends Controller
 		return \Redirect::route('pendapatans.index');
 	}
     public function pembayaran_asuransi(){
-		$asuransis = Asuransi::where('id', '>', 0)->get();
-		$asur = [];
-
-		foreach ($asuransis as $key => $asu) {
-			$asur[] = [
-				'belum' => $asu->belum,
-				'id' => $asu->id,
-				'nama' => $asu->nama,
-				'alamat' => $asu->alamat,
-				'pic' => $asu->pic,
-				'hp_pic' => $asu->hp_pic
-			];
-		}
-		
-		usort($asur, function($a,$b){return $b['belum']-$a['belum'];});
-		$asuransis = $asur;
-
-		return view('pendapatans.pembayaran_asuransi', compact('asuransis'));
+        $asuransi_list = ['null' => '-pilih-'] + Asuransi::lists('nama', 'id')->all();
+		return view('pendapatans.pembayaran_asuransi', compact('asuransi_list'));
     }
     public function pembayaran_asuransi_by_id($id){
         return 'asuransi '. $id;
@@ -180,6 +179,20 @@ class PendapatansController extends Controller
 
         return view('pendapatans.pembayaran_show', compact('asuransi', 'periksas'));
     }
+    public function lihat_pembayaran_asuransi(){
+         //return Input::all();
+        $asuransi_id = Input::get('asuransi_id');
+        $mulai = Yoga::datePrep( Input::get('mulai') );
+        $akhir = Yoga::datePrep(Input::get('akhir'));
+
+        $query = "SELECT px.id as periksa_id, ps.nama as nama_pasien, pu.tunai as tunai, pu.piutang as piutang, pu.sudah_dibayar as pembayaran FROM piutang_asuransis as pu join periksas as px on px.id=pu.periksa_id join pasiens as ps on ps.id = px.pasien_id where px.tanggal between '{$mulai}' and '{$akhir}' and px.asuransi_id = '{$asuransi_id}';";
+
+
+        $pembayarans = DB::select($query);
+        $asuransi = Asuransi::find($asuransi_id)->nama;
+        return view('pendapatans.pembayaran_show', compact('pembayarans', 'asuransi'));
+    }
+    
     
     
 }
