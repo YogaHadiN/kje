@@ -8,6 +8,9 @@ use App\Classes\Yoga;
 use App\Http\Requests;
 
 use App\Pendapatan;
+use App\PembayaranAsuransi;
+use App\PiutangDibayar;
+use App\PiutangAsuransi;
 use App\NotaJual;
 use App\Asuransi;
 use App\JurnalUmum;
@@ -185,14 +188,50 @@ class PendapatansController extends Controller
         $mulai = Yoga::datePrep( Input::get('mulai') );
         $akhir = Yoga::datePrep(Input::get('akhir'));
 
-        $query = "SELECT px.id as periksa_id, ps.nama as nama_pasien, pu.tunai as tunai, pu.piutang as piutang, pu.sudah_dibayar as pembayaran FROM piutang_asuransis as pu join periksas as px on px.id=pu.periksa_id join pasiens as ps on ps.id = px.pasien_id where px.tanggal between '{$mulai}' and '{$akhir}' and px.asuransi_id = '{$asuransi_id}';";
+        $query = "SELECT pu.id as piutang_id, px.id as periksa_id, ps.nama as nama_pasien, pu.tunai as tunai, pu.piutang as piutang, pu.sudah_dibayar as pembayaran, 0 as akan_dibayar FROM piutang_asuransis as pu join periksas as px on px.id=pu.periksa_id join pasiens as ps on ps.id = px.pasien_id where px.tanggal between '{$mulai}' and '{$akhir}' and px.asuransi_id = '{$asuransi_id}';";
 
 
         $pembayarans = DB::select($query);
+        foreach ($pembayarans as $k => $pemb) {
+            if ($pemb->pembayaran == null) {
+                $pembayarans[$k]->pembayaran = 0;
+            }
+        }
         $asuransi = Asuransi::find($asuransi_id)->nama;
-        return view('pendapatans.pembayaran_show', compact('pembayarans', 'asuransi'));
+        return view('pendapatans.pembayaran_show', compact('pembayarans', 'asuransi', 'mulai', 'akhir', 'asuransi_id'));
     }
     
-    
-    
+    public function asuransi_bayar(){
+        $dibayar = Input::get('dibayar');
+        $mulai = Input::get('mulai');
+        $akhir = Input::get('akhir');
+        $asuransi_id = Input::get('asuransi_id');
+        $temp = Input::get('temp');
+        
+        $temp = json_decode($temp, true);
+
+        $pb = new PembayaranAsuransi;
+        $pb->asuransi_id = $asuransi_id;
+        $pb->mulai = $mulai;
+        $pb->akhir = $akhir;
+        $pb->save();
+
+        foreach ($temp as $tmp) {
+            if ($tmp['akan_dibayar'] > 0) {
+                $pt = PiutangAsuransi::find($tmp['piutang_id']);
+                $pt->sudah_dibayar = $pt->sudab_dibayar + $tmp['akan_dibayar'];
+                $each_confirm = $pt->save();
+
+                if ($each_confirm) {
+                    $pt = new PiutangDibayar;
+                    $pt->periksa_id = $tmp['periksa_id'];
+                    $pt->pembayaran = $tmp['akan_dibayar'];
+                    $pt->pembayaran_asuransi_id = $pb->id;
+                    $pt->save();
+                }
+            }
+        }
+        $pesan = Yoga::suksesFlash('Asuransi ' . Asuransi::find($asuransi_id)->nama . ' tanggal ' . Yoga::updateDatePrep($mulai). ' sampai dengan ' . Yoga::updateDatePrep($akhir) . ' <strong>BERHASIL</strong> dibayarkan');
+        return redirect('laporans')->withPesan($pesan);
+    }
 }
