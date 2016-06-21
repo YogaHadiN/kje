@@ -320,11 +320,12 @@ function imgError() {
 
 function cleanUang(uang){
 
-    uang = uang.replace(/\./g,'');
-    uang = uang.split(",")[0];
-    uang = uang.split(" ")[1];
     if (uang == '' || undefined) {
         uang = 0;
+    } else {
+        uang = uang.replace(/\./g,'');
+        uang = uang.split(",")[0];
+        uang = uang.split(" ")[1];
     }
     return parseInt( uang );
 }

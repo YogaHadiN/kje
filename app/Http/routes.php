@@ -293,6 +293,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::delete('perujuks/{id}', 'PerujuksController@destroy');
 
 			Route::get('pendapatans', 'PendapatansController@index');
+			Route::post('pendapatans/pembayaran/asuransi', 'PendapatansController@asuransi_bayar');
 			Route::get('pendapatans/create', 'PendapatansController@create');
 			Route::post('pendapatans/index', 'PendapatansController@store');
 			Route::get('pendapatans/pembayaran/asuransi', 'PendapatansController@pembayaran_asuransi');

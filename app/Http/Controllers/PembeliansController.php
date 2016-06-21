@@ -272,7 +272,8 @@ class PembeliansController extends Controller
 				'harga_jual'    => $v->harga_jual,
 				'harga_berubah' => $v->harga_naik,
 				'exp_date'      => $v->exp_date,
-				'jumlah'        => $v->jumlah
+				'jumlah'        => $v->jumlah,
+				'created_at'        => $v->created_at
 			];
 		}
 
@@ -304,6 +305,7 @@ class PembeliansController extends Controller
         //return dd( Input::all() );
 
 		$data = json_decode($data, true);
+        //return dd($data);
         //return dd($data);
 		$arrayHapus = '';
 
@@ -416,9 +418,9 @@ class PembeliansController extends Controller
 					$rak->exp_date = $exp_date;
 				}
 
-				$db                    = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $dt['id'])->first();
-				$db->masuk             = $dt['jumlah'];
-				$db->save();
+                $db                    = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $dt['id'])->first();
+                $db->masuk             = $dt['jumlah'];
+                $db->save();
 			}
 			$rak->save();
 		}

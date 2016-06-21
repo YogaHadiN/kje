@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PembayaranAsuransi extends Model
 {
     //
-    public function periksa(){
-         return $this->belongsTo('App\Periksa');
+    public function asuransi(){
+         return $this->belongsTo('App\Asuransi');
     }
 }
