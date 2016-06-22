@@ -1,16 +1,16 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Laporan Pembayaran Asuransi
+Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
 @stop
 @section('page-title') 
- <h2>Pembayaran Asuransi</h2>
+ <h2>Pembayaran Gaji Karyawan</h2>
  <ol class="breadcrumb">
       <li>
           <a href="{!! url('laporans')!!}">Home</a>
       </li>
       <li class="active">
-          <strong>Pembayaran Asuransi</strong>
+          <strong>Pembayaran Gaji Karyawan</strong>
       </li>
 </ol>
 @stop
@@ -21,24 +21,42 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
     </div>
 @endif
 
-{!! Form::open(['url' => 'pengeluarans/pembayaran_asuransi/show', 'method' => 'get']) !!}
+{!! Form::open(['url' => 'pengeluarans/bayar_gaji_karyawan', 'method' => 'post']) !!}
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-default">
           <div class="panel-body">
-            <h1>Pembayaran Asuransi</h1>
+            <h1>Pembayaran Gaji Karyawan</h1>
             <hr>
                 <div class="form-group">
-                  {!! Form::label('asuransi_id', 'Asuransi') !!}
-                  {!! Form::select('asuransi_id',$asuransi_list, null , ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+                  {!! Form::label('coa_id', 'Sumber Dana') !!}
+                  {!! Form::select('coa_id', $sumber_kas_lists, null , ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                  {!! Form::label('mulai') !!}
-                  {!! Form::text('mulai', null, ['class' => 'form-control rq tanggal']) !!}
+                  {!! Form::label('staf_id', 'Nama Staf') !!}
+                  {!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
                 </div>
                 <div class="form-group">
-                  {!! Form::label('akhir') !!}
-                  {!! Form::text('akhir', null, ['class' => 'form-control rq tanggal']) !!}
+                  {!! Form::label('bulan', 'Periode') !!}
+                  {!! Form::text('bulan', null, ['class' => 'form-control rq bulanTahun']) !!}
+                </div>
+                <div class="form-group">
+                  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar') !!}
+                  {!! Form::text('tanggal_dibayar', null, ['class' => 'form-control rq tanggal']) !!}
+                </div>
+                <div class="form-group">
+                  {!! Form::label('gaji_pokok', 'Gaji Pokok') !!}
+                  <div class="input-group">
+                      <span class="input-group-addon">Rp. </span>
+                      {!! Form::text('gaji_pokok', null, ['class' => 'form-control rq']) !!}
+                  </div>
+                </div>
+                <div class="form-group">
+                  {!! Form::label('bonus', 'Bonus') !!}
+                  <div class="input-group">
+                      <span class="input-group-addon">Rp. </span>
+                      {!! Form::text('bonus', null, ['class' => 'form-control rq']) !!}
+                  </div>
                 </div>
                 <div class="form-group">
                   <div class="row">
@@ -60,7 +78,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <div class="panel-title">List Semua Pembayaran Asuransi</div>
+                <div class="panel-title">List Semua Pembayaran Gaji Karyawan</div>
             </div>
             <div class="panel-body">
                 <div class-"table-responsive">
@@ -68,20 +86,24 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th>Nama Asuransi</th>
+                                <th>Nama Staf</th>
                                 <th>Periode</th>
-                                <th>Pembayaran</th>
+                                <th>Gaji Pokok</th>
+                                <th>Bonus</th>
+                                <th>Total</th>
                                 <th>Tanggal Pembayaran</th>
-                                <th>Tujuan Kas</th>
+                                <th>Sumber Kas</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($pembayarans as $pemb)
                             <tr>
-                                <td>{{  $pemb->asuransi->nama  }}</td>
-                                <td>{{  $pemb->mulai->format('d-m-Y')  }} s/d {{  $pemb->akhir->format('d-m-Y')  }}</td>
-                                <td class="uang">{{  $pemb->pembayaran }}</td>
-                                <td>{{  $pemb->akhir->format('d-m-Y')  }}</td>
+                                <td>{{  $pemb->staf->nama  }}</td>
+                                <td>{{  $pemb->mulai->format('d-m-Y') }} s/d {{ $pemb->akhir->format('d-m-Y')  }}</td>
+                                <td class="uang">{{  $pemb->gaji_pokok }}</td>
+                                <td class="uang">{{  $pemb->bonus }}</td>
+                                <td class="uang">{{  $pemb->gaji_pokok + $pemb->bonus }}</td>
+                                <td>{{  $pemb->tanggal_dibayar->format('d-m-Y') }}</td>
                                 <td>{{  $pemb->coa->coa }}</td>
                             </tr>
                             @endforeach
@@ -112,5 +134,6 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
 </script>
 
 @stop
+
 
 

@@ -171,16 +171,24 @@ Route::get('sesuaikan/cek', function(){
             Route::post('pengeluarans/nota_z', 'PengeluaransController@notaz_post');
             Route::get('pengeluarans/rc', 'PengeluaransController@erce');
             Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');
-			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 
 			Route::get('pengeluarans/bayardoker/{id}', 'PengeluaransController@bayardokter');
 			Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
 			Route::post('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterdibayar');
 
-			Route::get('pengelurans/checkout/{id}', 'PengeluaransController@show_checkout');
+			Route::get('pengeluarans/checkout/{id}', 'PengeluaransController@show_checkout');
 			Route::post('pengeluarans/confirm_staf', 'PengeluaransController@confirm_staf');
 
+			Route::get('pengeluarans/bayar_gaji_karyawan', 'PengeluaransController@bayar_gaji_karyawan');
+			Route::post('pengeluarans/bayar_gaji_karyawan', 'PengeluaransController@bayar_gaji');
+			Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', 'PengeluaransController@bayar_gaji');
+
+			Route::get('pengeluarans/bayar_bonus_karyawan', 'PengeluaransController@bayar_bonus_karyawan');
+			Route::get('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus_show');
+			Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus');
+
+			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
 			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
 
@@ -404,6 +412,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('pdfs/pembelian/{faktur_belanja_id}', 'PdfsController@pembelian');
 			Route::get('pdfs/penjualan/{nota_jual_id}', 'PdfsController@penjualan');
 			Route::get('pdfs/pendapatan/{nota_jual_id}', 'PdfsController@pendapatan');
+			Route::get('pdfs/pembayaran_asuransi/{pembayaran_asuransi_id}', 'PdfsController@pembayaran_asuransi');
 
 			Route::get('stokopnames', 'StokOpnamesController@index');
 			Route::post('stokopnames', 'StokOpnamesController@store');
