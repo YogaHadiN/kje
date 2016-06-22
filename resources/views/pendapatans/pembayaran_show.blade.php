@@ -5,7 +5,7 @@ Klinik Jati Elok | Laporan Pembayaran
 
 @stop
 @section('page-title') 
-<h2>Laporan Pembayaran Asuransi {!! $asuransi !!}</h2>
+<h2>Laporan Pembayaran {!! $asuransi !!}</h2>
  <ol class="breadcrumb">
       <li>
           <a href="{{ url('laporans')}}">Home</a>
@@ -18,13 +18,13 @@ Klinik Jati Elok | Laporan Pembayaran
 @section('content') 
 <div class="row">
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-        <div class="panel panel-info">
+        <div class="panel panel-danger">
             <div class="panel-heading">
                 <div class="panel-title">Pembayaran</div>
             </div>
             <div class="panel-body">
                 {!! Form::open(['url'=>'pendapatans/pembayaran/asuransi', 'method'=> 'post']) !!} 
-                    {!! Form::textarea('temp', json_encode( $pembayarans ), ['class' => 'form-control', 'id' => 'pembayarans']) !!} 
+                    {!! Form::textarea('temp', json_encode( $pembayarans ), ['class' => 'form-control hide', 'id' => 'pembayarans']) !!} 
                     {!! Form::hidden('mulai', $mulai, ['class' => 'form-control']) !!} 
                     {!! Form::hidden('akhir', $akhir, ['class' => 'form-control']) !!} 
                 <div class="form-group hide">
@@ -32,23 +32,66 @@ Klinik Jati Elok | Laporan Pembayaran
                     {!! Form::text('asuransi_id' , $asuransi_id, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                  {!! Form::label('piutang', 'Piutang') !!}
-                  {!! Form::text('Piutang' , null, ['class' => 'form-control', 'disabled'=>'disabled', 'id'=>'piutang']) !!}
+                  {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
+                  {!! Form::select('coa_id', $kasList, null, ['class' => 'form-control rq', 'id'=>'kasList']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('dibayar', 'Pembayaran') !!}
-                    {!! Form::text('dibayar', null, ['class' => 'form-control rq', 'id' => 'pembayaran']) !!}
+                  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar') !!}
+                  {!! Form::text('tanggal_dibayar' , null, ['class' => 'form-control tanggal rq']) !!}
+                </div>
+                <div class="form-group hide">
+                  {!! Form::label('dibayar', 'Piutang') !!}
+                  {!! Form::text('dibayar' , null, ['class' => 'form-control', 'id'=>'piutang']) !!}
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-success" type="button" onclick="submitPage();return false;">Submit</button>
+                    <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Dibayar sebesar <span class="uang" id="dibayar_sebesar">0</span></button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>
         </div>
     </div>
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Informasi</div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <tr>
+                                <td>Nama Asuransi</td>
+                                <td class="text-right"> {{ $asuransi }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mulai</td>
+                                <td class="text-right"> {{ App\Classes\Yoga::updateDatePrep( $mulai ) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Akhir</td>
+                                <td class="text-right"> {{ App\Classes\Yoga::updateDatePrep( $akhir ) }}</td>
+                            </tr>
+                            <tr>
+                                <td> Total Piutang </td>
+                                <td id="piutang_total" class="uang"></td>
+                            </tr>
+                            <tr>
+                                <td>Sudah Dibayat Total</td>
+                                <td id="sudah_dibayar_total" class="uang"></td>
+                            </tr>
+                            <tr>
+                                <td>Belum Dibayat Total</td>
+                                <td id="belum_dibayar_total" class="uang"></td>
+                            </tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="panel panel-info">
+ <div class="panel panel-danger">
     <div class="panel-heading">
         <div class="panelLeft">
             <div class="panel-title">Detail Pembayaran</div>
@@ -72,15 +115,38 @@ Klinik Jati Elok | Laporan Pembayaran
                         <th>Action</th>
                     </tr>
                 </thead>
+                <tbody id="table_temp2">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>   
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <div class="panelLeft">
+            <div class="panel-title">Detail Pembayaran</div>
+        </div>
+        <div class="panelRight"></div>
+    </div>
+    <div class="panel-body">
+        <div class-"table-responsive">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>ID PERIKSA</th>
+                        <th>Nama Pasien</th>
+                        <th>Piutang</th>
+                        <th>Sudah Dibayar</th>
+                        <th class="hide">Pembayaran</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
                 <tbody id="table_temp">
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-    
-
-
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
@@ -129,33 +195,74 @@ function view(){
     let MyArray = $('#pembayarans').val();
     MyArray = $.parseJSON(MyArray);
     var temp = '';
+    var temp2 = '';
     var akan_dibayar = 0;
+    var piutang_total = 0;
+    var sudah_dibayar_total = 0;
+    var belum_dibayar_total = 0;
     for (var i = 0; i < MyArray.length; i++) {
-        temp += '<tr>';
-        temp += '<td>' + MyArray[i].periksa_id + '</td>';
-        temp += '<td>' + MyArray[i].nama_pasien + '</td>';
-        temp += '<td class="uang">' + MyArray[i].piutang + '</td>';
-        temp += '<td class="uang">' + MyArray[i].pembayaran + '</td>';
-        temp += '<td><input class="form-control" value="' + MyArray[i].akan_dibayar + '" /></td>';
         if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
-        var status = '<div class="alert-success">';
-        status += 'Sudah Lunas';
-        status += '</div>';
+
+            piutang_total += MyArray[i].piutang;
+            sudah_dibayar_total += MyArray[i].pembayaran;
+            belum_dibayar_total += MyArray[i].piutang - MyArray[i].pembayaran;
+            temp += '<tr>';
+            temp += '<td>' + MyArray[i].periksa_id + '</td>';
+            temp += '<td>' + MyArray[i].nama_pasien + '</td>';
+            temp += '<td class="uang">' + MyArray[i].piutang + '</td>';
+            temp += '<td class="uang">' + MyArray[i].pembayaran + '</td>';
+            temp += '<td class="hide"><input class="form-control" value="' + MyArray[i].akan_dibayar + '" /></td>';
+            if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
+            var status = '<div class="alert-success">';
+            status += 'Sudah Lunas';
+            status += '</div>';
+            } else {
+            var status = '<div class="alert-danger">';
+            status += 'Belum Lunas';
+            status += '</div>';
+            }
+            temp += '<td>' + status + '</td>';
+            temp += '<td class="hide"><button class="btn btn-sm btn-primary" onclick="cek(this);return false;" type="button" value="' + i + '">Cek</button> ';
+            temp += '<button class="btn btn-sm btn-warning" onclick="reset(this);return false;" type="button" value="' + i + '">Reset</button></td>';
+            temp += '</tr>';
+            akan_dibayar += MyArray[i].akan_dibayar;
+
         } else {
-        var status = '<div class="alert-danger">';
-        status += 'Belum Lunas';
-        status += '</div>';
+        
+            piutang_total += MyArray[i].piutang;
+            sudah_dibayar_total += MyArray[i].pembayaran;
+            belum_dibayar_total += MyArray[i].piutang - MyArray[i].pembayaran;
+            temp2 += '<tr>';
+            temp2 += '<td>' + MyArray[i].periksa_id + '</td>';
+            temp2 += '<td>' + MyArray[i].nama_pasien + '</td>';
+            temp2 += '<td class="uang">' + MyArray[i].piutang + '</td>';
+            temp2 += '<td class="uang">' + MyArray[i].pembayaran + '</td>';
+            temp2 += '<td><input class="form-control" value="' + MyArray[i].akan_dibayar + '" /></td>';
+            if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
+            var status = '<div class="alert-success">';
+            status += 'Sudah Lunas';
+            status += '</div>';
+            } else {
+            var status = '<div class="alert-danger">';
+            status += 'Belum Lunas';
+            status += '</div>';
+            }
+            temp2 += '<td>' + status + '</td>';
+            temp2 += '<td><button class="btn btn-sm btn-primary" onclick="cek(this);return false;" type="button" value="' + i + '">Cek</button> ';
+            temp2 += '<button class="btn btn-sm btn-warning" onclick="reset(this);return false;" type="button" value="' + i + '">Reset</button></td>';
+            temp2 += '</tr>';
+            akan_dibayar += MyArray[i].akan_dibayar;
+
         }
 
-        
-        temp += '<td>' + status + '</td>';
-        temp += '<td><button class="btn btn-sm btn-primary" onclick="cek(this);return false;" type="button" value="' + i + '">Cek</button> ';
-        temp += '<button class="btn btn-sm btn-warning" onclick="reset(this);return false;" type="button" value="' + i + '">Reset</button></td>';
-        temp += '</tr>';
-        akan_dibayar += MyArray[i].akan_dibayar;
     };
     $('#table_temp').html(temp);
+    $('#table_temp2').html(temp2);
     $('#piutang').val(akan_dibayar);
+    $('#piutang_total').html(piutang_total);
+    $('#belum_dibayar_total').html(belum_dibayar_total);
+    $('#sudah_dibayar_total').html(sudah_dibayar_total);
+    $('#dibayar_sebesar').html(akan_dibayar);
 
     formatUang();
 }
@@ -171,8 +278,10 @@ function resetAll(){
 }
 
 function submitPage(){
-    if(validatePass()){
-     $('#submit').click();
+    if(validatePass() && $('#piutang').val() > 0 ){
+         $('#submit').click();
+    } else if($('#piutang').val() < 1 ){
+        alert('Nilai yang dibayarkan harus lebih besar dari 0');
     }
      
 }

@@ -302,7 +302,7 @@ class CustomController extends Controller
 				$biayaProduksiObat += $terapi->harga_beli_satuan * $terapi->jumlah;
 			}
 
-
+            // Input jurnal umum kas di tangan bila tunai > 0
 			if ($px->tunai>0) {
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $px->id;
@@ -313,6 +313,7 @@ class CustomController extends Controller
 				$jurnal->save();
 			}
 
+            // Input jurnal umum kas di tangan bila piutang > 0
 			if ($px->piutang>0) {
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $px->id;
@@ -392,56 +393,58 @@ class CustomController extends Controller
                 $jurnal                  = new JurnalUmum;
                 $jurnal->jurnalable_id   = $px->id;
                 $jurnal->jurnalable_type = 'App\Periksa';
-                $jurnal->coa_id          = 200003; // Hutang Kepada Asisten Dokter
+                $jurnal->coa_id          = 50205; // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
                 $jurnal->debit           = 1;
                 $jurnal->nilai           = $hutang_asisten_tindakan;
                 $jurnal->save();
-                
+
                 $jurnal                  = new JurnalUmum;
                 $jurnal->jurnalable_id   = $px->id;
                 $jurnal->jurnalable_type = 'App\Periksa';
-                $jurnal->coa_id          = 50205; // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
+                $jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
                 $jurnal->debit           = 0;
-
                 $jurnal->nilai           = $hutang_asisten_tindakan;
                 $jurnal->save();
+                
             }
 
 
 			// Input hutang kepada dokter
 			if ($feeDokter > 0) {
-					$jurnal                  = new JurnalUmum;
-					$jurnal->jurnalable_id   = $px->id;
-					$jurnal->jurnalable_type = 'App\Periksa';
-					$jurnal->coa_id          = 200001; // Hutang Kepada dokter
-					$jurnal->debit           = 1;
-					$jurnal->nilai           = $feeDokter;
-					$jurnal->save();
-
 
 					$jurnal                  = new JurnalUmum;
 					$jurnal->jurnalable_id   = $px->id;
 					$jurnal->jurnalable_type = 'App\Periksa';
 					$jurnal->coa_id          = 50201; //Beban Jasa Dokter
+					$jurnal->debit           = 1;
+					$jurnal->nilai           = $feeDokter;
+					$jurnal->save();
+
+					$jurnal                  = new JurnalUmum;
+					$jurnal->jurnalable_id   = $px->id;
+					$jurnal->jurnalable_type = 'App\Periksa';
+					$jurnal->coa_id          = 200001; // Hutang Kepada dokter
 					$jurnal->debit           = 0;
 					$jurnal->nilai           = $feeDokter;
 					$jurnal->save();
+
 			}
 
 			// Input Transaksi ini untuk pengurangan persediaan obat tiap transaksi pasien
 			if ($biayaProduksiObat > 0) {
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $px->id;
-				$jurnal->jurnalable_type = 'App\Periksa';
-				$jurnal->coa_id          = 112000; // Persediaan Obat
-				$jurnal->debit           = 1;
-				$jurnal->nilai           = $biayaProduksiObat;
-				$jurnal->save();
 				
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $px->id;
 				$jurnal->jurnalable_type = 'App\Periksa';
 				$jurnal->coa_id          = 50204; // Biaya Produksi : Obat
+				$jurnal->debit           = 1;
+				$jurnal->nilai           = $biayaProduksiObat;
+				$jurnal->save();
+
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $px->id;
+				$jurnal->jurnalable_type = 'App\Periksa';
+				$jurnal->coa_id          = 112000; // Persediaan Obat
 				$jurnal->debit           = 0;
 				$jurnal->nilai           = $biayaProduksiObat;
 				$jurnal->save();
@@ -469,18 +472,19 @@ class CustomController extends Controller
 				$adaPoin = $pn->save();
 
 				if ($adaPoin) {
-					$jurnal                  = new JurnalUmum;
-					$jurnal->jurnalable_id   = $px->id;
-					$jurnal->jurnalable_type = 'App\Periksa';
-					$jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
-					$jurnal->debit           = 1;
-					$jurnal->nilai           = 1530;
-					$jurnal->save();
 					
 					$jurnal                  = new JurnalUmum;
 					$jurnal->jurnalable_id   = $px->id;
 					$jurnal->jurnalable_type = 'App\Periksa';
 					$jurnal->coa_id          = 50202; // Biaya Produksi : Bonus per pasien
+					$jurnal->debit           = 1;
+					$jurnal->nilai           = 1530;
+					$jurnal->save();
+
+					$jurnal                  = new JurnalUmum;
+					$jurnal->jurnalable_id   = $px->id;
+					$jurnal->jurnalable_type = 'App\Periksa';
+					$jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
 					$jurnal->debit           = 0;
 					$jurnal->nilai           = 1530;
 					$jurnal->save();
@@ -510,7 +514,6 @@ class CustomController extends Controller
 		} else {
 			return redirect('antriankasirs')->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $px->pasien_id . '-' . $px->pasien->nama . '</strong> gagal dilakukan' . $mess));
 		}
-
 	}
 
 

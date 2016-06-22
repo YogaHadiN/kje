@@ -196,4 +196,10 @@ class PdfsController extends Controller
 
 
     }
+    public function pembayaran_asuransi($pembayaran_asuransi_id){
+        $pembayaran = PembayaranAsuransi::find($pembayaran_asuransi_id);
+        $pdf = PDF::loadView('pdfs.pembayaran_asuransi', compact('pembayaran'))->setPaper(array(0, 0, 80, 270),'potrait')->setWarnings(false);
+        return $pdf->stream();
+    }
+    
 }

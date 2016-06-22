@@ -12,6 +12,7 @@ use App\PembayaranAsuransi;
 use App\PiutangDibayar;
 use App\PiutangAsuransi;
 use App\NotaJual;
+use App\Coa;
 use App\Asuransi;
 use App\JurnalUmum;
 use DB;
@@ -159,7 +160,8 @@ class PendapatansController extends Controller
 	}
     public function pembayaran_asuransi(){
         $asuransi_list = ['null' => '-pilih-'] + Asuransi::lists('nama', 'id')->all();
-		return view('pendapatans.pembayaran_asuransi', compact('asuransi_list'));
+        $pembayarans = PembayaranAsuransi::latest()->paginate(10);
+		return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans'));
     }
     public function pembayaran_asuransi_by_id($id){
         return 'asuransi '. $id;
@@ -180,13 +182,15 @@ class PendapatansController extends Controller
 		$query = "SELECT px.id as id, p.nama as nama, asu.nama as nama_asuransi, asu.id as asuransi_id, px.tanggal as tanggal, px.piutang as piutang, px.piutang_dibayar as piutang_dibayar , px.piutang_dibayar as piutang_dibayar_awal from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$id}';";
 		$periksas = DB::select($query);
 
-        return view('pendapatans.pembayaran_show', compact('asuransi', 'periksas'));
+        return view('pendapatans.pembayaran_show', compact('asuransi', 'periksas', 'mulai', 'akhir'));
     }
     public function lihat_pembayaran_asuransi(){
          //return Input::all();
         $asuransi_id = Input::get('asuransi_id');
         $mulai = Yoga::datePrep( Input::get('mulai') );
         $akhir = Yoga::datePrep(Input::get('akhir'));
+
+        $kasList = [ null => '-Pilih-' ] + Coa::where('id', 'like', '110%')->lists('coa', 'id')->all();
 
         $query = "SELECT pu.id as piutang_id, px.id as periksa_id, ps.nama as nama_pasien, pu.tunai as tunai, pu.piutang as piutang, pu.sudah_dibayar as pembayaran, 0 as akan_dibayar FROM piutang_asuransis as pu join periksas as px on px.id=pu.periksa_id join pasiens as ps on ps.id = px.pasien_id where px.tanggal between '{$mulai}' and '{$akhir}' and px.asuransi_id = '{$asuransi_id}';";
 
@@ -198,15 +202,18 @@ class PendapatansController extends Controller
             }
         }
         $asuransi = Asuransi::find($asuransi_id)->nama;
-        return view('pendapatans.pembayaran_show', compact('pembayarans', 'asuransi', 'mulai', 'akhir', 'asuransi_id'));
+        return view('pendapatans.pembayaran_show', compact('pembayarans', 'asuransi', 'mulai', 'akhir', 'asuransi_id', 'kasList'));
     }
     
     public function asuransi_bayar(){
         $dibayar = Input::get('dibayar');
         $mulai = Input::get('mulai');
         $akhir = Input::get('akhir');
+        $tanggal = Yoga::datePrep( Input::get('tanggal_dibayar') );
         $asuransi_id = Input::get('asuransi_id');
         $temp = Input::get('temp');
+        $coa_id = Input::get('coa_id');
+        
         
         $temp = json_decode($temp, true);
 
@@ -214,7 +221,32 @@ class PendapatansController extends Controller
         $pb->asuransi_id = $asuransi_id;
         $pb->mulai = $mulai;
         $pb->akhir = $akhir;
-        $pb->save();
+        $pb->pembayaran = $dibayar;
+        $pb->tanggal_dibayar = $tanggal;
+        $pb->kas_coa_id = $coa_id;
+        $confirm = $pb->save();
+
+        $coa_id_asuransi = Asuransi::find($asuransi_id)->coa_id;// Piutang Asuransi
+
+        //coa_kas_di_bank_mandiri = 110001;
+        if ($confirm) {
+            $jurnal                  = new JurnalUmum;
+            $jurnal->jurnalable_id   = $pb->id; // kenapa ini nilainya empty / null padahal di database ada id
+            $jurnal->jurnalable_type = 'App\PembayaranAsuransi';
+            $jurnal->coa_id          = $coa_id;
+            $jurnal->debit           = 1;
+            $jurnal->nilai           = $dibayar;
+            $jurnal->save();
+
+            $jurnal                  = new JurnalUmum;
+            $jurnal->jurnalable_id   = $pb->id;
+            $jurnal->jurnalable_type = 'App\PembayaranAsuransi';
+            $jurnal->coa_id          = $coa_id_asuransi;
+            $jurnal->debit           = 0;
+            $jurnal->nilai           = $dibayar;
+            $jurnal->save();
+        }
+        
 
         foreach ($temp as $tmp) {
             if ($tmp['akan_dibayar'] > 0) {
@@ -231,7 +263,11 @@ class PendapatansController extends Controller
                 }
             }
         }
-        $pesan = Yoga::suksesFlash('Asuransi ' . Asuransi::find($asuransi_id)->nama . ' tanggal ' . Yoga::updateDatePrep($mulai). ' sampai dengan ' . Yoga::updateDatePrep($akhir) . ' <strong>BERHASIL</strong> dibayarkan');
-        return redirect('laporans')->withPesan($pesan);
+        $pesan = Yoga::suksesFlash('Asuransi <strong>' . Asuransi::find($asuransi_id)->nama . '</strong> tanggal <strong>' . Yoga::updateDatePrep($mulai). '</strong> sampai dengan <strong>' . Yoga::updateDatePrep($akhir) . ' BERHASIL</strong> dibayarkan sebesar <strong><span class="uang">' . $dibayar . '</span></strong>');
+        if ($coa_id == '110000') {
+            return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan)->withPring($pb->id);
+        } else {
+            return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan);
+        }
     }
 }

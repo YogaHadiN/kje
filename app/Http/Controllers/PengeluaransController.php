@@ -13,6 +13,7 @@ use App\CheckoutDetail;
 use App\Pembelian;
 use App\Diagnosa;
 use App\Modal;
+use App\BayarGaji;
 use App\User;
 use App\Coa;
 use App\Penjualan;
@@ -628,6 +629,125 @@ class PengeluaransController extends Controller
         }
 
     }
+    public function bayar_gaji_karyawan(){
+        $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->lists('coa', 'id')->all();
+        $pembayarans = BayarGaji::latest()->paginate(20);
+        return view('pengeluarans.bayar_gaji_karyawan', compact(  'pembayarans' , 'sumber_kas_lists'));
+    }
+    
+   public function bayar_gaji(){
+       $staf_id = Input::get('staf_id');
+       $coa_id = Input::get('coa_id');
+       $bulan = Input::get('bulan');
+       $bulan = Yoga::blnPrep($bulan);
+       $gaji_pokok = Input::get('gaji_pokok');
+       $bonus = Input::get('bonus');
+       $tanggal_dibayar = Input::get('tanggal_dibayar');
+
+           $jus = JurnalUmum::where('coa_id', '200002' )
+               ->where('debit', '1')
+               ->where('created_at', 'like', $bulan . '%')
+               ->get();
+           $total_bonus = 0;
+           foreach ($jus as $ju) {
+               $total_bonus += $ju->nilai;
+           }
+
+           $jus = JurnalUmum::where('coa_id', '200002' )
+               ->where('debit', '0')
+               ->where('created_at', 'like', $bulan . '%')
+               ->get();
+
+           $total_bonus_sudah_dibayar = 0;
+           foreach ($jus as $ju) {
+               $total_bonus_sudah_dibayar += $ju->nilai;
+           }
+           //return $total_bonus_sudah_dibayar . ' total bonys sudah dibayar';
+           $sisa_hutang_bonus = $total_bonus - $total_bonus_sudah_dibayar;
+           $data =  'total_bonus = ' . $total_bonus . '<br />';
+           $data .=  'total_bonus_sudah_dibayar = ' . $total_bonus_sudah_dibayar . '<br />';
+           $data .=  'sisa_hutang_bonus = ' . $sisa_hutang_bonus . '<br />';
+           $data .=  'bonus = ' . $bonus . '<br />';
+           return $data;
+
+       $bg = new BayarGaji;
+       $bg->staf_id = $staf_id;
+       $bg->mulai = $bulan . '-01';
+       $bg->akhir = date("Y-m-t", strtotime($bulan . '-01'));
+       $bg->tanggal_dibayar = Yoga::datePrep($tanggal_dibayar);
+       $bg->gaji_pokok = $gaji_pokok;
+       $bg->bonus = $bonus;
+       $bg->kas_coa_id = $coa_id;
+       $confirm = $bg->save();
+
+       if ($confirm) {
+
+           if ($gaji_pokok > 0) {
+                $jurnal                  = new JurnalUmum;
+                $jurnal->jurnalable_id   = $bg->id;
+                $jurnal->jurnalable_type = 'App\BayarGaji';
+                $jurnal->coa_id          = 60101;
+                $jurnal->debit           = 1;
+                $jurnal->nilai           = $gaji_pokok;
+                $jurnal->save();
+           }
+
+           //return $jus;
+           // Hitung hutang kepada asisten dalam satu bulan, jika hutangnya masih lebih banyak lebih dari bonus dari pada yang sudah dibayarkan, maka jurnal masuk semua ke hutang
+           if ($sisa_hutang_bonus >= $bonus) {
+               if ($bonus > 0) {
+                    $jurnal                  = new JurnalUmum;
+                    $jurnal->jurnalable_id   = $bg->id;
+                    $jurnal->jurnalable_type = 'App\BayarGaji';
+                    $jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
+                    $jurnal->debit           = 1;
+                    $jurnal->nilai           = $bonus;
+                    $jurnal->save();
+               }
+           } else{
+               $beban_produksi_hutang_asisten = $bonus - $sisa_hutang_bonus;
+               if ($sisa_hutang_bonus > 0) {
+                    $jurnal                  = new JurnalUmum;
+                    $jurnal->jurnalable_id   = $bg->id;
+                    $jurnal->jurnalable_type = 'App\BayarGaji';
+                    $jurnal->coa_id          = 200002;// Hutang Kepada Asisten Dokter
+                    $jurnal->debit           = 1;
+                    $jurnal->nilai           = $sisa_hutang_bonus;
+                    $jurnal->save();
+               }
+               if ($beban_produksi_hutang_asisten > 0) {
+                    $jurnal                  = new JurnalUmum;
+                    $jurnal->jurnalable_id   = $bg->id;
+                    $jurnal->jurnalable_type = 'App\BayarGaji';
+                    $jurnal->coa_id          = 50202;
+                    $jurnal->debit           = 1;
+                    $jurnal->nilai           = $beban_produksi_hutang_asisten;
+                    $jurnal->save();
+               }
+           }
+
+           if ($bonus + $gaji_pokok > 0) {
+                $jurnal                  = new JurnalUmum;
+                $jurnal->jurnalable_id   = $bg->id;
+                $jurnal->jurnalable_type = 'App\BayarGaji';
+                $jurnal->coa_id          = $coa_id;
+                $jurnal->debit           = 0;
+                $jurnal->nilai           = $gaji_pokok + $bonus;
+                $jurnal->save();
+           }
+                        
+           $pesan = Yoga::suksesFlash('Pembayaran Gaji kepada <strong>' . Staf::find($staf_id)->nama . '</strong> sebesar <strong class="uang">' . $gaji_pokok + $bonus . '</strong> telah <strong>BERHASIL</strong>' );
+               return redirect('pengeluarans/bayar_gaji_karyawan')
+                            ->withPesan($pesan)
+                            ->withPring($bg->id);
+       }else {
+           $pesan = Yoga::gagalFlash('Pembayaran Gaji kepada <strong>' . Staf::find($staf_id)->nama . '</strong> sebesar <strong class="uang">' . $gaji_pokok + $bonus . '</strong> telah <strong>GAGAL</strong>' );
+               return redirect('pengeluarans/bayar_gaji_karyawan')
+                            ->withPesan($pesan);
+       }
+
+
+   }
     
     
 

@@ -153,6 +153,7 @@
                         <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">Transaksi Kasir</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/bayar_gaji_karyawan', 'Bayar Gaji Karyawan')!!}</li>
                             <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
                             <li>{!! HTML::link('pendapatans/pembayaran/asuransi', 'Pembayaran Asuransi')!!}</li>
                             <li>{!! HTML::link('suppliers/belanja_obat', 'Belanja Obat')!!}</li>
