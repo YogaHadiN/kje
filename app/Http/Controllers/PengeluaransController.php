@@ -645,7 +645,7 @@ class PengeluaransController extends Controller
        $tanggal_dibayar = Input::get('tanggal_dibayar');
 
            $jus = JurnalUmum::where('coa_id', '200002' )
-               ->where('debit', '1')
+               ->where('debit', '0')
                ->where('created_at', 'like', $bulan . '%')
                ->get();
            $total_bonus = 0;
@@ -654,7 +654,7 @@ class PengeluaransController extends Controller
            }
 
            $jus = JurnalUmum::where('coa_id', '200002' )
-               ->where('debit', '0')
+               ->where('debit', '1')
                ->where('created_at', 'like', $bulan . '%')
                ->get();
 
@@ -730,7 +730,7 @@ class PengeluaransController extends Controller
                 $jurnal                  = new JurnalUmum;
                 $jurnal->jurnalable_id   = $bg->id;
                 $jurnal->jurnalable_type = 'App\BayarGaji';
-                $jurnal->coa_id          = $coa_id;
+                $jurnal->coa_id          = $coa_id; //Kas Sumber
                 $jurnal->debit           = 0;
                 $jurnal->nilai           = $gaji_pokok + $bonus;
                 $jurnal->save();
