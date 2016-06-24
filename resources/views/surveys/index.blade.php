@@ -639,14 +639,11 @@ Klinik Jati Elok | Asuransi
             $('#kembalian-print').html(kembalian +  ',-');
             formatUangIni();
             $('#submitthis').click();
-            print_tanpa_dialog();
 
         } else {
-
             $('#transaksi-print').html('');
             $('#biaya-print').html('');
             $('#submitthis').click();
-
         }
     
     }

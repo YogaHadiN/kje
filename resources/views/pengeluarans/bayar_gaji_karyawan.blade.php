@@ -17,7 +17,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
 @section('content') 
 @if ( Session::has('print') )
     <div id="print">
-        
+        {{ Session::get('print') }}
     </div>
 @endif
 
@@ -86,24 +86,24 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
+                                <th>Tanggal Pembayaran</th>
                                 <th>Nama Staf</th>
                                 <th>Periode</th>
                                 <th>Gaji Pokok</th>
                                 <th>Bonus</th>
                                 <th>Total</th>
-                                <th>Tanggal Pembayaran</th>
                                 <th>Sumber Kas</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($pembayarans as $pemb)
                             <tr>
+                                <td>{{  $pemb->tanggal_dibayar->format('d-m-Y') }}</td>
                                 <td>{{  $pemb->staf->nama  }}</td>
                                 <td>{{  $pemb->mulai->format('d-m-Y') }} s/d {{ $pemb->akhir->format('d-m-Y')  }}</td>
                                 <td class="uang">{{  $pemb->gaji_pokok }}</td>
                                 <td class="uang">{{  $pemb->bonus }}</td>
                                 <td class="uang">{{  $pemb->gaji_pokok + $pemb->bonus }}</td>
-                                <td>{{  $pemb->tanggal_dibayar->format('d-m-Y') }}</td>
                                 <td>{{  $pemb->coa->coa }}</td>
                             </tr>
                             @endforeach
@@ -123,14 +123,16 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
 @stop
 @section('footer') 
 <script>
-  function dummySubmit(){
+    $(function () {
       if( $('#print').length > 0 ){
-        window.open("{{ url('pdfs/pembayaran_asuransi/' . Session::get('print')) }}", '_blank');
+        window.open("{{ url('pdfs/bayar_gaji_karyawan/' . Session::get('print')) }}", '_blank');
       }
-    if (validatePass()) {
-      $('#submit').click();
-    }
-  }
+    });
+      function dummySubmit(){
+        if (validatePass()) {
+          $('#submit').click();
+        }
+      }
 </script>
 
 @stop

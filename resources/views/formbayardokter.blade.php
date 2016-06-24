@@ -49,6 +49,53 @@ Klinik Jati Elok | Laporan Gaji Dokter
             </div>
   </div>
 </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Pembayaran Dokter</div>
+            </div>
+            <div class="panel-body">
+            <?php echo $bayar_dokters->appends(Input::except('page'))->links(); ?>
+                <div class-"table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jam</th>
+                                <th>Nama Dokter</th>
+                                <th>Periode</th>
+                                <th>Nilai</th>
+                                <th>Petugas</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($bayar_dokters as $b)
+                            <tr>
+                                <td>{{  $b->created_at->format('d-m-Y')  }}</td>
+                                <td>{{  $b->created_at->format('H:i:s')  }}</td>
+                                <td>{{  $b->staf->nama }}</td>
+                                <td>{{  $b->mulai->format('d-m-Y') }} s/d {{ $b->akhir->format('d-m-Y') }}</td>
+                                <td class="uang">{{  $b->bayar_dokter }}</td>
+                                <td>{{  $b->petugas->nama }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-xs" href="{{ url("pdfs/jasadokter/" . $b->id) }}" target="_blank">Struk</a> 
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <?php echo $bayar_dokters->appends(Input::except('page'))->links(); ?>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
 {!! Form::close() !!}
 @stop
 @section('footer') 

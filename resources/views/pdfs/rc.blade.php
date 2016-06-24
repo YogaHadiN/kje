@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Pembayaran Asuransi {{ $pembayaran->asuransi->nama }}</title>
+        <title>Tambah Uang ke Kasir</title>
         <style type="text/css" media="all">
         
 *{
@@ -71,55 +71,62 @@ hr {
     </head>
     <body>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="box title-print text-center border-bottom">
-                <h1>Klinik Jati Elok</h1>
-                <h5>
-                    Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten <br>
-                    Telp : 021 5977529  
-                </h5>
-                <h2 class="text-center border-top">Pembayaran {{ $pembayaran->asuransi->nama }}</h2>
-            </div >
+                <div class="box title-print text-center border-bottom">
+                    <h1>Klinik Jati Elok</h1>
+                    <h5>
+                        Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten <br>
+                        Telp : 021 5977529  
+                    </h5>
+                    <h3 class="border-top">Tambah Uang Ke Kasir</h3>
+                </div>
             <div class="box border-bottom">
                 <table>
                     <tbody>
                         <tr>
-                            <td>Periode</td>
+                            <td>Nama Petugas</td>
                             <td>:</td>
-                            <td>{{App\Classes\Yoga::updateDatePrep(  $pembayaran->mulai  )}}</td>
+                            <td>{{ $modal->staf->nama }}</td>
                         </tr>
                         <tr>
-                            <td>Akhir</td>
+                            <td>Tanggal</td>
                             <td>:</td>
-                            <td>{{App\Classes\Yoga::updateDatePrep(  $pembayaran->akhir  )}}</td>
+                            <td>{{ $modal->created_at->format('d-m-Y') }}</td>
                         </tr>
                         <tr>
-                            <td>Tanggal Diserahkan</td>
+                            <td>Sumber Uang</td>
                             <td>:</td>
-                            <td>{{App\Classes\Yoga::updateDatePrep(  $pembayaran->tanggal_dibayar  )}}</td>
+                            <td>{{ $modal->coa->coa }}</td>
                         </tr>
-                        <tr>
-                            <td>Petugas</td>
+                        <tr class="big">
+                            <td>Jumlah</td>
                             <td>:</td>
-                            <td>{{ $pembayaran->staf->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="big text-right">{{ App\Classes\Yoga::buatrp($pembayaran->pembayaran) }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">{{ App\Classes\Yoga::terbilang($pembayaran->pembayaran) }} rupiah</td>
-                        </tr>
+                            <td>{{ App\Classes\Yoga::buatrp( $modal->modal ) }}
+                        </tr> 
                     </tbody>
                 </table>
             </div>
-            <div class="text-center">
-                <h3>Untuk Disimpan</h3>
-            </div>
             <div>
-
+                    <div class="text-center">
+                    <table class="table-center">
+                        <tbody class="text-center">
+                            <tr class="border-top">
+                                <td>Nama Petugas</td>
+                                <td>Saksi</td>
+                            </tr>
+                            <tr class="tanda-tangan">
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>{{ $modal->staf->nama }}</td>
+                                <td>( .................... )</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 .
             </div>
         </div>
-        <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
         <script type="text/javascript" charset="utf-8">
         </script>
     </body>

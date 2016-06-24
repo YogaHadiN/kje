@@ -46,19 +46,17 @@ class JurnalUmumsController extends Controller
             ->orderBy('created_at', 'desc')
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
             ->paginate(10);
-        
-        //return dd( $jurnalumums );
-        //$jurnalumums = JurnalUmum::groupBy('created_at')->orderBy('created_at', 'desc')->get();
+
         //$errors = [];
         //foreach ($jurnalumums as $ju) {
             //try {
-                //foreach ($ju->jurnalable_type::find($ju->jurnalable_id)->jurnals as $ju) {
-                //}
+                //$ju->jurnalable->ketJurnal;
             //} catch (\Exception $e) {
                 //$errors[] = $ju->id;
             //}
         //}
         //return dd( $errors );
+        
 
 		return view('jurnal_umums.show', compact('jurnalumums'));
 	}
@@ -90,11 +88,8 @@ class JurnalUmumsController extends Controller
 				$ids[] = $ju->id;
 			}
 		}
-
-
-		// return $ids;
+        //return $ids;
         $jurnalumums = JurnalUmum::whereIn('id', $ids)
-                                ->where('jurnalable_type', 'App\FakturBelanja')
                                 ->groupBy('jurnalable_id')
                                 ->get();
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();

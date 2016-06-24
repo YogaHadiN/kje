@@ -52,15 +52,17 @@ class NotaJual extends Model{
 
         $pembayaran_asuransis = $this->pembayaranAsuransi;
         //return $pembayaran_asuransis[0]->periksa->asuransi->nama;
+        //return $pembayaran_asuransis;
 
         if ($pembayaran_asuransis->count() > 0){
             $biaya = 0;
             foreach ($pembayaran_asuransis as $pemb) {
                 $biaya += $pemb->pembayaran;
             }
-             $temp = 'Pembayaran Piutang<strong> Asuransi ' . $pembayaran_asuransis[0]->periksa->asuransi->nama . '</strong>';
+             $temp = 'Pembayaran Piutang<strong> Asuransi ' . $pembayaran_asuransis->first()->asuransi->nama . '</strong>';
              $temp .= '<br />pada tanggal ' . $this->tanggal->format('d-m-Y');
              $temp .= '<br />sebesar<strong> <span class="uang">' . $biaya . '</span></strong>';
+             $temp .= '<br />Tujuan kas di <strong> <span>' . $pemb->coa->coa . '</span></strong>';
              return $temp;
         }else {
             $penjualans = $this->penjualan;

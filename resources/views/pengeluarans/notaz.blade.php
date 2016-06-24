@@ -15,6 +15,11 @@ Klinik Jati Elok | Checkout Kasir
 </ol>
 @stop
 @section('content') 
+@if (Session::has('print'))
+    <div id="print">
+        {{ Session::get('print') }}
+    </div>
+@endif
 
 
   <div class="row">
@@ -128,7 +133,6 @@ Klinik Jati Elok | Checkout Kasir
                                         <td class="text-right">{!! $trx['jumlah'] !!}</td>        
                                         <td class="uang">{!! $trx['nilai'] !!}</td>        
                                         <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode($trx["jurnalable_id"])) !!}' class="btn btn-info btn-sm">Detail</a> </td>
-                                         
                                     </tr>
                                @endif
                             @endforeach
@@ -175,9 +179,15 @@ Klinik Jati Elok | Checkout Kasir
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>   
+
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
+    $(function () {
+          if( $('#print').length > 0 ){
+            window.open("{{ url('pdfs/notaz/' . Session::get('print')) }}", '_blank');
+          }
+    });
 
     $('#confirm_staf').on('show.bs.modal', function(){
         $('#confirm_staf input[type!="hidden"]').val('');

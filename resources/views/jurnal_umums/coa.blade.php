@@ -62,18 +62,12 @@ Klinik Jati Elok | Coa belum di set
                  </tr>
              </thead>
              <tbody id="coa_list">
-                 
              </tbody>
          </table>
-         
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
-
-
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">
@@ -137,6 +131,7 @@ Klinik Jati Elok | Coa belum di set
                         <th>Biaya</th>
                         <th>Chart Of Account</th>
                         <th>Keterangan</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,7 +143,7 @@ Klinik Jati Elok | Coa belum di set
                           <td>{!! $ju->jurnalable->pendapatan !!}</td>
                           <td class="uang">{!! $ju->nilai !!}</td>
                            <td>
-                            {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control rq', 'onchange' => 'coaChange(this); return false;']) !!}
+                               {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control selectpick', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
                           </td>
                           <td>{!! $ju->jurnalable->keterangan !!}</td>
                           <td>
@@ -162,7 +157,7 @@ Klinik Jati Elok | Coa belum di set
       </div>
 </div>
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
-  {!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control hide', 'id' => 'temp']) !!}
+  {!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <button class="btn btn-success btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>

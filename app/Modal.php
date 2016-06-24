@@ -11,6 +11,9 @@ class Modal extends Model
     public function coa(){
          return $this->belongsTo('App\Coa', 'coa_kas_id');
     }
+    public function staf(){
+         return $this->belongsTo('App\Staf');
+    }
     
     protected $morphClass = 'App\Modal';
     public function jurnals(){

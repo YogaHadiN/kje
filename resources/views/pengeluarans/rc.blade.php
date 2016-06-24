@@ -1,5 +1,4 @@
 @extends('layout.master')
-
 @section('title') 
 Klinik Jati Elok | Tambah Modal
 @stop
@@ -37,6 +36,10 @@ Klinik Jati Elok | Tambah Modal
                  {!! Form::label('sumber_uang', 'Sumber Uang') !!}
                  {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
                </div>
+                <div class="form-group">
+                 {!! Form::label('staf_id', 'Petugas Penginput') !!}
+                 {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' =>'true']) !!}
+               </div>
                <div class="form-group">
                    <button class="btn btn-success" onclick="dummySubmit();return false;" type="button">Submit</button>
                    {!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
@@ -62,6 +65,7 @@ Klinik Jati Elok | Tambah Modal
                                 <th>Tanggal</th>
                                 <th>Uang Masuk</th>
                                 <th>coa</th>
+                                <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,27 +74,25 @@ Klinik Jati Elok | Tambah Modal
                                 <td>{{  $modal->created_at->format('d-m-Y')  }}</td>
                                 <td class="uang">{{  $modal->modal  }}</td>
                                 <td>{{  $modal->coa->coa  }}</td>
+                                <td> <a class="btn btn-info btn-xs" href="{{ url('pdfs/rc/' . $modal->id) }}" target="_blank">Struk</a> </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 <?php echo $modals->appends(Input::except('page'))->links(); ?>
-                
             </div>
         </div>
-        
     </div>
-    
 </div>
-
 @stop
 @section('footer') 
 {!! HTML::script("js/chosen.jquery.js")!!}
 <script type="text/javascript" charset="utf-8">
     $(function () {
-        $('.chosen-select').chosen();
-        $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
+          if( $('#print').length > 0 ){
+            window.open("{{ url('pdfs/rc/' . Session::get('print')) }}", '_blank');
+          }
     });
 </script>    
 <script type="text/javascript" charset="utf-8">
