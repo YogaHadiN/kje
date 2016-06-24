@@ -17,7 +17,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
 @section('content') 
 @if ( Session::has('print') )
     <div id="print">
-        
+        {{ Session::get('print') }}
     </div>
 @endif
 
@@ -82,7 +82,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
                                 <td>{{  $pemb->mulai->format('d-m-Y')  }} s/d {{  $pemb->akhir->format('d-m-Y')  }}</td>
                                 <td class="uang">{{  $pemb->pembayaran }}</td>
                                 <td>{{  $pemb->akhir->format('d-m-Y')  }}</td>
-                                <td>{{  $pemb->coa->coa }}</td>
+                                <td>{{ $pemb->kas_coa_id }}-{{  $pemb->coa->coa }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -101,10 +101,13 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
 @stop
 @section('footer') 
 <script>
+    $(function () {
+          if( $('#print').length > 0 ){
+            window.open("{{ url('pdfs/pembayaran_asuransi/' . Session::get('print')) }}", '_blank');
+          }
+    });
+
   function dummySubmit(){
-      if( $('#print').length > 0 ){
-        window.open("{{ url('pdfs/pembayaran_asuransi/' . Session::get('print')) }}", '_blank');
-      }
     if (validatePass()) {
       $('#submit').click();
     }

@@ -208,6 +208,7 @@ class PendapatansController extends Controller
     public function asuransi_bayar(){
         $dibayar = Input::get('dibayar');
         $mulai = Input::get('mulai');
+        $staf_id = Input::get('staf_id');
         $akhir = Input::get('akhir');
         $tanggal = Yoga::datePrep( Input::get('tanggal_dibayar') );
         $asuransi_id = Input::get('asuransi_id');
@@ -217,9 +218,20 @@ class PendapatansController extends Controller
         
         $temp = json_decode($temp, true);
 
+        $nota_jual_id = Yoga::customId('App\NotaJual');
+        $nj = new NotaJual;
+        $nj->id = $nota_jual_id;
+        $nj->tipe_jual_id = 2;
+        $nj->tanggal = $tanggal;
+        $nj->staf_id = $staf_id;
+        $nj->save();
+        
+
         $pb = new PembayaranAsuransi;
         $pb->asuransi_id = $asuransi_id;
         $pb->mulai = $mulai;
+        $pb->staf_id = $staf_id;
+        $pb->nota_jual_id = $nota_jual_id;
         $pb->akhir = $akhir;
         $pb->pembayaran = $dibayar;
         $pb->tanggal_dibayar = $tanggal;
@@ -231,16 +243,16 @@ class PendapatansController extends Controller
         //coa_kas_di_bank_mandiri = 110001;
         if ($confirm) {
             $jurnal                  = new JurnalUmum;
-            $jurnal->jurnalable_id   = $pb->id; // kenapa ini nilainya empty / null padahal di database ada id
-            $jurnal->jurnalable_type = 'App\PembayaranAsuransi';
+            $jurnal->jurnalable_id   = $nota_jual_id;
+            $jurnal->jurnalable_type = 'App\NotaJual';
             $jurnal->coa_id          = $coa_id;
             $jurnal->debit           = 1;
             $jurnal->nilai           = $dibayar;
             $jurnal->save();
 
             $jurnal                  = new JurnalUmum;
-            $jurnal->jurnalable_id   = $pb->id;
-            $jurnal->jurnalable_type = 'App\PembayaranAsuransi';
+            $jurnal->jurnalable_id   = $nota_jual_id;
+            $jurnal->jurnalable_type = 'App\NotaJual';
             $jurnal->coa_id          = $coa_id_asuransi;
             $jurnal->debit           = 0;
             $jurnal->nilai           = $dibayar;
@@ -265,7 +277,7 @@ class PendapatansController extends Controller
         }
         $pesan = Yoga::suksesFlash('Asuransi <strong>' . Asuransi::find($asuransi_id)->nama . '</strong> tanggal <strong>' . Yoga::updateDatePrep($mulai). '</strong> sampai dengan <strong>' . Yoga::updateDatePrep($akhir) . ' BERHASIL</strong> dibayarkan sebesar <strong><span class="uang">' . $dibayar . '</span></strong>');
         if ($coa_id == '110000') {
-            return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan)->withPring($pb->id);
+            return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan)->withPrint($pb->id);
         } else {
             return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan);
         }

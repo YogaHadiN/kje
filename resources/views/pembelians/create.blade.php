@@ -900,7 +900,6 @@ function testPrint(){
     $('#totalBiaya').html(uang( totalBiaya ));
     $('#daftarBelanja').html(temp);
     $('#submit').removeAttr('disabled').click();
-    window.print();
 }
 
   </script>

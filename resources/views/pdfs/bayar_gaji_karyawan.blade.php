@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" moznomarginboxes mozdisallowselectionprint>
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
@@ -7,8 +7,8 @@
         <style type="text/css" media="all">
         
 *{
-        padding:2px;
-        margin:2px;
+        padding:0.5px;
+        margin:0.5px;
 }
 .tanda-tangan td{
     padding:23px
@@ -62,10 +62,6 @@ hr {
                                  padding:12px;
                             }
             
-                            .big{
-                                font-size:15;
-                                font-weight:bold;
-                            }
         
         </style>
     </head>
@@ -78,10 +74,9 @@ hr {
                         Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten <br>
                         Telp : 021 5977529  
                     </h5>
-                <h2 class="text-center border-top">
-                    Pembayaran Jasa Dokter 
-                </h2>
                 </div>
+                <h3 class="text-center">Slip Gaji</h3>
+                <hr>
                 <div class="box">
                     <table>
                         <tbody>
@@ -94,30 +89,34 @@ hr {
                                 <td>{{ $bayar->akhir->format('d-m-Y') }}</td>
                             </tr>
                             <tr>
-                                <td>Nama Dokter</td>
+                                <td>Nama Staf Penerima</td>
                                 <td>{{ $bayar->staf->nama }}</td>
+                            </tr>
+                            <tr>
+                                <td>Gaji Pokok</td>
+                                <td>{{ App\Classes\Yoga::buatrp($bayar->gaji_pokok) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Bonus</td>
+                                <td>{{ App\Classes\Yoga::buatrp($bayar->bonus) }}</td>
                             </tr>
                             <tr class="border-top">
                                 <td>Total</td>
                                 <td>
                                     <h2 id="pembayaranDokter">
-                                        {{ App\Classes\Yoga::buatrp( $bayar->bayar_dokter ) }}
-                                        <!--pembayaran goes here-->
+                                        {{ App\Classes\Yoga::buatrp( $bayar->gaji_pokok + $bayar->bonus ) }}
                                     </h2>
                                 </td>
                             </tr>
-                            <tr class="border-top">
-                                <td colspan="2" class="text-right">
-                                    {{ App\Classes\Yoga::terbilang( $bayar->bayar_dokter ) }} rupiah
-                                </td>
+                            <tr>
+                                <td>Terbilang</td>
+                                <td>{{ App\Classes\Yoga::terbilang($bayar->gaji_pokok + $bayar->bonus) }} rupiah</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    <div class="border-bottom">
-                        Diserahkan pada <span id="tanggal">{{ $bayar->created_at->format('d-m-Y') }}</span> jam <span id="jam"> {{  $bayar->created_at->format('H:i:s')  }}</span>
-                    </div>
+                    Diserahkan pada <span id="tanggal">{{ $bayar->created_at->format('d-m-Y') }}</span> jam <span id="jam"> {{  $bayar->created_at->format('H:i:s')  }}</span>
                     <table class="table-center text-center">
                         <tbody>
                             <tr class="border-top">
@@ -136,8 +135,9 @@ hr {
                     </table>
                 </div>
                 <div class="small-padding">
-
+                    .
                 </div>
             </div>
     </body>
 </html>
+

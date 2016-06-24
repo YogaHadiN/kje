@@ -431,7 +431,6 @@ function testPrint(){
     $('#totalBiaya').html(uang( totalBiaya ));
     $('#daftarBelanja').html(temp);
     $('#submit').click();
-    print_tanpa_dialog();
 }
   </script>
 @stop

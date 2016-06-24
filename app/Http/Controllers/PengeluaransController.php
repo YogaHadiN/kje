@@ -220,6 +220,7 @@ class PengeluaransController extends Controller
     
     public function dokterdibayar(){
         $staf_id = Input::get('staf_id');
+        $petugas_id = Input::get('petugas_id');
         $mulai = Input::get('mulai');
         $akhir = Input::get('akhir');
         $total = $this->total($staf_id, $mulai, $akhir);
@@ -230,6 +231,7 @@ class PengeluaransController extends Controller
         if ($dibayar > 0) {
                 $bayar = new BayarDokter;
                 $bayar->staf_id = $staf_id;
+                $bayar->petugas_id = $petugas_id;
                 $bayar->bayar_dokter = $dibayar;
                 $bayar->hutang = $hutang;
                 $bayar->mulai =  $mulai ;
@@ -241,7 +243,7 @@ class PengeluaransController extends Controller
                         $jurnal                  = new JurnalUmum;
                         $jurnal->jurnalable_id   = $bayar->id;
                         $jurnal->jurnalable_type = 'App\BayarDokter';
-                        $jurnal->coa_id          = 200001; // Kas di tangan
+                        $jurnal->coa_id          = 200001; // Hutang Kepada Dokter
                         $jurnal->debit           = 1;
                         $jurnal->nilai           = $bayar->bayar_dokter;
                         $jurnal->save();
@@ -258,7 +260,7 @@ class PengeluaransController extends Controller
                         $jurnal                  = new JurnalUmum;
                         $jurnal->jurnalable_id   = $bayar->id;
                         $jurnal->jurnalable_type = 'App\BayarDokter';
-                        $jurnal->coa_id          = 200001; // Kas di tangan
+                        $jurnal->coa_id          = 200001; // Hutang Kepada Dokter
                         $jurnal->debit           = 1;
                         $jurnal->nilai           = $hutang;
                         $jurnal->save();
@@ -290,19 +292,20 @@ class PengeluaransController extends Controller
 
                 } else if($dibayar  < $hutang){
 
-                        $jurnal                  = new JurnalUmum;
-                        $jurnal->jurnalable_id   = $bayar->id;
-                        $jurnal->jurnalable_type = 'App\BayarDokter';
-                        $jurnal->coa_id          = 50201; // B. Produksi Jasa Dokter
-                        $jurnal->debit           = 1;
-                        $jurnal->nilai           = $hutang- $dibayar;
-                        $jurnal->save();
                         
                         //Jurnal Umum untuk sisa dengan b. operasional jasa dokter
                         $jurnal                  = new JurnalUmum;
                         $jurnal->jurnalable_id   = $bayar->id;
                         $jurnal->jurnalable_type = 'App\BayarDokter';
                         $jurnal->coa_id          = 200001; // Hutang kepada dokter
+                        $jurnal->debit           = 1;
+                        $jurnal->nilai           = $hutang- $dibayar;
+                        $jurnal->save();
+
+                        $jurnal                  = new JurnalUmum;
+                        $jurnal->jurnalable_id   = $bayar->id;
+                        $jurnal->jurnalable_type = 'App\BayarDokter';
+                        $jurnal->coa_id          = 50201; // B. Produksi Jasa Dokter
                         $jurnal->debit           = 0;
                         $jurnal->nilai           = $hutang- $dibayar;
                         $jurnal->save();
@@ -333,8 +336,8 @@ class PengeluaransController extends Controller
         }
     }
     public function bayar(){
-         
-        return view('formbayardokter');
+        $bayar_dokters = BayarDokter::latest()->paginate(30);
+        return view('formbayardokter', compact('bayar_dokters'));
     }
     
     public function nota_z(){
@@ -383,51 +386,7 @@ class PengeluaransController extends Controller
         foreach ($uang_keluar as $penjualan) {
             $total_uang_keluar += $penjualan->nilai;
         }
-        $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
-        $rinci = DB::select($query);
-        $table = [];
-        foreach ($rinci as $rc) {
-            $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
-            $valid = false;
-            foreach ($arrs as $key => $ar) {
-                if ( $key > 0 && $arrs[$key-1]->coa_id == 110000 && $arrs[$key-1]->debit == 1 ){
-                    $valid = true;
-                }
-                if ($valid && $ar->debit == 0) {
-                    $sama = false;
-                    foreach ($table as $k=> $tab) {
-                        if( $tab['coa_id'] == $ar->coa_id){
-                            $table[$k]['nilai'] = $tab['nilai'] + $ar->nilai;
-                            $table[$k]['jumlah'] = $tab['jumlah'] + 1;
-                            $sama = true;
-                            $id_sama = false;
-                            foreach ($tab['jurnalable_id'] as $jurnl) {
-                                if ($jurnl == $rc->jurnalable_id) {
-                                    $id_sama = true;
-                                }
-                            }
-                            if (!$id_sama) {
-                                $table[$k]['jurnalable_id'][] = $rc->jurnalable_id;
-                            }
-                        }
-                    }
-                    if (!$sama) {
-                        $table[] =[
-                            'coa_id' => $ar->coa_id,
-                            'coa'    => $ar->coa->coa,
-                            'nilai'  => $ar->nilai,
-                            'jumlah' => 1,
-                            'jurnalable_id' => [
-                                 $rc->jurnalable_id
-                            ]
-
-                        ]; 
-                    }
-                } else if ($ar->debit == 1 && $ar->coa_id != 110000 ) {
-                        break;
-                }
-            }
-        }
+        $table = $this->table();
         $all_id = [];
 
 
@@ -445,6 +404,8 @@ class PengeluaransController extends Controller
         return view('pengeluarans.notaz', compact('checkouts','transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id'));
     }
     public function notaz_post(){
+        $table = $this->table();
+        //return $table;
 
         $last_chekcout = CheckoutKasir::latest()->first();
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
@@ -516,20 +477,22 @@ class PengeluaransController extends Controller
             $jurnal->save();
         }
     
-        foreach ($transaksis as $transaksi) {
+
+        foreach ($table as $transaksi) {
             $detail = new CheckoutDetail; 
-            $detail->jenis_tarif_id = $transaksi->jenis_tarif_id;
-            $detail->jumlah = $transaksi->jumlah;
+            $detail->coa_id = $transaksi['coa_id'];
+            $detail->jumlah = $transaksi['jumlah'];
+            $detail->nilai = $transaksi['nilai'];
             $detail->checkout_kasir_id = $new_z->id;
             $detail->save();
         }
         //tambah semua komponen yang masuk kas, retrieve semua last id nya
         $pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
-        return redirect('pengeluarans/nota_z')->withPesan($pesan);
+        return redirect('pengeluarans/nota_z')->withPesan($pesan)->withPrint($new_z->id);
     }
 
     public function erce(){
-        $modals = Modal::paginate(20);
+        $modals = Modal::latest()->paginate(20);
         $sumberUangList = [
             null => '-pilih-',
             301000 => 'Modal',
@@ -542,6 +505,7 @@ class PengeluaransController extends Controller
         $modal = new Modal;
         $modal->coa_kas_id = Input::get('sumber_uang');
         $modal->modal = Input::get('kas_masuk');
+        $modal->staf_id = Input::get('staf_id');
         $modal->save();
         
         $jurnal                  = new JurnalUmum;
@@ -576,7 +540,8 @@ class PengeluaransController extends Controller
             $jurnal->save();
         }
         $pesan = Yoga::suksesFlash('Modal senilai <strong><span class="uang">' . $modal->modal. '</span></strong> telah <strong>BERHASIL</strong> ditambahkan dengan sumber modal dari <strong>'. $jurnal->coa->coa .'</strong>');
-        return redirect('pengeluarans/rc')->withpesan($pesan);
+        return redirect('pengeluarans/rc')->withpesan($pesan)->withPrint($modal->id);
+
     }
 
     public function show_checkout($id){
@@ -668,7 +633,6 @@ class PengeluaransController extends Controller
            $data .=  'total_bonus_sudah_dibayar = ' . $total_bonus_sudah_dibayar . '<br />';
            $data .=  'sisa_hutang_bonus = ' . $sisa_hutang_bonus . '<br />';
            $data .=  'bonus = ' . $bonus . '<br />';
-           return $data;
 
        $bg = new BayarGaji;
        $bg->staf_id = $staf_id;
@@ -681,7 +645,6 @@ class PengeluaransController extends Controller
        $confirm = $bg->save();
 
        if ($confirm) {
-
            if ($gaji_pokok > 0) {
                 $jurnal                  = new JurnalUmum;
                 $jurnal->jurnalable_id   = $bg->id;
@@ -691,7 +654,6 @@ class PengeluaransController extends Controller
                 $jurnal->nilai           = $gaji_pokok;
                 $jurnal->save();
            }
-
            //return $jus;
            // Hitung hutang kepada asisten dalam satu bulan, jika hutangnya masih lebih banyak lebih dari bonus dari pada yang sudah dibayarkan, maka jurnal masuk semua ke hutang
            if ($sisa_hutang_bonus >= $bonus) {
@@ -719,7 +681,7 @@ class PengeluaransController extends Controller
                     $jurnal                  = new JurnalUmum;
                     $jurnal->jurnalable_id   = $bg->id;
                     $jurnal->jurnalable_type = 'App\BayarGaji';
-                    $jurnal->coa_id          = 50202;
+                    $jurnal->coa_id          = 50205;
                     $jurnal->debit           = 1;
                     $jurnal->nilai           = $beban_produksi_hutang_asisten;
                     $jurnal->save();
@@ -736,10 +698,10 @@ class PengeluaransController extends Controller
                 $jurnal->save();
            }
                         
-           $pesan = Yoga::suksesFlash('Pembayaran Gaji kepada <strong>' . Staf::find($staf_id)->nama . '</strong> sebesar <strong class="uang">' . $gaji_pokok + $bonus . '</strong> telah <strong>BERHASIL</strong>' );
+           $pesan = Yoga::suksesFlash('Pembayaran Gaji kepada <strong>' . Staf::find($staf_id)->nama . '</strong> sebesar <strong class="uang">' . ( $gaji_pokok + $bonus ) . '</strong> telah <strong>BERHASIL</strong>' );
                return redirect('pengeluarans/bayar_gaji_karyawan')
                             ->withPesan($pesan)
-                            ->withPring($bg->id);
+                            ->withPrint($bg->id);
        }else {
            $pesan = Yoga::gagalFlash('Pembayaran Gaji kepada <strong>' . Staf::find($staf_id)->nama . '</strong> sebesar <strong class="uang">' . $gaji_pokok + $bonus . '</strong> telah <strong>GAGAL</strong>' );
                return redirect('pengeluarans/bayar_gaji_karyawan')
@@ -748,6 +710,56 @@ class PengeluaransController extends Controller
 
 
    }
+    private function table(){
+        $checkout = CheckoutKasir::latest()->first();
+        $jurnal_umum_id = $checkout->jurnal_umum_id;
+        $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
+        $rinci = DB::select($query);
+        $table = [];
+        foreach ($rinci as $rc) {
+            $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
+            $valid = false;
+            foreach ($arrs as $key => $ar) {
+                if ( $key > 0 && $arrs[$key-1]->coa_id == 110000 && $arrs[$key-1]->debit == 1 ){
+                    $valid = true;
+                }
+                if ($valid && $ar->debit == 0) {
+                    $sama = false;
+                    foreach ($table as $k=> $tab) {
+                        if( $tab['coa_id'] == $ar->coa_id){
+                            $table[$k]['nilai'] = $tab['nilai'] + $ar->nilai;
+                            $table[$k]['jumlah'] = $tab['jumlah'] + 1;
+                            $sama = true;
+                            $id_sama = false;
+                            foreach ($tab['jurnalable_id'] as $jurnl) {
+                                if ($jurnl == $rc->jurnalable_id) {
+                                    $id_sama = true;
+                                }
+                            }
+                            if (!$id_sama) {
+                                $table[$k]['jurnalable_id'][] = $rc->jurnalable_id;
+                            }
+                        }
+                    }
+                    if (!$sama) {
+                        $table[] =[
+                            'coa_id' => $ar->coa_id,
+                            'coa'    => $ar->coa->coa,
+                            'nilai'  => $ar->nilai,
+                            'jumlah' => 1,
+                            'jurnalable_id' => [
+                                 $rc->jurnalable_id
+                            ]
+
+                        ]; 
+                    }
+                } else if ($ar->debit == 1 && $ar->coa_id != 110000 ) {
+                        break;
+                }
+            }
+        }
+        return $table;
+    }
     
     
 

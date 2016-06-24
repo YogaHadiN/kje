@@ -11,6 +11,9 @@ class BayarDokter extends Model
     public function staf(){
          return $this->belongsTo('App\Staf');
     }
+    public function petugas(){
+         return $this->belongsTo('App\Staf', 'petugas_id');
+    }
     
     protected $morphClass = 'App\BayarDokter';
     public function jurnals(){

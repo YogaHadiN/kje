@@ -16,6 +16,13 @@ class CheckoutKasir extends Model
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }
+    public function checkoutDetail(){
+         return $this->hasMany('App\CheckoutDetail');
+    }
+    
+    public function jenisTarif(){
+         return $this->belongsTo('App\JenisTarif');
+    }
 
     
     public function getKetjurnalAttribute(){

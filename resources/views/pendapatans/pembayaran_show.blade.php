@@ -32,6 +32,10 @@ Klinik Jati Elok | Laporan Pembayaran
                     {!! Form::text('asuransi_id' , $asuransi_id, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
+                  {!! Form::label('staf_id', 'Petugas') !!}
+                  {!! Form::select('staf_id', App\Classes\Yoga::stafList() , null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id'=>'staf_id']) !!}
+                </div>
+                <div class="form-group">
                   {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
                   {!! Form::select('coa_id', $kasList, null, ['class' => 'form-control rq', 'id'=>'kasList']) !!}
                 </div>
@@ -278,7 +282,8 @@ function resetAll(){
 }
 
 function submitPage(){
-    if(validatePass() && $('#piutang').val() > 0 ){
+
+    if(validatePass() && $('#piutang').val() > 0 && $('#staf_id').val() != '' ){
          $('#submit').click();
     } else if($('#piutang').val() < 1 ){
         alert('Nilai yang dibayarkan harus lebih besar dari 0');

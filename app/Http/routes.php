@@ -208,7 +208,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('create/raks/{id}', 'CustomController@create_rak');
 			Route::get('mereks/buyhistory/{id}', 'CustomController@buyhistory');
 
-			//membuat merek baru berdasarkan merek_id
+			//membuat merek baru berdasyararkan merek_id
 			Route::get('create/mereks/{id}', 'CustomController@create_merek');
 
 			
@@ -413,6 +413,15 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('pdfs/penjualan/{nota_jual_id}', 'PdfsController@penjualan');
 			Route::get('pdfs/pendapatan/{nota_jual_id}', 'PdfsController@pendapatan');
 			Route::get('pdfs/pembayaran_asuransi/{pembayaran_asuransi_id}', 'PdfsController@pembayaran_asuransi');
+			Route::get('pdfs/notaz/{checkout_kasir_id}', 'PdfsController@notaz');
+			Route::get('pdfs/rc/{modal_id}', 'PdfsController@rc');
+			Route::get('pdfs/bayar_gaji_karyawan/{bayar_gaji_id}', 'PdfsController@bayar_gaji_karyawan');
+			Route::get('pdfs/ns/{no_sale_id}', 'PdfsController@ns');
+
+
+
+			Route::get('no_sales', 'NoSalesController@index');
+			Route::post('no_sales', 'NoSalesController@store');
 
 			Route::get('stokopnames', 'StokOpnamesController@index');
 			Route::post('stokopnames', 'StokOpnamesController@store');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" moznomarginboxes mozdisallowselectionprint>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
@@ -7,64 +7,71 @@
         
         
         <style type="text/css" media="all">
-            table.table-center td{
-                text-align : center;
-            }
-                        
-            *{
-                    padding:0.5px;
-                    margin:0.5px;
-            }
-            table{
-                width:100%;
-            }
+        
+*{
+        padding:2px;
+        margin:2px;
+}
+.font-small {
+    font-size:7;
+}
+.tanda-tangan td{
+    padding:23px
+}
+table{
+    width:100%;
+}
 
-            h1{
-                font-size:7;
-            }
-            h5, h3, h1{
-                font-weight:normal;
-            }
+h1{
+    font-weight:normal;
+}
+h5{
+    font-weight:normal;
+}
 
-            body{
-                font-family: Trebuchet, Arial, sans-serif;
-                font-size:2;
-            }
-            tfoot {
-                 padding-top:4px;
-            }
-            .big{
-                font-size:7px;
-                    font-weight:bold;
-            }
-            .text-right {
-                text-align:right;
-            }
+body{
+    font-family: Trebuchet, Arial, sans-serif;
+    font-size:9;
+}
+tfoot {
+     padding-top:4px;
+}
+.big{
+    font-size:7px;
+        font-weight:bold;
+}
+.text-right {
+    text-align:right;
+}
 
-            .text-center {
-                text-align:center;
-            }
-            hr {
-                border: none;
-                height: 0.01mm;
-                /* Set the hr color */
-                color: #333; /* old IE */
-                background-color: #333; /* Modern Browsers */
-            }
-            .footer{
-                padding:5px;
-            }
-            .border-bottom{
-                border-bottom: 0.3px solid black;
-            }
-            .border-top{
-                border-top: 0.3px solid black;
-            }
-            .tanda-tangan td{
-                 padding-top:7px;
-            }
-                        
-                    
+.text-center {
+    text-align:center;
+}
+hr {
+    border: none;
+    height: 0.01mm;
+    /* Set the hr color */
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+}
+                            .footer{
+                                padding:5px;
+                            }
+                            .border-bottom{
+                                border-bottom: 0.3px solid black;
+                            }
+                            .border-top{
+                                border-top: 0.3px solid black;
+                            }
+                            .small-padding{
+                                 padding:12px;
+                            }
+            
+                            .big{
+                                font-size:15;
+                                font-weight:bold;
+                            }
+        
         </style>
     </head>
     <body>
@@ -72,10 +79,17 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box title-print text-center border-bottom">
                     <h1>Klinik Jati Elok</h1>
-                    <h3>
+                    <h5>
                         Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten <br>
                         Telp : 021 5977529  
-                    </h3>
+                    </h5>
+                    <h2 class="text-center border-top">
+                        @if ($nota_jual->tipe_jual_id == 1)
+                            Penjualan
+                        @else
+                            Pendapatan Lain
+                        @endif
+                    </h2>
                 </div>
                <div class="box border-bottom">
                    <table class="table table-condensed">
@@ -140,7 +154,7 @@
                                     <th>Ket</th>
                                 </tr>
                             </thead>
-                            <tbody id="daftarBelanja">
+                            <tbody id="daftarBelanja" class="font-small">
                                 @foreach ($nota_jual->pendapatan as $pemb)
                                     <tr>
                                         <td>{{ $pemb->pendapatan }}</td>
@@ -152,7 +166,7 @@
                             <tfoot class="big">
                                 <tr>
                                     <td>Total</td>
-                                    <td id="totalBiaya" class="text-right">{{ App\Classes\Yoga::buatrp( $total ) }}</td>
+                                    <td id="totalBiaya" colspan="2" class="text-right">{{ App\Classes\Yoga::buatrp( $total ) }}</td>
                                 </tr>    
                             </tfoot>
                         </table>
@@ -171,7 +185,7 @@
                @elseif ($nota_jual->tipe_jual_id == 2)
                 <div class="text-center">
                     <table class="table-center">
-                        <tbody>
+                        <tbody class="text-center">
                             <tr class="border-top">
                                 <td>Diserahkan Oleh</td>
                                 <td>Diterima Oleh</td>
@@ -181,7 +195,7 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>( ............. )</td>
+                                <td>( .................... )</td>
                                 <td>{{ $nota_jual->staf->nama }}</td>
                             </tr>
                         </tbody>

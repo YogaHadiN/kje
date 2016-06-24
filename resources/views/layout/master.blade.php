@@ -86,6 +86,12 @@
                             <li>{!! HTML::link('perujuks', 'Perujuk')!!}</li>
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
+                            <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data Transaksi</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pembelians', 'Pembelian ')!!}</li>
                             <li>{!! HTML::link('fakturbelanjas/cari', 'Cari Faktur Belanja ')!!}</li>
                             <li>{!! HTML::link('nota_juals', 'Cari Nota Jual ')!!}</li>
@@ -132,12 +138,6 @@
                     <li>
                         <a href="{{ url('fakturbelanjas') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Belanja </span> {!! App\Classes\Yoga::jumlahDisini(App\FakturBelanja::where('submit', '0')->count())!!} </a>
                     </li>
-                    <li>
-                        <a href="{{ url('diagnosa/tidakdirujuk') }}"><i class="fa fa-flask"></i> <span class="nav-label">Tidak Dirujuk </span> </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('pendapatans/create') }}"><i class="fa fa-flask"></i> <span class="nav-label">Pendapatan Lain </span> </a>
-                    </li>
                      <li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Laporan Keuangan</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -152,13 +152,14 @@
                      <li>
                         <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">Transaksi Kasir</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
-                            <li>{!! HTML::link('pengeluarans/bayar_gaji_karyawan', 'Bayar Gaji Karyawan')!!}</li>
-                            <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
-                            <li>{!! HTML::link('pendapatans/pembayaran/asuransi', 'Pembayaran Asuransi')!!}</li>
+                            <li>{!! HTML::link('no_sales', 'No Sales')!!}</li>
                             <li>{!! HTML::link('suppliers/belanja_obat', 'Belanja Obat')!!}</li>
                             <li>{!! HTML::link('suppliers/belanja_bukan_obat', 'Belanja Bukan Obat')!!}</li>
+                            <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
+                            <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
+                            <li>{!! HTML::link('pendapatans/pembayaran/asuransi', 'Pembayaran Asuransi')!!}</li>
                             <li>{!! HTML::link('pengeluarans/bayardoker', 'Bayar Dokter')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/bayar_gaji_karyawan', 'Bayar Gaji Karyawan')!!}</li>
                             <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
                             <li>{!! HTML::link('pengeluarans/rc', 'RC')!!}</li>
                         </ul>

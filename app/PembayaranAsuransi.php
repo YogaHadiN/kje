@@ -11,6 +11,9 @@ class PembayaranAsuransi extends Model
     public function asuransi(){
          return $this->belongsTo('App\Asuransi');
     }
+    public function staf(){
+         return $this->belongsTo('App\Staf');
+    }
     public function coa(){
          return $this->belongsTo('App\Coa', 'kas_coa_id');
     }

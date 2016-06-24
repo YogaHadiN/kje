@@ -3,15 +3,24 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Struk {{ $periksa->id }} | {{ $periksa->pasien->nama }}</title>
+        <title>Nota Z</title>
         <style type="text/css" media="all">
         
 *{
         padding:2px;
         margin:2px;
 }
+table {
+    border-collapse:collapse;
+}
+table.bordered td{
+    border: 1px solid #ddd;
+}
 .tanda-tangan td{
     padding:23px
+}
+.font-small{
+    font-size:7;
 }
 table{
     width:100%;
@@ -77,95 +86,89 @@ hr {
                         Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten <br>
                         Telp : 021 5977529  
                     </h5>
-                    <h2 class="text-center border-top">Pemeriksaan Dokter</h2>
+                    <h3 class="border-top">Nota Z</h3>
                 </div>
             <div class="box border-bottom">
                 <table>
                     <tbody>
                         <tr>
-                            <td>Nama Pasien</td>
-                            <td>:</td>
-                            <td>{{ $periksa->pasien->nama }}</td>
-                        </tr>
-                        <tr>
                             <td>Tanggal</td>
                             <td>:</td>
-                            <td>{{App\Classes\Yoga::updateDatePrep(  $periksa->tanggal  )}}</td>
+                            <td>{{ $notaz->created_at->format('d-m-Y') }}</td>
                         </tr>
                         <tr>
-                            <td>Jam Datang</td>
+                            <td>Jam</td>
                             <td>:</td>
-                            <td>{{ $periksa->jam }}</td>
+                            <td>{{ $notaz->created_at->format('H:i:s') }}</td>
                         </tr>
                         <tr>
-                            <td>Nomor Kuitansi</td>
+                            <td>Uang di Kasit</td>
                             <td>:</td>
-                            <td>{{ $periksa->id }}
-                        </tr> 
+                            <td>{{ App\Classes\Yoga::buatrp( $notaz->uang_di_kasir ) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Uang Masuk</td>
+                            <td>:</td>
+                            <td>{{ App\Classes\Yoga::buatrp( $notaz->uang_masuk ) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Uang Keluar</td>
+                            <td>:</td>
+                            <td>{{ App\Classes\Yoga::buatrp( $notaz->uang_keluar ) }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div>
-                <table class="table table-condensed">
-                    <tbody id="transaksi-print">
-                        @foreach ($trxa as $trx)
-                            @if ($trx['jenis_tarif_id'] <147 || $trx['jenis_tarif_id'] > 150)
-                                <tr>
-                                    <td>{{ $trx['jenis_tarif'] }}</td>
-                                    <td>:</td>
-                                    <td class="text-right">{{ $trx['biaya'] }}</td>
-                                </tr>
-                            @endif
+                <table class="table table-condensed bordered">
+                    <thead>
+                        <tr>
+                            <td colspan="2">Jenis Tarif</td>
+                            <td>Jumlah</td>
+                            <td>Biaya</td>
+                        </tr>
+                    </thead>
+                    <tbody id="transaksi-print" class="font-small">
+                        @foreach ($notaz->checkoutDetail as $trx)
+                            <tr>
+                                <td>{{ $trx->coa->coa }}</td>
+                                <td>:</td>
+                                <td>{{ $trx->jumlah }}</td>
+                                <td>{{ App\Classes\Yoga::buatrp( $trx->nilai ) }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr class="border-top big">
-                            <td class="">Total</td>
-                            <td>:</td>
-                            <td class="uang text-right" id="biaya-print">{{ $total_biaya }}</td>
+                            <td class="">Total :</td>
+                            <td colspan="3">{{ App\Classes\Yoga::buatrp($total_nilai) }}</td>
                         </tr>
-                        @if($periksa->asuransi_id != 0)
-                            <tr>
-                                <td nowrap>
-                                    Dibayar Asuransi
-                                </td>
-                                <td>:</td>
-                                <td class="uang text-right" id="dibayarAsuransi-print">
-                                    {{ $dibayar_asuransi }}
-
-                                </td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <td>
-                                Pembayaran
-                            </td>
-                            <td>:</td>
-                            <td class="uang text-right" id="pembayaran-print">
-                                {{App\Classes\Yoga::buatrp(  $periksa->pembayaran  )}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Kembalian
-                            </td>
-                            <td>:</td>
-                            <td class="uang text-right" id="kembalian-print">
-                                {{App\Classes\Yoga::buatrp(  $periksa->kembalian  )}}
-                            </td>
-                        </tr>
-
                     </tfoot>
                 </table>
-                <div class="text-center footer box border-top">
-                    Semoga Lekas Sembuh
+                <div class="text-center">
+                    <table class="table-center">
+                        <tbody class="text-center">
+                            <tr class="border-top">
+                                <td>Dikosongkan Oleh</td>
+                                <td>Saksi Oleh</td>
+                            </tr>
+                            <tr class="tanda-tangan">
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>( .................... )</td>
+                                <td>( .................... )</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 .
             </div>
         </div>
         <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
         <script type="text/javascript" charset="utf-8">
-            window.print();
         </script>
     </body>
 </html>
+
