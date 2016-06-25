@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Http\Controllers;
 
 use Input;
@@ -159,12 +157,12 @@ class PdfsController extends Controller
         $pembayaran = Yoga::buatrp( $pembayaran );
         $kembalian = Yoga::buatrp( $kembalian );
         //return dd( $trxa );
-        $pdf = PDF::loadView('pdfs.struk', compact('trxa', 'periksa', 'total_biaya', 'dibayar_asuransi', 'dibayar_pasien', 'pembayaran', 'kembalian'))->setPaper(array(0, 0, 200, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.struk', compact('trxa', 'periksa', 'total_biaya', 'dibayar_asuransi', 'dibayar_pasien', 'pembayaran', 'kembalian'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
 	}
     public function jasa_dokter($bayar_dokter_id){
         $bayar = BayarDokter::find($bayar_dokter_id);
-        $pdf = PDF::loadView('pdfs.jasa_dokter', compact('bayar'))->setPaper(array(0, 0, 200, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.jasa_dokter', compact('bayar'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
     }
     
@@ -180,7 +178,7 @@ class PdfsController extends Controller
                 $total += $pemb->harga_satuan * $pemb->jumlah;
             }
         }
-        $pdf = PDF::loadView('pdfs.pembelian', compact('fakturbelanja', 'total'))->setPaper(array(0, 0, 200, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.pembelian', compact('fakturbelanja', 'total'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
     }
     public function penjualan($nota_jual_id){
@@ -196,20 +194,20 @@ class PdfsController extends Controller
             }
         }
 
-        $pdf = PDF::loadView('pdfs.penjualan', compact('nota_jual', 'total'))->setPaper(array(0, 0, 200, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.penjualan', compact('nota_jual', 'total'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
 
 
     }
     public function pembayaran_asuransi($pembayaran_asuransi_id){
         $pembayaran = PembayaranAsuransi::find($pembayaran_asuransi_id);
-        $pdf = PDF::loadView('pdfs.pembayaran_asuransi', compact('pembayaran'))->setPaper(array(0, 0, 200, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.pembayaran_asuransi', compact('pembayaran'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
     }
     
     public function bayar_gaji_karyawan($bayar_gaji_id){
         $bayar = BayarGaji::find($bayar_gaji_id);
-        $pdf = PDF::loadView('pdfs.bayar_gaji_karyawan', compact('bayar'))->setPaper(array(0, 0, 200, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.bayar_gaji_karyawan', compact('bayar'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
     }
     public function notaz($checkout_kasir_id){
@@ -233,20 +231,20 @@ class PdfsController extends Controller
         foreach ($notaz->checkoutDetail as $cd) {
             $total_nilai += $cd->nilai;
         }
-        $pdf = PDF::loadView('pdfs.notaz', compact('notaz', 'total_nilai'))->setPaper(array(0, 0, 200, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.notaz', compact('notaz', 'total_nilai'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
     }
     public function rc($modal_id){
          $modal = Modal::find($modal_id);
 
-        $pdf = pdf::loadview('pdfs.rc', compact('modal'))->setpaper(array(0, 0, 200, 810),'potrait')->setwarnings(false);
+        $pdf = pdf::loadview('pdfs.rc', compact('modal'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
         return $pdf->stream();
 
     }
     public function ns($no_sale_id){
         $nosale = NoSale::find($no_sale_id);
         
-        $pdf = pdf::loadview('pdfs.ns', compact('nosale'))->setpaper(array(0, 0, 200, 810),'potrait')->setwarnings(false);
+        $pdf = pdf::loadview('pdfs.ns', compact('nosale'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
         return $pdf->stream();
     }
     
