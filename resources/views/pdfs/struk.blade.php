@@ -5,50 +5,49 @@
         <meta name="viewport" content="width=device-width">
         <title>Struk {{ $periksa->id }} | {{ $periksa->pasien->nama }}</title>
         <style type="text/css" media="all">
-        
-*{
-        padding:2px;
-        margin:2px;
-}
-.tanda-tangan td{
-    padding:23px
-}
-table{
-    width:100%;
-}
+                *{
+                        padding:2px;
+                        margin:2px;
+                }
+                .tanda-tangan td{
+                    padding:23px
+                }
+                table{
+                    width:100%;
+                }
 
-h1{
-    font-weight:normal;
-}
-h5{
-    font-weight:normal;
-}
+                h1{
+                    font-weight:normal;
+                }
+                h5{
+                    font-weight:normal;
+                }
 
-body{
-    font-family: Trebuchet, Arial, sans-serif;
-    font-size:9;
-}
-tfoot {
-     padding-top:4px;
-}
-.big{
-    font-size:7px;
-        font-weight:bold;
-}
-.text-right {
-    text-align:right;
-}
+                body{
+                    font-family: Trebuchet, Arial, sans-serif;
+                    font-size:6;
+                }
+                tfoot {
+                     padding-top:4px;
+                }
+                .big{
+                    font-size:7px;
+                        font-weight:bold;
+                }
+                .text-right {
+                    text-align:right;
+                }
 
-.text-center {
-    text-align:center;
-}
-hr {
-    border: none;
-    height: 0.01mm;
-    /* Set the hr color */
-    color: #333; /* old IE */
-    background-color: #333; /* Modern Browsers */
-}
+                .text-center {
+                    text-align:center;
+                }
+                hr {
+                    border: none;
+                    height: 0.01mm;
+                    /* Set the hr color */
+                    color: #333; /* old IE */
+                    background-color: #333; /* Modern Browsers */
+                }
                             .footer{
                                 padding:5px;
                             }

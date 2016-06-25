@@ -24,7 +24,7 @@
 
             body{
                 font-family: Trebuchet, Arial, sans-serif;
-                font-size:2;
+                font-size:6;
             }
             tfoot {
                  padding-top:4px;
