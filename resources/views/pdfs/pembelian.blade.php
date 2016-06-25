@@ -35,7 +35,7 @@ h5{
 
 body{
     font-family: Trebuchet, Arial, sans-serif;
-    font-size:9;
+    font-size:6;
 }
 tfoot {
      padding-top:4px;

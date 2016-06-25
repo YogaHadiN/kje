@@ -20,7 +20,7 @@ table.bordered td{
     padding:23px
 }
 .font-small{
-    font-size:7;
+    font-size:5;
 }
 table{
     width:100%;
@@ -35,14 +35,10 @@ h5{
 
 body{
     font-family: Trebuchet, Arial, sans-serif;
-    font-size:9;
+    font-size:6;
 }
 tfoot {
      padding-top:4px;
-}
-.big{
-    font-size:7px;
-        font-weight:bold;
 }
 .text-right {
     text-align:right;
@@ -72,7 +68,7 @@ hr {
                             }
             
                             .big{
-                                font-size:15;
+                                font-size:10;
                                 font-weight:bold;
                             }
         
