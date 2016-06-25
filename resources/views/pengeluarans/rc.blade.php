@@ -17,6 +17,8 @@ Klinik Jati Elok | Tambah Modal
 </ol>
 @stop
 @section('content') 
+<div id="print">
+</div>
 <div class="row">
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
         <div class="panel panel-success">

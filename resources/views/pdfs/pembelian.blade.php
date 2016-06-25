@@ -20,7 +20,7 @@
     padding:23px
 }
 .font-small {
-    font-size:7;
+    font-size:5;
 }
 table{
     width:100%;
@@ -35,7 +35,7 @@ h5{
 
 body{
     font-family: Trebuchet, Arial, sans-serif;
-    font-size:6;
+    font-size:7;
 }
 tfoot {
      padding-top:4px;
