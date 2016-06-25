@@ -15,6 +15,12 @@ Klinik Jati Elok | Laporan Gaji Dokter
 </ol>
 @stop
 @section('content') 
+@if (Session::has('print'))
+    <div id="print">
+        
+    </div>
+@endif
+    
 {!! Form::open(['url' => 'pengeluarans/bayardokter/bayar', 'method' => 'get']) !!}
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -100,6 +106,11 @@ Klinik Jati Elok | Laporan Gaji Dokter
 @stop
 @section('footer') 
 <script>
+    $(function () {
+        if( $('#print-struk').length ){
+            window.open("{{ url('pdfs/jasadokter/' . Session::get('print')) }}", '_blank');
+        }
+    });
   function dummySubmit(){
     if (validatePass()) {
       $('#submit').click();

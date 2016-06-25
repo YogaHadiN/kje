@@ -397,14 +397,17 @@ class LaporansController extends Controller
 	}
 	public function penyakit()
 	{
-		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
 		$asuransi_id 	= Input::get('asuransi_id');
+		$mulai 	= Yoga::datePrep( Input::get('mulai') );
+		$akhir 	= Yoga::datePrep( Input::get('akhir') );
 
-		$query = "SELECT i.id, i.diagnosaICD, count(p.id) as jumlah FROM periksas as p left outer join asuransis as s on s.id = p.asuransi_id left outer join pasiens as ps on ps.id = p.pasien_id left outer join diagnosas as dg on dg.id = p.diagnosa_id left outer join icd10s as i on i.id = dg.icd10_id where p.tanggal like '{$tanggal}%' AND p.asuransi_id like '{$asuransi_id}' group by i.id order by jumlah desc";
+		$query = "SELECT i.id, i.diagnosaICD, count(p.id) as jumlah FROM periksas as p left outer join asuransis as s on s.id = p.asuransi_id left outer join pasiens as ps on ps.id = p.pasien_id left outer join diagnosas as dg on dg.id = p.diagnosa_id left outer join icd10s as i on i.id = dg.icd10_id where p.tanggal >= '{$mulai}' AND p.tanggal <= '{$akhir}' AND p.asuransi_id like '{$asuransi_id}' group by i.id order by jumlah desc";
 		$tanggal = DB::select($query);
 
 		return view('laporans.penyakit')
-			->withTanggal($tanggal);
+			->withTanggal($tanggal)
+			->withMulai($mulai)
+			->withAkhir($akhir);
 	}
 
 	public function status()

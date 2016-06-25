@@ -17,7 +17,6 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
 @section('content') 
 @if ( Session::has('print') )
     <div id="print">
-        {{ Session::get('print') }}
     </div>
 @endif
 

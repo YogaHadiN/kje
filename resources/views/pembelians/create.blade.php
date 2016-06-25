@@ -292,8 +292,6 @@ Klinik Jati Elok | Entri Beli Obat
     </div>
   </div>
 </div>
-
-
 <!-- Modal Untuk Membuat Merek Baru LANJUTAN-->
 <div class="modal fade" id="newMerek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -310,7 +308,7 @@ Klinik Jati Elok | Entri Beli Obat
     </div>
   </div>
 </div>
-<button class="btn btn-info" type="button" onclick="testPrint();return false;" id="print">print</button>
+<button class="btn btn-info hide" type="button" onclick="testPrint();return false;" id="print">print</button>
 <div class="row" id="content-print">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box title-print text-center">

@@ -35,6 +35,10 @@ class PengeluaransController extends Controller
 	 *
 	 * @return Response
 	 */
+	public function __construct()
+	 {
+	     $this->middleware('super', ['only' => ['bayar_gaji_karyawan', 'nota_z']]);
+	 }
 	public function index($id)
 	{
 		$fakturbelanja = FakturBelanja::find($id);
@@ -329,10 +333,10 @@ class PengeluaransController extends Controller
                 }
             }
             $pesan = Yoga::suksesFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Berhasil diinput' );
-            return redirect('stafs')->withPesan($pesan)->withPrint($bayar->id);
+            return redirect('pengeluarans/bayardoker')->withPesan($pesan)->withPrint($bayar->id);
         } else {
             $pesan = Yoga::gagalFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Gagal diinput' );
-            return redirect('stafs')->withPesan($pesan);
+            return redirect('pengeluarans/bayardoker')->withPesan($pesan);
         }
     }
     public function bayar(){
@@ -743,6 +747,7 @@ class PengeluaransController extends Controller
                     }
                     if (!$sama) {
                         $table[] =[
+                            'id' => $ar->id,
                             'coa_id' => $ar->coa_id,
                             'coa'    => $ar->coa->coa,
                             'nilai'  => $ar->nilai,
