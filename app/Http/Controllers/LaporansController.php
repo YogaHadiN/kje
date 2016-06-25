@@ -405,7 +405,9 @@ class LaporansController extends Controller
 		$tanggal = DB::select($query);
 
 		return view('laporans.penyakit')
-			->withTanggal($tanggal);
+			->withTanggal($tanggal)
+			->withMulai($mulai)
+			->withAkhir($akhir);
 	}
 
 	public function status()

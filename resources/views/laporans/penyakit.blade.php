@@ -22,7 +22,11 @@ Klinik Jati Elok | Laporan Per Tanggal
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                       <div class="panel-heading">
-                            <h3 class="panel-title">Panel title</h3>
+                          <h3 class="panel-title">
+                              <div class="panelLeft">
+                                Periode  {{ App\Classes\Yoga::updateDatePrep( $mulai ) }} s/d {{ App\Classes\Yoga::updateDatePrep( $akhir ) }}
+                              </div>
+                          </h3>
                       </div>
                       <div class="panel-body">
                             <table class="table table-bordered table-hover DT" id="tableAsuransi">
