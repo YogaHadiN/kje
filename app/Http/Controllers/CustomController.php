@@ -376,8 +376,8 @@ class CustomController extends Controller
 					$d->id               = Yoga::customId('App\Dispensing');
 					$d->rak_id           = $bhp->merek->rak_id;
 					$d->keluar           = $bhp->jumlah;
-					$d->dispensable_id   = Input::get('periksa_id');
-					$d->dispensable_type = 'App\Periksa';
+					$d->dispensable_id   = $trx->id;
+					$d->dispensable_type = 'App\TransaksiPeriksa';
 					$d->tanggal          = Periksa::find($periksa_id)->tanggal;
 					$d->save();
 				}

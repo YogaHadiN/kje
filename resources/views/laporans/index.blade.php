@@ -375,6 +375,17 @@ Klinik Jati Elok | Home
                                             <td colspan="2"></td>
                                         </form>
                                     </tr>
+                                    <tr>
+                                        <form action="{{ url('laporans/jumlahPasien') }}" method="get">
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                            <td>Laporan Jumlah Pasien</td>
+                                             <td>
+                                                {!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+                                            </td>
+                                            <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+                                            <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
+                                        </form>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

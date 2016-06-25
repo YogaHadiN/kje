@@ -42,7 +42,7 @@ class LaporansController extends Controller
 
 		$asuransis = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::lists('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
-		$antriankasir = Periksa::where('lewat_kasir2', '0')->orWhere('lewat_kasir', '0')->get();
+		$antriankasir = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
 		$antrianbelanja = FakturBelanja::where('submit', '0')->count();
 		$nursestation = AntrianPoli::all();
 		$auth = Auth::user();
@@ -535,4 +535,23 @@ class LaporansController extends Controller
         //return $periksas;
         return view('laporans.kb', compact('periksas_diagnosa_kb', 'group_by_stafs'));
     }
+    public function jumlahPasien(){
+        //$periksas = Periksa::where('asuransi_id', 'like', $asuransi_id )
+                            //->where('created_at', '>=', $mulai)
+                            //->where('created_at', '<=', $akhir)
+                            //->get();
+        
+        $asuransi_id = Input::get('asuransi_id');
+        $akhir = Yoga::datePrep( Input::get('akhir') );
+        $mulai = Yoga::datePrep( Input::get('mulai') );
+        $query = "SELECT asu.nama as nama_asuransi, count(*) jumlah FROM periksas as px join asuransis as asu on asu.id=px.asuransi_id where asuransi_id like '{$asuransi_id}' and px.created_at >= '{$mulai}' and px.created_at <= '{$akhir}' GROUP BY px.asuransi_id order by jumlah desc;";
+        $jumlah = DB::select($query);
+        $total = 0;
+        foreach ($jumlah as $hml) {
+            $total += $hml->jumlah;
+        }
+        return view('laporans.jumlah', compact('jumlah', 'mulai', 'akhir', 'total'));
+
+    }
+    
 }
