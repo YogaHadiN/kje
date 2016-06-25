@@ -5,55 +5,54 @@
         <meta name="viewport" content="width=device-width">
         <title>Nota Z</title>
         <style type="text/css" media="all">
-        
-*{
-        padding:2px;
-        margin:2px;
-}
-table {
-    border-collapse:collapse;
-}
-table.bordered td{
-    border: 1px solid #ddd;
-}
-.tanda-tangan td{
-    padding:23px
-}
-.font-small{
-    font-size:5;
-}
-table{
-    width:100%;
-}
+                *{
+                        padding:2px;
+                        margin:2px;
+                }
+                table {
+                    border-collapse:collapse;
+                }
+                table.bordered td{
+                    border: 1px solid #ddd;
+                }
+                .tanda-tangan td{
+                    padding:23px
+                }
+                .font-small{
+                    font-size:5;
+                }
+                table{
+                    width:100%;
+                }
 
-h1{
-    font-weight:normal;
-}
-h5{
-    font-weight:normal;
-}
+                h1{
+                    font-weight:normal;
+                }
+                h5{
+                    font-weight:normal;
+                }
 
-body{
-    font-family: Trebuchet, Arial, sans-serif;
-    font-size:6;
-}
-tfoot {
-     padding-top:4px;
-}
-.text-right {
-    text-align:right;
-}
+                body{
+                    font-family: Trebuchet, Arial, sans-serif;
+                    font-size:6;
+                }
+                tfoot {
+                     padding-top:4px;
+                }
+                .text-right {
+                    text-align:right;
+                }
 
-.text-center {
-    text-align:center;
-}
-hr {
-    border: none;
-    height: 0.01mm;
-    /* Set the hr color */
-    color: #333; /* old IE */
-    background-color: #333; /* Modern Browsers */
-}
+                .text-center {
+                    text-align:center;
+                }
+                hr {
+                    border: none;
+                    height: 0.01mm;
+                    /* Set the hr color */
+                    color: #333; /* old IE */
+                    background-color: #333; /* Modern Browsers */
+                }
                             .footer{
                                 padding:5px;
                             }
@@ -134,12 +133,6 @@ hr {
                             </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr class="border-top big">
-                            <td class="">Total :</td>
-                            <td colspan="3" class="text-right">{{ App\Classes\Yoga::buatrp($total_nilai) }}</td>
-                        </tr>
-                    </tfoot>
                 </table>
                 <div class="text-center">
                     <table class="table-center">
