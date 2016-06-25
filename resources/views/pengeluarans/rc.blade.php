@@ -38,7 +38,7 @@ Klinik Jati Elok | Tambah Modal
                </div>
                 <div class="form-group">
                  {!! Form::label('staf_id', 'Petugas Penginput') !!}
-                 {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' =>'true']) !!}
+                 {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' =>'true']) !!}
                </div>
                <div class="form-group">
                    <button class="btn btn-success" onclick="dummySubmit();return false;" type="button">Submit</button>

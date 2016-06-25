@@ -333,9 +333,9 @@ function cleanUang(uang){
 function validatePass(){
     var pass = true;
     var string = '';
-    $('.rq').each(function(index, el) {
+    $('.rq:not(div)').each(function(index, el) {
       if ($(this).val() == '') {
-        string += $(this).attr('name') + ', ';
+        string += $(this).closest('.form-group').find('label').html() + ', ';
         validasi1($(this), 'Harus Diisi!!');
         pass = false;
       }

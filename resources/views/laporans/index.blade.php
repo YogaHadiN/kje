@@ -231,11 +231,11 @@ Klinik Jati Elok | Home
                                         <form action="{{ url('laporans/penyakit') }}" method="get">
                                             <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
                                             <td>Laporan REKAPITULASI PENYAKIT</td>
-                                            <td><input type="text" class="form-control bulanTahun" value="{!!date('m-Y')!!}"  name="bulanTahun"/></td>
-                                             <td colspan="2">
+                                             <td>
                                                 {!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-                                               
                                             </td>
+                                            <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+                                            <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
                                         </form>
                                     </tr>       
                                     <tr>
