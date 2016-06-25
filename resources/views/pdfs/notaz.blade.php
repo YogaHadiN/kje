@@ -102,7 +102,7 @@ hr {
                             <td>{{ $notaz->created_at->format('H:i:s') }}</td>
                         </tr>
                         <tr>
-                            <td>Uang di Kasit</td>
+                            <td>Uang di Kasir</td>
                             <td>:</td>
                             <td>{{ App\Classes\Yoga::buatrp( $notaz->uang_di_kasir ) }}</td>
                         </tr>
@@ -133,15 +133,15 @@ hr {
                             <tr>
                                 <td>{{ $trx->coa->coa }}</td>
                                 <td>:</td>
-                                <td>{{ $trx->jumlah }}</td>
-                                <td>{{ App\Classes\Yoga::buatrp( $trx->nilai ) }}</td>
+                                <td class="text-right">{{ $trx->jumlah }}</td>
+                                <td class="text-right">{{ App\Classes\Yoga::buatrp( $trx->nilai ) }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr class="border-top big">
                             <td class="">Total :</td>
-                            <td colspan="3">{{ App\Classes\Yoga::buatrp($total_nilai) }}</td>
+                            <td colspan="3" class="text-right">{{ App\Classes\Yoga::buatrp($total_nilai) }}</td>
                         </tr>
                     </tfoot>
                 </table>

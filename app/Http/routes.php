@@ -404,6 +404,7 @@ Route::get('sesuaikan/cek', function(){
             Route::get('laporans/gigi', 'LaporansController@gigiBulanan');
             Route::get('laporans/anc', 'LaporansController@anc');
             Route::get('laporans/kb', 'LaporansController@kb');
+            Route::get('laporans/jumlahPasien', 'LaporansController@jumlahPasien');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');

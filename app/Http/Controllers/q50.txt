@@ -21,3 +21,10 @@ create table `piutang_dibayar` (
     `created_at` timestamp default 0 not null,
     `updated_at` timestamp default 0 not null
 ) default character set utf8 collate utf8_unicode_ci;
+
+
+select count(*) as jumlah from periksas where asuransi_id=8 and created_at >= '2015-07-01'; //ctc 150 ribu
+select count(*) as jumlah from periksas where asuransi_id='10' and created_at >= '2015-07-01'; //cibadak feed mill 300 ribu
+select count(*) as jumlah from periksas where asuransi_id='151222001' and created_at >= '2015-07-01'; // cibadak broiler 300 ribu
+select count(*) as jumlah from periksas where asuransi_id='151117001' and created_at >= '2015-07-01'; // sejin 620 ribu
+
