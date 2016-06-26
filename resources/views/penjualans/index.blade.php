@@ -86,7 +86,15 @@ Klinik Jati Elok | Entri Jual Obat
                 <a href="" class="btn btn-lg btn-block btn-danger">Cancel</a>
               </div>
             </div>
-            {!! Form::textarea('tempBeli', null, ['class' => 'form-control hide', 'id' => 'tempBeli'])!!}
+            <div class="hide form-group @if($errors->has('tempBeli')) has-error @endif">
+                {!! Form::label('tempBeli', 'Barang Belanjaan') !!}
+                {!! Form::textarea('tempBeli' , null, ['class' => 'form-control rq', 'id' => 'tempBeli']) !!}
+                @if($errors->has('tempBeli'))
+                  <code>
+                      {{ $errors->first('tempBeli') }}
+                  </code>
+                @endif
+            </div>
           {!! Form::close()!!}
       </div>
 </div>
@@ -287,10 +295,7 @@ Klinik Jati Elok | Entri Jual Obat
     }
 
     function dummySubmit(){
-//        if(validatePass()){
-//          $('#submit').click();
-//        }
-        if(true){
+        if(validatePass()){
           $('#submit').click();
         }
     }

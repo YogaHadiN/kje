@@ -1,5 +1,13 @@
 // Custom script
 $(document).ready(function () {
+   $('input, select, textarea').on('keyup change', function(){
+      $(this).parent()
+      .removeClass('has-error')
+      .find('code')
+      .fadeOut('1000', function() {
+          $(this).remove();
+      });
+   })   
     // MetsiMenu
     $('#side-menu').metisMenu();
 
