@@ -35,20 +35,28 @@ Klinik Jati Elok | Laporan Pembayaran
                   {!! Form::label('staf_id', 'Petugas') !!}
                   {!! Form::select('staf_id', App\Classes\Yoga::stafList() , null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id'=>'staf_id']) !!}
                 </div>
-                <div class="form-group">
-                  {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
-                  {!! Form::select('coa_id', $kasList, null, ['class' => 'form-control rq', 'id'=>'kasList']) !!}
-                </div>
+                @if (\Auth::id() == 28)
+                     <div class="form-group">
+                      {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
+                      {!! Form::select('coa_id', $kasList, null, ['class' => 'form-control rq', 'id'=>'kasList']) !!}
+                    </div>   
+                @else
+                    <div class="form-group">
+                      {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
+                      {!! Form::select('coa_id', $kasList, 110000, ['class' => 'form-control rq', 'id'=>'kasList', 'readonly' => 'readonly']) !!}
+                    </div>
+                @endif
+                
                 <div class="form-group">
                   {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar') !!}
                   {!! Form::text('tanggal_dibayar' , null, ['class' => 'form-control tanggal rq']) !!}
                 </div>
-                <div class="form-group hide">
-                  {!! Form::label('dibayar', 'Piutang') !!}
+                <div class="form-group">
+                  {!! Form::label('dibayar', 'Dibayar Sebesar') !!}
                   {!! Form::text('dibayar' , null, ['class' => 'form-control', 'id'=>'piutang']) !!}
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Dibayar sebesar <span class="uang" id="dibayar_sebesar">0</span></button>
+                    <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}
                 </div>
                 {!! Form::close() !!}

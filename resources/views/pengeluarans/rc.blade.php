@@ -17,8 +17,10 @@ Klinik Jati Elok | Tambah Modal
 </ol>
 @stop
 @section('content') 
-<div id="print">
-</div>
+@if(Session::has('print'))
+    <div id="print">
+    </div>
+@endif
 <div class="row">
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
         <div class="panel panel-success">
@@ -34,10 +36,18 @@ Klinik Jati Elok | Tambah Modal
                            {!! Form::text('kas_masuk' , null, ['class' => 'form-control rq']) !!}
                      </div>
                </div>
-               <div class="form-group">
-                 {!! Form::label('sumber_uang', 'Sumber Uang') !!}
-                 {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
-               </div>
+                @if (\Auth::id() == '28')
+                   <div class="form-group">
+                     {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+                     {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
+                   </div>
+                @else
+                   <div class="form-group">
+                     {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+                     {!! Form::select('sumber_uang', $sumberUangList, 110004, ['class' => 'form-control rq', 'readonly' => 'readonly']) !!}
+                   </div>
+                @endif
+                
                 <div class="form-group">
                  {!! Form::label('staf_id', 'Petugas Penginput') !!}
                  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' =>'true']) !!}
