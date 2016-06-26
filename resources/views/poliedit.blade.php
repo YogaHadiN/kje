@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
+Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 @stop
 @section('head')
   <style>

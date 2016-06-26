@@ -124,8 +124,7 @@ class PolisController extends Controller
 		}
 		$keterangan  = Yoga::cacheku('keterangan', json_decode(Asuransi::find(32)->umum, true));
 		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
-		
-		if($periksaExist){
+		if($periksaExist != null){
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
 			// return $plafonFlat;
 			$transaksi = $periksaExist->transaksi;

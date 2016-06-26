@@ -88,8 +88,11 @@ class PasiensController extends Controller
 	public function show($id)
 	{
 		$periksas = Periksa::where('pasien_id', $id)->orderBy('tanggal', 'desc')->paginate(10);
-
-		return view('pasiens.show', compact('periksas'));
+		if($periksas->count() > 0){
+			return view('pasiens.show', compact('periksas'));
+		}else {
+			return redirect('pasiens')->withPesan(Yoga::gagalFlash('Tidak ada Riwayat Untuk Ditampilkan'));
+		}
 	}
 
 	/**

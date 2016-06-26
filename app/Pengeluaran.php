@@ -25,7 +25,7 @@ class Pengeluaran extends Model{
 	}
 
 	public function bukanObat(){
-		return $this->belongsTo('App\Bukanobat');
+		return $this->belongsTo('App\BukanObat');
 	}
 
 	public function fakturBelanja(){
