@@ -459,7 +459,11 @@ class PengeluaransController extends Controller
         $new_z->modal_awal = $modal_awal;
         $new_z->uang_di_kasir = $uang_di_kasir;
         $new_z->uang_di_tangan = $uang_di_tangan + $uang_di_kasir;
-        $new_z->jurnal_umum_id = JurnalUmum::all()->last()->id;
+        if (isset(JurnalUmum::all()->last()->id)) {
+            $new_z->jurnal_umum_id = JurnalUmum::all()->last()->id;
+        } else {
+            $new_z->jurnal_umum_id = 10000;
+        }
         $new_z->uang_masuk = $total_uang_masuk;
         $new_z->uang_keluar = $total_uang_keluar;
         $confirm = $new_z->save();
@@ -562,7 +566,6 @@ class PengeluaransController extends Controller
         return $hutangs;
     }
     private function total($id, $mulai, $akhir){
-         
         $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
         $hutangs = DB::select($query);
         $total = 0;
@@ -720,7 +723,14 @@ class PengeluaransController extends Controller
         $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
         $rinci = DB::select($query);
         $table = [];
+        $errors = [];
         foreach ($rinci as $rc) {
+            // try {
+            //     $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
+            // } catch (\Exception $e) {
+            //     $errors[] = $rc->id;
+            // }
+
             $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
             $valid = false;
             foreach ($arrs as $key => $ar) {
@@ -763,6 +773,8 @@ class PengeluaransController extends Controller
                 }
             }
         }
+
+        return $errors;
         return $table;
     }
     
