@@ -19,12 +19,23 @@ Klinik Jati Elok | Entri Jual Obat
 @section('content') 
 
 <div class="row">
-  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
   {!! Form::open(['url' => 'penjualans', 'method' =>'post'])!!}
-    <h3>Petugas : </h3> {!! Form::select('staf_id', $stafs, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true'])!!}
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <div class="form-group @if($errors->has('staf_id')) has-error @endif">
+      {!! Form::label('staf_id', 'Petugas') !!}
+      {!! Form::select('staf_id', $stafs, null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true'])!!}
+      @if($errors->has('staf_id'))
+          <code>
+              {{ $errors->first('staf_id') }}
+          </code>
+      @endif
+    </div>
   </div>
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-    <h3>Tanggal : </h3> {!! Form::text('tanggal', date('d-m-Y'), ['class' => 'form-control tanggal'])!!}
+      <div class="form-group">
+        {!! Form::label('tanggal', 'Tanggal') !!}
+        {!! Form::text('tanggal', date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
+      </div>
   </div>
 </div>
 <br>
@@ -36,7 +47,6 @@ Klinik Jati Elok | Entri Jual Obat
                 <div class="panelRight bold">
                   <span class="">Total : </span><span class="uang " id="totalHargaObat">0</span>
                 </div>
-
             </div>
       </div>
       <div class="panel-body">
@@ -69,7 +79,8 @@ Klinik Jati Elok | Entri Jual Obat
             </table>
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {!! Form::submit('Submit', ['class' => 'btn btn-lg btn-block btn-primary'])!!} 
+                  <button class="btn btn-primary btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>
+                  {!! Form::submit('Submit', ['class' => 'btn btn-lg btn-block btn-primary hide', 'id'=>'submit'])!!} 
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <a href="" class="btn btn-lg btn-block btn-danger">Cancel</a>
@@ -86,7 +97,6 @@ Klinik Jati Elok | Entri Jual Obat
     var dataTambah='';
     var lanjut = true;
 
-
     $(document).ready(function() {
       if ($('#tempBeli').val() == '' || $('#tempBeli').val == '[]') {
       } else {
@@ -101,7 +111,6 @@ Klinik Jati Elok | Entri Jual Obat
           $(this).click();
           return false
         }
-
       });
     });
 
@@ -277,8 +286,13 @@ Klinik Jati Elok | Entri Jual Obat
       $('#ddl_merek_id').closest('td').find('.btn-white').focus();
     }
 
-    
-
-
+    function dummySubmit(){
+//        if(validatePass()){
+//          $('#submit').click();
+//        }
+        if(true){
+          $('#submit').click();
+        }
+    }
   </script>
 @stop

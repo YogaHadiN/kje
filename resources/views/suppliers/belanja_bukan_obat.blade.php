@@ -1,7 +1,6 @@
 @extends('layout.master')
-
 @section('title') 
-Klinik Jati Elok | Supplier
+Klinik Jati Elok | Belanja Bukan Obat
 @stop
 @section('page-title') 
  <h2>Supplier</h2>
@@ -10,135 +9,129 @@ Klinik Jati Elok | Supplier
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li class="active">
-          <strong>Supplier</strong>
+          <strong>Belanja Bukan Obat</strong>
       </li>
 </ol>
 @stop
 @section('content') 
-<div class="alert alert-success">
-    <ul>
-        <li>
-            Untuk Belanja, Pilih Supplier yang sesuai, lalu klik tombol <strong>Belanja</strong> di baris yang sama
-        </li>
-        <li>
-            Bila Supplier tidak ada, buat daftar Supplier baru sebelum belanja 
-        </li>
-    </ul>
-</div>
-<div class="panel panel-primary">
-      <div class="panel-heading">
-            <div class="panel-title">
-                <div class="panelLeft">
-                    <h3>Total : {!! App\Supplier::all()->count() !!}</h3>
-                </div>
-                <div class="panelRight">
-                    <a href="{{ url('suppliers/create') }}" class="btn btn-success"><span><i class="fa fa-plus"></i></span> Supplier Baru</a>
+<div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="panelLeft">
+                        Belanja Bukan Obat
+                    </div>
+                    <div class="panelRight">
+                        <button class="btn btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create_supplier">Supplier tidak ditemukan</button>
+                    </div>
                 </div>
             </div>
-      </div>
-      <div class="panel-body">
-            <table class="table table-bordered table-hover DT">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>nama</th>
-						<th>alamat</th>
-                        <th>telp</th>
-						<th>pic</th>
-                        <th>action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  @if (count($suppliers) > 0)
-                    {{-- expr --}}
-                    @foreach($suppliers as $user)
-                        <tr>
-                            <td>{!!$user->id!!}</td>
-                            <td>{!!$user->nama!!}</td>
-                            <td>{!!$user->alamat!!}</td>
-                            <td>{!!$user->no_telp!!}</td>
-                            <td>{!!$user->pic!!}</td>
-                            <td nowrap>
-                                  <button type="button" class="btn btn-info btn-sm" onclick="buy(this); return false;" data-belanja-obat="1" value="Obat"><i class="fa fa-shopping-cart fa-lg"></i> Belanja Bukan Obat</button>
-                            </td>
-
-                        </tr>
-                   @endforeach
-                  @else
-                    <tr>
-                      
-                      <td colspan="7" class="text-center">Tidak ada Data Untuk Ditampilkan :p</td>
-                    </tr>
-                  @endif
-                    </tr>
-                </tbody>
-            </table>
-      </div>
+            <div class="panel-body">
+                {!! Form::open(['url'=>'fakturbelanjas', 'method'=> 'post']) !!} 
+                    {!! Form::text('belanja_id', 3, ['class' => 'hide']) !!} 
+                    <div class="form-group">
+                      {!! Form::label('supplier_id', 'Supplier') !!}
+                      {!! Form::select('supplier_id', App\Classes\Yoga::supplierList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::label('nomor_faktur', 'Nomor Faktur') !!}
+                      {!! Form::text('nomor_faktur' , null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::label('tanggal', 'Tanggal') !!}
+                      {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::submit('Belanja Bukan Obat', ['class' => 'btn btn-success btn-block btn-lg']) !!}
+                    </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="alert alert-info">
+            <ul>
+                <li>Belanja obat Adalah untuk input pembelian obat yang masuk dalam daftar stok barang</li>
+                <li>Untuk pembelian / pengeluaran uang yang tidak masuk dalam stok barang contoh : belanja sayur pilihannya masuk ke dalam <a href="{{ url('suppliers/belanja_bukan_obat') }}" class="btn btn-info">Belanja Bukan Obat</a> </li>
+            </ul>
+        </div>
+    </div>
 </div>
-
-<button type="button" class="btn btn-primary hide" id="btn_modal" data-toggle="modal" data-target="#pre">Small modal</button>
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="pre" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-sm">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Daftar Belanja Obat</div>
+            </div>
+            <div class="panel-body">
+                <div class-"table-responsive">
+                    <table class="table table-hover table-condensed DT">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Nama Supplier</th>
+                                <th>Nomor Faktur</th>
+                                <th>Jenis Belanja</th>
+                                <th>Jumlah Item</th>
+                                <th>Total Biaya</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          @if($fakturbelanjas->count())
+                            @foreach ($fakturbelanjas as $faktur_beli)
+                                <tr>
+                                <td><div>{!!App\Classes\Yoga::updateDatePrep($faktur_beli->tanggal)!!}</div></td>
+                                <td><div>{!!$faktur_beli->supplier->nama!!}</div></td>
+                                <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
+                                <td><div>{!!$faktur_beli->belanja->belanja!!}</div></td>
+                                <td><div>{!!$faktur_beli->items!!} pcs</div></td>
+                                <td><div class="uang">{!!$faktur_beli->totalbiaya!!}</div></td>
+                                <td>
+                                    @if ($faktur_beli->belanja->belanja == 'Belanja Obat')
+                                        <a href="{{ url('pembelians/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
+                                    @else
+                                        <a href="{{ url('pengeluarans/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
+                                    @endif
+                                        <a class="btn btn-info btn-xs" href="{{ url('pdfs/pembelian/' . $faktur_beli->id) }}" target="_blank">Print Struk</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                          @else 
+                            <td colspan="6" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
+                          @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="create_supplier">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-          <span id="supplier_name_buy" style="color:red;"></span>
-
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Buat Supplier Baru</h4>
       </div>
       <div class="modal-body">
-        {!! Form::open(['url' => 'fakturbelanjas', 'method' => 'post'])!!}
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hide">
-              <div class="form-group">
-                <h3><label for="" ></label></h3>
-              {!! Form::text('supplier_id', null, ['class' => 'form-control', 'id' => 'supplier_id_buy'])!!}
-              </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hide">
-            <div class="form-group">
-              {!! Form::label('belanja_id', 'Jenis Belanja')!!}
-              {!! Form::select('belanja_id', $belanjaList, 3, ['class' => 'form-control', 'id' => 'belanja_id_buy'])!!}
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="form-group">
-              {!! Form::label('nomor_faktur')!!}
-              {!! Form::text('nomor_faktur', null, ['class' => 'form-control', 'id' => 'nomor_faktur_buy'])!!}
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="form-group">
-                {!! Form::label('Tanggal')!!}
-                {!! Form::text('tanggal', null, ['class' => 'form-control tanggal'])!!}
-              </div>
-          </div>
-        </div>
-        <div class="row">
-          
-        </div>
-        <div class="row">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <button type="button" class="btn btn-success btn-block" id="dummySubmit" onclick="dummySub();return false;">submit</button> 
-            {!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit'])!!}
-          </div>
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            
-            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal" aria-label="Close">cancel</button>
-
-          </div>
-        </div>
-        {!!Form::close()!!}
+          @include('suppliers.form', ['submit' => 'SUBMIT'])
       </div>
-    </div>
-  </div>
-</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @stop
 @section('footer') 
+<script type="text/javascript" charset="utf-8">
+var base = "{{ url('/') }}";
+</script>
+<script src="{{ url('js/supplier_ajax_create.js') }}"></script>
 <script>
   jQuery(document).ready(function($) {
-    
   });
 
   function buy(control){
@@ -208,4 +201,5 @@ Klinik Jati Elok | Supplier
 </script>
 
 @stop
+
 

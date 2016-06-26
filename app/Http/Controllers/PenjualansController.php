@@ -36,6 +36,20 @@ class PenjualansController extends Controller
 	}
 	public function indexPost()
 	{
+                                
+        $messages = [
+            'required' => ':attribute Harus diisi.',
+        ];
+		$rules = [
+			'tanggal' => 'required',
+			'staf_id' => 'required'
+		];
+		$validator = \Validator::make($data = Input::all(), $rules, $messages);
+
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
 		$datas = Input::get('tempBeli');
 		$datas = json_decode($datas, true);
 		$nota_jual_id = Yoga::customId('App\NotaJual');

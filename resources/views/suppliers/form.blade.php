@@ -4,7 +4,9 @@
         'class'         => 'form-control',
         'placeholder'   => 'nama'
     ))!!}
-    <code>{!! $errors->first('nama')!!}</code>
+    @if ($errors->has('nama'))
+        <code>{!! $errors->first('nama')!!}</code>
+    @endif
 </div>
 
 <div class="form-group">
@@ -13,7 +15,9 @@
         'class'         => 'form-control textareacustom',
         'placeholder'   => 'alamat'
     ))!!}
-    <code>{!! $errors->first('alamat')!!}</code>
+    @if ($errors->has('alamat'))
+        <code>{!! $errors->first('alamat')!!}</code>
+    @endif
 </div>
 <div class="form-group">
     {!! Form::label('no_telp')!!}
@@ -21,7 +25,9 @@
         'class'         => 'form-control',
         'placeholder'   => 'Nomor Telepon'
     ))!!}
-    <code>{!! $errors->first('no_telp')!!}</code>
+    @if ($errors->has('no_telp'))
+        <code>{!! $errors->first('no_telp')!!}</code>
+    @endif
 </div>
 <div class="form-group">
     {!! Form::label('hp_pic')!!}
@@ -29,7 +35,9 @@
         'class'         => 'form-control',
         'placeholder'   => 'Nomor HP PIC'
     ))!!}
-    <code>{!! $errors->first('hp_pic')!!}</code>
+    @if ($errors->has('hp_pic'))
+        <code>{!! $errors->first('hp_pic')!!}</code>
+    @endif
 </div>
 <div class="form-group">
     {!! Form::label('pic')!!}
@@ -37,9 +45,10 @@
         'class'         => 'form-control',
         'placeholder'   => 'Person In Charge'
     ))!!}
-    <code>{!! $errors->first('pic')!!}</code>
+    @if ($errors->has('pic'))
+        <code>{!! $errors->first('pic')!!}</code>
+    @endif
 </div>
-
 <div class="form-group">
     {!! Form::submit($submit, array(
         'class' => 'btn btn-primary block full-width m-b'

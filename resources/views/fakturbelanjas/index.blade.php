@@ -33,7 +33,7 @@ Klinik Jati Elok | Antrian Beli Obat
                   <thead>
                     <tr>
                     	<th>id</th>
-          						<th>tanggal</th>w
+          						<th>tanggal</th>
                       <th>Nama Supplier</th>
                       <th>Nomor Faktur</th>
           						<th>Jenis</th>

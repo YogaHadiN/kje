@@ -202,10 +202,6 @@
             <div class="col-lg-12">
                 <div class="wrapper wrapper-content">
                     <div class="wrapper wrapper-content animated fadeInRight">
-                        @if (Session::has('pesan'))
-                            {!! Session::get('pesan')!!}
-                        @endif
-                        @yield('content')
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 @if (count($errors) > 0)
@@ -220,6 +216,15 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                @if (Session::has('pesan'))
+                                    {!! Session::get('pesan')!!}
+                                @endif
+                            </div>
+                        </div>
+                        
+                        @yield('content')
                     </div>
                 </div>
             </div>
