@@ -83,7 +83,7 @@ Klinik Jati Elok | Coa belum di set
             <table class="table borderless table-condensed">
                 <thead>
                     <tr>
-                        <th class="hide">Tanggal</th>
+                        <th class="hide">Id</th>
                         <th>Tanggal</th>
                         <th>Akun </th>
                         <th>Nilai</th>
@@ -93,9 +93,9 @@ Klinik Jati Elok | Coa belum di set
                 <tbody>
                     @foreach($jurnalumums as $ju)
                       @if($ju['jurnalable_type'] == 'App\FakturBelanja')
-                        <tr>
                           @foreach ($ju->jurnalable->pengeluaran as $penge)
                               @if(empty( $penge->coa_id ))
+                                <tr>
                                   <td class="hide field_id">{!! $ju->id !!}</td>
                                   <td>{!! $ju->tanggal !!}</td>
                                   <td>{!! $penge->bukanObat->nama !!}</td>
@@ -103,9 +103,9 @@ Klinik Jati Elok | Coa belum di set
                                   <td>
                                       {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq kode_coa', 'onchange' => 'coaChange(this); return false;']) !!}
                                   </td>
+                                </tr>
                               @endif
                           @endforeach
-                        </tr>
                       @endif
                     @endforeach
                 </tbody>

@@ -215,6 +215,6 @@ class PenjualansController extends Controller
 			->withPesan($pesan);
 		}
         $pesan = Yoga::suksesFlash('Dispensing obat oleh ' . $staf->nama . ' telah <strong>BERHASIL</strong>');
-        return redirect('suppliers/belanja_bukan_obat')->withPesan($pesan)->withPrint($nota_jual_id);
+        return redirect('nota_juals')->withPesan($pesan)->withPrint($nota_jual_id);
     }
 }
