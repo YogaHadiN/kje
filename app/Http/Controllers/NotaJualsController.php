@@ -15,7 +15,7 @@ class NotaJualsController extends Controller
 {
 
     public function index(){
-        $nota_juals = NotaJual::all();
+        $nota_juals = NotaJual::latest()->get();
         return view('nota_juals.index', compact('nota_juals'));
     }
     public function show($id){

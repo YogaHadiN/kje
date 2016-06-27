@@ -151,6 +151,8 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('bayardokters', 'BayarDoktersController@index'); //penjualan obat tanpa resep
 
 			Route::get('penjualans', 'PenjualansController@index'); //penjualan obat tanpa resep
+			Route::get('penjualans/obat_buat_karyawan', 'PenjualansController@obat_buat_karyawan'); //penjualan obat tanpa resep
+			Route::post('penjualans/obat_buat_karyawan', 'PenjualansController@obat_buat_karyawan_post'); //penjualan obat tanpa resep
 			Route::post('penjualans', 'PenjualansController@indexPost'); //penjualan obat tanpa resep
 
 			Route::get('pembelians', 'PembeliansController@index');

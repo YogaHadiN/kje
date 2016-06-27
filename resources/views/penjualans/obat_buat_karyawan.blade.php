@@ -1,43 +1,48 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Entri Jual Obat
+Klinik Jati Elok | Obat Buat Karyawan
 
 @stop
 @section('page-title') 
-<h2>Penjualan Obat Tanpa Resep</h2>
+<h2>Obat Buat Karyawan</h2>
 <ol class="breadcrumb">
       <li>
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li class="active">
-          <strong>Penjualan Tanpa Resep</strong>
+          <strong>Obat Buat Karyawan</strong>
       </li>
 </ol>
 
 @stop
 @section('content') 
-
 <div class="row">
-  {!! Form::open(['url' => 'penjualans', 'method' =>'post'])!!}
+  {!! Form::open(['url' => 'penjualans/obat_buat_karyawan', 'method' =>'post'])!!}
+<input style="display:none">
+<input type="password" style="display:none">
+
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-      <div class="form-group @if($errors->has('staf_id')) has-error @endif">
-      {!! Form::label('staf_id', 'Petugas') !!}
-      {!! Form::select('staf_id', $stafs, null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true'])!!}
-      @if($errors->has('staf_id'))
-          <code>
-              {{ $errors->first('staf_id') }}
-          </code>
-      @endif
-    </div>
-  </div>
-  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-      <div class="form-group">
-        {!! Form::label('tanggal', 'Tanggal') !!}
-        {!! Form::text('tanggal', date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
+      <div class="form-group @if($errors->has('email')) has-error @endif">
+          {!! Form::label('email', 'Email') !!}
+          {!! Form::email('email' , null, ['class' => 'form-control rq']) !!}
+          @if($errors->has('email')) <code> {{ $errors->first('email') }} </code> @endif
       </div>
   </div>
-  
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <div class="form-group @if($errors->has('password')) has-error @endif">
+          {!! Form::label('password', 'Password') !!}
+          {!! Form::password('password',  array('placeholder' => 'password', 'class'=>'form-control rq', 'autocomplete' => 'false'))!!}
+          @if($errors->has('password')) <code> {{ $errors->first('password') }} </code> @endif
+      </div>
+  </div>
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <div class="form-group @if($errors->has('tanggal')) has-error @endif">
+          {!! Form::label('tanggal', 'Tanggal') !!}
+          {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
+          @if($errors->has('tanggal')) <code> {{ $errors->first('tanggal') }} </code> @endif
+      </div>
+  </div>
 </div>
 <br>
 <div class="panel panel-primary">
@@ -99,6 +104,7 @@ Klinik Jati Elok | Entri Jual Obat
           {!! Form::close()!!}
       </div>
 </div>
+<!-- /.modal -->
 <div class="panel panel-info">
       <div class="panel-heading">
             <div class="panel-title">
@@ -150,7 +156,8 @@ Klinik Jati Elok | Entri Jual Obat
       </div>
 </div>
 @stop
+
 @section('footer') 
-    <script src="{{  url( 'js/penjualans.js'   )}}" type="text/javascript" charset="utf-8"></script>
-  <script></script>
+    <script src="{{  url( 'js/penjualans2.js'   )}}" type="text/javascript" charset="utf-8"></script>
 @stop
+

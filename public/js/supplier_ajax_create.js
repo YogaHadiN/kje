@@ -1,3 +1,6 @@
+setTimeout(function(){
+    $('#supplier_id').closest('div').find('.btn-white').focus();
+}, 300);
 $('input[type="submit"]').click(function(){
    var nama = $('#nama').val();
    var alamat = $('#alamat').val();
