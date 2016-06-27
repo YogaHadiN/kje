@@ -19,7 +19,12 @@ class MemcachedController extends Controller
 	 */
 	public function index()
 	{
-        return \Cache::driver();
+		if (\Cache::has('pasien')) {
+			return \Cache::get('pasien');
+		} else {
+            \Cache::put('pasien', 'Yogaman89')
+			return 'sudah diset ke ' . \Cache::get('pasien');
+		}
     }
 
 
