@@ -157,7 +157,7 @@ Klinik Jati Elok | Coa belum di set
       </div>
 </div>
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
-  {!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
+{!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <button class="btn btn-success btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>
@@ -286,7 +286,17 @@ Klinik Jati Elok | Coa belum di set
                for(var j in val){
                    temp += "<option value='" + j + "'>" + val[j] + '</option>';
                 }
-               $('.kode_coa').html(temp).selectpicker('refresh');
+
+               $('select.kode_coa').html(temp).selectpicker('refresh');
+               $('select.kode_coa').each(function(){
+                    if( $(this).val() == '' ){
+                        $(this).html(temp).selectpicker('refresh');
+                    } else {
+                        $(this).append('<option value="' + coa_id + '">' + coa + '</option>').selectpicker('refresh');
+                    }
+                    
+               });
+
                $('#coa_baru').modal('hide');
            }
        );

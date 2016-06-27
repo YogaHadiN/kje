@@ -96,7 +96,8 @@ class JurnalUmumsController extends Controller
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
         //return $kelompokCoaList;
-
+        //return dd( $ids );
+        //return json_encode( $jurnalumums );
 		return view('jurnal_umums.coa', compact(
 			'jurnalumums', 
 			'kelompokCoaList', 
