@@ -273,10 +273,6 @@ Klinik Jati Elok | Coa belum di set
        var coa_id = $('#kode_coa').val();
        var kelompok_coa_id = $('#kelompok_coa_id').val();
        var coa = $('#keterangan_coa').val();
-       
-       console.log( 'coa_id =' + coa_id );
-       console.log( 'kelompok_coa_id =' + kelompok_coa_id );
-       console.log( 'coa =' + coa );
 
        $.post('{{ url("jurnal_umums/coa_entry") }}',
                {
@@ -290,7 +286,7 @@ Klinik Jati Elok | Coa belum di set
                for(var j in val){
                    temp += "<option value='" + j + "'>" + val[j] + '</option>';
                 }
-               $('.kode_coa').html(temp);
+               $('.kode_coa').html(temp).selectpicker('refresh');
                $('#coa_baru').modal('hide');
            }
        );

@@ -206,8 +206,7 @@ class JurnalUmumsController extends Controller
          $c->coa = $coa;
          $c->save();
 
-
-        return json_encode( [ null => '- pilih -' ] + Coa::lists('coa', 'id')->all() );
+         return json_encode( [ null => '- pilih -' ] + Coa::lists('coa', 'id')->all() );
     }
     
     
