@@ -216,6 +216,9 @@ class CustomController extends Controller
 
         //return Periksa::find( Input::get('periksa_id') )->terapii[0]->id;
         //return dd( Input::all() );
+        if (Periksa::find( Input::get('periksa_id') )->lewat_kasir2 == '1') {
+            return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>') );
+        }
 		$tarif         = Input::get('tarif');
 		$sebelum       = Input::get('sebelum');
 		$sebelum_array = json_decode($sebelum, true);

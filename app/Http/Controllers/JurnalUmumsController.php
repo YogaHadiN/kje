@@ -42,7 +42,8 @@ class JurnalUmumsController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
-        $jurnalumums = JurnalUmum::groupBy('created_at')
+        $jurnalumums = JurnalUmum::groupBy('jurnalable_id')
+            ->groupBy('jurnalable_type')
             ->orderBy('created_at', 'desc')
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
             ->paginate(10);
@@ -90,7 +91,6 @@ class JurnalUmumsController extends Controller
 		}
         //return $ids;
         $jurnalumums = JurnalUmum::whereIn('id', $ids)
-                                ->groupBy('jurnalable_id')
                                 ->get();
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
