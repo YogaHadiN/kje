@@ -101,7 +101,7 @@ Klinik Jati Elok | Coa belum di set
                                   <td>{!! $penge->bukanObat->nama !!}</td>
                                   <td class="uang">{!! $ju->nilai !!}</td>
                                   <td>
-                                      {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq kode_coa', 'onchange' => 'coaChange(this); return false;']) !!}
+                                      {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
                                   </td>
                                 </tr>
                               @endif
