@@ -102,11 +102,11 @@ class PolisController extends Controller
         }
 		$aturans     = \Cache::get('aturans');
         if (!\Cache::has('aturanlist')) {
-            Cache::put('aturanlist', AturanMinum::lists('aturan_minum', 'id')->all(), 60);
+            \Cache::put('aturanlist', AturanMinum::lists('aturan_minum', 'id')->all(), 60);
         }
 		$aturanlist  = \Cache::get('aturanlist');
-        if (\Cache::has('stafs')) {
-            \Cache::put('stafs',Staf::lists('nama', 'id')->all(), 60 );
+        if (!\Cache::has('stafs')) {
+            \Cache::put('stafs', Staf::lists('nama', 'id')->all(), 60 );
         }
 		$stafs       = \Cache::get('stafs');
         if (!\Cache::has('signa')) {
