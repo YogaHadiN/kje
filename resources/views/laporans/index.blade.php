@@ -386,6 +386,26 @@ Klinik Jati Elok | Home
                                             <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
                                         </form>
                                     </tr>
+                                    <tr>
+                                        <form action="{{ url('laporans/jumlahIspa') }}" method="get">
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                            <td>Laporan Jumlah Pasien ISPA</td>
+                                             <td>
+                                                {!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+                                            </td>
+                                            <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+                                            <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
+                                        </form>
+                                        <tr><form action="{{ url('laporans/jumlahDiare') }}" method="get">
+                                                <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                                <td>Laporan Jumlah Pasien Diare</td>
+                                                <td>
+                                                    {!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+                                                </td>
+                                                <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+                                                    <td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
+                                            </form></tr>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

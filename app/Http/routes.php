@@ -408,6 +408,8 @@ Route::get('sesuaikan/cek', function(){
             Route::get('laporans/anc', 'LaporansController@anc');
             Route::get('laporans/kb', 'LaporansController@kb');
             Route::get('laporans/jumlahPasien', 'LaporansController@jumlahPasien');
+            Route::get('laporans/jumlahIspa', 'LaporansController@jumlahIspa');
+            Route::get('laporans/jumlahDiare', 'LaporansController@jumlahDiare');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');

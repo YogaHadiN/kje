@@ -20,7 +20,7 @@
     -->
     <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
 
-<link href="{!! asset('font-awesome/css/font-awesome.css') !!}" rel="stylesheet"> <!-- Yang ini berhasil -->
+<link href="{!! asset('font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet">
 
     @yield('head')
 </head>

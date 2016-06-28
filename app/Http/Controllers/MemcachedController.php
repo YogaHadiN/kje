@@ -22,7 +22,7 @@ class MemcachedController extends Controller
 		if (\Cache::has('pasien')) {
 			return \Cache::get('pasien');
 		} else {
-            \Cache::put('pasien', 'Yogaman89')
+            \Cache::put('pasien', 'Yogaman89', 60);
 			return 'sudah diset ke ' . \Cache::get('pasien');
 		}
     }

@@ -91,12 +91,12 @@
                          {!! $diagnosa->icd10_id !!}
                        </td>
                        <td>
-                        @foreach(Icd10::find($diagnosa->icd10_id)->diagnosa as $diag)
+                        @foreach(App\Icd10::find($diagnosa->icd10_id)->diagnosa as $diag)
                          {!! $diag->diagnosa !!} ({!!$diag->id!!}) / <br>
                          @endforeach
                        </td>
                        <td>
-                         {!! Icd10::find($diagnosa->icd10_id)->diagnosaICD !!}
+                         {!! App\Icd10::find($diagnosa->icd10_id)->diagnosaICD !!}
                        </td>
                        <td>
                           {!! HTML::link('diagnosas/' . $diagnosa->id . '/edit', 'Edit', ['class' => 'btn btn-sm btn-info'])!!}

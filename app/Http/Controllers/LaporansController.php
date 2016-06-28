@@ -544,7 +544,7 @@ class LaporansController extends Controller
         $asuransi_id = Input::get('asuransi_id');
         $akhir = Yoga::datePrep( Input::get('akhir') );
         $mulai = Yoga::datePrep( Input::get('mulai') );
-        $query = "SELECT asu.nama as nama_asuransi, count(*) jumlah FROM periksas as px join asuransis as asu on asu.id=px.asuransi_id where asuransi_id like '{$asuransi_id}' and px.created_at >= '{$mulai}' and px.created_at <= '{$akhir}' GROUP BY px.asuransi_id order by jumlah desc;";
+        $query = "SELECT asu.nama as nama_asuransi, count(*) jumlah FROM periksas as px join asuransis as asu on asu.id=px.asuransi_id where asuransi_id like '{$asuransi_id}' and px.created_at >= '{$mulai} 00:00:00' and px.created_at <= '{$akhir} 00:00:00' GROUP BY px.asuransi_id order by jumlah desc;";
         $jumlah = DB::select($query);
         $total = 0;
         foreach ($jumlah as $hml) {
@@ -553,5 +553,204 @@ class LaporansController extends Controller
         return view('laporans.jumlah', compact('jumlah', 'mulai', 'akhir', 'total'));
 
     }
-    
+    public function jumlahIspa(){
+        $asuransi_id = Input::get('asuransi_id');
+        $akhir = Yoga::datePrep( Input::get('akhir') );
+        $mulai = Yoga::datePrep( Input::get('mulai') );
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and dg.icd10_id = 'J06' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) = 0;";
+        $jumlahIspa_0_1 = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and dg.icd10_id = 'J06' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 1 and 5;";
+        $jumlahIspa_1_5 = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and dg.diagnosa like '%pneum%' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) = 0;";
+        $jumlahPneumonia_0_1 = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and dg.diagnosa like '%pneum%' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 1 and 5;";
+        $jumlahPneumonia_1_5 = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) = 0;";
+        $jumlahDiare_0_1 = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 1 and 5;";
+        $jumlahDiare_1_5 = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and dg.icd10_id = 'J06' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) > 5;";
+        $jumlahIspaBukanPneumonia_diatas_5_tahun = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and dg.diagnosa like '%pneum%' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) > 5;";
+        $jumlahIspaPneumonia_diatas_5_tahun = DB::select($query)[0]->jumlah;
+
+        //$data = 'jumlahIspa_0_1 = ' . $jumlahIspa_0_1 . '<br />';
+        //$data .= 'jumlahIspa_1_5 = ' . $jumlahIspa_1_5 . '<br />';
+        //$data .= 'jumlahPneumonia_1_5 = ' . $jumlahPneumonia_1_5 . '<br />';
+        //$data .= 'jumlahPneumonia_0_1 = ' . $jumlahPneumonia_0_1 . '<br />';
+        //$data .= 'jumlahDiare_0_1 = ' . $jumlahDiare_0_1 . '<br />';
+        //$data .= 'jumlahDiare_1_5 = ' . $jumlahDiare_1_5 . '<br />';
+        //$data .= 'jumlahIspaPneumonia_diatas_5_tahun = ' . $jumlahIspaPneumonia_diatas_5_tahun . '<br />';
+        //$data .= 'jumlahIspaBukanPneumonia_diatas_5_tahun = ' . $jumlahIspaBukanPneumonia_diatas_5_tahun . '<br />';
+        //return $data;
+
+        $data = 
+            [
+            [
+                'keterangan' => 'Jumlah ISPA 0 - 1 tahun',
+                'jumlah' => $jumlahIspa_0_1
+            ],
+            [
+                'keterangan' => 'Jumlah ISPA 1 - 5 tahun',
+                'jumlah' => $jumlahIspa_1_5
+            ],
+            [
+                'keterangan' => 'Jumlah Pneumonia 0 - 1  tahun',
+                'jumlah' => $jumlahPneumonia_0_1
+            ],
+            [
+                'keterangan' => 'Jumlah Pneumonia 1 - 5  tahun',
+                'jumlah' => $jumlahPneumonia_1_5
+            ],
+            [
+                'keterangan' => 'Jumlah Diare 0 - 1 tahun',
+                'jumlah' => $jumlahDiare_0_1
+            ],
+            [
+                'keterangan' => 'Jumlah Diare 1 - 4 tahun',
+                'jumlah' => $jumlahDiare_1_5
+            ],
+            [
+                'keterangan' => 'Jumlah Ispa Dengan Pneumonia diatas 5 tahun',
+                'jumlah' => $jumlahIspaPneumonia_diatas_5_tahun
+            ],
+            [
+                'keterangan' => 'Jumlah Ispa Bukan Pneumonia diatas 5 tahun',
+                'jumlah' => $jumlahIspaBukanPneumonia_diatas_5_tahun
+            ],
+        ];
+        
+
+        return view('laporans.jumlahIspa', compact('data', 'mulai', 'akhir'));
+         
+    }
+
+    public function JumlahDiare(){
+        $asuransi_id = Input::get('asuransi_id');
+        $akhir = Yoga::datePrep( Input::get('akhir') );
+        $mulai = Yoga::datePrep( Input::get('mulai') );
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 0 and 5 and ps.sex = 1;";
+        $jumlahDiare_0_5_L = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 0 and 5 and ps.sex = 0;";
+        $jumlahDiare_0_5_P = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 6 and 11 and ps.sex = 1;";
+        $jumlahDiare_6_12_L = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 6 and 11 and ps.sex = 0;";
+        $jumlahDiare_6_12_P = DB::select($query)[0]->jumlah;
+         
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 1 and 4 and ps.sex = 1;";
+        $jumlahDiare_1_4_L = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 1 and 4 and ps.sex = 0;";
+        $jumlahDiare_1_4_P = DB::select($query)[0]->jumlah;
+         
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 5 and 9 and ps.sex = 1;";
+        $jumlahDiare_5_9_L = DB::select($query)[0]->jumlah;
+         
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 5 and 9 and ps.sex = 0;";
+        $jumlahDiare_5_9_P = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 10 and 14 and ps.sex = 1;";
+        $jumlahDiare_10_14_L = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 10 and 14 and ps.sex = 0;";
+        $jumlahDiare_10_14_P = DB::select($query)[0]->jumlah;
+         
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 15 and 19 and ps.sex = 1;";
+        $jumlahDiare_15_19_L = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 15 and 19 and ps.sex = 0;";
+        $jumlahDiare_15_19_P = DB::select($query)[0]->jumlah;
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) > 20 and ps.sex = 1;";
+        $jumlahDiare_20_L = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) > 20 and ps.sex = 0;";
+        $jumlahDiare_20_P = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.created_at between '{$mulai}' and '{$akhir}' and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%');";
+        $jumlahDiare = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id where fr.id='150811020' and px.tanggal between '{$mulai}' and '{$akhir}';";
+        $jumlahOralit = DB::select($query)[0]->jumlah;
+
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150802006' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 0 and 5;";
+        $jumlahZink_0_5 = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150802006' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 6 and 11;";
+        $jumlahZink_6_11 = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150802006' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 1 and 4;";
+        $jumlahZink_1_4 = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150811020' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) > 4;";
+        $jumlahOralit_lebih_dari_5 = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join diagnosas as dg on dg.id=px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150802006' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 0 and 5 and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') ;";
+        $jumlahZink_0_5_diare = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join diagnosas as dg on dg.id=px.diagnosa_id join pasiens as ps on ps.id=px.pasien_id where fr.id='150802006' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.created_at) between 6 and 11 and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') ;";
+        $jumlahZink_6_11_diare = DB::select($query)[0]->jumlah;
+
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join diagnosas as dg on dg.id=px.diagnosa_id join pasiens as ps on ps.id=px.pasien_id where fr.id='150802006' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.created_at) between 1 and 4 and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') ;";
+        $jumlahZink_1_4_diare = DB::select($query)[0]->jumlah;
+        
+        return view('laporans.jumlahDiare', compact(
+            'mulai',
+            'akhir',
+            'jumlahDiare_0_5_L',
+            'jumlahDiare_0_5_P',
+            'jumlahDiare_6_12_L',
+            'jumlahDiare_6_12_P',
+            'jumlahDiare_1_4_L',
+            'jumlahDiare_1_4_P',
+            'jumlahDiare_5_9_L',
+            'jumlahDiare_5_9_P',
+            'jumlahDiare_10_14_L',
+            'jumlahDiare_10_14_P',
+            'jumlahDiare_15_19_L',
+            'jumlahDiare_15_19_P',
+            'jumlahDiare_20_L',
+            'jumlahDiare_20_P',
+            'jumlahDiare',
+            'jumlahZink_0_5',
+            'jumlahZink_1_4',
+            'jumlahZink_6_11',
+            'jumlahOralit_lebih_dari_5',
+            'jumlahZink_0_5_diare',
+            'jumlahZink_6_11_diare',
+            'jumlahZink_1_4_diare'
+        ));
+
+        $data = '';
+
+        $data .= 'jumlahDiare_0_5_L = ' . $jumlahDiare_0_5_L . '<br />';
+        $data .= 'jumlahDiare_0_5_P = ' . $jumlahDiare_0_5_P . '<br />';
+        $data .= 'jumlahDiare_6_12_L = ' . $jumlahDiare_6_12_L . '<br />';
+        $data .= 'jumlahDiare_6_12_P = ' . $jumlahDiare_6_12_P . '<br />';
+        $data .= 'jumlahDiare_1_4_L = ' . $jumlahDiare_1_4_L . '<br />';
+        $data .= 'jumlahDiare_1_4_P = ' . $jumlahDiare_1_4_P . '<br />';
+        $data .= 'jumlahDiare_5_9_L = ' . $jumlahDiare_5_9_L . '<br />';
+        $data .= 'jumlahDiare_5_9_P = ' . $jumlahDiare_5_9_P . '<br />';
+        $data .= 'jumlahDiare_10_14_L = ' . $jumlahDiare_10_14_L . '<br />';
+        $data .= 'jumlahDiare_10_14_P = ' . $jumlahDiare_10_14_P . '<br />';
+        $data .= 'jumlahDiare_15_19_L = ' . $jumlahDiare_15_19_L . '<br />';
+        $data .= 'jumlahDiare_15_19_P = ' . $jumlahDiare_15_19_P . '<br />';
+        $data .= 'jumlahDiare_20_L = ' . $jumlahDiare_20_L . '<br />';
+        $data .= 'jumlahDiare_20_P = ' . $jumlahDiare_20_P . '<br />';
+        $data .= 'jumlahDiare = ' . $jumlahDiare. '<br />';
+        $data .= 'jumlahZink_0_5 = ' . $jumlahZink_0_5. '<br />';
+        $data .= 'jumlahZink_1_4 = ' . $jumlahZink_1_4. '<br />';
+        $data .= 'jumlahZink_6_11 = ' . $jumlahZink_6_11. '<br />';
+        $data .= 'jumlahOralit_lebih_dari_5 = ' . $jumlahOralit_lebih_dari_5. '<br />';
+        $data .= 'jumlahZink_0_5_diare = ' . $jumlahZink_0_5_diare . '<br />';
+        $data .= 'jumlahZink_6_11_diare = ' . $jumlahZink_6_11_diare . '<br />';
+        $data .= 'jumlahZink_1_4_diare = ' . $jumlahZink_1_4_diare . '<br />';
+
+        return $data;
+
+    }
 }

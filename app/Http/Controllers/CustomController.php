@@ -215,9 +215,10 @@ class CustomController extends Controller
 	public function survey_post(){
 
         //return Periksa::find( Input::get('periksa_id') )->terapii[0]->id;
+        $periksa = Periksa::find( Input::get('periksa_id') );
         //return dd( Input::all() );
-        if (Periksa::find( Input::get('periksa_id') )->lewat_kasir2 == '1') {
-            return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>') );
+        if ($periksa->lewat_kasir2 == '1') {
+            return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien atas nama <strong>' . $periksa->pasien->nama . '</strong> sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>') );
         }
 		$tarif         = Input::get('tarif');
 		$sebelum       = Input::get('sebelum');
