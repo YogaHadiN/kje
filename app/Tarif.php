@@ -34,7 +34,6 @@ class Tarif extends Model{
 		return json_encode($select);
 	}
 	public function getJenisTarifListAttribute(){
-
 		return $this->jenisTarif->jenis_tarif;
 	}
 

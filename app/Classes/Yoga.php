@@ -23,7 +23,6 @@ use App\Staf;
 use App\Asuransi;
 use App\JenisRumahSakit;
 use App\RegisterHamil;
-use Cache;
 use App\JenisPengeluaran;
 use DB;
 use App\Terapi;
@@ -1637,10 +1636,10 @@ class Yoga {
 		}
 
 		public static function cacheku($name, $data){
-			if (!Cache::has($name)) {
-				Cache::put($name, $data, 60);
+			if (!\Cache::has($name)) {
+				\Cache::put($name, $data, 60);
 			}
-			return Cache::get($name);
+			return \Cache::get($name);
 
 		}
 

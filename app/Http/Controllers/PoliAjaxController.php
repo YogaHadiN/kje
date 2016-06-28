@@ -455,11 +455,6 @@ class PoliAjaxController extends Controller
                  }
              }
          }
-
          return json_encode($bahan_habis_pakais);
-
     }
-    
-
-
 }

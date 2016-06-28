@@ -14,7 +14,6 @@
                         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                             @if(!$pasien->periksa->count() == 0)
                             <h4>
-
                                 Tanggal {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} 
                                  |
                               Pemeriksa : 
@@ -35,7 +34,7 @@
                     <p class="text-center">Tidak ada Riwayat untuk ditampilkan / Pasien adalah pasien baru</p>
                 @else
                     <table class="table table-condensed">
-                        <tbood>
+                        <tbody>
                             <tr>
                                 <td>
                                     Pembayaran : <br>

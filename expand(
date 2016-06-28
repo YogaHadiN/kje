@@ -6,10 +6,9 @@ use Input;
 
 use App\Http\Requests;
 
-use Cache;
 use App\Diagnosa;
-use App\Tarif;
 use App\Classes\Yoga;
+use Cache;
 
 class MemcachedController extends Controller
 {
@@ -23,16 +22,8 @@ class MemcachedController extends Controller
 	public function index()
 	{
 
-        return dd(Tarif::with('jenisTarif')->first());
-
-
-        //\Debugbar::enabled();
-        //return dd( Cache::has('diagnosa') );
-        //return Cache::get('diagnosa');
+        return \Cache::get('diagnosa');
         //$diagnosa    = Yoga::cacheku('diagnosa', Diagnosa::get()->lists('diagnosa_icd', 'id')->all());
-        //$diagnosa    = Yoga::cacheku('diagnosa', Diagnosa::get()->lists('diagnosa_icd', 'id')->all());
-        //return Cache::get('diagnosa');
-        //return dd( Cache::has('diagnosa') );
         //return $diagnosa;
     }
 

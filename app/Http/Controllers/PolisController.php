@@ -97,17 +97,37 @@ class PolisController extends Controller
 		$periksa     = Periksa::where('pasien_id', $pasien_id)->latest()->first();
 		$asuransi_id = $antrianperiksa->asuransi_id;
 		$pasien      = Pasien::find($antrianperiksa->pasien_id);
-		$aturans     = Yoga::cacheku('aturans', AturanMinum::orderBy('id', 'desc')->get()->take(10));
-		$aturanlist  = Yoga::cacheku('aturanlist', AturanMinum::lists('aturan_minum', 'id'))->all();
-		$stafs       = Yoga::cacheku('stafs', Staf::lists('nama', 'id'))->all();
-		$signa       = Yoga::cacheku('signa', Signa::lists('signa', 'id'))->all();
-		$signas      = Yoga::cacheku('signas', Signa::orderBy('id', 'desc')->get()->take(10));
-		$diagnosa    = Yoga::cacheku('diagnosa', Diagnosa::get()->lists('diagnosa_icd', 'id'))->all();
-		$icd10s      = Yoga::cacheku('icd10s', Icd10::all()->take(10));
+        if (!\Cache::has('aturans')) {
+            \Cache::put('aturans', AturanMinum::orderBy('id', 'desc')->get(), 60);
+        }
+		$aturans     = \Cache::get('aturans');
+        if (!\Cache::has('aturanlist')) {
+            Cache::put('aturanlist', AturanMinum::lists('aturan_minum', 'id')->all(), 60);
+        }
+		$aturanlist  = \Cache::get('aturanlist');
+        if (\Cache::has('stafs')) {
+            \Cache::put('stafs',Staf::lists('nama', 'id')->all(), 60 );
+        }
+		$stafs       = \Cache::get('stafs');
+        if (!\Cache::has('signa')) {
+            \Cache::put('signa', Signa::lists('signa', 'id')->all(), 60);
+        }
+		$signa       = \Cache::get('signa');
+
+        if (!\Cache::has('signas')) {
+            \Cache::put('signas', Signa::orderBy('id', 'desc')->get()->take(10), 60);
+        }
+		$signas      = \Cache::get('signas');
+        if (!\Cache::has('diagnosa')) {
+            \Cache::put('diagnosa', Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all(), 60);
+        }
+        $diagnosa = \Cache::get('diagnosa');
+		$icd10s      = $this->cacheku('icd10s', Icd10::all()->take(10));
         if($asuransi_id == '32'){
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->get()->lists('jenisbpjs', 'tarif_jual')->toArray();
+            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenisbpjs', 'tarif_jual')->toArray();
         }else{
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->get()->lists('jenis_tarif_list', 'tarif_jual')->toArray();
+
+            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->toArray();
         }
 		if ($asuransi_id == '32') {
 			if (!Yoga::cekGDSBulanIni($antrianperiksa->pasien_id)['bayar']) {
@@ -415,5 +435,12 @@ class PolisController extends Controller
 	public function jangan(){
 		return view('jangan');
 	}
+
+    private function cacheku($name, $data){
+         if (!\Cache::has($name)) {
+             \Cache::put($name, $data, 60);
+         }
+         return \Cache::get($name);
+    }
 
 }
