@@ -178,7 +178,8 @@ class CustomController extends Controller
 
 	public function survey($id){
 		// return 'survey ' . $id;
-		$periksa = Periksa::with('asuransi')->where('id', $id)->first();
+		//$periksa = Periksa::with('asuransi')->where('id', $id)->first();
+		$periksa = Periksa::find($id);
 		//cek sudah diperiksa GDS bulan ini
 		$sudah = false;
 		$periksaBulanIni = Periksa::where('pasien_id', $periksa->pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $id)->get();
@@ -192,7 +193,6 @@ class CustomController extends Controller
    		$reseps = Yoga::masukLagi($periksa->terapii);
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
         $monitor = Monitor::find(1);
-
         $dibayar = null;
 
         if ( $periksa->asuransi->tipe_asuransi== '4') {

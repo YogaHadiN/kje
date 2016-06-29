@@ -46,19 +46,6 @@
                                 {!! \Auth::user()->username !!}</strong>
                              </span> <span class="text-muted text-xs block">
                                 
-                                @if(\Auth::user()->role == '1')
-                                    Dokter
-                                @elseif(\Auth::user()->role == '2')
-                                    Kasir
-                                @elseif(\Auth::user()->role == '3')
-                                    Bidan
-                                @elseif(\Auth::user()->role == '4')
-                                    Admin
-                                @elseif(\Auth::user()->role == '5')
-                                    Dokter Gigi
-                                @elseif(\Auth::user()->role == '6')
-                                    Super Admin
-                                @endif
 
                              <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -105,25 +92,25 @@
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Poli</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="{{ url('ruangperiksa/umum') }}">Poli Umum  {!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', '=', 'umum')->orderBy('antrian', 'asc')->count())!!} </a> 
+                            <li><a href="{{ url('ruangperiksa/umum') }}">Poli Umum</a> 
                             </li>
-                            <li><a href="{{ url('ruangperiksa/anc') }}">Poli ANC {!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', '=', 'anc')->orderBy('antrian', 'asc')->count())!!}</a> </li>
-                            <li><a href="{{ url('ruangperiksa/suntikkb') }}">Suntik KB {!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', 'like', 'kb %')->orderBy('antrian', 'asc')->count())!!}</a> </li>
+                            <li><a href="{{ url('ruangperiksa/anc') }}">Poli ANC</a> </li>
+                            <li><a href="{{ url('ruangperiksa/suntikkb') }}">Suntik KB</a> </li>
 
 
-                            <li><a href="{{ url('ruangperiksa/usg') }}">Poli USG Kebidanan{!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', '=', 'usg')->orderBy('antrian', 'asc')->count())!!}</a> </li>
+                            <li><a href="{{ url('ruangperiksa/usg') }}">Poli USG Kebidanan</a> </li>
 
-                            <li><a href="{{ url('ruangperiksa/usgabdomen') }}">Poli USG Abdomen{!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', '=', 'usgabdomen')->orderBy('antrian', 'asc')->count())!!}</a> </li>
+                            <li><a href="{{ url('ruangperiksa/usgabdomen') }}">Poli USG Abdomen</a> </li>
                             
 
-                            <li><a href="{{ url('ruangperiksa/gigi') }}">Poli Gigi {!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', '=', 'gigi')->orderBy('antrian', 'asc')->count())!!}</a> </li>
+                            <li><a href="{{ url('ruangperiksa/gigi') }}">Poli Gigi </a> </li>
 
 
-                            <li><a href="{{ url('ruangperiksa/darurat') }}">Poli Gawat Darurat {!!App\Classes\Yoga::jumlahDisini(App\AntrianPeriksa::where('poli', '=', 'darurat')->orderBy('antrian', 'asc')->count())!!}</a> </li>
+                            <li><a href="{{ url('ruangperiksa/darurat') }}">Poli Gawat Darurat </a> </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ url('antriankasirs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Apotek</span> {!! App\Classes\Yoga::jumlahDisini(App\Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->count())!!} </a>
+                        <a href="{{ url('antriankasirs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Apotek</span></a>
                     </li>
                      <li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Obat</span><span class="fa arrow"></span></a>
@@ -136,7 +123,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ url('fakturbelanjas') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Belanja </span> {!! App\Classes\Yoga::jumlahDisini(App\FakturBelanja::where('submit', '0')->count())!!} </a>
+                        <a href="{{ url('fakturbelanjas') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Belanja </span>  </a>
                     </li>
                      <li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Laporan Keuangan</span><span class="fa arrow"></span></a>
