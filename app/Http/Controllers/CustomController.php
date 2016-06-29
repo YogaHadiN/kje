@@ -178,8 +178,13 @@ class CustomController extends Controller
 
 	public function survey($id){
 		// return 'survey ' . $id;
-		//$periksa = Periksa::with('asuransi')->where('id', $id)->first();
-		$periksa = Periksa::find($id);
+        $periksa = Periksa::with('asuransi', 'terapii.merek')->where('id', $id)->first();
+        //return var_dump( $periksa->terapii );
+        //$data = '';
+        //foreach ($periksa->terapii as $terapi) {
+            //$data .= $terapi->merek->merek . ' <br />';
+        //}
+        //return $data;
 		//cek sudah diperiksa GDS bulan ini
 		$sudah = false;
 		$periksaBulanIni = Periksa::where('pasien_id', $periksa->pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $id)->get();

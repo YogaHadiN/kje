@@ -34,7 +34,7 @@ class JurnalUmumsController extends Controller
 
         $bulan  = Input::get('bulan');
         $tahun  = Input::get('tahun');
-		$jurnalumums = JurnalUmum::all();
+		$jurnalumums = JurnalUmum::with('coa')->get();
 		foreach ($jurnalumums as $k => $ju) {
 			try {
 				$ju->coa->coa;
@@ -42,7 +42,8 @@ class JurnalUmumsController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
-        $jurnalumums = JurnalUmum::groupBy('jurnalable_id')
+
+        $jurnalumums = JurnalUmum::with('coa')->groupBy('jurnalable_id')
             ->groupBy('jurnalable_type')
             ->orderBy('created_at', 'desc')
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
