@@ -178,7 +178,7 @@ class CustomController extends Controller
 
 	public function survey($id){
 		// return 'survey ' . $id;
-		$periksa = Periksa::find($id);
+		$periksa = Periksa::with('asuransi')->where('id', $id)->first();
 		//cek sudah diperiksa GDS bulan ini
 		$sudah = false;
 		$periksaBulanIni = Periksa::where('pasien_id', $periksa->pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $id)->get();
@@ -188,7 +188,7 @@ class CustomController extends Controller
 				break;				
 			}
 		}
-   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
+   		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
    		$reseps = Yoga::masukLagi($periksa->terapii);
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
         $monitor = Monitor::find(1);
@@ -197,9 +197,7 @@ class CustomController extends Controller
 
         if ( $periksa->asuransi->tipe_asuransi== '4') {
         	$jasa_dokter = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '1')->first()->biaya;
-
         	$obat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;
-
         	$dibayar = $jasa_dokter + $obat;
         }
         // return $reseps;

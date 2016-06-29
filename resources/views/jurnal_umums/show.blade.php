@@ -45,6 +45,8 @@ Klinik Jati Elok | Jurnal Umum
                             @if($jur->debit == '1' && $ky == 0)
                             <tr class="b-top">
                               <td rowspan="{{$ju->jurnalable_type::find($ju->jurnalable_id)->jurnals->count()}}">{!!$jur->tanggal!!} <br>
+
+                                  {{ $ju->created_at->format('H:i:s') }} <br />
                                - {{ $ju->jurnalable_type}} {{ $ju->jurnalable_id}}
                               @if($ju->jurnalable_type == 'App\Periksa')
                                 <br>

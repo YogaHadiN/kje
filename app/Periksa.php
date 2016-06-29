@@ -70,7 +70,6 @@ class Periksa extends Model{
 
         $terapi = json_encode($this->terapii);
 
-        // return $terapi;
 
         if($terapi != ""){
                 $MyArray = $this->terapii;

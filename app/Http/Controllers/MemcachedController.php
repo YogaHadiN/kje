@@ -24,16 +24,7 @@ class MemcachedController extends Controller
 	{
 
         return dd(Tarif::with('jenisTarif')->first());
-
-
-        //\Debugbar::enabled();
-        //return dd( Cache::has('diagnosa') );
-        //return Cache::get('diagnosa');
-        //$diagnosa    = Yoga::cacheku('diagnosa', Diagnosa::get()->lists('diagnosa_icd', 'id')->all());
-        //$diagnosa    = Yoga::cacheku('diagnosa', Diagnosa::get()->lists('diagnosa_icd', 'id')->all());
-        //return Cache::get('diagnosa');
-        //return dd( Cache::has('diagnosa') );
-        //return $diagnosa;
+        $periksa = Periksa::find($id);
     }
 
 

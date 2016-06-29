@@ -25,7 +25,7 @@ class MereksController extends Controller
 	 */
 	public function index()
 	{
-		$mereks = Merek::all();
+		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
 		// $mereks = Merek::where('id', '>', '0')->get();
 
 		return view('mereks.index', compact('mereks'));

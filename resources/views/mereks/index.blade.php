@@ -80,9 +80,6 @@ Klinik Jati Elok | Mereks
                         <td>
                               <a href="formulas/{!! $merek->rak->formula_id !!}" class="">{!! $merek->rak->formula_id !!}</a> 
                         </td> 
-{{--                         <td>
-                          <a href="{{ url('mereks/buyhistory/' . $merek->id)}}" class="btn btn-primary btn-sm">History</a>
-                        </td> --}}
                         <td>
                           {!! HTML::link('mereks/' . $merek->id . '/edit', 'edit', ['class' => 'btn btn-warning'])!!}
                         </td>

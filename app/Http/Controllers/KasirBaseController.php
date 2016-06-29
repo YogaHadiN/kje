@@ -16,11 +16,10 @@ use App\Asuransi;
 class KasirBaseController extends Controller
 {
 	public function kasir($id){
-		$periksa = Periksa::find($id);
+        $periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
 		$pasien_id  = $periksa->pasien_id;
 		$periksa_id = $periksa->id;
-		$signas     = Signa::all();	
-		$terapis    = Terapi::where('periksa_id', $id)->get();
+		$terapis    = $periksa->terapii;
 		$reseps     = Yoga::masukLagi($terapis);
 		$plafon     = 0;
 		$biayatotal = 0;
@@ -40,17 +39,15 @@ class KasirBaseController extends Controller
    		}
 		$biayatotal  = Yoga::rataAtas5000($biayatotal);
 		$asuransi_id = $periksa->asuransi_id;
-		$tarif       = Tarif::all();
-		$pasien      = Pasien::find($periksa->pasien_id);
-		$tindakans   = [ null => '- Pilih -' ] + Tarif::where('asuransi_id', $asuransi_id)->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
+		$pasien      = $periksa->pasien;
+		$tindakans   = [ null => '- Pilih -' ] + Tarif::where('asuransi_id', $asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
 		$transaksi   = $periksa->transaksi;
 		$resepjson   = json_encode($reseps);
 		//	HITUNG DISPENSING BULAN INI KHUSUS UNTUK TIPE ASURANSI FLAT
 		$plafonFlat  = Yoga::dispensingObatBulanIni($periksa->asuransi, true);
-		$mereks      = Merek::all();
+		$mereks      = Merek::with('rak.formula')->get();
 		return view('kasir')
 			->withPasien($pasien)
-			->withSignas($signas)
 			->withPlafon($plafon)
 			->withReseps($reseps)
 			->withTerapis($terapis)

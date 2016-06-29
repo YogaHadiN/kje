@@ -1649,7 +1649,7 @@ class Yoga {
 			//return $terapi;
 			foreach ($terapi as $k => $v) {
 				$signa = $v['signa'];
-				$merek                        = Merek::find($v['merek_id']);
+				$merek                        = Merek::with('rak')->where('id', $v['merek_id'])->first();
 				$terapi[$k]['harga_jual_ini'] = $merek->rak->harga_jual;
 				$terapi[$k]['merek_obat']     = $merek->merek;
 				$terapi[$k]['rak_id']         = $merek->rak_id;

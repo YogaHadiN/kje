@@ -80,7 +80,6 @@ class Merek extends Model{
 
 	}
 	public function getMerekJualAttribute(){
-
 		$merek_id = $this->id;
 		$formula_id = $this->rak->formula_id;
 		$rak_id = $this->rak_id;
