@@ -119,6 +119,10 @@ Klinik Jati Elok | Laporan Puskesmas Jumlah Diare periode {{ App\Classes\Yoga::u
                                 <td>Total Jumlah Pasien Konsumsi Oralit pasien Diare kurang dari 5 tahun</td>
                                 <td>{{ $jumlahOralit_kurang_dari_5 }} </td>
                             </tr>
+                            <tr>
+                                <td>Total Jumlah Pasien Konsumsi Oralit pasien Diare Lebih dari 5 tahun</td>
+                                <td>{{ $jumlahOralit_lebih_dari_5 }} </td>
+                            </tr>
                         </tbody>
 
                     </table>
