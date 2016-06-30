@@ -47,19 +47,17 @@ Klinik Jati Elok | Checkout Kasir
                               </tr>
                           </tbody>
                       </table>
-
-                                <button class="btn btn-primary btn-lg btn-block" type="button" onclick="validate();return false;"> Checkout </button>
-                               {!! Form::open(['url'=>'pengeluarans/nota_z', 'method'=> 'post']) !!} 
-                                   <div class="form-group">
-                                       {!! Form::submit('Submit', ['class' => 'hide', 'id'=>'submit']) !!}
-                                   </div>
-                               {!! Form::close() !!}
-                          
-                  </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="button" onclick="validate();return false;"> Checkout </button>
+                       {!! Form::open(['url'=>'pengeluarans/nota_z', 'method'=> 'post']) !!} 
+                           <div class="form-group">
+                               {!! Form::submit('Submit', ['class' => 'hide', 'id'=>'submit']) !!}
+                           </div>
+                       {!! Form::close() !!}
               </div>
           </div>
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      </div>
+</div>
+<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         
     </div>
 </div>
@@ -89,7 +87,9 @@ Klinik Jati Elok | Checkout Kasir
                                   <td>{{ $plr->created_at->format('H:i:s') }}</td>
                                   <td>
                                       @if ($plr->jurnalable_type = 'App\FakturBelanja')
+                                      @if (isset($ju->jurnalable->supplier['nama']))
                                           {{ $plr->jurnalable->supplier['nama'] }}
+                                         @endif
                                       @else
                                           {{ $plr->jurnalable->staf['nama'] }}
                                       @endif
@@ -132,14 +132,12 @@ Klinik Jati Elok | Checkout Kasir
                         </thead>
                         <tbody>
                             @foreach ($table as $trx)
-                                @if ($trx['coa'] != 'Kas di tangan')
-                                    <tr>
-                                        <td>{!! $trx['coa'] !!}</td>        
-                                        <td class="text-right">{!! $trx['jumlah'] !!}</td>        
-                                        <td class="uang">{!! $trx['nilai'] !!}</td>        
-                                        <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode($trx["jurnalable_id"])) !!}' class="btn btn-info btn-xs">Detail</a> </td>
-                                    </tr>
-                               @endif
+                                <tr>
+                                    <td>{!! $trx['coa'] !!}</td>        
+                                    <td class="text-right">{!! $trx['jumlah'] !!}</td>        
+                                    <td class="uang">{!! $trx['nilai'] !!}</td>        
+                                    <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode($trx["jurnalable_id"])) !!}' class="btn btn-info btn-xs">Detail</a> </td>
+                                </tr>
                             @endforeach
                         </tbody>
                         <tfoot>

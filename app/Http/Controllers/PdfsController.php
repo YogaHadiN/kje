@@ -12,6 +12,7 @@ use App\NoSale;
 use App\CheckoutKasir;
 use App\BayarGaji;
 use App\NotaJual;
+use App\JurnalUmum;
 use App\FakturBelanja;
 use App\PembayaranAsuransi;
 use App\Tarif;
@@ -227,11 +228,14 @@ class PdfsController extends Controller
             //}
         //}
         //return $errors;
+        $detils = json_decode( $notaz->detil_pengeluarans, true );
+        //return $detils;
+        $pengeluarans = JurnalUmum::whereIn('id', $detils)->get();
         $total_nilai = 0;
         foreach ($notaz->checkoutDetail as $cd) {
             $total_nilai += $cd->nilai;
         }
-        $pdf = PDF::loadView('pdfs.notaz', compact('notaz', 'total_nilai'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+        $pdf = PDF::loadView('pdfs.notaz', compact('notaz', 'total_nilai', 'pengeluarans'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
     }
     public function rc($modal_id){

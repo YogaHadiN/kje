@@ -115,6 +115,7 @@
                 </table>
             </div>
             <div>
+                <h4>Uang Masuk</h4>
                 <table class="table table-condensed bordered">
                     <thead>
                         <tr>
@@ -132,6 +133,29 @@
                                 <td class="text-right">{{ App\Classes\Yoga::buatrp( $trx->nilai ) }}</td>
                             </tr>
                         @endforeach
+                    </tbody>
+                </table>
+                <h4>Uang Keluar</h4>
+                <table class="table table-condensed bordered">
+                    <thead>
+                        <tr>
+                            <td>Penerima</td>
+                            <td>Biaya</td>
+                        </tr>
+                    </thead>
+                    <tbody id="transaksi-print" class="font-small">
+                      @foreach($pengeluarans as $plr)
+                          <tr>
+                              <td>
+                                  @if ($plr->jurnalable_type = 'App\FakturBelanja')
+                                      {{ $plr->jurnalable->supplier->nama }}
+                                  @else
+                                      {{ $plr->jurnalable->staf->nama }}
+                                  @endif
+                              </td>
+                              <td>{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
+                          </tr>
+                      @endforeach
                     </tbody>
                 </table>
                 <div class="text-center">

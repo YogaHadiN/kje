@@ -352,6 +352,7 @@ class PengeluaransController extends Controller
         $pengeluarans = JurnalUmum::where('coa_id', 110000)
                                     ->where('debit', '0')
                                     ->where('created_at', '>=', $tanggal)
+                                    ->where('jurnalable_type', 'not like', 'App\\\CheckoutKasir')
                                     ->get();
         $totalPengeluarans = 0;
         foreach ($pengeluarans as $peng) {
@@ -466,6 +467,16 @@ class PengeluaransController extends Controller
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
         $query = "select min(jenis_tarif_id) as jenis_tarif_id, min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
+        $pengeluarans = JurnalUmum::where('coa_id', 110000)
+                                    ->where('debit', '0')
+                                    ->where('created_at', '>=', $tanggal)
+                                    ->where('jurnalable_type', 'not like', 'App\\\CehckoutKasir')
+                                    ->get(['id']);
+        $detail_pengeluarans = [];
+        foreach ($pengeluarans as $peng) {
+            $detail_pengeluarans[] = $peng->id;
+        } 
+        $detail_pengeluarans = json_encode( $detail_pengeluarans );
         //pindahkan semua kas di kasir menjadi kas di tangan
         $new_z = new CheckoutKasir;
         $new_z->modal_awal = $modal_awal;
@@ -478,6 +489,7 @@ class PengeluaransController extends Controller
         }
         $new_z->uang_masuk = $total_uang_masuk;
         $new_z->uang_keluar = $total_uang_keluar;
+        $new_z->detil_pengeluarans = $detail_pengeluarans;
         $confirm = $new_z->save();
         if ($confirm) {
             $jurnal                  = new JurnalUmum;
