@@ -212,8 +212,7 @@ class JurnalUmumsController extends Controller
     }
     
     public function hapus_jurnals(){
-        $ju = JurnalUmum::all();
-        $confirm = $Ju->delete();
+        $confirm = JurnalUmum::truncate();
         if ($confirm) {
             return 'Semua Jurnal Umum sudah terhapus, silahkan di RC sisa uang yang ada';
         } else {

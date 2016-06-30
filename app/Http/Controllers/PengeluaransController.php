@@ -485,7 +485,7 @@ class PengeluaransController extends Controller
         if (isset(JurnalUmum::all()->last()->id)) {
             $new_z->jurnal_umum_id = JurnalUmum::all()->last()->id;
         } else {
-            $new_z->jurnal_umum_id = 10000;
+            $new_z->jurnal_umum_id = 1;
         }
         $new_z->uang_masuk = $total_uang_masuk;
         $new_z->uang_keluar = $total_uang_keluar;

@@ -221,7 +221,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('jurnal_umums/coa_list', 'JurnalUmumsController@coa_list');
 			Route::get('jurnal_umums/coa_keterangan', 'JurnalUmumsController@coa_keterangan');
 			Route::post('jurnal_umums/coa_entry', 'JurnalUmumsController@coa_entry');
-			Route::post('jurnal_umums/hapus/jurnals', 'JurnalUmumsController@hapus_jurnals');
+			Route::get('jurnal_umums/hapus/jurnals', 'JurnalUmumsController@hapus_jurnals');
 
 
 			Route::get('buku_besars', 'BukuBesarsController@index');
