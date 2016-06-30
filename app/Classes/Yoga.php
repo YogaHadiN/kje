@@ -1644,24 +1644,23 @@ class Yoga {
 		}
 
 		public static function masukLagi($terapi){
-			$terapi = json_encode($terapi);
-			$terapi = json_decode($terapi, true);
+			$terapis = json_encode($terapi);
+			$terapis = json_decode($terapi, true);
 			//return $terapi;
 			foreach ($terapi as $k => $v) {
 				$signa = $v['signa'];
-				$merek                        = Merek::with('rak')->where('id', $v['merek_id'])->first();
-				$terapi[$k]['harga_jual_ini'] = $merek->rak->harga_jual;
-				$terapi[$k]['merek_obat']     = $merek->merek;
-				$terapi[$k]['rak_id']         = $merek->rak_id;
-				$terapi[$k]['harga_jual']     = $merek->rak->harga_jual;
-				$terapi[$k]['formula_id']     = $merek->rak->formula_id;
-				if ($signa == 'Puyer' && $merek->rak_id == 'D7') {
-					$terapi[$k]['fornas']         = '1';
+				$terapis[$k]['harga_jual_ini'] = $v->merek->rak->harga_jual;
+				$terapis[$k]['merek_obat']     = $v->merek->merek;
+				$terapis[$k]['rak_id']         = $v->merek->rak_id;
+				$terapis[$k]['harga_jual']     = $v->merek->rak->harga_jual;
+				$terapis[$k]['formula_id']     = $v->merek->rak->formula_id;
+				if ($signa == 'Puyer' && $v->merek->rak_id == 'D7') {
+					$terapis[$k]['fornas']         = '1';
 				} else {
-					$terapi[$k]['fornas']         = (string)$merek->rak->fornas;
+					$terapis[$k]['fornas']         = (string)$v->merek->rak->fornas;
 				}
 			}
-			return $terapi;
+			return $terapis;
 		}
 
 		public static function inputImageIfNotEmpty($image, $id){

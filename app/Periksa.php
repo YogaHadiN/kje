@@ -177,7 +177,6 @@ class Periksa extends Model{
           
 
                 $a = count($MyArray) - 1;
-                $MyArray[$a]->merek->rak_id = Merek::find($MyArray[$a]->merek_id)->rak_id;
 
 
                 if ($MyArray[$a]->merek_id == -1 || $MyArray[$a]->merek_id == -3) {
@@ -269,7 +268,6 @@ class Periksa extends Model{
           if (count($MyArray) > 0){
 
             for ($i = 0; $i < count($MyArray) - 1; $i++) {
-                $MyArray[$i]->merek->rak_id = Merek::find($MyArray[$i]->merek_id)->rak_id;
 
                 if (substr($MyArray[$i]->signa, 0, 5) == "Puyer" && $puyer == false ) {
 
@@ -363,9 +361,6 @@ class Periksa extends Model{
             }
 
                 $a = count($MyArray) - 1;
-                $MyArray[$a]->merek->rak_id = Merek::find($MyArray[$a]->merek_id)->rak_id;
-
-
                 if ($MyArray[$a]->merek_id == -1 || $MyArray[$a]->merek_id == -3) {
 
                     $temp .= '<tr>';
