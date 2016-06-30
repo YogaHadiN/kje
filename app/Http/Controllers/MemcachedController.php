@@ -19,13 +19,13 @@ class MemcachedController extends Controller
 	 * Display a listing of the resource.
 	 * GET /memcached
 	 *
-	 * @return Response
+	 * @return Reserikponse
 	 */
 	public function index()
 	{
         //$periksa = Periksa::latest()->first();
         $periksa = Periksa::with('terapii.merek')->latest()->first();
-        return var_dump($periksa->terapi_html);
+        return $periksa->terapi_html;
 
 
     }

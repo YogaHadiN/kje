@@ -83,8 +83,6 @@ class Periksa extends Model{
 
             for ($i = 0; $i < count($MyArray) - 1; $i++) {
 
-                $MyArray[$i]->merek->rak_id = Merek::find($MyArray[$i]->merek_id)->rak_id;
-
                 if (substr($MyArray[$i]->signa, 0, 5) == "Puyer" && $puyer == false ) {
 
                     $temp .= '<tr>';
