@@ -152,6 +152,8 @@
                             @endif
                             <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
                             <li>{!! HTML::link('pengeluarans/rc', 'RC')!!}</li>
+                            <li>{!! HTML::link('jurnal_umums/hapus/jurnals', 'Hapus Jurnal')!!}</li>
+
                         </ul>
                     </li>
                 </ul>

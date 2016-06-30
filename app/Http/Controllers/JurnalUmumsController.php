@@ -211,6 +211,16 @@ class JurnalUmumsController extends Controller
          return json_encode( [ null => '- pilih -' ] + Coa::lists('coa', 'id')->all() );
     }
     
+    public function hapus_jurnals(){
+        $ju = JurnalUmum::all();
+        $confirm = $Ju->delete();
+        if ($confirm) {
+            return 'Semua Jurnal Umum sudah terhapus, silahkan di RC sisa uang yang ada';
+        } else {
+             return 'Jurnal Umum telah gagal dihapus';
+        }
+    }
+    
     
 
 }
