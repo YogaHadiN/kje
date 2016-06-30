@@ -3,7 +3,6 @@
 @section('title') 
 Klinik Jati Elok |
                   Laporan Puskesmas Jumlah Ispa periode {{ App\Classes\Yoga::updateDatePrep($mulai) }} s/d {{ App\Classes\Yoga::updateDatePrep($akhir) }}
-
 @stop
 @section('head')
     <link href="{!! asset('css/print.css') !!}" rel="stylesheet" media="print">
@@ -27,9 +26,7 @@ Klinik Jati Elok |
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-info">
               <div class="panel-heading">
-
                   Detail
-
               </div>
               <div class="panel-body">
                     <table class="table table-condensed table-hover">
@@ -41,6 +38,11 @@ Klinik Jati Elok |
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"><h3>Pasien yang lain tidak ada data tanggal lahir</h3></td>
+                            </tr>
+                        </tfoot>
                     </table>
               </div>
         </div>
@@ -48,12 +50,10 @@ Klinik Jati Elok |
 </div>
 @stop
 @section('footer') 
-	
 <script type="text/javascript" charset="utf-8">
     function printStruk(control){
         alert( $(control).closest('tr').find('.periksa_id').html() );
     }
-    
 </script>
 @stop
 

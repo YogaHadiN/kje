@@ -24,7 +24,7 @@
         <img src="{{ url('/') . $image }}?{{time()}}" alt="" id="photo">
         <h3>Gambar KTP {{ $subject }}</h3>
         <img src="{{ url('/') . $ktp_image }}?{{time()}}" alt="" id="ktp_photo">
-        <textarea name="image" id="image" cols="30" rows="10" class=""></textarea>
-        <textarea name="ktp_image" id="ktp_image" cols="30" rows="10" class=""></textarea>
+        <textarea name="image" id="image" cols="30" rows="10" class="hide"></textarea>
+        <textarea name="ktp_image" id="ktp_image" cols="30" rows="10" class="hide"></textarea>
     </div>
 </div>

@@ -19,8 +19,8 @@ Klinik Jati Elok | Checkout Kasir
     <div id="print">
     </div>
 @endif
-  <div class="row">
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+<div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
           <div class="panel panel-success">
               <div class="panel-heading">
                   <div class="panel-title">Informasi Kasir</div>
@@ -58,12 +58,66 @@ Klinik Jati Elok | Checkout Kasir
                   </div>
               </div>
           </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        
+    </div>
+</div>
+  <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <div class="panel panel-warning">
+              <div class="panel-heading">
+                  <div class="panel-title">Pengeluaran Kas di Kasir</div>
+              </div>
+              <div class="panel-body">
+                  <div class-"table-responsive">
+                      <table class="table table-hover table-condensed">
+                          <thead>
+                              <tr>
+                                  <th>Tanggal</th>
+                                  <th>Jam</th>
+                                  <th>Nama Penerima</th>
+                                  <th>Jumlah Pengeluaran</th>
+                                  <th>Details</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              @foreach($pengeluarans as $plr)
+                              <tr>
+
+                                  <td>{{ $plr->created_at->format('d-m-Y') }}</td>
+                                  <td>{{ $plr->created_at->format('H:i:s') }}</td>
+                                  <td>
+                                      @if ($plr->jurnalable_type = 'App\FakturBelanja')
+                                          {{ $plr->jurnalable->supplier['nama'] }}
+                                      @else
+                                          {{ $plr->jurnalable->staf['nama'] }}
+                                      @endif
+                                      
+                                  </td>
+                                  <td class="uang">{{ $plr->nilai }}</td>
+                                  <td> <a class="btn btn-info btn-xs btn-block" href="#">details</a> </td>
+                              </tr>
+                              @endforeach
+                          </tbody>
+                          <tfoot>
+                              <tr>
+                                  <td colspan="3"><h3>Total Pengeluaran</h3></td>
+                                  <td colspan="2"><h3 class="uang">{{ $totalPengeluarans }}</h1></td>
+                              </tr>
+                          </tfoot>
+                      </table>
+                  </div>
+                  
+              </div>
+          </div>
+          
       </div>
 
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-danger">
             <div class="panel-heading">
-                <div class="panel-title">Panel Oke</div>
+                <div class="panel-title">Penerimaan Kas di Kasir</div>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -87,11 +141,14 @@ Klinik Jati Elok | Checkout Kasir
                                     </tr>
                                @endif
                             @endforeach
+                        </tbody>
+                        <tfoot>
                             <tr>
-                                <td colspan="3">Semua Transaksi Kasir</td>        
+                                <td colspan="2"><h3>Semua Transaksi Kasir</h3></td>        
+                                <td><h3 class="uang">{{ $totalPemasukan }}</h3></td>
                                 <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode( $all_id )) !!}' class="btn btn-info btn-xs">Detail</a> </td>
                             </tr>
-                        </tbody>
+                        </tfoot>
                     </table>
                 </div>
             </div>

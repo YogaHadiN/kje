@@ -81,7 +81,7 @@ class JurnalUmumsController extends Controller
 	public function coa()
 	{
 
-		$jurnals = JurnalUmum::all();
+		$jurnals = JurnalUmum::with('coa')->get();
 		$ids = [];
 		foreach ($jurnals as $k => $ju) {
 			try {

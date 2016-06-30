@@ -349,6 +349,14 @@ class PengeluaransController extends Controller
         $tanggal = $checkout->created_at;
         $jurnal_umum_id = $checkout->jurnal_umum_id;
         $tindakans = [];
+        $pengeluarans = JurnalUmum::where('coa_id', 110000)
+                                    ->where('debit', '0')
+                                    ->where('created_at', '>=', $tanggal)
+                                    ->get();
+        $totalPengeluarans = 0;
+        foreach ($pengeluarans as $peng) {
+            $totalPengeluarans += $peng->nilai;
+        }
         $jurnalumums = JurnalUmum::with('coa')->where('created_at', '>=', $tanggal)->get();;
 		foreach ($jurnalumums as $k => $ju) {
 			try {
@@ -405,7 +413,11 @@ class PengeluaransController extends Controller
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
         $query = "select min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where px.tanggal >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
-        return view('pengeluarans.notaz', compact('checkouts','transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id'));
+        $totalPemasukan = 0;
+        foreach ($table as $trx) {
+            $totalPemasukan += $trx['nilai'];
+        }
+        return view('pengeluarans.notaz', compact('checkouts','transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id', 'pengeluarans', 'totalPengeluarans', 'totalPemasukan'));
     }
     public function notaz_post(){
         $table = $this->table();
@@ -723,14 +735,7 @@ class PengeluaransController extends Controller
         $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
         $rinci = DB::select($query);
         $table = [];
-        $errors = [];
         foreach ($rinci as $rc) {
-            // try {
-            //     $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
-            // } catch (\Exception $e) {
-            //     $errors[] = $rc->id;
-            // }
-
             $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
             $valid = false;
             foreach ($arrs as $key => $ar) {
@@ -765,7 +770,6 @@ class PengeluaransController extends Controller
                             'jurnalable_id' => [
                                  $rc->jurnalable_id
                             ]
-
                         ]; 
                     }
                 } else if ($ar->debit == 1 && $ar->coa_id != 110000 ) {
@@ -773,8 +777,6 @@ class PengeluaransController extends Controller
                 }
             }
         }
-
-        return $errors;
         return $table;
     }
     
