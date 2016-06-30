@@ -721,6 +721,9 @@ class LaporansController extends Controller
         $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150811020' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 4;";
         $jumlahOralit_lebih_dari_5 = DB::select($query)[0]->jumlah;
 
+        $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150811020' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) < 5;";
+        $jumlahOralit_kurang_dari_5 = DB::select($query)[0]->jumlah;
+
         $query = "select count(*) as jumlah from terapis as tp join periksas as px on px.id = tp.periksa_id join mereks as mr on mr.id = tp.merek_id join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id=rk.formula_id join diagnosas as dg on dg.id=px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where fr.id='150802006' and px.tanggal between '{$mulai}' and '{$akhir}' and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 0 and 5 and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') ;";
         $jumlahZink_0_5_diare = DB::select($query)[0]->jumlah;
 
@@ -751,6 +754,7 @@ class LaporansController extends Controller
             'jumlahZink_0_5',
             'jumlahZink_1_4',
             'jumlahZink_6_11',
+            'jumlahOralit_kurang_dari_5',
             'jumlahOralit_lebih_dari_5',
             'jumlahZink_0_5_diare',
             'jumlahZink_6_11_diare',

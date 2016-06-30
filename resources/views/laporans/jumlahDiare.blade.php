@@ -115,6 +115,10 @@ Klinik Jati Elok | Laporan Puskesmas Jumlah Diare periode {{ App\Classes\Yoga::u
                                 <td>Total Jumlah Pasien Konsumsi Zinc 1 - 5 tahun</td>
                                 <td>{{ $jumlahZink_1_4 }} </td>
                             </tr>
+                            <tr>
+                                <td>Total Jumlah Pasien Konsumsi Oralit pasien Diare kurang dari 5 tahun</td>
+                                <td>{{ $jumlahOralit_kurang_dari_5 }} </td>
+                            </tr>
                         </tbody>
 
                     </table>
