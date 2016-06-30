@@ -68,11 +68,12 @@ class Periksa extends Model{
         $puyer = false;
         $add = false;
 
-        $terapi = json_encode($this->terapii);
+        $terapis = $this->terapii;
+        $terapi = json_encode($terapis);
 
 
         if($terapi != ""){
-                $MyArray = $this->terapii;
+                $MyArray = $terapis;
             } else {
                 $MyArray = [];
             }
@@ -828,11 +829,12 @@ class Periksa extends Model{
         }
     }
 
-        public function getTerapiHtmllllAttribute(){
+    public function getTerapiHtmllllAttribute(){
         $puyer = false;
         $add = false;
 
-        $terapi = json_encode($this->terapii);
+        $terapis = $this->terapii;
+        $terapi = json_encode($terapis);
 
         // return $terapi;
 

@@ -34,7 +34,7 @@ class JurnalUmumsController extends Controller
 
         $bulan  = Input::get('bulan');
         $tahun  = Input::get('tahun');
-		$jurnalumums = JurnalUmum::with('coa')->get();
+		$jurnalumums = JurnalUmum::with('coa')->where('created_at', 'like', $tahun . '-'. $bulan . '%')->get();
 		foreach ($jurnalumums as $k => $ju) {
 			try {
 				$ju->coa->coa;

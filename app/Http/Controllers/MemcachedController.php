@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Cache;
 use App\Diagnosa;
 use App\Tarif;
+use App\Periksa;
 use App\Classes\Yoga;
 
 class MemcachedController extends Controller
@@ -22,9 +23,11 @@ class MemcachedController extends Controller
 	 */
 	public function index()
 	{
+        //$periksa = Periksa::latest()->first();
+        $periksa = Periksa::with('terapii.merek')->latest()->first();
+        return var_dump($periksa->terapi_html);
 
-        return dd(Tarif::with('jenisTarif')->first());
-        $periksa = Periksa::find($id);
+
     }
 
 

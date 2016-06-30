@@ -345,7 +345,11 @@ class PengeluaransController extends Controller
     }
     
     public function nota_z(){
-        $jurnalumums = JurnalUmum::all();
+        $checkout = CheckoutKasir::latest()->first();
+        $tanggal = $checkout->created_at;
+        $jurnal_umum_id = $checkout->jurnal_umum_id;
+        $tindakans = [];
+        $jurnalumums = JurnalUmum::with('coa')->where('created_at', '>=', $tanggal)->get();;
 		foreach ($jurnalumums as $k => $ju) {
 			try {
 				$ju->coa->coa;
@@ -353,10 +357,6 @@ class PengeluaransController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
-        $checkout = CheckoutKasir::latest()->first();
-        $tanggal = $checkout->created_at;
-        $jurnal_umum_id = $checkout->jurnal_umum_id;
-        $tindakans = [];
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
         $uang_masuks = JurnalUmum::where('created_at', '>=', $tanggal)
                                     ->where('coa_id', 110000)
