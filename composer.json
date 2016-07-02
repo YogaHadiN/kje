@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "7.0.5",
+        "php": "7.0.8",
         "laravel/framework": "5.2.*",
          "laravelcollective/html": "5.2.*",
          "dog-ears/crud-d-scaffold": "1.*",
