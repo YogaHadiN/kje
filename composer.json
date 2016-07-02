@@ -5,13 +5,14 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "7.0.5",
+        "php": "7.0.8",
         "laravel/framework": "5.2.*",
          "laravelcollective/html": "5.2.*",
          "dog-ears/crud-d-scaffold": "1.*",
          "barryvdh/laravel-dompdf": "0.6.*",
         "filp/whoops": "^2.1",
-        "barryvdh/laravel-debugbar": "^2.2"
+        "barryvdh/laravel-debugbar": "^2.2",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
