@@ -1669,7 +1669,7 @@ class Yoga {
 				if (gethostname() == 'homestead') {
 					$path = '/home/vagrant/Code/kje/public/img/pasien/img' . $id . '.png';
 				} else {
-					$path = '/var/www/kje2/public/img/pasien/img' . $id . '.png';
+					$path = '/var/www/kje/public/img/pasien/img' . $id . '.png';
 				}
 				$urlImage = '/img/pasien/img'. $id . '.png';
 				$data     = $image;
@@ -1691,7 +1691,7 @@ class Yoga {
 				if (gethostname() == 'homestead') {
 					$path = '/home/vagrant/Code/kje/public/img/pasien/ktp' . $id . '.png';
 				} else {
-					$path = '/var/www/kje2/public/img/pasien/ktp' . $id . '.png';
+					$path = '/var/www/kje/public/img/pasien/ktp' . $id . '.png';
 				}
 				$urlImage = '/img/pasien/ktp'. $id . '.png';
 				$data     = $image;
@@ -1713,7 +1713,7 @@ class Yoga {
 				if (gethostname() == 'homestead') {
 					$path = '/home/vagrant/Code/kje/public/img/staf/img' . $id . '.png';
 				} else {
-					$path = '/var/www/kje2/public/img/staf/img' . $id . '.png';
+					$path = '/var/www/kje/public/img/staf/img' . $id . '.png';
 				}
 				$urlImage = '/img/staf/img'. $id . '.png';
 				$data     = $image;
@@ -1735,7 +1735,7 @@ class Yoga {
 				if (gethostname() == 'homestead') {
 					$path = '/home/vagrant/Code/kje/public/img/staf/ktp' . $id . '.png';
 				} else {
-					$path = '/var/www/kje2/public/img/staf/ktp' . $id . '.png';
+					$path = '/var/www/kje/public/img/staf/ktp' . $id . '.png';
 				}
 				$urlImage = '/img/staf/ktp'. $id . '.png';
 				$data     = $image;
@@ -1758,7 +1758,7 @@ class Yoga {
 				if (gethostname() == 'homestead') {
 					$path = '/home/vagrant/Code/kje/public/img/pasien/rjk' . $id . '.png';
 				} else {
-					$path = '/var/www/kje2/public/img/pasien/rjk' . $id . '.png';
+					$path = '/var/www/kje/public/img/pasien/rjk' . $id . '.png';
 				}
 				$urlImage = '/img/pasien/rjk'. $id . '.png';
 				$data     = $image;

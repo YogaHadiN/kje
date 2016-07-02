@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 
 use Cache;
+use Illuminate\Support\Facades\Redis;
 use App\Diagnosa;
 use App\Tarif;
 use App\Periksa;
@@ -23,9 +24,8 @@ class MemcachedController extends Controller
 	 */
 	public function index()
 	{
-        //$periksa = Periksa::latest()->first();
-        $periksa = Periksa::with('terapii.merek')->latest()->first();
-        return $periksa->terapi_html;
+ 		Cache::put('yoga', 'hsdhfklahjfdasdf', 60);
+ 		return Cache::get('yoga');
 
 
     }
