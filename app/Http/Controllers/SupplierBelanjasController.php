@@ -15,7 +15,7 @@ class SupplierBelanjasController extends Controller
     public function belanja_obat(){
 		$suppliers = Supplier::all();
 		$stafs = Yoga::stafList();
-        $fakturbelanjas = FakturBelanja::where('belanja_id', 1)->latest()->get();
+        $fakturbelanjas = FakturBelanja::with('supplier', 'belanja', 'pembelian')->where('belanja_id', 1)->latest()->get();
 		$belanjaList = [ null => '- Jenis Belanja -']  + Belanja::lists('belanja', 'id')->all();
 		return view('suppliers.belanja_obat', compact('suppliers', 'stafs', 'belanjaList', 'fakturbelanjas'));
     }
