@@ -1,0 +1,3 @@
+#define REDIS_GIT_SHA1 "1e9c9e2a"
+#define REDIS_GIT_DIRTY "70"
+#define REDIS_BUILD_ID "dell-1467472024"
