@@ -29,11 +29,11 @@ class PenjualansController extends Controller
 	public function index()
 	{
 		// return 'penjualan index';
-		$mereks = [null => '--pilih--'] + Merek::get()->lists('merek', 'custid')->all();
+		$mereks = [null => '--pilih--'] + Merek::with('rak.formula')->get()->lists('merek', 'custid')->all();
 		$stafs = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
 		// return $stafs;
 		// return $mereks;
-        $nota_juals = NotaJual::latest()->get();
+        $nota_juals = NotaJual::with('penjualan.merek', 'staf', 'tipeJual', 'pendapatan')->latest()->get();
 		return view('penjualans.index', compact('mereks', 'stafs', 'suppliers', 'nota_juals'));
 		// return $faktur_beli_id;
 	}
