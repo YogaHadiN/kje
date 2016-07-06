@@ -7,7 +7,6 @@ use Input;
 use App\Http\Requests;
 
 use Cache;
-use Illuminate\Support\Facades\Redis;
 use App\Diagnosa;
 use App\Tarif;
 use App\Periksa;
@@ -24,11 +23,10 @@ class MemcachedController extends Controller
 	 */
 	public function index()
 	{
- 		Cache::put('yoga', 'hsdhfklahjfdasdf', 60);
- 		return Cache::get('yoga');
-
-
+		//return var_dump( Cache::get('confirmList') );
+		return var_dump( Yoga::confirmList() );
     }
+
 
 
 	public function data() {

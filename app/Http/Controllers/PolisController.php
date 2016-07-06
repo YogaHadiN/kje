@@ -19,8 +19,7 @@ use App\Asuransi;
 class PolisController extends Controller
 {
 	public function poli($id){
-        $name = 'yogahadinunu';
-		$antrianperiksa 		= AntrianPeriksa::find($id);
+		$antrianperiksa 		= AntrianPeriksa::with('pasien')->where('id', $id)->first();
 		$pasien_id 				= $antrianperiksa->pasien_id;
 		$tekanan_darah 			= $antrianperiksa->tekanan_darah;
 		$suhu 					= $antrianperiksa->suhu;
@@ -62,11 +61,11 @@ class PolisController extends Controller
 		$hpht                          = null;
 		$tanggal_lahir_anak_terakhir   = null;
 
-		$confirms             = Yoga::cacheku('confirms', Yoga::confirmList());
-		$refleks_patelas      = Yoga::cacheku('refleks_patelas', Yoga::refleksPatelasList());
-		$kepala_terhadap_paps = Yoga::cacheku('kepala_terhadap_paps', Yoga::kepalaTerhadapPapsList());
-		$presentasis          = Yoga::cacheku('presentasis', Yoga::presentasisList());
-		$bukus                = Yoga::cacheku('bukus', Yoga::bukusList());
+		$confirms             = Yoga::confirmList();
+		$refleks_patelas      = Yoga::refleksPatelasList();
+		$kepala_terhadap_paps = Yoga::kepalaTerhadapPapsList();
+		$presentasis          = Yoga::presentasisList();
+		$bukus                = Yoga::bukusList();
 
 		Yoga::registerHamilList($pasien_id);
 
@@ -82,8 +81,9 @@ class PolisController extends Controller
 		if($tinggi_badan){
 			$pemeriksaan_awal .= $tinggi_badan . ' cm ';
 		}
-
-		$specs = Yoga::cacheku('specs', TujuanRujuk::all(['tujuan_rujuk']));
+		$specs = \Cache::remember('specs', 60, function() {	
+			return TujuanRujuk::all(['tujuan_rujuk']);
+		});
 
 		$tujuan_rujuk = [];
 
@@ -94,35 +94,37 @@ class PolisController extends Controller
 		$tujuan_rujuk = json_encode($tujuan_rujuk);
 
 		
-		$periksa     = Periksa::where('pasien_id', $pasien_id)->latest()->first();
+		$periksa     = Periksa::with('terapii.merek')->where('pasien_id', $pasien_id)->latest()->first();
 		$asuransi_id = $antrianperiksa->asuransi_id;
-		$pasien      = Pasien::find($antrianperiksa->pasien_id);
-        if (!\Cache::has('aturans')) {
-            \Cache::put('aturans', AturanMinum::orderBy('id', 'desc')->get(), 60);
-        }
-		$aturans     = \Cache::get('aturans');
-        if (!\Cache::has('aturanlist')) {
-            \Cache::put('aturanlist', AturanMinum::lists('aturan_minum', 'id')->all(), 60);
-        }
-		$aturanlist  = \Cache::get('aturanlist');
-        if (!\Cache::has('stafs')) {
-            \Cache::put('stafs', Staf::lists('nama', 'id')->all(), 60 );
-        }
-		$stafs       = \Cache::get('stafs');
-        if (!\Cache::has('signa')) {
-            \Cache::put('signa', Signa::lists('signa', 'id')->all(), 60);
-        }
-		$signa       = \Cache::get('signa');
+		$pasien      = $antrianperiksa->pasien;
 
-        if (!\Cache::has('signas')) {
-            \Cache::put('signas', Signa::orderBy('id', 'desc')->get()->take(10), 60);
-        }
-		$signas      = \Cache::get('signas');
-        if (!\Cache::has('diagnosa')) {
-            \Cache::put('diagnosa', Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all(), 60);
-        }
-        $diagnosa = \Cache::get('diagnosa');
-		$icd10s      = $this->cacheku('icd10s', Icd10::all()->take(10));
+		$aturans     = \Cache::remember('aturans', 60, function(){
+			 return  AturanMinum::orderBy('id', 'desc')->get();
+		});
+
+		$aturanlist =  \Cache::remember('aturanlist', 60, function(){
+            return AturanMinum::lists('aturan_minum', 'id')->all();
+		});
+		
+		$stafs     = \Cache::remember('stafs', 60, function(){
+            return Staf::lists('nama', 'id')->all();
+		});
+
+		$signa     = \Cache::remember('signa', 60, function(){
+            return Signa::lists('signa', 'id')->all();
+		});
+		$signas     = \Cache::remember('signas', 60, function(){
+            return Signa::orderBy('id', 'desc')->get()->take(10);
+		});
+
+		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
+            return Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all();
+		});
+
+		$icd10s     = \Cache::remember('icd10s', 60, function(){
+			return Icd10::all()->take(10);
+		});
+
         if($asuransi_id == '32'){
             $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenisbpjs', 'tarif_jual')->toArray();
         }else{
@@ -142,11 +144,12 @@ class PolisController extends Controller
 				}
 			}
 		}
-		$keterangan  = Yoga::cacheku('keterangan', json_decode(Asuransi::find(32)->umum, true));
+		$keterangan     = \Cache::remember('keterangan', 60, function(){
+			return Asuransi::find(32)->umum;
+		});
 		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
 		if($periksaExist != null){
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
-			// return $plafonFlat;
 			$transaksi = $periksaExist->transaksi;
 			$transaksi = json_decode($transaksi, true);
 			for ($i = count($transaksi)-1; $i >= 0; $i--) {
@@ -158,7 +161,6 @@ class PolisController extends Controller
 					array_splice($transaksi, $i, 1);
 				}
 			}
-
 			$periksaExist->transaksi = json_encode($transaksi);
 
 			//CEK APAKAH SUDAH PERIKSA GDS BULAN INI
@@ -397,8 +399,6 @@ class PolisController extends Controller
 		}
 		$transaksiusg = json_encode($transaksiusg);
 
-		//BILA PASIEN 
-		// return dd($plafon);
 		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id);
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)

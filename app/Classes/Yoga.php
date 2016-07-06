@@ -1371,26 +1371,38 @@ class Yoga {
 		}
 		public static function confirmList() {
 
-			return Confirm::lists('confirm', 'id')->all();
-		}
+			return \Cache::remember('confirmList', 60, function() {	
+				return Confirm::lists('confirm', 'id')->all();
+			});
 
+		}
 		public static function refleksPatelasList() {
 
-			return RefleksPatela::lists('refleks_patela', 'id')->all();
+			return \Cache::remember('refleksPatelasList', 60, function() {	
+				return RefleksPatela::lists('refleks_patela', 'id')->all();
+			});
 		}
 		public static function kepalaTerhadapPapsList() {
 
-			return KepalaTerhadapPap::lists('kepala_terhadap_pap', 'id')->all();
+			return \Cache::remember('kepalaTerhadapPapsList', 60, function() {	
+				return KepalaTerhadapPap::lists('kepala_terhadap_pap', 'id')->all();
+			});
 		}
 		public static function presentasisList() {
 
-			return Presentasi::lists('presentasi', 'id')->all();
+			return \Cache::remember('presentasisList', 60, function() {	
+				return Presentasi::lists('presentasi', 'id')->all();
+			});
 		}
 		public static function bukusList() {
-			return Buku::lists('buku', 'id')->all();
+			return \Cache::remember('bukusList', 60, function() {	
+				return Buku::lists('buku', 'id')->all();
+			});
 		}
 		public static function tipeRumahSakitList() {
-			return [ null => '- pilih -'] +  JenisRumahSakit::lists('jenis_rumah_sakit', 'id')->all();
+			return \Cache::remember('tipeRumahSakitList', 60, function() {	
+				return [ null => '- pilih -'] +  JenisRumahSakit::lists('jenis_rumah_sakit', 'id')->all();
+			});
 		}
 		public static function statusGizi($lila) {
 			$param = $lila/28.5;
@@ -2059,8 +2071,6 @@ class Yoga {
 			} catch (\Exception $e) {
 				$periksaTerakhirGakPakaiBPJS = false;
 			}
-
-			
 			if ($periksa3mingguTerakhirPakaiBiayaPribadi->count() > 0 || $periksaTerakhirGakPakaiBPJS) {
 				$pakai_bayar_pribadi = true;
 			}
