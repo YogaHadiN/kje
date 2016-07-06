@@ -29,11 +29,11 @@ class PenjualansController extends Controller
 	public function index()
 	{
 		// return 'penjualan index';
-		$mereks = [null => '--pilih--'] + Merek::get()->lists('merek', 'custid')->all();
+		$mereks = [null => '--pilih--'] + Merek::with('rak.formula')->get()->lists('merek', 'custid')->all();
 		$stafs = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
 		// return $stafs;
 		// return $mereks;
-        $nota_juals = NotaJual::latest()->get();
+        $nota_juals = NotaJual::with('tipeJual', 'staf', 'penjualan')->latest()->get();
 		return view('penjualans.index', compact('mereks', 'stafs', 'suppliers', 'nota_juals'));
 		// return $faktur_beli_id;
 	}
@@ -134,9 +134,11 @@ class PenjualansController extends Controller
 	}
     public function obat_buat_karyawan(){
 		// return 'penjualan index';
-        $nota_juals = NotaJual::latest()->get();
-		$mereks = [null => '--pilih--'] + Merek::get()->lists('merek', 'custid')->all();
+		$mereks = [null => '--pilih--'] + Merek::with('rak.formula')->get()->lists('merek', 'custid')->all();
 		$stafs = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
+		// return $stafs;
+		// return $mereks;
+        $nota_juals = NotaJual::with('tipeJual', 'staf', 'penjualan')->latest()->get();
         return view('penjualans.obat_buat_karyawan', compact('mereks', 'stafs', 'nota_juals'));
     }
     public function obat_buat_karyawan_post(){

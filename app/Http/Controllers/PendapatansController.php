@@ -160,7 +160,7 @@ class PendapatansController extends Controller
 	}
     public function pembayaran_asuransi(){
         $asuransi_list = ['null' => '-pilih-'] + Asuransi::lists('nama', 'id')->all();
-        $pembayarans = PembayaranAsuransi::latest()->paginate(10);
+        $pembayarans = PembayaranAsuransi::with('asuransi', 'coa')->latest()->paginate(10);
 		return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans'));
     }
     public function pembayaran_asuransi_by_id($id){

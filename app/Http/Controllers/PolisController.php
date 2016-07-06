@@ -19,7 +19,6 @@ use App\Asuransi;
 class PolisController extends Controller
 {
 	public function poli($id){
-        $name = 'yogahadinunu';
 		$antrianperiksa 		= AntrianPeriksa::find($id);
 		$pasien_id 				= $antrianperiksa->pasien_id;
 		$tekanan_darah 			= $antrianperiksa->tekanan_darah;
@@ -62,11 +61,30 @@ class PolisController extends Controller
 		$hpht                          = null;
 		$tanggal_lahir_anak_terakhir   = null;
 
-		$confirms             = Yoga::cacheku('confirms', Yoga::confirmList());
-		$refleks_patelas      = Yoga::cacheku('refleks_patelas', Yoga::refleksPatelasList());
-		$kepala_terhadap_paps = Yoga::cacheku('kepala_terhadap_paps', Yoga::kepalaTerhadapPapsList());
-		$presentasis          = Yoga::cacheku('presentasis', Yoga::presentasisList());
-		$bukus                = Yoga::cacheku('bukus', Yoga::bukusList());
+        if (!\Cache::has('confirms')) {
+            \Cache::put('confirms',Yoga::confirmList(), 60);
+        }
+		$confirms = \Cache::get('confirms');
+        if (!\Cache::has('refleks_patelas')) {
+            \Cache::put('refleks_patelas', Yoga::refleksPatelasList(), 60);
+        }
+		$refleks_patelas = \Cache::get('refleks_patelas');
+        if (!\Cache::has('kepala_terhadap_paps')) {
+            \Cache::put('kepala_terhadap_paps', Yoga::refleksPatelasList(), 60);
+        }
+		$kepala_terhadap_paps = \Cache::get('kepala_terhadap_paps');
+        if (!\Cache::has('presentasis')) {
+            \Cache::put('presentasis', Yoga::kepalaTerhadapPapsList(), 60);
+        }
+		$presentasis = \Cache::get('presentasis');
+        if (!\Cache::has('presentasis')) {
+            \Cache::put('presentasis', Yoga::presentasisList(), 60);
+        }
+		$presentasis = \Cache::get('presentasis');
+        if (!\Cache::has('bukus')) {
+            \Cache::put('bukus', Yoga::bukusList(), 60);
+        }
+		$bukus = \Cache::get('bukus');
 
 		Yoga::registerHamilList($pasien_id);
 
@@ -83,7 +101,10 @@ class PolisController extends Controller
 			$pemeriksaan_awal .= $tinggi_badan . ' cm ';
 		}
 
-		$specs = Yoga::cacheku('specs', TujuanRujuk::all(['tujuan_rujuk']));
+        if (!\Cache::has('specs')) {
+            \Cache::put('specs', TujuanRujuk::all(['tujuan_rujuk']), 60);
+        }
+		$specs = \Cache::get('specs');
 
 		$tujuan_rujuk = [];
 
@@ -94,9 +115,9 @@ class PolisController extends Controller
 		$tujuan_rujuk = json_encode($tujuan_rujuk);
 
 		
-		$periksa     = Periksa::where('pasien_id', $pasien_id)->latest()->first();
+		$periksa     = Periksa::with('pasien')->where('pasien_id', $pasien_id)->latest()->first();
 		$asuransi_id = $antrianperiksa->asuransi_id;
-		$pasien      = Pasien::find($antrianperiksa->pasien_id);
+		$pasien      = $periksa->pasien;
         if (!\Cache::has('aturans')) {
             \Cache::put('aturans', AturanMinum::orderBy('id', 'desc')->get(), 60);
         }
@@ -120,9 +141,11 @@ class PolisController extends Controller
 		$signas      = \Cache::get('signas');
         if (!\Cache::has('diagnosa')) {
             \Cache::put('diagnosa', Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all(), 60);
+        } $diagnosa = \Cache::get('diagnosa');
+        if (!\Cache::has('icd10s')) {
+            \Cache::put('icd10s', Icd10::all(), 60);
         }
-        $diagnosa = \Cache::get('diagnosa');
-		$icd10s      = $this->cacheku('icd10s', Icd10::all()->take(10));
+        $icd10s = \Cache::get('icd10s');
         if($asuransi_id == '32'){
             $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenisbpjs', 'tarif_jual')->toArray();
         }else{
@@ -142,8 +165,11 @@ class PolisController extends Controller
 				}
 			}
 		}
-		$keterangan  = Yoga::cacheku('keterangan', json_decode(Asuransi::find(32)->umum, true));
-		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
+        if (!\Cache::has('keterangan')) {
+            \Cache::put('keterangan', json_decode(Asuransi::find(32)->umum), 60);
+        }
+        $keterangan = \Cache::get('keterangan');
+		$periksaExist = Periksa::with('terapii.merek.rak')->where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
 		if($periksaExist != null){
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
 			// return $plafonFlat;

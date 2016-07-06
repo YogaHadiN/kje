@@ -7,9 +7,9 @@ use Input;
 use App\Http\Requests;
 
 use Cache;
-use Illuminate\Support\Facades\Redis;
 use App\Diagnosa;
 use App\Tarif;
+use App\Merek;
 use App\Periksa;
 use App\Classes\Yoga;
 
@@ -24,21 +24,15 @@ class MemcachedController extends Controller
 	 */
 	public function index()
 	{
- 		Cache::put('yoga', 'hsdhfklahjfdasdf', 60);
- 		return Cache::get('yoga');
-
-
+		return Yoga::cacheku('yoga', Merek::all()); //Cache::get kembali mentriger query bukannya ambil dari Cache
     }
 
 
-	public function data() {
-
-		if (\Cache::has('pasien')) {
-			return \Cache::get('pasien');
-		} else {
-			return 'Cache sudah expired';
+	private function data($nama, $data) {
+		if (!Cache::has($nama)) {
+			Cache::put($nama, $data, 60);
 		}
-
+		return Cache::get($nama); // yang ini selalu ngambil dari database lagi / cache gak jalan
 	}
 
 }

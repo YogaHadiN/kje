@@ -89,7 +89,6 @@ class Yoga {
 				confirm_query($admin_set);
 				return $admin_set;
 			}
-			
 			public static function find_subject_by_id($subject_id, $public=true) {
 				global $connection;
 				
@@ -1640,7 +1639,6 @@ class Yoga {
 				\Cache::put($name, $data, 60);
 			}
 			return \Cache::get($name);
-
 		}
 
 		public static function masukLagi($terapi){
