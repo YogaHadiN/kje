@@ -340,7 +340,7 @@ class PengeluaransController extends Controller
         }
     }
     public function bayar(){
-        $bayar_dokters = BayarDokter::latest()->paginate(30);
+        $bayar_dokters = BayarDokter::with('staf', 'petugas')->latest()->paginate(30);
         return view('formbayardokter', compact('bayar_dokters'));
     }
     
@@ -524,7 +524,7 @@ class PengeluaransController extends Controller
     }
 
     public function erce(){
-        $modals = Modal::latest()->paginate(20);
+        $modals = Modal::with('coa')->latest()->paginate(20);
         $sumberUangList = [
             null => '-pilih-',
             301000 => 'Modal',

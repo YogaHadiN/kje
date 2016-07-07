@@ -39,8 +39,7 @@
             validasi('#txt_jumlah', 'Harus Diisi!!');
           }
         } else {
-
-            var merek = $(control).closest('tr').find('td:nth-child(1) select option:selected').text();
+var merek = $(control).closest('tr').find('td:nth-child(1) select option:selected').text();
             var ddl_value = $(control).closest('tr').find('td:nth-child(1) select').val();
             var harga_beli = $(control).closest('tr').find('td:nth-child(2) input').val();
             var harga_jual = $(control).closest('tr').find('td:nth-child(3) input').val();
@@ -53,7 +52,7 @@
             dataTambah = {
               'merek' : merek,
               'merek_id' : merek_id,
-              'harga_jual' : parseInt( harga_jual ) * 1.25,
+              'harga_jual' : rata100( parseInt( harga_jual ) * 1.25 ),
               'harga_beli' : harga_beli,
               'exp_date' : exp_date,
               'jumlah' : jumlah
@@ -138,7 +137,7 @@
       control = $.parseJSON(control);
 
       var merek_id = control.merek_id;
-      var harga_jual = control.harga_jual;
+      var harga_jual = rata100( parseInt( control.harga_jual ) * 1.25 );
       var exp_date = control.exp_date;
 
       exp_date = exp_date.split('-');

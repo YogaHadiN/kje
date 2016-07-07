@@ -45,14 +45,12 @@ class PembeliansController extends Controller
 			return redirect('pembelians/' . $id . '/edit');
 		}
 
-		$mereks = Merek::all();
+		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
 
 		$rak = Rak::first();
 
 		$formula = Formula::first();
 		$fornas = Yoga::fornas();
-		$alternatif_fornas = array('0' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
-		
 		$sediaan = [
 			null 				=> '- pilih -',
 			'tablet'  			=> 'tablet',
@@ -229,12 +227,12 @@ class PembeliansController extends Controller
 
 	public function edit($id)
 	{
-		$fakturbelanja = FakturBelanja::find($id);
-		$mereks = Merek::all();
+		$fakturbelanja = FakturBelanja::with('pembelian.merek')->where('id', $id)->first();
+		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
 		$rak = Rak::first();
 		$formula = Formula::first();
 		$fornas = Yoga::fornas();
-		$alternatif_fornas = array('0' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
+		$alternatif_fornas = array('0' => '- Pilih Merek -') + $mereks->lists('merek', 'id')->all();
 		$sediaan = [
 			null 				=> '- pilih -',
 			'tablet'  			=> 'tablet',
@@ -250,7 +248,7 @@ class PembeliansController extends Controller
 			'tube'  			=> 'tube'
 		];
 
-		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::lists('merek', 'id')->all();
+		$alternatif_fornas = array('' => '- Pilih Merek -') + $mereks->lists('merek', 'id')->all();
 		$dijual_bebas = array(
                         null        => '- Pilih -',
                         '0'         => 'Tidak Dijual Bebas',

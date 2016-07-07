@@ -420,3 +420,13 @@ function time() {
                     + currentdate.getSeconds();
     return time;
 }
+
+function rata100(biaya){
+    if (biaya == 0 || biaya == '') {
+        return 0;
+    }
+    for (var i = 0; i < biaya; i = i+100) {
+    }
+    return i;
+
+}

@@ -134,8 +134,8 @@ class PenjualansController extends Controller
 	}
     public function obat_buat_karyawan(){
 		// return 'penjualan index';
-        $nota_juals = NotaJual::latest()->get();
-		$mereks = [null => '--pilih--'] + Merek::get()->lists('merek', 'custid')->all();
+        $nota_juals = NotaJual::with('pendapatan', 'penjualan', 'tipeJual', 'staf')->latest()->get();
+		$mereks = [null => '--pilih--'] + Merek::with('rak.formula')->get()->lists('merek', 'custid')->all();
 		$stafs = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
         return view('penjualans.obat_buat_karyawan', compact('mereks', 'stafs', 'nota_juals'));
     }
