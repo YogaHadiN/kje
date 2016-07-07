@@ -789,4 +789,61 @@ class LaporansController extends Controller
         return $data;
 
     }
+	public function hariandanjam()
+	{
+		// return Input::all();
+		$tanggal_awal = Yoga::datePrep(Input::get('tanggal_awal'));
+		$tanggal_akhir = Yoga::datePrep(Input::get('tanggal_akhir'));
+		$jam_awal = Input::get('jam_awal');
+		$jam_akhir = Input::get('jam_akhir');
+		$tanggal_awal = $tanggal_awal . ' ' . $jam_awal;
+		$tanggal_akhir = $tanggal_akhir . ' ' . $jam_akhir;
+		$jenis_tarifs = JenisTarif::all();
+		$query = "SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.created_at between '{$tanggal_awal}' and '{$tanggal_akhir}'  AND p.lewat_kasir = '1'";
+		$periksas = DB::select($query);
+		$query = "SELECT asu.nama , count(asuransi_id) as jumlah, asu.id as id FROM periksas as p left outer join asuransis as asu on p.asuransi_id = asu.id where p.created_at between '{$tanggal_awal}' and '{$tanggal_akhir}' group by asu.nama"; 
+		$hariinis = DB::select($query);
+		$rincian = [];
+		$sama = false;
+		// return $periksas;
+		foreach ($periksas as $key => $px) {
+			$transaksi = $px->transaksi;
+			$transaksi = json_decode($transaksi,true);
+			// return $px-;
+			foreach ($transaksi as $ky => $tr) {
+				if (count($rincian) == 0) {
+					$rincian[] = $tr['jenis_tarif'];
+				} else {
+					foreach ($rincian as $k => $rc) {
+						if($rc == $tr['jenis_tarif']){
+							$sama = true;
+							break;
+						}
+					}
+					if (!$sama) {
+						$rincian[] = $tr['jenis_tarif'];
+					}
+					$sama = false;
+				}
+			}
+		}
+		$jumlah = 0;
+		$piutangJumlah = 0;
+		$tunaiJumlah = 0;
+		foreach ($periksas as $periksa) {
+			$jumlah += (int) $periksa->tunai + (int) $periksa->piutang;
+			$piutangJumlah = (int) $periksa->piutang;
+			$tunaiJumlah = (int) $periksa->tunai;
+		}
+
+		return view('laporans.hariandanjam')
+			->withPeriksas($periksas)
+			->withRincian($rincian)
+			->withTanggal_awal($tanggal_awal)
+			->withTanggal_akhir($tanggal_akhir)
+			->withJenis_tarifs($jenis_tarifs)
+			->withPiutangjumlah($piutangJumlah)
+			->withHariinis($hariinis)
+			->withTunaijumlah($tunaiJumlah);
+	}
 }

@@ -86,27 +86,18 @@ Klinik Jati Elok | Coa belum di set
                         <th class="hide">Id</th>
                         <th>Tanggal</th>
                         <th>Akun </th>
-                        <th>Nilai</th>
                         <th>Chart Of Account</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($jurnalumums as $ju)
-                      @if($ju['jurnalable_type'] == 'App\FakturBelanja')
-                          @foreach ($ju->jurnalable->pengeluaran as $penge)
-                              @if(empty( $penge->coa_id ))
-                                <tr>
-                                  <td class="hide field_id">{!! $ju->id !!}</td>
-                                  <td>{!! $ju->tanggal !!}</td>
-                                  <td>{!! $penge->bukanObat->nama !!}</td>
-                                  <td class="uang">{!! $ju->nilai !!}</td>
-                                  <td>
-                                      {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
-                                  </td>
-                                </tr>
-                              @endif
-                          @endforeach
-                      @endif
+                    @foreach($faktur_belanjas as $ju)
+						<tr>
+						  <td class="hide field_id">{!! $ju->id !!}</td>
+						  <td>{!! $ju->tanggal !!}</td>
+						  <td>{!! $ju->nama !!}</td>
+						  <td>
+							  {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
+						  </td> </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -126,31 +117,25 @@ Klinik Jati Elok | Coa belum di set
                 <thead>
                     <tr>
                         <th class="hide field_id">id</th>
-                        <th>Tanggal</th>
                         <th>Pendapatan</th>
-                        <th>Biaya</th>
                         <th>Chart Of Account</th>
                         <th>Keterangan</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($jurnalumums as $ju)
-                      @if($ju['jurnalable_type'] == 'App\Pendapatan')
+                    @foreach($pendapatans as $ju)
                         <tr>
                           <td class="hide field_id">{!! $ju->id !!}</td>
-                          <td>{!! App\Classes\Yoga::updateDatePrep($ju->tanggal) !!}</td>
-                          <td>{!! $ju->jurnalable->pendapatan !!}</td>
-                          <td class="uang">{!! $ju->nilai !!}</td>
+						  <td>{!! $ju->pendapatan !!}</td>
                            <td>
                                {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control selectpick', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
                           </td>
-                          <td>{!! $ju->jurnalable->keterangan !!}</td>
+                          <td>{!! $ju->keterangan !!}</td>
                           <td>
                             <a href="#" class="btn btn-info btn-xs btn-block">Detail</a>
                           </td>
                         </tr>
-                      @endif
                     @endforeach
                 </tbody>
             </table>

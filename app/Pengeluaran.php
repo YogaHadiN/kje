@@ -9,6 +9,7 @@ class Pengeluaran extends Model{
 	public $incrementing = false; 
 	
 	protected $guarded = [];
+	protected $dates = ['created_at', 'tanggal'];
 
     protected $morphClass = 'App\Pengeluaran';
 

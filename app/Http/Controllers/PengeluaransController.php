@@ -201,23 +201,43 @@ class PengeluaransController extends Controller
     }
 
     public function bayardokter($id){
-         
         $staf = Staf::find($id);
         return view('bayardokter', compact('staf'));
     }
 
     public function dokterbayar(){
+		//return Input::all();
+		$rules = [
+			'staf_id' => 'required',
+			'mulai' => 'required',
+			'jam_mulai' => 'required',
+			'akhir' => 'required',
+			'jam_akhir' => 'required',
+		];
+
+		$validator = \Validator::make(Input::all(), $rules);
+
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
          
         $id = Input::get('staf_id');
         $nama_staf = Staf::find($id)->nama;
 		$mulai = Input::get('mulai');
+		$jam_mulai = Input::get('jam_mulai');
 		$akhir = Input::get('akhir');
+		$jam_akhir = Input::get('jam_akhir');
 
-		$mulai = Yoga::nowIfEmptyMulai($mulai);
-		$akhir = Yoga::nowIfEmptyAkhir($akhir);
+		$mulai = Yoga::datePrep($mulai);
+		$mulai = $mulai . ' ' . $jam_mulai;
+		$akhir = Yoga::datePrep($akhir);
+		$akhir = $akhir . ' ' . $jam_akhir;
          
         $hutangs = $this->hutangs($id, $mulai, $akhir);
         $total = $this->total($id, $mulai, $akhir);
+
         return view('dokterbayar', compact('hutangs', 'total', 'nama_staf', 'mulai', 'akhir', 'id'));
     }
 
@@ -584,13 +604,13 @@ class PengeluaransController extends Controller
     
     private function hutangs($id, $mulai, $akhir){
          
-        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
+        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.created_at between '{$mulai}' and '{$akhir}' );";
         $hutangs = DB::select($query);
 
         return $hutangs;
     }
     private function total($id, $mulai, $akhir){
-        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.tanggal between '{$mulai}' and '{$akhir}' );";
+        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( p.created_at between '{$mulai}' and '{$akhir}' );";
         $hutangs = DB::select($query);
         $total = 0;
         foreach ($hutangs as $hutang) {

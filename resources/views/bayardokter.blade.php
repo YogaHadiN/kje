@@ -20,20 +20,40 @@ Klinik Jati Elok | Laporan Gaji Dokter
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-default">
           <div class="panel-body">
-            <h1>Bayar Gaji Dokter</h1>
+			  <h1>Bayar Gaji Dokter WOi</h1>
             <hr>
                 <div class="form-group">
                   {!! Form::label('staf_id', 'Staf') !!}
-                  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), $staf->id, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+                  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control rq', 'data-live-search' => 'true']) !!}
                 </div>
-                <div class="form-group">
-                  {!! Form::label('mulai') !!}
-                  {!! Form::text('mulai', null, ['class' => 'form-control rq tanggal']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('akhir') !!}
-                  {!! Form::text('akhir', null, ['class' => 'form-control rq tanggal']) !!}
-                </div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="form-group">
+						  {!! Form::label('mulai') !!}
+						  {!! Form::text('mulai', null, ['class' => 'form-control rq tanggal']) !!}
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="form-group">
+						  {!! Form::label('jam_mulai') !!}
+						  {!! Form::text('jam_mulai',  '13:00:00', ['class' => 'form-control rq jam']) !!}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="form-group">
+						  {!! Form::label('akhir') !!}
+						  {!! Form::text('akhir', null, ['class' => 'form-control rq tanggal']) !!}
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="form-group">
+						  {!! Form::label('jam_akhir') !!}
+						  {!! Form::text('jam_akhir', '13:00:00', ['class' => 'form-control rq jam']) !!}
+						</div>
+					</div>
+				</div>
                 <div class="form-group">
                   <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

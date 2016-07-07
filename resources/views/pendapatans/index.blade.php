@@ -17,7 +17,10 @@ Klinik Jati Elok | Pendapatan Lain
 
 @stop
 @section('content') 
-
+<div class="alert alert-info">
+	<h3>Perhatian !!</h3>
+	<p>Untuk menginput pembayaran tagihan untuk asuransi harus dilakukan di <a href="{{ url('pembayaran/asuransi') }}">Pembayaran Asuransi</a></p>
+</div>
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">

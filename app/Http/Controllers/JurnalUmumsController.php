@@ -15,6 +15,7 @@ use App\BukanObat;
 use App\CheckoutKasir;
 use App\Classes\Yoga;
 use App\Coa;
+use DB;
 
 
 class JurnalUmumsController extends Controller
@@ -90,18 +91,25 @@ class JurnalUmumsController extends Controller
 				$ids[] = $ju->id;
 			}
 		}
-        //return $ids;
-        $jurnalumums = JurnalUmum::whereIn('id', $ids)
-                                ->get();
+
+		$data_ids = '';
+		foreach ($ids as $id) {
+			$data_ids .= $id . ',';
+		}
+		$data_ids .= $ids[ count($ids) - 1 ];
+
+		$query = "SELECT * FROM jurnal_umums as ju join faktur_belanjas as fb on fb.id = ju.jurnalable_id join bukan_obats as bo where jurnalable_type='App\\\FakturBelanja' and ju.id in ({$data_ids}) group by bo.id";
+		$faktur_belanjas = DB::select($query);
+		$query = "SELECT * FROM jurnal_umums as ju join pendapatans as pd on pd.id = ju.jurnalable_id where jurnalable_type='App\\\Pendapatan' and ju.id in ({$data_ids})";
+		$pendapatans = DB::select($query);
+		//return $pendapatans[0]->created_at;
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
-        //return $kelompokCoaList;
-        //return dd( $ids );
-        //return json_encode( $jurnalumums );
 		return view('jurnal_umums.coa', compact(
-			'jurnalumums', 
 			'kelompokCoaList', 
+			'faktur_belanjas', 
+			'pendapatans', 
 			'bebanCoaList',
 			'pendapatanCoaList'
 		));

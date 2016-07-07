@@ -96,7 +96,7 @@ Klinik Jati Elok | Pengeluaran Klinik
                 </tbody>
                   <tfoot>
                     <tr>
-                      <td colspan="2"><input type="text" class="form-control rq" name="keterangan" id="keterangan" onblur="textBlur();return false;" content="Keterangan"></td>
+                      <td colspan="2"><input type="text" class="form-control rq" name="keterangan" id="keterangan" onblur="textBlur();return false;" content="Keterangan" placeholder="Sebisa mungkin pilih yang sudah ada"></td>
                        <td>{!! Form::select('jenis_pengeluaran', $jenis_pengeluarans, null, ['class' => 'form-control rq', 'id' => 'jenis_pengeluaran', 'content' => 'Jenis Pengeluaran'])!!}</td>
                        <td><input type="text" id="harga_satuan" content="Harga Satuan" class="form-control rq" placeholder="harga satuan"/></td>
                        <td><input type="text" id="jumlah" content="jumlah" class="form-control rq" placeholder="jumlah"/></td>

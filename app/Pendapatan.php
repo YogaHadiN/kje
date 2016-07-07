@@ -16,8 +16,7 @@ class Pendapatan extends Model{
 
 	// Don't forget to fill this array
 	protected $guarded = [];
-
-
+	protected $dates = ['created_at'];
 	public function staf(){
 
 		return $this->belongsTo('App\Staf');

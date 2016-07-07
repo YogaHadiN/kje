@@ -161,6 +161,19 @@ Klinik Jati Elok | Home
                                             </select></td>
                                         </form>
                                     </tr>
+									<tr>
+                                        <form action="{{ url('laporans/hariandanjam') }}" method="get">
+                                            <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+                                            <td><input type="text" class="form-control tanggal" name="tanggal_awal" value="{!!date('d-m-Y')!!}"/>
+                                            </td>
+                                            <td><input type="text" class="form-control jam" name="jam_awal" value="13:00:00"/>
+                                            </td>
+                                            <td><input type="text" class="form-control tanggal" name="tanggal_akhir" value="{!!date('d-m-Y')!!}"/>
+                                            </td>
+                                            <td><input type="text" class="form-control jam" name="jam_akhir" value="13:00:00"/>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     <tr>
                                         <form action="{{ url('laporans/haridet') }}" method="get">
                                             <td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>

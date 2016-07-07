@@ -410,6 +410,7 @@ Route::get('sesuaikan/cek', function(){
             Route::get('laporans/jumlahPasien', 'LaporansController@jumlahPasien');
             Route::get('laporans/jumlahIspa', 'LaporansController@jumlahIspa');
             Route::get('laporans/jumlahDiare', 'LaporansController@jumlahDiare');
+			Route::get('laporans/hariandanjam', 'LaporansController@hariandanjam');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');
