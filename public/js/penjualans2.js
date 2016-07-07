@@ -53,7 +53,7 @@
             dataTambah = {
               'merek' : merek,
               'merek_id' : merek_id,
-              'harga_jual' : harga_jual,
+              'harga_jual' : 0,
               'harga_beli' : harga_beli,
               'exp_date' : exp_date,
               'jumlah' : jumlah
@@ -138,7 +138,7 @@
       control = $.parseJSON(control);
 
       var merek_id = control.merek_id;
-      var harga_jual = control.harga_jual;
+      var harga_jual = 0;
       var exp_date = control.exp_date;
 
       exp_date = exp_date.split('-');

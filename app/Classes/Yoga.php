@@ -1828,7 +1828,7 @@ class Yoga {
 		}
 		public static function suksesFlash($text){
 			$temp = '<div class="alert alert-success text-left">';
-			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>SUKSES!!  </strong>';
 			$temp .= $text;
 			$temp .= '</div>';
 			return $temp;
@@ -1842,7 +1842,7 @@ class Yoga {
 		}
 		public static function gagalFlash($text){
 			$temp = '<div class="alert alert-danger text-left">';
-			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>GAGAL !! </strong>';
 			$temp .= $text;
 			$temp .= '</div>';
 			return $temp;

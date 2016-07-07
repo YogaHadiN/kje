@@ -52,7 +52,7 @@ var merek = $(control).closest('tr').find('td:nth-child(1) select option:selecte
             dataTambah = {
               'merek' : merek,
               'merek_id' : merek_id,
-              'harga_jual' : rata100( parseInt( harga_jual ) * 1.25 ),
+              'harga_jual' : harga_jual,
               'harga_beli' : harga_beli,
               'exp_date' : exp_date,
               'jumlah' : jumlah
