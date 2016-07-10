@@ -90,7 +90,7 @@ Klinik Jati Elok | Coa belum di set
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($faktur_belanjas as $ju)
+                    @foreach($pengeluarans as $ju)
 						<tr>
 						  <td class="hide field_id">{!! $ju->id !!}</td>
 						  <td>{!! $ju->tanggal !!}</td>
