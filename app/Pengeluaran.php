@@ -17,20 +17,8 @@ class Pengeluaran extends Model{
 		return $this->belongsTo('App\Staf');
 	}
 
-	public function nota_beli(){
-		return $this->belongsTo('App\Notabeli');
-	}
-
 	public function supplier(){
 		return $this->belongsTo('App\Supplier');
-	}
-
-	public function bukanObat(){
-		return $this->belongsTo('App\BukanObat');
-	}
-
-	public function fakturBelanja(){
-		return $this->belongsTo('App\FakturBelanja');
 	}
 
     public function jurnals(){
@@ -38,8 +26,9 @@ class Pengeluaran extends Model{
     }
 
     public function getKetjurnalAttribute(){
-		$supplier = $this->fakturBelanja->supplier->nama;
-        $barang = $this->bukanObat->nama;
-        return 'Pembelanjaan ' . $barang . ' di  : ' . $supplier;
+		$supplier = $this->supplier->nama;
+        $barang = $this->keterangan;
+		$nilai = $this->nilai;
+        return 'Pembelanjaan ' . $barang . ' di  : ' . $supplier . ' sebesar ' . $nilai;
     }
 }

@@ -151,6 +151,7 @@ return [
         dogears\CrudDscaffold\GeneratorsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+		GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -208,7 +209,8 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'HTML'      => Collective\Html\HtmlFacade::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
+		'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class
 
     ],
 

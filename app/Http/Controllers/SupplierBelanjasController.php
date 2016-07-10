@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Supplier;
 use App\Classes\Yoga;
 use App\Belanja;
+use App\Pengeluaran;
 use App\FakturBelanja;
 class SupplierBelanjasController extends Controller
 {
@@ -22,8 +23,8 @@ class SupplierBelanjasController extends Controller
     public function belanja_bukan_obat(){
 		$suppliers = Supplier::all();
 		$stafs = Yoga::stafList();
-        $fakturbelanjas = FakturBelanja::with('supplier', 'belanja', 'pengeluaran')->where('belanja_id', 3)->latest()->get();
+		$pengeluarans = Pengeluaran::with('supplier', 'staf')->latest()->paginate(10);
 		$belanjaList = [ null => '- Jenis Belanja -']  + Belanja::lists('belanja', 'id')->all();
-		return view('suppliers.belanja_bukan_obat', compact('suppliers', 'stafs', 'belanjaList', 'fakturbelanjas'));
+		return view('suppliers.belanja_bukan_obat', compact('suppliers', 'stafs', 'belanjaList', 'pengeluarans'));
     }
 }

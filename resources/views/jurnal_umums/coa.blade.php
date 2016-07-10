@@ -9,7 +9,7 @@ Klinik Jati Elok | Coa belum di set
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li class="active">
-          <strong>Coa belum di set</strong>
+         <strong>Coa belum di set</strong>
       </li>
 </ol>
 @stop
@@ -86,15 +86,17 @@ Klinik Jati Elok | Coa belum di set
                         <th class="hide">Id</th>
                         <th>Tanggal</th>
                         <th>Akun </th>
+						<th>Nilai</th>
                         <th>Chart Of Account</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($faktur_belanjas as $ju)
 						<tr>
-						  <td class="hide field_id">{!! $ju->id !!}</td>
+						  <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
 						  <td>{!! $ju->tanggal !!}</td>
 						  <td>{!! $ju->nama !!}</td>
+						  <td class="uang">{!! $ju->nilai !!}</td>
 						  <td>
 							  {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
 						  </td> </tr>
@@ -126,7 +128,7 @@ Klinik Jati Elok | Coa belum di set
                 <tbody>
                     @foreach($pendapatans as $ju)
                         <tr>
-                          <td class="hide field_id">{!! $ju->id !!}</td>
+                          <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
 						  <td>{!! $ju->pendapatan !!}</td>
                            <td>
                                {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control selectpick', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}

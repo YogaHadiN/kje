@@ -36,7 +36,6 @@ class PasiensController extends Controller
 									'Pernah' => 'Pernah Menikah',
 									'Belum' => 'Belum Menikah'
 									);
-
 				$panggilan = array(
 					null => '-Panggilan-',
 					'Tn' => 'Tn (Laki dewasa)',
@@ -45,9 +44,7 @@ class PasiensController extends Controller
 					'An' => 'An (Anak-anak diatas 3 tahun)',
 					'By' => 'By (Anak2 dibawah 3 tahun)'
 					);
-
 				$asuransi = Yoga::asuransiList();
-
 				$jenis_peserta = array(
 
 					null => ' - pilih asuransi -',  
@@ -58,10 +55,7 @@ class PasiensController extends Controller
 
 					);
 				$staf = Yoga::stafList();
-
 				$poli = Yoga::poliList();
-
-
 				return view('pasiens.index')
 					->withAsuransi($asuransi)
 					->with('statusPernikahan', $statusPernikahan)

@@ -33,6 +33,19 @@ class NotaJual extends Model{
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }
+	public function getNilaiAttribute(){
+		$nilai = '';
+		foreach ($this->penjualan as $penj) {
+			$nilai += $penj->harga_jual * $penj->jumlah;
+		}
+		return $nilai;
+	}
+
+	public function getItemsAttribute(){
+		return $this->penjualan->count() . ' pcs';
+	}
+	
+	
     public function getTotalAttribute(){
         $total = 0;
         if ($this->tipe_jual_id == 1) {

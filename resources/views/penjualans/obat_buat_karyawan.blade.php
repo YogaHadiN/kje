@@ -106,54 +106,48 @@ Klinik Jati Elok | Obat Buat Karyawan
 </div>
 <!-- /.modal -->
 <div class="panel panel-info">
-      <div class="panel-heading">
-            <div class="panel-title">
-                <div class="panelLeft">
-                    <h3>Daftar Penjualan Obat Tanpa Resep</h3>
-                </div>
-                <div class="panelRight"><h3>Total : {!! $nota_juals->count() !!}</h3></div>
-                </div>
-               
-            </div>
-      <div class="panel-body">
-            <table class="table table-bordered table-hover DT" id="tabel_faktur_beli">
-                  <thead>
-                    <tr>
-                      <th>Nomor Faktur</th>
-                      <th>Jenis Penjualan</th>
-                      <th>tanggal</th>
-                      <th>Nama Staf</th>
-                      <th>Jumlah Item</th>
-                       <th>Total Biaya</th>
-                    	<th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  @if($nota_juals->count())
-                  	@foreach ($nota_juals as $nj)
-                		<tr>
-                        <td><div>{!!$nj->id !!}</div></td>
-                        <td><div>{!!$nj->tipeJual->tipe_jual !!}</div></td>
-                        <td><div>{!!App\Classes\Yoga::updateDatePrep($nj->tanggal)!!}</div></td>
-                        <td><div>{!!$nj->staf->nama !!}</div></td>
-                        @if($nj->tipe_jual_id == 1)
-                            <td><div>{!!$nj->penjualan->count() !!} pcs</div></td>
-                        @elseif($nj->tipe_jual_id == 2)
-                            <td><div>{!!$nj->pendapatan->count() !!} pcs</div></td>
-                        @endif
-                        <td class="text-right"><div>{!! App\Classes\Yoga::buatrp( $nj->total ) !!}</div></td>
-                        <td> 
-                            <a class="btn btn-success btn-xs" href="{{ url('nota_juals/' . $nj->id) }}">Detail</a>
-                            <a target="_blank" class="btn btn-info btn-xs" href="{{ url('pdfs/penjualan/' . $nj->id) }}">Print Struk</a>
-                        </td>
-                  	</tr>
-                  	@endforeach
-                  @else 
-                    <td colspan="6" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
-                  @endif
-                </tbody>
-            </table>
-      </div>
+	  <div class="panel-heading">
+			<div class="panel-title">
+				<div class="panelLeft">
+					<h3>Daftar Penjualan Obat Tanpa Resep</h3>
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+				<div class="table-responsive">
+					<?php echo $nota_juals->appends(Input::except('page'))->links(); ?>
+					<table class="table table-bordered table-hover" id="tabel_faktur_beli">
+						<thead>
+							<tr>
+								<th>Nomor Faktur</th>
+								<th>tanggal</th>
+								<th>Nama Staf</th>
+								<th>Items</th>
+								<th>Total Biaya</th>
+								<th colspan="2">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if($nota_juals->count())
+								@foreach ($nota_juals as $nj)
+									<tr>
+										<td><div>{!!$nj->id !!}</div></td>
+										<td><div>{!!App\Classes\Yoga::updateDatePrep($nj->tanggal)!!}</div></td>
+										<td><div>{!!$nj->staf->nama !!}</div></td>
+										<td><div>{!!$nj->items !!}</div></td>
+										<td class="text-right"><div>{!! App\Classes\Yoga::buatrp( $nj->total ) !!}</div></td>
+										<td><a class="btn btn-success btn-xs btn-block" href="{{ url('nota_juals/' . $nj->id) }}">Detail</a> </td>
+										<td><a target="_blank" class="btn btn-info btn-xs btn-block" href="{{ url('pdfs/penjualan/' . $nj->id) }}">Print Struk</a> </td>
+									</tr>
+								@endforeach
+							@else 
+								<td colspan="6" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
+							@endif
+						</tbody>
+					</table>
+					<?php echo $nota_juals->appends(Input::except('page'))->links(); ?>
+				</div>
+		</div>
 </div>
 @stop
 

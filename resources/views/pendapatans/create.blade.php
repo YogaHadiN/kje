@@ -20,72 +20,97 @@ Klinik Jati Elok | Pendapatans Lain
 
 {!! Form::open(['url' => 'pendapatans/index']) !!}
 <div class="row">
-  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="form-group">
-          {!! Form::label('staf_id', 'Nama Staf : ') !!}
-          {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'rq form-control', 'id' => 'staf_id', 'content' => 'Nama Staf']) !!}
-        </div>
-      </div>
-    </div>        
-  </div>
-</div>
-<div class="panel panel-primary">
-      <div class="panel-heading">
-            <div class="panel-title">
-                <div class="panelLeft">
-                    <h3>Total : </h3>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="panelLeft">Pendapatan Lain-Lain</div>
                 </div>
             </div>
-      </div>
-      <div class="panel-body">
-            <table class="table table-striped table-bordered table-hover" id="tableAsuransi">
-                  <thead>
-                    <tr>
- 						<th>Pendapatan Lain</th>
- 						<th>Biaya</th>
- 						<th>Yang Menyerahkan Uang</th>
- 						<th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="ajax">
-                	
-
-                </tbody>
-                <tfoot>
-                	<td>
-                		{!! Form::text('pendapatan', null, ['class' => 'rq form-control ini', 'placeholder' => 'contoh: Fee Rumah Sakit', 'id' => 'pendapatan', 'content' => 'Pendapatan Lain'])!!}
-                	</td>
-                	<td>
-                		{!! Form::text('jumlah', null, ['class' => 'rq form-control ini', 'placeholder' => 'contoh: 300000', 'content' => 'Biaya', 'id' => 'jumlah'])!!}
-                	</td>
-                	<td>
-                		{!! Form::text('keterangan', null, ['class' => 'rq form-control ini', 'placeholder' => 'contoh: RS Murni Asih', 'content' => 'Yang Menyerahkan Uang', 'id' => 'keterangan'])!!}
-                	</td>
-                	<td>
-                		<button type='button' class="btn btn-primary" onclick="inputt(this); return false;" id='input'>Input</button>
-                	</td>
-                </tfoot>
-            </table>
-				{!! Form::textarea('array', '[]', ['class' => 'form-control hide', 'id' => 'array']) !!}
-				{!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit'])!!}
-          <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-               <button class="btn btn-primary btn-lg btn-block" onclick="submit(); return false;">Submit</button>
+            <div class="panel-body">
+                {!! Form::open(['url'=>'pendapatans', 'method'=> 'post']) !!} 
+                    <div class="form-group">
+                      {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+					  {!! Form::text('sumber_uang',  null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+                    </div>
+					<div class="form-group">
+                      {!! Form::label('staf_id', 'Petugas') !!}
+                      {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::label('tanggal', 'Tanggal') !!}
+                      {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
+                    </div>
+					<div class="form-group">
+                      {!! Form::label('nilai', 'Nilai') !!}
+					 <div class="input-group">
+                          <div class="input-group-addon">Rp. </div>
+						  {!! Form::text('nilai' , null, ['class' => 'form-control']) !!}
+                     </div>
+                    </div>
+					<div class="form-group">
+                      {!! Form::label('keterangan', 'Uangnya didapat karena apa') !!}
+                      {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom']) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::submit('Submit Pendapatan Lain-lain', ['class' => 'btn btn-success btn-block btn-lg']) !!}
+                    </div>
+                {!! Form::close() !!}
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              {!! HTML::link('laporans', 'Cancel', ['class' => 'btn btn-danger btn-lg btn-block'])!!}
-            </div>
-          </div>
-      </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="alert alert-info">
+			<h2>Perhatian</h2>
+			<p>Pastikan Transaksi ini bukan :</p>
+            <ul>
+                <li>Pendapatan dari Pemeriksaan Pasien</li>
+				<li>Pendapatan dari  <a  href="{{ url('pendapatans/create') }}">Pendapatan Lain</a> </li>
+				<li>Pendapatan dari  <a  href="{{ url('pembayarans/asuransi') }}">Pendapatan Asuransi</a> </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">Pendapatan Lain-Lain</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+				<?php echo $pendapatans->appends(Input::except('page'))->links(); ?>
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal</th>
+								<th>Sumber Uang</th>
+								<th>Nama Petugas</th>
+								<th>Nilai Uang</th>
+								<th>Keterangan</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($pendapatans as $p)
+								<tr>
+									<td>{{ $p->created_at->format('d-m-Y') }}</td>
+									<td>{{ $p->sumber_uang }}</td>
+									<td>{{ $p->staf->nama }}</td>
+									<td class="uang">{{ $p->nilai }}</td>
+									<td>{{ $p->keterangan }}</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+					<?php echo $pendapatans->appends(Input::except('page'))->links(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {!! Form::close() !!}
-
-
 @stop
 @section('footer') 
-
 <script>
   jQuery(document).ready(function($) {
     view();

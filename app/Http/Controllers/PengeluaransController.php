@@ -13,6 +13,7 @@ use App\CheckoutDetail;
 use App\Pembelian;
 use App\Diagnosa;
 use App\Modal;
+use App\Supplier;
 use App\BayarGaji;
 use App\User;
 use App\Coa;
@@ -59,94 +60,38 @@ class PengeluaransController extends Controller
 		$messages = array(
 			'required' => ':attribute harus diisi terlebih dahulu',
 		);
-
 		$rules = [
-			'transaksi_beli' 	=> 'required',
+			'staf_id'			=> 'required',
+			'supplier_id'			=> 'required',
+			'nilai'			=> 'required',
+			'keterangan'			=> 'required'
 		];
-
 		$validator = \Validator::make($data = Input::all(), $rules, $messages);
-
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator->messages());
+			return \Redirect::back()->withErrors($validator->messages());
 		}
-
-		$datas = Input::get('transaksi_beli');
-		$nomor_faktur = Input::get('nomor_faktur');
-		$supplier_id = Input::get('supplier_id');
+		
 		$staf_id = Input::get('staf_id');
-		$faktur_belanja_id = Input::get('faktur_belanja_id');
+		$supplier_id = Input::get('supplier_id');
+		$nilai		 = Input::get('nilai');
+		$keterangan = Input::get('keterangan');
 
-		$datas = json_decode($datas, true);
-        $kas_keluar = 0;
-		foreach ($datas as $data) {
-			$pg_id = Yoga::customId('App\Pengeluaran');
-			$pg = new Pengeluaran;
-			$pg->id = $pg_id;
-			$pg->faktur_belanja_id = $faktur_belanja_id;
+		$peng = new Pengeluaran;
+		$peng->staf_id = $staf_id;
+		$peng->supplier_id = $supplier_id;
+		$peng->nilai = $nilai;
+		$peng->keterangan = $keterangan;
+		$confirm = $peng->save();
 
-			$keterangan = $data['keterangan'];
-			$keterangan = str_replace(' ', '', $keterangan);
+		$nama_supplier = Supplier::find($supplier_id)->nama;
 
-			$query = "select * from(select id, replace(nama , ' ','') as n from bukan_obats) as t where n like '" . $keterangan. "';";
-			$query = DB::select($query);
+		if ($confirm) {
+			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'));
 
-
-			if (count($query) > 0) {
-			 	$pg->bukan_obat_id = $query[0]->id;
-					
-					$bo                       = BukanObat::find($query[0]->id);
-					$bo->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
-					$bo->harga_beli           = $data['harga_satuan'];
-					$bo->save();
-			 } else {
-					$bo                       = new BukanObat;
-					$bo->nama                 = $data['keterangan'];
-					$bo->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
-					$bo->harga_beli           = $data['harga_satuan'];
-					$bo->save();
-
-			 	$id = $bo->id;
-
-			 	$pg->bukan_obat_id = $id;
-			 }
-
-			$pg->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
-			$pg->harga_satuan = $data['harga_satuan'];
-			$pg->jumlah = $data['jumlah'];
-            $pg->staf_id = $staf_id;
-			$confirm = $pg->save();
-
-			if ($confirm) {
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $faktur_belanja_id;
-				$jurnal->jurnalable_type = 'App\FakturBelanja';
-				if (!empty($bo->coa_id)) {
-					$jurnal->coa_id = $bo->coa_id; //khusu untuk pengeluaran ini, coa belum dibuat
-				}
-				$jurnal->debit           = 1;
-				$jurnal->nilai           = $data['harga_satuan'] * $data['jumlah'];
-				$jurnal->save();
-                
-                $kas_keluar += $data['harga_satuan'] * $data['jumlah'];
-
-			}
+		}else {
+			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::gagalFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> gagal dilakukan'));
 		}
-
-        $jurnal                  = new JurnalUmum;
-        $jurnal->jurnalable_id   = $faktur_belanja_id;
-        $jurnal->jurnalable_type = 'App\FakturBelanja';
-        $jurnal->coa_id          = 110000; // kas di tangan
-        $jurnal->debit           = 0;
-        $jurnal->nilai           = $kas_keluar;
-        $jurnal->save();
-
-		$fb = FakturBelanja::find($faktur_belanja_id);
-		$fb->submit = '1';
-		$fb->save();
-
-        return redirect('fakturbelanjas/cari')->withPesan(Yoga::suksesFlash('<strong>Transaksi Uang Keluar</strong> berhasil dilakukan'))
-            ->withPrint($faktur_belanja_id);
 	}
 
 	public function lists() {
@@ -438,6 +383,7 @@ class PengeluaransController extends Controller
         foreach ($table as $trx) {
             $totalPemasukan += $trx['nilai'];
         }
+		//return $pengeluarans[0]->jurnalable;
         return view('pengeluarans.notaz', compact('checkouts','transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id', 'pengeluarans', 'totalPengeluarans', 'totalPemasukan'));
     }
     public function notaz_post(){

@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
-
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Cache;
+use Storage;
 use App\Diagnosa;
 use App\Tarif;
 use App\Periksa;
@@ -23,8 +24,7 @@ class MemcachedController extends Controller
 	 */
 	public function index()
 	{
-		//return var_dump( Cache::get('confirmList') );
-		return var_dump( Yoga::confirmList() );
+		Storage::disk('local')->put('file.txt', 'Contents');
     }
 
 

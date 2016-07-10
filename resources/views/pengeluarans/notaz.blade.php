@@ -68,7 +68,7 @@ Klinik Jati Elok | Checkout Kasir
                   <div class="panel-title">Pengeluaran Kas di Kasir</div>
               </div>
               <div class="panel-body">
-                  <div class-"table-responsive">
+                  <div class="table-responsive">
                       <table class="table table-hover table-condensed">
                           <thead>
                               <tr>
@@ -87,7 +87,7 @@ Klinik Jati Elok | Checkout Kasir
                                   <td>{{ $plr->created_at->format('H:i:s') }}</td>
                                   <td>
                                       @if ($plr->jurnalable_type = 'App\FakturBelanja')
-                                      @if (isset($ju->jurnalable->supplier['nama']))
+                                      @if (isset($plr->jurnalable->supplier['nama']))
                                           {{ $plr->jurnalable->supplier['nama'] }}
                                          @endif
                                       @else
@@ -96,7 +96,14 @@ Klinik Jati Elok | Checkout Kasir
                                       
                                   </td>
                                   <td class="uang">{{ $plr->nilai }}</td>
-                                  <td> <a class="btn btn-info btn-xs btn-block" href="#">details</a> </td>
+								  <td> <a class="btn btn-info btn-xs btn-block" href=
+										  @if($plr->jurnalable['belanja_id'] == 1 && $plr->jurnalable_type = 'App\FakturBelanja')
+											  "{{ url('pembelians/show/' . $plr->jurnalable_id) }}"
+										  @else
+											  "{{ url('pengeluarans/show/' . $plr->jurnalable_id) }}"
+										  @endif
+									  >details</a> 
+								  </td>
                               </tr>
                               @endforeach
                           </tbody>
