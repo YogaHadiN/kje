@@ -178,8 +178,8 @@ Klinik Jati Elok | Checkout Kasir
                                 <tr>
                                     <th>Tanggal</th>
                                     <th>Jam</th>
-                                    <th>Modal Awal</th>
-                                    <th>Uang Keluar</th>
+                                    <thbModal Awal</th>
+                                  <th>Uang Keluar</th>
                                     <th>Uang Masuk</th>
                                     <th>Uang di Kasir</th>
                                     <th>Action</th>
