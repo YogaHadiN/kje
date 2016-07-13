@@ -16,7 +16,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
 @stop
 @section('content') 
 @if ( Session::has('print') )
-    <div id="print">
+    <div id="print" class="hide">
         {{ Session::get('print') }}
     </div>
 @endif

@@ -33,7 +33,7 @@ class PenjualansController extends Controller
 		$stafs = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
 		// return $stafs;
 		// return $mereks;
-        $nota_juals = NotaJual::with('penjualan.merek', 'staf', 'tipeJual', 'pendapatan')->latest()->get();
+		$nota_juals = NotaJual::with('penjualan.merek', 'staf', 'tipeJual')->latest()->paginate(10);
 		return view('penjualans.index', compact('mereks', 'stafs', 'suppliers', 'nota_juals'));
 		// return $faktur_beli_id;
 	}
@@ -53,6 +53,7 @@ class PenjualansController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+
 		$datas = Input::get('tempBeli');
 		$datas = json_decode($datas, true);
 		$nota_jual_id = Yoga::customId('App\NotaJual');
@@ -129,12 +130,11 @@ class PenjualansController extends Controller
 
 		// return 'oke';
         $pesan = '<strong>Transaksi Penjualan Tanpa Resep</strong> Berhasil dilakukan';
-        return redirect('nota_juals')->withPesan(Yoga::suksesFlash($pesan))
+        return redirect('penjualans')->withPesan(Yoga::suksesFlash($pesan))
             ->withPrint($nota_jual_id);
 	}
     public function obat_buat_karyawan(){
-		// return 'penjualan index';
-        $nota_juals = NotaJual::with('pendapatan', 'penjualan', 'tipeJual', 'staf')->latest()->get();
+		$nota_juals = NotaJual::with('penjualan', 'tipeJual', 'staf')->where('tipe_jual_id', 1)->latest()->paginate(10);
 		$mereks = [null => '--pilih--'] + Merek::with('rak.formula')->get()->lists('merek', 'custid')->all();
 		$stafs = [null => '- pilih -'] + Staf::lists('nama', 'id')->all();
         return view('penjualans.obat_buat_karyawan', compact('mereks', 'stafs', 'nota_juals'));
@@ -215,6 +215,6 @@ class PenjualansController extends Controller
 			->withPesan($pesan);
 		}
         $pesan = Yoga::suksesFlash('Dispensing obat oleh ' . $staf->nama . ' telah <strong>BERHASIL</strong>');
-        return redirect('nota_juals')->withPesan($pesan)->withPrint($nota_jual_id);
+        return redirect('penjualans/obat_buat_karyawan')->withPesan($pesan)->withPrint($nota_jual_id);
     }
 }

@@ -99,56 +99,48 @@ Klinik Jati Elok | Entri Jual Obat
           {!! Form::close()!!}
       </div>
 </div>
-<div class="panel panel-info">
-      <div class="panel-heading">
-            <div class="panel-title">
-                <div class="panelLeft">
-                    <h3>Daftar Penjualan Obat Tanpa Resep</h3>
-                </div>
-                <div class="panelRight"><h3>Total : {!! $nota_juals->count() !!}</h3></div>
-                </div>
-               
-            </div>
-      <div class="panel-body">
-            <table class="table table-bordered table-hover DT" id="tabel_faktur_beli">
-                  <thead>
-                    <tr>
-                      <th>Nomor Faktur</th>
-                      <th>Jenis Penjualan</th>
-                      <th>tanggal</th>
-                      <th>Nama Staf</th>
-                      <th>Jumlah Item</th>
-                       <th>Total Biaya</th>
-                    	<th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  @if($nota_juals->count())
-                  	@foreach ($nota_juals as $nj)
-                		<tr>
-                        <td><div>{!!$nj->id !!}</div></td>
-                        <td><div>{!!$nj->tipeJual->tipe_jual !!}</div></td>
-                        <td><div>{!!App\Classes\Yoga::updateDatePrep($nj->tanggal)!!}</div></td>
-                        <td><div>{!!$nj->staf->nama !!}</div></td>
-                        @if($nj->tipe_jual_id == 1)
-                            <td><div>{!!$nj->penjualan->count() !!} pcs</div></td>
-                        @elseif($nj->tipe_jual_id == 2)
-                            <td><div>{!!$nj->pendapatan->count() !!} pcs</div></td>
-                        @endif
-                        <td class="text-right"><div>{!! App\Classes\Yoga::buatrp( $nj->total ) !!}</div></td>
-                        <td> 
-                            <a class="btn btn-success btn-xs" href="{{ url('nota_juals/' . $nj->id) }}">Detail</a>
-                            <a target="_blank" class="btn btn-info btn-xs" href="{{ url('pdfs/penjualan/' . $nj->id) }}">Print Struk</a>
-                        </td>
-                  	</tr>
-                  	@endforeach
-                  @else 
-                    <td colspan="6" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
-                  @endif
-                </tbody>
-            </table>
-      </div>
+<div class="row">
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<div class="panel-title">Penjualan Tanpa Resep</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<?php echo $nota_juals->appends(Input::except('page'))->links(); ?>
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal</th>
+								<th>Jam</th>
+								<th>Petugas</th>
+								<th>Items</th>
+								<th>Nilai</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($nota_juals as $nj)
+								<tr>
+									<td>{{ $nj->created_at->format('d-m-Y') }}</td>
+									<td>{{ $nj->created_at->format('H:i:s') }}</td>
+									<td>{{ $nj->staf->nama }}</td>
+									<td>{{ $nj->items }}</td>
+									<td class="uang">{{ $nj->nilai }}</td>
+									<td> <a class="btn btn-info btn-xs btn-block" href="#">Details</a> </td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+					<?php echo $nota_juals->appends(Input::except('page'))->links(); ?>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
 </div>
+
 @stop
 @section('footer') 
     <script src="{{  url( 'js/penjualans.js'   )}}" type="text/javascript" charset="utf-8"></script>

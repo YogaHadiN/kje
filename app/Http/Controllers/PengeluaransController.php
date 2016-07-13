@@ -13,6 +13,7 @@ use App\CheckoutDetail;
 use App\Pembelian;
 use App\Diagnosa;
 use App\Modal;
+use App\Supplier;
 use App\BayarGaji;
 use App\User;
 use App\Coa;
@@ -59,94 +60,51 @@ class PengeluaransController extends Controller
 		$messages = array(
 			'required' => ':attribute harus diisi terlebih dahulu',
 		);
-
 		$rules = [
-			'transaksi_beli' 	=> 'required',
+			'staf_id'			=> 'required',
+			'supplier_id'			=> 'required',
+			'nilai'			=> 'required',
+			'keterangan'			=> 'required'
 		];
-
 		$validator = \Validator::make($data = Input::all(), $rules, $messages);
-
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator->messages());
+			return \Redirect::back()->withErrors($validator->messages());
 		}
-
-		$datas = Input::get('transaksi_beli');
-		$nomor_faktur = Input::get('nomor_faktur');
-		$supplier_id = Input::get('supplier_id');
 		$staf_id = Input::get('staf_id');
-		$faktur_belanja_id = Input::get('faktur_belanja_id');
+		$supplier_id = Input::get('supplier_id');
+		$nilai		 = Input::get('nilai');
+		$keterangan = Input::get('keterangan');
 
-		$datas = json_decode($datas, true);
-        $kas_keluar = 0;
-		foreach ($datas as $data) {
-			$pg_id = Yoga::customId('App\Pengeluaran');
-			$pg = new Pengeluaran;
-			$pg->id = $pg_id;
-			$pg->faktur_belanja_id = $faktur_belanja_id;
+		$peng = new Pengeluaran;
+		$peng->staf_id = $staf_id;
+		$peng->supplier_id = $supplier_id;
+		$peng->nilai = $nilai;
+		$peng->keterangan = $keterangan;
+		$confirm = $peng->save();
+		if ($confirm) {
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $peng->id;
+			$jurnal->jurnalable_type = 'App\Pengeluaran';
+			$jurnal->debit           = 1;
+			$jurnal->nilai           = $peng->nilai;
+			$jurnal->save();
 
-			$keterangan = $data['keterangan'];
-			$keterangan = str_replace(' ', '', $keterangan);
-
-			$query = "select * from(select id, replace(nama , ' ','') as n from bukan_obats) as t where n like '" . $keterangan. "';";
-			$query = DB::select($query);
-
-
-			if (count($query) > 0) {
-			 	$pg->bukan_obat_id = $query[0]->id;
-					
-					$bo                       = BukanObat::find($query[0]->id);
-					$bo->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
-					$bo->harga_beli           = $data['harga_satuan'];
-					$bo->save();
-			 } else {
-					$bo                       = new BukanObat;
-					$bo->nama                 = $data['keterangan'];
-					$bo->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
-					$bo->harga_beli           = $data['harga_satuan'];
-					$bo->save();
-
-			 	$id = $bo->id;
-
-			 	$pg->bukan_obat_id = $id;
-			 }
-
-			$pg->jenis_pengeluaran_id = $data['jenis_pengeluaran_id'];
-			$pg->harga_satuan = $data['harga_satuan'];
-			$pg->jumlah = $data['jumlah'];
-            $pg->staf_id = $staf_id;
-			$confirm = $pg->save();
-
-			if ($confirm) {
-				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $faktur_belanja_id;
-				$jurnal->jurnalable_type = 'App\FakturBelanja';
-				if (!empty($bo->coa_id)) {
-					$jurnal->coa_id = $bo->coa_id; //khusu untuk pengeluaran ini, coa belum dibuat
-				}
-				$jurnal->debit           = 1;
-				$jurnal->nilai           = $data['harga_satuan'] * $data['jumlah'];
-				$jurnal->save();
-                
-                $kas_keluar += $data['harga_satuan'] * $data['jumlah'];
-
-			}
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $peng->id;
+			$jurnal->jurnalable_type = 'App\Pengeluaran';
+			$jurnal->coa_id          = 110000; // Kas di tangan
+			$jurnal->debit           = 0;
+			$jurnal->nilai           = $peng->nilai;
+			$jurnal->save();
 		}
+		$nama_supplier = Supplier::find($supplier_id)->nama;
+		if ($confirm) {
+			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'));
 
-        $jurnal                  = new JurnalUmum;
-        $jurnal->jurnalable_id   = $faktur_belanja_id;
-        $jurnal->jurnalable_type = 'App\FakturBelanja';
-        $jurnal->coa_id          = 110000; // kas di tangan
-        $jurnal->debit           = 0;
-        $jurnal->nilai           = $kas_keluar;
-        $jurnal->save();
-
-		$fb = FakturBelanja::find($faktur_belanja_id);
-		$fb->submit = '1';
-		$fb->save();
-
-        return redirect('fakturbelanjas/cari')->withPesan(Yoga::suksesFlash('<strong>Transaksi Uang Keluar</strong> berhasil dilakukan'))
-            ->withPrint($faktur_belanja_id);
+		}else {
+			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::gagalFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> gagal dilakukan'));
+		}
 	}
 
 	public function lists() {
@@ -369,16 +327,20 @@ class PengeluaransController extends Controller
         $tanggal = $checkout->created_at;
         $jurnal_umum_id = $checkout->jurnal_umum_id;
         $tindakans = [];
-        $pengeluarans = JurnalUmum::where('coa_id', 110000)
+        $pengeluarans = JurnalUmum::with('jurnalable')->where('coa_id', 110000)
                                     ->where('debit', '0')
                                     ->where('created_at', '>=', $tanggal)
                                     ->where('jurnalable_type', 'not like', 'App\\\CheckoutKasir')
                                     ->get();
+		//return dd( $pengeluarans );
+		//return $pengeluarans[2]->jurnalable_type;
+		//return $pengeluarans[2]->staf['nama'];
         $totalPengeluarans = 0;
         foreach ($pengeluarans as $peng) {
             $totalPengeluarans += $peng->nilai;
         }
         $jurnalumums = JurnalUmum::with('coa')->where('created_at', '>=', $tanggal)->get();;
+
 		foreach ($jurnalumums as $k => $ju) {
 			try {
 				$ju->coa->coa;
@@ -386,8 +348,9 @@ class PengeluaransController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
+
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
-        $uang_masuks = JurnalUmum::where('created_at', '>=', $tanggal)
+        $uang_masuks = JurnalUmum::with('jurnalable')->where('created_at', '>=', $tanggal)
                                     ->where('coa_id', 110000)
                                     ->where('jurnalable_type', '!=', 'App\Modal')
                                     ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
@@ -419,10 +382,9 @@ class PengeluaransController extends Controller
         foreach ($uang_keluar as $penjualan) {
             $total_uang_keluar += $penjualan->nilai;
         }
-        $table = $this->table();
+        $table = $this->table($checkout);
+		//return $table;
         $all_id = [];
-
-
         foreach ($table as $tbl) {
             foreach ($tbl['jurnalable_id'] as $tbl_id) {
                 $all_id[] = $tbl_id;
@@ -432,19 +394,17 @@ class PengeluaransController extends Controller
 
         $checkouts = CheckoutKasir::latest()->paginate(20);
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
-        $query = "select min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where px.tanggal >= '{$tanggal}' group by tp.jenis_tarif_id";
-        $transaksis = DB::select($query);
         $totalPemasukan = 0;
         foreach ($table as $trx) {
             $totalPemasukan += $trx['nilai'];
         }
-        return view('pengeluarans.notaz', compact('checkouts','transaksis', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id', 'pengeluarans', 'totalPengeluarans', 'totalPemasukan'));
+        return view('pengeluarans.notaz', compact('checkouts', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id', 'pengeluarans', 'totalPengeluarans', 'totalPemasukan'));
     }
     public function notaz_post(){
-        $table = $this->table();
         //return $table;
 
         $last_chekcout = CheckoutKasir::latest()->first();
+        $table = $this->table($last_chekcout);
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal = $last_chekcout->created_at;
@@ -761,14 +721,13 @@ class PengeluaransController extends Controller
 
 
    }
-    private function table(){
-        $checkout = CheckoutKasir::latest()->first();
+    private function table($checkout){
         $jurnal_umum_id = $checkout->jurnal_umum_id;
         $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
         $rinci = DB::select($query);
         $table = [];
         foreach ($rinci as $rc) {
-            $arrs = $rc->jurnalable_type::find($rc->jurnalable_id)->jurnals;
+			$arrs = $rc->jurnalable_type::where('id', $rc->jurnalable_id)->first()->jurnals;
             $valid = false;
             foreach ($arrs as $key => $ar) {
                 if ( $key > 0 && $arrs[$key-1]->coa_id == 110000 && $arrs[$key-1]->debit == 1 ){

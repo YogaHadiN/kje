@@ -20,13 +20,13 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <label for="">rak_id</label>
-                {!! Form::text('rak_id', $rak->id, ['class' => 'form-control', 'id' => 'rakIdOnMerek'])!!}
+				{!! Form::text('rak_id', $rak->id, ['class' => 'form-control', 'id' => 'rakIdOnMerek', 'readonly' => 'readonly'])!!}
               </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <label for="">endfix</label>
-                {!! Form::text('endfix', $rak->formula->endfix, ['class' => 'form-control', 'id'=>'endFixOnMerek'])!!}
+				{!! Form::text('endfix', $rak->formula->endfix, ['class' => 'form-control', 'id'=>'endFixOnMerek', 'readonly' => 'readonly'])!!}
               </div>
             </div>
            	</div>

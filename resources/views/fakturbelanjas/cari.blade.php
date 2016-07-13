@@ -29,8 +29,7 @@ Klinik Jati Elok | Antrian Beli Obat
                     <h3>Total : {!! $fakturbelanjas->count() !!}</h3>
                 </div>
                 <div class="panelRight">
-                      <a href="{{ url('fakturbelanjas') }}" class='btn btn-info'>List Belum Selesai</a>
-                      <a href="{{ url('suppliers') }}" class="btn btn-success">Pilih Supplier Lagi</a>
+					<a href="{{ url('suppliers/belanja_obat') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>	Belanja Persediaan Obat</a>
                   </div>
                 </div>
                
@@ -39,12 +38,11 @@ Klinik Jati Elok | Antrian Beli Obat
             <table class="table table-bordered table-hover DT" id="tabel_faktur_beli">
                   <thead>
                     <tr>
-          						<th>tanggal</th>
+					  <th>tanggal</th>
                       <th>Nama Supplier</th>
                       <th>Nomor Faktur</th>
                       <th>Jenis Belanja</th>
-                      <th>Jumlah Item</th>
-          						<th>Total Biaya</th>
+				    	<th>Total Biaya</th>
                     	<th>Action</th>
                     </tr>
                 </thead>
@@ -56,15 +54,11 @@ Klinik Jati Elok | Antrian Beli Obat
                         <td><div>{!!$faktur_beli->supplier->nama!!}</div></td>
                         <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
                         <td><div>{!!$faktur_beli->belanja->belanja!!}</div></td>
-                        <td><div>{!!$faktur_beli->items!!} pcs</div></td>
                         <td><div class="uang">{!!$faktur_beli->totalbiaya!!}</div></td>
                         <td>
                             @if ($faktur_beli->belanja->belanja == 'Belanja Obat')
-                                <a href="{{ url('pembelians/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
-                            @else
-                                <a href="{{ url('pengeluarans/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
+                                <a href="{{ url('pembelians/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail / Edit</a>
                             @endif
-                            
                                 <a class="btn btn-info btn-xs" href="{{ url('pdfs/pembelian/' . $faktur_beli->id) }}" target="_blank">Print Struk</a>
                         </td>
                   	</tr>

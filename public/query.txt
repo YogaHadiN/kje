@@ -1,4 +1,4 @@
-RENAME TABLE admin TO users;
+Ralter table pendapatans ENAME TABLE admin TO users;
 RENAME TABLE antriankasir TO antrian_kasirs;
 RENAME TABLE antrianperiksa TO antrian_periksas;
 RENAME TABLE antrianpoli TO antrian_polis;

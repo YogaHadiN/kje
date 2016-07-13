@@ -28,19 +28,26 @@ Klinik Jati Elok | Belanja Bukan Obat
                 </div>
             </div>
             <div class="panel-body">
-                {!! Form::open(['url'=>'fakturbelanjas', 'method'=> 'post']) !!} 
+                {!! Form::open(['url'=>'pengeluarans', 'method'=> 'post']) !!} 
                     {!! Form::text('belanja_id', 3, ['class' => 'hide']) !!} 
                     <div class="form-group">
                       {!! Form::label('supplier_id', 'Supplier') !!}
                       {!! Form::select('supplier_id', App\Classes\Yoga::supplierList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
                     </div>
-                    <div class="form-group">
-                      {!! Form::label('nomor_faktur', 'Nomor Faktur') !!}
-                      {!! Form::text('nomor_faktur' , null, ['class' => 'form-control']) !!}
+					<div class="form-group">
+                      {!! Form::label('staf_id', 'Petugas') !!}
+                      {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
                     </div>
                     <div class="form-group">
-                      {!! Form::label('tanggal', 'Tanggal') !!}
-                      {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
+                      {!! Form::label('nilai', 'Nilai') !!}
+						<div class="input-group">
+                          <div class="input-group-addon">Rp. </div>
+                           {!! Form::text('nilai' , null, ['class' => 'form-control rq']) !!}
+						</div>
+                    </div>
+					<div class="form-group">
+                      {!! Form::label('keterangan', 'Uangnya Dipakai Buat apa') !!}
+                      {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom']) !!}
                     </div>
                     <div class="form-group">
                       {!! Form::submit('Belanja Bukan Obat', ['class' => 'btn btn-success btn-block btn-lg']) !!}
@@ -52,8 +59,8 @@ Klinik Jati Elok | Belanja Bukan Obat
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="alert alert-info">
             <ul>
-                <li>Belanja obat Adalah untuk input pembelian obat yang masuk dalam daftar stok barang</li>
-                <li>Untuk pembelian / pengeluaran uang yang tidak masuk dalam stok barang contoh : belanja sayur pilihannya masuk ke dalam <a href="{{ url('suppliers/belanja_bukan_obat') }}" class="btn btn-info">Belanja Bukan Obat</a> </li>
+                <li>Belanja bukan obat Adalah untuk input pembelian obat yang tidak masuk dalam daftar stok barang</li>
+				<li>Untuk pembelian / pengeluaran uang yang masuk dalam stok barang contoh : belanja obat pilihannya masuk ke dalam <br /> <a href="{{ url('suppliers/belanja__obat') }}" class="btn btn-info">Belanja Obat</a> </li>
             </ul>
         </div>
     </div>
@@ -64,47 +71,36 @@ Klinik Jati Elok | Belanja Bukan Obat
             <div class="panel-heading">
                 <div class="panel-title">Daftar Belanja Obat</div>
             </div>
-            <div class="panel-body">
-                <div class-"table-responsive">
-                    <table class="table table-hover table-condensed DT">
-                        <thead>
-                            <tr>
-                                <th>Tanggal</th>
-                                <th>Nama Supplier</th>
-                                <th>Nomor Faktur</th>
-                                <th>Jenis Belanja</th>
-                                <th>Jumlah Item</th>
-                                <th>Total Biaya</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @if($fakturbelanjas->count())
-                            @foreach ($fakturbelanjas as $faktur_beli)
-                                <tr>
-                                <td><div>{!!App\Classes\Yoga::updateDatePrep($faktur_beli->tanggal)!!}</div></td>
-                                <td><div>{!!$faktur_beli->supplier->nama!!}</div></td>
-                                <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
-                                <td><div>{!!$faktur_beli->belanja->belanja!!}</div></td>
-                                <td><div>{!!$faktur_beli->items!!} pcs</div></td>
-                                <td><div class="uang">{!!$faktur_beli->totalbiaya!!}</div></td>
-                                <td>
-                                    @if ($faktur_beli->belanja->belanja == 'Belanja Obat')
-                                        <a href="{{ url('pembelians/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
-                                    @else
-                                        <a href="{{ url('pengeluarans/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail</a>
-                                    @endif
-                                        <a class="btn btn-info btn-xs" href="{{ url('pdfs/pembelian/' . $faktur_beli->id) }}" target="_blank">Print Struk</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                          @else 
-                            <td colspan="6" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
-                          @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+			<div class="panel-body">
+				<?php echo $pengeluarans->appends(Input::except('page'))->links(); ?>
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal</th>
+								<th>Jam</th>
+								<th>Supplier</th>
+								<th>Staf</th>
+								<th>Nilai</th>
+								<th>Keterangan</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($pengeluarans as $peng)
+								<tr>
+									<td>{{ $peng->created_at->format('d-m-Y') }}</td>
+									<td>{{ $peng->created_at->format('H:i:s') }}</td>
+									<td>{{ $peng->supplier->nama }}</td>
+									<td>{{ $peng->staf->nama }}</td>
+									<td class="uang">{{ $peng->nilai }}</td>
+									<td>{{ $peng->keterangan }}</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+				<?php echo $pengeluarans->appends(Input::except('page'))->links(); ?>
+			</div>
         </div>
     </div>
 </div>

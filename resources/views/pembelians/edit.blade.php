@@ -98,7 +98,7 @@ Klinik Jati Elok | Entri Beli Obat
                   {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block hide', 'id' => 'submit'])!!} 
               </div>
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                  <a href="{{ url('fakturbelanjas')}}" class="btn btn-danger btn-block">cancel</a>
+                  <a href="{{ url('fakturbelanjas/cari')}}" class="btn btn-danger btn-block">cancel</a>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <h3 class='red'>Isi Dengan BENAR!! JANGAN NGARANG2</h3>
@@ -168,7 +168,6 @@ Klinik Jati Elok | Entri Beli Obat
           </div>
     </div>
 </div>
-
 <!-- Modal Untuk Membuat Formula Baru-->
 <div class="modal fade" id="modalNewFormula" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -710,7 +709,6 @@ Klinik Jati Elok | Entri Beli Obat
     }
 
     function buatRak(control) {
-
       var formula_id = $(control).closest('tr').find('td:first-child').html();
       $('#ket_formula_id').html(formula_id);
       $('#formulaIdOnRak').val(formula_id);
@@ -939,7 +937,5 @@ Klinik Jati Elok | Entri Beli Obat
           alert('Nama Staf Harus diisi dulu');
           $('#staf_id').closest('div').find('.btn-white').focus();
     }
-
-
   </script>
 @stop

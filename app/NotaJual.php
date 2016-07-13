@@ -33,6 +33,19 @@ class NotaJual extends Model{
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }
+	public function getNilaiAttribute(){
+		$nilai = '';
+		foreach ($this->penjualan as $penj) {
+			$nilai += $penj->harga_jual * $penj->jumlah;
+		}
+		return $nilai;
+	}
+
+	public function getItemsAttribute(){
+		return $this->penjualan->count() . ' pcs';
+	}
+	
+	
     public function getTotalAttribute(){
         $total = 0;
         if ($this->tipe_jual_id == 1) {
@@ -51,8 +64,6 @@ class NotaJual extends Model{
     public function getKetjurnalAttribute(){
 
         $pembayaran_asuransis = $this->pembayaranAsuransi;
-        //return $pembayaran_asuransis[0]->periksa->asuransi->nama;
-        //return $pembayaran_asuransis;
 
         if ($pembayaran_asuransis->count() > 0){
             $biaya = 0;
@@ -60,7 +71,7 @@ class NotaJual extends Model{
                 $biaya += $pemb->pembayaran;
             }
              $temp = 'Pembayaran Piutang<strong> Asuransi ' . $pembayaran_asuransis->first()->asuransi->nama . '</strong>';
-             $temp .= '<br />pada tanggal ' . $this->tanggal->format('d-m-Y');
+             $temp .= '<br />pada tanggal <strong>' . $this->tanggal->format('d-m-Y') . '</strong>';
              $temp .= '<br />sebesar<strong> <span class="uang">' . $biaya . '</span></strong>';
              $temp .= '<br />Tujuan kas di <strong> <span>' . $pemb->coa->coa . '</span></strong>';
              return $temp;
@@ -74,7 +85,7 @@ class NotaJual extends Model{
                 $nilai += $penj->jumlah * $penj->harga_jual;
             }
             $juals .= '</ul>';
-            return 'Penjualan ' .  $juals .  ' sebesar <span class="uang">' . $nilai . '</span>';
+            return 'Penjualan <strong>' .  $juals .  ' </strong>sebesar <strong><span class="uang">' . $nilai . '</span></strong>';
         }
     }
 }

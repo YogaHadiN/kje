@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 use Input;
-
 use App\Http\Requests;
 use App\AntrianPeriksa;
 use App\Classes\Yoga;
@@ -131,8 +130,9 @@ class PolisController extends Controller
 
             $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->toArray();
         }
+		$cekGdsBulanIni = Yoga::cekGDSBulanIni($antrianperiksa->pasien); // this return true
 		if ($asuransi_id == '32') {
-			if (!Yoga::cekGDSBulanIni($antrianperiksa->pasien_id)['bayar']) {
+			if (!$cekGdsBulanIni['bayar']) { // tapi yang ini error; KOK BISA??
 				foreach ($tindakans as $key => $tindakan) {
 					if ($key !== '') {
 						$Array = json_decode($key, true);
@@ -200,7 +200,7 @@ class PolisController extends Controller
 			}
 
 			$sudah = false;
-			$periksaBulanIni = Periksa::where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $periksaExist->id)->get();
+			$periksaBulanIni = Periksa::with('terapii.merek')->where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $periksaExist->id)->get();
 
 			foreach ($periksaBulanIni as $periksa) {
 				if(preg_match('/Gula Darah/',$periksa->pemeriksaan_penunjang)){
@@ -304,6 +304,7 @@ class PolisController extends Controller
 			->withTd($td)
 			->withBb($bb)
 			->withTfu($tfu)
+			->withCekGdsBulanIni($cekGdsBulanIni)
 			->withLila($lila)
 			->withDjj($djj)
 			->withRegister_hamil_id($register_hamil_id)
@@ -424,6 +425,7 @@ class PolisController extends Controller
 			->withP($p)
 			->withA($a)
 			->withPenunjang($penunjang)
+			->with('cekGdsBulanIni', $cekGdsBulanIni)
 			->withSudah($sudah)
 			->withTransaksiusg($transaksiusg)
 			->withPeriksa($periksa)

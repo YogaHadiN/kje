@@ -212,7 +212,6 @@ Klinik Jati Elok | Entri Beli Obat
                   @foreach($merek->rak->formula->komposisi as $komposisi)
                     {!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
                   @endforeach
-
                 </td>
                 <td class='uang'>{!! $merek->rak->harga_beli !!}</td>
                 <td class='uang'>{!! $merek->rak->harga_jual !!}</td>

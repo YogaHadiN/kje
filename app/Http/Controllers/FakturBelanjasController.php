@@ -7,11 +7,15 @@ use Input;
 use App\Http\Requests;
 
 use App\FakturBelanja;
+use App\Dispensing;
+use App\Pembelian;
+use App\JurnalUmum;
 use App\Classes\Yoga;
 
 
 class FakturBelanjasController extends Controller
 {
+
 
 	/**
 	 * Display a listing of the resource.
@@ -27,7 +31,7 @@ class FakturBelanjasController extends Controller
 		return view('fakturbelanjas.index', compact('fakturbelanjas', 'stafs', 'suppliers'));
 	}
 	public function cari(){
-		$fakturbelanjas = FakturBelanja::where('submit', '1')->latest()->get();
+		$fakturbelanjas = FakturBelanja::with('staf', 'supplier', 'belanja', 'pembelian')->where('belanja_id', 1)->latest()->get();
 		return view('fakturbelanjas.cari', compact('fakturbelanjas'));
 	}
 
@@ -48,7 +52,7 @@ class FakturBelanjasController extends Controller
 					->where('nomor_faktur', Input::get('nomor_faktur'))
 					->where('tanggal', Yoga::datePrep(Input::get('tanggal')))
 					->first();
-		if (count($count) > 0) {
+		if (count($count) > 0 && $count->belanja_id == 1) {
 			$faktur = $count;
 			$faktur->submit = '0';
 			$faktur->save();
@@ -65,16 +69,29 @@ class FakturBelanjasController extends Controller
 
 
 	public function destroy($id){
-
 		$faktur = FakturBelanja::find($id);
 		$supplier = $faktur->supplier->nama;
+		if ($faktur->belanja_id == 1 && $faktur->pembelian->count() > 0 ) {
+			$dispensable_ids = [];
+			foreach ($faktur->pembelian as $v) {
+				$rak = $v->merek->rak;
+				$rak->stok = $rak->stok - $v->jumlah;
+				$confirm = $rak->save();
+				if ($confirm) {
+					$dispensable_ids[] = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $v->id)->first()->id;
+				}
+			}
+			Pembelian::where('faktur_belanja_id', $id)->delete();
+			Dispensing::destroy($dispensable_ids);
+		} else if ($faktur->belanja_id == 3 && $faktur->pengeluaran->count() > 0) {
+			$faktur->pengeluaran()->delete();
+		}
+		JurnalUmum::where('jurnalable_type', 'App\FakturBelanja')->where('jurnalable_id', $id)->delete();
 		$confirm = $faktur->delete();
-
-		return redirect('fakturbelanjas')->withPesan(Yoga::suksesFlash('Faktur Belanja di <strong>' . $supplier . '</strong> berhasil dihapus'));
-	
-
+		if ($confirm) {
+			return redirect('fakturbelanjas')->withPesan(Yoga::suksesFlash('Faktur Belanja di <strong>' . $supplier . '</strong> berhasil dihapus'));
+		} else {
+			return redirect('fakturbelanjas')->withPesan(Yoga::gagalFlash('Faktur Belanja di <strong>' . $supplier . '</strong> gagal dihapus'));
+		}
 	}
-
-	
-
 }

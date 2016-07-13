@@ -97,81 +97,92 @@ class PembeliansController extends Controller
 	}	
 	public function store()
 	{
-		$data = Input::get('tempBeli');
-		$faktur_belanja_id = Input::get('faktur_belanja_id');
-		$faktur_belanja = FakturBelanja::find($faktur_belanja_id);
+		$rules = [
+			'tanggal' => 'required',
+			'nomor_faktur' => 'required',
+			'belanja_id' => 'required',
+			'supplier_id' => 'required',
+			'tempBeli' => 'required',
+		];
+		$validator = \Validator::make($data = Input::all(), $rules);
 
-		// return $faktur_belanja->tanggal;
-
-		$data = json_decode($data, true);
-
-        $total_pembelian =0;
-		foreach ($data as $dt) {
-            $pembelian_id = Yoga::customId('App\Pembelian');
-			$pb = new Pembelian;
-			$pb->exp_date = Yoga::datePrep($dt['exp_date']);
-			$pb->harga_beli = $dt['harga_beli'];
-			$pb->harga_jual = $dt['harga_jual'];
-			$pb->staf_id = Input::get('staf_id');
-			$pb->faktur_belanja_id = $faktur_belanja_id;
-			$pb->merek_id = $dt['merek_id'];
-			$pb->harga_naik = $dt['harga_berubah'];
-			$pb->jumlah = $dt['jumlah'];
-			$pb->id = $pembelian_id; 
-			$pb->save();
-
-            $total_pembelian += $pb->harga_beli * $pb->jumlah;
-
-			//get rak
-			$rak_id = Merek::find($dt['merek_id'])->rak_id;
-			// return $rak_id;
-			$query = "SELECT *, p.exp_date as expiry FROM pembelians as p left join mereks as m on m.id=p.merek_id join raks as r on r.id=m.rak_id where r.id='{$rak_id}' AND p.exp_date > '" . date('Y-m-d') . "' order by p.exp_date asc;";
-			// return $query;
-			if (count(DB::select($query)) > 0) {
-				$exp_date = DB::select($query)[0]->expiry;
-			} else {
-				$exp_date = Yoga::datePrep($dt['exp_date']);
-			}
-
-			$rak = Rak::find($rak_id);
-			$rak->harga_beli = $dt['harga_beli'];
-			$rak->harga_jual = $dt['harga_jual'];
-			if ($rak->exp_date > $exp_date) {
-				$rak->exp_date = $exp_date;
-			}
-			$rak->exp_date = $exp_date;
-			$rak->stok = $rak->stok + $dt['jumlah'];
-
-			// jika tanggal kadaluarsa obat yang sekarang lebih awal dari yang ada di rak,
-			// maka rubah tanggal kadaluarsa di rak menjadi lebih awal
-			if (strtotime($pb->exp_date) < strtotime($rak->exp_date)) {
-				$rak->exp_date = $dt['exp_date'];
-			}
-
-			$confirm = $rak->save();
-
-			// return $faktur_belanja->tanggal;
-			//create dispensing
-			$db = new Dispensing;
-			$db->tanggal = $faktur_belanja->tanggal;
-			$db->rak_id = $rak->id;
-			$db->masuk = $dt['jumlah'];
-			$db->dispensable_id = $pembelian_id;
-			$db->dispensable_type = 'App\Pembelian';
-			$db->id = Yoga::customId('App\Dispensing');
-			$db->save();
-
-            //Masukkan ke Jurnal Umum
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		$faktur = new FakturBelanja;
+		$faktur->tanggal = Yoga::datePrep(Input::get('tanggal'));
+		$faktur->nomor_faktur = Input::get('nomor_faktur');
+		$faktur->belanja_id = Input::get('belanja_id');
+		$faktur->supplier_id = Input::get('supplier_id');
+		$confirm = $faktur->save();
+
+		if ($confirm) {
+			$data = Input::get('tempBeli');
+			$faktur_belanja_id = $faktur->id;
+			$data = json_decode($data, true);
+			$total_pembelian =0;
+			foreach ($data as $dt) {
+				$pb = new Pembelian;
+				$pb->exp_date = Yoga::datePrep($dt['exp_date']);
+				$pb->harga_beli = $dt['harga_beli'];
+				$pb->harga_jual = $dt['harga_jual'];
+				$pb->staf_id = Input::get('staf_id');
+				$pb->faktur_belanja_id = $faktur_belanja_id;
+				$pb->merek_id = $dt['merek_id'];
+				$pb->harga_naik = $dt['harga_berubah'];
+				$pb->jumlah = $dt['jumlah'];
+				$pb->save();
+
+				$total_pembelian += $pb->harga_beli * $pb->jumlah;
+
+				$rak_id = Merek::find($dt['merek_id'])->rak_id;
+				$query = "SELECT *, p.exp_date as expiry FROM pembelians as p left join mereks as m on m.id=p.merek_id join raks as r on r.id=m.rak_id where r.id='{$rak_id}' AND p.exp_date > '" . date('Y-m-d') . "' order by p.exp_date asc;";
+				// return $query;
+				if (count(DB::select($query)) > 0) {
+					$exp_date = DB::select($query)[0]->expiry;
+				} else {
+					$exp_date = Yoga::datePrep($dt['exp_date']);
+				}
+
+				$rak = Rak::find($rak_id);
+				$rak->harga_beli = $dt['harga_beli'];
+				$rak->harga_jual = $dt['harga_jual'];
+				if ($rak->exp_date > $exp_date) {
+					$rak->exp_date = $exp_date;
+				}
+				$rak->exp_date = $exp_date;
+				$rak->stok = $rak->stok + $dt['jumlah'];
+
+				// jika tanggal kadaluarsa obat yang sekarang lebih awal dari yang ada di rak,
+				// maka rubah tanggal kadaluarsa di rak menjadi lebih awal
+				if (strtotime($pb->exp_date) < strtotime($rak->exp_date)) {
+					$rak->exp_date = $dt['exp_date'];
+				}
+
+				$confirm = $rak->save();
+
+				// return $faktur_belanja->tanggal;
+				//create dispensing
+				if ($confirm) {
+					$db = new Dispensing;
+					$db->tanggal = $faktur->tanggal;
+					$db->rak_id = $rak->id;
+					$db->masuk = $dt['jumlah'];
+					$db->dispensable_id = $pb->id;
+					$db->dispensable_type = 'App\Pembelian';
+					$db->id = Yoga::customId('App\Dispensing');
+					$db->save();
+				}
+			}
+		}
 		if ($confirm) {
 			$supplier = FakturBelanja::find($faktur_belanja_id)->supplier->nama;
-
 			$fb = FakturBelanja::find($faktur_belanja_id);
 			$fb->submit = '1';
 			$fb->save();
-            //Masukkan ke Jurnal Umum
-            
+
             $jurnal                  = new JurnalUmum;
             $jurnal->jurnalable_id   = $faktur_belanja_id;
             $jurnal->jurnalable_type = 'App\FakturBelanja';

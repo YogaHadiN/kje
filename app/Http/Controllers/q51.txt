@@ -1,0 +1,14 @@
+alter table pendapatans change biaya `nilai` int(11);
+alter table pendapatans change pendapatan `keterangan` varchar(255);
+alter table pendapatans change keterangan `sumber_uang` varchar(255);
+
+
+alter table pengeluarans add column keterangan varchar(255) not null;
+alter table pengeluarans drop column id;
+alter table pengeluarans add column id int(11) auto_increment primary key;
+alter table pengeluarans add column nilai int(11);
+alter table pengeluarans add column supplier_id varchar(255);
+alter table pengeluarans drop column faktur_belanja_id;
+alter table pengeluarans drop column jenis_pengeluaran_id;
+alter table pengeluarans drop column harga_satuan;
+alter table pengeluarans drop column jumlah;

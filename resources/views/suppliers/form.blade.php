@@ -50,7 +50,8 @@
     @endif
 </div>
 <div class="form-group">
+	<button class="btn btn-primary block full-width m-b" type="button" id="dummySubmitSupplier">{{ $submit }}</button>	
     {!! Form::submit($submit, array(
-        'class' => 'btn btn-primary block full-width m-b'
+        'class' => 'hide btn btn-primary block full-width m-b'
     )) !!}
 </div>
