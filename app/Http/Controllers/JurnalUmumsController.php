@@ -100,21 +100,17 @@ class JurnalUmumsController extends Controller
 			$data_ids .= $id . ',';
 		}
 		$data_ids .= $ids[ count($ids) - 1 ];
-		//return $data_ids;
-		$query ="select * from jurnal_umums where id in ({$data_ids})";
-		//$query = "select ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal from jurnal_umums as ju join faktur_belanjas as fb on fb.id = ju.jurnalable_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\FakturBelanja' group by jurnal_umum_id";
-		$faktur_belanjas = DB::select($query);
-		return $faktur_belanjas;
+		$query = "select ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal, pg.keterangan as nama from jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\Pengeluaran' group by jurnal_umum_id";
+		$pengeluarans = DB::select($query);
 		$query = "SELECT *, ju.id as jurnal_umum_id FROM jurnal_umums as ju join pendapatans as pd on pd.id = ju.jurnalable_id where jurnalable_type='App\\\Pendapatan' and ju.id in ({$data_ids})";
 		$pendapatans = DB::select($query);
-		//return $pendapatans[0]->created_at;
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
 		return view('jurnal_umums.coa', compact(
 			'kelompokCoaList', 
 			'jurnalumums', 
-			'faktur_belanjas', 
+			'pengeluarans', 
 			'pendapatans', 
 			'bebanCoaList',
 			'pendapatanCoaList'
@@ -129,21 +125,14 @@ class JurnalUmumsController extends Controller
 	 */
 	public function coaPost()
 	{
+		//return Input::all();
         $temp = Input::get('temp');
         $temp = json_decode($temp, true);
+		//return var_dump($temp[0]['coa_id']);
         foreach ($temp as $tp) {
-
             $ju = JurnalUmum::find($tp['id']);
             $ju->coa_id = $tp['coa_id'];
             $ju->save();            
-
-            if ($tp['jurnalable_type'] == 'App\Pengeluaran') {
-                $bukan_obat_id = Pengeluaran::find($tp['jurnalable_id'])->bukan_obat_id;
-                $bo = BukanObat::find($bukan_obat_id);
-                $bo->coa_id = $tp['coa_id'];
-                $bo->save();
-            }
-
         }
         return redirect('jurnal_umums');
 	}

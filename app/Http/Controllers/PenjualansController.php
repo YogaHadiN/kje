@@ -53,6 +53,7 @@ class PenjualansController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+
 		$datas = Input::get('tempBeli');
 		$datas = json_decode($datas, true);
 		$nota_jual_id = Yoga::customId('App\NotaJual');
@@ -129,7 +130,7 @@ class PenjualansController extends Controller
 
 		// return 'oke';
         $pesan = '<strong>Transaksi Penjualan Tanpa Resep</strong> Berhasil dilakukan';
-        return redirect('nota_juals')->withPesan(Yoga::suksesFlash($pesan))
+        return redirect('penjualans')->withPesan(Yoga::suksesFlash($pesan))
             ->withPrint($nota_jual_id);
 	}
     public function obat_buat_karyawan(){

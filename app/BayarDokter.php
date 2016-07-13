@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BayarDokter extends Model
 {
+    protected $with = ['staf'];
     //
     protected $dates = ['created_at', 'mulai', 'akhir'];
     public function staf(){
@@ -24,7 +25,7 @@ class BayarDokter extends Model
         $uang = $this->bayar_dokter;
         $nama = $this->staf->nama;
 
-        return 'Bayar ' . $nama . ' sebesar <span class="uang">' . $uang . '</span> pada tanggal ' . $tanggal;
+        return 'Bayar <strong>' . $nama . ' </strong><br />sebesar <strong><span class="uang">' . $uang . '</span></strong><br /> pada tanggal<strong> ' . $tanggal . '</strong>';
 
     }
 }

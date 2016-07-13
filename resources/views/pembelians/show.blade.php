@@ -91,7 +91,7 @@ Klinik Jati Elok | Entri Beli Obat
                 <a href="{{ url('pembelians/' . $pembelians->first()->fakturBelanja->id . '/edit' ) }}" class='btn btn-warning btn-lg btn-block'>Edit</a>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <a href="{{ url('suppliers/' . $pembelians->first()->fakturBelanja->supplier_id ) }}" class='btn btn-danger btn-lg btn-block'>Cancel</a>            
+                  <a href="{{ url('fakturbelanjas/cari') }}" class='btn btn-danger btn-lg btn-block'>Cancel</a>            
               </div>
             </div>
       </div>

@@ -21,8 +21,6 @@
                                 @endif
                             </div>
                         </div>
-
-                    
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                             {!!Form::label('indikasi')!!}<br />
@@ -47,7 +45,6 @@
                             @endif
                         </div>
                     </div>
-                    
                 </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
@@ -98,7 +95,6 @@
                                 {!!Form::label('dijual_bebas')!!}<br />
                                 {!!Form::select('dijual_bebas', $dijual_bebas, null, array(
                                     'class'         => 'form-control',
-                                    'placeholder'   => 'Merek'
                                 ))
                                 !!}
                                 @if($errors->first('dijual_bebas'))
@@ -143,7 +139,6 @@
                                         '1'         => 'Fornas'
                                     ), null, array(
                                         'class'         => 'form-control',
-                                        'placeholder'   => 'Merek'
                                     ))
                                     !!}
                                     @if($errors->first('fornas'))
@@ -158,7 +153,6 @@
                                 {!!Form::label('sediaan')!!}<br />
                                 {!!Form::select('sediaan', $sediaan, null, array(
                                     'class'         => 'form-control',
-                                    'placeholder'   => 'Merek',
                                     'id'            => 'sediaan'
                                 ))
                                 !!}
@@ -183,7 +177,6 @@
                             {!!Form::label('alternatif_fornas')!!}<br />
                             {!!Form::select('alternatif_fornas', $alternatif_fornas, null, array(
                                 'class'         => 'form-control selectpick',
-                                'placeholder'   => 'Merek',
                                 'data-live-search' => 'true'
                             ))
                             !!}

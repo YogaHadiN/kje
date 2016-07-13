@@ -21,11 +21,9 @@ class SuppliersAjaxController extends Controller
 	{
 		$supplier_id = Input::get('supplier_id');
 		$nomor_faktur = Input::get('nomor_faktur');
-
 		$count = FakturBelanja::where('supplier_id', $supplier_id)
 							->where('nomor_faktur', $nomor_faktur)
 							->count();
-
 		if ($count > 0) {
 			return '1';
 		} else {

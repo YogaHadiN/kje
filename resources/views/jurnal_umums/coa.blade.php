@@ -91,7 +91,7 @@ Klinik Jati Elok | Coa belum di set
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($faktur_belanjas as $ju)
+                    @foreach($pengeluarans as $ju)
 						<tr>
 						  <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
 						  <td>{!! $ju->tanggal !!}</td>
@@ -120,22 +120,19 @@ Klinik Jati Elok | Coa belum di set
                     <tr>
                         <th class="hide field_id">id</th>
                         <th>Pendapatan</th>
-                        <th>Chart Of Account</th>
                         <th>Keterangan</th>
-                        <th>Action</th>
+                        <th>Chart Of Account</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($pendapatans as $ju)
                         <tr>
                           <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
-						  <td>{!! $ju->pendapatan !!}</td>
+						  <td>{!! $ju->sumber_uang !!}</td>
+                          <td>{!! $ju->keterangan !!}</td>
                            <td>
                                {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control selectpick', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
-                          </td>
-                          <td>{!! $ju->keterangan !!}</td>
-                          <td>
-                            <a href="#" class="btn btn-info btn-xs btn-block">Detail</a>
                           </td>
                         </tr>
                     @endforeach

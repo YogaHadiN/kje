@@ -85,7 +85,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
       ])
 {!! Form::close()!!}
 
-@include('after')
+@include('after', ['cekGdsBulanIni' => $cekGdsBulanIni])
 @stop
 @section('footer') 
 <script>

@@ -16,6 +16,7 @@ use App\Classes\Yoga;
 class FakturBelanjasController extends Controller
 {
 
+
 	/**
 	 * Display a listing of the resource.
 	 * GET /fakturbelanjas
@@ -30,7 +31,7 @@ class FakturBelanjasController extends Controller
 		return view('fakturbelanjas.index', compact('fakturbelanjas', 'stafs', 'suppliers'));
 	}
 	public function cari(){
-		$fakturbelanjas = FakturBelanja::where('submit', '1')->latest()->get();
+		$fakturbelanjas = FakturBelanja::with('staf', 'supplier', 'belanja', 'pembelian')->where('belanja_id', 1)->latest()->get();
 		return view('fakturbelanjas.cari', compact('fakturbelanjas'));
 	}
 

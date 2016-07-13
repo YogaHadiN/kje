@@ -23,7 +23,7 @@ class Modal extends Model
         $tanggal = $this->created_at->format('d-m-Y');
         $uang = $this->modal;
 
-        return 'Modal sebesar <span class="uang">' . $uang . '</span> dimasukkan ke kasir pada tanggal ' . $tanggal;
+        return 'Modal sebesar <strong><span class="uang">' . $uang . '</span></strong><br /> dimasukkan ke kasir pada tanggal <strong>' . $tanggal . '</strong>';
 
     }
 }

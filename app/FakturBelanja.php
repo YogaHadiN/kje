@@ -12,6 +12,8 @@ class FakturBelanja extends Model{
 
     protected $morphClass = 'App\FakturBelanja';
 
+    protected $with = ['supplier'];
+
     protected $dates = ['tanggal'];
 	
 
@@ -60,10 +62,9 @@ class FakturBelanja extends Model{
 		return $harga;
 	}
 	public function getItemsAttribute(){
+		$arr = [];
         if ($this->belanja->belanja == 'Belanja Obat') {
             $arr = $this->pembelian;
-        } else {
-            $arr = $this->pengeluaran;
         }
 		return count($arr);
 	}
@@ -103,7 +104,7 @@ class FakturBelanja extends Model{
             $total_pembelian += $pembelian->harga_beli * $pembelian->jumlah;
         }
         
-        return 'Pembelian Obat di ' . $supplier . ', sebesar : <span class="uang">' . $total_pembelian . '</span>, tanggal : ' . $tanggal;
+        return 'Pembelian Obat di <strong>' . $supplier . '</strong><br /> sebesar :<strong><span class="uang">' . $total_pembelian . '</span></strong><br /> tanggal <strong>: ' . $tanggal . '</strong>';
 
     }
     

@@ -39,8 +39,6 @@ class SuppliersController extends Controller
 
 		$belanjaList = [ null => '- Jenis Belanja -']  + Belanja::lists('belanja', 'id')->all();
 
-		// return $belanjaList;
-
 		return view('suppliers.index', compact('suppliers', 'stafs', 'belanjaList'));
 	}
 
@@ -61,16 +59,33 @@ class SuppliersController extends Controller
 	 */
 	public function store()
 	{
-		$validator = \Validator::make($data = Input::all(), Supplier::$rules);
+		$rules = [
+			'nama' => 'required'
+		];
+		$validator = \Validator::make($data = Input::all(), $rules);
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Supplier::create($data);
 
 		$nama = Input::get('nama');
+		if (Input::ajax()) {
+			$options = [];
+			foreach (Yoga::supplierList() as $k => $v) {
+				$options[] = [
+					'value' => $k,
+					'text' => $v
+				];
+			}
+			return json_encode([
+				'confirm' => '1',
+				'last_id' => Supplier::latest()->first()->id,
+				'options' =>  $options
+			]);
+		}
 
 		return \Redirect::route('suppliers.index')->withPesan(Yoga::suksesFlash('Supplier <strong>' . $nama . '</strong> telah <strong>BERHASIL</strong> dibuat'));
 	}

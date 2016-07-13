@@ -28,11 +28,11 @@ class Pendapatan extends Model{
     }
 
     public function getKetjurnalAttribute(){
-		$pendapatan = $this->pendapatan;
-		$biaya      = $this->biaya;
+		$sumber_uang = $this->sumber_uang;
+		$biaya      = $this->nilai;
 		$keterangan = $this->keterangan;
 
-		return 'Dibayarkan ' . $pendapatan . ' oleh ' . $keterangan . ' sebesar <span class="uang">' . $biaya . '</span>';
+		return 'Dibayarkan <strong>' . $keterangan . '</strong><br /> oleh <strong>' . $sumber_uang . ' </strong><br />sebesar <strong><span class="uang">' . $biaya . '</span></strong>';
     }
 
 }

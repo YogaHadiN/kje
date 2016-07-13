@@ -65,9 +65,10 @@ Klinik Jati Elok | Pendapatans Lain
 			<p>Pastikan Transaksi ini bukan :</p>
             <ul>
                 <li>Pendapatan dari Pemeriksaan Pasien</li>
-				<li>Pendapatan dari  <a  href="{{ url('pendapatans/create') }}">Pendapatan Lain</a> </li>
-				<li>Pendapatan dari  <a  href="{{ url('pembayarans/asuransi') }}">Pendapatan Asuransi</a> </li>
+				<li>Pendapatan dari  <a  href="{{ url('pembayarans/asuransi') }}">Pembayaran Tagihan Asuransi</a> </li>
             </ul>
+			<p>karena masing2 sudah ada form yang berbeda</p>
+					
         </div>
     </div>
 </div>

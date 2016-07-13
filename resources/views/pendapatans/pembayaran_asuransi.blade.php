@@ -29,7 +29,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
             <hr>
                 <div class="form-group">
                   {!! Form::label('asuransi_id', 'Asuransi') !!}
-                  {!! Form::select('asuransi_id',$asuransi_list, null , ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+				  {!! Form::select('asuransi_id', $asuransi_list , null , ['class' => 'selectpick form-control rq', 'data-live-search' => 'true']) !!}
                 </div>
                 <div class="form-group">
                   {!! Form::label('mulai') !!}

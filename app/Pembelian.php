@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pembelian extends Model{
 						
-	public $incrementing = false; 
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

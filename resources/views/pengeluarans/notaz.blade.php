@@ -3,6 +3,8 @@
 @section('title') 
 Klinik Jati Elok | Checkout Kasir
 @stop
+@section('head') 
+@stop
 @section('page-title') 
  <h2>Cehckout Kasir (Nota Z)</h2>
  <ol class="breadcrumb">
@@ -69,34 +71,36 @@ Klinik Jati Elok | Checkout Kasir
               </div>
               <div class="panel-body">
                   <div class="table-responsive">
-                      <table class="table table-hover table-condensed">
+                      <table class="table table-hover table-condensed table-bordered" id="pengeluarans">
                           <thead>
                               <tr>
                                   <th>Tanggal</th>
-                                  <th>Jam</th>
-                                  <th>Nama Penerima</th>
-                                  <th>Jumlah Pengeluaran</th>
-                                  <th>Details</th>
+                                  <th nowrap>Nama Penerima</th>
+                                  <th nowrap>Jumlah Pengeluaran</th>
+                                  <th nowrap>Details</th>
                               </tr>
                           </thead>
                           <tbody>
                               @foreach($pengeluarans as $plr)
                               <tr>
 
-                                  <td>{{ $plr->created_at->format('d-m-Y') }}</td>
-                                  <td>{{ $plr->created_at->format('H:i:s') }}</td>
+                                  <td nowrap>{{ $plr->created_at->format('d-m-Y') }}</td>
                                   <td>
-                                      @if ($plr->jurnalable_type = 'App\FakturBelanja')
-                                      @if (isset($plr->jurnalable->supplier['nama']))
-                                          {{ $plr->jurnalable->supplier['nama'] }}
-                                         @endif
-                                      @else
-                                          {{ $plr->jurnalable->staf['nama'] }}
-                                      @endif
+									  @if ($plr->jurnalable_type == 'App\FakturBelanja')
+										  @if (isset($plr->jurnalable->supplier['nama']))
+										  {{ $plr->jurnalable->supplier['nama'] }}
+										 @endif
+									  @elseif ($plr->jurnalable_type == 'App\BayarDokter')
+										  {{ $plr->jurnalable->staf->nama }}
+									  @elseif ($plr->jurnalable_type == 'App\Pengeluaran')
+										  {{ $plr->jurnalable->supplier['nama'] }}
+									  @elseif ($plr->jurnalable_type == 'App\BayarGaji')
+										  {{ $plr->jurnalable->staf->nama }}
+									  @endif
                                       
                                   </td>
                                   <td class="uang">{{ $plr->nilai }}</td>
-								  <td> <a class="btn btn-info btn-xs btn-block" href=
+								  <td> <a class="btn btn-info btn-xs" href=
 										  @if($plr->jurnalable['belanja_id'] == 1 && $plr->jurnalable_type = 'App\FakturBelanja')
 											  "{{ url('pembelians/show/' . $plr->jurnalable_id) }}"
 										  @else
@@ -109,7 +113,7 @@ Klinik Jati Elok | Checkout Kasir
                           </tbody>
                           <tfoot>
                               <tr>
-                                  <td colspan="3"><h3>Total Pengeluaran</h3></td>
+                                  <td colspan="2"><h3>Total Pengeluaran</h3></td>
                                   <td colspan="2"><h3 class="uang">{{ $totalPengeluarans }}</h1></td>
                               </tr>
                           </tfoot>

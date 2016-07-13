@@ -1964,52 +1964,13 @@ class Yoga {
         return $jurnalumums;
 	}
 
-	// public static function cekGDSBulanIni($pasien_id){
-	// 	$sudahBulanIni = false;
-	// 	$sudahGDS = false;
-	// 	$dikasihObatGula = false;
-	// 	$tanggal = '';
-	// 	$periksas = Periksa::where('pasien_id', $pasien_id)->get();
-	// 	foreach ($periksas as $key => $periksa) {
-	// 		foreach ($periksa->terapii as $k => $terapi) {
-	// 			$aturan_minum_id = Merek::find($terapi->merek_id)->rak->formula->aturan_minum_id;
-	// 			if ($aturan_minum_id == '3') {
-	// 				$dikasihObatGula = true;
-	// 			}
-	// 		}
-	// 	}
-	// 	$umur = Yoga::umur(Pasien::find($pasien_id)->tanggal_lahir);
-	// 	if ($dikasihObatGula || ($umur > 50)) {
 
-	// 		$periksas = Periksa::where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->get();
-	// 		foreach ($periksas as $k => $v) 
-	// 		{
-	// 			foreach ($v->transaksii as $key => $value) {
-	// 			 	if ($value->jenis_tarif_id == '116' && $value->biaya == '0') {
-	// 			 		$sudahGDS = true;
-	// 			 		$sudahBulanIni = true;
-	// 			 		$tanggal = $v->tanggal;
-	// 			 		break;
-	// 			 	}
-	// 			 }
-	// 		}
-	// 	} else {
-	// 		$sudahGDS = true;
-	// 	}
-
-	// 	return [
-	// 		'bayar'    => $sudahGDS,
-	// 		'sudahGDS' => $sudahBulanIni,
-	// 		'tanggal'  => $tanggal
-	// 		];
-	// }
-
-	public static function cekGDSBulanIni($pasien_id){
+	public static function cekGDSBulanIni($pasien){
 		$sudahBulanIni = false;
 		$bayar = false;
 		$dikasihObatGula = false;
 		$tanggal = '';
-		$periksas = Periksa::where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->get();
+		$periksas = Periksa::with('transaksii')->where('pasien_id', $pasien->id)->where('tanggal', 'like', date('Y-m') . '%')->get();
 		foreach ($periksas as $k => $v) 
 		{
 			foreach ($v->transaksii as $key => $value) {
@@ -2020,7 +1981,6 @@ class Yoga {
 			 		break;
 			 	}
 			 }
-
 			 if ($sudahBulanIni) {
 			 	return [
 			 		'bayar' => true,
@@ -2029,16 +1989,16 @@ class Yoga {
 			 	];
 			 }
 		}
-		$periksas = Periksa::where('pasien_id', $pasien_id)->get();
+		$periksas = Periksa::with('terapii.merek.rak.formula')->where('pasien_id', $pasien->id)->get();
 		foreach ($periksas as $key => $periksa) {
 			foreach ($periksa->terapii as $k => $terapi) {
-				$aturan_minum_id = Merek::find($terapi->merek_id)->rak->formula->aturan_minum_id;
+				$aturan_minum_id = $terapi->merek->rak->formula->aturan_minum_id;
 				if ($aturan_minum_id == '3') {
 					$dikasihObatGula = true;
 				}
 			}
 		}
-		$umur = Yoga::umur(Pasien::find($pasien_id)->tanggal_lahir);
+		$umur = Yoga::umur($pasien->tanggal_lahir);
 		if ($dikasihObatGula || ($umur > 50)) {
 		} else {
 			$bayar = true;

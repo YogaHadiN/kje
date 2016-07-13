@@ -33,7 +33,7 @@ Klinik Jati Elok | Laporan Pembayaran
                 </div>
                 <div class="form-group">
                   {!! Form::label('staf_id', 'Petugas') !!}
-                  {!! Form::select('staf_id', App\Classes\Yoga::stafList() , null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id'=>'staf_id']) !!}
+                  {!! Form::select('staf_id', App\Classes\Yoga::stafList() , null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true', 'id'=>'staf_id']) !!}
                 </div>
                 @if (\Auth::id() == 28)
                      <div class="form-group">
@@ -53,7 +53,7 @@ Klinik Jati Elok | Laporan Pembayaran
                 </div>
                 <div class="form-group">
                   {!! Form::label('dibayar', 'Dibayar Sebesar') !!}
-                  {!! Form::text('dibayar' , null, ['class' => 'form-control', 'id'=>'piutang']) !!}
+                  {!! Form::text('dibayar' , null, ['class' => 'form-control rq', 'id'=>'piutang']) !!}
                 </div>
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
