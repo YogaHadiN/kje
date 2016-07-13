@@ -100,25 +100,16 @@ class JurnalUmumsController extends Controller
 			$data_ids .= $id . ',';
 		}
 		$data_ids .= $ids[ count($ids) - 1 ];
-<<<<<<< HEAD
-		$query = "SELECT ju.created_at as tanggal, pg.keterangan as nama FROM jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id join faktur_belanjas as fb on fb.id = ju.jurnalable_id where id in ({$data_ids}) and jurnalable_type='App\\\FakturBelanja' or jurnalable_type='App\\\Pengeluaran';";
-		$pengeluarans = DB::select($query);
-		$query = "SELECT * FROM jurnal_umums as ju join pendapatans as pd on pd.id = ju.jurnalable_id where jurnalable_type='App\\\Pendapatan' and ju.id in ({$data_ids})";
-=======
 		$query = "select ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal, pg.keterangan as nama from jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\Pengeluaran' group by jurnal_umum_id";
 		$pengeluarans = DB::select($query);
 		$query = "SELECT *, ju.id as jurnal_umum_id FROM jurnal_umums as ju join pendapatans as pd on pd.id = ju.jurnalable_id where jurnalable_type='App\\\Pendapatan' and ju.id in ({$data_ids})";
->>>>>>> chrown
 		$pendapatans = DB::select($query);
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
 		return view('jurnal_umums.coa', compact(
 			'kelompokCoaList', 
-<<<<<<< HEAD
-=======
 			'jurnalumums', 
->>>>>>> chrown
 			'pengeluarans', 
 			'pendapatans', 
 			'bebanCoaList',

@@ -18,9 +18,8 @@ Klinik Jati Elok | Obat Buat Karyawan
 @stop
 @section('content') 
 <div class="row">
-  {!! Form::open(['url' => 'penjualans/obat_buat_karyawan', 'method' =>'post'])!!}
-<input style="display:none">
-<input type="password" style="display:none">
+{!! Form::open(['url' => 'penjualans/obat_buat_karyawan', 'method' =>'post', 'autocomplete' => 'off'])!!}
+<input style="display:none"><input type="password" style="display:none">
 
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="form-group @if($errors->has('email')) has-error @endif">

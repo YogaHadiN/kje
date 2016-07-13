@@ -199,6 +199,23 @@ class PendapatansController extends Controller
     }
     
     public function asuransi_bayar(){
+		$rules = [
+			 'tanggal_dibayar' => 'date|required',
+			 'mulai' => 'date|required',
+			 'akhir' => 'date|required',
+			 'staf_id' => 'required',
+			 'asuransi_id' => 'required',
+			 'coa_id' => 'required'
+		];
+
+		$validator = \Validator::make(Input::all(), $rules);
+
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+
         $dibayar = Input::get('dibayar');
         $mulai = Input::get('mulai');
         $staf_id = Input::get('staf_id');
