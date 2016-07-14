@@ -8,6 +8,7 @@ use App\Classes\Yoga;
 use App\Periksa;
 use App\Modal;
 use App\BayarDokter;
+use App\Pengeluaran;
 use App\NoSale;
 use App\CheckoutKasir;
 use App\BayarGaji;
@@ -251,6 +252,14 @@ class PdfsController extends Controller
         $pdf = pdf::loadview('pdfs.ns', compact('nosale'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
         return $pdf->stream();
     }
+
+	public function pengeluaran($id){
+		
+        $pengeluaran = Pengeluaran::find($id);
+        $pdf = pdf::loadview('pdfs.pengeluaran', compact('pengeluaran'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
+        return $pdf->stream();
+	}
+	
     
     
     

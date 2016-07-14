@@ -83,6 +83,7 @@ Klinik Jati Elok | Belanja Bukan Obat
 								<th>Staf</th>
 								<th>Nilai</th>
 								<th>Keterangan</th>
+								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -94,6 +95,7 @@ Klinik Jati Elok | Belanja Bukan Obat
 									<td>{{ $peng->staf->nama }}</td>
 									<td class="uang">{{ $peng->nilai }}</td>
 									<td>{{ $peng->keterangan }}</td>
+									<td> <a class="btn btn-info btn-xs" href="{{ url("pdfs/pengeluaran/" . $peng->id) }}">Print Struk</a> </td>
 								</tr>
 							@endforeach
 						</tbody>

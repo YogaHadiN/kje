@@ -155,6 +155,13 @@
 
                         </ul>
                     </li>
+					<li>
+                        <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Fasilitas</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('antrian_pasien', 'Antrian Pasien')!!}</li>
+                            <li>{!! HTML::link('survey', 'Survey Pasien')!!}</li>
+                        </ul>
+                     </li>
                 </ul>
             </div>
         </nav>

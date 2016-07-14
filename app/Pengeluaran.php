@@ -13,15 +13,9 @@ class Pengeluaran extends Model{
     protected $morphClass = 'App\Pengeluaran';
 
 	public function staf(){
-		return $this->belongsto('app\staf');
-	}
-	public function fakturBelanja(){
-		return $this->belongsto('App\FakturBelanja');
+		return $this->belongsto('App\Staf');
 	}
 
-	public function bukanObat(){
-		return $this->belongsto('App\BukanObat');
-	}
 	public function supplier(){
 		return $this->belongsTo('App\Supplier');
 	}

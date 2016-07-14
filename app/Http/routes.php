@@ -122,6 +122,9 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('suppliers/belanja_obat', 'SupplierBelanjasController@belanja_obat');
 			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');
 
+			Route::get('antrian_pasien', 'SupplierBelanjasController@belanja_obat');
+			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');
+
 			// dari menu users
 			Route::resource('pasiens', 'PasiensController');
 			Route::resource('asuransis', 'AsuransisController');
@@ -424,6 +427,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('pdfs/rc/{modal_id}', 'PdfsController@rc');
 			Route::get('pdfs/bayar_gaji_karyawan/{bayar_gaji_id}', 'PdfsController@bayar_gaji_karyawan');
 			Route::get('pdfs/ns/{no_sale_id}', 'PdfsController@ns');
+			Route::get('pdfs/pengeluaran/{id}', 'PdfsController@pengeluaran');
 
 
 
