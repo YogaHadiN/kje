@@ -44,6 +44,18 @@ class RuangPeriksaController extends Controller
 	public function anc(){
 		$poli = 'anc';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
+		$ids = [];
+		foreach ($antrianperiksa as $ap) {
+			try {
+
+				$ap->pasien->nama;
+			} catch (\Exception $e) {
+				$ids[] = $ap->id;
+
+			}
+		}
+		return dd( $ids );
+		//return dd( $antrianperiksa );
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='{$poli}'")->orderBy('tanggal')->orderBy('antrian')->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
@@ -88,3 +100,4 @@ class RuangPeriksaController extends Controller
 	}
 
 }
+N140000396

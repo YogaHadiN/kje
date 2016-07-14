@@ -187,20 +187,17 @@ class PasiensController extends Controller
 	 */
 	public function destroy($id)
 	{
+
+		$periksas = Periksa::where('pasien_id', $id)->get();
 		$pasien  = Pasien::find($id);
 		$nama    = $pasien->nama;
-		
-		$confirm = $pasien->delete();
-
-		if ($confirm) {
-			$pesan = 'Pasien <strong>' . $id . ' - ' . $nama . '</strong> berhasil dihapus';
-			# code...
-		} else {
-			$pesan = 'Pasien <strong>' . $id . ' - ' . $nama . '</strong> gagal dihapus';
+		if ($periksas->count() > 0) {
+			$pesan = Yoga::gagalFlash('Pasien <strong>' . $id . ' - ' . $nama . '</strong> gagal dihapus karena pasien sudah pernah periksa sebelumnya');
+		}else{
+			$confirm = $pasien->delete();
+			$pesan = Yoga::suksesFlash('Pasien <strong>' . $id . ' - ' . $nama . '</strong> berhasil dihapus');
 		}
-
-
-		return \Redirect::route('pasiens.index')->withPesan(Yoga::suksesFlash($pesan));
+		return \Redirect::route('pasiens.index')->withPesan($pesan);
 	}
 
 }
