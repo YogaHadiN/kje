@@ -132,7 +132,7 @@ Klinik Jati Elok | Entri Jual Obat
 									<td>{{ $nj->items }}</td>
 									<td class="uang">{{ $nj->nilai }}</td>
 									<td> 
-										 <a class="btn btn-success btn-xs" href="#">Details</a>
+									<a class="btn btn-success btn-xs" href="{{ url('nota_juals/'. $nj->id ) }}">Details</a>
 										 <a class="btn btn-info btn-xs" href="{{ url("pdfs/penjualan/" . $nj->id) }}" target="_blank">Print Struk</a> 
 									</td>
 								</tr>

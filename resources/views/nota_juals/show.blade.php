@@ -64,7 +64,7 @@ Klinik Jati Elok | Entri Beli Obat
             </table>
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <a href="{{ url('nota_juals') }}" class='btn btn-danger btn-lg btn-block'>Cancel</a>            
+                  <a href="{{ url('penjualans') }}" class='btn btn-danger btn-lg btn-block'>Cancel</a>            
               </div>
             </div>
       </div>
