@@ -100,4 +100,4 @@ class RuangPeriksaController extends Controller
 	}
 
 }
-N140000396
+
