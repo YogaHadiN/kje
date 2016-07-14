@@ -14,6 +14,10 @@ Klinik Jati Elok | Belanja Bukan Obat
 </ol>
 @stop
 @section('content') 
+@if (Session::has('print'))
+<div id="print-struk" class="hide">
+</div>
+@endif
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-success">
@@ -95,7 +99,7 @@ Klinik Jati Elok | Belanja Bukan Obat
 									<td>{{ $peng->staf->nama }}</td>
 									<td class="uang">{{ $peng->nilai }}</td>
 									<td>{{ $peng->keterangan }}</td>
-									<td> <a class="btn btn-info btn-xs" href="{{ url("pdfs/pengeluaran/" . $peng->id) }}">Print Struk</a> </td>
+									<td> <a class="btn btn-info btn-xs" href="{{ url("pdfs/pengeluaran/" . $peng->id) }}" target="_blank">Print Struk</a> </td>
 								</tr>
 							@endforeach
 						</tbody>
@@ -124,12 +128,15 @@ Klinik Jati Elok | Belanja Bukan Obat
 </div><!-- /.modal -->
 @stop
 @section('footer') 
-<script type="text/javascript" charset="utf-8">
-var base = "{{ url('/') }}";
+<script>
+	var base = "{{ url('/') }}";
 </script>
 <script src="{{ url('js/supplier_ajax_create.js') }}"></script>
 <script>
   jQuery(document).ready(function($) {
+	if( $('#print-struk').length > 0 ){
+		window.open("{{ url('pdfs/pengeluaran/' . Session::get('print')) }}", '_blank');
+	}
   });
 
   function buy(control){

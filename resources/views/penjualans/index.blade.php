@@ -17,7 +17,11 @@ Klinik Jati Elok | Entri Jual Obat
 
 @stop
 @section('content') 
-
+@if (Session::has('print'))
+<div id="print-struk" class="hide">
+    <a target="_blank" id="print_button" class="btn btn-primary" href="{{ url('pdfs/penjualan/' . Session::get('print')) }}">Print Struk</a>
+</div>
+@endif
 <div class="row">
   {!! Form::open(['url' => 'penjualans', 'method' =>'post'])!!}
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -127,7 +131,10 @@ Klinik Jati Elok | Entri Jual Obat
 									<td>{{ $nj->staf->nama }}</td>
 									<td>{{ $nj->items }}</td>
 									<td class="uang">{{ $nj->nilai }}</td>
-									<td> <a class="btn btn-info btn-xs btn-block" href="#">Details</a> </td>
+									<td> 
+										 <a class="btn btn-success btn-xs" href="#">Details</a>
+										 <a class="btn btn-info btn-xs" href="{{ url("pdfs/penjualan/" . $nj->id) }}" target="_blank">Print Struk</a> 
+									</td>
 								</tr>
 							@endforeach
 						</tbody>
@@ -144,5 +151,12 @@ Klinik Jati Elok | Entri Jual Obat
 @stop
 @section('footer') 
     <script src="{{  url( 'js/penjualans.js'   )}}" type="text/javascript" charset="utf-8"></script>
-  <script></script>
+	<script>
+
+       $(function () {
+            if( $('#print-struk').length > 0 ){
+                window.open("{{ url('pdfs/penjualan/' . Session::get('print')) }}", '_blank');
+            }
+       }); 
+	</script>
 @stop

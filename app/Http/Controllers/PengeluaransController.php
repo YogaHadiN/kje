@@ -100,7 +100,7 @@ class PengeluaransController extends Controller
 		}
 		$nama_supplier = Supplier::find($supplier_id)->nama;
 		if ($confirm) {
-			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'));
+			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'))->withPrint($peng->id);
 
 		}else {
 			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::gagalFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> gagal dilakukan'));
