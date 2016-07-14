@@ -130,7 +130,7 @@ Klinik Jati Elok | Nurse Station
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="pembayaran" id="lblPembayaran">Pembayaran</label>
-                                              {!!Form::select('asuransi_id', $asu, null, ['class' => 'form-control', 'id' => 'pembayaran1']) !!}
+                                              {!!Form::select('asuransi_id', $asu, null, ['class' => 'form-control rq', 'id' => 'pembayaran1']) !!}
                                         </div>
                                     </div>
                                 </div>
@@ -138,14 +138,14 @@ Klinik Jati Elok | Nurse Station
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="dokter" id="lblDokter">Dokter</label><br />
-                                            {!! Form::select('staf_id', $staf, null, ['id' => 'ddlDokter', 'class' => 'form-control']) !!}
+                                            {!! Form::select('staf_id', $staf, null, ['id' => 'ddlDokter', 'class' => 'form-control rq']) !!}
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="poli" id="lblPoli">Poli</label><br />
         
-                                            {!! Form::select('poli', App\Classes\Yoga::poliList(), null, ['id' => 'poli1', 'class' => 'form-control'])  !!}
+                                            {!! Form::select('poli', App\Classes\Yoga::poliList(), null, ['id' => 'poli1', 'class' => 'form-control rq'])  !!}
                                             </select>
                                         </div>
                                     </div>
@@ -192,7 +192,7 @@ Klinik Jati Elok | Nurse Station
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label for="kecelakaanKerja" id="lblKecelakaanKerja">Kecelakaan Kerja</label><br />
-                                            <select class="form-control" id="kecelakaanKerja"  name="kecelakaan_kerja" >
+                                            <select class="form-control rq" id="kecelakaanKerja"  name="kecelakaan_kerja" >
                                                 <option value="">-pilih-</option>
                                                 <option value="1">-Ya-</option>
                                                 <option value="0">-Bukan-</option>
@@ -204,13 +204,13 @@ Klinik Jati Elok | Nurse Station
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="asisten" id="lblAsisten">Nama Asisten</label><br />
-                                            {!! Form::select('asisten_id', $staf, null, ['class' => 'form-control selectpick', 'id' => 'asisten_id', 'data-live-search' => 'true']) !!}
+                                            {!! Form::select('asisten_id', $staf, null, ['class' => 'form-control selectpick rq', 'id' => 'asisten_id', 'data-live-search' => 'true']) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="hamil" id="lblhamil">Kehamilan</label>
-                                            {!! Form::select('hamil', App\Classes\Yoga::hamil(), null, ['class' => 'form-control', 'id' => 'hamil']) !!}
+                                            {!! Form::select('hamil', App\Classes\Yoga::hamil(), null, ['class' => 'form-control rq:', 'id' => 'hamil']) !!}
                                         </div>
                                     </div>
                                 </div>
@@ -461,19 +461,8 @@ Klinik Jati Elok | Nurse Station
         }
 
         function testSubmit(){
-            if ($('#asisten_id').val() == '' || $('#usg').val() == '' || $('#hamil').val() == '' || $('#kecelakaanKerja').val() == '' ) {
-                if ($('#asisten_id').val() == ''){
-                    validasi('#asisten_id', 'Hapus Diisi!!');
-                }
-                if ($('#usg').val() == ''){
-                    validasi('#usg', 'Hapus Diisi!!');
-                }
-                if ($('#hamil').val() == ''){
-                    validasi('#hamil', 'Hapus Dipilih!!');
-                }
-                if ($('#kecelakaanKerja').val() == ''){
-                    validasi('#kecelakaanKerja', 'Hapus Dipilih!!');
-                }
+            if (!validatePass()) {
+
             } else if ($('#usg').val() == '1') {
                 $('#ok').click();
             } else {

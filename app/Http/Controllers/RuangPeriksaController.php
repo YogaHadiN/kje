@@ -18,6 +18,17 @@ class RuangPeriksaController extends Controller
 		->orWhere('poli', 'sks')
 		->orderBy('antrian', 'asc')->get();
 
+		//$ids = [];
+		//foreach ($antrianperiksa as $ap) {
+			//try {
+				
+				//$ap->staf->nama;
+			//} catch (\Exception $e) {
+				//$ids[] = $ap->id;
+			//}
+		//}	
+		//return dd( $ids );
+
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and ( poli='umum' or poli='sks' or poli='luka' )")->orderBy('tanggal')->orderBy('antrian')->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
@@ -44,17 +55,17 @@ class RuangPeriksaController extends Controller
 	public function anc(){
 		$poli = 'anc';
 		$antrianperiksa = AntrianPeriksa::where('poli', '=', $poli)->get();
-		$ids = [];
-		foreach ($antrianperiksa as $ap) {
-			try {
+		//$ids = [];
+		//foreach ($antrianperiksa as $ap) {
+			//try {
 
-				$ap->pasien->nama;
-			} catch (\Exception $e) {
-				$ids[] = $ap->id;
+				//$ap->pasien->nama;
+			//} catch (\Exception $e) {
+				//$ids[] = $ap->id;
 
-			}
-		}
-		return dd( $ids );
+			//}
+		//}
+		//return dd( $ids );
 		//return dd( $antrianperiksa );
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='{$poli}'")->orderBy('tanggal')->orderBy('antrian')->get();
 		return view('antrianperiksas.index')

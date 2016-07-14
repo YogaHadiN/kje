@@ -61,6 +61,25 @@ class AntrianPeriksasController extends Controller
 	 */
 	public function store()
 	{
+		$rules = [
+
+			'staf_id' => 'required',
+			'hamil' => 'required',
+			'kecelakaan_kerja' => 'required',
+			'pasien_id' => 'required',
+			'asuransi_id' => 'required',
+			'asisten_id' => 'required',
+			'poli' => 'required'
+
+		];
+
+		$validator = \Validator::make(Input::all(), $rules);
+
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
 
 		$tekanan_darah 			= Input::get('tekanan_darah');
 		$berat_badan 			= Input::get('berat_badan');
