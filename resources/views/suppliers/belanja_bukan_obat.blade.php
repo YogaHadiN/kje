@@ -120,9 +120,6 @@ Klinik Jati Elok | Belanja Bukan Obat
       <div class="modal-body">
           @include('suppliers.form', ['submit' => 'SUBMIT'])
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -137,6 +134,13 @@ Klinik Jati Elok | Belanja Bukan Obat
 	if( $('#print-struk').length > 0 ){
 		window.open("{{ url('pdfs/pengeluaran/' . Session::get('print')) }}", '_blank');
 	}
+	$('#dummySubmitSupplier').click(function(){
+		 if( $('#nama').val() == '' ){
+			 validasi('#nama', 'Harus Diisi!!');
+		 } else {
+			$('#create_supplier input[type="submit"]').click(); 
+		 }
+	});
   });
 
   function buy(control){
