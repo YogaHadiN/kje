@@ -2022,7 +2022,7 @@ class Yoga {
 			//Cek Pemeriksaan terakhir
 			//
 			$pemeriksaanTerakhir = $periksa;
-			if($pemeriksaanTerakhir->count() > 0){
+			if($pemeriksaanTerakhir != null){
 				if ($pemeriksaanTerakhir->asuransi_id == '32') {
 					$periksaTerakhirGakPakaiBPJS = false;
 				} else {

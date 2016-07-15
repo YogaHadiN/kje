@@ -304,7 +304,7 @@ class PolisController extends Controller
 			->withTd($td)
 			->withBb($bb)
 			->withTfu($tfu)
-			->withCekGdsBulanIni($cekGdsBulanIni)
+			->with('cekGdsBulanIni', $cekGdsBulanIni)
 			->withLila($lila)
 			->withDjj($djj)
 			->withRegister_hamil_id($register_hamil_id)
