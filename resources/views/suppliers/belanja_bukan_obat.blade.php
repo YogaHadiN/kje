@@ -1,4 +1,4 @@
-extends('layout.master')
+@extends('layout.master')
 @section('title') 
 Klinik Jati Elok | Belanja Bukan Obat
 @stop

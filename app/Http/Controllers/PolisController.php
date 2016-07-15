@@ -93,7 +93,7 @@ class PolisController extends Controller
 		$tujuan_rujuk = json_encode($tujuan_rujuk);
 
 		
-		$periksa     = Periksa::with('terapii.merek')->where('pasien_id', $pasien_id)->latest()->first();
+		$periksa     = Periksa::with('terapii.merek', 'rujukan', 'suratSakit')->where('pasien_id', $pasien_id)->latest()->first();
 		$asuransi_id = $antrianperiksa->asuransi_id;
 		$pasien      = $antrianperiksa->pasien;
 
@@ -399,8 +399,7 @@ class PolisController extends Controller
 			$adatindakan = '1';
 		}
 		$transaksiusg = json_encode($transaksiusg);
-
-		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id);
+		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id, $periksa);
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)

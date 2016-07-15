@@ -18,7 +18,7 @@
         <div class="alert alert-success">
             <strong>Pemeriksaan Gula Darah Ditanggung untuk pasien ini-</strong>
             <div class="font-small"> 
-                @if( App\Classes\Yoga::umur(App\Pasien::find($pasien_id)->tanggal_lahir) > 50)
+				@if( App\Classes\Yoga::umur($antrianperiksa->pasien->tanggal_lahir) > 50)
                     Karena Usia Pasien diatas 50 Tahun
                 @else 
                     Pasien pernah menderita Kencing Manis

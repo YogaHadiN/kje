@@ -2010,7 +2010,7 @@ class Yoga {
 			];
 	}
 
-	public static function pakaiBayarPribadi($asuransi_id, $pasien_id){
+	public static function pakaiBayarPribadi($asuransi_id, $pasien_id, $periksa){
 		$pakai_bayar_pribadi = false;
 		if ($asuransi_id == '32')  {
 			//cek pemeriksaan dalam 3 minggu terakhir yang memakai biaya pribadi
@@ -2021,14 +2021,14 @@ class Yoga {
 
 			//Cek Pemeriksaan terakhir
 			//
-			try {
-				$pemeriksaanTerakhir = Periksa::where('pasien_id', $pasien_id)->orderBy('created_at', 'desc')->firstOrFail();
+			$pemeriksaanTerakhir = $periksa;
+			if($pemeriksaanTerakhir->count() > 0){
 				if ($pemeriksaanTerakhir->asuransi_id == '32') {
 					$periksaTerakhirGakPakaiBPJS = false;
 				} else {
 					$periksaTerakhirGakPakaiBPJS = true;
 				}
-			} catch (\Exception $e) {
+			} else {
 				$periksaTerakhirGakPakaiBPJS = false;
 			}
 			if ($periksa3mingguTerakhirPakaiBiayaPribadi->count() > 0 || $periksaTerakhirGakPakaiBPJS) {

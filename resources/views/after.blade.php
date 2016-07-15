@@ -144,7 +144,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							@include('warninggds', ['cekGdsBulanIni' => $cekGdsBulanIni, 'pasien_id' => $antrianperiksa->pasien_id ])
+							@include('warninggds', ['cekGdsBulanIni' => $cekGdsBulanIni])
                             </div>
                         </div>
                     @endif
