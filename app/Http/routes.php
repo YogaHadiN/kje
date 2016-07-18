@@ -194,8 +194,8 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus');
 
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
-			Route::post('fasilitas/destroy', 'FasilitasController@destroy'); //penjualan obat tanpa resep
-			Route::post('fasilitas/update_tujuan_rujuk', 'FasilitasController@update'); //penjualan obat tanpa resep
+			Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
+			Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
 
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');

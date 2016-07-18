@@ -189,10 +189,16 @@ class PasiensController extends Controller
 	{
 
 		$periksas = Periksa::where('pasien_id', $id)->get();
+		$antrianperiksas = AntrianPeriksa::where('pasien_id', $id)->get();
+		$antrianpolis = AntrianPoli::where('pasien_id', $id)->get();
 		$pasien  = Pasien::find($id);
 		$nama    = $pasien->nama;
-		if ($periksas->count() > 0) {
+		if ($periksas->count() > 0 ) {
 			$pesan = Yoga::gagalFlash('Pasien <strong>' . $id . ' - ' . $nama . '</strong> gagal dihapus karena pasien sudah pernah periksa sebelumnya');
+			
+		}else if($antrianperiksas->count() > 0|| $antrianpolis->count() > 0){
+			$pesan = Yoga::gagalFlash('Pasien <strong>' . $id . ' - ' . $nama . '</strong> gagal dihapus karena pasien sedang ada di antrian');
+			 
 		}else{
 			$confirm = $pasien->delete();
 			$pesan = Yoga::suksesFlash('Pasien <strong>' . $id . ' - ' . $nama . '</strong> berhasil dihapus');
