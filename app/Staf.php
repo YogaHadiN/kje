@@ -3,10 +3,21 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Session;
+use App\Classes\Yoga;
 
 class Staf extends Model{
 	public $incrementing = false; 
 
+	public static function boot(){
+		parent::boot();
+		self::deleting(function($staf){
+			if ($staf->periksa->count() > 0) {
+				Session::flash('pesan', Yoga::gagalFlash('Tidak bisa menghapus staf karena staf sudah pernah memeriksa pasien. Hubungi Super Admin untuk konfirmasi penghapusan'));
+				return false;
+			}
+		});
+	}
 	// Add your validation rules here
 	public static $rules = [
 		'nama' => 'required',

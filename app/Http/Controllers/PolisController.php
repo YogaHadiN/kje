@@ -145,7 +145,7 @@ class PolisController extends Controller
 			}
 		}
 		$keterangan     = \Cache::remember('keterangan', 60, function(){
-			return Asuransi::find(32)->umum;
+			return Asuransi::find(32);
 		});
 		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
 		if($periksaExist != null){

@@ -1682,6 +1682,7 @@ class Yoga {
 					$path = '/home/vagrant/Code/kje/public/img/pasien/img' . $id . '.png';
 				} else {
 					$path = '/var/www/kje/public/img/pasien/img' . $id . '.png';
+					$dropbox = '/home/kje/Dropbox/backup11/img/pasien/img' . $id . '.png';
 				}
 				$urlImage = '/img/pasien/img'. $id . '.png';
 				$data     = $image;
@@ -1691,6 +1692,9 @@ class Yoga {
 				}
 				$confirm  = file_put_contents($path, $data);
 				if ($confirm) {
+					if (isset( $dropbox )) {
+						file_put_contents($dropbox, $data);
+					}
 					return $urlImage;
 				} else {
 					return null;
@@ -1704,6 +1708,7 @@ class Yoga {
 					$path = '/home/vagrant/Code/kje/public/img/pasien/ktp' . $id . '.png';
 				} else {
 					$path = '/var/www/kje/public/img/pasien/ktp' . $id . '.png';
+					$dropbox = '/home/kje/Dropbox/backup11/img/pasien/ktp' . $id . '.png';
 				}
 				$urlImage = '/img/pasien/ktp'. $id . '.png';
 				$data     = $image;
@@ -1713,6 +1718,9 @@ class Yoga {
 				}
 				$confirm  = file_put_contents($path, $data);
 				if ($confirm) {
+					if (isset( $dropbox )) {
+						file_put_contents($dropbox, $data);
+					}
 					return $urlImage;
 				} else {
 					return null;
@@ -1726,6 +1734,7 @@ class Yoga {
 					$path = '/home/vagrant/Code/kje/public/img/staf/img' . $id . '.png';
 				} else {
 					$path = '/var/www/kje/public/img/staf/img' . $id . '.png';
+					$dropbox = '/home/kje/Dropbox/backup11/img/staf/img' . $id . '.png';
 				}
 				$urlImage = '/img/staf/img'. $id . '.png';
 				$data     = $image;
@@ -1735,6 +1744,9 @@ class Yoga {
 				}
 				$confirm  = file_put_contents($path, $data);
 				if ($confirm) {
+					if (isset( $dropbox )) {
+						file_put_contents($dropbox, $data);
+					}
 					return $urlImage;
 				} else {
 					return null;
@@ -1748,6 +1760,7 @@ class Yoga {
 					$path = '/home/vagrant/Code/kje/public/img/staf/ktp' . $id . '.png';
 				} else {
 					$path = '/var/www/kje/public/img/staf/ktp' . $id . '.png';
+					$dropbox = '/home/kje/Dropbox/backup11/img/staf/ktp' . $id . '.png';
 				}
 				$urlImage = '/img/staf/ktp'. $id . '.png';
 				$data     = $image;
@@ -1757,6 +1770,9 @@ class Yoga {
 				}
 				$confirm  = file_put_contents($path, $data);
 				if ($confirm) {
+					if (isset( $dropbox )) {
+						file_put_contents($dropbox, $data);
+					}
 					return $urlImage;
 				} else {
 					return null;
@@ -1764,13 +1780,14 @@ class Yoga {
 			}
 		}
 
-		public static function inputImageIRujukanfNotEmpty($image, $id){
+		public static function inputImageIRujukanfNotEmpty($image, $id){ //$id = $periksa_id
 			$confirm = false;
 			if (!empty($image)) {
 				if (gethostname() == 'homestead') {
 					$path = '/home/vagrant/Code/kje/public/img/pasien/rjk' . $id . '.png';
 				} else {
 					$path = '/var/www/kje/public/img/pasien/rjk' . $id . '.png';
+					$dropbox = '/home/kje/Dropbox/backup11/img/staf/rjk' . $id . '.png';
 				}
 				$urlImage = '/img/pasien/rjk'. $id . '.png';
 				$data     = $image;
@@ -1780,6 +1797,9 @@ class Yoga {
 				}
 				$confirm  = file_put_contents($path, $data);
 				if ($confirm) {
+					if (isset( $dropbox )) {
+						file_put_contents($dropbox, $data);
+					}
 					return $urlImage;
 				} else {
 					return null;

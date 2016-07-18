@@ -157,10 +157,10 @@ class StafsController extends Controller
 	public function destroy($id)
 	{
 		$staf = Staf::find($id);
-
 		$nama = $staf->nama;
-
-		$staf->delete();
+		if (!$staf->delete()) {
+			return redirect()->back();
+		}
 
 		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf <strong>' . $nama . '</strong> Berhasil <strong>Dihapus</strong>'));
 	}

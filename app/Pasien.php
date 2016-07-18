@@ -3,8 +3,24 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Session;
+use App\Classes\Yoga;
 
 class Pasien extends Model{
+	public static function boot(){
+		parent::boot();
+		self::deleting(function($pasien){
+			if ($pasien->periksa->count() > 0) {
+				Session::flash('pesan', Yoga::gagalFlash('Tidak bisa menghapus pasien karena sudah ada pemeriksaan sebelumnya'));
+				return false;
+			}
+			if ($pasien->antrianPeriksa->count() > 0 || $pasien->antrianPoli->count() > 0) {
+				Session::flash('pesan', Yoga::gagalFlash('Tidak bisa menghapus pasien karena pasien sedang ada dalam antrian'));
+				return false;
+			}
+		});
+	}
+	
 	public $incrementing = false; 
 
 	// Add your validation rules here
@@ -25,6 +41,14 @@ class Pasien extends Model{
 		return $this->hasMany('App\Periksa');
 	}
 
+	public function antrianPeriksa(){
+
+		return $this->hasMany('App\AntrianPeriksa');
+	}
+	public function antrianPoli(){
+
+		return $this->hasMany('App\AntrianPoli');
+	}
 
 	public function registerHamil(){
 
