@@ -13,7 +13,9 @@ Klinik Jati Elok | Coa belum di set
       </li>
 </ol>
 @stop
-@section('content') 
+@section('content')
+
+
 <div class="modal fade" id="coa_baru" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -85,6 +87,7 @@ Klinik Jati Elok | Coa belum di set
                     <tr>
                         <th class="hide">Id</th>
                         <th>Tanggal</th>
+                        <th>Petugas</th>
                         <th>Akun </th>
 						<th>Nilai</th>
                         <th>Chart Of Account</th>
@@ -95,6 +98,7 @@ Klinik Jati Elok | Coa belum di set
 						<tr>
 						  <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
 						  <td>{!! $ju->tanggal !!}</td>
+						  <td>{!! $ju->nama_staf !!}</td>
 						  <td>{!! $ju->nama !!}</td>
 						  <td class="uang">{!! $ju->nilai !!}</td>
 						  <td>
@@ -120,7 +124,9 @@ Klinik Jati Elok | Coa belum di set
                     <tr>
                         <th class="hide field_id">id</th>
                         <th>Pendapatan</th>
+                        <th>Petugas</th>
                         <th>Keterangan</th>
+                        <th>Nilai</th>
                         <th>Chart Of Account</th>
                         
                     </tr>
@@ -130,8 +136,10 @@ Klinik Jati Elok | Coa belum di set
                         <tr>
                           <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
 						  <td>{!! $ju->sumber_uang !!}</td>
+						  <td>{!! $ju->nama_staf !!}</td>
                           <td>{!! $ju->keterangan !!}</td>
-                           <td>
+                          <td class="uang">{!! $ju->nilai !!}</td>
+                          <td>
                                {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control selectpick', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
                           </td>
                         </tr>
@@ -141,6 +149,7 @@ Klinik Jati Elok | Coa belum di set
       </div>
 </div>
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
+{!! Form::text('route', $route, ['class' => 'form-control']) !!}
 {!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

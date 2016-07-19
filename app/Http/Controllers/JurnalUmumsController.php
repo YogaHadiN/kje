@@ -40,6 +40,7 @@ class JurnalUmumsController extends Controller
 			try {
 				$ju->coa->coa;
 			} catch (\Exception $e) {
+				session([ 'route_coa' => 'jurnal_umums' ]);
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
@@ -81,6 +82,10 @@ class JurnalUmumsController extends Controller
 	 */
 	public function coa()
 	{
+		$route = null;
+		if (session()->has('route_coa')) {
+			$route = session('route_coa');
+		}
 
 		$jurnals = JurnalUmum::with('coa')->get();
 		$ids = [];
@@ -100,16 +105,18 @@ class JurnalUmumsController extends Controller
 			$data_ids .= $id . ',';
 		}
 		$data_ids .= $ids[ count($ids) - 1 ];
-		$query = "select ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal, pg.keterangan as nama from jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\Pengeluaran' group by jurnal_umum_id";
+		$query = "select ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal, pg.keterangan as nama, st.nama as nama_staf from jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id join stafs as st on st.id=pg.staf_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\Pengeluaran' group by jurnal_umum_id";
 		$pengeluarans = DB::select($query);
-		$query = "SELECT *, ju.id as jurnal_umum_id FROM jurnal_umums as ju join pendapatans as pd on pd.id = ju.jurnalable_id where jurnalable_type='App\\\Pendapatan' and ju.id in ({$data_ids})";
+		$query = "SELECT *, ju.id as jurnal_umum_id, st.nama as nama_staf FROM jurnal_umums as ju join pendapatans as pd on pd.id = ju.jurnalable_id join stafs as st on st.id = pd.staf_id where jurnalable_type='App\\\Pendapatan' and ju.id in ({$data_ids})";
 		$pendapatans = DB::select($query);
 		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
+
 		return view('jurnal_umums.coa', compact(
 			'kelompokCoaList', 
 			'jurnalumums', 
+			'route', 
 			'pengeluarans', 
 			'pendapatans', 
 			'bebanCoaList',
@@ -125,7 +132,6 @@ class JurnalUmumsController extends Controller
 	 */
 	public function coaPost()
 	{
-		//return Input::all();
         $temp = Input::get('temp');
         $temp = json_decode($temp, true);
 		//return var_dump($temp[0]['coa_id']);
@@ -134,7 +140,11 @@ class JurnalUmumsController extends Controller
             $ju->coa_id = $tp['coa_id'];
             $ju->save();            
         }
-        return redirect('jurnal_umums');
+		$pesan = Yoga::suksesFlash('Penyesuaian Chart Of Account (COA) sukses, silahkan coba lagi untuk melihat laporan');
+		if (!empty( Input::get('route') )) {
+			return redirect( Input::get('route') )->withPesan($pesan);
+		}
+        return redirect('jurnal_umums')->withPesan($pesan);
 	}
 
 	/**

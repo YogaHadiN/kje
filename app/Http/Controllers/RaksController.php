@@ -202,15 +202,9 @@ class RaksController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$mereks = Merek::where('rak_id', $id)->get();
-
-		$merek_terhapus = '';
-		foreach ($mereks as $merek) {
-			$merek_terhapus .= $merek->merek . ', ';
-			$merek->delete();
+		if (!Rak::destroy($id)) {
+			return redirect()->back();
 		}
-
-		Rak::destroy($id);
 		return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('Rak <strong>' . $id . '</strong> dan seluruh Merek <strong>' . $merek_terhapus . '</strong> di bawah nya <strong>BERHASIL</strong> dihapus'));
 	}
 

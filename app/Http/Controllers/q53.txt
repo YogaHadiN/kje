@@ -1,0 +1,5 @@
+update periksas set asuransi_id=0 where asuransi_id='151222002';
+update antrian_periksas set asuransi_id=0 where asuransi_id='151222002';
+update antrian_polis set asuransi_id=0 where asuransi_id='151222002';
+update pasiens set asuransi_id=0 where asuransi_id='151222002';
+delete from asuransis where id = '151222002';

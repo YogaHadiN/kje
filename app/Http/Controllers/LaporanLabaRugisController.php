@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Classes\Yoga;
+use App\JurnalUmum;
 
 use Input;
 use DB;
@@ -18,6 +19,15 @@ class LaporanLabaRugisController extends Controller
     public function show(){
     	$bulan = Input::get('bulan');
     	$tahun = Input::get('tahun');
+		$jurnalumums = JurnalUmum::with('coa')->where('created_at', 'like', $tahun . '-'. $bulan . '%')->get();
+		foreach ($jurnalumums as $k => $ju) {
+			try {
+				$ju->coa->coa;
+			} catch (\Exception $e) {
+				session([ 'route_coa' => 'laporan_laba_rugis' ]);
+				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
+			}
+		}
         
         $pendapatan_usahas = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '4%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
         $pendapatan_usahas = Yoga::getSumCoa($pendapatan_usahas, $tahun, $bulan);

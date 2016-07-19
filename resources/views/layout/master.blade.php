@@ -125,6 +125,7 @@
                     <li>
                         <a href="{{ url('fakturbelanjas') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Belanja Obat</span>  </a>
                     </li>
+					@if(\Auth::id() == 28)
                      <li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Laporan Keuangan</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -137,6 +138,7 @@
                         </ul>
                      </li>
                      <li>
+					@endif
                         <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">Transaksi Kasir</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('no_sales', 'No Sales')!!}</li>
@@ -228,7 +230,6 @@
         </div>
         </div>
             {!! HTML::script("js/all.js")!!}
-
     <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
     <script src="{!! url('js/bootstrap.min.js') !!}"></script>

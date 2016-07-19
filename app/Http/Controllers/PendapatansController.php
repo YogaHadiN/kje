@@ -38,8 +38,24 @@ class PendapatansController extends Controller
 	 */
 	public function create()
 	{
+		$asuransis = '';
+		foreach(Asuransi::where('id', '>', 0)->get() as $ass){
+			if (count( explode(".", $ass->nama ) ) > 1) {
+				$text =  explode(".", $ass->nama )[1] ;
+			} else {
+				$text = $ass->nama;
+			}
+			$text = str_replace(")","",$text);
+			$text = str_replace("(","",$text);
+			$text = trim($text);
+			if ($text) {
+				$asuransis .= strtolower($text) . ' ';
+			}
+		}
+		$asuransis = explode(" ", $asuransis);
+		//$asuransis = json_encode($arrays);
 		$pendapatans = Pendapatan::with('staf')->latest()->paginate(10);
-		return view('pendapatans.create', compact('pendapatans'));
+		return view('pendapatans.create', compact('pendapatans','asuransis'));
 	}
 
 	/**

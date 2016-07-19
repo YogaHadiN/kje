@@ -31,29 +31,30 @@ Klinik Jati Elok | Pendapatans Lain
                 {!! Form::open(['url'=>'pendapatans', 'method'=> 'post']) !!} 
                     <div class="form-group">
                       {!! Form::label('sumber_uang', 'Sumber Uang') !!}
-					  {!! Form::text('sumber_uang',  null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+					  {!! Form::text('sumber_uang',  null, ['class' => 'form-control selectpick cek_pembayaran_asuransi rq', 'data-live-search' => 'true']) !!}
                     </div>
 					<div class="form-group">
                       {!! Form::label('staf_id', 'Petugas') !!}
-                      {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+                      {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true']) !!}
                     </div>
                     <div class="form-group">
                       {!! Form::label('tanggal', 'Tanggal') !!}
-                      {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
+                      {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
                     </div>
 					<div class="form-group">
                       {!! Form::label('nilai', 'Nilai') !!}
 					 <div class="input-group">
                           <div class="input-group-addon">Rp. </div>
-						  {!! Form::text('nilai' , null, ['class' => 'form-control']) !!}
+						  {!! Form::text('nilai' , null, ['class' => 'form-control rq']) !!}
                      </div>
                     </div>
 					<div class="form-group">
                       {!! Form::label('keterangan', 'Uangnya didapat karena apa') !!}
-                      {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom']) !!}
+                      {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom cek_pembayaran_asuransi rq']) !!}
                     </div>
                     <div class="form-group">
-                      {!! Form::submit('Submit Pendapatan Lain-lain', ['class' => 'btn btn-success btn-block btn-lg']) !!}
+						<button class="btn btn-success btn-block btn-lg" type="button" onclick="cek_tagihan();">Submit</button>
+						{!! Form::submit('Submit Pendapatan Lain-lain', ['class' => 'btn btn-success btn-block btn-lg hide', 'id' => 'submit_form']) !!}
                     </div>
                 {!! Form::close() !!}
             </div>
@@ -66,10 +67,20 @@ Klinik Jati Elok | Pendapatans Lain
             <ul>
                 <li>Pendapatan dari Pemeriksaan Pasien</li>
 				<li>Pendapatan dari  <a  href="{{ url('pembayarans/asuransi') }}">Pembayaran Tagihan Asuransi</a> </li>
+				<li>Pendapatan dari  <a  href="{{ url('pembayarans/asuransi') }}">Pembayaran Tagihan Perusahaan</a> </li>
             </ul>
 			<p>karena masing2 sudah ada form yang berbeda</p>
 					
         </div>
+		<div class="alert alert-danger hide" id="tagihan">
+			<h2>Konfirmasikan</h2>
+			<p>Konfirmasikan transaksi ini bukan didapat dari pembayaran tagihan asuransi dan perusahaan</p>
+			<p>karena masing2 sudah ada form yang berbeda</p>
+			{!! Form::hidden('konfirmasikan', '0', ['class' => 'form-control', 'id' => 'konfirmasikan']) !!}
+			<br />
+			<button class="btn btn-warning btn-lg btn-block" type="button" id="confirm_button" onclick="confirmed();return false;">Konfirmasikan</button>
+			<button class="btn btn-primary btn-lg btn-block hide" type="button" id="unconfirm_button" onclick="unconfirmed();return false;">Batalkan Konfirmasi</button>
+		</div>
     </div>
 </div>
 <div class="row">
@@ -113,8 +124,9 @@ Klinik Jati Elok | Pendapatans Lain
 @stop
 @section('footer') 
 <script>
+	var asuransis = {!! json_encode( $asuransis ) !!};
   jQuery(document).ready(function($) {
-    view();
+	  $('#konfirmasikan').val('0');
     $('#input').keypress(function(e) {
       var key = e.which || e.keyCode;
       if (key == 9) {
@@ -135,28 +147,27 @@ Klinik Jati Elok | Pendapatans Lain
         pass = false;
       }
     });
+		if (pass) {
+			var pendapatan = $(control).closest('tr').find('td:first-child input').val();
+			var jumlah = $(control).closest('tr').find('td:nth-child(2) input').val();
+		  var keterangan = $(control).closest('tr').find('td:nth-child(3) input').val();
+			var staf_id = $('#staf_id').val();
 
-    if (pass) {
-  		var pendapatan = $(control).closest('tr').find('td:first-child input').val();
-  		var jumlah = $(control).closest('tr').find('td:nth-child(2) input').val();
-      var keterangan = $(control).closest('tr').find('td:nth-child(3) input').val();
-  		var staf_id = $('#staf_id').val();
+		  string = $('#array').val();
+		  data = $.parseJSON(string);
+			data[data.length] = {
+				'pendapatan' : pendapatan,
+			'jumlah' : jumlah,
+				'staf_id' : staf_id,
+				'keterangan' : keterangan
+			};
 
-      string = $('#array').val();
-      data = $.parseJSON(string);
-  		data[data.length] = {
-  			'pendapatan' : pendapatan,
-        'jumlah' : jumlah,
-  			'staf_id' : staf_id,
-  			'keterangan' : keterangan
-  		};
-
-  		var string = JSON.stringify(data);
-  		$('#array').val(string);
-  		view();
-    } else {
-      alert(string + ' Tidak boleh dikosongkan');
-    }
+			var string = JSON.stringify(data);
+			$('#array').val(string);
+			view();
+		} else {
+		  alert(string + ' Tidak boleh dikosongkan');
+		}
 	}
 
 	function view(){
@@ -204,7 +215,57 @@ Klinik Jati Elok | Pendapatans Lain
     }
 
   }
+	function cek_tagihan(){
+		if( $('#konfirmasikan').val() == '0' ){
+			var tagihan = false;
+			var asuransi = false;
+			$('.cek_pembayaran_asuransi').each(function(){
+				var text = $(this).val();
+				if(text.indexOf('tagihan') >= 0){
+					tagihan = true;
+					return false;
+				}
+				var ass = asuransis;
+				for (var i = 0; i < ass.length; i++) {
+					if(text.indexOf(ass[i]) >= 0){
+						asuransi = true;
+						break;
+					}
+				}
+			});	 
+			if(asuransi || tagihan){
+				$('#perhatian').hide();
+				$('#tagihan').removeClass('hide').hide().fadeIn(500);
+				alert('Mohon Pastikan kembali bahwa ini bukan pendapatan dari pembayaran tagihan asuransi atau perusahaan');
+			} else {
+				 validate_form();
+			}
+		} else {
+			 validate_form();
+		}
+	}
 
+	function confirmed(){
+		$('#konfirmasikan').val('1');	 
+		$('#confirm_button').fadeOut(500, function(){
+			$('#unconfirm_button').removeClass('hide').fadeIn(500, function(){
+				 $(this).focus();
+			});	 
+		});	 
+	}
+	function unconfirmed(){
+		$('#konfirmasikan').val('0');	 
+		$('#unconfirm_button').fadeOut(500, function(){
+			$('#confirm_button').removeClass('hide').fadeIn(500, function(){
+				 $(this).focus();
+			});	 
+		});	 
+	}
+function validate_form(){
+	 if( validatePass() ){
+		 $('#submit_form').click();
+	 }
+}
 
 </script>
 	
