@@ -1676,19 +1676,19 @@ class Yoga {
 		}
 
 		public static function inputImageIfNotEmpty($image, $id){
-			return $this->image($image, $id, 'pasien/img');
+			return self::image($image, $id, 'pasien/img');
 		}
 		public static function inputKtpIfNotEmpty($image, $id){
-			return $this->image($image, $id, 'pasien/ktp');
+			return self::image($image, $id, 'pasien/ktp');
 		}
 		public static function inputStafImageIfNotEmpty($image, $id){
-			return $this->image($image, $id, 'staf/img');
+			return self::image($image, $id, 'staf/img');
 		}
 		public static function inputStafKtpIfNotEmpty($image, $id){
-			return $this->image($image, $id, 'staf/ktp');
+			return self::image($image, $id, 'staf/ktp');
 		}
 		public static function inputImageIRujukanfNotEmpty($image, $id){ //$id = $periksa_id
-			return $this->image($image, $id, 'pasien/rjk');
+			return self::image($image, $id, 'pasien/rjk');
 		}
 
 		public static function totalBiayaTerapi($terapis){
@@ -1972,7 +1972,7 @@ class Yoga {
         $jadi = "Rp. " . number_format($angka,0,',','.') . ',-';
         return $jadi;
     }
-	private function image($image, $id, $custom_url){
+	public static function image($image, $id, $custom_url){
 		$confirm = false;
 		if (!empty($image)) {
 			if (gethostname() == 'homestead') {

@@ -689,11 +689,7 @@ class FormulasController extends Controller
 				$merek->save();
 			}
 		}
-
-		
 		return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('Formula obat <strong>' . $id . '</strong> telah <strong>BERHASIL</strong> diubah'));
-
-
 	}
 
 	/**
@@ -704,30 +700,9 @@ class FormulasController extends Controller
 	 */
 	public function destroy($id)
 	{
-		// hapus dosis yang mempunyai formula_id = $id
-		$doses = Dose::where('formula_id', $id)->get();
-		foreach ($doses as $dose) {
-			$dose->delete();
+		if (!Formula::destroy($id)) {
+			return redirect()->back();
 		}
-
-		// hapus komposisi yang mempunyai formula_id = $id
-		$komposisis = Komposisi::where('formula_id', $id)->get();
-		foreach ($komposisis as $komposisi) {
-			$komposisi->delete();
-		}
-
-		// hapus rak yang mempunyai formula_id = $id, sebelumnya merek yang terkait juga harus dihapus
-		$raks = Rak::where('formula_id', $id)->get();
-		foreach ($raks as $rak) {
-			$mereks = Merek::where('rak_id', $rak->id)->get();
-			foreach ($mereks as $merek) {
-				$merek->delete();
-			}
-			$rak->delete();
-		}
-		//setelah rak, dosis,komposisi, merek semua terhapus baru hapus formula
-		Formula::destroy($id);
-
 		return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('Formula obat <strong>' . $id . '</strong> telah <strong>BERHASIL</strong> dihapus'));
 	}
 

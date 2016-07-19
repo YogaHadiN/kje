@@ -3,8 +3,31 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Session;
+use App\Classes\Yoga;
 
 class Formula extends Model{
+	public static function boot(){
+		parent::boot();
+		self::deleting(function($this){
+			if ($this->rak->count() > 0) {
+				$text = 'Tidak bisa menghapus karena formula ini masih memiliki rak berikut di bawahnya : ';
+				$text = '<ul>';
+				foreach ($this->rak as $rak) {
+					$text .= '<li>' . $rak->id . ' dengan merek ';
+					foreach ($rak->merek as $merek) {
+						$text .= $merek->merek . ', ';
+					}
+					$text .= '</li>';
+				}
+				$text = '</ul>';
+				Session::flash('pesan', Yoga::gagalFlash($text));
+				return false;
+			}
+			
+		});
+	}
+
 	public $incrementing = false; 
 
 	// Add your validation rules here

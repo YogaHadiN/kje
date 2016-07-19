@@ -9,8 +9,6 @@ use App\Periksa;
 
 class RuangPeriksaController extends Controller
 {
-
-
 	public function umum(){
 
 		$antrianperiksa = AntrianPeriksa::with('pasien', 'staf', 'asuransi')->where('poli', '=', 'umum')
