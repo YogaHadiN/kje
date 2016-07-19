@@ -9,7 +9,7 @@ use App\Classes\Yoga;
 class Formula extends Model{
 	public static function boot(){
 		parent::boot();
-		self::deleting(function($this){
+		self::deleting(function(){
 			if ($this->rak->count() > 0) {
 				$text = 'Tidak bisa menghapus karena formula ini masih memiliki rak berikut di bawahnya : ';
 				$text = '<ul>';
