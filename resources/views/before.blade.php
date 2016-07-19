@@ -24,7 +24,11 @@
                             @endif
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right">
-                           <a href="{!! url('pasiens/' . $antrianperiksa->pasien_id) !!} " class="btn btn-success" target="_blank">Semua Riwayat</a>
+							@if( $pasien->periksa->count() > 0 )
+							   <a href="{!! url('pasiens/' . $antrianperiksa->pasien_id) !!} " class="btn btn-success" target="_blank">Semua Riwayat</a>
+						   @else
+							   <a href="#" class="btn btn-success" onclick="alert('Tidak ada riwayat untuk ditampilkan'); return false;">Semua Riwayat</a>
+							@endif
                         </div>
                     </div>
                 </div>

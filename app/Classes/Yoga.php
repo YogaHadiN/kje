@@ -1676,139 +1676,20 @@ class Yoga {
 		}
 
 		public static function inputImageIfNotEmpty($image, $id){
-			$confirm = false;
-			if (!empty($image)) {
-				if (gethostname() == 'homestead') {
-					$path = '/home/vagrant/Code/kje/public/img/pasien/img' . $id . '.png';
-				} else {
-					$path = '/var/www/kje/public/img/pasien/img' . $id . '.png';
-					$dropbox = '/home/kje/Dropbox/backup11/img/pasien/img' . $id . '.png';
-				}
-				$urlImage = '/img/pasien/img'. $id . '.png';
-				$data     = $image;
-				$data     = explode(',', $data);
-				if (count($data) > 1) {
-					$data     = base64_decode($data[1]);
-				}
-				$confirm  = file_put_contents($path, $data);
-				if ($confirm) {
-					if (isset( $dropbox )) {
-						file_put_contents($dropbox, $data);
-					}
-					return $urlImage;
-				} else {
-					return null;
-				}
-			} 
+			return $this->image($image, $id, 'pasien/img');
 		}
 		public static function inputKtpIfNotEmpty($image, $id){
-			$confirm = false;
-			if (!empty($image)) {
-				if (gethostname() == 'homestead') {
-					$path = '/home/vagrant/Code/kje/public/img/pasien/ktp' . $id . '.png';
-				} else {
-					$path = '/var/www/kje/public/img/pasien/ktp' . $id . '.png';
-					$dropbox = '/home/kje/Dropbox/backup11/img/pasien/ktp' . $id . '.png';
-				}
-				$urlImage = '/img/pasien/ktp'. $id . '.png';
-				$data     = $image;
-				$data     = explode(',', $data);
-				if (count($data) > 1) {
-					$data     = base64_decode($data[1]);
-				}
-				$confirm  = file_put_contents($path, $data);
-				if ($confirm) {
-					if (isset( $dropbox )) {
-						file_put_contents($dropbox, $data);
-					}
-					return $urlImage;
-				} else {
-					return null;
-				}
-			}
+			return $this->image($image, $id, 'pasien/ktp');
 		}
 		public static function inputStafImageIfNotEmpty($image, $id){
-			$confirm = false;
-			if (!empty($image)) {
-				if (gethostname() == 'homestead') {
-					$path = '/home/vagrant/Code/kje/public/img/staf/img' . $id . '.png';
-				} else {
-					$path = '/var/www/kje/public/img/staf/img' . $id . '.png';
-					$dropbox = '/home/kje/Dropbox/backup11/img/staf/img' . $id . '.png';
-				}
-				$urlImage = '/img/staf/img'. $id . '.png';
-				$data     = $image;
-				$data     = explode(',', $data);
-				if (count($data) > 1) {
-					$data     = base64_decode($data[1]);
-				}
-				$confirm  = file_put_contents($path, $data);
-				if ($confirm) {
-					if (isset( $dropbox )) {
-						file_put_contents($dropbox, $data);
-					}
-					return $urlImage;
-				} else {
-					return null;
-				}
-			} 
+			return $this->image($image, $id, 'staf/img');
 		}
 		public static function inputStafKtpIfNotEmpty($image, $id){
-			$confirm = false;
-			if (!empty($image)) {
-				if (gethostname() == 'homestead') {
-					$path = '/home/vagrant/Code/kje/public/img/staf/ktp' . $id . '.png';
-				} else {
-					$path = '/var/www/kje/public/img/staf/ktp' . $id . '.png';
-					$dropbox = '/home/kje/Dropbox/backup11/img/staf/ktp' . $id . '.png';
-				}
-				$urlImage = '/img/staf/ktp'. $id . '.png';
-				$data     = $image;
-				$data     = explode(',', $data);
-				if (count($data) > 1) {
-					$data     = base64_decode($data[1]);
-				}
-				$confirm  = file_put_contents($path, $data);
-				if ($confirm) {
-					if (isset( $dropbox )) {
-						file_put_contents($dropbox, $data);
-					}
-					return $urlImage;
-				} else {
-					return null;
-				}
-			}
+			return $this->image($image, $id, 'staf/ktp');
 		}
-
 		public static function inputImageIRujukanfNotEmpty($image, $id){ //$id = $periksa_id
-			$confirm = false;
-			if (!empty($image)) {
-				if (gethostname() == 'homestead') {
-					$path = '/home/vagrant/Code/kje/public/img/pasien/rjk' . $id . '.png';
-				} else {
-					$path = '/var/www/kje/public/img/pasien/rjk' . $id . '.png';
-					$dropbox = '/home/kje/Dropbox/backup11/img/staf/rjk' . $id . '.png';
-				}
-				$urlImage = '/img/pasien/rjk'. $id . '.png';
-				$data     = $image;
-				$data     = explode(',', $data);
-				if (count($data) > 1) {
-					$data     = base64_decode($data[1]);
-				}
-				$confirm  = file_put_contents($path, $data);
-				if ($confirm) {
-					if (isset( $dropbox )) {
-						file_put_contents($dropbox, $data);
-					}
-					return $urlImage;
-				} else {
-					return null;
-				}
-			} 
+			return $this->image($image, $id, 'pasien/rjk');
 		}
-		
-
-
 
 		public static function totalBiayaTerapi($terapis){
 			$biaya = 0;
@@ -2091,6 +1972,32 @@ class Yoga {
         $jadi = "Rp. " . number_format($angka,0,',','.') . ',-';
         return $jadi;
     }
-    
+	private function image($image, $id, $custom_url){
+		$confirm = false;
+		if (!empty($image)) {
+			if (gethostname() == 'homestead') {
+				$path = '/home/vagrant/Code/kje/public/img/'. $custom_url . $id . '.png';
+			} else {
+				$path = '/var/www/kje/public/img/' . $custom_url . $id . '.png';
+				$dropbox = '/home/kje/Dropbox/backup11/img/pasien/img' . $custom_url . $id . '.png';
+			}
+			$urlImage = '/img/'. $custom_url . $id . '.png';
+			$data     = $image;
+			$data     = explode(',', $data);
+			if (count($data) > 1) {
+				$data     = base64_decode($data[1]);
+			}
+			$confirm  = file_put_contents($path, $data);
+			if ($confirm) {
+				if (isset( $dropbox )) {
+					file_put_contents($dropbox, $data);
+				}
+				return $urlImage;
+			} else {
+				return null;
+			}
+		} 
+	}
+	    
     
 }
