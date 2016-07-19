@@ -1979,7 +1979,7 @@ class Yoga {
 				$path = '/home/vagrant/Code/kje/public/img/'. $custom_url . $id . '.png';
 			} else {
 				$path = '/var/www/kje/public/img/' . $custom_url . $id . '.png';
-				$dropbox = '/home/kje/Dropbox/backup11/img/pasien/img' . $custom_url . $id . '.png';
+				$dropbox = '/home/kje/Dropbox/backup11/img/' . $custom_url . $id . '.png';
 			}
 			$urlImage = '/img/'. $custom_url . $id . '.png';
 			$data     = $image;
