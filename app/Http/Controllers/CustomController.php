@@ -50,35 +50,48 @@ class CustomController extends Controller
 	}
 
 	public function updtrf(){
-
 		$asuransi_id = Input::get('asuransi_id');
 		$jenis_tarif_id = Input::get('jenis_tarif_id');
 
-
-
 		$tarif = Tarif::where('jenis_tarif_id', $jenis_tarif_id)->where('asuransi_id', $asuransi_id)->first();
-
 		$tarif->biaya = Input::get('biaya');
 		$tarif->tipe_tindakan_id = Input::get('tipe_tindakan_id');
 		$tarif->jasa_dokter = Input::get('jasa_dokter');
 		$tarif->save();
 
-		foreach ($tarif->jenisTarif->bahanHabisPakai as $bhp) {
-			$bahan = BahanHabisPakai::find($bhp->id);
-			$bahan->delete();
-		}
 
 		$bhps = json_decode(Input::get('bhp_items'), true);
+		$insert_bhps = [];
+		$delete_bhps = [];
 
-		foreach ($bhps as $bhp) {
-
-			$bahan_habis_pakai = new BahanHabisPakai;
-			$bahan_habis_pakai->merek_id = $bhp['merek_id'];
-			$bahan_habis_pakai->jenis_tarif_id = $jenis_tarif_id;
-			$bahan_habis_pakai->jumlah = $bhp['jumlah'];
-			$bahan_habis_pakai->save();
-
+		foreach (JenisTarif::find($jenis_tarif_id)->bhp as $bp) {
+			$hapus = true;
+			foreach ($bhps as $bhp) {
+				if (isset( $bhp['id'] )){
+					if ($bp->id == $bhp['id']) {
+						$hapus = false;
+					}
+				}
+			}
+			if ($hapus) {
+				$delete_bhps[] = $bp->id;
+			}
 		}
+
+		$timestamps = date('Y-m-d H:i:s');
+		foreach ($bhps as $bhp) {
+			if (!isset( $bhp['id'] )) {
+				$insert_bhps[] = [
+					 'merek_id' => $bhp['merek_id'],
+					 'jumlah' => $bhp['jumlah'],
+					 'jenis_tarif_id' => $jenis_tarif_id,
+					 'created_at' => $timestamps,
+					 'updated_at' => $timestamps
+				];
+			}
+		}
+		BahanHabisPakai::destroy($delete_bhps);
+		BahanHabisPakai::insert($insert_bhps);
 
 		$jt = JenisTarif::find($jenis_tarif_id);
 		$jt->jenis_tarif = Input::get('jenis_tarif');
@@ -87,9 +100,10 @@ class CustomController extends Controller
 		if($jt->save() && $tarif->save()){
             $kembali = [
                 'id' => $tarif->id,
-                'jenis_tarif_id' => $jt->id
+                'jenis_tarif_id' => $jt->id,
+                'bhp_items' => JenisTarif::with('bhp.merek')->where('id', $jt->id)->first()->bhp
             ];
-			return $jenis_tarif_id;
+			return json_encode( $kembali );
 		} else {
 			return '0';
 		}

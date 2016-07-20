@@ -59,7 +59,7 @@ Klinik Jati Elok | Tarif
                             <td class="hide tipe_tindakan_id"><div>{!!$tarif->tipe_tindakan_id!!}</div></td>
 							<td class="hide tipe_laporan_admedika_id"><div>{!!$tarif->jenisTarif->tipe_laporan_admedika_id!!}</div></td>
 							<td class="hide bhp_items"><div>{!!$tarif->jenisTarif->bhp!!}</div></td>
-                            <td class="hide"><div>0</div></td>
+                            <td class="hide asuransi_id"><div>0</div></td>
                               {!! Form::open(['url' => 'tarifs/' .$tarif->id, 'method' => 'delete'])!!}
                               <td nowrap>
                                   <div>
@@ -227,7 +227,7 @@ Klinik Jati Elok | Tarif
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
                       {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika')!!}
-					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::lists('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'txtTipeLaporanAdmedikaUpdate'])!!}
+					  {!! Form::select('tipe_laporan_admedika_id_update', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::lists('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id_update'])!!}
                   </div>
                 </div>
             </div>
@@ -350,7 +350,7 @@ Klinik Jati Elok | Tarif
         $('#txtJasaDokterUpdate').val(jasaDokter);
         $('#txtJenisTarifIdUpdate').val(jenis_tarif_id);
         $('#txtAsuransiIdUpdate').val(asuransi_id);
-        $('#txtTipeLaporanAdmedikaUpdate').val(tipe_laporan_admedika_id);
+        $('#tipe_laporan_admedika_id_update').val(tipe_laporan_admedika_id);
 
         if(bhp_items != ''){
           dataUpdate = JSON.parse(bhp_items);
@@ -401,7 +401,9 @@ Klinik Jati Elok | Tarif
       var jumlah_UPDATE = $('#jumlah_UPDATE').val();
 
       dataUpdate[dataUpdate.length] = {
-        "merek" : merek,
+		  "merek" : {
+			   'merek' : merek
+		  },
         "merek_id" : ID_MEREK_UPDATE,
         "jumlah" : jumlah_UPDATE
       };
@@ -615,8 +617,8 @@ Klinik Jati Elok | Tarif
             if($('#ddlTipeTindakanUpdate').val() == ''){
               validasi('#ddlTipeTindakanUpdate', 'Harus Diisi!');
             }
-            if($('#txtBahanHabisPakaiUpdate').val() == ''){
-              validasi('#txtBahanHabisPakaiUpdate', 'Harus Diisi!');
+            if($('#tipe_laporan_admedika_id_update').val() == ''){
+              validasi('#tipe_laporan_admedika_id_update', 'Harus Diisi!');
             }
             if($('#txtBiayaUpdate').val() == ''){
               validasi('#txtBiayaUpdate', 'Harus Diisi!');
@@ -625,26 +627,24 @@ Klinik Jati Elok | Tarif
               validasi('#txtJasaDokterUpdate', 'Harus Diisi!');
             }
           } else {
-
-            var jenis_tarif_id = $('#txtJenisTarifIdUpdate').val()  ;
-              $.ajax({
-                url: '{{ url("update/tarifs") }}',
-                type: 'POST',
-                data: {
+			  var param = {
                   'jenis_tarif'       : jenis_tarif,
                   'tipe_tindakan_id'  : tipe_tindakan_id,
                   'biaya'             : biaya,
                   'jasa_dokter'       : jasa_dokter,
                   'bhp_items'         : bhp_items,
-                  'tipe_laporan_admedika_id'    : tipe_laporan_admedika_id,
+                  'tipe_laporan_admedika_id'    : tipe_laporan_admedika_id_update,
                   'jenis_tarif_id'    : jenis_tarif_id,
                   'asuransi_id'       : asuransi_id
-                }
+                };
+              $.ajax({
+                url: '{{ url("update/tarifs") }}',
+                type: 'POST',
+                data: param
               })
               .done(function(result) {
                   result = JSON.parse(result);
                   if(result.jenis_tarif_id != '0'){
-                    
                     biaya = uang(biaya);
                     jasa_dokter = uang(jasa_dokter);
                     bahan_habis_pakai = uang(bahan_habis_pakai);
@@ -652,25 +652,20 @@ Klinik Jati Elok | Tarif
                         bahan_habis_pakai = '0';
                     }
 
-                    console.log('biaya = ' + biaya);
-                    console.log('bahan_habis_pakai = ' + bahan_habis_pakai);
                     var biaya_total = parseInt(biaya) + parseInt(bahan_habis_pakai);
-                    console.log('biaya_total = ' + biaya_total);
                     $('#modalUpadteJenisTarif').modal('hide');
                       var $edit = $('#table_tarif tbody tr:nth-child(' + row_index + ')');
                       
                       $('#table_tarif tbody tr:nth-child(' + row_index + ')').find('td').find('div').slideUp('500', function(){
-                            $edit.find('td:nth-child(1)').find('div').html(result.jenis_tarif_id);
-                            $edit.find('td:nth-child(2)').find('div').html(jenis_tarif);
-                            $edit.find('td:nth-child(3)').find('div').html(tipe_tindakan);
-                            $edit.find('td:nth-child(4)').find('div').html(biaya);
-                            $edit.find('td:nth-child(5)').find('div').html(uang('0'));
-                            $edit.find('td:nth-child(6)').find('div').html(jasa_dokter);
-                            $edit.find('td:nth-child(7)').find('div').html(bahan_habis_pakai);
-                            $edit.find('td:nth-child(8)').find('div').html(tipe_tindakan_id);
-                            $edit.find('td:nth-child(9)').find('div').html(bhp_items);
-                            $edit.find('td:nth-child(10)').find('div').html(result.jenis_tarif_id);
-                            $edit.find('td:nth-child(11)').find('div').html(asuransi_id);
+                            $edit.find('.jenis_tarif_id').find('div').html(result.jenis_tarif_id);
+                            $edit.find('.jenis_tarif').find('div').html(jenis_tarif);
+                            $edit.find('.tipe_tindakan').find('div').html(tipe_tindakan);
+                            $edit.find('.biaya').find('div').html(biaya);
+                            $edit.find('.jasa_dokter').find('div').html(jasa_dokter);
+                            $edit.find('.tipe_tindakan_id').find('div').html(tipe_tindakan_id);
+                            $edit.find('.tipe_laporan_admedika_id').find('div').html(tipe_laporan_admedika_id_update);
+                            $edit.find('.bhp_items').find('div').html(bhp_items);
+                            $edit.find('.asuransi_id').find('div').html('0');
                             $edit.find('td').removeClass('loaded').addClass('yellow');
                             $edit.find('td').find('div').slideDown('500', function(){
                                 $edit.find('td').removeClass('yellow').addClass('loaded');                                                              
