@@ -15,16 +15,6 @@ Klinik Jati Elok | Supplier
 </ol>
 @stop
 @section('content') 
-<div class="alert alert-success">
-    <ul>
-        <li>
-            Untuk Belanja, Pilih Supplier yang sesuai, lalu klik tombol <strong>Belanja</strong> di baris yang sama
-        </li>
-        <li>
-            Bila Supplier tidak ada, buat daftar Supplier baru sebelum belanja 
-        </li>
-    </ul>
-</div>
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">
@@ -59,7 +49,6 @@ Klinik Jati Elok | Supplier
                             <td>{!!$user->no_telp!!}</td>
                             <td>{!!$user->pic!!}</td>
                             <td nowrap>
-                                  <button type="button" class="btn btn-info btn-sm" onclick="buy(this); return false;" data-belanja-obat="1" value="Obat"><i class="fa fa-shopping-cart fa-lg"></i> Belanja</button>
                                     <a href="suppliers/{!!$user->id!!}/edit" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i> Edit</a>
                                     <a href="suppliers/{!!$user->id!!}" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Riwayat</a>
                             </td>

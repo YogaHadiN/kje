@@ -36,7 +36,6 @@ Klinik Jati Elok | Tarif
 						<th>Jenis Tarif</th>
 						<th>Tipe Tindakan</th>
                         <th >Biaya</th>
-                        <th class="hide" >Dibayar Asuransi </th>
                         <th>Jasa Dokter</th>
                         <th class="displayNone">tipe_tindakan_id</th>
                         <th class="displayNone">tipe_laporan_admedika_id</th>
@@ -104,7 +103,7 @@ Klinik Jati Elok | Tarif
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
                       {!! Form::label('biaya')!!}
-                      {!! Form::text('biaya', null, ['class' => 'form-control', 'id' => 'txtBiayaInsert'])!!}
+                      {!! Form::text('biaya', null, ['class' => 'form-control angka', 'id' => 'txtBiayaInsert'])!!}
                   </div>
                 </div>
             </div>
@@ -113,7 +112,7 @@ Klinik Jati Elok | Tarif
                   
 					<div class="form-group">
                     {!! Form::label('jasa_dokter', 'Jasa Dokter')!!}
-                    {!! Form::text('jasa_dokter', null, ['class' => 'form-control', 'id' => 'txtJasaDokterInsert'])!!}
+                    {!! Form::text('jasa_dokter', null, ['class' => 'form-control angka', 'id' => 'txtJasaDokterInsert'])!!}
                   </div>
 
                 </div>
@@ -152,9 +151,7 @@ Klinik Jati Elok | Tarif
                                                     @foreach ($mereks as $merek)
                                                         <option value='{!! $merek->id !!}' data-subtext="{!!$merek->komposisi_bymerek!!}"><strong>{!!$merek->merek!!}</strong></option>
                                                     @endforeach
-
                                                 </select>
-
                                               </td>
                                               <td><input type="text" class="form-control" id="jumlah"></td>
                                               <td><button onclick="insert_bhp(this); return false;" class="btn btn-success" id="submit_bhp">submit</button>
@@ -162,7 +159,7 @@ Klinik Jati Elok | Tarif
                                           </tr>
                                       </tfoot>
                                   </table>
-                                    {!! Form::textarea('bhp_items', null, ['class' => 'hide', 'id' => 'bahan_habis_pakai'])!!}
+                                    {!! Form::textarea('bhp_items', null, ['class' => 'form-control', 'id' => 'bahan_habis_pakai'])!!}
                             </div>
                           </div>                      
                   </div>
@@ -214,7 +211,7 @@ Klinik Jati Elok | Tarif
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
                       {!! Form::label('biaya')!!}
-                      {!! Form::text('biaya', null, ['class' => 'form-control', 'id' => 'txtBiayaUpdate'])!!}
+                      {!! Form::text('biaya', null, ['class' => 'form-control angka', 'id' => 'txtBiayaUpdate'])!!}
                   </div>
               </div>
             </div>
@@ -222,7 +219,7 @@ Klinik Jati Elok | Tarif
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
                       {!! Form::label('jasa_dokter')!!}
-                      {!! Form::text('jasa_dokter', null, ['class' => 'form-control', 'id' => 'txtJasaDokterUpdate'])!!}
+                      {!! Form::text('jasa_dokter', null, ['class' => 'form-control angka', 'id' => 'txtJasaDokterUpdate'])!!}
                       {!! Form::text('jenis_tarif_id', null, ['class' => 'displayNone', 'id' => 'txtJenisTarifIdUpdate'])!!}
                       {!! Form::text('asuransi_id', null, ['class' => 'displayNone', 'id' => 'txtAsuransiIdUpdate'])!!}
                   </div>
@@ -272,7 +269,7 @@ Klinik Jati Elok | Tarif
                                           </tr>
                                       </tfoot>
                                   </table>
-                                  {!! Form::textarea('bhp_items', null, ['class' => 'form-control displayNone', 'id' => 'bhp_items_update'])!!}
+                                  {!! Form::textarea('bhp_items', null, ['class' => 'form-control', 'id' => 'bhp_items_update'])!!}
                             </div>
                           </div>                      
                   </div>
@@ -282,7 +279,7 @@ Klinik Jati Elok | Tarif
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<button class="btn btn-primary btn-lg btn-block" type="button">Update</button>
+				<button class="btn btn-primary btn-lg btn-block" type="button" onclick="submitJT_update();return false;">Update</button>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<button class="btn btn-danger btn-lg btn-block" type="button" data-dismiss="modal" >Cancel</button>
@@ -293,13 +290,6 @@ Klinik Jati Elok | Tarif
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
 @stop
 @section('footer') 
 <script>
@@ -307,22 +297,23 @@ Klinik Jati Elok | Tarif
   var dataUpdate = [];
   var row_index;
 
-  if($('#bahan_habis_pakai').val() != ''){
-    data = JSON.parse($('#bahan_habis_pakai').val());
-    view_bhp(data);
-  }
   $(document).ready(function() {
-
     $('.btn-success').keypress(function(e) {
       var key = e.keyCode || e.which;
-
-      if(key == 9){
+      if(key == 9 || 13){
         $(this).click();
       }
-
       return false;
-
     });
+	$('#modalInsertJenisTarif').on('show.bs.modal', function(){
+		 $('#modalInsertJenisTarif input').val('');
+		 $('#modalInsertJenisTarif select').val('');
+		 $('#modalInsertJenisTarif textarea').val('');
+		 $('#modalInsertJenisTarif #ajax1').html('');
+		 data = [];
+		 $('#modalInsertJenisTarif #tipe_tindakan_id').val('1');
+	});
+
   });
 
   function editRow(control) {
@@ -508,14 +499,26 @@ Klinik Jati Elok | Tarif
         var biaya = $('#txtBiayaInsert').val();
         var jasa_dokter = $('#txtJasaDokterInsert').val();
         var jenis_tarif_id = $('#txtJenisTarifIdInsert').val();
+        var tipe_laporan_admedika_id = $('#tipe_laporan_admedika_id').val();
         var asuransi_id = '0';
         var bhp_items = $('#bahan_habis_pakai').val();
+
+
+		console.log('jenis_tarif = ' + jenis_tarif) ;
+		console.log('tipe_tindakan_id = ' + tipe_tindakan_id) ;
+		console.log('tipe_tindakan = ' + tipe_tindakan) ;
+		console.log('bahanHabisPakai = ' + bahanHabisPakai) ;
+		console.log('biaya = ' + biaya) ;
+		console.log('jasa_dokter = ' + jasa_dokter) ;
+		console.log('jenis_tarif_id = ' + jenis_tarif_id) ;
+		console.log('asuransi_id = ' + asuransi_id) ;
+		console.log('bhp_items = ' + bhp_items) ;
 
           if(
             $('#txtJenisTarifInsert').val() == '' ||
             $('select[name="tipe_tindakan_id"]').val() == '' ||
-            $('#txtBahanHabisPakaiInsert').val() == '' ||
             $('#txtBiayaInsert').val() == '' ||
+            $('#tipe_laporan_admedika_id').val() == '' ||
             $('#txtJasaDokterInsert').val() == '') 
           {
             if($('#txtJenisTarifInsert').val() == ''){
@@ -524,8 +527,8 @@ Klinik Jati Elok | Tarif
             if($('#select[name="tipe_tindakan_id"]').val() == ''){
               validasi('#select[name="tipe_tindakan_id"]', 'Harus Diisi!');
             }
-            if($('#txtBahanHabisPakaiInsert').val() == ''){
-              validasi('#txtBahanHabisPakaiInsert', 'Harus Diisi!');
+            if($('#tipe_laporan_admedika_id').val() == ''){
+              validasi('#tipe_laporan_admedika_id', 'Harus Diisi!');
             }
             if($('#txtBiayaInsert').val() == ''){
               validasi('#txtBiayaInsert', 'Harus Diisi!');
@@ -534,36 +537,40 @@ Klinik Jati Elok | Tarif
               validasi('#txtJasaDokterInsert', 'Harus Diisi!');
             }
           } else {
-
             var param = $('#insert_jt_form').serializeArray();
-
             $.post('tarifs', param, function(result) {
-
-            result = JSON.parse(result);
-
+				result = JSON.parse(result);
               if(result.jenis_tarif_id != '0'){
                   $('#modalInsertJenisTarif').modal('hide');
                     var temp = '<tr>';
-
                     biaya = uang(biaya);
                     jasa_dokter = uang(jasa_dokter);
-
-                    temp += '<td><div>' + result.jenis_tarif_id + '</div></td>';
-                    temp += '<td><div>' + jenis_tarif + '</div></td>';
-                    temp += '<td><div>' + tipe_tindakan + '</div></td>';
-                    temp += '<td class="text-right"><div>' + biaya + '</div></td>';
-                    temp += '<td class="text-right"><div>' + 'Rp. ,-' + '</div></td>';
-                    temp += '<td class="displayNone"><div>' + jasa_dokter + '</div></td>';
-                    temp += '<td class="displayNone"><div>' + uang( bahanHabisPakai ) + '</div></td>';
-                    temp += '<td class="displayNone"><div>' + tipe_tindakan_id + '</div></td>';
-                    temp += '<td class="displayNone"><div>' + bhp_items + '</div></td>';
-                    temp += '<td class="displayNone"><div>' + result.jenis_tarif_id + '</div></td>';
-                    temp += '<td class="displayNone"><div>' + asuransi_id + '</div></td>';
+                    temp += '<td class="jenis_tarif_id"><div>' + result.jenis_tarif_id + '</div></td>';
+                    temp += '<td class="jenis_tarif"><div>' + jenis_tarif + '</div></td>';
+                    temp += '<td class="tipe_tindakan"><div>' + tipe_tindakan + '</div></td>';
+                    temp += '<td class="biaya uang"><div>' + biaya + '</div></td>';
+                    temp += '<td class="jasa_dokter"><div class="uang">' + jasa_dokter + '</div></td>';
+                    temp += '<td class="displayNone tipe_tindakan_id"><div class="uang">' + tipe_tindakan_id + '</div></td>';
+                    temp += '<td class="displayNone tipe_laporan_admedika_id"><div>' + tipe_laporan_admedika_id + '</div></td>';
+                    temp += '<td class="displayNone bhp_items"><div>' + JSON.stringify( result.bhp_items ) + '</div></td>'; temp += '<td class="displayNone"><div>0</div></td>';
                     temp += "<td nowrap><div><form method='post' action='{!! url('tarifs/" + result.id + "')!!}'><input type=\"hidden\" value=\"DELETE\" name=\"_method\"><input type=\"hidden\" name=\"_token\" value=\"<?php echo csrf_token(); ?>\">";
                     temp += "<a href=\"#\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\""
                     temp += "#modalUpadteJenisTarif\" onclick=\"editRow(this)\">edit</a> ";
                     temp += "<input type='submit' value='hapus' class='btn btn-danger btn-sm' onclick='return confirm(\"Anda yakin mau menghapus " + result.jenis_tarif_id + " - " + jenis_tarif +  " dari Tarif?\")' /></div></td>";
                     temp += "</form></tr>";
+
+//                        <th>jenis tarif id</th>
+//						<th>Jenis Tarif</th>
+//						<th>Tipe Tindakan</th>
+//                        <th >Biaya</th>
+//                        <th>Jasa Dokter</th>
+//                        <th class="displayNone">tipe_tindakan_id</th>
+//                        <th class="displayNone">tipe_laporan_admedika_id</th>
+//                        <th class="displayNone">bhp_items</th>
+//                        <th class="displayNone">asuransi_id</th>
+//						<th>Action</th>
+
+					console.log(temp);
 
                     $('#table_tarif tbody').prepend(temp)
                     $('#table_tarif tbody tr:first-child').find('div').closest('td').addClass('yellow');
@@ -578,17 +585,17 @@ Klinik Jati Elok | Tarif
         var jenis_tarif = $('#txtJenisTarifUpdate').val();
         var tipe_tindakan_id = $('#ddlTipeTindakanUpdate').val();
         var tipe_tindakan = $('#ddlTipeTindakanUpdate option:selected').text();
-        var bahan_habis_pakai = $('#txtBahanHabisPakaiUpdate').val();
         var biaya = $('#txtBiayaUpdate').val();
         var jasa_dokter = $('#txtJasaDokterUpdate').val();
         var jenis_tarif_id = $('#txtJenisTarifIdUpdate').val();
         var asuransi_id = $('#txtAsuransiIdUpdate').val();
+        var tipe_laporan_admedika_id_update = $('#tipe_laporan_admedika_id_update').val();
         var bhp_items = $('#bhp_items_update').val();
         
        console.log('jenis_tarif = ' + jenis_tarif);
        console.log('tipe_tindakan_id = ' + tipe_tindakan_id);
        console.log('tipe_tindakan = ' + tipe_tindakan);
-       console.log('bahan_habis_pakai = ' + bahan_habis_pakai);
+       console.log('tipe_laporan_admedika_id_update = ' + tipe_laporan_admedika_id_update);
        console.log('biaya = ' + biaya);
        console.log('jasa_dokter = ' + jasa_dokter);
        console.log('jenis_tarif_id = ' + jenis_tarif_id);
@@ -627,9 +634,9 @@ Klinik Jati Elok | Tarif
                   'jenis_tarif'       : jenis_tarif,
                   'tipe_tindakan_id'  : tipe_tindakan_id,
                   'biaya'             : biaya,
-                  'bahan_habis_pakai' : bahan_habis_pakai,
                   'jasa_dokter'       : jasa_dokter,
                   'bhp_items'         : bhp_items,
+                  'tipe_laporan_admedika_id'    : tipe_laporan_admedika_id,
                   'jenis_tarif_id'    : jenis_tarif_id,
                   'asuransi_id'       : asuransi_id
                 }

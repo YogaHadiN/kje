@@ -13,6 +13,7 @@ use App\Tarif;
 use App\Merek;
 use App\Asuransi;
 use App\JenisTarif;
+use App\BahanHabisPakai;
 
 class TarifsController extends Controller
 {
@@ -68,6 +69,23 @@ class TarifsController extends Controller
 			$jenis_tarif->coa_id = $coa_id;
 			$confirm = $jenis_tarif->save();
 
+			//
+			//masukkan bahan habis pakai menurut jenis_tarifnya
+			//
+			$bhp_items = Input::get('bhp_items');
+			$bhp_items = json_decode($bhp_items, true);
+		
+			$insert_bhps = [];
+			foreach ($bhp_items as $bhp) {
+				$insert_bhps[] = [
+					 'merek_id'       => $bhp['merek_id'],
+					 'jumlah'         => $bhp['jumlah'],
+					 'jenis_tarif_id' => $jenis_tarif->id,
+					 'created_at'     => date('Y-m-d H:i:s'),
+					 'updated_at'     => date('Y-m-d H:i:s')
+				];
+			}
+			BahanHabisPakai::insert($insert_bhps);
 			//masukkan tarif2 menurut asuransinya.. 
 			$asuransis = Asuransi::all();
 			$asur = [];
@@ -88,7 +106,8 @@ class TarifsController extends Controller
 			if($confirm){
                 $kembali = [
                     'id' => Tarif::latest()->first()->id,
-                    'jenis_tarif_id' =>  $jenis_tarif->id
+                    'jenis_tarif_id' =>  $jenis_tarif->id,
+                    'bhp_items' =>  JenisTarif::with('bhp.merek')->where('id', $jenis_tarif->id)->first()->bhp
                 ];
 				return json_encode($kembali);
 			} else {
@@ -183,5 +202,4 @@ class TarifsController extends Controller
 
 		return \Redirect::route('tarifs.index')->withPesan(Yoga::suksesFlash('Jenis tarif <strong>' .$jenis_tarif_id.  ' - ' .$jf->jenis_tarif. '</strong> berhasil <strong>dihapus</strong>'));
 	}
-
 }

@@ -803,7 +803,7 @@ class LaporansController extends Controller
 		$tanggal_awal = $tanggal_awal . ' ' . $jam_awal;
 		$tanggal_akhir = $tanggal_akhir . ' ' . $jam_akhir;
 		$jenis_tarifs = JenisTarif::all();
-		$query = "SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.created_at between '{$tanggal_awal}' and '{$tanggal_akhir}'  AND p.lewat_kasir = '1'";
+		$query = "SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id, p.poli as poli FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.created_at between '{$tanggal_awal}' and '{$tanggal_akhir}'  AND p.lewat_kasir = '1'";
 		$periksas = DB::select($query);
 		$query = "SELECT asu.nama , count(asuransi_id) as jumlah, asu.id as id FROM periksas as p left outer join asuransis as asu on p.asuransi_id = asu.id where p.created_at between '{$tanggal_awal}' and '{$tanggal_akhir}' group by asu.nama"; 
 		$hariinis = DB::select($query);

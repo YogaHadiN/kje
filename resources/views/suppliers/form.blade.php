@@ -2,7 +2,8 @@
     {!! Form::label('nama')!!}
     {!! Form::text('nama', null, array(
         'class'         => 'form-control',
-        'placeholder'   => 'nama'
+		'placeholder'   => 'nama',
+		'id' => 'nama_supplier'
     ))!!}
     @if ($errors->has('nama'))
         <code>{!! $errors->first('nama')!!}</code>
@@ -49,7 +50,7 @@
         <code>{!! $errors->first('pic')!!}</code>
     @endif
 </div>
-<div class="form-group">
+<div class="form-group" id="supplier_submit">
 	<button class="btn btn-primary block full-width m-b" type="button" id="dummySubmitSupplier">{{ $submit }}</button>	
     {!! Form::submit($submit, array(
         'class' => 'hide btn btn-primary block full-width m-b'

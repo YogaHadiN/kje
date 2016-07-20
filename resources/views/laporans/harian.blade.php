@@ -87,6 +87,7 @@ Klinik Jati Elok | Laporan Harian
                             <th>No</th>
                             <th>Nama Pasien</th>
                             <th>Pembayaran</th>
+                            <th>Poli</th>
                             <th>Tunai</th>
                             <th>Piutang</th>
                             <th>Action</th>
@@ -100,10 +101,11 @@ Klinik Jati Elok | Laporan Harian
                                 <td>{!! $key + 1 !!}</td>
                                 <td>{!! $periksa->nama_pasien !!}</td>
                                 <td>{!! $periksa->nama_asuransi !!}</td>
+                                <td>{!! $periksa->poli !!}</td>
                                 <td class='uang'>{!! $periksa->tunai !!}</td>
                                 <td class='uang'>{!! $periksa->piutang !!}</td>
                                 <td>
-                                    <a href="{{ url('pdfs/kuitansi/' . $periksa->periksa_id ) }}">Kuitansi</a> | 
+                                    <a href="{{ url('pdfs/kuitansi/' . $periksa->periksa_id ) }}" target="_blank">Kuitansi</a> | 
                                     <a href="{{ url('pdfs/status/' . $periksa->periksa_id ) }}" target="_blank">Resep</a> | 
                                     <a href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank">Detail</a> | 
                                     <a href="{{ url('pdfs/struk/' . $periksa->periksa_id ) }}" target="_blank">Struk</a>  
@@ -118,7 +120,7 @@ Klinik Jati Elok | Laporan Harian
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="3">Total</th>
+                            <th colspan="4">Total</th>
                             <td class="uang">{!! App\Classes\Yoga::totalTunaiHarian($periksas)!!}</td>
                             <td class="uang">{!! App\Classes\Yoga::totalPiutangHarian($periksas)!!}</td>
                         </tr>

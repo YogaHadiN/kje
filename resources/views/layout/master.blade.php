@@ -18,7 +18,7 @@
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
     
     -->
-    <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
+    <link href="{!! elixir('css/all.css') !!}" rel="stylesheet" media="screen">
 
 <link href="{!! asset('font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet">
 
@@ -229,7 +229,8 @@
             </div>
         </div>
         </div>
-            {!! HTML::script("js/all.js")!!}
+            {{--{!! HTML::script("js/all.js")!!}--}}
+    <script src="{!! elixir('js/all.js') !!}"></script>
     <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
     <script src="{!! url('js/bootstrap.min.js') !!}"></script>

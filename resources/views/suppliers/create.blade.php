@@ -43,17 +43,7 @@ Klinik Jati Elok | Daftarkan Supplier
 
  @stop
  @section('footer') 
-
-	 <script type="text/javascript" charset="utf-8">
-	 	$(function () {
-			$('#dummySubmitSupplier').click(function(){
-				if( $('input[name="nama"]').val() != '' ){
-					$('input[type="submit"]').click();
-				}
-			});
-	 	});
-	 </script>
-
+	 <script src="{{ url('js/create_supplier.js') }}"></script>
  @stop
 
 

@@ -129,6 +129,7 @@ Klinik Jati Elok | Belanja Bukan Obat
 	var base = "{{ url('/') }}";
 </script>
 <script src="{{ url('js/supplier_ajax_create.js') }}"></script>
+<script src="{{ url('js/create_supplier.js') }}"></script>
 <script>
   jQuery(document).ready(function($) {
 	if( $('#print-struk').length > 0 ){

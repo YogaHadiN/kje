@@ -365,16 +365,10 @@ Klinik Jati Elok | Belanja Obat
 {!! HTML::script('js/rak.js')!!} 
 {!! HTML::script('js/merek.js')!!} 
 {!! HTML::script('js/createForm.js')!!} 
+{!! HTML::script('js/create_supplier.js')!!} 
 <script type="text/javascript" charset="utf-8">
     var base = "{{ url('/') }}";
 	jQuery(document).ready(function($) {
-		$('#dummySubmitSupplier').click(function(){
-			if( $('#nama').val() == '' ){
-				validasi('#nama', 'Harus Disi');
-			} else {
-				$('#create_supplier input[type="submit"]').click();
-			}
-		});
 
 		$('#create_supplier input[type="submit"]').click(function(){
 			alert('submitted');

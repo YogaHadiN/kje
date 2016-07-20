@@ -99,7 +99,7 @@ class SuppliersController extends Controller
 	public function show($id)
 	{
 		$supplier = Supplier::find($id);
-		$fakturbelanjas = FakturBelanja::where('supplier_id', $id)->latest()->get();
+		$fakturbelanjas = FakturBelanja::with('belanja', 'pembelian')->where('supplier_id', $id)->latest()->get();
 		return view('suppliers.show', compact('fakturbelanjas', 'supplier'));
 	}
 

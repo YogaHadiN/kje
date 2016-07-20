@@ -60,6 +60,7 @@ Klinik Jati Elok | Supplier
       <div class="panel-heading">
             <div class="panel-title">
                 <div class="panelLeft">
+					Riwayat Pembelian
                 </div>
                 <div class="panelRight">
                 </div>
