@@ -139,7 +139,7 @@ class PeriksasController extends Controller
 
 	if(Input::get('poli') == 'usg'){
 		$usg_id = Yoga::customId('App\Usg');
-		
+
 		$usg                 = new Usg;
 		$usg->id             = $usg_id;
 		$usg->periksa_id     = $periksa_id;
@@ -404,8 +404,7 @@ class PeriksasController extends Controller
 
 	if (Input::get('poli') == 'anc' || Input::get('poli') == 'usg') {
 
-		if (RegisterHamil::where('g', Input::get('G'))->count() < 1) {
-			
+		if (RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->count() < 1) {
 			$hamil                                = new RegisterHamil;
 			$hamil->pasien_id                     = Input::get('pasien_id');
 			$hamil->nama_suami                    = Input::get('nama_suami');
@@ -429,8 +428,7 @@ class PeriksasController extends Controller
 			$hamil->tanggal_lahir_anak_terakhir   = Yoga::datePrep(Input::get('tanggal_lahir_anak_terakhir'));
 			$hamil->save();
 		} else {
-
-			$hamil                                = RegisterHamil::where('g', Input::get('G'))->first();
+			$hamil                                = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
 			$hamil->pasien_id                     = Input::get('pasien_id');
 			$hamil->nama_suami                    = Input::get('nama_suami');
 			$hamil->tb                            = Input::get('tb');

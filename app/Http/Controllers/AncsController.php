@@ -13,7 +13,6 @@ class AncsController extends Controller
 	public function show($id)
 		{
 			$periksa = Periksa::findOrFail($id);
-
 			return view('ancs.show', compact('periksa'));
 		}
 }
