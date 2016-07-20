@@ -110,44 +110,85 @@ Klinik Jati Elok | Coa belum di set
       </div>
 </div>
 
-<div class="panel panel-primary">
-      <div class="panel-heading">
-            <div class="panel-title">
-                <div class="panelLeft">
-                  <h3>Coa Pendapatan Lain</h3>
-                </div>
-            </div>
-      </div>
-      <div class="panel-body">
-            <table class="table borderless table-condensed">
-                <thead>
-                    <tr>
-                        <th class="hide field_id">id</th>
-                        <th>Pendapatan</th>
-                        <th>Petugas</th>
-                        <th>Keterangan</th>
-                        <th>Nilai</th>
-                        <th>Chart Of Account</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pendapatans as $ju)
-                        <tr>
-                          <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
-						  <td>{!! $ju->sumber_uang !!}</td>
-						  <td>{!! $ju->nama_staf !!}</td>
-                          <td>{!! $ju->keterangan !!}</td>
-                          <td class="uang">{!! $ju->nilai !!}</td>
-                          <td>
-                               {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control selectpick', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
-                          </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-      </div>
-</div>
+@if(count( $pendapatans ) > 0)
+	<div class="panel panel-primary">
+		  <div class="panel-heading">
+				<div class="panel-title">
+					<div class="panelLeft">
+					  <h3>Coa Pendapatan Lain</h3>
+					</div>
+				</div>
+		  </div>
+		  <div class="panel-body">
+				<table class="table borderless table-condensed">
+					<thead>
+						<tr>
+							<th class="hide field_id">id</th>
+							<th>Pendapatan</th>
+							<th>Petugas</th>
+							<th>Keterangan</th>
+							<th>Nilai</th>
+							<th>Chart Of Account</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						@if(count($pendapatans) > 0)
+							@foreach($pendapatans as $ju)
+								<tr>
+								  <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
+								  <td>{!! $ju->sumber_uang !!}</td>
+								  <td>{!! $ju->nama_staf !!}</td>
+								  <td>{!! $ju->keterangan !!}</td>
+								  <td class="uang">{!! $ju->nilai !!}</td>
+								  <td>
+									   {!! Form::select('coa', $pendapatanCoaList, null, ['class' => 'form-control selectpick', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
+								  </td>
+								</tr>
+							@endforeach
+						@else
+							<td class="text-center" colspan="7">Tidak ada data untuk ditampilkan :p</td>
+						@endif
+					</tbody>
+				</table>
+		  </div>
+	</div>
+@endif
+@if(count( $tindakans ) > 0)
+	<div class="panel panel-primary">
+		  <div class="panel-heading">
+				<div class="panel-title">
+					<div class="panelLeft">
+					  <h3>Coa Jenis Tarif</h3>
+					</div>
+				</div>
+		  </div>
+		  <div class="panel-body">
+				<table class="table borderless table-condensed">
+					<thead>
+						<tr>
+							<th class="hide field_id">id</th>
+							<th>Jenis Tarif</th>
+							<th>Chart Of Account</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if(count($tindakans) > 0)
+						@foreach($tindakans as $k=>$ju)
+								<tr>
+								  <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
+								  <td>{!! $ju->jenis_tarif !!}</td>
+								  <td> {!! Form::text('coa_tindakan_id', null, ['class' => 'form-control', 'onkeyup' => 'coa_tindakan_insert(this);return false;', 'key' => $k]) !!} </td>
+								</tr>
+							@endforeach
+						@else
+							<td class="text-center" colspan="7">Tidak ada data untuk ditampilkan :p</td>
+						@endif
+					</tbody>
+				</table>
+		  </div>
+	</div>
+@endif
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
 {!! Form::text('route', $route, ['class' => 'form-control']) !!}
 {!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
@@ -294,6 +335,15 @@ Klinik Jati Elok | Coa belum di set
            }
        );
    }
+
+	function coa_tindakan_insert(control){
+		 
+		var jenis_tarif_id = $(control).closest('tr').find('td:first-child').html();
+		var i = $(control).attr('data-key');
+		alert(jenis_tarif_id);
+		alert(i);
+
+	}
     
 </script>
 

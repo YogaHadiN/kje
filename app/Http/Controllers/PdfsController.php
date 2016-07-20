@@ -44,7 +44,7 @@ class PdfsController extends Controller
 		if ($periksa->asuransi_id == 32) {
 			foreach ($transaksi_before as $key => $value) {
 				if (($value['jenis_tarif_id'] == '116')) {
-					$bayarGDS = Yoga::cekGDSBulanIni($periksa->pasien_id)['bayar'];
+					$bayarGDS = Yoga::cekGDSBulanIni($periksa->pasien)['bayar'];
 				}
 			}
 			$cetak_usg = '1';

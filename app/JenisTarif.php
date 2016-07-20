@@ -24,5 +24,10 @@ class JenisTarif extends Model{
 		return $this->hasMany('App\BahanHabisPakai');
 		
 	}
+	public function bhp(){
+
+		return $this->hasMany('App\BahanHabisPakai');
+		
+	}
 
 }

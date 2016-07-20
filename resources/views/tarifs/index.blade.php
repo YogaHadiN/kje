@@ -14,7 +14,6 @@ Klinik Jati Elok | Tarif
           <strong>Tarif</strong>
       </li>
 </ol>
-
 @stop
 @section('content') 
 <input type="hidden" id="token" value="{{ Session::token() }}">
@@ -37,12 +36,11 @@ Klinik Jati Elok | Tarif
 						<th>Jenis Tarif</th>
 						<th>Tipe Tindakan</th>
                         <th >Biaya</th>
-                        <th >Dibayar Asuransi </th>
-                        <th class="hide">Jasa Dokter</th>
-                        <th class="hide">Bahan Habis Pakai</th>
+                        <th class="hide" >Dibayar Asuransi </th>
+                        <th>Jasa Dokter</th>
                         <th class="displayNone">tipe_tindakan_id</th>
+                        <th class="displayNone">tipe_laporan_admedika_id</th>
                         <th class="displayNone">bhp_items</th>
-                        <th class="displayNone">jenis_tarif_id</th>
                         <th class="displayNone">asuransi_id</th>
 						<th>Action</th>
                     </tr>
@@ -50,20 +48,18 @@ Klinik Jati Elok | Tarif
                 <tbody>
                     @foreach($tarifs as $tarif)
                         <tr>
-                            <td><div>{!!$tarif->jenis_tarif_id!!}</div></td>
-                            <td><div>{!!$tarif->jenisTarif->jenis_tarif!!}</div></td>
+                            <td class="jenis_tarif_id"><div>{!!$tarif->jenis_tarif_id!!}</div></td>
+                            <td class="jenis_tarif"><div>{!!$tarif->jenisTarif->jenis_tarif!!}</div></td>
                             @if ($tarif->tipe_tindakan_id == '1')
-                              <td> <div>Non Paket</div> </td>
+                              <td class="tipe_tindakan"> <div>Non Paket</div> </td>
                             @else
-                              <td> <div>Paket dengan Obat</div> </td>
+                              <td class="tipe_tindakan"> <div>Paket dengan Obat</div> </td>
                             @endif
-                            <td><div class="uang">{!!$tarif->biaya!!}</div></td>
-                            <td><div class="uang">{!!$tarif->dibayar_asuransi!!}</div></td>
-                            <td class="hide"><div class="uang">{!!$tarif->jasa_dokter!!}</div></td>
-                            <td class="hide"><div class="uang"></div></td>
-                            <td class="hide"><div>{!!$tarif->tipe_tindakan_id!!}</div></td>
-                            <td class="hide"><div>{!!$tarif->bhp!!}</div></td>
-                            <td class="hide"><div>{!!$tarif->jenis_tarif_id!!}</div></td>
+                            <td class="biaya"><div class="uang">{!!$tarif->biaya!!}</div></td>
+                            <td class="jasa_dokter"><div class="uang">{!!$tarif->jasa_dokter!!}</div></td>
+                            <td class="hide tipe_tindakan_id"><div>{!!$tarif->tipe_tindakan_id!!}</div></td>
+							<td class="hide tipe_laporan_admedika_id"><div>{!!$tarif->jenisTarif->tipe_laporan_admedika_id!!}</div></td>
+							<td class="hide bhp_items"><div>{!!$tarif->jenisTarif->bhp!!}</div></td>
                             <td class="hide"><div>0</div></td>
                               {!! Form::open(['url' => 'tarifs/' .$tarif->id, 'method' => 'delete'])!!}
                               <td nowrap>
@@ -100,7 +96,6 @@ Klinik Jati Elok | Tarif
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
-                    <label for="">Tipe Tindakan</label>
                     {!! Form::label('tipe_tindakan_id', 'Tipe Tindakan')!!}
                     {!! Form::select('tipe_tindakan_id', $tipeTindakans, '1', ['class' => 'form-control'])!!}
 
@@ -108,22 +103,24 @@ Klinik Jati Elok | Tarif
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
-                    {!! Form::label('bahan_habis_pakai', 'Bahan Habis Pakai')!!}
-                    {!! Form::text('bahan_habis_pakai', null, ['class' => 'form-control', 'id' => 'txtBahanHabisPakaiInsert'])!!}
+                      {!! Form::label('biaya')!!}
+                      {!! Form::text('biaya', null, ['class' => 'form-control', 'id' => 'txtBiayaInsert'])!!}
                   </div>
                 </div>
             </div>
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('biaya')!!}
-                      {!! Form::text('biaya', null, ['class' => 'form-control', 'id' => 'txtBiayaInsert'])!!}
+                  
+					<div class="form-group">
+                    {!! Form::label('jasa_dokter', 'Jasa Dokter')!!}
+                    {!! Form::text('jasa_dokter', null, ['class' => 'form-control', 'id' => 'txtJasaDokterInsert'])!!}
                   </div>
+
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
-                    {!! Form::label('jasa_dokter', 'Jasa Dokter')!!}
-                    {!! Form::text('jasa_dokter', null, ['class' => 'form-control', 'id' => 'txtJasaDokterInsert'])!!}
+                      {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika')!!}
+					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::lists('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id'])!!}
                   </div>
                 </div>
               </div>
@@ -173,11 +170,6 @@ Klinik Jati Elok | Tarif
     </div>
 </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="submitJT(); return false;" id="submitJenisTarif">Save changes</button>
-        {!! Form::submit('submit', ['class' => 'displayNone', 'id' => 'insert_jenis_tarif']) !!}
-        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelSubmitJenisTarif(); return false;">Close</button>
-      </div>
     </div>
   </div>
 </div>
@@ -210,19 +202,13 @@ Klinik Jati Elok | Tarif
                 </div>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    {!! Form::label('bahan_habis_pakai')!!}
-                    {!! Form::text('bahan_habis_pakai', null, ['class' => 'form-control', 'id' => 'txtBahanHabisPakaiUpdate'])!!}
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
                       {!! Form::label('biaya')!!}
                       {!! Form::text('biaya', null, ['class' => 'form-control', 'id' => 'txtBiayaUpdate'])!!}
                   </div>
               </div>
+            </div>
+            <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="form-group">
                       {!! Form::label('jasa_dokter')!!}
@@ -231,6 +217,12 @@ Klinik Jati Elok | Tarif
                       {!! Form::text('asuransi_id', null, ['class' => 'displayNone', 'id' => 'txtAsuransiIdUpdate'])!!}
                   </div>
               </div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  <div class="form-group">
+                      {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika')!!}
+					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::lists('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'txtTipeLaporanAdmedikaUpdate'])!!}
+                  </div>
+                </div>
             </div>
             <input type="text" id="ID_JENIS_TARIF_UPDATE" class="displayNone">
                 
@@ -275,15 +267,9 @@ Klinik Jati Elok | Tarif
                           </div>                      
                   </div>
               </div>
-    </div>
-</div>
-                                {!! Form::close()!!}
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="submitJT_update(); return false;" id="submitJenisTarifUpdate">Save changes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-
+		</div>
+	</div>
+{!! Form::close()!!}
     </div>
   </div>
 </div>
@@ -314,42 +300,39 @@ Klinik Jati Elok | Tarif
 
   function editRow(control) {
 
-        var jenis_tarif = $(control).closest('tr').find('td:nth-child(2) div').html();
-        var tipe_tindakan = $(control).closest('tr').find('td:nth-child(3) div').html();
-        var biaya = $(control).closest('tr').find('td:nth-child(4) div').html();
-        var jasaDokter = $(control).closest('tr').find('td:nth-child(6) div').html();
-        var bahanHabisPakai = $(control).closest('tr').find('td:nth-child(7) div').html();
-        var tipe_tindakan_id = $(control).closest('tr').find('td:nth-child(8) div').html();
-        var bhp_items = $(control).closest('tr').find('td:nth-child(8) div').html();
-        var jenis_tarif_id = $(control).closest('tr').find('td:nth-child(1) div').html();
+        var jenis_tarif = $(control).closest('tr').find('.jenis_tarif div').html();
+        var tipe_tindakan = $(control).closest('tr').find('.tipe_tindakan div').html();
+        var biaya = $(control).closest('tr').find('.biaya div').html();
+        var jasaDokter = $(control).closest('tr').find('.jasa_dokter div').html();
+        var tipe_tindakan_id = $(control).closest('tr').find('.tipe_tindakan_id div').html();
+        var bhp_items = $(control).closest('tr').find('.bhp_items div').html();
+        var tipe_laporan_admedika_id = $(control).closest('tr').find('.tipe_laporan_admedika_id div').html();
+        var jenis_tarif_id = $(control).closest('tr').find('.jenis_tarif_id div').html();
         var asuransi_id = '0';
 
         biaya = cleanUang(biaya);
         jasaDokter = cleanUang(jasaDokter);
-        bahanHabisPakai = cleanUang(bahanHabisPakai);
-        if(bahanHabisPakai == ''){
-            bahanHabisPakai = '0';
-        }
 
         console.log('jenis_tarif = '+ jenis_tarif);
         console.log('tipe_tindakan = ' +tipe_tindakan);
         console.log('biaya = '+ biaya);
         console.log('jasaDokter = ' + jasaDokter);
-        console.log('bahanHabisPakai = ' + bahanHabisPakai);
         console.log('tipe_tindakan_id = ' + tipe_tindakan_id);
         console.log('bhp_items + '+ bhp_items);
         console.log('jenis_tarif_id = '+ jenis_tarif_id);
         console.log('asuransi_id + ' + asuransi_id);
+        console.log('tipe_laporan_admedika_id = ' + tipe_laporan_admedika_id);
+        console.log('bhp_items = ' + bhp_items);
 
         row_index = $(control).closest('tr').index() + 1;
 
         $('#txtJenisTarifUpdate').val(jenis_tarif);
         $('#ddlTipeTindakanUpdate').val(tipe_tindakan_id);
-        $('#txtBahanHabisPakaiUpdate').val(bahanHabisPakai);
         $('#txtBiayaUpdate').val(biaya);
         $('#txtJasaDokterUpdate').val(jasaDokter);
         $('#txtJenisTarifIdUpdate').val(jenis_tarif_id);
         $('#txtAsuransiIdUpdate').val(asuransi_id);
+        $('#txtTipeLaporanAdmedikaUpdate').val(tipe_laporan_admedika_id);
 
         if(bhp_items != ''){
           dataUpdate = JSON.parse(bhp_items);
@@ -446,7 +429,7 @@ Klinik Jati Elok | Tarif
 
         for (var i = 0; i < dataUpdate.length; i++) {
           temp += '<tr>';
-          temp += '<td>' + dataUpdate[i].merek + '</td>';
+          temp += '<td>' + dataUpdate[i].merek.merek + '</td>';
           temp += '<td>' + dataUpdate[i].jumlah + '</td>';
           temp += '<td><button class="btn btn-danger btn-xs" onclick="del_upd(this); return false" value="' + i + '">hapus</button></td>';
           temp += '</tr>';

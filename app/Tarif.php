@@ -4,6 +4,7 @@
 namespace App;
 
 use DB;
+use App\BahanHabisPakai;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +15,7 @@ class Tarif extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $guarded = [];
+	protected $guarded = [ 'id' ];
 
 	public function jenisTarif(){
 
@@ -27,12 +28,6 @@ class Tarif extends Model{
 
 	}
 
-	public function getBhpAttribute(){
-
-		$select = DB::select("SELECT m.merek, b.merek_id, b.jumlah from bahan_habis_pakais as b left outer join mereks as m on b.merek_id = m.id WHERE b.jenis_tarif_id = '" . $this->jenis_tarif_id ."'");
-
-		return json_encode($select);
-	}
 	public function getJenisTarifListAttribute(){
 		return $this->jenisTarif->jenis_tarif;
 	}

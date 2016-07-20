@@ -24,7 +24,7 @@ class TarifsController extends Controller
 	 */
 	public function index()
 	{
-		$tarifs = Tarif::where('asuransi_id', '0')->get();
+		$tarifs = Tarif::with('jenisTarif.bhp.merek')->where('asuransi_id', '0')->get();
 
 		$tipeTindakans = [
 			'1' => 'Non Paket',
@@ -32,8 +32,7 @@ class TarifsController extends Controller
 			'3' => 'Paket Jasa Dokter'
 		];
 
-		$mereks = Merek::all();
-
+		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
 		return view('tarifs.index', compact('tarifs', 'tipeTindakans', 'mereks'));
 	}
 
@@ -59,29 +58,36 @@ class TarifsController extends Controller
 			{
 				return Redirect::back()->withErrors($validator)->withInput();
 			}
-
+			//coa_id didapatkan dari coa_id dari JenisTarif yang memiiki nilai paling besar lalu ditambah 1;
+			$coa_id = (int) JenisTarif::orderBy('coa_id', 'desc')->first()->id + 1;
+			//simpan JenisTarif baru;
 			$jenis_tarif = new JenisTarif;
 			$jenis_tarif->jenis_tarif = Input::get('jenis_tarif');
+			$jenis_tarif->tipe_laporan_admedika_id = Input::get('tipe_laporan_admedika_id');
+			$jenis_tarif->tipe_laporan_kasir_id = Input::get('tipe_laporan_kasir_id');
+			$jenis_tarif->coa_id = $coa_id;
 			$confirm = $jenis_tarif->save();
 
+			//masukkan tarif2 menurut asuransinya.. 
 			$asuransis = Asuransi::all();
-
+			$asur = [];
+			$timestamps = date('Y-m-d H:i:s');
 			foreach ($asuransis as $asuransi) {
-				
-				$tarif = new Tarif;
-				$tarif->biaya = Input::get('biaya'); 
-				$tarif->asuransi_id = $asuransi->id; 
-				$tarif->jenis_tarif_id = $jenis_tarif->id; 
-				$tarif->tipe_tindakan_id = Input::get('tipe_tindakan_id'); 
-				$tarif->jasa_dokter = Input::get('jasa_dokter'); 
-				$tarif->bhp_items = Input::get('bhp_items'); 
-				$tarif->save();
-
+				$asur[] = [
+					'biaya' =>  Input::get('biaya'), 
+					'asuransi_id' =>  $asuransi->id, 
+					'jenis_tarif_id' =>  $jenis_tarif->id, 
+					'tipe_tindakan_id' =>  Input::get('tipe_tindakan_id'), 
+					'jasa_dokter' =>  Input::get('jasa_dokter'), 
+					'bhp_items' =>  Input::get('bhp_items'), 
+					'created_at' =>  $timestamps, 
+					'updated_at' =>  $timestamps
+				];
 			}
-
+			$confirm = Tarif::insert($asur);
 			if($confirm){
                 $kembali = [
-                    'id' => $tarif->id,
+                    'id' => Tarif::latest()->first()->id,
                     'jenis_tarif_id' =>  $jenis_tarif->id
                 ];
 				return json_encode($kembali);
