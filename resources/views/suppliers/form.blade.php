@@ -1,7 +1,7 @@
 <div class="form-group">
     {!! Form::label('nama')!!}
     {!! Form::text('nama', null, array(
-        'class'         => 'form-control rq',
+        'class'         => 'form-control',
         'placeholder'   => 'nama'
     ))!!}
     @if ($errors->has('nama'))

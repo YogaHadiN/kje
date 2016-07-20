@@ -1998,6 +1998,13 @@ class Yoga {
 			}
 		} 
 	}
+	public static function periksa_by_asuransi($tanggal, $asuransi_id, $poli){
+		return Periksa::where('tanggal', $tanggal)->where('asuransi_id', $asuransi_id)->where('poli', $poli)->count();
+	}
+	public static function periksa_by_poli($tanggal, $poli){
+		return Periksa::where('tanggal', $tanggal)->where('poli', $poli)->count();
+	}
+	
 	    
     
 }

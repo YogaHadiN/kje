@@ -180,6 +180,7 @@ Klinik Jati Elok | Tarif
 			</div>
 		</div>
 	</div>
+	{!! Form::close()!!}
     </div>
   </div>
 </div>
@@ -203,7 +204,6 @@ Klinik Jati Elok | Tarif
                   </div>
                 </div>
             </div>
-        {!! Form::close()!!}
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
@@ -282,7 +282,7 @@ Klinik Jati Elok | Tarif
 	<div class="modal-footer">
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<button class="btn btn-primary btn-lg btn-block" type="button">Submit</button>
+				<button class="btn btn-primary btn-lg btn-block" type="button">Update</button>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<button class="btn btn-danger btn-lg btn-block" type="button" data-dismiss="modal" >Cancel</button>
