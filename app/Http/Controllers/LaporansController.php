@@ -82,12 +82,18 @@ class LaporansController extends Controller
 		$tanggal = Yoga::datePrep(Input::get('tanggal'));
 		$asuransi_id = Input::get('asuransi_id');
 		$jenis_tarifs = JenisTarif::all();
-		$periksas = DB::select("SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.tanggal like '{$tanggal}' AND p.asuransi_id like '{$asuransi_id}' AND p.lewat_kasir = '1'");
+		$periksas = DB::select("SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id, p.poli as poli FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.tanggal like '{$tanggal}' AND p.asuransi_id like '{$asuransi_id}' AND p.lewat_kasir = '1'");
 		$hariinis = DB::select("SELECT asu.nama , count(asuransi_id) as jumlah, asu.id as id FROM periksas as p left outer join asuransis as asu on p.asuransi_id = asu.id where p.tanggal = '" . $tanggal . "' AND asu.id like '" . $asuransi_id . "'  group by asu.nama" );
 
 		// return $rincian;
 		$rincian = [];
 		$sama = false;
+		$poli_id = [];
+		foreach ($periksas as $periksa) {
+			$poli_id[] = $periksa->poli;
+		}
+		$polis = array_unique($poli_id, SORT_REGULAR);
+		sort( $polis );
 		// return $periksas;
 		foreach ($periksas as $key => $px) {
 			$transaksi = $px->transaksi;
@@ -123,6 +129,7 @@ class LaporansController extends Controller
 			->withPeriksas($periksas)
 			->withRincian($rincian)
 			->withTanggal($tanggal)
+			->withPolis($polis)
 			->withJenis_tarifs($jenis_tarifs)
 			->withPiutangjumlah($piutangJumlah)
 			->withHariinis($hariinis)

@@ -35,18 +35,24 @@ Klinik Jati Elok | Daftarkan Supplier
                 "role"  => "form",
                 "method"=> "post"
             ))!!}
-                
               @include('suppliers.form', ['submit' => 'SUBMIT'])
-
             {!! Form::close() !!}
 
-        <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
 
  </div>
 
  @stop
  @section('footer') 
 
+	 <script type="text/javascript" charset="utf-8">
+	 	$(function () {
+			$('#dummySubmitSupplier').click(function(){
+				if(validatePass()){
+					$('input[type="submit"]').click();
+				}
+			});
+	 	});
+	 </script>
 
  @stop
 

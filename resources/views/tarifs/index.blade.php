@@ -170,6 +170,16 @@ Klinik Jati Elok | Tarif
     </div>
 </div>
       </div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button class="btn btn-primary btn-lg btn-block" type="button" onclick="submitJT();return false;">Insert</button>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button class="btn btn-danger btn-lg btn-block" type="button" data-dismiss="modal" onclick="">Cancel</button>
+			</div>
+		</div>
+	</div>
     </div>
   </div>
 </div>
@@ -269,10 +279,27 @@ Klinik Jati Elok | Tarif
               </div>
 		</div>
 	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button class="btn btn-primary btn-lg btn-block" type="button">Submit</button>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button class="btn btn-danger btn-lg btn-block" type="button" data-dismiss="modal" >Cancel</button>
+			</div>
+		</div>
+	</div>
 {!! Form::close()!!}
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
 @stop
 @section('footer') 
 <script>
@@ -515,9 +542,7 @@ Klinik Jati Elok | Tarif
             result = JSON.parse(result);
 
               if(result.jenis_tarif_id != '0'){
-                
                   $('#modalInsertJenisTarif').modal('hide');
-
                     var temp = '<tr>';
 
                     biaya = uang(biaya);

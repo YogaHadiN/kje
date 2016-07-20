@@ -31,9 +31,6 @@ Klinik Jati Elok | Laporan Harian
                         <thead>
                             <tr>
                                 <th>Nama Asuransi</th>
-								@foreach($polis as $poli)	
-								<th>{{ $poli }}</th>
-								@endforeach
                                 <th>Jumlah</th>
                             </tr>
                         </thead>
@@ -42,6 +39,9 @@ Klinik Jati Elok | Laporan Harian
                         @foreach ($hariinis as $hariini)
                             <tr>
                                 <td>{!! $hariini->nama !!}</td>
+								@foreach($polis as $poli)	
+								<td>{{ $poli }}</td>
+								@endforeach
                                 <td>{!! $hariini->jumlah !!}</td>
                             </tr>
                         @endforeach
