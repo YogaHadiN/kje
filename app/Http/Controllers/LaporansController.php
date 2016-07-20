@@ -850,4 +850,9 @@ class LaporansController extends Controller
 			->withHariinis($hariinis)
 			->withTunaijumlah($tunaiJumlah);
 	}
+	public function asuransi_detail($asuransi_id, $tanggal){
+		$periksas = Periksa::where("tanggal", $tanggal)->paginate(4);
+		return view('laporans.status', compact('periksas'));
+	}
+	
 }

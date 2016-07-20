@@ -467,7 +467,7 @@ Klinik Jati Elok | Home
                                         <tr>
                                             <td>{!! $hariini->nama !!}</td>
                                             <td>{!! $hariini->jumlah !!}</td>
-                                            <td><a href="{{ url('laporans/harian/harian?submit=submit&tanggal=' . date('d-m-Y') . '&asuransi_id=' . $hariini->id) }}" class="btn btn-success btn-xs">detail</a></td>
+											<td><a href="{{ url("laporans/asuransi/detail/$hariini->id/" . date('Y-m-d')) }}" class="btn btn-success btn-xs">detail</a></td>
                                         </tr>
                                     @endforeach
                                 @else 
