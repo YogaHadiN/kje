@@ -64,6 +64,8 @@ class RegisterHamil extends Model{
 		return $temp;
 
 	}
+
+	
 	public function buku(){
 		return $this->belongsTo('App\Buku');
 	}
