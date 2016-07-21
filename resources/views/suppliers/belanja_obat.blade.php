@@ -366,35 +366,33 @@ Klinik Jati Elok | Belanja Obat
 {!! HTML::script('js/merek.js')!!} 
 {!! HTML::script('js/createForm.js')!!} 
 {!! HTML::script('js/create_supplier.js')!!} 
+{{--{!! HTML::script('js/create_supplier_ajax.js')!!} --}}
 <script type="text/javascript" charset="utf-8">
     var base = "{{ url('/') }}";
 	jQuery(document).ready(function($) {
-
-		$('#create_supplier input[type="submit"]').click(function(){
-			alert('submitted');
-			$.post('{{ url("suppliers") }}', {
-						'nama' : $('#nama').val(),
-						'alamat' : $('#alamat').val(),
-						'hp_pic' : $('#hp_pic').val(),
-						'no_telp' : $('#no_telp').val()
-					}, function (data) {
-					data = $.parseJSON(data);
-					if(data.confirm == '1'){
-						var options = data.options;
-						var option = '';
-						console.log(data.options);
-						for (var i = 0; i < options.length; i++) {
-							option += '<option value="' + options[i].value + '">' + options[i].text + '</option>';
-						}
-
-						console.log(option);
-						$('#supplier_id').html(option).val(data.last_id).selectpicker('refresh');
-						$('#create_supplier').modal('hide');
+	$('#supplier_submit input[type="submit"]').click(function(){
+		$.post('{{ url("suppliers") }}', {
+					'nama' : $('#nama_supplier').val(),
+					'alamat' : $('#alamat').val(),
+					'hp_pic' : $('#hp_pic').val(),
+					'no_telp' : $('#no_telp').val()
+				}, function (data) {
+				data = $.parseJSON(data);
+				if(data.confirm == '1'){
+					var options = data.options;
+					var option = '';
+					console.log(data.options);
+					for (var i = 0; i < options.length; i++) {
+						option += '<option value="' + options[i].value + '">' + options[i].text + '</option>';
 					}
-				}
-			);
-		});
 
+					console.log(option);
+					$('#supplier_id').html(option).val(data.last_id).selectpicker('refresh');
+					$('#create_supplier').modal('hide');
+				}
+			}
+		);
+	});
 		$('#create_supplier').on('hidden.bs.modal', function(){
 			setTimeout(function(){ $('#nomor_faktur').focus(); }, 200);
 		});

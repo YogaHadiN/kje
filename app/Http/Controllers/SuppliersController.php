@@ -67,7 +67,7 @@ class SuppliersController extends Controller
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
-		}
+		} 
 
 		Supplier::create($data);
 

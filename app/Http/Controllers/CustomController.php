@@ -53,9 +53,6 @@ class CustomController extends Controller
 
 		$asuransi_id = Input::get('asuransi_id');
 		$jenis_tarif_id = Input::get('jenis_tarif_id');
-
-
-
 		$tarif = Tarif::where('jenis_tarif_id', $jenis_tarif_id)->where('asuransi_id', $asuransi_id)->first();
 
 		$tarif->biaya = Input::get('biaya');

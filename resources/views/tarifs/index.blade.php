@@ -308,7 +308,7 @@ Klinik Jati Elok | Tarif
 	$('#modalInsertJenisTarif').on('show.bs.modal', function(){
 		 $('#modalInsertJenisTarif input').val('');
 		 $('#modalInsertJenisTarif select').val('');
-		 $('#modalInsertJenisTarif textarea').val('');
+		 $('#modalInsertJenisTarif textarea').val('[]');
 		 $('#modalInsertJenisTarif #ajax1').html('');
 		 data = [];
 		 $('#modalInsertJenisTarif #tipe_tindakan_id').val('1');
