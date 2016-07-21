@@ -28,6 +28,12 @@ class Tarif extends Model{
 
 	}
 
+	public function tipeTindakan(){
+
+		return $this->belongsTo('App\TipeTindakan');
+
+	}
+
 	public function getJenisTarifListAttribute(){
 		return $this->jenisTarif->jenis_tarif;
 	}

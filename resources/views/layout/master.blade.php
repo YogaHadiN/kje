@@ -299,16 +299,7 @@
                 minViewMode: 'months'
             });
 
-//            $('.DT').dataTable({
-//                responsive: true,
-//                "dom": 'T<"clear">lfrtip',
-//                "bSort" : false,
-//                "tableTools": {
-//                    "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
-//                }
-//            });
             $('.DT').dataTable({
-                responsive: true,
                 "dom": 'T<"clear">lfrtip',
                 "bSort" : false
             });

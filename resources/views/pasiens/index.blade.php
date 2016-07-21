@@ -532,7 +532,7 @@ Klinik Jati Elok | Pasien
                     temp += "<td nowrap class='displayNone'><div>" + result[0].image + "</div></td>";
                     temp += "<td nowrap nowrap><div class='invisible'><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk periksa pasien\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "/edit\" style=\"color: ##337AB7; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk ubah data pasien\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
-                    temp += "&nbsp;&nbsp;&nbsp;<a data-value='" + MyArray[i].ID_PASIEN + "' onclick='confirmStafModal();' data-value=\"pasiens/" + result[0].id + "\" style=\"color: orange; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk melihat riwayat pasien\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>";
+                    temp += "&nbsp;&nbsp;&nbsp;<a onclick='confirmStafModal();' data-value=\"pasiens/" + result[0].id + "\" style=\"color: orange; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk melihat riwayat pasien\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>";
                    temp += "</tr>";
 
                     $('#ajax').prepend(temp);

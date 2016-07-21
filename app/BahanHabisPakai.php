@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class BahanHabisPakai extends Model{
-	protected $guarded = [];
+	protected $guarded = ['id'];
 
 
 	public function jenisTarif(){
