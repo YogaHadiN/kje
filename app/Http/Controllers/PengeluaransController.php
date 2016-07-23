@@ -517,10 +517,24 @@ class PengeluaransController extends Controller
     }
     public function erce_post(){
         //menambah modal
+		
+		$rules = [
+			'sumber_uang' => 'required',
+			'kas_masuk' => 'required',
+			'staf_id' => 'required'
+		];
+
+		$validator = \Validator::make(Input::all(), $rules);
+
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
         $modal = new Modal;
         $modal->coa_kas_id = Input::get('sumber_uang');
         $modal->modal = Input::get('kas_masuk');
         $modal->staf_id = Input::get('staf_id');
+        $modal->keterangan = Input::get('keterangan');
         $modal->save();
         
         $jurnal                  = new JurnalUmum;

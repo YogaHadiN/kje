@@ -42,16 +42,20 @@ Klinik Jati Elok | Tambah Modal
                      {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
                    </div>
                 @else
-                   <div class="form-group">
+                   <div class="form-group hide">
                      {!! Form::label('sumber_uang', 'Sumber Uang') !!}
                      {!! Form::select('sumber_uang', $sumberUangList, 110004, ['class' => 'form-control rq', 'readonly' => 'readonly']) !!}
                    </div>
                 @endif
-                
                 <div class="form-group">
                  {!! Form::label('staf_id', 'Petugas Penginput') !!}
                  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' =>'true']) !!}
                </div>
+			   <div class="form-group" @if($errors->has('keterangan')) class="has-error" @endif)>
+			     {!! Form::label('keterangan', 'Keterangan') !!}
+				 {!! Form::textarea('keterangan', null, ['class' => 'form-control textareacustom', 'placeholder' => 'Harud Diisi bila RC (Pemasukan) dan PD (Pengeluaran), bila tidak ada tidak perlu diisi']) !!}
+			     @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
+			   </div>
                <div class="form-group">
                    <button class="btn btn-success" onclick="dummySubmit();return false;" type="button">Submit</button>
                    {!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
