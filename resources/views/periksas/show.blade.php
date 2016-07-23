@@ -172,7 +172,12 @@ Klinik Jati Elok | Pasien
             </table>
   </div>
 </div>
+
+@include('obat')
 @stop
 @section('footer') 
-	
+<script type="text/javascript" charset="utf-8">
+var base = '{{ url("/") }}';
+</script>
+	{!! HTML::script('js/informasi_obat.js') !!}
 @stop

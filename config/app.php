@@ -150,7 +150,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         dogears\CrudDscaffold\GeneratorsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
+		Barryvdh\Debugbar\ServiceProvider::class,
 		GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
 
         /*

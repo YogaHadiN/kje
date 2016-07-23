@@ -71,6 +71,18 @@
 				 		{!! HTML::link('ruangperiksa/' . $periksa->poli, 'Cancel', ['class' => 'btn btn-warning btn-block'])!!}
 				 	</div>
 				 </div>
+				 @if($periksa->asuransi_id == '3')
+				 <div class="row">
+				 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				 		<div class="alert alert-danger">
+							<h1>PERHATIAN</h1>
+							<p>
+								Merujuk Pasien INHEALTH harus diberikan obat sementara, bisa berupa vitamin bila bingung obat apa yang ingin diberikan
+							</p>
+				 		</div>
+				 	</div>
+				 </div>
+				 @endif
 				 @if($delete)
 				 <br>
 					<div class="row">

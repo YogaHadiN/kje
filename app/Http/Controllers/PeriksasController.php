@@ -308,22 +308,22 @@ class PeriksasController extends Controller
 	public function update($id)
 	{
 		// return var_dump(Input::all());
-
 		$periksa = Periksa::find($id);
+
 		//Buat collection tabel asuransi
+		//
 		$asuransi = Asuransi::find(Input::get('asuransi_id'));
+
 		//UBAH RESEP MENURUT JENIS ASURANSI
 		//sebelum terapi dimasukkan ke dalam periksa, obat harus disesuaikan dahulu, menurut asuransi nya.
 		// untuk asuransi BPJS, obat akan dikonversi ke dalam merek yang paling murah yang memiliki formula yang sama
 		// untuk asuransi admedika, obat akan dikonversi ke dalam merek paling mahal dalam formula yang sama
 		$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
+
 		//sesuaikan Transaksi
 		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis);
 	
 		// INPUT DATA PERIKSA FINAL!!!!!
-
-		// 
-        //
         
 		$periksa->anamnesa 				= Input::get('anamnesa');
 		$periksa->asuransi_id 			= $asuransi->id;
@@ -345,8 +345,7 @@ class PeriksasController extends Controller
 		$terapis = json_decode($terapis, true);
 
 		$terapiEx = Terapi::where('periksa_id', $id)->get();
-		// return $terapiEx;
-		// return $terapis;
+
 		$hapus = true;
 		foreach ($terapiEx as $k => $tEx) {
 			foreach ($terapis as $key => $value) {
@@ -404,7 +403,7 @@ class PeriksasController extends Controller
 
 	if (Input::get('poli') == 'anc' || Input::get('poli') == 'usg') {
 
-		if (RegisterHamil::where('g', Input::get('G'))->count() < 1) {
+		if (RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->count() < 1) {
 			
 			$hamil                                = new RegisterHamil;
 			$hamil->pasien_id                     = Input::get('pasien_id');
@@ -430,7 +429,7 @@ class PeriksasController extends Controller
 			$hamil->save();
 		} else {
 
-			$hamil                                = RegisterHamil::where('g', Input::get('G'))->first();
+			$hamil                                = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
 			$hamil->pasien_id                     = Input::get('pasien_id');
 			$hamil->nama_suami                    = Input::get('nama_suami');
 			$hamil->tb                            = Input::get('tb');

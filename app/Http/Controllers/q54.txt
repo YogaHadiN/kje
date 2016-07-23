@@ -1,0 +1,3 @@
+delete from tujuan_rujuks where id=70;
+update rujukans set tujuan_rujuk_id=24 where tujuan_rujuk_id=70;
+update fasilitas set tujuan_rujuk_id=24 where tujuan_rujuk_id=70;

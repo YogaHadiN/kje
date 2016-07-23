@@ -50,8 +50,7 @@ Klinik Jati Elok | Buat Rujukan
 <script>
 var base = '{{ url("/") }}';
 var asuransi_id = '{{$periksa->asuransi_id}}';
-var tujuan_rujuk_tags = '{!! $tujuan_rujuks !!}';
-tujuan_rujuk_tags = $.parseJSON(tujuan_rujuk_tags);
+var tujuan_rujuk_tags = {!! $tujuan_rujuks !!};
 </script>
   {!! HTML::script('js/rujukan.js')!!}
 <script src="{{ url('js/uk.js') }}" type="text/javascript"></script>
