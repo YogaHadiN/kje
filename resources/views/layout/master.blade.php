@@ -137,8 +137,8 @@
                             <li>{!! HTML::link('laporan_neracas', 'Laporan Neraca')!!}</li>
                         </ul>
                      </li>
-                     <li>
 					@endif
+                     <li>
                         <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">Transaksi Kasir</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('no_sales', 'No Sales')!!}</li>

@@ -22,7 +22,7 @@ Klinik Jati Elok | Tambah Modal
     </div>
 @endif
 <div class="row">
-    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-title">Form Tambah Modal</div>
@@ -53,7 +53,7 @@ Klinik Jati Elok | Tambah Modal
                </div>
 			   <div class="form-group" @if($errors->has('keterangan')) class="has-error" @endif)>
 			     {!! Form::label('keterangan', 'Keterangan') !!}
-				 {!! Form::textarea('keterangan', null, ['class' => 'form-control textareacustom', 'placeholder' => 'Harud Diisi bila RC (Pemasukan) dan PD (Pengeluaran), bila tidak ada tidak perlu diisi']) !!}
+				 {!! Form::textarea('keterangan', null, ['class' => 'form-control textareacustom', 'placeholder' => 'Harus diisi kalau RC - PD, pemasukan dan pengeluaran, karena di bayar oleh pak yoga.. Ini pengeluarannya buat apa?']) !!}
 			     @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
 			   </div>
                <div class="form-group">
@@ -65,9 +65,7 @@ Klinik Jati Elok | Tambah Modal
            </div>
        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">Daftar Masuk Modal</div>
@@ -99,7 +97,7 @@ Klinik Jati Elok | Tambah Modal
                 <?php echo $modals->appends(Input::except('page'))->links(); ?>
             </div>
         </div>
-    </div>
+	</div>
 </div>
 @stop
 @section('footer') 

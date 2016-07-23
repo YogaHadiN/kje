@@ -119,13 +119,46 @@ Klinik Jati Elok | Checkout Kasir
                           </tfoot>
                       </table>
                   </div>
-                  
               </div>
           </div>
-          
       </div>
-
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+		<div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">Pemasukan Modal</div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th> 
+                                <th>Nilai</th>
+                                <th>Sumber Uang</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($modals as $trx)
+                                <tr>
+									<td>{!! $trx->created_at->format('d-m-Y') !!}</td>        
+									<td class="uang">{!! $trx->modal !!}</td>        
+									<td>{!! $trx->coa->coa !!}</td>        
+                                    <td> <a href='#' class="btn btn-info btn-xs">Detail</a> </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"><h3>Semua Modal Masuk</h3></td>        
+                                <td><h3 class="uang">{{ $totalModal }}</h3></td>
+                                <td> <a href='#' class="btn btn-info btn-xs">Detail</a> </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="panel panel-danger">
             <div class="panel-heading">
                 <div class="panel-title">Penerimaan Kas di Kasir</div>
@@ -178,8 +211,8 @@ Klinik Jati Elok | Checkout Kasir
                                 <tr>
                                     <th>Tanggal</th>
                                     <th>Jam</th>
-                                    <thbModal Awal</th>
-                                  <th>Uang Keluar</th>
+									<th>Modal Awal</th>
+                                    <th>Uang Keluar</th>
                                     <th>Uang Masuk</th>
                                     <th>Uang di Kasir</th>
                                     <th>Action</th>

@@ -214,23 +214,7 @@ class PdfsController extends Controller
     }
     public function notaz($checkout_kasir_id){
         $notaz = CheckoutKasir::find($checkout_kasir_id);
-        //return $notaz;
-        //return $notaz->checkoutDetail;
-
-        //return $notaz;
-        //return $notaz->checkoutDetail;
-        //$errors = [];
-        //foreach ($notaz->checkoutDetail as $n) {
-            //try {
-                
-                //$n->jenisTarif;
-            //} catch (\Exception $e) {
-                //$errors[] = $n->id;
-            //}
-        //}
-        //return $errors;
         $detils = json_decode( $notaz->detil_pengeluarans, true );
-        //return $detils;
         $pengeluarans = JurnalUmum::whereIn('id', $detils)->get();
         $total_nilai = 0;
         foreach ($notaz->checkoutDetail as $cd) {

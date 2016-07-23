@@ -326,18 +326,28 @@ class PengeluaransController extends Controller
     }
     
     public function nota_z(){
+
         $checkout = CheckoutKasir::latest()->first();
+
         $tanggal = $checkout->created_at;
+
         $jurnal_umum_id = $checkout->jurnal_umum_id;
+
         $tindakans = [];
+
+		$modals = Modal::where('created_at', '>', $tanggal)->get();
+
+		$totalModal = 0;
+		foreach ($modals as $modal) {
+			$totalModal += $modal->modal;
+		}
+
         $pengeluarans = JurnalUmum::with('jurnalable')->where('coa_id', 110000)
                                     ->where('debit', '0')
                                     ->where('created_at', '>=', $tanggal)
                                     ->where('jurnalable_type', 'not like', 'App\\\CheckoutKasir')
                                     ->get();
-		//return dd( $pengeluarans );
-		//return $pengeluarans[2]->jurnalable_type;
-		//return $pengeluarans[2]->staf['nama'];
+
         $totalPengeluarans = 0;
         foreach ($pengeluarans as $peng) {
             $totalPengeluarans += $peng->nilai;
@@ -401,27 +411,25 @@ class PengeluaransController extends Controller
         foreach ($table as $trx) {
             $totalPemasukan += $trx['nilai'];
         }
-        return view('pengeluarans.notaz', compact('checkouts', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id', 'pengeluarans', 'totalPengeluarans', 'totalPemasukan'));
+        return view('pengeluarans.notaz', compact('checkouts', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id', 'pengeluarans', 'totalPengeluarans', 'totalPemasukan', 'modals', 'totalModal'));
     }
     public function notaz_post(){
-        //return $table;
-
+		// mereturn Checkout yang terakhir
         $last_chekcout = CheckoutKasir::latest()->first();
         $table = $this->table($last_chekcout);
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal = $last_chekcout->created_at;
-        //return 'jurnal umum terakhir id = ' .$jurnal_umum_id_last_cehckout;
-        //Modal awal dihitung dari id jurnal umum terakhir checkout
         $jurnal_umums = JurnalUmum::where('id', '>=', $jurnal_umum_id_last_cehckout)
                         ->where('jurnalable_type', 'App\Modal')
-                        ->get();
+                        ->get(['id', 'jurnalable_type', 'coa_id', 'debit']);
         $modal_awal = 0;
         foreach ($jurnal_umums as $ju) {
             if (
                 $ju->debit == 0 && 
-                ($ju->coa_id == 301000 || $ju->coa_id == 110004)
-            ) {
+                ($ju->coa_id == 301000 || $ju->coa_id == 110004) //301000 adalah Modal, 110004 adalah kas di tangan
+			) 
+			{
                $modal_awal +=  $ju->nilai;
             }
         }
@@ -437,6 +445,7 @@ class PengeluaransController extends Controller
         $uang_keluars = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
                                 ->where('coa_id', 110000) 
                                 ->where('jurnalable_type', '!=', 'App\Modal')
+                                ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
                                 ->where('debit', '0')
                                 ->get();
         $total_uang_keluar = 0;
@@ -453,12 +462,13 @@ class PengeluaransController extends Controller
         $pengeluarans = JurnalUmum::where('coa_id', 110000)
                                     ->where('debit', '0')
                                     ->where('created_at', '>=', $tanggal)
-                                    ->where('jurnalable_type', 'not like', 'App\\\CehckoutKasir')
+                                    ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
                                     ->get(['id']);
         $detail_pengeluarans = [];
         foreach ($pengeluarans as $peng) {
             $detail_pengeluarans[] = $peng->id;
         } 
+	
         $detail_pengeluarans = json_encode( $detail_pengeluarans );
         //pindahkan semua kas di kasir menjadi kas di tangan
         $new_z = new CheckoutKasir;
@@ -503,7 +513,10 @@ class PengeluaransController extends Controller
         }
         //tambah semua komponen yang masuk kas, retrieve semua last id nya
         $pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
-        return redirect('pengeluarans/nota_z')->withPesan($pesan)->withPrint($new_z->id);
+		return redirect('pengeluarans/nota_z')
+			->withPesan($pesan)
+			->withModals($modals)
+			->withPrint($new_z->id);
     }
 
     public function erce(){
