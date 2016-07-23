@@ -6,7 +6,7 @@ use Input;
 
 use App\Http\Requests;
 
-use App\Rumahsakit;
+use App\RumahSakit;
 use App\Fasilitas;
 use App\BpjsCenter;
 use App\Classes\Yoga;

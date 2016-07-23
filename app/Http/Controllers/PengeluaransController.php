@@ -64,6 +64,7 @@ class PengeluaransController extends Controller
 			'staf_id'			=> 'required',
 			'supplier_id'			=> 'required',
 			'nilai'			=> 'required',
+			'tanggal'			=> 'required|date_format:d-m-Y',
 			'keterangan'			=> 'required'
 		];
 		$validator = \Validator::make($data = Input::all(), $rules, $messages);
@@ -74,12 +75,14 @@ class PengeluaransController extends Controller
 		$staf_id = Input::get('staf_id');
 		$supplier_id = Input::get('supplier_id');
 		$nilai		 = Input::get('nilai');
+		$tanggal		 = Input::get('tanggal');
 		$keterangan = Input::get('keterangan');
 
 		$peng = new Pengeluaran;
 		$peng->staf_id = $staf_id;
 		$peng->supplier_id = $supplier_id;
 		$peng->nilai = $nilai;
+		$peng->tanggal = Yoga::datePrep( $tanggal );
 		$peng->keterangan = $keterangan;
 		$confirm = $peng->save();
 		if ($confirm) {

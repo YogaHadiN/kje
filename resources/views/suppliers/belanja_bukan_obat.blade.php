@@ -49,6 +49,11 @@ Klinik Jati Elok | Belanja Bukan Obat
                            {!! Form::text('nilai' , null, ['class' => 'form-control rq']) !!}
 						</div>
                     </div>
+					<div class="form-group" @if($errors->has('tanggal')) class="has-error" @endif)>
+					  {!! Form::label('tanggal', 'Tanggal') !!}
+					  {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
+					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+					</div>
 					<div class="form-group">
                       {!! Form::label('keterangan', 'Uangnya Dipakai Buat apa') !!}
                       {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom']) !!}

@@ -852,7 +852,7 @@ class LaporansController extends Controller
 	}
 	public function asuransi_detail($asuransi_id, $tanggal){
 		$periksas = Periksa::where("tanggal", $tanggal)->paginate(4);
-		return view('laporans.status', compact('periksas'));
+		return view('laporans.lebih_detail.harian_per_asuransi', compact('periksas'));
 	}
 	
 }
