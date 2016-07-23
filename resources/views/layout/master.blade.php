@@ -74,6 +74,7 @@
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
+                            <li>{!! HTML::link('coas', 'Daftar Chart Of Acount')!!}</li>
                         </ul>
                     </li>
                     <li>

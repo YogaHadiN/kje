@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
-
 use App\Coa;
 
 class CoasController extends Controller
@@ -18,8 +16,7 @@ class CoasController extends Controller
 	 */
 	public function index()
 	{
-		$coas = Coa::all();
-
+		$coas = Coa::with('kelompokCoa')->latest()->paginate(10);
 		return view('coas.index', compact('coas'));
 	}
 

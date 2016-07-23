@@ -11,6 +11,7 @@ use App\Classes\Yoga;
 
 use App\Tarif;
 use App\Merek;
+use App\Coa;
 use App\Asuransi;
 use App\JenisTarif;
 use App\BahanHabisPakai;
@@ -60,7 +61,16 @@ class TarifsController extends Controller
 				return Redirect::back()->withErrors($validator)->withInput();
 			}
 			//coa_id didapatkan dari coa_id dari JenisTarif yang memiiki nilai paling besar lalu ditambah 1;
-			$coa_id = (int) JenisTarif::orderBy('coa_id', 'desc')->first()->id + 1;
+			$coa_id = (int) Coa::where('id', 'like', '4%')->orderBy('id', 'desc')->first()->id + 1;
+
+			
+			$c = new Coa;
+			$c->id = $coa_id;
+			$c->kelompok_coa_id = '4';
+			$c->coa = 'Pendapatan ' . Input::get('jenis_tarif');
+			$c->save();
+
+
 			//simpan JenisTarif baru;
 			$jenis_tarif = new JenisTarif;
 			$jenis_tarif->jenis_tarif = Input::get('jenis_tarif');

@@ -145,6 +145,8 @@ Route::get('sesuaikan/cek', function(){
 
 			Route::get('asuransis/riwayat/{id}', 'AsuransisExtraController@riwayat');
 
+			Route::get('coas', 'CoasController@index');
+
 			Route::get('rumahsakits', 'RumahSakitsController@index'); //penjualan obat tanpa resep
 			Route::get('rumahsakits/{id}', 'RumahSakitsController@show'); //penjualan obat tanpa resep
 			Route::put('rumahsakits/{id}', 'RumahSakitsController@update'); //penjualan obat tanpa resep
