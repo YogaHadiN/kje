@@ -379,13 +379,13 @@
                                                 Plafon obat yang bisa digunakan sekarang : <span class="strong" id="plafon"> {!! $plafon['plafon'] !!}</span>
                                             </li>
                                             <li>
-                                                Jumlah Pasien {{ $antrianperiksa->asuransi->nama }} saat ini : <strong>{{ $plafon['kunjungan'] }}</strong>
+                                                Jumlah Pasien {{ $antrianperiksa->asuransi->nama }} saat ini : <strong class="uang">{{ $plafon['kunjungan'] }}</strong>
                                             </li>
                                             <li>
-                                                Jumlah Dibayar Tunai {{ $antrianperiksa->asuransi->nama }} saat ini : <strong>{{ $plafon['tunai'] }}</strong>
+                                                Jumlah Dibayar Tunai {{ $antrianperiksa->asuransi->nama }} saat ini : <strong class="uang">{{ $plafon['tunai'] }}</strong>
                                             </li>
                                             <li>
-                                                Jumlah Utilisasi Obat {{ $antrianperiksa->asuransi->nama }} saat ini : <strong>{{ $plafon['utilisasi'] }}</strong>
+                                                Jumlah Utilisasi Obat {{ $antrianperiksa->asuransi->nama }} saat ini : <strong class="uang">{{ $plafon['utilisasi'] }}</strong>
                                             </li>
                                         </ul>
                                     </div>

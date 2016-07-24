@@ -1016,7 +1016,8 @@ class Yoga {
 				//di loop untuk pemeriksaan bulan ini
 				// 
 				
-				$periksaFlatBulanIni  = Periksa::where('asuransi_id', $asuransi->id)->where('tanggal', 'like', date('Y-m') . '%')->get();
+				$periksaFlatBulanIni  = Periksa::with('terapii')->where('asuransi_id', $asuransi->id)->where('tanggal', 'like', date('Y-m') . '%')->get();
+				$sisaPlafonInhealth = Tarif::where('asuransi_id', '3')->where('jenis_tarif_id', '1')->first()->biaya;						
 				foreach ($periksaFlatBulanIni as $key => $pxBulanIni) {
 					
 					//
@@ -1031,7 +1032,7 @@ class Yoga {
 					}
 
 					if ($terapiArray->count() == '0' && $asuransi->id == '3') {
-						$sisaPlafon += Tarif::where('asuransi_id', '3')->where('jenis_tarif_id', '1')->first()->biaya;						
+						$sisaPlafon += $sisaPlafonInhealth;
 					} else {
 						//misalcya obat pasien 20 ribu, plafon obat 30 ribu
 						//plafon jasa dokter 30 rb

@@ -123,6 +123,12 @@
    </div>
         </div><!-- end panel body -->
     </div><!-- end panel primary -->
+	@if($antrianperiksa->asuransi_id == '3') 
+		<div class="alert alert-danger">
+			<h2>Perhatian</h2>
+			<p>Untuk Pasien Inhealth, harap memberikan obat walaupun sedikit, bila pasien dirujuk dan tidak perlu obat, berikan Vitamin saja.. </p>
+		</div>
+	@endif
     <div class="alert alert-info">
         Bila resep error tidak bisa dimasukkan, click tombol <strong><a href="#" onclick="$('#clear_resep').click(); return false;">Clear</a></strong>, untuk menghapus resep, lalu masukkan ulang resep, atau kalau tidak bisa juga tekan tombol <strong> Ctrl + F5</strong>, lalu ketik ulang status
     </div>

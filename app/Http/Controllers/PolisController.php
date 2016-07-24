@@ -127,12 +127,11 @@ class PolisController extends Controller
         if($asuransi_id == '32'){
             $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenisbpjs', 'tarif_jual')->toArray();
         }else{
-
             $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->toArray();
         }
-		$cekGdsBulanIni = Yoga::cekGDSBulanIni($antrianperiksa->pasien); // this return true
+		$cekGdsBulanIni = Yoga::cekGDSBulanIni($antrianperiksa->pasien); 
 		if ($asuransi_id == '32') {
-			if (!$cekGdsBulanIni['bayar']) { // tapi yang ini error; KOK BISA??
+			if (!$cekGdsBulanIni['bayar']) { 
 				foreach ($tindakans as $key => $tindakan) {
 					if ($key !== '') {
 						$Array = json_decode($key, true);
@@ -152,6 +151,7 @@ class PolisController extends Controller
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
 			$transaksi = $periksaExist->transaksi;
 			$transaksi = json_decode($transaksi, true);
+
 			for ($i = count($transaksi)-1; $i >= 0; $i--) {
 				if(
 					$transaksi[$i]['jenis_tarif'] == 'Jasa Dokter' ||
@@ -161,6 +161,7 @@ class PolisController extends Controller
 					array_splice($transaksi, $i, 1);
 				}
 			}
+
 			$periksaExist->transaksi = json_encode($transaksi);
 
 			//CEK APAKAH SUDAH PERIKSA GDS BULAN INI
@@ -169,7 +170,6 @@ class PolisController extends Controller
 				$g = $periksaExist->registerAnc->registerHamil->g;
 				$p = $periksaExist->registerAnc->registerHamil->p;
 				$a = $periksaExist->registerAnc->registerHamil->a;
-
 
 				$uk                            = $periksaExist->registerAnc->registerHamil->uk;
 				$tb                            = $periksaExist->registerAnc->registerHamil->tb;
