@@ -1867,12 +1867,24 @@ class Yoga {
 	}
 
 
-	public static function cekGDSBulanIni($pasien){
+	public static function cekGDSBulanIni($pasien, $periksaIni){
 		$sudahBulanIni = false;
 		$bayar = false;
 		$dikasihObatGula = false;
 		$tanggal = '';
-		$periksas = Periksa::with('transaksii')->where('pasien_id', $pasien->id)->where('tanggal', 'like', date('Y-m') . '%')->get();
+		$created_at = '';
+		if ($periksaIni != null) {
+			$periksas = Periksa::with('transaksii')
+				->where('pasien_id', $pasien->id)
+				->where('tanggal', 'like', date('Y-m') . '%')
+				->where('id', '<', $periksaIni->id)
+				->get();
+		} else {
+			$periksas = Periksa::with('transaksii')
+				->where('pasien_id', $pasien->id)
+				->where('tanggal', 'like', date('Y-m') . '%')
+				->get();
+		}
 		foreach ($periksas as $k => $v) 
 		{
 			foreach ($v->transaksii as $key => $value) {
@@ -1880,6 +1892,7 @@ class Yoga {
 			 		$bayar = true;
 			 		$sudahBulanIni = true;
 			 		$tanggal = $v->tanggal;
+			 		$created_at = $v->created_at;
 			 		break;
 			 	}
 			 }
@@ -1912,7 +1925,7 @@ class Yoga {
 			];
 	}
 
-	public static function pakaiBayarPribadi($asuransi_id, $pasien_id, $periksa){
+	public static function pakaiBayarPribadi($asuransi_id, $pasien_id, $pemeriksaanTerakhir = null){
 		$pakai_bayar_pribadi = false;
 		if ($asuransi_id == '32')  {
 			//cek pemeriksaan dalam 3 minggu terakhir yang memakai biaya pribadi
@@ -1923,7 +1936,6 @@ class Yoga {
 
 			//Cek Pemeriksaan terakhir
 			//
-			$pemeriksaanTerakhir = $periksa;
 			if($pemeriksaanTerakhir != null){
 				if ($pemeriksaanTerakhir->asuransi_id == '32') {
 					$periksaTerakhirGakPakaiBPJS = false;

@@ -129,7 +129,9 @@ class PolisController extends Controller
         }else{
             $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->toArray();
         }
-		$cekGdsBulanIni = Yoga::cekGDSBulanIni($antrianperiksa->pasien); 
+		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
+		$cekGdsBulanIni = Yoga::cekGDSBulanIni($antrianperiksa->pasien, $periksaExist); 
+
 		if ($asuransi_id == '32') {
 			if (!$cekGdsBulanIni['bayar']) { 
 				foreach ($tindakans as $key => $tindakan) {
@@ -143,10 +145,10 @@ class PolisController extends Controller
 				}
 			}
 		}
+
 		$keterangan     = \Cache::remember('keterangan', 60, function(){
 			return Asuransi::find(32);
 		});
-		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
 		if($periksaExist != null){
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
 			$transaksi = $periksaExist->transaksi;
@@ -223,9 +225,6 @@ class PolisController extends Controller
 				$flw			= $periksa->usg->flw;
 				$fld			= $periksa->usg->fld;
 				$sex			= $periksa->usg->sex;
-				$plasenta		= $periksa->usg->plasenta;
-				$ica			= $periksa->usg->ica;
-				$kesimpulan		= $periksa->usg->kesimpulan;
 				$saran			= $periksa->usg->saran;
 			} else {
 				$presentasi		= null;

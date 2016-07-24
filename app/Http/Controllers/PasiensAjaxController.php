@@ -169,18 +169,22 @@ class PasiensAjaxController extends Controller
 	{
 
 		$pasien_id   = Input::get('pasien_id');
-		$asuransi_id = Pasien::find($pasien_id)->asuransi_id;
-		$tanggal = Yoga::cekGDSBulanIni($pasien_id)['tanggal'];
+		$pasien = Pasien::find($pasien_id);
+		$asuransi_id = $pasien->asuransi_id;
+		$cekGDSBulanIni = Yoga::cekGDSBulanIni($pasien, null);
+		$tanggal = $cekGDSBulanIni['tanggal'];
+		$pemeriksaanTerakhir = Periksa::where('pasien_id', $pasien_id)->latest()->first();
+		$pakaiBayarPribadi = Yoga::pakaiBayarPribadi($asuransi_id, $pasien_id, $pemeriksaanTerakhir);
 
 
 		if(
-			Yoga::pakaiBayarPribadi($asuransi_id, $pasien_id) &&
-			Yoga::cekGDSBulanIni($pasien_id)['bayar'])
+			$pakaiBayarPribadi	 &&
+			$cekGDSBulanIni['bayar'])
 		{
 			$kembali = ['kode' => '3', 'tanggal' => $tanggal];
-		} elseif(Yoga::pakaiBayarPribadi($asuransi_id, $pasien_id)){
+		} elseif($pakaiBayarPribadi){
 			$kembali = ['kode' => '2', 'tanggal' => $tanggal];
-		} elseif(Yoga::cekGDSBulanIni($pasien_id)['bayar']) {
+		} elseif($cekGDSBulanIni['bayar']) {
 			$kembali = ['kode' => '1', 'tanggal' => $tanggal];
 		} else {
 			$kembali = ['kode' => '0', 'tanggal' => $tanggal];
