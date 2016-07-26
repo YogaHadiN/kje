@@ -136,7 +136,6 @@ class PembeliansController extends Controller
 
 				$rak_id = Merek::find($dt['merek_id'])->rak_id;
 				$query = "SELECT *, p.exp_date as expiry FROM pembelians as p left join mereks as m on m.id=p.merek_id join raks as r on r.id=m.rak_id where r.id='{$rak_id}' AND p.exp_date > '" . date('Y-m-d') . "' order by p.exp_date asc;";
-				// return $query;
 				if (count(DB::select($query)) > 0) {
 					$exp_date = DB::select($query)[0]->expiry;
 				} else {
@@ -305,31 +304,27 @@ class PembeliansController extends Controller
 
 	public function update($id)
 	{
-		$data = Input::get('tempBeli');
-        //return dd( Input::all() );
+		$data = Input::get('tempBeli'); // data penjualan dalam bentuk Json
 
-		$data = json_decode($data, true);
-        //return dd($data);
-        //return dd($data);
+		$data = json_decode($data, true); // convert data transaksi ke php array
+
 		$arrayHapus = '';
 
 		$faktur_belanja_id = $id;
+
 		$faktur_belanja = FakturBelanja::find($faktur_belanja_id);
-		$dataBefore = Input::get('tempBefore');
-		$dataBefore = json_decode($dataBefore, true);
-        //return dd([ $dataBefore, $data ]);
-		Dispensing::where('dispensable_id', Input::get('faktur_belanja_id'))->where('dispensable_type', 'FakturBelanja')->delete();
+		$dataBefore = Input::get('tempBefore'); // data sebelum di update
+		$dataBefore = json_decode($dataBefore, true); // convert data transaksi sebelum di update ke php array
 
 		foreach ($dataBefore as $key => $db) {
 			$hapus = true;
 			foreach ($data as $k => $da) {
 				if ($db['id'] == $da['id']) {
-					$hapus = false;					
+					$hapus = false;			// jika id yang sama ditemukan di data transaksi sebelumnya, jangan dihapus		
 					break;
 				}
 			}
 			if ($hapus) {
-                //return $da['id'];
 				$arrayHapus[] = $db['id'];
                 //ambil pembelian yang mau dihapus
                 $pembelian = Pembelian::find($db['id']);
@@ -341,23 +336,19 @@ class PembeliansController extends Controller
                 $rak = Rak::find($rak_id);
                 $rak->stok = $rak->stok - $jumlah;
                 $rak->save();
-                //hapus dispensable id
-                $dispensing = Dispensing::where('dispensable_type', 'App\Pembelian')
-                    ->where('dispensable_id', $db['id'])
-                    ->delete();
+                //hapus dispensable id nanti dengan menggunakan arrayHapus
 			}
 		}
 
-         //return dd([ $arrayHapus, $data ]);
+		//Hapus dispensing dan pembelian yang mau dihapus
+		Dispensing::where('dispensable_type', 'App\Pembelian')
+			->whereIn('dispensable_id', $arrayHapus)
+			->delete();
 		Pembelian::destroy($arrayHapus);
 
-		$err = [];
-
 		foreach ($data as $k => $dt) {
-            //return $dt;
 			$rak_id = Merek::find($dt['merek_id'])->rak_id;
 			$rak    = Rak::find($rak_id);
-			// return $rak_id;
 			$query = "SELECT *, p.exp_date as expiry FROM pembelians as p left join mereks as m on m.id=p.merek_id join raks as r on r.id=m.rak_id where r.id='{$rak_id}' AND p.exp_date > '" . date('Y-m-d') . "' order by p.exp_date asc;";
 
 			if (count(DB::select($query)) > 0) {
@@ -368,6 +359,7 @@ class PembeliansController extends Controller
 
 			if($dt['id'] == null){
 
+				$pembelian_id = Yoga::customId('App\Pembelian');
 				$pb = new Pembelian;
 				$pb->exp_date = $dt['exp_date'];
 				$pb->harga_beli = $dt['harga_beli'];
@@ -376,25 +368,24 @@ class PembeliansController extends Controller
 				$pb->merek_id = $dt['merek_id'];
 				$pb->harga_naik = $dt['harga_berubah'];
 				$pb->jumlah = $dt['jumlah'];
-				$pb->id = Yoga::customId('App\Pembelian');
+				$pb->id = $pembelian_id;
 				$confirm = $pb->save();
 
 				$stok_update = (int)Merek::find($dt['merek_id'])->rak->stok + (int)$dt['jumlah'];
-				if ($confirm) {
-					$rak->stok       = $stok_update;
-					$rak->harga_beli = $dt['harga_beli'];
-					$rak->harga_jual = $dt['harga_jual'];
-					if ($rak->exp_date > $exp_date) {
-					$rak->exp_date   = $exp_date;
-					}
+
+				$rak->stok       = $stok_update;
+				$rak->harga_beli = $dt['harga_beli'];
+				$rak->harga_jual = $dt['harga_jual'];
+				if ($rak->exp_date > $exp_date) {
 					$rak->exp_date   = $exp_date;
 				}
+				$rak->save();
 
 				$db          = new Dispensing;
 				$db->tanggal = $faktur_belanja->tanggal;
 				$db->rak_id  = $rak_id;
 				$db->masuk   = $dt['jumlah'];
-				$db->dispensable_id  = $faktur_belanja_id;
+				$db->dispensable_id  = $pembelian_id;
 				$db->dispensable_type  = 'App\Pembelian';
 				$db->id      = Yoga::customId('App\Dispensing');
 				$db->save();
@@ -424,16 +415,12 @@ class PembeliansController extends Controller
 				}
 
 				$db                    = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $dt['id'])->first();
-				if ($db == null) {
-					$err[] = $dt['merek'];
-				}
-				//$db->masuk             = $dt['jumlah'];
-				//$db->save();
+				$db->masuk             = $dt['jumlah'];
+				$db->save();
 			}
 			$rak->save();
 		}
 
-		return $err;
 		if ($confirm) {
 			$supplier = FakturBelanja::find($faktur_belanja_id)->supplier->nama;
 
