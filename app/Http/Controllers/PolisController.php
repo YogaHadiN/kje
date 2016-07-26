@@ -222,6 +222,10 @@ class PolisController extends Controller
 				$acw			= $periksa->usg->acw;
 				$acd			= $periksa->usg->acd;
 				$efwd			= $periksa->usg->efwd;
+				$efwd			= $periksa->usg->efwd;
+				$plasenta		= $periksa->usg->plasenta;
+				$ica		= $periksa->usg->ica;
+				$kesimpulan		= $periksa->usg->kesimpulan;
 				$flw			= $periksa->usg->flw;
 				$fld			= $periksa->usg->fld;
 				$sex			= $periksa->usg->sex;
