@@ -13,6 +13,7 @@ use App\NoSale;
 use App\CheckoutKasir;
 use App\BayarGaji;
 use App\NotaJual;
+use App\Pendapatan;
 use App\JurnalUmum;
 use App\FakturBelanja;
 use App\PembayaranAsuransi;
@@ -243,6 +244,13 @@ class PdfsController extends Controller
         $pdf = pdf::loadview('pdfs.pengeluaran', compact('pengeluaran'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
         return $pdf->stream();
 	}
+	public function pendapatan($id){
+		
+        $pendapatan = Pendapatan::find($id);
+        $pdf = pdf::loadview('pdfs.pendapatan', compact('pendapatan'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
+        return $pdf->stream();
+	}
+	
 	
     
     

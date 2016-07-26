@@ -100,6 +100,7 @@ Klinik Jati Elok | Pendapatans Lain
 								<th>Nama Petugas</th>
 								<th>Nilai Uang</th>
 								<th>Keterangan</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -110,6 +111,7 @@ Klinik Jati Elok | Pendapatans Lain
 									<td>{{ $p->staf->nama }}</td>
 									<td class="uang">{{ $p->nilai }}</td>
 									<td>{{ $p->keterangan }}</td>
+									<td> <a class="btn btn-info -btn-sm btn-block" href="{{ url('pdfs/pendapatan/' . $p->id) }}">Struk</a>  </td>
 								</tr>
 							@endforeach
 						</tbody>
