@@ -105,19 +105,16 @@ class PembeliansController extends Controller
 			'tempBeli' => 'required',
 		];
 		$validator = \Validator::make($data = Input::all(), $rules);
-
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-
 		$faktur = new FakturBelanja;
 		$faktur->tanggal = Yoga::datePrep(Input::get('tanggal'));
 		$faktur->nomor_faktur = Input::get('nomor_faktur');
 		$faktur->belanja_id = Input::get('belanja_id');
 		$faktur->supplier_id = Input::get('supplier_id');
 		$confirm = $faktur->save();
-
 		if ($confirm) {
 			$data = Input::get('tempBeli');
 			$faktur_belanja_id = $faktur->id;
@@ -163,8 +160,6 @@ class PembeliansController extends Controller
 
 				$confirm = $rak->save();
 
-				// return $faktur_belanja->tanggal;
-				//create dispensing
 				if ($confirm) {
 					$db = new Dispensing;
 					$db->tanggal = $faktur->tanggal;
@@ -356,6 +351,7 @@ class PembeliansController extends Controller
          //return dd([ $arrayHapus, $data ]);
 		Pembelian::destroy($arrayHapus);
 
+		$err = [];
 
 		foreach ($data as $k => $dt) {
             //return $dt;
@@ -427,13 +423,17 @@ class PembeliansController extends Controller
 					$rak->exp_date = $exp_date;
 				}
 
-                $db                    = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $dt['id'])->first();
-                $db->masuk             = $dt['jumlah'];
-                $db->save();
+				$db                    = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $dt['id'])->first();
+				if ($db == null) {
+					$err[] = $dt['merek'];
+				}
+				//$db->masuk             = $dt['jumlah'];
+				//$db->save();
 			}
 			$rak->save();
 		}
 
+		return $err;
 		if ($confirm) {
 			$supplier = FakturBelanja::find($faktur_belanja_id)->supplier->nama;
 

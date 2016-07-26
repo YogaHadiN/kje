@@ -78,7 +78,9 @@ class FakturBelanjasController extends Controller
 				$rak->stok = $rak->stok - $v->jumlah;
 				$confirm = $rak->save();
 				if ($confirm) {
-					$dispensable_ids[] = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $v->id)->first()->id;
+					if (Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $v->id)->first() != null) {
+						$dispensable_ids[] = Dispensing::where('dispensable_type', 'App\Pembelian')->where('dispensable_id', $v->id)->first()->id;
+					}	
 				}
 			}
 			Pembelian::where('faktur_belanja_id', $id)->delete();
