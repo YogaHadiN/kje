@@ -17,7 +17,11 @@ Klinik Jati Elok | Pendapatans Lain
 
 @stop
 @section('content') 
-
+@if (Session::has('print'))
+   <div id="print-struk">
+       
+   </div> 
+@endif
 {!! Form::open(['url' => 'pendapatans/index']) !!}
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -111,7 +115,7 @@ Klinik Jati Elok | Pendapatans Lain
 									<td>{{ $p->staf->nama }}</td>
 									<td class="uang">{{ $p->nilai }}</td>
 									<td>{{ $p->keterangan }}</td>
-									<td> <a class="btn btn-info -btn-sm btn-block" href="{{ url('pdfs/pendapatan/' . $p->id) }}">Struk</a>  </td>
+									<td> <a target="_blank" class="btn btn-info btn-xs btn-block" href="{{ url('pdfs/pendapatan/' . $p->id) }}">Struk</a>  </td>
 								</tr>
 							@endforeach
 						</tbody>
@@ -127,16 +131,19 @@ Klinik Jati Elok | Pendapatans Lain
 @section('footer') 
 <script>
 	var asuransis = {!! json_encode( $asuransis ) !!};
-  jQuery(document).ready(function($) {
-	  $('#konfirmasikan').val('0');
-    $('#input').keypress(function(e) {
-      var key = e.which || e.keyCode;
-      if (key == 9) {
-        $(this).click();
-        return false;
-      }
-    });
-  });
+	  jQuery(document).ready(function($) {
+			if( $('#print-struk').length ){
+				window.open("{{ url('pdfs/pendapatan/' . Session::get('print')) }}", '_blank');
+			}
+			$('#konfirmasikan').val('0');
+			$('#input').keypress(function(e) {
+				  var key = e.which || e.keyCode;
+				  if (key == 9) {
+					$(this).click();
+					return false;
+				  }
+			});
+	  });
 
 	function inputt(control){
 
