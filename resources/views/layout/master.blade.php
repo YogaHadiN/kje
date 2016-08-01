@@ -123,9 +123,6 @@
                             <li>{!! HTML::link('obat/pesanobat', 'Pesan Obat')!!}</li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="{{ url('fakturbelanjas') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Belanja Obat</span>  </a>
-                    </li>
 					@if(\Auth::id() == 28)
                      <li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Laporan Keuangan</span><span class="fa arrow"></span></a>

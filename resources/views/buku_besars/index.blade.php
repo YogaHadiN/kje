@@ -25,7 +25,7 @@ Klinik Jati Elok | Buku Besar
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
           {!! Form::label('coa_id', 'Chart Of Account') !!}
-          {!! Form::select('coa_id', $coa_list, null, ['class' => 'form-control rq']) !!}
+		  {!! Form::select('coa_id', $coa_list, null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
         </div>
         <div class="form-group">
           {!! Form::label('bulan') !!}

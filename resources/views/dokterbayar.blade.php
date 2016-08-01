@@ -132,6 +132,7 @@ Klinik Jati Elok | Gaji Dokter
             <table class="table table-striped table-bordered table-hover " id="tableAsuransi">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>ID</th>
                         <th>Tanggal</th>
                         <th>Nama Pasien</th>
@@ -141,8 +142,9 @@ Klinik Jati Elok | Gaji Dokter
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($hutangs as $hutang)
+					@foreach ($hutangs as $k => $hutang)
                         <tr>
+                            <td>{!! $k + 1 !!}</td>
                             <td>{!! $hutang->pasien_id !!}</td>
                             <td>{!! App\Classes\Yoga::updateDatePrep( $hutang->tanggal  )!!}</td>
                             <td>{!! $hutang->nama !!}</td>

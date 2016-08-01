@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Input;
 use App\Http\Requests;
 use App\Coa;
+use App\KelompokCoa;
 
 class CoasController extends Controller
 {
@@ -27,7 +28,13 @@ class CoasController extends Controller
 	 */
 	public function create()
 	{
-		return view('coas.create');
+		$kelompokCoaList = [null => 'pilih'];
+		$kelompok_coa_list = KelompokCoa::all();
+		foreach ($kelompok_coa_list as $kel_coa) {
+			$kelompokCoaList[] = [ $kel_coa->id => $kel_coa->id . ' - ' . $kel_coa->kelompok_coa ];
+		}
+		return $kelompokCoaList;
+		return view('coas.create', compact('kelompokCoaList'));
 	}
 
 	/**

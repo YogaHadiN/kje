@@ -216,12 +216,24 @@ class PdfsController extends Controller
     public function notaz($checkout_kasir_id){
         $notaz = CheckoutKasir::find($checkout_kasir_id);
         $detils = json_decode( $notaz->detil_pengeluarans, true );
+        $modals = json_decode( $notaz->detil_modals, true );
         $pengeluarans = JurnalUmum::whereIn('id', $detils)->get();
-        $total_nilai = 0;
+        $modals = JurnalUmum::whereIn('id', $modals)->get();
+		$total_modal = 0;
+		foreach ($modals as $mdl) {
+			$total_modal += $mdl->nilai;
+		}
+
+		$total_pengeluaran = 0;
+		foreach ($pengeluarans as $mdl) {
+			$total_pengeluaran += $mdl->nilai;
+		}
+        $total_pemasukan = 0;
         foreach ($notaz->checkoutDetail as $cd) {
-            $total_nilai += $cd->nilai;
+            $total_pemasukan += $cd->nilai;
         }
-        $pdf = PDF::loadView('pdfs.notaz', compact('notaz', 'total_nilai', 'pengeluarans'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		//return $total_nilai;
+        $pdf = PDF::loadView('pdfs.notaz', compact('notaz', 'pengeluarans', 'modals', 'total_modal', 'total_pengeluaran','total_pemasukan'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
         return $pdf->stream();
     }
     public function rc($modal_id){

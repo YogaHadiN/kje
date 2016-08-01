@@ -114,7 +114,13 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('memcached', 'MemcachedController@index');
 			Route::get('memcached/data', 'MemcachedController@data');
 			Route::get('perujuks/kecil', function(){
-				return View::make('perujuks.kecil');
+				$files = [
+					'file1.jpg',
+					'file2.jpg',
+					'file3.jpg',
+				];
+
+
 			});
 
 			Route::post('suppliers/ajax/ceknotalama', 'SuppliersAjaxController@ceknotalama');
@@ -146,6 +152,10 @@ Route::get('sesuaikan/cek', function(){
 			Route::get('asuransis/riwayat/{id}', 'AsuransisExtraController@riwayat');
 
 			Route::get('coas', 'CoasController@index');
+			Route::get('coas/create', 'CoasController@create');
+			Route::post('coas', 'CoasController@store');
+			Route::get('coas/{id}/edit', 'CoasController@edit');
+			Route::post('coas/{id}', 'CoasController@update');
 
 			Route::get('rumahsakits', 'RumahSakitsController@index'); //penjualan obat tanpa resep
 			Route::get('rumahsakits/{id}', 'RumahSakitsController@show'); //penjualan obat tanpa resep
@@ -417,6 +427,7 @@ Route::get('sesuaikan/cek', function(){
             Route::get('laporans/jumlahDiare', 'LaporansController@jumlahDiare');
 			Route::get('laporans/hariandanjam', 'LaporansController@hariandanjam');
 			Route::get('laporans/asuransi/detail/{asuransi_id}/{tanggal}', 'LaporansController@asuransi_detail');
+			Route::get('laporans/contoh', 'LaporansController@contoh');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');

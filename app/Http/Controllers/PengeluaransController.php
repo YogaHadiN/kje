@@ -422,8 +422,9 @@ class PengeluaransController extends Controller
         $tanggal = $last_chekcout->created_at;
         $jurnal_umums = JurnalUmum::where('id', '>=', $jurnal_umum_id_last_cehckout)
                         ->where('jurnalable_type', 'App\Modal')
-                        ->get(['id', 'jurnalable_type', 'coa_id', 'debit']);
+                        ->get();
         $modal_awal = 0;
+		$modal_ids = [];
         foreach ($jurnal_umums as $ju) {
             if (
                 $ju->debit == 0 && 
@@ -431,6 +432,7 @@ class PengeluaransController extends Controller
 			) 
 			{
                $modal_awal +=  $ju->nilai;
+			   $modal_ids[] = $ju->id;
             }
         }
         $uang_masuks = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
@@ -452,10 +454,6 @@ class PengeluaransController extends Controller
         foreach ($uang_keluars as $keluar) {
             $total_uang_keluar += $keluar->nilai;
         }
-        //return dd( $uang_masuks );
-        //return dd( $uang_keluars );
-        //return 'total_uang_masuk = ' . $total_uang_masuk;
-        //return 'total_uang_keluar = ' . $total_uang_keluar;
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
         $query = "select min(jenis_tarif_id) as jenis_tarif_id, min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
@@ -483,6 +481,7 @@ class PengeluaransController extends Controller
         $new_z->uang_masuk = $total_uang_masuk;
         $new_z->uang_keluar = $total_uang_keluar;
         $new_z->detil_pengeluarans = $detail_pengeluarans;
+        $new_z->detil_modals = json_encode($modal_ids);
         $confirm = $new_z->save();
         if ($confirm) {
             $jurnal                  = new JurnalUmum;
@@ -511,11 +510,13 @@ class PengeluaransController extends Controller
             $detail->checkout_kasir_id = $new_z->id;
             $detail->save();
         }
+
+		
         //tambah semua komponen yang masuk kas, retrieve semua last id nya
         $pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
 		return redirect('pengeluarans/nota_z')
 			->withPesan($pesan)
-			->withModals($modals)
+			->withModals($modal_awal)
 			->withPrint($new_z->id);
     }
 
@@ -648,7 +649,7 @@ class PengeluaransController extends Controller
        $bulan = Yoga::blnPrep($bulan);
        $gaji_pokok = Input::get('gaji_pokok');
        $bonus = Input::get('bonus');
-       $tanggal_dibayar = Input::get('tanggal_dibayar');
+	   $tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
 
            $jus = JurnalUmum::where('coa_id', '200002' )
                ->where('debit', '0')
@@ -679,7 +680,7 @@ class PengeluaransController extends Controller
        $bg->staf_id = $staf_id;
        $bg->mulai = $bulan . '-01';
        $bg->akhir = date("Y-m-t", strtotime($bulan . '-01'));
-       $bg->tanggal_dibayar = Yoga::datePrep($tanggal_dibayar);
+       $bg->tanggal_dibayar = $tanggal_dibayar;
        $bg->gaji_pokok = $gaji_pokok;
        $bg->bonus = $bonus;
        $bg->kas_coa_id = $coa_id;
@@ -692,6 +693,8 @@ class PengeluaransController extends Controller
                 $jurnal->jurnalable_type = 'App\BayarGaji';
                 $jurnal->coa_id          = 60101;
                 $jurnal->debit           = 1;
+                $jurnal->created_at      = date($bulan . '-t 23:59:59');
+                $jurnal->updated_at      = date($bulan . '-t 23:59:59');
                 $jurnal->nilai           = $gaji_pokok;
                 $jurnal->save();
            }
@@ -704,6 +707,8 @@ class PengeluaransController extends Controller
                     $jurnal->jurnalable_type = 'App\BayarGaji';
                     $jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
                     $jurnal->debit           = 1;
+					$jurnal->created_at      = date($bulan . '-t 23:59:59');
+					$jurnal->updated_at      = date($bulan . '-t 23:59:59');
                     $jurnal->nilai           = $bonus;
                     $jurnal->save();
                }
@@ -715,6 +720,8 @@ class PengeluaransController extends Controller
                     $jurnal->jurnalable_type = 'App\BayarGaji';
                     $jurnal->coa_id          = 200002;// Hutang Kepada Asisten Dokter
                     $jurnal->debit           = 1;
+					$jurnal->created_at      = date($bulan . '-t 23:59:59');
+					$jurnal->updated_at      = date($bulan . '-t 23:59:59');
                     $jurnal->nilai           = $sisa_hutang_bonus;
                     $jurnal->save();
                }
@@ -723,6 +730,8 @@ class PengeluaransController extends Controller
                     $jurnal->jurnalable_id   = $bg->id;
                     $jurnal->jurnalable_type = 'App\BayarGaji';
                     $jurnal->coa_id          = 50205;
+					$jurnal->created_at      = date($bulan . '-t 23:59:59');
+					$jurnal->updated_at      = date($bulan . '-t 23:59:59');
                     $jurnal->debit           = 1;
                     $jurnal->nilai           = $beban_produksi_hutang_asisten;
                     $jurnal->save();
@@ -734,6 +743,8 @@ class PengeluaransController extends Controller
                 $jurnal->jurnalable_id   = $bg->id;
                 $jurnal->jurnalable_type = 'App\BayarGaji';
                 $jurnal->coa_id          = $coa_id; //Kas Sumber
+				$jurnal->created_at      = date($bulan . '-t 23:59:59');
+				$jurnal->updated_at      = date($bulan . '-t 23:59:59');
                 $jurnal->debit           = 0;
                 $jurnal->nilai           = $gaji_pokok + $bonus;
                 $jurnal->save();
@@ -748,8 +759,6 @@ class PengeluaransController extends Controller
                return redirect('pengeluarans/bayar_gaji_karyawan')
                             ->withPesan($pesan);
        }
-
-
    }
     private function table($checkout){
         $jurnal_umum_id = $checkout->jurnal_umum_id;

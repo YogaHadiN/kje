@@ -12,6 +12,11 @@ class KelompokCoa extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $fillable = ['id'];
+
+	public function getTextListAttribute(){
+		return $this->id . ' - ' . $this->kelompok_coa;
+	}
+	
 
 }

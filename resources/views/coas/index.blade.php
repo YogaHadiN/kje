@@ -24,6 +24,9 @@ Klinik Jati Elok | Chart Of Account
 				<div class="panelLeft">
 					<h3>Chart Of Account</h3>
 				</div>
+				<div class="panelRight">
+					<a href="{{ url('coas/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Buat COA Baru</a>
+				</div>
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">

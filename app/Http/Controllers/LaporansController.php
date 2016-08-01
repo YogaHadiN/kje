@@ -854,5 +854,23 @@ class LaporansController extends Controller
 		$periksas = Periksa::where("tanggal", $tanggal)->paginate(4);
 		return view('laporans.lebih_detail.harian_per_asuransi', compact('periksas'));
 	}
+	public function contoh(){
+
+		$data = ['nama1', 'nama2', 'nama3'];
+		$i = 0;
+		$result = '';
+		while ( $i < count( $data ) ){
+			if ($i == 2) {
+				$result = $data[$i];
+				break;
+			}
+			$i++;
+		}
+		return $result;
+
+
+
+	}
+	
 	
 }

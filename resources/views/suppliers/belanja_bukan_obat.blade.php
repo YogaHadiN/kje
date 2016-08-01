@@ -87,7 +87,6 @@ Klinik Jati Elok | Belanja Bukan Obat
 						<thead>
 							<tr>
 								<th>Tanggal</th>
-								<th>Jam</th>
 								<th>Supplier</th>
 								<th>Staf</th>
 								<th>Nilai</th>
@@ -98,8 +97,7 @@ Klinik Jati Elok | Belanja Bukan Obat
 						<tbody>
 							@foreach($pengeluarans as $peng)
 								<tr>
-									<td>{{ $peng->created_at->format('d-m-Y') }}</td>
-									<td>{{ $peng->created_at->format('H:i:s') }}</td>
+									<td>{{ $peng->tanggal->format('d-m-Y') }}</td>
 									<td>{{ $peng->supplier->nama }}</td>
 									<td>{{ $peng->staf->nama }}</td>
 									<td class="uang">{{ $peng->nilai }}</td>

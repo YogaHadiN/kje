@@ -111,6 +111,11 @@
                             <td>:</td>
                             <td>{{ App\Classes\Yoga::buatrp( $notaz->uang_keluar ) }}</td>
                         </tr>
+						<tr>
+                            <td>Modal Awal</td>
+                            <td>:</td>
+                            <td>{{ App\Classes\Yoga::buatrp( $notaz->modal_awal ) }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -134,6 +139,12 @@
                             </tr>
                         @endforeach
                     </tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2"><h3>Total Pemasukan</h3></td>
+							<td colspan="2" class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_pemasukan) }}</h3></td>
+						</tr>
+					</tfoot>
                 </table>
                 <h4>Uang Keluar</h4>
                 <table class="table table-condensed bordered">
@@ -160,10 +171,42 @@
 									  @endif
                                       
                                   </td>
-                              <td>{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
+                              <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
                           </tr>
                       @endforeach
                     </tbody>
+					<tfoot>
+						<tr>
+							<td><h3>Total Pengeluaran</h3></td>
+							<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_pengeluaran) }}</h3></td>
+						</tr>
+					</tfoot>
+                </table>
+
+                <h4>Modal Yang Masuk</h4>
+                <table class="table table-condensed bordered">
+                    <thead>
+                        <tr>
+                            <td>Tanggal</td>
+                            <td>Keterangan</td>
+                            <td>Biaya</td>
+                        </tr>
+                    </thead>
+                    <tbody id="transaksi-print" class="font-small">
+                      @foreach($modals as $plr)
+                          <tr>
+							  <td>{{ $plr->coa->coa }}</td>
+							  <td>{{ $plt->keterangan }}</td>
+                              <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
+                          </tr>
+                      @endforeach
+                    </tbody>
+					<tfoot>
+						<tr>
+							<td><h3>Total Modal</h3></td>
+							<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_modal) }}</h3></td>
+						</tr>
+					</tfoot>
                 </table>
                 <div class="text-center">
                     <table class="table-center">
