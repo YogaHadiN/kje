@@ -8,6 +8,7 @@ use App\Classes\Yoga;
 use App\Http\Requests;
 
 use App\Pendapatan;
+use App\PembayaranBpjs;
 use App\PembayaranAsuransi;
 use App\PiutangDibayar;
 use App\PiutangAsuransi;
@@ -308,4 +309,49 @@ class PendapatansController extends Controller
             return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan);
         }
     }
+	public function pembayaran_bpjs(){
+		$bpjs = PembayaranBpjs::orderBy('tanggal_pembayaran', 'desc')->get();
+		return view('pembayaran_bpjs.index', compact( 'bpjs' ));
+	}
+	public function pembayaran_bpjs_post(){
+		$nilai = Input::get('nilai');
+		$staf_id = Input::get('staf_id');
+		$tanggal_pembayaran = Yoga::datePrep( Input::get('tanggal_pembayaran') );
+		$periode_bulan = Yoga::blnPrep( Input::get('periode_bulan') );
+
+		$bpjs = new PembayaranBpjs;
+		$bpjs->staf_id = Input::get('staf_id');
+		$bpjs->nilai = Input::get('nilai');
+		$bpjs->mulai_tanggal = $periode_bulan . '-01 00:00:00';
+		$bpjs->akhir_tanggal = date($periode_bulan . '-t 23:59:59');
+		$bpjs->tanggal_pembayaran = $tanggal_pembayaran;
+		$confirm = $bpjs->save();
+
+		if ($confirm) {
+			
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $bpjs->id; // kenapa ini nilainya empty / null padahal di database ada id
+			$jurnal->jurnalable_type = 'App\PembayaranBpjs';
+			$jurnal->coa_id          = 110004;
+			$jurnal->debit           = 1;
+			$jurnal->created_at           = date($periode_bulan . '-t 23:59:59');
+			$jurnal->updated_at           = date($periode_bulan . '-t 23:59:59');
+			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->save();
+
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $bpjs->id;
+			$jurnal->jurnalable_type = 'App\PembayaranBpjs';
+			$jurnal->coa_id          =  400045 ;// pendapatan kapitasi bpjs
+			$jurnal->debit           = 0;
+			$jurnal->created_at           = date($periode_bulan . '-t 23:59:59');
+			$jurnal->updated_at           = date($periode_bulan . '-t 23:59:59');
+			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->save();
+
+		}
+		$pesan = Yoga::suksesFlash('Input pembayaran kapitasi bpjs bulan ' . $periode_bulan . ' telah berhasil');
+		return redirect()->back()->withPesan($pesan);
+	}
+	
 }

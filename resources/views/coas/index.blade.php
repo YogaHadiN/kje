@@ -30,15 +30,15 @@ Klinik Jati Elok | Chart Of Account
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
-					<?php echo $coas->appends(Input::except('page'))->links(); ?>
-					<table class="table table-hover table-condensed">
+					<table class="table table-hover table-condensed DT">
 						<thead>
 							<tr>
 								<th>Coa Id</th>
 								<th>Chart Of Account</th>
 								<th>Kelompok Coa Id</th>
 								<th>Kelompok Coa</th>
-								<th colspan="2">Action</th>
+								<th>Details</th>
+								<th>Edit</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -48,13 +48,12 @@ Klinik Jati Elok | Chart Of Account
 									<td>{{ $coa->coa }}</td>
 									<td>{{ $coa->kelompok_coa_id }}</td>
 									<td>{{ $coa->kelompokCoa->kelompok_coa }}</td>
-									<td> <a class="btn-sm btn-info btn-block" href="#">Details</a>	</td>
-									<td> <a class="btn-sm btn-primary btn-block" href="#">Edit</a>	</td>
+									<td><a class="btn-sm btn-info btn-block" href="#">Details</a></td>
+									<td> <a class="btn-sm btn-primary btn-block" href="#">Edit</a></td>
 								</tr>
 							@endforeach
 						</tbody>
 					</table>
-					<?php echo $coas->appends(Input::except('page'))->links(); ?>
 				</div>
 				
 			</div>

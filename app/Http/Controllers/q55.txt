@@ -1,0 +1,12 @@
+create table `pembayaran_bpjs` (
+	`id` int unsigned not null auto_increment primary key,
+	`staf_id` varchar(255) not null, 
+	`nilai` int(11) not null, 
+	`mulai_tanggal` date not null, 
+	`akhir_tanggal` date not null, 
+	`tanggal_pembayaran` date not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null
+) default character set utf8 collate utf8_unicode_ci;
+ insert into coas (id, coa, kelompok_coa_id) values (400045, 'Pendapatan Kapitasi BPJS', 11);
+alter table checkout_kasirs add column detil_modals text;

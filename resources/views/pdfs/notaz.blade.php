@@ -120,32 +120,6 @@
                 </table>
             </div>
             <div>
-                <h4>Uang Masuk</h4>
-                <table class="table table-condensed bordered">
-                    <thead>
-                        <tr>
-                            <td colspan="2">Jenis Tarif</td>
-                            <td>Jumlah</td>
-                            <td>Biaya</td>
-                        </tr>
-                    </thead>
-                    <tbody id="transaksi-print" class="font-small">
-                        @foreach ($notaz->checkoutDetail as $trx)
-                            <tr>
-                                <td>{{ $trx->coa->coa }}</td>
-                                <td>:</td>
-                                <td class="text-right">{{ $trx->jumlah }}</td>
-                                <td class="text-right">{{ App\Classes\Yoga::buatrp( $trx->nilai ) }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-					<tfoot>
-						<tr>
-							<td colspan="2"><h3>Total Pemasukan</h3></td>
-							<td colspan="2" class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_pemasukan) }}</h3></td>
-						</tr>
-					</tfoot>
-                </table>
                 <h4>Uang Keluar</h4>
                 <table class="table table-condensed bordered">
                     <thead>
@@ -196,7 +170,7 @@
                       @foreach($modals as $plr)
                           <tr>
 							  <td>{{ $plr->coa->coa }}</td>
-							  <td>{{ $plt->keterangan }}</td>
+							  <td>{{ $plr->keterangan }}</td>
                               <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
                           </tr>
                       @endforeach
@@ -204,7 +178,7 @@
 					<tfoot>
 						<tr>
 							<td><h3>Total Modal</h3></td>
-							<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_modal) }}</h3></td>
+							<td colspan="2" class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_modal) }}</h3></td>
 						</tr>
 					</tfoot>
                 </table>

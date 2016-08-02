@@ -363,12 +363,13 @@ class PengeluaransController extends Controller
 		}
 
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
-        $uang_masuks = JurnalUmum::with('jurnalable')->where('created_at', '>=', $tanggal)
-                                    ->where('coa_id', 110000)
-                                    ->where('jurnalable_type', '!=', 'App\Modal')
-                                    ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
-                                    ->where('debit', '1')
-                                    ->get();
+
+		$uang_masuks = JurnalUmum::with('jurnalable')->where('created_at', '>=', $tanggal)
+									->where('coa_id', 110000)
+									->where('jurnalable_type', '!=', 'App\Modal')
+									->where('jurnalable_type', '!=', 'App\CheckoutKasir')
+									->where('debit', '1')
+									->get();
 
         $modal_awals = JurnalUmum::where('created_at', '>=', $tanggal)
                                     ->where('coa_id', 110000)
@@ -389,29 +390,28 @@ class PengeluaransController extends Controller
 
         $total_uang_masuk = 0;
         foreach ($uang_masuks as $penjualan) {
-            $total_uang_masuk += $penjualan->nilai;
+            
+			$total_uang_masuk += $penjualan->nilai;
         }
         $total_uang_keluar = 0;
         foreach ($uang_keluar as $penjualan) {
             $total_uang_keluar += $penjualan->nilai;
         }
-        $table = $this->table($checkout);
-		//return $table;
-        $all_id = [];
-        foreach ($table as $tbl) {
-            foreach ($tbl['jurnalable_id'] as $tbl_id) {
-                $all_id[] = $tbl_id;
-            }
-        }
-
-
         $checkouts = CheckoutKasir::latest()->paginate(20);
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
-        $totalPemasukan = 0;
-        foreach ($table as $trx) {
-            $totalPemasukan += $trx['nilai'];
-        }
-        return view('pengeluarans.notaz', compact('checkouts', 'tanggal', 'asuransis', 'total_uang_masuk', 'total_uang_keluar', 'uang_di_kasir', 'modal_awal', 'table', 'all_id', 'pengeluarans', 'totalPengeluarans', 'totalPemasukan', 'modals', 'totalModal'));
+		return view('pengeluarans.notaz', compact(
+			'checkouts', 
+			'tanggal', 
+			'asuransis', 
+			'total_uang_masuk', 
+			'total_uang_keluar', 
+			'uang_di_kasir', 
+			'modal_awal', 
+			'pengeluarans', 
+			'totalPengeluarans', 
+			'modals', 
+			'totalModal'
+		));
     }
     public function notaz_post(){
 		// mereturn Checkout yang terakhir

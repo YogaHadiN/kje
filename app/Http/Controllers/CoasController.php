@@ -17,7 +17,7 @@ class CoasController extends Controller
 	 */
 	public function index()
 	{
-		$coas = Coa::with('kelompokCoa')->latest()->paginate(10);
+		$coas = Coa::with('kelompokCoa')->latest()->get();
 		return view('coas.index', compact('coas'));
 	}
 

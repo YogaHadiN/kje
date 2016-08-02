@@ -144,7 +144,6 @@ Klinik Jati Elok | Pendapatans Lain
 				  }
 			});
 	  });
-
 	function inputt(control){
 
     var pass = true;

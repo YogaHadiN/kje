@@ -159,42 +159,6 @@ Klinik Jati Elok | Checkout Kasir
                 </div>
             </div>
         </div>
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <div class="panel-title">Penerimaan Kas di Kasir</div>
-            </div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Jenis Tarif</th> 
-                                <th>Jumlah</th> 
-                                <th>Nilai</th>
-                                <th>Detail</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($table as $trx)
-                                <tr>
-                                    <td>{!! $trx['coa'] !!}</td>        
-                                    <td class="text-right">{!! $trx['jumlah'] !!}</td>        
-                                    <td class="uang">{!! $trx['nilai'] !!}</td>        
-                                    <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode($trx["jurnalable_id"])) !!}' class="btn btn-info btn-xs">Detail</a> </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2"><h3>Semua Transaksi Kasir</h3></td>        
-                                <td><h3 class="uang">{{ $totalPemasukan }}</h3></td>
-                                <td> <a href='{!! url("pengeluarans/nota_z/detail/" . json_encode( $all_id )) !!}' class="btn btn-info btn-xs">Detail</a> </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
   </div>
   <div class="row">

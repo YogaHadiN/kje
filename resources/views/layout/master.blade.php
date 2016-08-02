@@ -74,7 +74,6 @@
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
-                            <li>{!! HTML::link('coas', 'Daftar Chart Of Acount')!!}</li>
                         </ul>
                     </li>
                     <li>
@@ -133,6 +132,7 @@
                             <li>{!! HTML::link('laporan_laba_rugis', 'Laporan Laba Rugi')!!}</li>
                             <li>{!! HTML::link('laporan_arus_kass', 'Laporan Arus Kas')!!}</li>
                             <li>{!! HTML::link('laporan_neracas', 'Laporan Neraca')!!}</li>
+                            <li>{!! HTML::link('coas', 'Daftar Chart Of Acount')!!}</li>
                         </ul>
                      </li>
 					@endif
@@ -149,6 +149,7 @@
                             <li>{!! HTML::link('pengeluarans/bayardoker', 'Bayar Dokter')!!}</li>
                             @if(\Auth::id() == 28)
                             <li>{!! HTML::link('pengeluarans/bayar_gaji_karyawan', 'Bayar Gaji Karyawan')!!}</li>
+                            <li>{!! HTML::link('pendapatans/pembayaran_bpjs', 'Pembayaran Kapitasi BPJS')!!}</li>
                             @endif
                             <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
                             <li>{!! HTML::link('pengeluarans/rc', 'RC')!!}</li>

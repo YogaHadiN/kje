@@ -50,7 +50,7 @@ class StafsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$nama = ucwords(strtolower(Input::get('nama'))) . ', ' . Input::get('titel');
