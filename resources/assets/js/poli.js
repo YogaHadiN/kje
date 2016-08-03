@@ -284,12 +284,20 @@
         var tindakans = $.parseJSON($('#tindakan').val());
 
         if (boolAdd == '1' || puyer == '1') {
-
             alert('Puyer atau Add Sirup belum selesai. Resep tidak bisa dilanjutkan sebelum diselesaikan');
             return false
-
         }
 
+		if ( $('#asuransi_id').val() == '3' && ( $('#terapi').val() == '[]' || $('#terapi').val() == '' ) ) {
+			var r = confirm('Untuk peserta Inhealth, jika tidak ada terapi yang diberikan , maka bagi hasil untuk dokter tidak bisa dibayarkan untuk pasien ini, Apakah anda yakin ingin melanjutkan? karena anda akan tidak dibayar ntuk pasien ini tanpa terapi');
+
+			if (!r) {
+				alert('Kalau Bingung mau kasih obat apa untuk pasien ini, kasih saja vitamin 4 tablet. bisa pakai neurodex, atau therabex');
+				return false;
+			} else {
+				alert('Anda telah menyetujui untuk tidak dibayar karena melayani pasien ini');
+			}
+		}
         if ($('#anamnesa').val() == '' || $('#ddlDiagnosa').val() == '') {
             alert('Anamnesa dan Diagnosa tidak boleh dikosongkan!!');
             $('#tab-status').tab('show');
