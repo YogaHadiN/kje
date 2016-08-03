@@ -127,6 +127,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('suppliers/ajax/create', 'SuppliersAjaxController@create');
 			Route::get('suppliers/belanja_obat', 'SupplierBelanjasController@belanja_obat');
 			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');
+			Route::get('pasien_coba', 'PasiensCobaController@index');
 
 			Route::get('antrian_pasien', 'SupplierBelanjasController@belanja_obat');
 			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');

@@ -1018,4 +1018,77 @@ class Periksa extends Model{
     public function piutangAsuransi(){
         return $this->hasOne('App\PiutangAsuransi');
     }
+
+	public function getInfostatusAttribute(){
+		$temp = Yoga::updateDatePrep($this->tanggal) . '<br />' .
+			'Umur : <br /> <strong>'. Yoga::datediff($this->pasien->tanggal_lahir, $this->tanggal) .
+			'</strong><br /><br /> Pemeriksa : <br />';
+		if($this->staf){
+			$temp .= '<strong>' .$this->staf->nama . '</strong> <br /><br />';
+		}
+		$temp .= 'Pembayaran : <br /> <strong>';
+		$temp .= $this->asuransi->nama;
+		$temp .= '</strong><br /><br />';
+		$temp .= $this->id;
+		return $temp;
+	}
+	public function getStatusAttribute(){
+		$temp = '<strong>Anamnesa :';
+		$temp .= $this->id;
+		$temp .= '</strong> <br>';
+		$temp .= $this->anamnesa;
+		$temp .= '<br> <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>';
+		$temp .= $this->pemeriksaan_fisik; 
+		$temp .= '<br>';
+		$temp .= $this->pemeriksaan_penunjang;
+		$temp .= 	'<br> <strong>Diagnosa :</strong> <br>';
+		if($this->diagnosa_id != ''){
+			 $temp .=  $this->diagnosa->diagnosa . ' - ' . $this->diagnosa->icd10->diagnosaICD;
+			 $temp .=  '<br> <strong>ICD : </strong> ';
+			 $temp .=  $this->diagnosa->icd10_id ;
+			 $temp .=  '<strong> Admedika </strong>: ';
+			 $temp .=  $this->diagnosa->icd10->admedika;
+		} else {
+			 $temp .=  $this->keterangan_diagnosa;
+		}
+		$temp .=  '<br><br>';
+
+		if($this->usg){
+			$temp .= '<a href="'. url("usgs/" . $this->id) . '" class="btn btn-primary">Hasil USG</a>';
+		}
+		if($this->registerAnc){
+			$temp .= '<a href="'.  url("ancs/" . $this->id) .'" class="btn btn-info">Hasil ANC</a>';
+		}
+		$temp .= '<br>';
+		if($this->suratSakit){
+		    $temp .= '<hr> <div class="alert alert-success">';
+			$temp .= App\Classes\Yoga::suratSakit($this);
+			$temp .= 	'</div>';
+		}
+
+		return $temp;
+
+                      
+	}
+	public function getStatusterapiAttribute(){
+		$temp = $this->terapi_html;
+		if($this->rujukan){
+			$temp .= '<hr>';
+			$temp .= '<div class="alert alert-warning"> dirujuk ke ';
+			$temp .= $this->rujukan->tujuanRujuk->tujuan_rujuk ;
+			$temp .= '<br> karena ';
+			$temp .= $this->rujukan->alasan_rujuk;
+			$temp .= '<br>';
+			if($this->asuransi_id == '32'){
+				$temp .= '<a href="'.url('rujukans/' . $this->id ).'" class="btn btn-success">Lihat Rujukan</a>';
+			}else {
+				$temp .= '<a href="'.url('pdfs/status/' . $this->id ).'" target="_blank" class="btn btn-success">Lihat Rujukan</a>';
+			}
+			$temp .= '</div>';
+		}
+		return $temp;
+	}
+	
+	
+	
 }

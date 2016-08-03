@@ -228,5 +228,8 @@ class PasiensAjaxController extends Controller
 
     }
     
+	public function ajax_pasien_show(){
+	}
+	
 
 }
