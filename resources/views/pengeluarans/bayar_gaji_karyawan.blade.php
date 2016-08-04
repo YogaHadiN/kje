@@ -93,6 +93,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                                 <th>Bonus</th>
                                 <th>Total</th>
                                 <th>Sumber Kas</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -105,6 +106,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                                 <td class="uang">{{  $pemb->bonus }}</td>
                                 <td class="uang">{{  $pemb->gaji_pokok + $pemb->bonus }}</td>
                                 <td>{{  $pemb->coa->coa }}</td>
+								<td> <a class="btn btn-success btn-sm" href="{{ url('pdfs/bayar_gaji_karyawan/' . $pemb->id) }}" target="_blank">Struk</a> </td>
                             </tr>
                             @endforeach
                         </tbody>
