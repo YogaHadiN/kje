@@ -203,9 +203,9 @@ class CustomController extends Controller
    		$reseps = Yoga::masukLagi($periksa->terapii);
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
 
-        $monitor = Monitor::find(1);
-        $monitor->periksa_id = $periksa->id;
-        $monitor->save();
+        //$monitor = Monitor::find(1);
+        //$monitor->periksa_id = $periksa->id;
+        //$monitor->save();
 
         $dibayar = null;
         if ( $periksa->asuransi->tipe_asuransi== '4') {
