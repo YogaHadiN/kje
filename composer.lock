@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fd1ac8c2d6e4a1a66a72a389a007cbdf",
-    "content-hash": "faef0d5eb2521849f8c407879c2413b2",
+    "hash": "9c0f0d77c958c3ce9cae8849403f70b4",
+    "content-hash": "397e01817d8c5063d35f019e020291a6",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.18.35",
+            "version": "3.18.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8133c4ce336c8cac97218546f896f491bb6ffd7e"
+                "reference": "48362bce008fa9c20a71dfa6a68aebac65a8ab1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8133c4ce336c8cac97218546f896f491bb6ffd7e",
-                "reference": "8133c4ce336c8cac97218546f896f491bb6ffd7e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/48362bce008fa9c20a71dfa6a68aebac65a8ab1b",
+                "reference": "48362bce008fa9c20a71dfa6a68aebac65a8ab1b",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-07-29 01:07:59"
+            "time": "2016-08-02 20:49:01"
         },
         {
             "name": "barracuda/copy",
@@ -5904,7 +5904,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.0.8"
+        "php": "7.0.9"
     },
     "platform-dev": []
 }
