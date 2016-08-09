@@ -220,7 +220,7 @@ class PolisController extends Controller
 				$bpd_mm			= $periksa->usg->bpd_mm;
 				$ac_mm			= $periksa->usg->ac_mm;
 				$fl_mm			= $periksa->usg->fl_mm;
-				$perujuk_id			= $periksa->usg->perujuk_id;
+				$perujuk_id		= $periksa->usg->perujuk_id;
 				$ltp			= $periksa->usg->ltp;
 				$djj			= $periksa->usg->djj;
 				$acw			= $periksa->usg->acw;
@@ -238,6 +238,10 @@ class PolisController extends Controller
 				$presentasi		= null;
 				$bpdw			= null;
 				$bpdd			= null;
+				$bpd_mm			= null;
+				$fl_mm			= null;
+				$ac_mm			= null;
+				$perujuk_id		= null;
 				$ltp			= null;
 				$djj			= null;
 				$acw			= null;
@@ -251,7 +255,6 @@ class PolisController extends Controller
 				$kesimpulan		= null;
 				$saran			= null;
 			}
-            
 
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
