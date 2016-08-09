@@ -19,17 +19,64 @@
         } else {
             var dataTindakan = JSON.parse($('#tindakan').val());
             viewTindakan(dataTindakan);
-            // $('#ajaxTindakan').html(viewTindakan(dataTindakan));
         }
 
-    //$('.hide-panel').closest('.panel').find('.panel-heading').css('border', '3px border red');
-    //$('.hide-panel').closest('.panel').find('.panel-heading').css('cursor', 'pointer');
-    //$('.hide-panel').closest('.panel').find('.panel-heading').click(function(e) {
-        //$(this).closest('.panel').find('.hide-panel').slideToggle();
-    //});
+	$('#dummy_submit_perujuk_baru').click(function(){
+			var nama_perujuk = $('#nama_perujuk').val();
+			var alamat_perujuk = $('#alamat_perujuk').val();
+			var no_telp_perujuk = $('#no_telp_perujuk').val();
 
+			if (
+					nama_perujuk == '' ||
+					alamat_perujuk == '' ||
+					no_telp_perujuk == ''
+			) {
+				if (nama_perujuk == '') {
+					validasi('#nama_perujuk', 'harus diisi!!')
+				}
+				if (alamat_perujuk == '') {
+					validasi('#alamat_perujuk', 'harus diisi!!')
+				}
+				if (no_telp_perujuk == '') {
+					validasi('#no_telp_perujuk', 'harus diisi!!')
+				}
+			} else {
+				$('#submit_perujuk_baru').click();
+			}
+	});
+	$('#submit_perujuk_baru').click(function(){
+			var nama_perujuk = $('#nama_perujuk').val();
+			var alamat_perujuk = $('#alamat_perujuk').val();
+			var no_telp_perujuk = $('#no_telp_perujuk').val();
+		$.post( base + '/perujuks/ajax/create',
+				{
+					 'nama' : nama_perujuk,
+					 'alamat' : alamat_perujuk,
+					 'no_telp' : no_telp_perujuk
+				},
+			function (data) {
+				console.log(data);
+				if (data.result == '1') {
+					$('#perujuk_id').html(data.options).val(data.value).selectpicker('refresh');
+					alert('perujuk baru bernama ' + nama_perujuk + ' telah berhasil ditambahkan');
+					$('#modal_buat_perujuk_baru').modal('hide');
+				} else {
+					alert('maaf !! perujuk telah gagal ditambahkan');
+					$('#modal_buat_perujuk_baru').modal('hide');
+				}
+			}
+		);
+	});
+	
 
    jQuery(document).ready(function($) {
+
+	   $('#modal_buat_perujuk_baru').on('shown.bs.modal', function(){
+			 $('#nama_perujuk').focus();   
+	   });
+	   $('#modal_buat_perujuk_baru').on('hidden.bs.modal', function(){
+		   $('#perujuk_id').closest('div').find('.btn-white').focus();   
+	   });
        bahanHabisPakai();
        if ( $('#resepluar').val() != '' ) {
           $('#panel-resepluar').show(); 

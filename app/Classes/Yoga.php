@@ -8,6 +8,7 @@ use App\Poli;
 use App\JurnalUmum;
 use App\Pasien;
 use App\Signa;
+use App\Perujuk;
 use App\AturanMinum;
 use App\Supplier;
 use App\Tarif;
@@ -2019,5 +2020,9 @@ class Yoga {
 	}
 	
 	    
+	public static function perujukList(){
+		return [ null => '-pilih-' ] + Perujuk::lists('nama', 'id')->all();
+	}
+	
     
 }

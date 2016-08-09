@@ -27,41 +27,43 @@ Klinik Jati Elok | Laporan Harian
                     <h2 class="panel-title">Ringkasan Laporan</h2>
               </div>
               <div class="panel-body">
-                    <table class="table table-condensed table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nama Asuransi</th>
-                                <th>Jumlah</th>
-								@foreach($polis as $poli)	
-									<th>{{ $poli }}</th>
-								@endforeach
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @if (count($hariinis) > 0)
-							@foreach ($hariinis as $hariini)
-								<tr>
-									<td>{!! $hariini->nama !!}</td>
-									<th>{!! $hariini->jumlah !!}</th>
-									@foreach($polis as $poli)	
-										<td class="text-center">{{ App\Classes\Yoga::periksa_by_asuransi($tanggal, $hariini->id, $poli) }}</td>
-									@endforeach
-								</tr>
-							@endforeach
-                        @else
-                            <tr>
-                                <td colspan="2" class="text-center">Tidak ada data untuk ditampilkan :p</td>
-                            </tr>
-                        @endif
-                        </tbody>
-                        <tfoot>
-                            <th> Jumlah </th>
-                            <th>{!! count($periksas) !!}</th>
-							@foreach($polis as $poli)	
-								<th class="text-center">{{ App\Classes\Yoga::periksa_by_poli($tanggal, $poli) }}</th>
-							@endforeach
-                        </tfoot>
-                    </table>
+				  <div class="table-responsive">
+					  <table class="table table-condensed table-hover">
+						  <thead>
+							  <tr>
+								  <th>Nama Asuransi</th>
+								  <th>Jumlah</th>
+								  @foreach($polis as $poli)	
+									  <th>{{ $poli }}</th>
+								  @endforeach
+							  </tr>
+						  </thead>
+						  <tbody>
+							  @if (count($hariinis) > 0)
+								  @foreach ($hariinis as $hariini)
+									  <tr>
+										  <td>{!! $hariini->nama !!}</td>
+										  <th>{!! $hariini->jumlah !!}</th>
+										  @foreach($polis as $poli)	
+											  <td class="text-center">{{ App\Classes\Yoga::periksa_by_asuransi($tanggal, $hariini->id, $poli) }}</td>
+										  @endforeach
+									  </tr>
+								  @endforeach
+							  @else
+								  <tr>
+									  <td colspan="2" class="text-center">Tidak ada data untuk ditampilkan :p</td>
+								  </tr>
+							  @endif
+						  </tbody>
+						  <tfoot>
+							  <th> Jumlah </th>
+							  <th>{!! count($periksas) !!}</th>
+							  @foreach($polis as $poli)	
+								  <th class="text-center">{{ App\Classes\Yoga::periksa_by_poli($tanggal, $poli) }}</th>
+							  @endforeach
+						  </tfoot>
+					  </table>
+				  </div>
               </div>
         </div>
     </div>
@@ -80,52 +82,54 @@ Klinik Jati Elok | Laporan Harian
                 </div>
           </div>
           <div class="panel-body">
-                <table class="table table-bordered table-hover" id="tableAsuransi">
-                      <thead>
-                        <tr>
-                            <th class="hide">ID PERIKSA</th>
-                            <th>No</th>
-                            <th>Nama Pasien</th>
-                            <th>Pembayaran</th>
-                            <th>Poli</th>
-                            <th>Tunai</th>
-                            <th>Piutang</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (count($periksas) > 0)
-                            @foreach ($periksas as $key => $periksa)
-                            <tr>
-                                <td class="hide periksa_id">{!! $periksa->periksa_id !!}</td>
-                                <td>{!! $key + 1 !!}</td>
-                                <td>{!! $periksa->nama_pasien !!}</td>
-                                <td>{!! $periksa->nama_asuransi !!}</td>
-                                <td>{!! $periksa->poli !!}</td>
-                                <td class='uang'>{!! $periksa->tunai !!}</td>
-                                <td class='uang'>{!! $periksa->piutang !!}</td>
-                                <td>
-                                    <a href="{{ url('pdfs/kuitansi/' . $periksa->periksa_id ) }}" target="_blank">Kuitansi</a> | 
-                                    <a href="{{ url('pdfs/status/' . $periksa->periksa_id ) }}" target="_blank">Resep</a> | 
-                                    <a href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank">Detail</a> | 
-                                    <a href="{{ url('pdfs/struk/' . $periksa->periksa_id ) }}" target="_blank">Struk</a>  
-                                </td>
-                            </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="6" class="text-center">Tidak / Belum ada transaksi tanggal {!! App\Classes\Yoga::updateDatePrep($tanggal) !!}</td>
-                            </tr>
-                        @endif
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="4">Total</th>
-                            <td class="uang">{!! App\Classes\Yoga::totalTunaiHarian($periksas)!!}</td>
-                            <td class="uang">{!! App\Classes\Yoga::totalPiutangHarian($periksas)!!}</td>
-                        </tr>
-                    </tfoot>
-                </table>
+			  <div class="table-responsive">
+				  <table class="table table-bordered table-hover" id="tableAsuransi">
+					  <thead>
+						  <tr>
+							  <th class="hide">ID PERIKSA</th>
+							  <th>No</th>
+							  <th>Nama Pasien</th>
+							  <th>Pembayaran</th>
+							  <th>Poli</th>
+							  <th>Tunai</th>
+							  <th>Piutang</th>
+							  <th>Action</th>
+						  </tr>
+					  </thead>
+					  <tbody>
+						  @if (count($periksas) > 0)
+							  @foreach ($periksas as $key => $periksa)
+								  <tr>
+									  <td class="hide periksa_id">{!! $periksa->periksa_id !!}</td>
+									  <td>{!! $key + 1 !!}</td>
+									  <td>{!! $periksa->nama_pasien !!}</td>
+									  <td>{!! $periksa->nama_asuransi !!}</td>
+									  <td>{!! $periksa->poli !!}</td>
+									  <td class='uang'>{!! $periksa->tunai !!}</td>
+									  <td class='uang'>{!! $periksa->piutang !!}</td>
+									  <td>
+										  <a href="{{ url('pdfs/kuitansi/' . $periksa->periksa_id ) }}" target="_blank">Kuitansi</a> | 
+										  <a href="{{ url('pdfs/status/' . $periksa->periksa_id ) }}" target="_blank">Resep</a> | 
+										  <a href="{{ url('periksas/' . $periksa->periksa_id ) }}" target="_blank">Detail</a> | 
+										  <a href="{{ url('pdfs/struk/' . $periksa->periksa_id ) }}" target="_blank">Struk</a>  
+									  </td>
+								  </tr>
+							  @endforeach
+						  @else
+							  <tr>
+								  <td colspan="6" class="text-center">Tidak / Belum ada transaksi tanggal {!! App\Classes\Yoga::updateDatePrep($tanggal) !!}</td>
+							  </tr>
+						  @endif
+					  </tbody>
+					  <tfoot>
+						  <tr>
+							  <th colspan="4">Total</th>
+							  <td class="uang">{!! App\Classes\Yoga::totalTunaiHarian($periksas)!!}</td>
+							  <td class="uang">{!! App\Classes\Yoga::totalPiutangHarian($periksas)!!}</td>
+						  </tr>
+					  </tfoot>
+				  </table>
+			  </div>
           </div>
     </div>
 </div>

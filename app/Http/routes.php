@@ -20,91 +20,9 @@ Route::get('logout', 'AuthController@logout');
 Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
 
-Route::get('sesuaikan/sesuaikan', function(){
+Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
+Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
 
-
-    $query = "select px.id from periksas as px join terapis as tr on tr.periksa_id = px.id where signa = 'Add' group by px.id;";
-    $periksas = DB::select($query);
-    $data = '';
-    foreach ($periksas as $p) {
-        $terapis = App\Terapi::where('periksa_id', $p->id)->get();
-        $bayarAdd = 0;
-        $syrupAdd = 0;
-        $temp = '';
-        foreach ($terapis as $terapi) {
-            $formula_id = $terapi->merek->rak->formula_id;
-            if ($terapi->signa == 'Add' &&
-                (
-                    $formula_id == '150803003' || //Decamox Syr
-                    $formula_id == '150803008' || //Lostacef Syr
-                    $formula_id == '150921001' || //cefixime syr
-                    $formula_id == '150803006'  //Dionicol sy
-                )
-            ) {
-                $syrupAdd = 1;
-            }
-
-            if (!$bayarAdd && $terapi->merek_id == -2 && $terapi->jumlah > 0) {
-                $terapi->jumlah = 0;
-                $terapi->save(); 
-            } else if ($bayarAdd && $terapi->merek_id == -2 && $terapi->jumlah < 1) {
-                $terapi->jumlah = 1;
-                $terapi->save(); 
-            }
-
-            if ($syrupAdd && $terapi->signa != 'Add') {
-                $syrupAdd = 0;
-                $bayarAdd = 0;    
-            } else if ($syrupAdd && $terapi->signa == 'Add' &&
-                !(
-
-                    $formula_id == '150803003' || //Decamox Syr
-                    $formula_id == '150803008' || //Lostacef Syr
-                    $formula_id == '150921001' || //cefixime syr
-                    $formula_id == '150803006' || //Dionicol sy
-                    $formula_id == '150806007' || //Decamox Syr
-                    $formula_id == '150802040' || //Lostacef Syr
-                    $formula_id == '150806005' || //cefixime syr
-                    $terapi->merek_id == '-2' || //cefixime syr
-                    $formula_id == '150803047'  //Dionicol sy
-                )
-            ) {
-                $bayarAdd = 1;    
-            }
-
-            $temp .= $terapi->merek->merek . ' ' . $terapi->signa . ' '. $terapi->jumlah . ' '. $terapi->aturan_minum  . ' merek_id = ' . $terapi->merek_id . ' ' . $syrupAdd . ' ' . $bayarAdd . '<br />';
-        }
-        if($bayarAdd){
-            $text = '<span style="color:red;">';
-             $text .= 'Add di bayar';
-             $text .= '</span>';
-         } else {
-            $text = '<span style="color:red;">';
-             $text .= 'Add tidak di bayar';
-             $text .= '</span>';
-         }
-         $data .= $temp . $text . '<br /><br />';
-    }
-    return $data;
-});
-Route::get('sesuaikan/cek', function(){
-    $query = "select px.id from periksas as px join terapis as tr on tr.periksa_id = px.id where signa = 'Add' group by px.id limit 10;";
-    $periksas = DB::select($query);
-    $data = '';
-    foreach ($periksas as $p) {
-        $terapis = App\Terapi::where('periksa_id', $p->id)->get();
-        $bayarAdd = 0;
-        $syrupAdd = 0;
-        $temp = '';
-        foreach ($terapis as $terapi) {
-        $temp .= $terapi->merek->merek . ' ' . $terapi->signa . ' '. $terapi->jumlah . ' '. $terapi->aturan_minum . '<br />';
-        }
-        $data .= $temp . '<br />';
-    }
-    return $data;
-    return dd($data);
-});
-		
     Route::resource('users', 'UsersController');
   	Route::group(['middleware' => 'auth'], function(){
 
@@ -207,8 +125,6 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus');
 
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
-			Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
-			Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
 
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
@@ -268,6 +184,7 @@ Route::get('sesuaikan/cek', function(){
 			Route::post('update/tarifs/', 'CustomController@updtrf');
 
 			Route::post('monitor/avail', 'CustomController@mon_avail');
+			Route::post('monitor/survey', 'CustomController@survey_available');
 
 			//ajax untuk survey pasien
 			Route::post('update/surveys/send_id', 'CustomController@send_id');
@@ -314,6 +231,7 @@ Route::get('sesuaikan/cek', function(){
 
 			Route::get('perujuks', 'PerujuksController@index');
 			Route::get('perujuks/create', 'PerujuksController@create');
+			Route::post('perujuks/ajax/create', 'PerujuksController@ajaxcreate');
 			Route::get('perujuks/{id}/edit', 'PerujuksController@edit');
 			Route::post('perujuks', 'PerujuksController@store');
 			Route::put('perujuks/{id}', 'PerujuksController@update');

@@ -202,7 +202,11 @@ class CustomController extends Controller
    		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
    		$reseps = Yoga::masukLagi($periksa->terapii);
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
+
         $monitor = Monitor::find(1);
+        $monitor->periksa_id = $periksa->id;
+        $monitor->save();
+
         $dibayar = null;
         if ( $periksa->asuransi->tipe_asuransi== '4') {
         	$jasa_dokter = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '1')->first()->biaya;
@@ -575,7 +579,6 @@ class CustomController extends Controller
 	}
 
 	public function mon_avail(){
-		// return 'oke';
 		$periksa_id = Monitor::find(1)->periksa_id;
 		if ($periksa_id == '0') {
 			$nama = '';
@@ -680,4 +683,14 @@ class CustomController extends Controller
     public function test_post(){
          return 'this post';
     }
+	public function survey_available(){
+		$periksa_id = Monitor::find(1)->periksa_id;
+		if ($periksa_id == '0') {
+			return '0';
+		}else{
+			return '1';
+		}
+
+	}
+	
 }

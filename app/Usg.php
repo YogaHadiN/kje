@@ -16,6 +16,11 @@ class Usg extends Model
 	// Don't forget to fill this array
 	protected $fillable = [];
 
+	public function perujuk(){
+		return $this->belongsTo('App\Perujuk');
+	}
+	
+
 
 
 	public function getBpdwAttribute(){

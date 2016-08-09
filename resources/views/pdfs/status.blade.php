@@ -497,7 +497,20 @@ border-spacing: -1px;
 											{!! App\Classes\Yoga::statusGizi($periksa->registerAnc->lila) !!}
 										</td>
 									</tr>
+									@if($periksa->usg)
+									<tr>
+										<td class="bold" nowrap>Perujuk</td>
+										<td nowrap>
+											@if(isset( $periksa->usg->perujuk ))
+												{!! $periksa->usgs->perujuk->nama !!}
+											@else
+												Tidak Ada Perujuk
+											@endif
+										</td>
+									</tr>
+									@endif
 								</table>
+
 							</td>
 						</tr>
 					</table>
@@ -515,7 +528,6 @@ border-spacing: -1px;
 					@endif
 				</td>
 			</tr>
-			tr
 		@endif
 	</table>
 	@if(!empty($periksa->rujukan->id))
@@ -728,7 +740,7 @@ border-spacing: -1px;
 									:
 								</td>
 								<td>
-									{!! $periksa->usg->fl !!}
+									{!! $periksa->usg->fl !!}  @if($periksa->usg->fl_mm) ( {!! $periksa->usg->fl_mm !!} mm) @endif
 								</td>
 							</tr>
 							<tr>
@@ -739,7 +751,7 @@ border-spacing: -1px;
 									:
 								</td>
 								<td>
-									{!! $periksa->usg->bpd !!}
+									{!! $periksa->usg->bpd !!}  @if($periksa->usg->bpd_mm) ( {!! $periksa->usg->bpd_mm !!} mm) @endif
 								</td>
 								<td>
 									Sex
@@ -759,7 +771,7 @@ border-spacing: -1px;
 									:
 								</td>
 								<td>
-									{!! $periksa->usg->ltp !!}
+									{!! $periksa->usg->ltp !!} 
 								</td>
 								<td>
 									Estimated Fetal Weight
@@ -800,7 +812,7 @@ border-spacing: -1px;
 									:
 								</td>
 								<td>
-									{!! $periksa->usg->ac !!}
+									{!! $periksa->usg->ac !!}  @if($periksa->usg->ac_mm) ( {!! $periksa->usg->ac_mm !!} mm) @endif
 								</td>
 								<td>
 									Plasenta

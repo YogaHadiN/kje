@@ -100,7 +100,7 @@ Klinik Jati Elok | USG {{ $periksa->pasien->nama }} - {{ $periksa->id }}
 			:
 		</td>
 		<td>
-			{!! $periksa->usg->fl !!}
+			{!! $periksa->usg->fl !!} @if($periksa->usg->fl_mm) ( {!! $periksa->usg->fl_mm !!} ) @endif
 		</td>
 	</tr>
 	<tr>
@@ -111,7 +111,7 @@ Klinik Jati Elok | USG {{ $periksa->pasien->nama }} - {{ $periksa->id }}
 			:
 		</td>
 		<td>
-			{!! $periksa->usg->bpd !!}
+			{!! $periksa->usg->bpd !!}  @if($periksa->usg->bpd_mm) ( {!! $periksa->usg->bpd_mm !!} mm) @endif
 		</td>
 		<td>
 			Sex
@@ -172,7 +172,7 @@ Klinik Jati Elok | USG {{ $periksa->pasien->nama }} - {{ $periksa->id }}
 			:
 		</td>
 		<td>
-			{!! $periksa->usg->ac !!}
+	{!! $periksa->usg->ac !!} @if($periksa->usg->ac_mm) ( {!! $periksa->usg->ac_mm !!} mm  ) @endif
 		</td>
 		<td>
 			Plasenta

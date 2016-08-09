@@ -17,8 +17,7 @@ class FasilitasController extends Controller
 		return view('fasilitas.antrian', compact('antrianperiksa'));
     }
     public function survey(){
-
-		return 'survey kepuasan pelanggan';
+		return view('surveys.survey');
     }
     
 }

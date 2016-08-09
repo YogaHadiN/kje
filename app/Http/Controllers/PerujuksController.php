@@ -114,4 +114,37 @@ class PerujuksController extends Controller
 		return redirect('perujuks')->withPesan('Perujuk dengan nama <strong>' . $perujuk->id . ' - ' . $perujuk->nama . '</strong> berhasil dihapus');;
 	}
 
+	public function ajaxcreate(){
+
+		 $nama = Input::get('nama');
+		 $alamat = Input::get('alamat');
+		 $no_telp = Input::get('no_telp');
+
+		 $data = [
+			  'nama' => $nama,
+			  'alamat' => $alamat,
+			  'no_telp' => $no_telp
+		 ];
+
+		$confirm = Perujuk::create($data);
+		 if ($confirm) {
+			 $options =  Perujuk::lists('nama', 'id');
+			 $temp = '<option value="">-pilih-</option>';
+			 foreach ($options as $k => $opt) {
+			 	$temp .= '<option value="' . $k . '">' . $opt . '</option>';
+			 }
+			 return [
+				 'result' => '1',
+				 'value' => $confirm->id,
+				 'options' => $temp
+			 ];
+		 } else {
+			 return [
+				 'result' => '0',
+				'options' => []
+			 ];
+		 }
+		 
+	}
+
 }

@@ -305,6 +305,9 @@ Klinik Jati Elok | Asuransi
     data = JSON.parse(data);
 
     $(document).ready(function() {
+		$(window).bind('beforeunload', function(e){
+			alert('dada');
+		});
         viewTarif(data);
         totalAwal = totalHarga();
         $('.tabelTerapi2 td').click(function(e) {

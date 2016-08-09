@@ -153,6 +153,9 @@ class PeriksasController extends Controller
 		$usg->ac             = Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd';
 		$usg->efw            = Input::get('EFW') . ' gr';
 		$usg->fl             = Input::get('FL_w') . 'w ' . Input::get('FL_d') . 'd';
+		$usg->bpd_mm             = Input::get('BPD_mm');
+		$usg->ac_mm             = Input::get('AC_mm');
+		$usg->FL_mm             = Input::get('FL_mm');
 		$usg->sex            = Input::get('Sex');
 		$usg->ica            = Input::get('total_afi');
 		$usg->plasenta       = Input::get('Plasenta');
@@ -386,6 +389,9 @@ class PeriksasController extends Controller
 		$usg->djj            = Input::get('FHR');
 		$usg->ac             = Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd';
 		$usg->efw            = Input::get('EFW') . ' gr';
+		$usg->bpd_mm             = Input::get('BPD_mm');
+		$usg->ac_mm             = Input::get('AC_mm');
+		$usg->FL_mm             = Input::get('FL_mm');
 		$usg->fl             = Input::get('FL_w') . 'w ' . Input::get('FL_d') . 'd';
 		$usg->sex            = Input::get('Sex');
 		$usg->ica            = Input::get('total_afi');

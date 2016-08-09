@@ -208,6 +208,19 @@
 					@endif
 				</div>
 			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group" @if($errors->has('perujuk_id')) class="has-error" @endif)>
+				  {!! Form::label('perujuk_id', 'Perujuk') !!}
+				  {!! Form::select('perujuk_id' , App\Classes\Yoga::perujukList(), $perujuk_id, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+				  @if($errors->has('perujuk_id'))<code>{{ $errors->first('perujuk_id') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					{!! Form::label('buat_perujuk', 'Perujuk Tidak Ditemukan ?') !!}
+					<button class="btn btn-block btn-success" type="button" onclick=" $('#modal_buat_perujuk_baru').modal('show'); ">Buat Perujuk Baru</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -425,3 +438,50 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_buat_perujuk_baru">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title">Buat Perujuk Baru</h4>
+	  </div>
+	  <div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group" @if($errors->has('nama_perujuk')) class="has-error" @endif)>
+				  {!! Form::label('nama_perujuk', 'Nama') !!}
+				  {!! Form::text('nama_perujuk' , null, ['class' => 'form-control', 'id' => 'nama_perujuk']) !!}
+				  @if($errors->has('nama_perujuk'))<code>{{ $errors->first('nama_perujuk') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group" @if($errors->has('alamat_perujuk')) class="has-error" @endif)>
+				  {!! Form::label('alamat_perujuk', 'Alamat') !!}
+				  {!! Form::textarea('alamat_perujuk' , null, ['class' => 'form-control textareacustom', 'id' => 'alamat_perujuk']) !!}
+				  @if($errors->has('alamat_perujuk'))<code>{{ $errors->first('alamat_perujuk') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group" @if($errors->has('no_telp_perujuk')) class="has-error" @endif)>
+				  {!! Form::label('no_telp_perujuk', 'No Telp') !!}
+				  {!! Form::text('no_telp_perujuk' , null, ['class' => 'form-control', 'id' => 'no_telp_perujuk']) !!}
+				  @if($errors->has('no_telp_perujuk'))<code>{{ $errors->first('no_telp_perujuk') }}</code>@endif
+				</div>
+			</div>
+		</div>
+	  </div>
+	  <div class="modal-footer">
+		  <div class="row">
+		  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button type="button" class="btn btn-primary btn-block" id="dummy_submit_perujuk_baru">Buat Perujuk Baru</button>
+				<button type="button" id='submit_perujuk_baru' class="btn btn-primary btn-block hide">Buat Perujuk Baru</button>
+		  	</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Cancel</button>
+			</div>
+		  </div>
+	  </div>
+	</div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

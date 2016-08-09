@@ -217,6 +217,10 @@ class PolisController extends Controller
 				$presentasi		= $periksa->usg->presentasi;
 				$bpdw			= $periksa->usg->bpdw;
 				$bpdd			= $periksa->usg->bpdd;
+				$bpd_mm			= $periksa->usg->bpd_mm;
+				$ac_mm			= $periksa->usg->ac_mm;
+				$fl_mm			= $periksa->usg->fl_mm;
+				$perujuk_id			= $periksa->usg->perujuk_id;
 				$ltp			= $periksa->usg->ltp;
 				$djj			= $periksa->usg->djj;
 				$acw			= $periksa->usg->acw;
@@ -276,6 +280,10 @@ class PolisController extends Controller
 			->withPenunjang($periksaExist->pemeriksaan_penunjang)
 			->withBpdw($bpdw)
 			->withBpdd($bpdd)
+			->withBpd_mm($bpd_mm)
+			->withFl_mm($fl_mm)
+			->withAc_mm($ac_mm)
+			->withPerujuk_id($perujuk_id)
 			->withLtp($ltp)
 			->withAdatindakan('0')
 			->withPakai_bayar_pribadi($pakai_bayar_pribadi)
