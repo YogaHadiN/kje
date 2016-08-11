@@ -218,6 +218,9 @@ class PolisController extends Controller
 				$bpdw			= $periksa->usg->bpdw;
 				$bpdd			= $periksa->usg->bpdd;
 				$bpd_mm			= $periksa->usg->bpd_mm;
+				$hcw			= $periksa->usg->hcw;
+				$hcd			= $periksa->usg->hcd;
+				$hc_mm			= $periksa->usg->hc_mm;
 				$ac_mm			= $periksa->usg->ac_mm;
 				$fl_mm			= $periksa->usg->fl_mm;
 				$perujuk_id		= $periksa->usg->perujuk_id;
@@ -239,6 +242,9 @@ class PolisController extends Controller
 				$bpdw			= null;
 				$bpdd			= null;
 				$bpd_mm			= null;
+				$hcw			= null;
+				$hcd			= null;
+				$hc_mm			= null;
 				$fl_mm			= null;
 				$ac_mm			= null;
 				$perujuk_id		= null;
@@ -284,6 +290,9 @@ class PolisController extends Controller
 			->withBpdw($bpdw)
 			->withBpdd($bpdd)
 			->withBpd_mm($bpd_mm)
+			->withHcw($hcw)
+			->withHcd($hcd)
+			->withHc_mm($hc_mm)
 			->withFl_mm($fl_mm)
 			->withAc_mm($ac_mm)
 			->withPerujuk_id($perujuk_id)

@@ -38,9 +38,7 @@ class MonitorsController extends Controller
 		$confirm = $periksa->save();
 
 		if ($confirm){
-			$mtr = Monitor::find(1);
-			$mtr->periksa_id = '0';
-			$mtr->save();
+			$this->buatNol();
 
 			return '1';
 		}
@@ -60,9 +58,7 @@ class MonitorsController extends Controller
 		$confirm = $periksa->save();
 
 		if ($confirm){
-			$mtr = Monitor::find(1);
-			$mtr->periksa_id = '0';
-			$mtr->save();
+			$this->buatNol();
 
 			return '1';
 		}
@@ -82,14 +78,20 @@ class MonitorsController extends Controller
 		$confirm = $periksa->save();
 
 		if ($confirm){
-			$mtr = Monitor::find(1);
-			$mtr->periksa_id = '0';
-			$mtr->save();
-
+			$this->buatNol();
 			return '1';
 		}
 				
 	}
+	public function buatIdPeriksaNol(){
+		$this->buatNol();
+	}
+	private function buatNol(){
+		$mtr = Monitor::find(1);
+		$mtr->periksa_id = '0';
+		$mtr->save();
+	}
+		
 
 	
 

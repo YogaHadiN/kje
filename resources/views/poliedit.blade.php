@@ -27,7 +27,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
               <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli)!!}">Poli {!! ucfirst($antrianperiksa->poli) !!}</a>
           </li>
           <li class="active">
-              <strong>Ruang Periksa</strong>
+			  <strong>Periksa Edit</strong>
           </li>
     </ol>
 
@@ -47,9 +47,12 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
           'adatindakan'                  => $adatindakan,
           'BPD_w'                        => $bpdw,
           'BPD_mm'                       => $bpd_mm,
+          'HC_w'                        => $hcw,
+          'HC_mm'                       => $hc_mm,
           'AC_mm'                        => $ac_mm,
           'FL_mm'                        => $fl_mm,
           'BPD_d'                        => $bpdd,
+          'HC_d'                        => $hcd,
           'LTP'                          => $ltp,
           'FHR'                          => $djj,
           'AC_w'                         => $acw,

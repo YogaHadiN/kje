@@ -112,45 +112,58 @@ img, a{
 			</div>
 		</div>
 		
-		<script src="{!! asset('js/all.js') !!}"></script>
-		<script type="text/javascript" charset="utf-8">
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+<script src="{!! asset('js/all.js') !!}"></script>
+<script type="text/javascript" charset="utf-8">
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+	$(function () {
+		var callSurvey = setInterval(function(){
+			$.post('{{ url("monitor/survey") }}',
+				{},
+				function (data) {
+					if(data == '1'){
+						 smiley();
+					} else {
+						preface();
+					}
 				}
-			});
-			$(function () {
-				setInterval(function(){
-					$.post('{{ url("monitor/survey") }}',
-						{},
-						function (data) {
-							if(data == '1'){
-								 smiley();
-							} else {
-								preface();
-							}
-						}
-					);
-				}, 1000);
-			});
-        function puas(){
-            $.post('{!! url("monitors/puas") !!}', {}, function(data) {
-				response(data);
-            });
-        }
-        function biasa(){
-            $.post('{!! url("monitors/biasa") !!}', {}, function(data) {
-				response(data);
-            });
-        }
-        function tidak(){
-            $.post('{!! url("monitors/kecewa") !!}', {}, function(data) {
-				response(data);
-            });
-        }
+			);
+		}, 1000);
+
+	});
+	function puas(){
+		$.post('{!! url("monitors/puas") !!}', {}, function(data) {
+			response(data);
+		});
+	}
+	function biasa(){
+		$.post('{!! url("monitors/biasa") !!}', {}, function(data) {
+			response(data);
+		});
+	}
+	function tidak(){
+		$.post('{!! url("monitors/kecewa") !!}', {}, function(data) {
+			response(data);
+		});
+	}
 	function smiley(){
-		 $('.preface').hide();
-		 $('.smiley').show();
+		$('.preface').hide();
+		$('.smiley').show();
+		var i = 20; 
+		clearInterval(callSurvey);
+		setInterval(function(){
+			
+			if(i > 0){
+				i--;
+			} else {
+				callSurvey();
+				setMonitorsIdPeriksa_0();
+			}
+
+		}, 1000);
 	}
 
 	function preface(){
@@ -182,6 +195,25 @@ img, a{
 		 $('.smiley').hide();
 		 $('.preface').hide();
 	}
+function callSurvey(){
+	setInterval(function(){
+		$.post('{{ url("monitor/survey") }}',
+			{},
+			function (data) {
+				if(data == '1'){
+					 smiley();
+				} else {
+					preface();
+				}
+			}
+		);
+	}, 1000);
+}
+function setMonitorsIdPeriksa_0(){
+	$.post('{!! url("monitors/buatIdPeriksaNol") !!}', {}, function(data) {
+		response(data);
+	});
+}
 </script>
 	</body>
 </html>

@@ -206,6 +206,7 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 			Route::post('monitors/puas', 'MonitorsController@puas');
 			Route::post('monitors/biasa', 'MonitorsController@biasa');
 			Route::post('monitors/kecewa', 'MonitorsController@kecewa');
+			Route::post('monitors/buatIdPeriksaNol', 'MonitorsController@buatIdPeriksaNol');
 
 
 			Route::get('obat/stokmin', 'ObatsController@index');

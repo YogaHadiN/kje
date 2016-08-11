@@ -70,10 +70,10 @@ class Usg extends Model
 		$ac_d = substr($ac_a[1], 0, -1);
 
 		if (empty($this->ac)) {
-			$ac_w = null;
+			$ac_d = null;
 		}
 
-		return $ac_w;
+		return $ac_d;
 	}
 
 	public function getFlwAttribute(){
@@ -108,5 +108,40 @@ class Usg extends Model
 		return $fl_a[0];
 	}
 
+	public function getHcwAttribute(){
+		$fl = $this->hc;
+		if ($fl) {
+			$fl_a = explode(' ', $fl);
+			$fl_w = substr($fl_a[0], 0, -1);
+			$fl_d = substr($fl_a[1], 0, -1);
+
+
+			if (empty($this->fl)) {
+				$fl_w = null;
+			}
+
+			return $fl_w;
+		}
+	
+		return null;
+	}
+
+	public function getHcdAttribute(){
+		$fl = $this->hc;
+		if ($fl) {
+			$fl_a = explode(' ', $fl);
+			$fl_w = substr($fl_a[0], 0, -1);
+			$fl_d = substr($fl_a[1], 0, -1);
+
+
+			if (empty($this->fl)) {
+				$fl_d = null;
+			}
+
+			return $fl_d;
+		}
+	
+		return null;
+	}
 
 }

@@ -247,28 +247,47 @@
 													<td>
                                                         <div class="input-group">
                                                             {!! Form::text('BPD_mm', $BPD_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'BPD_mm' ])!!}
-                                                            <span class="input-group-addon" id="addonBPDd">mm</span>
+                                                            <span class="input-group-addon" id="addonBPDmm">mm</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+												<tr>
+                                                    <td>Head Circumference</td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            {!! Form::text('HC_w', $HC_w, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_w'])!!}
+                                                            <span class="input-group-addon" id="addonHCw">W</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            {!! Form::text('HC_d', $HC_d, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_d' ])!!}
+                                                            <span class="input-group-addon" id="addonHCd">D</span>
+                                                        </div>
+                                                    </td>
+													<td>
+                                                        <div class="input-group">
+                                                            {!! Form::text('HC_mm', $HC_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'HC_mm' ])!!}
+                                                            <span class="input-group-addon" id="addonHCmm">mm</span>
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Lilitan Tali Pusat</td>
-                                                    <td colspan="3">
+                                                    <td>LTP</td>
+                                                    <td>
                                                         <div class="input-group">
                                                             {!! Form::text('LTP', $LTP, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_ltp'])!!}
                                                             <span class="input-group-addon" id="addonLTP">lilitan</span>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Fetal Heart Rate</td>
-                                                    <td colspan="3">
+                                                    <td>FHR</td>
+                                                    <td>
                                                         <div class="input-group">
                                                             {!! Form::text('FHR', $FHR, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'usg_djj'])!!}
                                                             <span class="input-group-addon" id="addonFHR">bpm</span>
                                                         </div>
 													</td>
-												</tr>
+                                                </tr>
                                                 <tr>
                                                     <td>Abdominal Circumference</td>
                                                     <td>
@@ -286,7 +305,7 @@
 													<td>
                                                         <div class="input-group">
                                                             {!! Form::text('AC_mm', $AC_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'AC_mm'])!!}
-                                                            <span class="input-group-addon" id="addonACd">mm</span>
+                                                            <span class="input-group-addon" id="addonACmm">mm</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -323,7 +342,7 @@
 													<td>
                                                         <div class="input-group">
                                                             {!! Form::text('FL_mm', $FL_mm, ['class' => 'form-control hasil', 'dir' => 'rtl', 'id' => 'FL_mm'])!!}
-                                                            <span class="input-group-addon" id="addonFLd">mm</span>
+                                                            <span class="input-group-addon" id="addonFLmm">mm</span>
                                                         </div>
                                                     </td>
                                                 </tr>

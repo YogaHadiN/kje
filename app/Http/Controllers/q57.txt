@@ -1,0 +1,4 @@
+update monitors set periksa_id=0 where id=1;
+alter table usgs add column hc varchar(255);
+alter table usgs add column hc_mm int(11) default 0;
+

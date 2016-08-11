@@ -763,6 +763,21 @@ border-spacing: -1px;
 									{!! $periksa->usg->sex !!}
 								</td>
 							</tr>
+
+							@if($periksa->usg->hc)
+								<tr>
+									<td>Head Circumference</td>
+									<td>
+										:
+									</td>
+									<td>
+										{!! $periksa->usg->hc !!}  @if($periksa->usg->hc_mm) ( {!! $periksa->usg->hc_mm !!} mm) @endif
+									</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							@endif
 							<tr>
 								<td>
 									Lilitan Tali Pusat

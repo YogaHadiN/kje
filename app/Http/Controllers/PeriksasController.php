@@ -148,6 +148,7 @@ class PeriksasController extends Controller
 		$usg->umur_kehamilan = Input::get('umur_kehamilan');
 		$usg->gpa            = Input::get('gpa');
 		$usg->bpd            = Input::get('BPD_w') . 'w ' . Input::get('BPD_d') . 'd';
+		$usg->hc             = Input::get('HC_w') . 'w ' . Input::get('HC_d') . 'd';
 		$usg->ltp            = Input::get('LTP');
 		$usg->djj            = Input::get('FHR');
 		$usg->ac             = Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd';
@@ -156,6 +157,7 @@ class PeriksasController extends Controller
 		$usg->bpd_mm             = Input::get('BPD_mm');
 		$usg->ac_mm             = Input::get('AC_mm');
 		$usg->FL_mm             = Input::get('FL_mm');
+		$usg->HC_mm             = Input::get('HC_mm');
 		$usg->sex            = Input::get('Sex');
 		$usg->ica            = Input::get('total_afi');
 		$usg->plasenta       = Input::get('Plasenta');
@@ -388,9 +390,11 @@ class PeriksasController extends Controller
 		$usg->ltp            = Input::get('LTP');
 		$usg->djj            = Input::get('FHR');
 		$usg->ac             = Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd';
+		$usg->hc             = Input::get('HC_w') . 'w ' . Input::get('HC_d') . 'd';
 		$usg->efw            = Input::get('EFW') . ' gr';
 		$usg->bpd_mm             = Input::get('BPD_mm');
 		$usg->ac_mm             = Input::get('AC_mm');
+		$usg->hc_mm             = Input::get('HC_mm');
 		$usg->FL_mm             = Input::get('FL_mm');
 		$usg->fl             = Input::get('FL_w') . 'w ' . Input::get('FL_d') . 'd';
 		$usg->sex            = Input::get('Sex');
