@@ -11,6 +11,11 @@ class GajiGigi extends Model
 		return $this->belongsTo('App\GajiGigi');
 	}
 
+	public function staf(){
+		return $this->belongsTo('App\Staf');
+	}
+	
+
 	public function getPeriodeAttribute(){
 		return $this->tanggal_mulai->format('d-m-Y') . ' s/d ' . $this->tanggal_akhir->format('d-m-Y');
 	}
