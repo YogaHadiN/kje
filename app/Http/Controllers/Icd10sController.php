@@ -48,7 +48,7 @@ class Icd10sController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Icd10::create($data);
@@ -96,7 +96,7 @@ class Icd10sController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$icd10->update($data);

@@ -44,7 +44,7 @@ class TipeLaporanKasirsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Tipelaporankasir::create($data);
@@ -92,7 +92,7 @@ class TipeLaporanKasirsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$tipelaporankasir->update($data);

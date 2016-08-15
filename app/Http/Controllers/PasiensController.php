@@ -152,7 +152,7 @@ class PasiensController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 			$pasien                 = Pasien::find($id);

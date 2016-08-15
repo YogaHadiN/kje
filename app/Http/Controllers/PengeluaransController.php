@@ -11,12 +11,14 @@ use App\Classes\Yoga;
 use App\BukanObat;
 use App\CheckoutDetail;
 use App\Pembelian;
+use App\BelanjaPeralatan;
 use App\Diagnosa;
 use App\Modal;
 use App\Supplier;
 use App\BayarGaji;
 use App\User;
 use App\Coa;
+use App\GajiGigi;
 use App\Penjualan;
 use App\TransaksiPeriksa;
 use App\CheckoutKasir;
@@ -809,7 +811,131 @@ class PengeluaransController extends Controller
         }
         return $table;
     }
+	public function bagiHasilGigi(){
+		return view('pengeluarans.bagi_hasil_gigi');
+	}
+	
+	public function gajiDokterGigi(){
+		$gaji_gigis = GajiGigi::latest()->paginate(10);
+		return view('pengeluarans.bayar_dokter_gigi', compact('gaji_gigis'));
+	}
     
-    
+	public function gajiDokterGigiBayar(){
 
+		$rules = [
+			'staf_id' => 'required',
+			'petugas_id' => 'required',
+			'nilai' => 'required|numeric',
+			'bulan' => 'required',
+			'tanggal_dibayar' => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		$bulan =  Yoga::blnPrep( Input::get('bulan') );
+
+		$gaji = new GajiGigi;
+		$gaji->staf_id = Input::get('staf_id');
+		$gaji->petugas_id = Input::get('petugas_id');
+		$gaji->nilai = Input::get('nilai');
+	    $gaji->tanggal_mulai = $bulan . '-01';
+	    $gaji->tanggal_akhir = date("Y-m-t", strtotime($bulan . '-01'));
+		$gaji->tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
+		$confirm = $gaji->save();
+
+		if ($confirm) {
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $gaji->id; // id referensi yang baru dibuat
+			$jurnal->jurnalable_type = 'App\GajiGigi';
+			$jurnal->coa_id          = Input::get('coa_id');
+			$jurnal->debit           = 1;
+			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->save();
+			
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $gaji->id;// id referensi yang baru dibuat
+			$jurnal->jurnalable_type = 'App${2}';
+			$jurnal->coa_id          = Input::get('sumber_coa_id'); // Kas di tangan 110004, Kas di kasir 110000, 
+			$jurnal->debit           = 0;
+			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->save();
+
+			$pesan = Yoga::suksesFlash('Gaji Dokter Gigi <strong>' . $gaji->staf->nama . '</strong> sebesar <strong>' . Yoga::buatrp( $gaji->nilai ) . '</strong>, Telah berhasil diInput');
+		} else {
+			$pesan = Yoga::suksesFlash('Gaji Dokter Gagal diInput');
+		}
+		return redirect('pengeluarans/gaji_dokter_gigi')->withPesan($pesan);
+	}
+	public function peralatans(){
+		$belanja_peralatans = BelanjaPeralatan::latest()->paginate(10);
+		return view('pengeluarans.peralatans', compact('belanja_peralatans'));
+	}
+	
+	public function belanjaPeralatan(){
+		return view('pengeluarans.belanja_peralatan');
+	}
+	public function belanjaPeralatanBayar(){
+
+		$supplier_id = Input::get('supplier_id');
+		$tanggal_pembelian = Input::get('tanggal_pembelian');
+		$nomor_faktur = Input::get('nomor_faktur');
+		$staf_id = Input::get('staf_id');
+		$temp = Input::get('temp');
+		$temp = json_decode($temp, true);
+
+		$data = [];
+		$total_nilai = 0;
+
+		$fb = new FakturBelanja;
+		$fb->tanggal = Yoga::datePrep(Input::get('tanggal_pembelian'));
+		$fb->nomor_faktur = Input::get('nomor_faktur');
+		$fb->belanja_id = 4;
+		$fb->supplier_id = Input::get('supplier_id');
+		$confirm = $fb->save();
+
+		$timestamp = date('Y-m-d H:i:s');
+		foreach ($temp as $t) {
+			$data[] = [
+				 'faktur_belanja_id' => $fb->id,
+				 'staf_id' => $staf_id,
+				 'peralatan' => $t['peralatan'],
+				 'nilai' => $t['nilai'],
+				 'masa_pakai' => $t['masa_pakai'],
+				 'created_at' => $timestamp,
+				 'updated_at' => $timestamp
+			];
+			$total_nilai += $t['nilai'];
+		}
+
+		$confirm = BelanjaPeralatan::insert($data);
+
+		if ($confirm) {
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $fb->id; // id referensi yang baru dibuat
+			$jurnal->jurnalable_type = 'App\FakturBelanja';
+			$jurnal->coa_id          = 120001;
+			$jurnal->debit           = 1;
+			$jurnal->nilai           = $total_nilai;
+			$jurnal->save();
+			
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $fb->id;// id referensi yang baru dibuat
+			$jurnal->jurnalable_type = 'App${2}';
+			$jurnal->coa_id          = 110004; // Kas di tangan 110004, Kas di kasir 110000, 
+			$jurnal->debit           = 0;
+			$jurnal->nilai           = $total_nilai;
+			$jurnal->save();
+
+			$pesan = Yoga::suksesFlash('Input Peralatan telah berhasil');
+		} else {
+			$pesan = Yoga::suksesFlash('Input Peralatan telah gagal');
+		}
+
+		return redirect('pengeluarans/peralatans')->withPesan($pesan);
+	}
+	
 }

@@ -44,7 +44,7 @@ class PerujuksController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		
 		Perujuk::create($data);
@@ -92,7 +92,7 @@ class PerujuksController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$perujuk->update($data);

@@ -6,6 +6,7 @@ use Input;
 use App\Http\Requests;
 use App\Coa;
 use App\KelompokCoa;
+use App\Classes\Yoga;
 
 class CoasController extends Controller
 {
@@ -28,12 +29,15 @@ class CoasController extends Controller
 	 */
 	public function create()
 	{
-		$kelompokCoaList = [null => 'pilih'];
-		$kelompok_coa_list = KelompokCoa::all();
-		foreach ($kelompok_coa_list as $kel_coa) {
-			$kelompokCoaList[] = [ $kel_coa->id => $kel_coa->id . ' - ' . $kel_coa->kelompok_coa ];
+		$kelompokCoaList[] = [null => 'pilih'];
+		$kcoas = KelompokCoa::all();
+
+		foreach ($kcoas as $kc) {
+			$kelompokCoaList[] = [ $kc->id => $kc->id . '-' . $kc->kelompok_coa ];
 		}
-		return $kelompokCoaList;
+
+		$kelompokCoaList = [ null => ' - pilih - ' ] + KelompokCoa::orderBy('id')->get()->lists('ccoa', 'id')->all();
+
 		return view('coas.create', compact('kelompokCoaList'));
 	}
 
@@ -44,10 +48,19 @@ class CoasController extends Controller
 	 */
 	public function store()
 	{
-
-		Coa::create($data);
-
-		return \Redirect::route('coas.index');
+		$coa       = new Coa;
+		$coa->id   = Input::get('coa_id');
+		$coa->coa   = Input::get('coa');
+		$coa->kelompok_coa_id   = Input::get('kelompok_coa_id');
+		$confirm = $coa->save();
+		
+		if ($confirm) {
+			$pesan = Yoga::suksesFLash('Input Coa <strong>' . $coa->coa . '</strong> telah berhasil');
+		} else {
+			$pesan = Yoga::gagalFLash('Input Coa <strong>' . $coa->coa . '</strong> telah gagal');
+		}
+		
+		return redirect('coas')->withPesan($pesan);
 	}
 
 	/**
@@ -59,7 +72,6 @@ class CoasController extends Controller
 	public function show($id)
 	{
 		$coa = Coa::findOrFail($id);
-
 		return view('coas.show', compact('coa'));
 	}
 
@@ -98,11 +110,21 @@ class CoasController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
+
 	public function destroy($id)
 	{
 		Coa::destroy($id);
-
 		return \Redirect::route('coas.index');
 	}
 
+	public function cekCoaSama(){
+		$kode_coa_id = Input::get('kode_coa_id');
+
+		if (Coa::find($kode_coa_id) == null) {
+			return '0';
+		}
+
+		return '1';
+	}
+	
 }

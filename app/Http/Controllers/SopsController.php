@@ -56,7 +56,7 @@ class SopsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$terapis = json_decode(Input::get('terapi'), true);
@@ -115,7 +115,7 @@ class SopsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$sop->update($data);

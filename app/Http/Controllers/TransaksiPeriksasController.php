@@ -44,7 +44,7 @@ class TransaksiPeriksasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Transaksiperiksa::create($data);
@@ -92,7 +92,7 @@ class TransaksiPeriksasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$transaksiperiksa->update($data);

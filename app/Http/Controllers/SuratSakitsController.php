@@ -52,7 +52,7 @@ class SuratSakitsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		// return Input::all();
 		$periksa = Periksa::find(Input::get('periksa_id'));
@@ -106,7 +106,7 @@ class SuratSakitsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$ss = SuratSakit::find($id);

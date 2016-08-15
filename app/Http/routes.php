@@ -74,6 +74,7 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 			Route::get('coas/create', 'CoasController@create');
 			Route::post('coas', 'CoasController@store');
 			Route::get('coas/{id}/edit', 'CoasController@edit');
+			Route::post('coas/cek_coa_sama', 'CoasController@cekCoaSama');
 			Route::post('coas/{id}', 'CoasController@update');
 
 			Route::get('rumahsakits', 'RumahSakitsController@index'); //penjualan obat tanpa resep
@@ -124,8 +125,13 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 			Route::get('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus_show');
 			Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus');
 
+			Route::get('pengeluarans/bagi_hasil_gigi', 'PengeluaransController@bagiHasilGigi');
+			Route::get('pengeluarans/gaji_dokter_gigi', 'PengeluaransController@gajiDokterGigi');
+			Route::post('pengeluarans/gaji_dokter_gigi/bayar', 'PengeluaransController@gajiDokterGigiBayar');
+			Route::get('pengeluarans/peralatans', 'PengeluaransController@peralatans');
+			Route::get('pengeluarans/belanja/peralatan', 'PengeluaransController@belanjaPeralatan');
+			Route::post('pengeluarans/belanja/peralatan/bayar', 'PengeluaransController@belanjaPeralatanBayar');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
-
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
 			Route::get('fakturbelanjas/cari', 'FakturBelanjasController@cari');

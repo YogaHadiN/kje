@@ -86,6 +86,14 @@ list-style-type: none;
 @section('footer') 
     <script src="{!! url('js/jquery.easyui.min.js') !!}"></script>
 	<script type="text/javascript" charset="utf-8">
+$(document).click(function(){
+	//$('#cg').closest('div').find('.textbox-text').css('background','red');
+});
+
+var $inputText = $('#cg').closest('div').find('.textbox-text');
+$('#cg').closest('div').find('.textbox-text').on('blur', function(){
+	alert('blur');
+});
             $('#cg').combogrid({
 				panelWidth:800,
 				url: '{{ url("test/getmereks") }}',
@@ -101,21 +109,6 @@ list-style-type: none;
 					{field:'fornas',title:'Fornas',align:'left',width:60}
 				]]
 			});
-//                  $('.textbox-text').keypress(function(e){
-//                      console.log('keyup');
-//                      var key = e.keyCode || e.which;
-//                      if(key == '9'){
-//                           var text = $('table.datagrid-btable tbody tr:first-child td:first-child div').html();
-//                           $(this).val(text);
-//                      }
-//                      
-//                  });
-//                  var x=[];
-//                  for (var i in window){
-//                      x.push(i)
-//                  };
-//                  console.dir(window);
-            //console.log(x.join("\\"));
 
 	    $(function () {
         });

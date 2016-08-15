@@ -45,7 +45,7 @@ class KepalaTerhadapPapsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Kepalaterhadappap::create($data);
@@ -93,7 +93,7 @@ class KepalaTerhadapPapsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$kepalaterhadappap->update($data);

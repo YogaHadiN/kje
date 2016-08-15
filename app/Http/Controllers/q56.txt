@@ -1,3 +1,8 @@
 alter table usgs add column bpd_mm int default 0 not null;
 alter table usgs add column fl_mm int default 0 not null;
 alter table usgs add column ac_mm int default 0 not null;
+
+
+
+
+

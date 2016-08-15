@@ -47,7 +47,7 @@ class RumahSakitsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Rumahsakit::create($data);

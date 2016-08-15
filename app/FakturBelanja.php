@@ -15,6 +15,8 @@ class FakturBelanja extends Model{
     protected $with = ['supplier'];
 
     protected $dates = ['tanggal'];
+
+
 	
 
 	// Don't forget to fill this array

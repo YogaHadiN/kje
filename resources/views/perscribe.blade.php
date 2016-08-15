@@ -1,4 +1,4 @@
-<div class="panel panel-success col3">
+focus();
     <div class="panel-heading">
         <div class="panelLeft">
             @if($showSubmit)

@@ -44,7 +44,7 @@ class KelompokCoasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Kelompokcoa::create($data);
@@ -92,7 +92,7 @@ class KelompokCoasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$kelompokcoa->update($data);

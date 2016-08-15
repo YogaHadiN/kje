@@ -54,4 +54,23 @@ class Pasien extends Model{
 
 		return $this->hasMany('App\RegisterHamil');
 	}
+	public function getNamaAttribute($nama){
+		return ucwords( strtolower($nama) );
+	}
+	public function getAlamatAttribute($alamat){
+
+		return ucwords( strtolower($alamat) );
+
+	}
+
+	public function setNamaAttribute($value) {
+
+        $this->attributes['nama'] = strtolower($value);
+
+    }
+	public function setAlamatAttribute($value) {
+
+        $this->attributes['alamat'] = strtolower($value);
+
+    }
 }

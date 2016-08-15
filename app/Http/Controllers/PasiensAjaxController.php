@@ -155,7 +155,7 @@ class PasiensAjaxController extends Controller
 			if ($validator->fails())
 
 			{
-				return Redirect::back()->withErrors($validator)->withInput();
+				return \Redirect::back()->withErrors($validator)->withInput();
 			}
 
 			Pasien::create($data);

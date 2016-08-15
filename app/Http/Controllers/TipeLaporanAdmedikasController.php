@@ -43,7 +43,7 @@ class TipeLaporanAdmedikasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Tipelaporanadmedika::create($data);
@@ -91,7 +91,7 @@ class TipeLaporanAdmedikasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$tipelaporanadmedika->update($data);

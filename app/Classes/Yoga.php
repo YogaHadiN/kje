@@ -8,6 +8,7 @@ use App\Poli;
 use App\JurnalUmum;
 use App\Pasien;
 use App\Signa;
+use App\Coa;
 use App\Perujuk;
 use App\AturanMinum;
 use App\Supplier;
@@ -2022,6 +2023,10 @@ class Yoga {
 	    
 	public static function perujukList(){
 		return [ null => '-pilih-' ] + Perujuk::lists('nama', 'id')->all();
+	}
+	
+	public static function sumberCoaList(){
+		return [ null => '-pilih-' ] + Coa::whereRaw('id between 110000 and 110004')->lists('coa', 'id')->all();
 	}
 	
     

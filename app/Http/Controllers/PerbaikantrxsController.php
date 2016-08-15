@@ -45,7 +45,7 @@ class PerbaikantrxsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Perbaikantrx::create($data);
@@ -96,7 +96,7 @@ class PerbaikantrxsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$perbaikantrx->update($data);

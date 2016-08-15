@@ -44,7 +44,7 @@ class JenisRumahSakitsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Jenisrumahsakit::create($data);
@@ -92,7 +92,7 @@ class JenisRumahSakitsController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$jenisrumahsakit->update($data);

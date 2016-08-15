@@ -46,7 +46,7 @@ class StokOpnamesController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		$date = Input::get('bulanTahun');
 		$rak_id = Input::get('rak_id');
@@ -125,7 +125,7 @@ class StokOpnamesController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$stokopname->update($data);

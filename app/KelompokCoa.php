@@ -18,5 +18,7 @@ class KelompokCoa extends Model{
 		return $this->id . ' - ' . $this->kelompok_coa;
 	}
 	
-
+	public function getCcoaAttribute(){
+		return $this->id . ' - ' . $this->kelompok_coa;
+	}
 }

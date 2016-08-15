@@ -498,14 +498,14 @@ Klinik Jati Elok | Pasien
                     } else {
                         temp += "<td nowrap><div class='invisible'>" + result[0].id + "</div></td>";
                     }
-                    temp += "<td nowrap><div class='invisible'>" + result[0].nama + "</div></td>";
-                    temp += "<td nowrap><div class='invisible'>" + result[0].alamat + "</div></td>";
+                    temp += "<td nowrap><div class='invisible'>" + caseNama( result[0].nama ) + "</div></td>";
+                    temp += "<td nowrap><div class='invisible'>" + caseNama( result[0].alamat ) + "</div></td>";
                     temp += "<td nowrap><div class='invisible'>" + result[0].tanggal_lahir + "</div></td>";
                     temp += "<td nowrap><div class='invisible'>" + result[0].no_telp + "</div></td>";
                     if(DDID_ASURANSI){
-                        temp += "<td nowrap class='displayNone'><div>" + result[0].nama_asuransi + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( result[0].nama_asuransi ) + "</div></td>";
                     } else {
-                        temp += "<td nowrap><div class='invisible'>" + result[0].nama_asuransi + "</div></td>";
+                        temp += "<td nowrap><div class='invisible'>" + caseNama( result[0].nama_asuransi ) + "</div></td>";
                     }
                     if(DDnomorAsuransi){
                         temp += "<td nowrap class='displayNone'><div>" + result[0].nomor_asuransi + "</div></td>";
@@ -513,19 +513,19 @@ Klinik Jati Elok | Pasien
                         temp += "<td nowrap><div class='invisible'>" + result[0].nomor_asuransi + "</div></td>";
                     }
                     if(DDnamaPeserta){
-                        temp += "<td nowrap class='displayNone'><div>" + result[0].nama_peserta + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( result[0].nama_peserta ) + "</div></td>";
                     } else{
-                        temp += "<td nowrap><div class='invisible'>" + result[0].nama_peserta + "</div></td>";
+                        temp += "<td nowrap><div class='invisible'>" + caseNama( result[0].nama_peserta ) + "</div></td>";
                     }
                     if(DDnamaIbu){
-                        temp += "<td nowrap class='displayNone'><div>" + result[0].nama_ibu + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( result[0].nama_ibu ) + "</div></td>";
                     } else {
-                        temp += "<td nowrap><div class='invisible'>" + result[0].nama_ibu + "</div></td>";
+                        temp += "<td nowrap><div class='invisible'>" + caseNama( result[0].nama_ibu ) + "</div></td>";
                     }
                     if(DDnamaAyah){
-                        temp += "<td nowrap class='displayNone'><div>" + result[0].nama_ayah + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( result[0].nama_ayah ) + "</div></td>";
                     } else {
-                        temp += "<td nowrap><div class='invisible'>" + result[0].nama_ayah + "</div></td>";
+                        temp += "<td nowrap><div class='invisible'>" + caseNama( result[0].nama_ayah ) + "</div></td>";
                     }
 
                     temp += "<td nowrap class='displayNone'><div>" + result[0].asuransi_id + "</div></td>";
@@ -734,14 +734,14 @@ Klinik Jati Elok | Pasien
                     } else {
                         temp += "<td nowrap class=''><div>" + MyArray[i].ID_PASIEN + "</div></td>";
                     }
-                    temp += "<td nowrap><div>" + MyArray[i].namaPasien + "</div></td>";
-                    temp += "<td><div>" + MyArray[i].alamat + "</div></td>";
+                    temp += "<td nowrap><div>" + caseNama( MyArray[i].namaPasien ) + "</div></td>";
+                    temp += "<td><div>" + caseNama( MyArray[i].alamat ) + "</div></td>";
                     temp += "<td nowrap><div>" + MyArray[i].tanggalLahir + "</div></td>";
                     temp += "<td nowrap><div>" + MyArray[i].noTelp + "</div></td>";
                     if(DDID_ASURANSI){
-                        temp += "<td nowrap class='displayNone'><div>" + MyArray[i].namaAsuransi + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( MyArray[i].namaAsuransi ) + "</div></td>";
                     } else {
-                        temp += "<td nowrap class=''><div>" + MyArray[i].namaAsuransi + "</div></td>";
+                        temp += "<td nowrap class=''><div>" + caseNama( MyArray[i].namaAsuransi ) + "</div></td>";
                     }
                     if(DDnomorAsuransi){
                         temp += "<td nowrap class='displayNone'><div>" + MyArray[i].nomorAsuransi + "</div></td>";
@@ -749,19 +749,19 @@ Klinik Jati Elok | Pasien
                         temp += "<td nowrap class=''><div>" + MyArray[i].nomorAsuransi + "</div></td>";
                     }
                     if(DDnamaPeserta){
-                        temp += "<td nowrap class='displayNone'><div>" + MyArray[i].namaPeserta + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( MyArray[i].namaPeserta ) + "</div></td>";
                     } else{
-                        temp += "<td nowrap class=''><div>" + MyArray[i].namaPeserta + "</div></td>";
+                        temp += "<td nowrap class=''><div>" + caseNama( MyArray[i].namaPeserta ) + "</div></td>";
                     }
                     if(DDnamaIbu){
-                        temp += "<td nowrap class='displayNone'><div>" + MyArray[i].namaIbu + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( MyArray[i].namaIbu ) + "</div></td>";
                     } else {
-                        temp += "<td nowrap class=''><div>" + MyArray[i].namaIbu + "</div></td>";
+                        temp += "<td nowrap class=''><div>" + caseNama( MyArray[i].namaIbu ) + "</div></td>";
                     }
                     if(DDnamaAyah){
-                        temp += "<td nowrap class='displayNone'><div>" + MyArray[i].namaAyah + "</div></td>";
+                        temp += "<td nowrap class='displayNone'><div>" + caseNama( MyArray[i].namaAyah ) + "</div></td>";
                     } else {
-                        temp += "<td nowrap class=''><div>" + MyArray[i].namaAyah + "</div></td>";
+                        temp += "<td nowrap class=''><div>" + caseNama( MyArray[i].namaAyah ) + "</div></td>";
                     }
 
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].asuransi_id + "</div></td>";
@@ -947,6 +947,13 @@ function confirmStaf(){
     if(validatePass()){
        $('#submit_confirm_staf').click(); 
     }    
+}
+
+function caseNama(nama){
+	str = nama.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+		return letter.toUpperCase();
+	}); 
+	return str;
 }
 
 

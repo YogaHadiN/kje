@@ -44,7 +44,7 @@ class TidakdirujuksController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		Tidakdirujuk::create($data);
@@ -92,7 +92,7 @@ class TidakdirujuksController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$tidakdirujuk->update($data);

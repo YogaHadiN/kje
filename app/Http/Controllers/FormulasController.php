@@ -210,7 +210,7 @@ class FormulasController extends Controller
 
 			if ($validator->fails())
 			{
-				return Redirect::back()->withErrors($validator)->withInput();
+				return \Redirect::back()->withErrors($validator)->withInput();
 			}
 		}
 
@@ -543,7 +543,7 @@ class FormulasController extends Controller
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		//isian formula

@@ -72,6 +72,7 @@
                             <li>{!! HTML::link('tarifs', 'Tarif')!!}</li>
                             <li>{!! HTML::link('perujuks', 'Perujuk')!!}</li>
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/peralatans', 'Peralatan')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
                         </ul>
@@ -142,20 +143,28 @@
                             <li>{!! HTML::link('no_sales', 'No Sales')!!}</li>
                             <li>{!! HTML::link('fakturbelanjas/cari', 'Belanja Obat')!!}</li>
                             <li>{!! HTML::link('suppliers/belanja_bukan_obat', 'Belanja Bukan Obat')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/belanja/peralatan', 'Belanja Peralatan')!!}</li>
                             <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
                             <li>{!! HTML::link('penjualans/obat_buat_karyawan', 'Obat Untuk Karyawan')!!}</li>
                             <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
                             <li>{!! HTML::link('pendapatans/pembayaran/asuransi', 'Pembayaran Asuransi')!!}</li>
                             <li>{!! HTML::link('pengeluarans/bayardoker', 'Bayar Dokter')!!}</li>
-                            @if(\Auth::id() == 28)
-                            <li>{!! HTML::link('pengeluarans/bayar_gaji_karyawan', 'Bayar Gaji Karyawan')!!}</li>
-                            <li>{!! HTML::link('pendapatans/pembayaran_bpjs', 'Pembayaran Kapitasi BPJS')!!}</li>
-                            @endif
                             <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
                             <li>{!! HTML::link('pengeluarans/rc', 'RC')!!}</li>
 
                         </ul>
                     </li>
+					@if(\Auth::id() == 28)
+						<li>
+							<a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Gaji dan Bagi Hasil</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li>{!! HTML::link('pengeluarans/bayar_gaji_karyawan', 'Bayar Gaji Karyawan')!!}</li>
+								<li>{!! HTML::link('pendapatans/pembayaran_bpjs', 'Pembayaran Kapitasi BPJS')!!}</li>
+								<li>{!! HTML::link('pengeluarans/bagi_hasil_gigi', 'Bagi Hasil Gigi')!!}</li>
+								<li>{!! HTML::link('pengeluarans/gaji_dokter_gigi', 'Gaji Dokter Gigi')!!}</li>
+							</ul>
+						 </li>
+					@endif
 					<li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Fasilitas</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -252,6 +261,11 @@
         });
 
         $(document).ready(function() {
+
+
+
+			$(':input:enabled:visible:first').focus();
+
 
 
             $('.uangInput').autoNumeric('init', {
