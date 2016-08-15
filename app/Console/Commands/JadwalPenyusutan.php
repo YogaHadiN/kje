@@ -44,7 +44,10 @@ class JadwalPenyusutan extends Command
 		$total_penyusutan = 0;
 		$bulan = date('Y-m');
 		foreach ($alats as $alat) {
-			$penyusutan = $alat->nilai/(12*$alat->masa_pakai);
+			$penyusutan = round( $alat->nilai/(12*$alat->masa_pakai) );
+			if ($penyusutan > ( $alat->nilai - $alat->penyusutan -1 )) {
+				$penyusutan =  $alat->nilai - $alat->penyusutan - 1 ;
+			}
 			$alat->penyusutan = $alat->penyusutan + $penyusutan;
 			$alat->save();
 			$total_penyusutan += $penyusutan;

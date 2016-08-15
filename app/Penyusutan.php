@@ -16,7 +16,7 @@ class Penyusutan extends Model
 
     public function getKetjurnalAttribute(){
 
-		$temp = 'Transaksi Penyusutan Peralatan periode <strong>' . $this->tanggal_mulai->format('d-m-Y') . ' s/d ' . $this->tanggal_akhir->format('d-m-Y') . '</strong> senilai <strong>' . Yoga::buatrp( $this->penyusutan ) . '</strong>';
+		$temp = 'Transaksi Penyusutan Peralatan <br>periode <strong>' . $this->tanggal_mulai->format('d-m-Y') . ' s/d ' . $this->tanggal_akhir->format('d-m-Y') . '</strong><br> senilai <strong>' . Yoga::buatrp( $this->penyusutan ) . '</strong>';
 
         return $temp;
 

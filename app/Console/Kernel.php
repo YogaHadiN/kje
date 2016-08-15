@@ -25,6 +25,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 		 $schedule->command('task:penyusutan')
-				  ->everyMonth();
+				  ->monthlyOn(1, '15:00');
     }
 }

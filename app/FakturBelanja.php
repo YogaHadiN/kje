@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Classes\Yoga;
 
 class FakturBelanja extends Model{
 		// Add your validation rules here
@@ -39,6 +40,10 @@ class FakturBelanja extends Model{
 	public function pembelian(){
 
 		return $this->hasMany('App\Pembelian');
+	}
+	public function belanjaPeralatan(){
+
+		return $this->hasMany('App\BelanjaPeralatan');
 	}
 
 	public function pengeluaran(){
@@ -98,6 +103,18 @@ class FakturBelanja extends Model{
     }
 
     public function getKetjurnalAttribute(){
+		if ( $this->belanja_id == 4 ) {
+			$total = 0;
+			foreach ($this->belanjaPeralatan as $alat) {
+				$total += $alat->nilai;
+			}
+
+			$temp = 'Pembelian Peralatan di <br><strong>';
+			$temp .= $this->supplier->nama;
+			$temp .= '<br></strong>sebesar <strong>';
+			$temp .= Yoga::buatrp( $total ) . '</strong>';
+			return $temp;
+		}
         $tanggal = $this->tanggal->format('d-m-Y');
         $supplier = $this->supplier->nama;
         $total_pembelians = $this->pembelian;
