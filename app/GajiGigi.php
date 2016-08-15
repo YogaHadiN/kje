@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GajiGigi extends Model
 {
 	protected $dates = ['tanggal_mulai', 'tanggal_akhir'];
-	public function staf(){
-		return $this->belongsTo('App\GajiGigi');
-	}
+
 
 	public function staf(){
 		return $this->belongsTo('App\Staf');
