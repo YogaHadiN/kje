@@ -28,7 +28,7 @@ class GajiGigi extends Model
 		$temp = 'Pembayaran Gaji dokter gigi a/n <strong>';
 		$temp .= $this->staf->nama . '</strong><br />';
 		$temp .= 'dilakukan oleh <strong>'. $this->petugas->nama;
-		$temp .= '<br /></strong>dibayar pada tanggal<strong>'. $this->tanggal_dibayar . '</strong>';
+		$temp .= '<br /></strong>dibayar pada tanggal <strong>'. $this->tanggal_dibayar . '</strong>';
 		return $temp;
     }
 
