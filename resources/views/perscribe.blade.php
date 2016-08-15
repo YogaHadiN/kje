@@ -1,4 +1,4 @@
-focus();
+<div class="panel panel-primary">
     <div class="panel-heading">
         <div class="panelLeft">
             @if($showSubmit)
@@ -121,8 +121,8 @@ focus();
            </div>
        </div>
    </div>
-        </div><!-- end panel body -->
-    </div><!-- end panel primary -->
+	</div><!-- end panel body -->
+</div><!-- end panel primary -->
 	@if($antrianperiksa->asuransi_id == '3') 
 		<div class="alert alert-danger">
 			<h2>Perhatian</h2>
