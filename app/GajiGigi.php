@@ -25,10 +25,10 @@ class GajiGigi extends Model
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }
     public function getKetjurnalAttribute(){
-		$temp = 'Pembayaran Gaji dokter gigi a/n ';
+		$temp = 'Pembayaran Gaji dokter gigi a/n <strong>';
 		$temp .= $this->staf->nama . '</strong><br />';
-		$temp .= 'dilakukan oleh '. $this->petugas->nama;
-		$temp .= '<br />dibayar pada tanggal'. $this->tanggal_dibayar;
+		$temp .= 'dilakukan oleh <strong>'. $this->petugas->nama;
+		$temp .= '<br /></strong>dibayar pada tanggal<strong>'. $this->tanggal_dibayar . '</strong>';
 		return $temp;
     }
 
