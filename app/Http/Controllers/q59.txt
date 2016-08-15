@@ -1,1 +1,2 @@
-insert into coas (id, coa, kelompok_coa_id, created_at, updated_at) values ('800002', 'Beban Gaji Dokter Gigi', '8', '2016-08-14 14:12:29',  '2016-08-14 14:12:29');
+insert into coas (id, coa, kelompok_coa_id, created_at, updated_at) values ('610000', 'Biaya Operasional Gaji Dokter Gigi', '8', '2016-08-14 14:12:29',  '2016-08-14 14:12:29');
+

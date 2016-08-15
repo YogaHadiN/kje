@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
 		 Commands\JadwalPenyusutan::class,
+		 Commands\LogDemo::class,
     ];
 
     /**
@@ -25,6 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 		 $schedule->command('task:penyusutan')
-				  ->monthlyOn(1, '15:00');
+				  ->monthlyOn(date('t'), '15:00');
+		 $schedule->command('log:demo')
+				  ->everyMinute();
     }
 }

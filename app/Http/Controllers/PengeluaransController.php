@@ -845,15 +845,19 @@ class PengeluaransController extends Controller
 	    $gaji->tanggal_mulai = $bulan . '-01';
 	    $gaji->tanggal_akhir = date("Y-m-t", strtotime($bulan . '-01'));
 		$gaji->tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
+		$gaji->created_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
+		$gaji->updated_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 		$confirm = $gaji->save();
 
 		if ($confirm) {
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $gaji->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\GajiGigi';
-			$jurnal->coa_id          = Input::get('coa_id');
+			$jurnal->coa_id          = 610000; // biaya operasional gaji dokter gigi
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->created_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
+			$jurnal->updated_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 			$jurnal->save();
 			
 			$jurnal                  = new JurnalUmum;
@@ -862,6 +866,8 @@ class PengeluaransController extends Controller
 			$jurnal->coa_id          = Input::get('sumber_coa_id'); // Kas di tangan 110004, Kas di kasir 110000, 
 			$jurnal->debit           = 0;
 			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->created_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
+			$jurnal->updated_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 			$jurnal->save();
 
 			$pesan = Yoga::suksesFlash('Gaji Dokter Gigi <strong>' . $gaji->staf->nama . '</strong> sebesar <strong>' . Yoga::buatrp( $gaji->nilai ) . '</strong>, Telah berhasil diInput');
@@ -917,7 +923,7 @@ class PengeluaransController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $fb->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\FakturBelanja';
-			$jurnal->coa_id          = 120001;
+			$jurnal->coa_id          = 120001; // Peralatan
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = $total_nilai;
 			$jurnal->save();

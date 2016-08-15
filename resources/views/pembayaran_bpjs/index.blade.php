@@ -89,7 +89,7 @@ Klinik Jati Elok | Pendapatan Kapitasi BPJS
 					<table class="table table-hover table-condensed">
 						<thead>
 							<tr>
-								<th>Tanggal</th>
+								<th>Tanggal Pembayaran</th>
 								<th>Nama Petugas</th>
 								<th>Nilai Uang</th>
 								<th>Periode</th>
