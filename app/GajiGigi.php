@@ -15,6 +15,9 @@ class GajiGigi extends Model
 		return $this->tanggal_mulai->format('d-m-Y') . ' s/d ' . $this->tanggal_akhir->format('d-m-Y');
 	}
 	
+    public function jurnals(){
+        return $this->morphMany('App\JurnalUmum', 'jurnalable');
+    }
     public function getKetjurnalAttribute(){
 		$temp = 'Pembayaran Gaji dokter gigi a/n ';
 		$temp .= $this->staf->nama . '</strong><br />';
