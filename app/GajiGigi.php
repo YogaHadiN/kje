@@ -18,7 +18,7 @@ class GajiGigi extends Model
     public function getKetjurnalAttribute(){
 		$temp = 'Pembayaran Gaji dokter gigi a/n ';
 		$temp .= $this->staf->nama . '</strong><br />';
-		$temp .= 'dilakukan oleh ' $this->petugas->nama;
+		$temp .= 'dilakukan oleh '. $this->petugas->nama;
 		$temp .= '<br />dibayar pada tanggal' $this->tanggal_dibayar;
 		return $temp;
     }

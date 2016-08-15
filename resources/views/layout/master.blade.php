@@ -125,7 +125,7 @@
                     </li>
 					@if(\Auth::id() == 28)
                      <li>
-                        <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Laporan Keuangan</span><span class="fa arrow"></span></a>
+                        <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Akuntansi</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('jurnal_umums', 'Jurnal Umum')!!}</li>
                             <li>{!! HTML::link('buku_besars', 'Buku Besar')!!}</li>
