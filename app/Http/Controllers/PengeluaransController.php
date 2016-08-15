@@ -858,7 +858,7 @@ class PengeluaransController extends Controller
 			
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $gaji->id;// id referensi yang baru dibuat
-			$jurnal->jurnalable_type = 'App${2}';
+			$jurnal->jurnalable_type = 'App\GajiGigi';
 			$jurnal->coa_id          = Input::get('sumber_coa_id'); // Kas di tangan 110004, Kas di kasir 110000, 
 			$jurnal->debit           = 0;
 			$jurnal->nilai           = Input::get('nilai');
@@ -924,7 +924,7 @@ class PengeluaransController extends Controller
 			
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $fb->id;// id referensi yang baru dibuat
-			$jurnal->jurnalable_type = 'App${2}';
+			$jurnal->jurnalable_type = 'App\FakturBelanja';
 			$jurnal->coa_id          = 110004; // Kas di tangan 110004, Kas di kasir 110000, 
 			$jurnal->debit           = 0;
 			$jurnal->nilai           = $total_nilai;
