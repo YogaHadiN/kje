@@ -53,6 +53,15 @@ Klinik Jati Elok | Belanja Peralatan
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-group" @if($errors->has('sumber_uang')) class="has-error" @endif>
+						  {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+						  {!! Form::select('sumber_uang' , App\Classes\Yoga::sumberuang(), null, ['class' => 'form-control rq']) !!}
+						  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

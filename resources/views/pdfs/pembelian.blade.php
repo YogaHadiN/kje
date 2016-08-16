@@ -113,6 +113,11 @@ hr {
                                 <td>:</td>
                                <td>{{ $fakturbelanja->nomor_faktur }}</td>
                            </tr>
+							<tr>
+                               <td>Sumber Uang</td>
+                                <td>:</td>
+                               <td>{{ $fakturbelanja->sumber_uang_id }}</td>
+                           </tr>
                        </tbody>
                    </table>
                </div>

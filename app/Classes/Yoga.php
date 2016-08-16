@@ -2028,6 +2028,14 @@ class Yoga {
 	public static function sumberCoaList(){
 		return [ null => '-pilih-' ] + Coa::whereRaw('id between 110000 and 110004')->lists('coa', 'id')->all();
 	}
+	public static function sumberuang(){
+		$sumber_uang[null] = '-Pilih-';
+		$sumber_uang[110000] = 'Uang dari kasir';
+		$sumber_uang[110004] = 'Uang dokter Yoga';
+
+		return $sumber_uang;
+	}
+	
 	
     
 }

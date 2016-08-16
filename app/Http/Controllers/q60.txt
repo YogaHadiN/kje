@@ -1,0 +1,2 @@
+alter table faktur_belanjas add column sumber_uang_id varchar(255);
+alter table pengeluarans add column sumber_uang_id varchar(255);

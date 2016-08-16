@@ -67,6 +67,7 @@ class PengeluaransController extends Controller
 			'supplier_id'			=> 'required',
 			'nilai'			=> 'required',
 			'tanggal'			=> 'required|date_format:d-m-Y',
+			'sumber_uang'			=> 'required',
 			'keterangan'			=> 'required'
 		];
 		$validator = \Validator::make($data = Input::all(), $rules, $messages);
@@ -85,6 +86,7 @@ class PengeluaransController extends Controller
 		$peng->supplier_id = $supplier_id;
 		$peng->nilai = $nilai;
 		$peng->tanggal = Yoga::datePrep( $tanggal );
+		$peng->sumber_uang_id = Input::get('sumber_uang');
 		$peng->keterangan = $keterangan;
 		$confirm = $peng->save();
 		if ($confirm) {
@@ -98,7 +100,7 @@ class PengeluaransController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $peng->id;
 			$jurnal->jurnalable_type = 'App\Pengeluaran';
-			$jurnal->coa_id          = 110000; // Kas di tangan
+			$jurnal->coa_id          = Input::get('sumber_uang'); // Kas di tangan
 			$jurnal->debit           = 0;
 			$jurnal->nilai           = $peng->nilai;
 			$jurnal->save();
@@ -886,6 +888,23 @@ class PengeluaransController extends Controller
 	}
 	public function belanjaPeralatanBayar(){
 
+		$rules = [
+			'sumber_uang' => 'required',
+			'supplier_id' => 'required',
+			'nomor_faktur' => 'required',
+			'tanggal_pembelian' => 'required',
+			'staf_id' => 'required',
+			'temp' => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		
+
 		$supplier_id = Input::get('supplier_id');
 		$tanggal_pembelian = Input::get('tanggal_pembelian');
 		$nomor_faktur = Input::get('nomor_faktur');
@@ -901,6 +920,7 @@ class PengeluaransController extends Controller
 		$fb->nomor_faktur = Input::get('nomor_faktur');
 		$fb->belanja_id = 4;
 		$fb->supplier_id = Input::get('supplier_id');
+		$fb->sumber_uang_id = Input::get('sumber_uang');
 		$confirm = $fb->save();
 
 		$timestamp = date('Y-m-d H:i:s');
@@ -931,7 +951,7 @@ class PengeluaransController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $fb->id;// id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\FakturBelanja';
-			$jurnal->coa_id          = 110004; // Kas di tangan 110004, Kas di kasir 110000, 
+			$jurnal->coa_id          = Input::get('sumber_uang'); // Kas di tangan 110004, Kas di kasir 110000, 
 			$jurnal->debit           = 0;
 			$jurnal->nilai           = $total_nilai;
 			$jurnal->save();

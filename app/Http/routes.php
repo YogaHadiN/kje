@@ -27,6 +27,9 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
   	Route::group(['middleware' => 'auth'], function(){
 
 
+		Route::get('testaja',function(){
+			return date('t');
+		});
 
 			Route::get('diagnosa/tidakdirujuk', 'TidakdirujukController@index');
 			Route::get('memcached', 'MemcachedController@index');

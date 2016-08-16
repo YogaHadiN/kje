@@ -21,6 +21,10 @@ class SupplierBelanjasController extends Controller
 		$rak = Rak::first();
 		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
 		$formula = Formula::first();
+
+
+		$sumber_uang = Yoga::sumberuang();
+
 		$fornas = Yoga::fornas();
 		$sediaan = [
 			null 				=> '- pilih -',
@@ -63,14 +67,17 @@ class SupplierBelanjasController extends Controller
 			, 'formula'
 			, 'fornas'
 			, 'aturan_minums'
+			, 'sumber_uang'
 			, 'alternatif_fornas'
+
 		));
     }
     public function belanja_bukan_obat(){
 		$suppliers = Supplier::all();
 		$stafs = Yoga::stafList();
+		$sumber_uang = Yoga::sumberuang();
 		$pengeluarans = Pengeluaran::with('supplier', 'staf')->latest()->paginate(10);
 		$belanjaList = [ null => '- Jenis Belanja -']  + Belanja::lists('belanja', 'id')->all();
-		return view('suppliers.belanja_bukan_obat', compact('suppliers', 'stafs', 'belanjaList', 'pengeluarans'));
+		return view('suppliers.belanja_bukan_obat', compact('suppliers', 'stafs', 'belanjaList', 'pengeluarans', 'sumber_uang'));
     }
 }

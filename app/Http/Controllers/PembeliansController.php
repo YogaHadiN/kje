@@ -102,6 +102,7 @@ class PembeliansController extends Controller
 			'nomor_faktur' => 'required',
 			'belanja_id' => 'required',
 			'supplier_id' => 'required',
+			'sumber_uang' => 'required',
 			'tempBeli' => 'required',
 		];
 		$validator = \Validator::make($data = Input::all(), $rules);
@@ -114,13 +115,16 @@ class PembeliansController extends Controller
 		$faktur->nomor_faktur = Input::get('nomor_faktur');
 		$faktur->belanja_id = Input::get('belanja_id');
 		$faktur->supplier_id = Input::get('supplier_id');
+		$faktur->sumber_uang_id = Input::get('sumber_uang');
 		$confirm = $faktur->save();
 		if ($confirm) {
 			$data = Input::get('tempBeli');
 			$faktur_belanja_id = $faktur->id;
 			$data = json_decode($data, true);
 			$total_pembelian =0;
+
 			foreach ($data as $dt) {
+
 				$pb = new Pembelian;
 				$pb->exp_date = Yoga::datePrep($dt['exp_date']);
 				$pb->harga_beli = $dt['harga_beli'];
@@ -188,7 +192,7 @@ class PembeliansController extends Controller
             $jurnal                  = new JurnalUmum;
             $jurnal->jurnalable_id   = $faktur_belanja_id;
             $jurnal->jurnalable_type = 'App\FakturBelanja';
-            $jurnal->coa_id          = 110000; // Kas di tangan
+            $jurnal->coa_id          = Input::get('sumber_uang'); // Kas di tangan
             $jurnal->debit           = 0;
             $jurnal->nilai           = $total_pembelian;
             $jurnal->save();

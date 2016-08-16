@@ -36,6 +36,11 @@ Klinik Jati Elok | Belanja Obat
 					  {!! Form::select('supplier_id', App\Classes\Yoga::supplierList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true', 'id' => 'supplier_id']) !!}
 					  @if($errors->has('supplier_id'))<code>{{ $errors->first('supplier_id') }}</code>@endif
                     </div>
+					<div class="form-group" @if($errors->has('sumber_uang')) class="has-error" @endif>
+					  {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+					  {!! Form::select('sumber_uang' , $sumber_uang, null, ['class' => 'form-control rq']) !!}
+					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
+					</div>
 					<div class="form-group" @if($errors->has('nomor_faktur')) class="has-error" @endif)>
                       {!! Form::label('nomor_faktur', 'Nomor Faktur') !!}
                       {!! Form::text('nomor_faktur' , null, ['class' => 'form-control rq']) !!}

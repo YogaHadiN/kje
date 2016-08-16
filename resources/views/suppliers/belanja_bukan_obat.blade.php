@@ -42,6 +42,11 @@ Klinik Jati Elok | Belanja Bukan Obat
                       {!! Form::label('staf_id', 'Petugas') !!}
                       {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
                     </div>
+					<div class="form-group" @if($errors->has('sumber_uang')) class="has-error" @endif>
+					  {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+					  {!! Form::select('sumber_uang' , $sumber_uang, null, ['class' => 'form-control']) !!}
+					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
+					</div>
                     <div class="form-group">
                       {!! Form::label('nilai', 'Nilai') !!}
 						<div class="input-group">
