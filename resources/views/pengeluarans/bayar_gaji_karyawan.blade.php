@@ -89,9 +89,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                                 <th>Tanggal Pembayaran</th>
                                 <th>Nama Staf</th>
                                 <th>Periode</th>
-                                <th>Gaji Pokok</th>
-                                <th>Bonus</th>
-                                <th>Total</th>
+                                <th>Total Gaji</th>
                                 <th>Sumber Kas</th>
                                 <th>Action</th>
                             </tr>
@@ -102,8 +100,6 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                                 <td>{{  $pemb->tanggal_dibayar->format('d-m-Y') }}</td>
                                 <td>{{  $pemb->staf->nama  }}</td>
                                 <td>{{  $pemb->mulai->format('d-m-Y') }} s/d {{ $pemb->akhir->format('d-m-Y')  }}</td>
-                                <td class="uang">{{  $pemb->gaji_pokok }}</td>
-                                <td class="uang">{{  $pemb->bonus }}</td>
                                 <td class="uang">{{  $pemb->gaji_pokok + $pemb->bonus }}</td>
                                 <td>{{  $pemb->coa->coa }}</td>
 								<td> <a class="btn btn-success btn-sm" href="{{ url('pdfs/bayar_gaji_karyawan/' . $pemb->id) }}" target="_blank">Struk</a> </td>

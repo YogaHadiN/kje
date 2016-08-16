@@ -502,7 +502,7 @@ border-spacing: -1px;
 										<td class="bold" nowrap>Perujuk</td>
 										<td nowrap>
 											@if(isset( $periksa->usg->perujuk ))
-												{!! $periksa->usgs->perujuk->nama !!}
+												{!! $periksa->usg->perujuk->nama !!}
 											@else
 												Tidak Ada Perujuk
 											@endif
