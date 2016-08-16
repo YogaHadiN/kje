@@ -36,7 +36,9 @@ Klinik Jati Elok | Daftar Peralatan
 										<th>Petugas</th>
 										<th>Peralatan</th>
 										<th>Masa Pakai</th>
-										<th>Harga Awal</th>
+										<th>Harga Satuan</th>
+										<th>Jumlah</th>
+										<th>Total Nilai</th>
 										<th>Penyusutan</th>
 									</tr>
 								</thead>
@@ -48,13 +50,15 @@ Klinik Jati Elok | Daftar Peralatan
 												<td>{{ $fb->staf->nama }}</td>
 												<td>{{ $fb->peralatan }}</td>
 												<td>{{ $fb->masa_pakai }} tahun</td>
-												<td class="uang">{{ $fb->nilai }}</td>
+												<td class="uang">{{ $fb->harga_satuan }}</td>
+												<td>{{ $fb->jumlah }}</td>
+												<td class="uang">{{ $fb->harga_satuan *  $fb->jumlah  }}</td>
 												<td class="uang">{{ $fb->penyusutan }}</td>
 											</tr>
 										@endforeach
 									@else
 										<tr>
-											<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
+											<td class="text-center" colspan="8">Tidak Ada Data Untuk Ditampilkan :p</td>
 										</tr>
 									@endif
 								</tbody>

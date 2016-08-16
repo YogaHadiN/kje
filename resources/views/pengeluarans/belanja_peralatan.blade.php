@@ -78,7 +78,8 @@ Klinik Jati Elok | Belanja Peralatan
 						<table class="table table-bordered table-condensed">
 							<thead>
 								<th>Peralatan</th>
-								<th>Nilai</th>
+								<th>Harga Satuan</th>
+								<th>Jumlah</th>
 								<th>Masa Pakai</th>
 								<th>Action</th>
 							</thead>
@@ -93,6 +94,9 @@ Klinik Jati Elok | Belanja Peralatan
 										<input type="text" class="form-control " id="nilai" placeholder="" autocomplete='off' value=""/>
 										<span class="input-group-addon">,00</span>
 									</div>
+								</td>
+								<td>
+									<input type="text" class="form-control " id="jumlah" placeholder="" autocomplete='off' value=""/>
 								</td>
 								<td>
 									<div class="input-group">
@@ -144,16 +148,21 @@ Klinik Jati Elok | Belanja Peralatan
 	function dummyInsert(){
 		var peralatan = $('#peralatan').val();
 		var nilai = $('#nilai').val();
+		var jumlah = $('#jumlah').val();
 		var masa_pakai = $('#masa_pakai').val();
 		if(
 				peralatan == '' ||
 				nilai == '' ||
+				jumlah == '' ||
 				masa_pakai == '' 
 		  ){
 			if(peralatan == ''){
 				validasi('#peralatan', 'Harus Diisi');
 			}
 
+			if(jumlah == ''){
+				validasi('#jumlah', 'Harus Diisi');
+			}
 			if(nilai == ''){
 				validasi('#nilai', 'harus diisi');
 			}
@@ -169,11 +178,13 @@ Klinik Jati Elok | Belanja Peralatan
 	function insert(){
 		var peralatan = $('#peralatan').val();
 		var nilai = $('#nilai').val();
+		var jumlah = $('#jumlah').val();
 		var masa_pakai = $('#masa_pakai').val();
 
 		var data = {
 			'peralatan' : peralatan,
 			'nilai' : nilai,
+			'jumlah' : jumlah,
 			'masa_pakai' : masa_pakai
 		};
 		var temp = $('#temp').val();
@@ -194,6 +205,7 @@ Klinik Jati Elok | Belanja Peralatan
 			 tabel += '<tr>';
 			 tabel += '<td>' + MyArray[i].peralatan + '</td>';
 			 tabel += '<td class="uang">' + MyArray[i].nilai + '</td>';
+			 tabel += '<td>' + MyArray[i].jumlah + '</td>';
 			 tabel += '<td class="text-right">' + MyArray[i].masa_pakai + ' tahun </td>';
 			 tabel += '<td> <button class="btn btn-danger btn-xs btn-block" type="button" onclick="rowDel(this);return false" value="' + i + '">delete</button> </td>';
 			 tabel += '</tr>'
@@ -201,6 +213,7 @@ Klinik Jati Elok | Belanja Peralatan
 		 $('#tbody_table').html(tabel);
 		 $('#peralatan').val('');
 		 $('#nilai').val('');
+		 $('#jumlah').val('');
 		 $('#masa_pakai').val('');
 		 formatUang();
 		 $('#peralatan').focus();
@@ -220,10 +233,5 @@ Klinik Jati Elok | Belanja Peralatan
 			 $('#submit').click();
 		 }
 	}
-
-
-	
-	
-	
 </script>
 @stop

@@ -1,2 +1,4 @@
 alter table faktur_belanjas add column sumber_uang_id varchar(255);
 alter table pengeluarans add column sumber_uang_id varchar(255);
+alter table belanja_peralatans add column jumlah int(11);
+alter table belanja_peralatans change nilai harga_satuan int(11);

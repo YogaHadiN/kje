@@ -929,7 +929,8 @@ class PengeluaransController extends Controller
 				 'faktur_belanja_id' => $fb->id,
 				 'staf_id' => $staf_id,
 				 'peralatan' => $t['peralatan'],
-				 'nilai' => $t['nilai'],
+				 'harga_satuan' => $t['nilai'],
+				 'jumlah' => $t['jumlah'],
 				 'masa_pakai' => $t['masa_pakai'],
 				 'created_at' => $timestamp,
 				 'updated_at' => $timestamp

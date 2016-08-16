@@ -40,13 +40,13 @@ class JadwalPenyusutan extends Command
      */
     public function handle()
     {
-		$alats = BelanjaPeralatan::whereRaw('(nilai - penyusutan) > 1')->get();
+		$alats = BelanjaPeralatan::whereRaw('(( harga_satuan * jumlah ) - penyusutan) > 1')->get();
 		$total_penyusutan = 0;
 		$bulan = date('Y-m');
 		foreach ($alats as $alat) {
-			$penyusutan = round( $alat->nilai/(12*$alat->masa_pakai) );
-			if ($penyusutan > ( $alat->nilai - $alat->penyusutan -1 )) {
-				$penyusutan =  $alat->nilai - $alat->penyusutan - 1 ;
+			$penyusutan = round( ( $alat->harga_satuan * $alat->jumlah ) /(12*$alat->masa_pakai) );
+			if ($penyusutan > ( ( $alat->harga_satuan * $alat->jumlah )  - $alat->penyusutan - $alat->jumlah )) {
+				$penyusutan =  ( $alat->harga_satuan * $alat->jumlah )  - $alat->penyusutan -  $alat->jumlah ;
 			}
 			$alat->penyusutan = $alat->penyusutan + $penyusutan;
 			$alat->save();
