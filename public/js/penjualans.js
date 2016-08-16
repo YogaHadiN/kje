@@ -110,7 +110,7 @@ var merek = $(control).closest('tr').find('td:nth-child(1) select option:selecte
 
       $('#tableEntriBeli tbody').html(temp);
       $('#tempBeli').val(JSON.stringify(dataf));
-      $('#totalHargaObat').html(total);
+      $('#totalHargaObat').val(total);
 
       $('.uang').each(function() {
           var number = $(this).html();

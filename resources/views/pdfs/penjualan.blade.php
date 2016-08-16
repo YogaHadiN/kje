@@ -119,32 +119,22 @@ hr {
                </div>
                 <div class="font-small border-bottom">
                     @if ($nota_jual->tipe_jual_id == 1)
+						<h2>
                         <table class="table table-condensed bordered">
                             <thead>
                                 <tr>
-                                    <th>Merek</th>
+                                    <th>Jenis Transaksi</th>
                                     <th>Rp</th>
-                                    <th>Qty</th>
-                                    <th>Harga</th>
                                 </tr>
                             </thead>
                             <tbody id="daftarBelanja">
-                                @foreach ($nota_jual->penjualan as $pemb)
-                                    <tr>
-                                        <td>{{ $pemb->merek->merek }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp($pemb->harga_jual) }}</td>
-                                        <td nowrap class="text-right">{{ $pemb->jumlah }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->harga_jual * $pemb->jumlah ) }}</td>
-                                    </tr>
-                                @endforeach
+								<tr>
+									<td>Biaya Obat</td>
+									<td id="totalBiaya" class="text-right" nowrap colspan="3">{{ App\Classes\Yoga::buatrp( $nota_jual->nilai ) }}</td>
+								</tr>
                             </tbody>
-                            <tfoot class="big">
-                                <tr>
-                                    <td>Total</td>
-                                    <td id="totalBiaya" class="text-right" nowrap colspan="3">{{ App\Classes\Yoga::buatrp( $total ) }}</td>
-                                </tr>    
-                            </tfoot>
                         </table>
+						</h2>
                     @elseif($nota_jual->tipe_jual_id == 2)
                         <table class="table table-condensed bordered">
                             <thead>

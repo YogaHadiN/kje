@@ -45,7 +45,8 @@ class PenjualansController extends Controller
         ];
 		$rules = [
 			'tanggal' => 'required',
-			'staf_id' => 'required'
+			'staf_id' => 'required',
+			'total_harga' => 'required'
 		];
 		$validator = \Validator::make($data = Input::all(), $rules, $messages);
 
@@ -88,11 +89,13 @@ class PenjualansController extends Controller
 			}
 		}
 
-		$nj = new NotaJual;
-		$nj->id = $nota_jual_id;
+		$nj          = new NotaJual;
+		$nj->id      = $nota_jual_id;
 		$nj->tanggal = Yoga::datePrep(Input::get('tanggal'));
 		$nj->staf_id = Input::get('staf_id');
-		$confirm = $nj->save();
+		$confirm     = $nj->save();
+
+		$biaya = Input::get('total_harga');
 
 		if ($confirm) {
 			$jurnal                  = new JurnalUmum;
@@ -114,7 +117,7 @@ class PenjualansController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $nota_jual_id;
 			$jurnal->jurnalable_type = 'App\NotaJual';
-			$jurnal->coa_id          = 50200; // Beban Biaya Obat
+			$jurnal->coa_id          = 50200; // Biaya Produksi Obat
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = $biaya_obat;
 			$jurnal->save();

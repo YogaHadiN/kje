@@ -58,7 +58,7 @@ Klinik Jati Elok | Entri Beli Obat
                 <tfoot>
                     <tr>
                       <td colspan="2" class="text-right bold"> Total Biaya : </td>
-                      <td class="bold uang" id="totalHargaObat" colspan="3">{!! $nota_jual->total !!}</td>
+                      <td class="bold uang" id="totalHargaObat" colspan="3">{!! $nota_jual->nilai !!}</td>
                     </tr>
                 </tfoot>
             </table>

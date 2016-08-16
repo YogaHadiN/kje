@@ -4,6 +4,14 @@
 Klinik Jati Elok | Entri Jual Obat
 
 @stop
+@section('head') 
+	<style type="text/css" media="all">
+		.input-group {
+			color:#676A8B;
+		}
+	</style>
+
+@stop
 @section('page-title') 
 <h2>Penjualan Obat Tanpa Resep</h2>
 <ol class="breadcrumb">
@@ -50,7 +58,18 @@ Klinik Jati Elok | Entri Jual Obat
                 <div class="panelLeft">
                 </div>
                 <div class="panelRight bold">
-                  <span class="">Total : </span><span class="uang " id="totalHargaObat">0</span>
+					<div class="row">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							  <span class="">Total : </span>
+						</div>
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+						  <div class="input-group">
+							<span class="input-group-addon">Rp. </span>
+							<input type="text" class="form-control" name="total_harga"  id="totalHargaObat">
+							<span class="input-group-addon">Bisa Diedit</span>
+						  </div>
+						</div>
+					</div>
                 </div>
             </div>
       </div>

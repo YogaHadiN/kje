@@ -34,11 +34,10 @@ class NotaJual extends Model{
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }
 	public function getNilaiAttribute(){
-		$nilai = '';
-		foreach ($this->penjualan as $penj) {
-			$nilai += $penj->harga_jual * $penj->jumlah;
-		}
-		return $nilai;
+		return JurnalUmum::where('jurnalable_type', 'App\NotaJual')
+						->where('jurnalable_id', $this->id)
+						->where('debit', '1')
+						->first()['nilai'];
 	}
 
 	public function getItemsAttribute(){
