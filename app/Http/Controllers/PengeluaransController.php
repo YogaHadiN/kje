@@ -642,7 +642,7 @@ class PengeluaransController extends Controller
     }
     public function bayar_gaji_karyawan(){
         $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->lists('coa', 'id')->all();
-        $pembayarans = BayarGaji::latest()->paginate(20);
+        $pembayarans = BayarGaji::latest()->paginate(10);
         return view('pengeluarans.bayar_gaji_karyawan', compact(  'pembayarans' , 'sumber_kas_lists'));
     }
     
@@ -884,7 +884,8 @@ class PengeluaransController extends Controller
 	}
 	
 	public function belanjaPeralatan(){
-		return view('pengeluarans.belanja_peralatan');
+		$masa_pakai = Yoga::masaPakai();
+		return view('pengeluarans.belanja_peralatan', compact('masa_pakai'));
 	}
 	public function belanjaPeralatanBayar(){
 

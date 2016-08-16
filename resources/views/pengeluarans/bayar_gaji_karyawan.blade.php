@@ -33,7 +33,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                   {!! Form::select('coa_id', $sumber_kas_lists, null , ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                  {!! Form::label('staf_id', 'Nama Staf') !!}
+                  {!! Form::label('staf_id', 'Nama Staf Yang Dibayarkan Gajiny') !!}
                   {!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
                 </div>
                 <div class="form-group">

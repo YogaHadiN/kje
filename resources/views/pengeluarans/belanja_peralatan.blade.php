@@ -18,7 +18,7 @@ Klinik Jati Elok | Belanja Peralatan
 @section('content') 
 {!! Form::open(['url' => 'pengeluarans/belanja/peralatan/bayar', 'method' => 'post']) !!}
 <div class="row">
-	<div class="col-xs12 col-sm-12 col-md-12 col-lg-12">
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="row">
@@ -65,6 +65,18 @@ Klinik Jati Elok | Belanja Peralatan
 			</div>
 		</div>
 	</div>
+	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div class="alert alert-info">
+			<h2>Panduan Mengisi Masa Pakai</h2>
+			<ul>
+				<li>Alat-alat medis non elektronik biasanya masa pakai 1 tahun</li>
+				<li>Alat elektronik Masa Pakai biasanya 3 tahun</li>
+				<li>Furnitur sekitar 5 tahun</li>
+				<li>Bahan Bangunan sekitar 5 tahun</li>
+			</ul>
+		</div>
+	</div>
+	
 </div>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -80,7 +92,7 @@ Klinik Jati Elok | Belanja Peralatan
 								<th>Peralatan</th>
 								<th>Harga Satuan</th>
 								<th>Jumlah</th>
-								<th>Masa Pakai</th>
+								<th>Kategori Peralatan</th>
 								<th>Action</th>
 							</thead>
 							<tbody id="tbody_table"></tbody>
@@ -99,10 +111,7 @@ Klinik Jati Elok | Belanja Peralatan
 									<input type="text" class="form-control " id="jumlah" placeholder="" autocomplete='off' value=""/>
 								</td>
 								<td>
-									<div class="input-group">
-										<input type="text" class="form-control text-right " id="masa_pakai" placeholder="" autocomplete='off' value=""/>
-										<span class="input-group-addon">tahun</span>
-									</div>
+									{!! Form::select('masa_pakai', $masa_pakai, null, ['class' => 'form-control', 'id' => 'masa_pakai']) !!}
 								</td>
 								<td>
 									<button class="btn btn-primary btn-sm btn-block" type="button" onclick="dummyInsert(); return false" id="dInsert">insert</button>
@@ -202,11 +211,19 @@ Klinik Jati Elok | Belanja Peralatan
 		 console.log(MyArray);
 		 var tabel = '';
 		 for (var i = 0; i < MyArray.length; i++) {
+			 var kategori = ''
+			 if(MyArray[i].masa_pakai == '1'){
+			 	kategori = 'Alat medis non elektronik';
+			 } else if(MyArray[i].masa_pakai == '3'){
+			 	kategori = 'Alat Elektronik';
+			 } else if(MyArray[i].masa_pakai == '5'){
+			 	kategori = 'Furnitur dan Bahan Bangunan';
+			 }
 			 tabel += '<tr>';
 			 tabel += '<td>' + MyArray[i].peralatan + '</td>';
 			 tabel += '<td class="uang">' + MyArray[i].nilai + '</td>';
 			 tabel += '<td>' + MyArray[i].jumlah + '</td>';
-			 tabel += '<td class="text-right">' + MyArray[i].masa_pakai + ' tahun </td>';
+			 tabel += '<td>' + kategori + '</td>';
 			 tabel += '<td> <button class="btn btn-danger btn-xs btn-block" type="button" onclick="rowDel(this);return false" value="' + i + '">delete</button> </td>';
 			 tabel += '</tr>'
 		 }

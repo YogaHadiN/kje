@@ -2036,6 +2036,14 @@ class Yoga {
 		return $sumber_uang;
 	}
 	
+	public static function masaPakai(){
+		$masa_pakai[null] = '-Pilih-';
+		$masa_pakai['1'] = 'Alat medis non elektronik';
+		$masa_pakai['3'] = 'Alat elektronik';
+		$masa_pakai['5'] = 'Furnitur dan bahan bangunan';
+		return $masa_pakai;
+	}
+	
 	
     
 }
