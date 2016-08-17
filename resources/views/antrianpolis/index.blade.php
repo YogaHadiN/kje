@@ -293,6 +293,35 @@ Klinik Jati Elok | Nurse Station
             </div>
         </div>
 
+		<div class="modal fade" tabindex="-1" role="dialog" id="alert_prolanis">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Pastikan Nomor Telepon Benar</h4>
+			  </div>
+			  <div class="modal-body">
+				  <h3>Pasien Adalah Golongan Program Lanjut Usia BPJS</h3>
+				  <p>Mohon Pastikan kembali no telpon pasien yang bisa dihubungi</p>
+				  <p>Saat ini yang terdaftar adalah :</p>
+				  <h2 id="no_telp_pasien"></h2>
+				  <p>Jika Nomor Telepon tersebut tidak benar / salah harap ganti dengan </p>
+			  </div>
+			  <div class="modal-footer">
+				  <div class="row">
+				  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<a href="" id="redirect_update_pasien" class="btn btn-primary btn-block">Ganti Nomor Telepon Pasien</a>
+				  	</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<button type="button" class="btn btn-danger btn-block" onclick="closeModal();">Nomor Telepon Pasien Sudah Benar</button>
+					</div>
+				  </div>
+			  </div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+
 
 @stop
 @section('footer') 
@@ -306,6 +335,7 @@ Klinik Jati Elok | Nurse Station
         });
 
         uk('umur_kehamilan', 'hpht');
+
 
         $('#hamil').change(function(e) {
             if ($(this).val() == '1') {
@@ -363,17 +393,18 @@ Klinik Jati Elok | Nurse Station
             var image = $(control).closest('tr').find('td:nth-child(11)').html();
             var umur = $(control).closest('tr').find('td:last-child').html();
 
-
-            console.log('ID_PASIEN = ' + ID_PASIEN);
-            console.log('ID_POLI = ' + ID_POLI);
-            console.log('ID_STAF = ' + ID_STAF);
-            console.log('ID_ASURANSI = ' + ID_ASURANSI);
-            console.log('namaPasien = ' + namaPasien);
-            console.log('tanggal = ' + tanggal);
-            console.log('jam = ' + jam);
-            console.log('ID_ANTRIAN_POLI = ' + ID_ANTRIAN_POLI);
-            console.log('antrian = ' + antrian);
-            console.log('image = ' + image);
+			$.get('{{url('antrianpolis/ajax/getGolonganProlanis')}}',
+				{ 'pasien_id': ID_PASIEN },
+				function (data) {
+					data = $.trim(data);
+					if(data == '0'){
+					}else{
+						 $('#alert_prolanis').modal('show');
+						 $('#no_telp_pasien').html(data);
+						 $('#redirect_update_pasien').prop('href', '{{ url("pasiens") }}' + '/' + ID_PASIEN + '/edit');
+					}
+				}
+			);
 
             if (ID_ASURANSI == '32') {
                 $('#pastikan').show();
@@ -539,6 +570,9 @@ Klinik Jati Elok | Nurse Station
             $('#kecelakaanKerja').val('1');
             $('#dummySubmitButton').click();
         }
+		function closeModal(){
+			 $('#alert_prolanis').modal('hide');
+		}
     </script>
 
 @stop

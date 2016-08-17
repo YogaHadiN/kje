@@ -75,6 +75,7 @@
                             <li>{!! HTML::link('pengeluarans/peralatans', 'Peralatan')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
+                            <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
                         </ul>
                     </li>
                     <li>
@@ -308,6 +309,10 @@
                 autoclose: true,
                 format: 'mm-yyyy',
                 minViewMode: 'months'
+            });
+
+            $('.DTa').dataTable({
+                "dom": 'T<"clear">lfrtip',
             });
 
             $('.DT').dataTable({

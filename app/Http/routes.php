@@ -52,6 +52,7 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 
 			Route::get('antrian_pasien', 'SupplierBelanjasController@belanja_obat');
 			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');
+			Route::get('antrianpolis/ajax/getGolonganProlanis', 'AntrianPolisAjaxController@getProlanis');
 
 			// dari menu users
 			Route::resource('pasiens', 'PasiensController');
@@ -137,6 +138,7 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 
 			Route::get('belanjalist', 'BelanjaListsController@index');
+			Route::get('prolanis', 'ProlanisController@index');
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
 			Route::get('fakturbelanjas/cari', 'FakturBelanjasController@cari');

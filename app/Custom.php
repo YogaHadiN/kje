@@ -1,40 +1,11 @@
 <?php
 
-namespace App\Classes;
+namespace App;
 
-use Input;
-use App\Rak;
-use App\Poli;
-use App\JurnalUmum;
-use App\Pasien;
-use App\Signa;
-use App\Coa;
-use App\Perujuk;
-use App\AturanMinum;
-use App\Supplier;
-use App\Tarif;
-use App\Merek;
-use App\Periksa;
-use App\JenisTarif;
-use App\Confirm;
-use App\RefleksPatela;
-use App\KepalaTerhadapPap;
-use App\Presentasi;
-use App\Buku;
-use App\Staf;
-use App\Asuransi;
-use App\JenisRumahSakit;
-use App\RegisterHamil;
-use App\JenisPengeluaran;
-use DB;
-use App\Terapi;
-use App\TujuanRujuk;
+use Illuminate\Database\Eloquent\Model;
 
-
-
-
-
-class Yoga {
+class Custom extends Model
+{
 			public static function redirect_to($new_location) {
 			  header("Location: " . $new_location);
 			  exit;
@@ -2043,16 +2014,7 @@ class Yoga {
 		$masa_pakai['5'] = 'Furnitur dan bahan bangunan';
 		return $masa_pakai;
 	}
-	public static function golonganProlanis($pasien_id){
-		$pasien_ids = Yoga::prolanis();
-		if( in_array($pasien_id, $pasien_ids) ){
-			 return Pasien::find($pasien_id)->no_telp;
-		} else {
-			return '0';
-		}
-	}
-
-	public static function prolanis(){
+	public function golonganProlanis($pasien_id){
 		
 		$pasien_ids = [];
 		// Dapatkan pasien hipertensi lebih dari 3 x pemerikssaan dengan usia diatas 49 tahun
@@ -2079,11 +2041,6 @@ class Yoga {
 			}
 		}
 
-		return  array_unique($pasien_ids);
+		$pasien_ids =  array_unique($pasien_ids);
 	}
-	
-	
-	
-	
-    
 }
