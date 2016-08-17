@@ -136,6 +136,8 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 			Route::post('pengeluarans/belanja/peralatan/bayar', 'PengeluaransController@belanjaPeralatanBayar');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
 
+			Route::get('belanjalist', 'BelanjaListsController@index');
+
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
 			Route::get('fakturbelanjas/cari', 'FakturBelanjasController@cari');
 			Route::post('fakturbelanjas', 'FakturBelanjasController@store');

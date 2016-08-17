@@ -141,9 +141,7 @@
                         <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">Transaksi Kasir</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('no_sales', 'No Sales')!!}</li>
-                            <li>{!! HTML::link('fakturbelanjas/cari', 'Belanja Obat')!!}</li>
-                            <li>{!! HTML::link('suppliers/belanja_bukan_obat', 'Belanja Bukan Obat')!!}</li>
-                            <li>{!! HTML::link('pengeluarans/belanja/peralatan', 'Belanja Peralatan')!!}</li>
+                            <li>{!! HTML::link('belanjalist', 'Belanja')!!}</li>
                             <li>{!! HTML::link('penjualans', 'Penjualan Obat Tanpa Resep')!!}</li>
                             <li>{!! HTML::link('penjualans/obat_buat_karyawan', 'Obat Untuk Karyawan')!!}</li>
                             <li>{!! HTML::link('pendapatans/create', 'Pendapatan Lain')!!}</li>
