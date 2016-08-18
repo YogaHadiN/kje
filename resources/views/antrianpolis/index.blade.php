@@ -306,6 +306,7 @@ Klinik Jati Elok | Nurse Station
 				  <p>Saat ini yang terdaftar adalah :</p>
 				  <h2 id="no_telp_pasien"></h2>
 				  <p>Jika Nomor Telepon tersebut tidak benar / salah harap ganti dengan </p>
+				  <p class='text-red'>Sebisa mungkin nomor telepon handphone yang bisa di SMS, bila format tidak benar misalnya kurang anka nol di depan, tolong dilengkapi dahulu</p>
 			  </div>
 			  <div class="modal-footer">
 				  <div class="row">

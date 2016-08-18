@@ -347,6 +347,7 @@ Klinik Jati Elok | Belanja Obat
     </div>
   </div>
 </div>
+
 <div class="modal fade" tabindex="-1" role="dialog" id="create_supplier">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -358,6 +359,7 @@ Klinik Jati Elok | Belanja Obat
           @include('suppliers.form', ['submit' => 'SUBMIT'])
       </div>
     </div><!-- /.modal-content -->
+
   </div><!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
