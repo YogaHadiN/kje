@@ -48,8 +48,8 @@ Klinik Jati Elok | Chart Of Account
 									<td>{{ $coa->coa }}</td>
 									<td>{{ $coa->kelompok_coa_id }}</td>
 									<td>{{ $coa->kelompokCoa->kelompok_coa }}</td>
-									<td><a class="btn-sm btn-info btn-block" href="#">Details</a></td>
-									<td> <a class="btn-sm btn-primary btn-block" href="#">Edit</a></td>
+									<td><a class="btn-sm btn-info btn-block" href="{{ url('coas/' . $coa->id ) }}">Details</a></td>
+									<td> <a class="btn-sm btn-primary btn-block"  href="{{ url('coas/' . $coa->id . '/edit') }}">Edit</a></td>
 								</tr>
 							@endforeach
 						</tbody>

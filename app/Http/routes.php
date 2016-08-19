@@ -79,6 +79,8 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 			Route::post('coas', 'CoasController@store');
 			Route::get('coas/{id}/edit', 'CoasController@edit');
 			Route::post('coas/cek_coa_sama', 'CoasController@cekCoaSama');
+			Route::post('/coas/cek_coa_sama_edit', 'CoasController@cekCoaSamaEdit');
+
 			Route::post('coas/{id}', 'CoasController@update');
 
 			Route::get('rumahsakits', 'RumahSakitsController@index'); //penjualan obat tanpa resep

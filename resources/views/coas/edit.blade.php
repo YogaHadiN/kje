@@ -1,9 +1,7 @@
-
  @extends('layout.master')
 
  @section('title') 
-Klinik Jati Elok | Daftarkan Supplier
-
+Klinik Jati Elok | Edit Coa
  @stop
  @section('head')
     <style>
@@ -27,19 +25,20 @@ Klinik Jati Elok | Daftarkan Supplier
 </ol>
  @stop
  @section('content') 
- {!! Form::open(['url' => 'coas', 'method' => 'post']) !!}
- @include('coas.form', [
-	 'coa_id' => null,
-	 'create' => true
- ])
+ {!! Form::model( $coa, ['url' => 'coas', 'method' => 'put']) !!}
+	 @include('coas.form', [
+		 'coa_id'=> $coa->id,
+		 'create' => false
+	 ])
  {!! Form::close() !!}
+
  @stop
  @section('footer') 
 	 <script type="text/javascript" charset="utf-8">
 		var base = "{{ url('/') }}";
 	 </script>
 	 <script src="{{ url('js/create_supplier.js') }}"> </script>
-	 <script src="{{ url('js/coas.js') }}"></script>
+	 <script src="{{ url('js/coas_edit.js') }}"></script>
  @stop
 
 

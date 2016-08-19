@@ -29,14 +29,8 @@ class CoasController extends Controller
 	 */
 	public function create()
 	{
-		$kelompokCoaList[] = [null => 'pilih'];
-		$kcoas = KelompokCoa::all();
 
-		foreach ($kcoas as $kc) {
-			$kelompokCoaList[] = [ $kc->id => $kc->id . '-' . $kc->kelompok_coa ];
-		}
-
-		$kelompokCoaList = [ null => ' - pilih - ' ] + KelompokCoa::orderBy('id')->get()->lists('ccoa', 'id')->all();
+		$kelompokCoaList = $this->kelompokCoaList();
 
 		return view('coas.create', compact('kelompokCoaList'));
 	}
@@ -84,8 +78,8 @@ class CoasController extends Controller
 	public function edit($id)
 	{
 		$coa = Coa::find($id);
-
-		return view('coas.edit', compact('coa'));
+		$kelompokCoaList = $this->kelompokCoaList();
+		return view('coas.edit', compact('coa', 'kelompokCoaList'));
 	}
 
 	/**
@@ -96,10 +90,25 @@ class CoasController extends Controller
 	 */
 	public function update($id)
 	{
+		$rules = [
+			'coa_id' => 'unique:id|required',
+			'coa' => 'unique:id|required',
+			'kelompok_coa_id' => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		
 		$coa = Coa::findOrFail($id);
+		$coa->id   = Input::get('coa_id');
+		$coa->coa   = Input::get('coa');
+		$coa->kelompok_coa_id   = Input::get('kelompok_coa_id');
 
 
-		$coa->update($data);
 
 		return \Redirect::route('coas.index');
 	}
@@ -126,5 +135,21 @@ class CoasController extends Controller
 
 		return '1';
 	}
+	public function kelompokCoaList(){
+		return [ null => ' - pilih - ' ] + KelompokCoa::orderBy('id')->get()->lists('ccoa', 'id')->all();
+	}
+	public function cekCoaSamaEdit(){
+		$kode_coa_id = Input::get('kode_coa_id');
+		$coa_asal = Input::get('coa_asal');
+
+		if (Coa::where('id', $kode_coa_id)->where('id', '!=', $coa_asal)->count() == 0) {
+			return '0';
+		}
+
+		return '1';
+		
+	}
+	
+	
 	
 }

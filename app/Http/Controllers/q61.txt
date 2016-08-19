@@ -1,0 +1,2 @@
+insert into coas (id, coa, kelompok_coa_id, created_at, updated_at) values ('120002', 'Akumulasi Penyusutan Peralatan', '12', '2016-08-14 14:12:29',  '2016-08-14 14:12:29');
+insert into coas (id, coa, kelompok_coa_id, created_at, updated_at) values ('612312', 'Biaya Penyusutan Peralatan', '6', '2016-08-14 14:12:29',  '2016-08-14 14:12:29');

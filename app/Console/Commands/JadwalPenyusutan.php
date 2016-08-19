@@ -61,7 +61,7 @@ class JadwalPenyusutan extends Command
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $susut->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\Penyusutan';
-			$jurnal->coa_id          = 800001; //Beban Penyusutan
+			$jurnal->coa_id          = 612312; //Biaya Penyusutan
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = $total_penyusutan;
 			$jurnal->save();
@@ -69,7 +69,7 @@ class JadwalPenyusutan extends Command
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $susut->id;// id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\Penyusutan';
-			$jurnal->coa_id          = 120001; // Peralatan
+			$jurnal->coa_id          = 120002; // Akumulasi Penyusutan Peralatan
 			$jurnal->debit           = 0;
 			$jurnal->nilai           = $total_penyusutan;
 			$jurnal->save();
