@@ -17,9 +17,9 @@ Klinik Jati Elok | Data Pasien Prolanis BPJS
 
 @stop
 @section('content') 
-	<div class="panel panel-primary">
+<div class="panel panel-primary">
 		<div class="panel-heading">
-			<div class="panel-title">Daftar Pasien Prolanis BPJS</div>
+			<div class="panel-title">Diabetes</div>
 		</div>
 		<div class="panel-body">
 			<div class="row">
@@ -30,21 +30,26 @@ Klinik Jati Elok | Data Pasien Prolanis BPJS
 								<tr>
 									<th>Nomor Pasien</th>
 									<th>Nama Pasien</th>
-									<th>Usia</th>
-									<th>Alamat</th>
+									<th>Tekanan Darah</th>
+									<th>Rata Tensi</th>
+									<th>Ada DM</th>
 									<th>No HP</th>
+									<th>Riwayat GDS</th>
 									<th>Action</th>
+
 								</tr>
 							</thead>
 							<tbody>
-								@if($prolanis->count() > 0)
+								@if(count($prolanis) > 0)
 									@foreach($prolanis as $pro)
 										<tr>
 											<td>{{ $pro->id }}</td>
 											<td>{{ $pro->nama }}</td>
-											<td>{{App\Classes\Yoga::umur(  $pro->tanggal_lahir  )}} tahun</td>
-											<td>{{ $pro->alamat }}</td>
+											<td>{!! $pro->tensis !!}</td>
+											<td>{{ $pro->ratatensi }}</td>
+											<td>{{ $pro->adadm }}</td>
 											<td>{{ $pro->no_telp }}</td>
+											<td>{!! $pro->riwgds !!}</td>
 											<td> <a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $pro->id) }}">detail</a> </td>
 										</tr>
 									@endforeach

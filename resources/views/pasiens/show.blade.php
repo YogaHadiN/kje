@@ -100,7 +100,10 @@ Klinik Jati Elok | Riwayat Pasien
                           @if($periksa->rujukan)
                           <hr>
                             <div class="alert alert-warning">
-                              dirujuk ke {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} <br>
+								dirujuk ke 
+								@if(isset( $periksa->rujukan->tujuanRujuk->tujuan_rujuk ))		
+									{!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} <br>
+								@endif
                               karena {!!$periksa->rujukan->alasan_rujuk !!} <br>
                               @if($periksa->asuransi_id == '32')
                               <a href="{{ url('rujukans/' . $periksa->id ) }}" class="btn btn-success">Lihat Rujukan</a>
