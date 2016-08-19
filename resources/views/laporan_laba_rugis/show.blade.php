@@ -36,7 +36,7 @@ Klinik Jati Elok | Laporan Laba Rugi
                   @foreach($pendapatan_usahas as $pend)
                   <tr>
                     <td></td>
-                    <td colspan="2">{{ $pend['coa'] }}</td>
+					<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend['coa'] }}</a></td>
                     <td class="uang">{{ abs($pend['nilai']) }}</td>
                     <td></td>
                   </tr>
@@ -54,7 +54,7 @@ Klinik Jati Elok | Laporan Laba Rugi
                   @foreach($hpps as $hpp)
                   <tr>
                     <td></td>
-                    <td colspan="2">{{ $hpp['coa'] }}</td>
+					<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $hpp['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $hpp['coa'] }}</a></td>
                     <td class="uang">{{ abs($hpp['nilai']) }}</td>
                     <td></td>
                   </tr>
@@ -82,7 +82,7 @@ Klinik Jati Elok | Laporan Laba Rugi
                   @foreach($biayas as $biaya)
                   <tr>
                     <td></td>
-                    <td colspan="2">{{ $biaya['coa'] }}</td>
+					<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya['coa'] }}</a></td>
                     <td class="uang">{{ abs($biaya['nilai']) }}</td>
                     <td></td>
                   </tr>
@@ -110,7 +110,7 @@ Klinik Jati Elok | Laporan Laba Rugi
                   @foreach($pendapatan_lains as $pend)
                   <tr>
                     <td></td>
-                    <td colspan="2">{{ $pend['coa'] }}</td>
+					<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend['coa'] }}</a></td>
                     <td class="uang">{{ abs($pend['nilai']) }}</td>
                     <td></td>
                   </tr>

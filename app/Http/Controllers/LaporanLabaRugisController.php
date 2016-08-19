@@ -40,8 +40,6 @@ class LaporanLabaRugisController extends Controller
         $bebans            = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '8%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
         $bebans = Yoga::getSumCoa($bebans, $tahun, $bulan);
 
-        // return $pendapatan_usahas;
-
     	return view('laporan_laba_rugis.show', compact(
             'pendapatan_usahas',
             'hpps',
