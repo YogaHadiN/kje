@@ -139,8 +139,9 @@ class PasiensAjaxController extends Controller
 			$pasien->no_telp        = Input::get('no_telp');
 			$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
 			$pasien->id             = $id;
+			$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
+			$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
 			$pasien->image          = Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
-			$pasien->ktp_image      = Yoga::inputKtpIfNotEmpty(Input::get('ktp_image'), $id);
 		
 			$pasien->save();
 

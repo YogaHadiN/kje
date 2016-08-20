@@ -97,6 +97,11 @@ hr {
                             <td>Keterangan</td>
                             <td>:</td>
 							<td>{{ $pengeluaran->keterangan }}</td>
+						</tr>
+						<tr>
+                            <td>Sumber kas</td>
+                            <td>:</td>
+							<td>{{ $pengeluaran->sumberUang->coa }}</td>
                         </tr>
                     </tbody>
                 </table>

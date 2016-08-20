@@ -19,6 +19,9 @@ class Pengeluaran extends Model{
 	public function supplier(){
 		return $this->belongsTo('App\Supplier');
 	}
+	public function sumberUang(){
+		return $this->belongsTo('App\Coa', 'sumber_uang_id');
+	}
 
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');

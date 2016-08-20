@@ -5,8 +5,8 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
+
 
 use App\Classes\Yoga;
 use App\Periksa;
@@ -154,6 +154,7 @@ class PasiensController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+			$pn = new Pasien;
 
 			$pasien                 = Pasien::find($id);
 			$pasien->alamat         = Input::get('alamat');
@@ -169,10 +170,13 @@ class PasiensController extends Controller
 			if (!empty(Input::get('image'))) {
 				$pasien->image      	= Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
 			}
-			if (!empty(Input::get('ktp_image'))) {
-				$pasien->ktp_image      = Yoga::inputKtpIfNotEmpty(Input::get('ktp_image'), $id);
+			if (Input::hasFile('bpjs_image')) {
+				$pasien->bpjs_image     = $pn->imageUpload('bpjs','bpjs_image', $id);
 			}
-			$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
+			if (Input::hasFile('ktp_image')) {
+				$pasien->ktp_image      = $pn->imageUpload('ktp', 'ktp_image', $id);
+			}
+			$pasien->tanggal_lahir   = Yoga::datePrep(Input::get('tanggal_lahir'));
 			$pasien->save();
 
 
@@ -192,5 +196,6 @@ class PasiensController extends Controller
 		$pesan = Yoga::suksesFlash('Pasien ' . $id . ' - ' . $pasien->nama . ' berhasil dihapus');
 		return \Redirect::route('pasiens.index')->withPesan($pesan);
 	}
+	
 
 }

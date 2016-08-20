@@ -1,5 +1,8 @@
 // Custom script
 $(document).ready(function () {
+	$("input[type='file']").change(function(){
+		readURL(this);
+	});
    $('input, select, textarea').on('keyup change', function(){
       $(this).parent()
       .removeClass('has-error')
@@ -429,4 +432,16 @@ function rata100(biaya){
     }
     return i;
 
+}
+function readURL(input) {
+
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$(input).closest('div').find('img').attr('src', e.target.result);
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
 }

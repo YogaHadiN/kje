@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Session;
 use DB;
+use Input;
 use App\Classes\Yoga;
 
 class Pasien extends Model{
@@ -144,4 +145,28 @@ class Pasien extends Model{
 		return $temp;
 	}
 	
+	public function imageUpload($pre, $fieldName, $id){
+		if(Input::hasFile($fieldName)) {
+
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/pasien';
+
+			// Mengambil file yang di upload
+			$upload_cover->move($destination_path, $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return $filename;
+			
+		} else {
+			return null;
+		}
+
+	}
 }

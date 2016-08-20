@@ -1,6 +1,6 @@
  @extends('layout.master')
  @section('title') 
-Klinik Jati Elok | edit Pasien
+	Klinik Jati Elok | edit Pasien
  @stop
  @section('head')
 
@@ -26,9 +26,9 @@ Klinik Jati Elok | edit Pasien
                 "url"   => "pasiens/". $pasien->id,
                 "class" => "m-t", 
                 "role"  => "form",
-                "method"=> "put"
+                "method"=> "put",
+                "files"=> true
             ))!!}
-                
                 <div class="form-group">
                     {!! Form::label('nama')!!}
                     {!! Form::text('nama', $pasien->nama, array(
@@ -37,7 +37,6 @@ Klinik Jati Elok | edit Pasien
                     ))!!}
                     <code>{!! $errors->first('nama')!!}</code>
                 </div>
-
                 <div class="form-group">
                     {!! Form::label('alamat')!!}
                     {!! Form::textarea('alamat', $pasien->alamat, array(
@@ -46,7 +45,6 @@ Klinik Jati Elok | edit Pasien
                     ))!!}
                     <code>{!! $errors->first('alamat')!!}</code>
                 </div>
-                
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="form-group">
@@ -166,37 +164,64 @@ Klinik Jati Elok | edit Pasien
                     </div>
                 </div>
             </div>
- </div>
- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-    <div>
-        @include('antrianpolis.webcamForm', [
-        'image' => $pasien->image, 
-        'ktp_image'=> $pasien->ktp_image,
-        'subject'   => 'Pasien'
-        ])    
-    </div>
-    <div>
-        @if (Session::has('cek'))
-          <div class="alert alert-danger">
-              <button type="button" class="close" data-dismiss="alert" aria-label="ClosANTe"><span aria-hidden="true">&times;</span></button>
-            <h2 class="text-center">PASIEN PESERTA BPJS TIDAK BISA DIPROSES UNTUK BEROBAT KARENA GAMBAR BELUM TERSEDIA</h2>
-              <ul>
-                  <li>Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu</li>
-                  <li>Klik lambang kamera di pojok kiri atas sebelah alamat website untuk menyalakan kamera</li>
-                  <li>Klik 'Bagikan Perangkat Terpilih'</li>
-                  <li>Klik Edit Foto</li>
-                  <li>Klik tombol Ambil Gambar untuk menangkap gambar</li>
-                  <li>Klik Submit untuk Update data pasien</li>
-              </ul> 
-            
+		 </div>
+		 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			 <div class="row">
+			 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div>
+						@include('antrianpolis.webcamForm', [
+						'image' => $pasien->image, 
+						'ktp_image'=> $pasien->ktp_image,
+						'subject'   => 'Pasien'
+						])    
+					</div>
+					<div>
+						@if (Session::has('cek'))
+						  <div class="alert alert-danger">
+							  <button type="button" class="close" data-dismiss="alert" aria-label="ClosANTe"><span aria-hidden="true">&times;</span></button>
+							<h2 class="text-center">PASIEN PESERTA BPJS TIDAK BISA DIPROSES UNTUK BEROBAT KARENA GAMBAR BELUM TERSEDIA</h2>
+							  <ul>
+								  <li>Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu</li>
+								  <li>Klik lambang kamera di pojok kiri atas sebelah alamat website untuk menyalakan kamera</li>
+								  <li>Klik 'Bagikan Perangkat Terpilih'</li>
+								  <li>Klik Edit Foto</li>
+								  <li>Klik tombol Ambil Gambar untuk menangkap gambar</li>
+								  <li>Klik Submit untuk Update data pasien</li>
+							  </ul> 
+							
 
-          </div>
-        @endif
-    </div>
- </div>
+						  </div>
+						@endif
+					</div>
+			 	</div>
+			 </div>
+			 <div class="row">
+			 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="form-group{{ $errors->has('bpjs_image') ? ' has-error' : '' }}">
+						{!! Form::label('bpjs_image', 'Foto Kartu BPJS') !!}
+						{!! Form::file('bpjs_image') !!}
+						@if (isset($pasien) && $pasien->bpjs_image)
+						<p> {!! HTML::image(asset('img/pasien/'.$pasien->bpjs_image), null, ['class'=>'img-rounded']) !!} </p>
+						@endif
+						{!! $errors->first('bpjs_image', '<p class="help-block">:message</p>') !!}
 
+					</div>
+			 	</div>
+			 </div>
+			<div class="row">
+			 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="form-group{{ $errors->has('ktp_image') ? ' has-error' : '' }}">
+						{!! Form::label('ktp_image', 'Foto KTP') !!}
+						{!! Form::file('ktp_image') !!}
+						@if (isset($pasien) && $pasien->ktp_image)
+						<p> {!! HTML::image(asset('img/pasien/'.$pasien->ktp_image), null, ['class'=>'img-rounded']) !!} </p>
+						@endif
+						{!! $errors->first('ktp_image', '<p class="help-block">:message</p>') !!}
 
-                
+					</div>
+			 	</div>
+			 </div>
+		 </div>
             {!! Form::close() !!}
             @if(\Auth::user()->role == '6')
                 {!! Form::open(array('url' => 'pasiens/' . $pasien->id, 'method' => 'DELETE'))!!} 
@@ -227,6 +252,7 @@ Klinik Jati Elok | edit Pasien
             // $('.image').attr("src","data:image/png;base64,"+image);
 
         });
+
    </script>
  @stop
 

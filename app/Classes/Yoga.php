@@ -1684,6 +1684,9 @@ class Yoga {
 		public static function inputKtpIfNotEmpty($image, $id){
 			return self::image($image, $id, 'pasien/ktp');
 		}
+		public static function inputBPJSIfNotEmpty($image, $id){
+			return self::image($image, $id, 'pasien/bpjs');
+		}
 		public static function inputStafImageIfNotEmpty($image, $id){
 			return self::image($image, $id, 'staf/img');
 		}
@@ -1994,7 +1997,7 @@ class Yoga {
 				$path = '/home/vagrant/Code/kje/public/img/'. $custom_url . $id . '.png';
 			} else {
 				$path = '/var/www/kje/public/img/' . $custom_url . $id . '.png';
-				$dropbox = '/home/kje/Dropbox/backup11/img/' . $custom_url . $id . '.png';
+				//$dropbox = '/home/kje/Dropbox/backup11/img/' . $custom_url . $id . '.png';
 			}
 			$urlImage = '/img/'. $custom_url . $id . '.png';
 			$data     = $image;
@@ -2123,6 +2126,52 @@ class Yoga {
 		//}
 		//return  array_unique($pasien_ids);
 	//}
+	public static function imageBPJSFromBrowser($image, $id){
+		$filename = null;
+		if (!empty( $image )) {
+			// Mengambil file yang di upload
+			$upload_cover = $request->file('cover');
+
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			//membuat nama file random + extension
+			$filename =	'bpjs'. $id . '.' . $extension;
+
+			//menyimpan cover ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img';
+			$upload_cover->move($destination_path, $filename);
+
+			//mengisi field cover di book dengan filename yang baru dibuat
+				
+		}
+
+		return $filename;
+	}
+	public static function imageKTPFromBrowser($image, $id){
+
+		$filename = null;
+		if (!empty( $image )) {
+			// Mengambil file yang di upload
+			$upload_cover = $request->file('cover');
+
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			//membuat nama file random + extension
+			$filename =	'ktp'. $id . '.' . $extension;
+
+			//menyimpan cover ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img';
+			$upload_cover->move($destination_path, $filename);
+
+			//mengisi field cover di book dengan filename yang baru dibuat
+				
+		}
+		return $filename;
+
+	}
+	
 	
 	
 	

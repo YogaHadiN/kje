@@ -18,7 +18,11 @@ Klinik Jati Elok | Buku Besar
 @section('content') 
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title">Panel title</h3>
+		<h3 class="panel-title">
+			<div class="panelLeft">
+				Buku Besar : {{ $jurnalumums->first()->coa->coa }}
+			</div>
+		</h3>
     </div>
     <div class="panel-body">
       <table class="table table-bordered">
@@ -26,7 +30,7 @@ Klinik Jati Elok | Buku Besar
           <tr>
             <td rowspan="2">No</td>
             <td rowspan="2">Tanggal</td>
-            <td rowspan="2">Penjelansan</td>
+            <td rowspan="2">Penjelasan</td>
             <td rowspan="2">Debet</td>
             <td rowspan="2">Kredit</td>
             <td colspan="2">Saldo</td>
