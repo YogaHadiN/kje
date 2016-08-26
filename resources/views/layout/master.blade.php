@@ -61,6 +61,9 @@
                     <li>
                         <a href="{{ url('laporans') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Home</span></a>
                     </li>
+					<li>
+                        <a href="{{ url('facebook/list') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Pendaftaran Online</span></a>
+                    </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -89,7 +92,7 @@
                     </li>
                     <li>
         
-                        <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> {!! App\Classes\Yoga::jumlahDisini(App\AntrianPoli::orderBy('antrian', 'asc')->count()) !!} </a>
+                        <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Poli</span><span class="fa arrow"></span></a>
@@ -169,6 +172,7 @@
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('fasilitas/antrian_pasien', 'Antrian Pasien')!!}</li>
                             <li>{!! HTML::link('fasilitas/survey', 'Survey Pasien')!!}</li>
+                            <li>{!! HTML::link('facebook', 'Daftar dengan Facebook')!!}</li>
                         </ul>
                      </li>
                 </ul>

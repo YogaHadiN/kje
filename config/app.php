@@ -153,6 +153,7 @@ return [
 		Barryvdh\Debugbar\ServiceProvider::class,
 		GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
 		Yajra\Datatables\DatatablesServiceProvider::class,
+	    Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -212,6 +213,7 @@ return [
         'PDF'       => Barryvdh\DomPDF\Facade::class,
 		'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
+		'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 		'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class
 
     ],

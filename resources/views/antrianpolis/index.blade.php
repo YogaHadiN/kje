@@ -35,7 +35,7 @@ Klinik Jati Elok | Nurse Station
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
-						<th class="displayNone">id</th>
+						<th>id</th>
                     	<th>Antrian</th>
 						<th>Asuransi</th>
 						<th>Pasien</th>
@@ -53,9 +53,9 @@ Klinik Jati Elok | Nurse Station
                     @if (count($antrianpolis) > 0)
                     	@foreach ($antrianpolis as $antrianpoli)
                 		<tr>
-    						<td class="displayNone">{!! $antrianpoli->id !!}</td>
+    						<td>{!! $antrianpoli->id !!}</td>
     	                   	<td>{!! $antrianpoli->antrian!!}</td>
-    						<td>{!! $antrianpoli->asuransi->nama!!}</td>
+							<td>{!! $antrianpoli->asuransi->nama !!}</td>
     						<td>{!! $antrianpoli->pasien->nama!!}</td>
     						<td>{!! $antrianpoli->jam!!}</td>
     						<td>{!! $antrianpoli->tanggal!!}</td>

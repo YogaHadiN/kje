@@ -67,14 +67,14 @@ class Pasien extends Model{
 
 	public function setNamaAttribute($value) {
 
-        $this->attributes['nama'] = strtolower($value);
+		$this->attributes['nama'] = strtolower($value);
 
-    }
+	}
 	public function setAlamatAttribute($value) {
 
-        $this->attributes['alamat'] = strtolower($value);
+		$this->attributes['alamat'] = strtolower($value);
 
-    }
+	}
 
 	public function getTensisAttribute(){
 		$periksas = $this->periksa;
@@ -168,5 +168,34 @@ class Pasien extends Model{
 			return null;
 		}
 
+	}
+
+	public function statusPernikahan(){
+		return array( 
+			null => '- Status Pernikahan -',
+			'Pernah' => 'Pernah Menikah',
+			'Belum' => 'Belum Menikah'
+		);
+	}
+	public function panggilan(){
+		return array(
+					null => '-Panggilan-',
+					'Tn' => 'Tn (Laki dewasa)',
+					'Ny' => 'Ny (Wanita Dewasa Menikah)',
+					'Nn' => 'Nn (Wanita Dewasa Belum Menikah)',
+					'An' => 'An (Anak-anak diatas 3 tahun)',
+					'By' => 'By (Anak2 dibawah 3 tahun)'
+					);
+	
+	}
+	
+	public function jenisPeserta(){
+		return array(
+					null => ' - pilih asuransi -',  
+		            "P" => 'Peserta',
+		            "S" => 'Suami',
+		            "I" => 'Istri',
+		            "A" => 'Anak'
+		);
 	}
 }

@@ -1,0 +1,20 @@
+alter table pasiens add column facebook_id varchar(255);
+alter table pasiens add column bpjs_image varchar(255);
+alter table antrian_polis modify staf_id varchar(255) null;
+create table `facebook_daftars` (
+	`id` int unsigned not null auto_increment primary key,
+	`pasien_id` varchar(255), 
+	`nama_pasien` varchar(255), 
+	`tanggal_lahir_pasien` date default '0000-00-00' not null, 
+	`alamat_pasien` varchar(255), 
+	`no_hp_pasien` varchar(255), 
+	`email_pasien` varchar(255), 
+	`gender_id` varchar(255), 
+	`facebook_id` varchar(255) not null, 
+	`pilihan_poli` varchar(255), 
+	`pilihan_pembayaran` int(11), 
+	`verified` int(1) default 0, 
+	`pernah_berobat` int(1) not null, 
+	`created_at` timestamp default 0,
+	`updated_at` timestamp default 0
+) default character set utf8 collate utf8_unicode_ci;

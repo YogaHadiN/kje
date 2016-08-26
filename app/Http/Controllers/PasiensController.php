@@ -32,37 +32,20 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function index()	{
-			$statusPernikahan = array( null => '- Status Pernikahan -',
-									'Pernah' => 'Pernah Menikah',
-									'Belum' => 'Belum Menikah'
-									);
-				$panggilan = array(
-					null => '-Panggilan-',
-					'Tn' => 'Tn (Laki dewasa)',
-					'Ny' => 'Ny (Wanita Dewasa Menikah)',
-					'Nn' => 'Nn (Wanita Dewasa Belum Menikah)',
-					'An' => 'An (Anak-anak diatas 3 tahun)',
-					'By' => 'By (Anak2 dibawah 3 tahun)'
-					);
-				$asuransi = Yoga::asuransiList();
-				$jenis_peserta = array(
-
-					null => ' - pilih asuransi -',  
-		            "P" => 'Peserta',
-		            "S" => 'Suami',
-		            "I" => 'Istri',
-		            "A" => 'Anak'
-
-					);
-				$staf = Yoga::stafList();
-				$poli = Yoga::poliList();
-				return view('pasiens.index')
-					->withAsuransi($asuransi)
-					->with('statusPernikahan', $statusPernikahan)
-					->with('panggilan', $panggilan)
-					->withJenis_peserta($jenis_peserta)
-					->withStaf($staf)
-					->withPoli($poli);
+		$ps = new Pasien;
+		$statusPernikahan = $ps->statusPernikahan();
+		$panggilan = $ps->panggilan();
+		$asuransi = Yoga::asuransiList();
+		$jenis_peserta = $ps->jenisPeserta();
+		$staf = Yoga::stafList();
+		$poli = Yoga::poliList();
+		return view('pasiens.index')
+			->withAsuransi($asuransi)
+			->with('statusPernikahan', $statusPernikahan)
+			->with('panggilan', $panggilan)
+			->withJenis_peserta($jenis_peserta)
+			->withStaf($staf)
+			->withPoli($poli);
 		
 	}
 
@@ -196,6 +179,8 @@ class PasiensController extends Controller
 		$pesan = Yoga::suksesFlash('Pasien ' . $id . ' - ' . $pasien->nama . ' berhasil dihapus');
 		return \Redirect::route('pasiens.index')->withPesan($pesan);
 	}
+	
+	
 	
 
 }

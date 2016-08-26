@@ -2171,9 +2171,56 @@ class Yoga {
 		return $filename;
 
 	}
+	public static function getDayFromFacebook($date){
+		try {
+			$MyArray = explode("/", $date);
+			return $MyArray[1];
+			
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
+	public static function getMonthFromFacebook($date){
+		try {
+			$MyArray = explode("/", $date);
+			return $MyArray[0];
+			
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
+	
+	public static function getYearFromFacebook($date){
+		try {
+			$MyArray = explode("/", $date);
+			return $MyArray[2];
+			
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
 	
 	
+	public static function editYearFromFacebook($date){
+		return self::editTanggal($date, 0);
+	}
 	
+	public static function editMonthFromFacebook($date){
+		return self::editTanggal($date, 1);
+	}
+
+	public static function editDayFromFacebook($date){
+		return self::editTanggal($date, 2);
+	}
+	public static function editTanggal($tanggal, $i){
+		try {
+			$MyArray = explode("-", $tanggal);
+			return $MyArray[$i];
+			
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
 	
     
 }
