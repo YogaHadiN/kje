@@ -23,6 +23,29 @@ Route::get('jangan', 'PolisController@jangan');
 Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
 
+Route::get('facebook', 'FacebookController@facebook');
+Route::get('callback', 'FacebookController@callback');
+Route::get('facebook/unverified', 'FacebookController@unverified');
+Route::get('facebook/list', 'FacebookController@list');
+Route::get('facebook/verification/{id}', 'FacebookController@verification');
+Route::get('facebook/verified/{id}/{pasien_id}', 'FacebookController@verified');
+Route::post('facebook', 'FacebookController@daftarkan');
+Route::post('facebook/registered', 'FacebookController@daftarkanRegistered');
+Route::post('facebook/verified/{fb_id}/{id}', 'FacebookController@postVerified');
+Route::get('facebook/{id}/edit', 'FacebookController@edit');
+Route::get('facebook/terdaftar/di_antrian_poli/{pasien_id}', 'FacebookController@registerTerdaftar');
+Route::post('facebook/{id}/edit', 'FacebookController@update');
+Route::delete('facebook/{id}', 'FacebookController@destroy');
+Route::delete('facebook/{id}/delete', 'FacebookController@destroyOnApp');
+Route::get('facebook/terdaftar/unverified/{id}/edit', 'FacebookController@terdaftarUnverifiedEdit');
+Route::post('facebook/terdaftar/unverified/{id}/update', 'FacebookController@terdaftarUnverifiedUpdate');
+Route::get('facebook/terdaftar/unverified/{id}', 'FacebookController@terdaftarUnverified');
+Route::get('facebook/home', 'FacebookController@home');
+Route::get('facebook/{id}', 'FacebookController@show');
+Route::get('facebook/input_pasien_baru/{id}', 'FacebookController@inputPasienBaru');
+Route::post('facebook/input_pasien_baru/{id}', 'FacebookController@postPasienBaru');
+Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianPoli');
+
     Route::resource('users', 'UsersController');
   	Route::group(['middleware' => 'auth'], function(){
 
@@ -398,31 +421,9 @@ Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan 
 			Route::get('test/test', 'CustomController@test');
 			Route::post('test/getmereks', 'CustomController@getmereks');
 
-			Route::get('facebook', 'FacebookController@facebook');
-			Route::get('callback', 'FacebookController@callback');
-			Route::get('facebook/unverified', 'FacebookController@unverified');
-			Route::get('facebook/list', 'FacebookController@list');
-			Route::get('facebook/verification/{id}', 'FacebookController@verification');
-			Route::get('facebook/verified/{id}/{pasien_id}', 'FacebookController@verified');
-			Route::post('facebook', 'FacebookController@daftarkan');
-			Route::post('facebook/registered', 'FacebookController@daftarkanRegistered');
-			Route::post('facebook/verified/{fb_id}/{id}', 'FacebookController@postVerified');
-			Route::get('facebook/{id}/edit', 'FacebookController@edit');
-			Route::get('facebook/terdaftar/di_antrian_poli/{pasien_id}', 'FacebookController@registerTerdaftar');
-			Route::post('facebook/{id}/edit', 'FacebookController@update');
-			Route::delete('facebook/{id}', 'FacebookController@destroy');
-			Route::delete('facebook/{id}/delete', 'FacebookController@destroyOnApp');
-			Route::get('facebook/terdaftar/unverified/{id}/edit', 'FacebookController@terdaftarUnverifiedEdit');
-			Route::post('facebook/terdaftar/unverified/{id}/update', 'FacebookController@terdaftarUnverifiedUpdate');
-			Route::get('facebook/terdaftar/unverified/{id}', 'FacebookController@terdaftarUnverified');
-			Route::get('facebook/home', 'FacebookController@home');
-			Route::get('facebook/{id}', 'FacebookController@show');
-			Route::get('facebook/input_pasien_baru/{id}', 'FacebookController@inputPasienBaru');
-			Route::post('facebook/input_pasien_baru/{id}', 'FacebookController@postPasienBaru');
-			Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianPoli');
-
 			
   	});
+
 
 
 

@@ -53,7 +53,7 @@
 				  @if($errors->has('pembayaran'))<code>{{ $errors->first('pembayaran') }}</code>@endif
 				</div>
 				<div class="form-group">
-					<button class="btn btn-success btn-block btn-lg" type="button" onclick="dummySubmit();return false">Submit</button>
+					<button class="btn btn-success btn-block btn-lg" type="button" onclick="dummySubmit();return false">Daftarkan</button>
 					{!! Form::submit('Daftarkan', ['class' => 'btn btn-success btn-block btn-lg hide', 'id' => 'submit']) !!}
 				</div>
             {!! Form::close() !!}
@@ -62,7 +62,7 @@
             @endif
         </div>
     </div>
- _edit   <!-- Mainly scripts -->
+  <!-- Mainly scripts -->
     {!! HTML::script('js/jquery-2.1.1.js')!!}
     {!! HTML::script('js/bootstrap.min.js')!!}
     {!! HTML::script('js/all.js')!!}

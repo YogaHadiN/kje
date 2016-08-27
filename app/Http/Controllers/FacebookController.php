@@ -52,12 +52,16 @@ class FacebookController extends Controller
 		$pasien = $this->pasien($email, $id);
 		$polis = $this->polis();
 		if ($pasien != null) {
-			$pembayarans = [ 
-				null => '-Pilih-', 
-				'0' => 'Biaya Pribadi', 
-				'1' => $pasien->asuransi->nama, 
-				'2' => 'Asuransi Lain'
-			];
+			if ($pasien->asuransi_id == '0') {
+				$pembayarans = $this->pembayarans();
+			}else {
+				$pembayarans = [ 
+					null => '-Pilih-', 
+					'0' => 'Biaya Pribadi', 
+					'1' => $pasien->asuransi->nama, 
+					'2' => 'Asuransi Lain'
+				];
+			}
 			return view('facebook/terdaftar', compact('pasien', 'user', 'polis', 'pembayarans'));
 		} else {
 

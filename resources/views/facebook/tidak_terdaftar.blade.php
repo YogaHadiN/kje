@@ -25,8 +25,8 @@
 				<p>Selamat Datang 
 				<h3>{{ $user['name'] }}</h3>
 				</p>
-				<p>Mohon diisi dengan lengkap dan benar</p>
 				<p>Ini adalah pertama kali anda mengisi form online</p>
+				<p>Isi dengan lengkap untuk meregistrasi facebook Id anda</p>
 			</div>
 
             {!! Form::open(array('url' => 'facebook', 'class' => 'm-t', 'method' => 'post')) !!}

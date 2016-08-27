@@ -73,7 +73,7 @@ Klinik Jati Elok | Nurse Station
         							{!! Form::submit('Delete', [
                                     'class' => 'btn btn-danger btn-xs hide submit', 
                                     'onclick' => 'return confirm("Anda yakin ingin menghapus pasien ' . $antrianpoli->id . ' - ' . $antrianpoli->pasien->nama . '")', 
-                                    'id' => 'submitDelete'
+									'id' => 'submitDelete' . $antrianpoli->id
                                     ]) !!}
         						{!! Form::close() !!}
     	                	</td>
@@ -506,6 +506,8 @@ Klinik Jati Elok | Nurse Station
             $('.alasan').val('');
             var id = $(control).closest('tr').find('.alasan').attr('id');
             var submit_id = $(control).closest('tr').find('.submit').attr('id');
+			console.log('id = ' + id);
+			console.log('submit_id = ' + submit_id);
             $('#modal-alasan').modal('show');
             $('#modal-alasan').on('shown.bs.modal', function(){
                 $('#alasan_textarea').val('').focus(); 
