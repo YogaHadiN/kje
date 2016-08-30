@@ -50,6 +50,10 @@ Klinik Jati Elok | Gaji Dokter
                     {!! Form::label('petugas_id', 'Petugas') !!}
                     {!! Form::select('petugas_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'id' => 'pembayaran', 'data-live-search' => 'true']) !!}
                 </div>
+				<div class="form-group">
+                    {!! Form::label('sumber_uang_id', 'Sumber Uang') !!}
+                    {!! Form::select('sumber_uang_id', App\Classes\Yoga::sumberuang(), null, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
+                </div>
                 <div class="form-group">
                     <button class="btn btn-success" type="button" onclick="submitPage();return false;">Submit</button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}

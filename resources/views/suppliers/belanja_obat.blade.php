@@ -1,5 +1,4 @@
 @extends('layout.master')
-
 @section('title') 
 Klinik Jati Elok | Belanja Obat
 @stop
@@ -29,52 +28,74 @@ Klinik Jati Elok | Belanja Obat
                 </div>
             </div>
             <div class="panel-body">
-                {!! Form::open(['url'=>'pembelians', 'method'=> 'post']) !!} 
-                    {!! Form::text('belanja_id', 1, ['class' => 'hide']) !!} 
-					<div class="form-group" @if($errors->has('supplier_id')) class="has-error" @endif)>
-                      {!! Form::label('supplier_id', 'Supplier') !!}
-					  {!! Form::select('supplier_id', App\Classes\Yoga::supplierList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true', 'id' => 'supplier_id']) !!}
-					  @if($errors->has('supplier_id'))<code>{{ $errors->first('supplier_id') }}</code>@endif
-                    </div>
-					<div class="form-group" @if($errors->has('sumber_uang')) class="has-error" @endif>
-					  {!! Form::label('sumber_uang', 'Sumber Uang') !!}
-					  {!! Form::select('sumber_uang' , $sumber_uang, null, ['class' => 'form-control rq']) !!}
-					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
-					</div>
-					<div class="form-group" @if($errors->has('nomor_faktur')) class="has-error" @endif)>
-                      {!! Form::label('nomor_faktur', 'Nomor Faktur') !!}
-                      {!! Form::text('nomor_faktur' , null, ['class' => 'form-control rq']) !!}
-					  @if($errors->has('nomor_faktur'))<code>{{ $errors->first('nomor_faktur') }}</code>@endif
-                    </div>
-					<div class="form-group" @if($errors->has('tanggal')) class="has-error" @endif)>
-                      {!! Form::label('tanggal', 'Tanggal') !!}
-                      {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
-					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
-                    </div>
-					<div class="form-group" @if($errors->has('staf_id')) class="has-error" @endif)>
-					  {!! Form::label('staf_id', 'Nama Penginput') !!}
-					  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class'=>'form-control selectpick rq', 'id'=>'staf_id', 'data-live-search' => 'true'])!!}
-					  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
-				    </div>
+			{!! Form::open(['url'=>'pembelians', 'method'=> 'post', 'files' => 'true']) !!} 
+				{!! Form::text('belanja_id', 1, ['class' => 'hide']) !!} 
+				<div class="form-group" @if($errors->has('supplier_id')) class="has-error" @endif)>
+				  {!! Form::label('supplier_id', 'Supplier') !!}
+				  {!! Form::select('supplier_id', App\Classes\Yoga::supplierList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true', 'id' => 'supplier_id']) !!}
+				  @if($errors->has('supplier_id'))<code>{{ $errors->first('supplier_id') }}</code>@endif
+				</div>
+				<div class="form-group" @if($errors->has('sumber_uang')) class="has-error" @endif>
+				  {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+				  {!! Form::select('sumber_uang' , $sumber_uang, null, ['class' => 'form-control rq']) !!}
+				  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
+				</div>
+				<div class="form-group" @if($errors->has('nomor_faktur')) class="has-error" @endif)>
+				  {!! Form::label('nomor_faktur', 'Nomor Faktur') !!}
+				  {!! Form::text('nomor_faktur' , null, ['class' => 'form-control rq']) !!}
+				  @if($errors->has('nomor_faktur'))<code>{{ $errors->first('nomor_faktur') }}</code>@endif
+				</div>
+				<div class="form-group" @if($errors->has('tanggal')) class="has-error" @endif)>
+				  {!! Form::label('tanggal', 'Tanggal') !!}
+				  {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
+				  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+				</div>
+				<div class="form-group" @if($errors->has('staf_id')) class="has-error" @endif)>
+				  {!! Form::label('staf_id', 'Nama Penginput') !!}
+				  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class'=>'form-control selectpick rq', 'id'=>'staf_id', 'data-live-search' => 'true'])!!}
+				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				</div>
             </div>
         </div>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <div class="alert alert-info">
-            <ul>
-                <li>Belanja obat Adalah untuk input pembelian obat yang masuk dalam daftar stok barang</li>
-                <li>Untuk pembelian / pengeluaran uang yang tidak masuk dalam stok barang contoh : belanja sayur pilihannya masuk ke dalam <a href="{{ url('suppliers/belanja_bukan_obat') }}" class="btn btn-info">Belanja Bukan Obat</a> </li>
-            </ul>
-        </div>
-		<div class="panel panel-danger hide" id="panel_sama">
-			<div class="panel-heading">
-				<div class="panel-title">Faktur Yang Sama Sudah Pernah Dibuat</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-info">
+					<ul>
+						<li>Belanja obat Adalah untuk input pembelian obat yang masuk dalam daftar stok barang</li>
+						<li>Untuk pembelian / pengeluaran uang yang tidak masuk dalam stok barang contoh : belanja sayur pilihannya masuk ke dalam <a href="{{ url('suppliers/belanja_bukan_obat') }}" class="btn btn-info">Belanja Bukan Obat</a> </li>
+					</ul>
+				</div>
+				<div class="panel panel-danger hide" id="panel_sama">
+					<div class="panel-heading">
+						<div class="panel-title">Faktur Yang Sama Sudah Pernah Dibuat</div>
+					</div>
+					<div class="panel-body">
+						<h2>Faktur Yang Sama Sudah Pernah Dibuat</h2>
+						<p>Klik tombol dibawah ini untuk edit faktur yang sudah ada</p>
+						<p>Atau lanjutkan untuk membuat yang baru</p>
+						<a href="{{ url('fakturbelanjas/cari') }}" class="btn btn-primary btn-lg btn-block">Edit</a>
+					</div>
+				</div>
 			</div>
-			<div class="panel-body">
-				<h2>Faktur Yang Sama Sudah Pernah Dibuat</h2>
-				<p>Klik tombol dibawah ini untuk edit faktur yang sudah ada</p>
-				<p>Atau lanjutkan untuk membuat yang baru</p>
-				<a href="{{ url('fakturbelanjas/cari') }}" class="btn btn-primary btn-lg btn-block">Edit</a>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="panel panel-info">
+					<div class="panel-body">
+						<div class="form-group{{ $errors->has('faktur_image') ? ' has-error' : '' }}">
+							{!! Form::label('faktur_image', 'Upload Gambar Faktur') !!}
+							{!! Form::file('faktur_image') !!}
+								@if (isset($pembelian) && $pembelian->faktur_image)
+									<p> {!! HTML::image(asset('img/belanja/obat/'.$pembelian->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
+								@else
+									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+								@endif
+							{!! $errors->first('faktur_image', '<p class="help-block">:message</p>') !!}
+						</div>	
+					</div>
+				</div>
 			</div>
 		</div>
     </div>
@@ -205,7 +226,6 @@ Klinik Jati Elok | Belanja Obat
           </div>
     </div>
 </div>
-
 <!-- Modal Untuk Membuat Formula Baru-->
 <div class="modal fade" id="modalNewFormula" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -266,7 +286,6 @@ Klinik Jati Elok | Belanja Obat
     </div>
   </div>
 </div>
-
 <!-- Modal Untuk Membuat Rak Baru LANJUTAN-->
 <div class="modal fade" id="newRak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -284,9 +303,6 @@ Klinik Jati Elok | Belanja Obat
     </div>
   </div>
 </div>
-
-
-
 <!-- Modal Untuk Membuat MEREK Baru-->
 <div class="modal fade" id="modalNewMerek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
@@ -316,7 +332,6 @@ Klinik Jati Elok | Belanja Obat
                   @foreach($merek->rak->formula->komposisi as $komposisi)
                     {!! $komposisi->generik->generik !!} {!!$komposisi->bobot !!} <br>
                   @endforeach
-
                 </td>
                 <td class='uang'>{!! $merek->rak->harga_beli !!}</td>
                 <td class='uang'>{!! $merek->rak->harga_jual !!}</td>
@@ -347,7 +362,6 @@ Klinik Jati Elok | Belanja Obat
     </div>
   </div>
 </div>
-
 <div class="modal fade" tabindex="-1" role="dialog" id="create_supplier">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -359,7 +373,6 @@ Klinik Jati Elok | Belanja Obat
           @include('suppliers.form', ['submit' => 'SUBMIT'])
       </div>
     </div><!-- /.modal-content -->
-
   </div><!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->

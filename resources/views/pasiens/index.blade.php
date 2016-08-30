@@ -30,6 +30,7 @@ Klinik Jati Elok | Pasien
             </div>
       </div>
       <div class="panel-body">
+		  <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tablePasien">
                   <thead>
                     <tr>
@@ -86,6 +87,8 @@ Klinik Jati Elok | Pasien
                   
                 </tbody>
             </table>
+		  </div>
+		  
       </div>
 </div>
 <div class="modal fade bs-example-modal-md" id="pasienInsert" tabindex="-1" role="dialog" aria-labelledby="kriteriaLabel" aria-hidden="true">

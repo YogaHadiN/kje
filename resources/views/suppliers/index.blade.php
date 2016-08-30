@@ -27,7 +27,8 @@ Klinik Jati Elok | Supplier
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered table-hover">
+		  <div class="table-responsive">
+            <table class="table table-bordered table-hover DT">
                 <thead>
                     <tr>
                         <th>id</th>
@@ -35,6 +36,7 @@ Klinik Jati Elok | Supplier
 						<th>alamat</th>
                         <th>telp</th>
 						<th>pic</th>
+						<th>created at</th>
                         <th>action</th>
                     </tr>
                 </thead>
@@ -48,6 +50,7 @@ Klinik Jati Elok | Supplier
                             <td>{!!$user->alamat!!}</td>
                             <td>{!!$user->no_telp!!}</td>
                             <td>{!!$user->pic!!}</td>
+							<td>{!!$user->created_at->format('d-m-Y')!!}</td>
                             <td nowrap>
                                     <a href="suppliers/{!!$user->id!!}/edit" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i> Edit</a>
                                     <a href="suppliers/{!!$user->id!!}" class="btn btn-primary btn-sm"><i class="fa fa-info"></i> Riwayat</a>
@@ -64,6 +67,8 @@ Klinik Jati Elok | Supplier
                     </tr>
                 </tbody>
             </table>
+		  </div>
+		  
       </div>
 </div>
 

@@ -14,6 +14,7 @@ class Supplier extends Model{
 
 	// Don't forget to fill this array
 	protected $guarded = [];
+	protected $dates = ['created_at'];
 
 
 	public function Fakturbeli(){

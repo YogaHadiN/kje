@@ -85,7 +85,9 @@
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data Transaksi</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pembelians', 'Pembelian ')!!}</li>
-                            <li>{!! HTML::link('fakturbelanjas/cari', 'Cari Faktur Belanja ')!!}</li>
+                            <li>{!! HTML::link('fakturbelanjas/obat', 'Faktur Belanja Obat')!!}</li>
+                            <li>{!! HTML::link('fakturbelanjas/alat', 'Faktur Belanja Peralatan')!!}</li>
+                            <li>{!! HTML::link('pengeluarans/data', 'Faktur Belanja Bukan Obat')!!}</li>
                             <li>{!! HTML::link('nota_juals', 'Cari Nota Jual ')!!}</li>
                             <li>{!! HTML::link('bayardokters', 'Pembayaran Dokter')!!}</li>
                         </ul>

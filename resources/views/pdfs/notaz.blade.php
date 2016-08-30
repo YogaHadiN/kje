@@ -70,6 +70,9 @@
                                 font-size:10;
                                 font-weight:bold;
                             }
+							#transaksi-print td:first-child{
+								width: 1%;
+							}
         
         </style>
     </head>
@@ -120,10 +123,11 @@
                 </table>
             </div>
             <div>
-                <h4>Uang Keluar</h4>
+                <h4>Uang Keluar Dari Kasir</h4>
                 <table class="table table-condensed bordered">
                     <thead>
                         <tr>
+                            <td>Tgl</td>
                             <td>Penerima</td>
                             <td>Biaya</td>
                         </tr>
@@ -131,6 +135,7 @@
                     <tbody id="transaksi-print" class="font-small">
                       @foreach($pengeluarans as $plr)
                           <tr>
+						  <td nowrap class="text-left">{{$plr->created_at->format('d-M')}}</td>
                               <td>
 									  @if ($plr->jurnalable_type == 'App\FakturBelanja')
 										  @if (isset($plr->jurnalable->supplier['nama']))
@@ -151,12 +156,50 @@
                     </tbody>
 					<tfoot>
 						<tr>
-							<td><h3>Total Pengeluaran</h3></td>
+							<td colspan="2"><h3>Total Pengeluaran</h3></td>
 							<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_pengeluaran) }}</h3></td>
 						</tr>
 					</tfoot>
                 </table>
 
+                <h4>Uang Keluar Dari Tangan</h4>
+                <table class="table table-condensed bordered">
+                    <thead>
+                        <tr>
+                            <td>Tgl</td>
+                            <td>Penerima</td>
+                            <td>Biaya</td>
+                        </tr>
+                    </thead>
+                    <tbody id="transaksi-print" class="font-small">
+                      @foreach($pengeluarans_tangan as $plr)
+                          <tr>
+						  <td nowrap class="text-left">{{$plr->created_at->format('d-M')}}</td>
+                              <td>
+									  @if ($plr->jurnalable_type == 'App\FakturBelanja')
+										  @if (isset($plr->jurnalable->supplier['nama']))
+										  {{ $plr->jurnalable->supplier['nama'] }}
+										 @endif
+									  @elseif ($plr->jurnalable_type == 'App\BayarDokter')
+										  {{ $plr->jurnalable->staf->nama }}
+									  @elseif ($plr->jurnalable_type == 'App\Pengeluaran')
+										  {{ $plr->jurnalable->supplier['nama'] }}
+									  @elseif ($plr->jurnalable_type == 'App\BayarGaji')
+										  {{ $plr->jurnalable->staf->nama }}
+									  @endif
+                                      
+                                  </td>
+                              <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
+                          </tr>
+                      @endforeach
+                    </tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2"><h3>Total Pengeluaran</h3></td>
+							<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_pengeluaran_tangan) }}</h3></td>
+						</tr>
+					</tfoot>
+                </table>
                 <h4>Modal Yang Masuk</h4>
                 <table class="table table-condensed bordered">
                     <thead>
@@ -169,16 +212,16 @@
                     <tbody id="transaksi-print" class="font-small">
                       @foreach($modals as $plr)
                           <tr>
-							  <td>{{ $plr->coa->coa }}</td>
-							  <td>{{ $plr->keterangan }}</td>
+						  <td>{{ $plr->created_at->format('d-M') }}</td>
+						  <td>{{ $plr->coa->coa }}</td>
                               <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
                           </tr>
                       @endforeach
                     </tbody>
 					<tfoot>
 						<tr>
-							<td><h3>Total Modal</h3></td>
-							<td colspan="2" class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_modal) }}</h3></td>
+							<td colspan="2"><h3>Total Modal</h3></td>
+							<td class="text-right"><h3>{{ App\Classes\Yoga::buatrp($total_modal) }}</h3></td>
 						</tr>
 					</tfoot>
                 </table>

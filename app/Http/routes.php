@@ -129,6 +129,8 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 
 			Route::post('pengeluarans/list', 'PengeluaransController@lists');
+			Route::get('pengeluarans/belanja_bukan_obat/detail/{id}', 'PengeluaransController@belanjaBukanObatDetail');
+			Route::get('pengeluarans/data', 'PengeluaransController@data');
 			Route::get('pengeluarans/show/{id}', 'PengeluaransController@show');
 			Route::post('pengeluarans', 'PengeluaransController@store');
             Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
@@ -150,6 +152,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('pengeluarans/bayar_gaji_karyawan', 'PengeluaransController@bayar_gaji');
 			Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', 'PengeluaransController@bayar_gaji');
 
+
 			Route::get('pengeluarans/bayar_bonus_karyawan', 'PengeluaransController@bayar_bonus_karyawan');
 			Route::get('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus_show');
 			Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus');
@@ -158,6 +161,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('pengeluarans/gaji_dokter_gigi', 'PengeluaransController@gajiDokterGigi');
 			Route::post('pengeluarans/gaji_dokter_gigi/bayar', 'PengeluaransController@gajiDokterGigiBayar');
 			Route::get('pengeluarans/peralatans', 'PengeluaransController@peralatans');
+			Route::get('pengeluarans/peralatans/detail/{id}', 'PengeluaransController@peralatan_detail');
 			Route::get('pengeluarans/belanja/peralatan', 'PengeluaransController@belanjaPeralatan');
 			Route::post('pengeluarans/belanja/peralatan/bayar', 'PengeluaransController@belanjaPeralatanBayar');
 			Route::get('pengeluarans/{id}', 'PengeluaransController@index');
@@ -166,7 +170,8 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('prolanis', 'ProlanisController@index');
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
-			Route::get('fakturbelanjas/cari', 'FakturBelanjasController@cari');
+			Route::get('fakturbelanjas/obat', 'FakturBelanjasController@obat');
+			Route::get('fakturbelanjas/alat', 'FakturBelanjasController@alat');
 			Route::post('fakturbelanjas', 'FakturBelanjasController@store');
 			Route::get('fakturbelanjas/{id}', 'FakturBelanjasController@destroy');
 

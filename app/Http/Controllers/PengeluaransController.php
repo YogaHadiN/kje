@@ -88,6 +88,8 @@ class PengeluaransController extends Controller
 		$peng->tanggal = Yoga::datePrep( $tanggal );
 		$peng->sumber_uang_id = Input::get('sumber_uang');
 		$peng->keterangan = $keterangan;
+		$peng->save();
+		$peng->faktur_image = $this->imageUpload('faktur', 'faktur_image', $peng->id);
 		$confirm = $peng->save();
 		if ($confirm) {
 			$jurnal                  = new JurnalUmum;
@@ -208,6 +210,7 @@ class PengeluaransController extends Controller
 
     
     public function dokterdibayar(){
+
         $staf_id = Input::get('staf_id');
         $petugas_id = Input::get('petugas_id');
         $mulai = Input::get('mulai');
@@ -217,6 +220,7 @@ class PengeluaransController extends Controller
         $staf = Staf::find($staf_id);
         $jasa_dokter = Input::get('jasa_dokter');        
         $dibayar = Input::get('dibayar');
+        $sumber_uang_id = Input::get('sumber_uang_id');
         if ($dibayar > 0) {
                 $bayar = new BayarDokter;
                 $bayar->staf_id = $staf_id;
@@ -225,6 +229,7 @@ class PengeluaransController extends Controller
                 $bayar->hutang = $hutang;
                 $bayar->mulai =  $mulai ;
                 $bayar->akhir =  $akhir ;
+                $bayar->sumber_uang_id =  $sumber_uang_id ;
                 $confirm = $bayar->save();
                 if ($confirm) {
 
@@ -323,6 +328,7 @@ class PengeluaransController extends Controller
             $pesan = Yoga::gagalFlash('Gaji ' . $staf->nama . ' sebesar Rp. ' . $dibayar . ',- . Gagal diinput' );
             return redirect('pengeluarans/bayardoker')->withPesan($pesan);
         }
+
     }
     public function bayar(){
         $bayar_dokters = BayarDokter::with('staf', 'petugas')->latest()->paginate(30);
@@ -470,6 +476,16 @@ class PengeluaransController extends Controller
         foreach ($pengeluarans as $peng) {
             $detail_pengeluarans[] = $peng->id;
         } 
+        $pengeluarans_tangan = JurnalUmum::where('coa_id', 110004)
+                                    ->where('debit', '0')
+                                    ->where('created_at', '>=', $tanggal)
+                                    ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
+                                    ->get(['id']);
+        $detail_pengeluarans_tangan = [];
+        foreach ($pengeluarans_tangan as $peng) {
+            $detail_pengeluarans_tangan[] = $peng->id;
+        } 
+
 	
         $detail_pengeluarans = json_encode( $detail_pengeluarans );
         //pindahkan semua kas di kasir menjadi kas di tangan
@@ -485,6 +501,7 @@ class PengeluaransController extends Controller
         $new_z->uang_masuk = $total_uang_masuk;
         $new_z->uang_keluar = $total_uang_keluar;
         $new_z->detil_pengeluarans = $detail_pengeluarans;
+        $new_z->detil_pengeluaran_tangan = json_encode( $detail_pengeluarans_tangan );
         $new_z->detil_modals = json_encode($modal_ids);
         $confirm = $new_z->save();
         if ($confirm) {
@@ -514,7 +531,6 @@ class PengeluaransController extends Controller
             $detail->checkout_kasir_id = $new_z->id;
             $detail->save();
         }
-
 		
         //tambah semua komponen yang masuk kas, retrieve semua last id nya
         $pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
@@ -922,6 +938,8 @@ class PengeluaransController extends Controller
 		$fb->belanja_id = 4;
 		$fb->supplier_id = Input::get('supplier_id');
 		$fb->sumber_uang_id = Input::get('sumber_uang');
+		$fb->save();
+		$fb->faktur_image = $this->imageUploadAlat('faktur', 'faktur_image', $fb->id);
 		$confirm = $fb->save();
 
 		$timestamp = date('Y-m-d H:i:s');
@@ -964,6 +982,74 @@ class PengeluaransController extends Controller
 		}
 
 		return redirect('pengeluarans/peralatans')->withPesan($pesan);
+	}
+	public function data(){
+
+		$peng =  Pengeluaran::latest()->get();
+		return view('pengeluarans.bukan_obat', compact('peng'));
+
+	}
+	
+	private function imageUpload($pre, $fieldName, $id){
+		if(Input::hasFile($fieldName)) {
+
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/lain';
+
+			// Mengambil file yang di upload
+			$upload_cover->move($destination_path, $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return $filename;
+			
+		} else {
+			return null;
+		}
+	}
+	
+
+	private function imageUploadAlat($pre, $fieldName, $id){
+		if(Input::hasFile($fieldName)) {
+
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/alat';
+
+			// Mengambil file yang di upload
+			$upload_cover->move($destination_path, $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return $filename;
+			
+		} else {
+			return null;
+		}
+	}
+	public function peralatan_detail($id){
+		$fakturbelanja = FakturBelanja::find($id);
+		return view('pengeluarans.peralatan_detail', compact(
+			 'fakturbelanja'
+		));
+	}
+	
+	public function belanjaBukanObatDetail($id){
+		$peng = Pengeluaran::find($id);
+		return view('pengeluarans.bukan_obat_detail', compact(
+			 'peng'
+		));
 	}
 	
 }

@@ -110,12 +110,15 @@ class PembeliansController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+
 		$faktur = new FakturBelanja;
 		$faktur->tanggal = Yoga::datePrep(Input::get('tanggal'));
 		$faktur->nomor_faktur = Input::get('nomor_faktur');
 		$faktur->belanja_id = Input::get('belanja_id');
 		$faktur->supplier_id = Input::get('supplier_id');
 		$faktur->sumber_uang_id = Input::get('sumber_uang');
+		$faktur->save();
+		$faktur->faktur_image = $this->imageUpload('faktur','faktur_image', $faktur->id);
 		$confirm = $faktur->save();
 		if ($confirm) {
 			$data = Input::get('tempBeli');
@@ -197,7 +200,7 @@ class PembeliansController extends Controller
             $jurnal->nilai           = $total_pembelian;
             $jurnal->save();
 
-            return redirect('fakturbelanjas/cari')
+            return redirect('fakturbelanjas/obat')
                 ->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $pb->fakturbelanjas . '</strong> di <strong>' . $supplier . '</strong> telah berhasil'))
                 ->withPrint($faktur_belanja_id);
 		} else {
@@ -446,5 +449,30 @@ class PembeliansController extends Controller
 			$supplier = FakturBelanja::find($faktur_belanja_id)->supplier->nama;
 			return redirect('pembelians/show/' . $id)->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $pb->fakturbelanjas . '</strong> di <strong>' . $supplier . '</strong> telah GAGAL'));
 		}
+	}
+
+	private function imageUpload($pre, $fieldName, $id){
+		if(Input::hasFile($fieldName)) {
+
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/obat';
+
+			// Mengambil file yang di upload
+			$upload_cover->move($destination_path, $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return $filename;
+			
+		} else {
+			return null;
+		}
+
 	}
 }

@@ -368,8 +368,11 @@ class FacebookController extends Controller
 			null => '-Pilih-', 
 			'umum' => 'Dokter Umum', 
 			'gigi' => 'Dokter Gigi', 
-			'anc' => 'Periksa Hamil / KB',
-			'usg' => 'USG (Ultrasonografi)'
+			'anc' => 'Periksa Hamil',
+			'kb 1 bulan' => 'Suntik KB 1 Bulan',
+			'kb 3 bulan' => 'Suntik KB 3 Bulan',
+			'usg' => 'USG (Ultrasonografi) Kehamilan',
+			'usgabdomen' => 'USG (Ultrasonografi) tidak hamil'
 		];
 	}
 	

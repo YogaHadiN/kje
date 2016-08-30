@@ -26,9 +26,9 @@ Klinik Jati Elok | Daftarkan Supplier
 </ol>
  @stop
  @section('content') 
-
- <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-     
+ <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+	 <div class="panel panel-default">
+	 	<div class="panel-body">
             {!! Form::open(array(
                 "url"   => "suppliers",
                 "class" => "m-t", 
@@ -37,10 +37,9 @@ Klinik Jati Elok | Daftarkan Supplier
             ))!!}
               @include('suppliers.form', ['submit' => 'SUBMIT'])
             {!! Form::close() !!}
-
-
+	 	</div>
+	 </div>
  </div>
-
  @stop
  @section('footer') 
 	 <script src="{{ url('js/create_supplier.js') }}"></script>

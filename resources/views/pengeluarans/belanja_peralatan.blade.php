@@ -16,7 +16,7 @@ Klinik Jati Elok | Belanja Peralatan
 </ol>
 @stop
 @section('content') 
-{!! Form::open(['url' => 'pengeluarans/belanja/peralatan/bayar', 'method' => 'post']) !!}
+	{!! Form::open(['url' => 'pengeluarans/belanja/peralatan/bayar', 'method' => 'post', 'files' => 'true']) !!}
 <div class="row">
 	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 		<div class="panel panel-default">
@@ -76,7 +76,24 @@ Klinik Jati Elok | Belanja Peralatan
 			</ul>
 		</div>
 	</div>
-	
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-body">
+				<div class="form-group{{ $errors->has('faktur_image') ? ' has-error' : '' }}">
+					{!! Form::label('faktur_image', 'Upload Gambar Faktur') !!}
+					{!! Form::file('faktur_image') !!}
+						@if (isset($belanja) && $belanja->faktur_image)
+							<p> {!! HTML::image(asset('img/belanja/alat/'.$belanja->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
+						@else
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+						@endif
+					{!! $errors->first('faktur_image', '<p class="help-block">:message</p>') !!}
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -153,7 +170,6 @@ Klinik Jati Elok | Belanja Peralatan
 			 }
 		});
 	});
-
 	function dummyInsert(){
 		var peralatan = $('#peralatan').val();
 		var nilai = $('#nilai').val();

@@ -33,59 +33,76 @@ Klinik Jati Elok | Entri Beli Obat
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered" id="tableEntriBeli">
-                  <thead>
-                    <tr>
-                       <th>No</th>
-                       <th>Merek Obat</th>
-                       <th>Harga Beli</th>
-                       <th>Harga Jual</th>
-                       <th>Exp Date</th>
-                       <th>Operator</th>
-                       <th>Jumlah</th>
-                       <th>Harga Item</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($pembelians as $key => $pembelian)
-                     @if ($pembelian->harga_naik > 0)
-                        {{-- expr --}}
-                      <tr class="cust-red-bg">
-                     @elseif($pembelian->harga_naik == 0)
-                     <tr>
-                     @else
-                     <tr class="cust-green-bg">
-                     @endif
-                     <td> {!! $key + 1!!} </td>
-					 <td> <a data-target=".bs-example-modal-lg" data-toggle="modal" data-value="{{ $pembelian->merek_id }}" onclick="informasi(this); return false; " href="#" >{!! $pembelian->merek->merek !!}</a> </td>
-                    @if ($pembelian->harga_naik > 0)
-                      {{-- expr --}}
-                       <td><span class="uang"> {!! $pembelian->harga_beli !!} </span>, naik {!! $pembelian->harga_naik !!} </td>
-                     @elseif($pembelian->harga_naik == 0)
-                       <td><span class="uang">{!! $pembelian->harga_beli !!}</span> , tetap </td>
-                     @else
-                       <td><span class="uang">{!! $pembelian->harga_beli !!}</span> , turun {!! $pembelian->harga_naik!!} </td>
-                     @endif
-                     <td class="uang"> {!! $pembelian->harga_jual !!} </td>
-                     <td> {!! $pembelian->exp_date !!} </td>
-                     <td> 
-                      @if(isset($pembelian->staf->staf_id))
-                      {!! $pembelian->staf->staf_id !!} </td>
-                      @endif
-                     <td> {!! $pembelian->jumlah !!} </td>
-                     <td><span class="uang"> {!! $pembelian->jumlah * $pembelian->harga_beli !!}</span> </td>
-                    </tr>
-                    @endforeach
-                     
-                </tbody>
-                <tfoot>
-                    <tr>
-                      <td colspan="4"></td>
-                      <td colspan="2" class="text-right bold"> Total Biaya : </td>
-                      <td class="bold uang" id="totalHargaObat" colspan="2">{!! $pembelians->first()->fakturBelanja->harga !!}</td>
-                    </tr>
-                </tfoot>
-            </table>
+		  <div class="row">
+			<div class="col-xs-size col-sm-size col-md-size col-lg-size">
+			  <div class="table-responsive">
+					<table class="table table-bordered" id="tableEntriBeli">
+						  <thead>
+							<tr>
+							   <th>No</th>
+							   <th>Merek Obat</th>
+							   <th>Harga Beli</th>
+							   <th>Harga Jual</th>
+							   <th>Exp Date</th>
+							   <th>Operator</th>
+							   <th>Jumlah</th>
+							   <th>Harga Item</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach ($pembelians as $key => $pembelian)
+							 @if ($pembelian->harga_naik > 0)
+								{{-- expr --}}
+							  <tr class="cust-red-bg">
+							 @elseif($pembelian->harga_naik == 0)
+							 <tr>
+							 @else
+							 <tr class="cust-green-bg">
+							 @endif
+							 <td> {!! $key + 1!!} </td>
+							 <td> <a data-target=".bs-example-modal-lg" data-toggle="modal" data-value="{{ $pembelian->merek_id }}" onclick="informasi(this); return false; " href="#" >{!! $pembelian->merek->merek !!}</a> </td>
+							@if ($pembelian->harga_naik > 0)
+							  {{-- expr --}}
+							   <td><span class="uang"> {!! $pembelian->harga_beli !!} </span>, naik {!! $pembelian->harga_naik !!} </td>
+							 @elseif($pembelian->harga_naik == 0)
+							   <td><span class="uang">{!! $pembelian->harga_beli !!}</span> , tetap </td>
+							 @else
+							   <td><span class="uang">{!! $pembelian->harga_beli !!}</span> , turun {!! $pembelian->harga_naik!!} </td>
+							 @endif
+							 <td class="uang"> {!! $pembelian->harga_jual !!} </td>
+							 <td> {!! $pembelian->exp_date !!} </td>
+							 <td> 
+							  @if(isset($pembelian->staf->staf_id))
+							  {!! $pembelian->staf->staf_id !!} </td>
+							  @endif
+							 <td> {!! $pembelian->jumlah !!} </td>
+							 <td><span class="uang"> {!! $pembelian->jumlah * $pembelian->harga_beli !!}</span> </td>
+							</tr>
+							@endforeach
+							 
+						</tbody>
+						<tfoot>
+							<tr>
+							  <td colspan="4"></td>
+							  <td colspan="2" class="text-right bold"> Total Biaya : </td>
+							  <td class="bold uang" id="totalHargaObat" colspan="2">{!! $pembelians->first()->fakturBelanja->harga !!}</td>
+							</tr>
+						</tfoot>
+					</table>
+			  </div>
+			</div>
+		  </div>
+		  <div class="row">
+		  	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="panel panel-info">
+					<div class="panel-body">
+						<img src="{{ url('img/belanja/obat/' . $fakturbelanja->faktur_image) }}" class="img-rounded upload" alt="Responsive image">
+					</div>
+				</div>
+				
+		  		
+		  	</div>
+		  </div>
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <a href="{{ url('pembelians/' . $pembelians->first()->fakturBelanja->id . '/edit' ) }}" class='btn btn-warning btn-lg btn-block'>Edit</a>

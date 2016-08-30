@@ -7,7 +7,7 @@ use App\Classes\Yoga;
 
 class Pengeluaran extends Model{
 	protected $guarded = [];
-	protected $with = ['supplier'];
+	//protected $with = ['supplier'];
 	protected $dates = ['created_at', 'tanggal'];
 
     protected $morphClass = 'App\Pengeluaran';
@@ -15,6 +15,7 @@ class Pengeluaran extends Model{
 	public function staf(){
 		return $this->belongsto('App\Staf');
 	}
+
 
 	public function supplier(){
 		return $this->belongsTo('App\Supplier');
@@ -34,4 +35,5 @@ class Pengeluaran extends Model{
 			return 'Pembelanjaan <strong>' . $barang . '<br /></strong> di  :  <strong>' . $supplier . '</strong><br />sebesar <strong><span class="uang">' . $nilai . '</span><strong>';
 
     }
+
 }

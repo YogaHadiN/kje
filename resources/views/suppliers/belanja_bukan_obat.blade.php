@@ -18,6 +18,7 @@ Klinik Jati Elok | Belanja Bukan Obat
 <div id="print-struk" class="hide">
 </div>
 @endif
+{!! Form::open(['url'=>'pengeluarans', 'method'=> 'post', 'files' => 'true']) !!} 
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="panel panel-success">
@@ -32,7 +33,6 @@ Klinik Jati Elok | Belanja Bukan Obat
                 </div>
             </div>
             <div class="panel-body">
-                {!! Form::open(['url'=>'pengeluarans', 'method'=> 'post']) !!} 
                     {!! Form::text('belanja_id', 3, ['class' => 'hide']) !!} 
                     <div class="form-group">
                       {!! Form::label('supplier_id', 'Supplier') !!}
@@ -66,19 +66,43 @@ Klinik Jati Elok | Belanja Bukan Obat
                     <div class="form-group">
                       {!! Form::submit('Belanja Bukan Obat', ['class' => 'btn btn-success btn-block btn-lg']) !!}
                     </div>
-                {!! Form::close() !!}
             </div>
         </div>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <div class="alert alert-info">
-            <ul>
-                <li>Belanja bukan obat Adalah untuk input pembelian obat yang tidak masuk dalam daftar stok barang</li>
-				<li>Untuk pembelian / pengeluaran uang yang masuk dalam stok barang contoh : belanja obat pilihannya masuk ke dalam <br /> <a href="{{ url('suppliers/belanja__obat') }}" class="btn btn-info">Belanja Obat</a> </li>
-            </ul>
-        </div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-info">
+					<ul>
+						<li>Belanja bukan obat Adalah untuk input pembelian obat yang tidak masuk dalam daftar stok barang</li>
+						<li>Untuk pembelian / pengeluaran uang yang masuk dalam stok barang contoh : belanja obat pilihannya masuk ke dalam <br /> <a href="{{ url('suppliers/belanja__obat') }}" class="btn btn-info">Belanja Obat</a> </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="panel panel-info">
+					<div class="panel-body">
+						<div class="form-group{{ $errors->has('faktur_image') ? ' has-error' : '' }}">
+							{!! Form::label('faktur_image', 'Upload Gambar Faktur') !!}
+							{!! Form::file('faktur_image') !!}
+								@if (isset($pengeluaran) && $pengeluaran->faktur_image)
+									<p> {!! HTML::image(asset('img/belanja/lain/'.$pengeluaran->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
+								@else
+									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+								@endif
+							{!! $errors->first('faktur_image', '<p class="help-block">:message</p>') !!}
+						</div>
+					</div>
+				</div>
+							
+			</div>
+		</div>
     </div>
 </div>
+
+{!! Form::close() !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="panel panel-primary">

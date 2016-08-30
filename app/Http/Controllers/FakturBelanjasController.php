@@ -7,6 +7,9 @@ use Input;
 use App\Http\Requests;
 
 use App\FakturBelanja;
+use App\Pengeluaran;
+use App\User;
+use App\Supplier;
 use App\Dispensing;
 use App\Pembelian;
 use App\JurnalUmum;
@@ -30,7 +33,7 @@ class FakturBelanjasController extends Controller
 		$suppliers = Yoga::supplierList();
 		return view('fakturbelanjas.index', compact('fakturbelanjas', 'stafs', 'suppliers'));
 	}
-	public function cari(){
+	public function obat(){
 		$fakturbelanjas = FakturBelanja::with('staf', 'supplier', 'belanja', 'pembelian')->where('belanja_id', 1)->latest()->get();
 		return view('fakturbelanjas.cari', compact('fakturbelanjas'));
 	}
@@ -96,4 +99,9 @@ class FakturBelanjasController extends Controller
 			return redirect('fakturbelanjas')->withPesan(Yoga::gagalFlash('Faktur Belanja di <strong>' . $supplier . '</strong> gagal dihapus'));
 		}
 	}
+	public function alat(){
+		$fakturbelanjas = FakturBelanja::with('staf', 'supplier', 'belanja', 'belanjaPeralatan')->where('belanja_id', 4)->latest()->get();
+		return view('fakturbelanjas.alat', compact('fakturbelanjas'));
+	}
+	
 }

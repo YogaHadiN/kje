@@ -5082,3 +5082,6 @@ table.tabelTerapi tr td {
 #content-print{
     display: none;
 }
+.upload{
+	 max-width:100%;
+}

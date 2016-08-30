@@ -83,6 +83,13 @@ class FakturBelanja extends Model{
             foreach ($arr as $k => $v) {
                 $biaya += $v['harga_beli'] * $v['jumlah'];
             }
+		}else if ($this->belanja->belanja == 'belanja peralatan') {
+			$arr=$this->belanjaPeralatan;
+            $biaya = 0;
+            foreach ($arr as $k => $v) {
+                $biaya += $v['harga_satuan'] * $v['jumlah'];
+            }
+
         } else {
             $arr = $this->pengeluaran;
             $biaya = 0;

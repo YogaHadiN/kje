@@ -12,6 +12,7 @@ use App\Http\Requests;
 use App\Supplier;
 use App\Classes\Yoga;
 use App\Belanja;
+use App\Pengeluaran;
 use App\FakturBelanja;
 
 class SuppliersController extends Controller
@@ -99,8 +100,46 @@ class SuppliersController extends Controller
 	public function show($id)
 	{
 		$supplier = Supplier::find($id);
-		$fakturbelanjas = FakturBelanja::with('belanja', 'pembelian')->where('supplier_id', $id)->latest()->get();
-		return view('suppliers.show', compact('fakturbelanjas', 'supplier'));
+		$belanja_obats = FakturBelanja::with('belanja', 'pembelian')
+			->where('supplier_id', $id)
+			->where('belanja_id', '1')
+			->latest()
+			->paginate(20);
+
+		$belanja_obats_count = FakturBelanja::with('belanja', 'pembelian')
+			->where('supplier_id', $id)
+			->where('belanja_id', '1')
+			->count();
+
+		$belanja_alats = FakturBelanja::with('belanja', 'pembelian')
+			->where('supplier_id', $id)
+			->where('belanja_id', '4')
+			->latest()
+			->paginate(20);
+
+		$belanja_alats_count = FakturBelanja::with('belanja', 'pembelian')
+			->where('supplier_id', $id)
+			->where('belanja_id', '4')
+			->count();
+
+		$pengeluarans = Pengeluaran::with('staf')
+			->where('supplier_id', $id)
+			->latest()
+			->paginate(20);
+
+		$pengeluarans_count = Pengeluaran::with('staf')
+			->where('supplier_id', $id)
+			->count();
+
+		return view('suppliers.show', compact(
+			'belanja_obats', 
+			'belanja_alats', 
+			'pengeluarans', 
+			'belanja_obats_count', 
+			'belanja_alats_count', 
+			'pengeluarans_count', 
+			'supplier'
+		));
 	}
 
 	/**
