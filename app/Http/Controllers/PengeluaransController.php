@@ -12,6 +12,7 @@ use App\BukanObat;
 use App\CheckoutDetail;
 use App\Pembelian;
 use App\BelanjaPeralatan;
+use App\Pendapatan;
 use App\Diagnosa;
 use App\PembayaranAsuransi;
 use App\Modal;
@@ -417,9 +418,30 @@ class PengeluaransController extends Controller
 			$total_pembayaran_asuransi += $p->pembayaran;
 		}
 
+		$periksas = DB::select("SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id, p.poli as poli FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.created_at > '{$tanggal}' AND p.lewat_kasir = '1'");
+		$tunai_periksa = 0;
+		foreach ($periksas as $p) {
+			$tunai_periksa += $p->tunai;
+		}
+
+		$tunai_beli_obat = 0;
+		$penjualans = Penjualan::where('created_at', '>', $tanggal)->get();
+		foreach ($penjualans as $p) {
+			$tunai_beli_obat += $p->harga_jual * $p->jumlah;
+		}
+		$pendapatans = Pendapatan::where('created_at', '>', $tanggal)->get();
+		$total_pendapatan_lain = 0;
+		foreach ($pendapatans as $p) {
+			$total_pendapatan_lain += $p->nilai;
+		}
+
 		return view('pengeluarans.notaz', compact(
 			'checkouts', 
 			'tanggal', 
+			'total_pendapatan_lain', 
+			'pendapatans', 
+			'tunai_beli_obat', 
+			'tunai_periksa', 
 			'asuransis', 
 			'pembayaran_asuransis', 
 			'total_uang_masuk', 

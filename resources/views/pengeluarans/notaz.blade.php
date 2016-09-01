@@ -123,11 +123,80 @@ Klinik Jati Elok | Checkout Kasir
           </div>
       </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+		
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<div class="panel-title">Penerimaan</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<tbody>
+							<tr>
+								<td>Penerimaan Periksa Dokter</td>
+								<td class="uang">{{ $tunai_periksa }}</td>
+							</tr>
+							<tr>
+								<td>Penjualan Obat</td>
+								<td class="uang">{{ $tunai_beli_obat}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<div class="panel-title">Pendapatan Lain</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal</th>
+								<th>Sumber Uang</th>
+								<th>Keterangan</th>
+								<th>Nilai</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if($pendapatans->count() > 0)
+								@foreach($pendapatans as $p)
+									<tr>
+										<td>{{ $p->created_at->format('d-m-Y') }}</td>
+										<td>{{ $p->sumber_uang }}</td>
+										<td>{{ $p->keterangan }}</td>
+										<td>{{ $p->nilai }}</td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
+								</tr>
+							@endif
+						</tbody>
+						@if($pendapatans->count() > 0)
+							<tfoot>
+								<tr>
+									<td><h3>Total Pendapatan Lain</h3></td>
+									<td>{{ $total_pendapatan_lain }}</td>
+								</tr>
+							</tfoot>
+						@endif
+					</table>
+				</div>
+				
+			</div>
+		</div>
+		
+		
 		<div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-title">Pemasukan Modal</div>
             </div>
             <div class="panel-body">
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-condensed">
                         <thead>
