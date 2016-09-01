@@ -13,6 +13,7 @@ use App\CheckoutDetail;
 use App\Pembelian;
 use App\BelanjaPeralatan;
 use App\Diagnosa;
+use App\PembayaranAsuransi;
 use App\Modal;
 use App\Supplier;
 use App\BayarGaji;
@@ -409,11 +410,20 @@ class PengeluaransController extends Controller
         }
         $checkouts = CheckoutKasir::latest()->paginate(20);
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
+
+		$pembayaran_asuransis = PembayaranAsuransi::where('created_at', '>', $tanggal)->get();
+		$total_pembayaran_asuransi = 0;
+		foreach ($pembayaran_asuransis as $p) {
+			$total_pembayaran_asuransi += $p->pembayaran;
+		}
+
 		return view('pengeluarans.notaz', compact(
 			'checkouts', 
 			'tanggal', 
 			'asuransis', 
+			'pembayaran_asuransis', 
 			'total_uang_masuk', 
+			'total_pembayaran_asuransi', 
 			'total_uang_keluar', 
 			'uang_di_kasir', 
 			'modal_awal', 
@@ -707,14 +717,20 @@ class PengeluaransController extends Controller
        $confirm = $bg->save();
 
        if ($confirm) {
+
+		   if (date('Y-m-d H:i:s') > date($bulan . '-t 23:59:59') ) {
+				$timestamp = date($bulan . '-t 23:59:59');
+		   } else {
+				$timestamp = date('Y-m-d H:i:s');
+		   }
            if ($gaji_pokok > 0) {
                 $jurnal                  = new JurnalUmum;
                 $jurnal->jurnalable_id   = $bg->id;
                 $jurnal->jurnalable_type = 'App\BayarGaji';
                 $jurnal->coa_id          = 60101;
                 $jurnal->debit           = 1;
-                $jurnal->created_at      = date($bulan . '-t 23:59:59');
-                $jurnal->updated_at      = date($bulan . '-t 23:59:59');
+				$jurnal->created_at      = $timestamp;
+				$jurnal->updated_at      = $timestamp;
                 $jurnal->nilai           = $gaji_pokok;
                 $jurnal->save();
            }
@@ -727,8 +743,8 @@ class PengeluaransController extends Controller
                     $jurnal->jurnalable_type = 'App\BayarGaji';
                     $jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
                     $jurnal->debit           = 1;
-					$jurnal->created_at      = date($bulan . '-t 23:59:59');
-					$jurnal->updated_at      = date($bulan . '-t 23:59:59');
+					$jurnal->created_at      = $timestamp;
+					$jurnal->updated_at      = $timestamp;
                     $jurnal->nilai           = $bonus;
                     $jurnal->save();
                }
@@ -740,8 +756,8 @@ class PengeluaransController extends Controller
                     $jurnal->jurnalable_type = 'App\BayarGaji';
                     $jurnal->coa_id          = 200002;// Hutang Kepada Asisten Dokter
                     $jurnal->debit           = 1;
-					$jurnal->created_at      = date($bulan . '-t 23:59:59');
-					$jurnal->updated_at      = date($bulan . '-t 23:59:59');
+					$jurnal->created_at      = $timestamp;
+					$jurnal->updated_at      = $timestamp;
                     $jurnal->nilai           = $sisa_hutang_bonus;
                     $jurnal->save();
                }
@@ -750,8 +766,8 @@ class PengeluaransController extends Controller
                     $jurnal->jurnalable_id   = $bg->id;
                     $jurnal->jurnalable_type = 'App\BayarGaji';
                     $jurnal->coa_id          = 50205;
-					$jurnal->created_at      = date($bulan . '-t 23:59:59');
-					$jurnal->updated_at      = date($bulan . '-t 23:59:59');
+					$jurnal->created_at      = $timestamp;
+					$jurnal->updated_at      = $timestamp;
                     $jurnal->debit           = 1;
                     $jurnal->nilai           = $beban_produksi_hutang_asisten;
                     $jurnal->save();
@@ -763,8 +779,8 @@ class PengeluaransController extends Controller
                 $jurnal->jurnalable_id   = $bg->id;
                 $jurnal->jurnalable_type = 'App\BayarGaji';
                 $jurnal->coa_id          = $coa_id; //Kas Sumber
-				$jurnal->created_at      = date($bulan . '-t 23:59:59');
-				$jurnal->updated_at      = date($bulan . '-t 23:59:59');
+				$jurnal->created_at      = $timestamp;
+				$jurnal->updated_at      = $timestamp;
                 $jurnal->debit           = 0;
                 $jurnal->nilai           = $gaji_pokok + $bonus;
                 $jurnal->save();

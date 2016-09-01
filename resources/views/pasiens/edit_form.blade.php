@@ -122,6 +122,7 @@
 							</div>
 						</div>
 					</div>
+					@if($facebook)
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<div class="form-group" @if($errors->has('email')) class="has-error" @endif>
@@ -144,6 +145,7 @@
 							</div>
 						</div>
 					</div>
+				@endif
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
@@ -198,9 +200,9 @@
 						{!! Form::label('bpjs_image', 'Foto Kartu BPJS') !!}
 						{!! Form::file('bpjs_image') !!}
 						@if (isset($pasien) && $pasien->bpjs_image)
-							<p> {!! HTML::image(asset('img/pasien/'.$pasien->bpjs_image), null, ['class'=>'img-rounded']) !!} </p>
+							<p> {!! HTML::image(asset('img/pasien/'.$pasien->bpjs_image), null, ['class'=>'img-rounded upload']) !!} </p>
 						@else
-							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded']) !!} </p>
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 						@endif
 						{!! $errors->first('bpjs_image', '<p class="help-block">:message</p>') !!}
 
@@ -213,9 +215,9 @@
 						{!! Form::label('ktp_image', 'Foto KTP') !!}
 						{!! Form::file('ktp_image') !!}
 						@if (isset($pasien) && $pasien->ktp_image)
-						<p> {!! HTML::image(asset('img/pasien/'.$pasien->ktp_image), null, ['class'=>'img-rounded']) !!} </p>
+						<p> {!! HTML::image(asset('img/pasien/'.$pasien->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
 						@else
-						<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded']) !!} </p>
+						<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 						@endif
 						{!! $errors->first('ktp_image', '<p class="help-block">:message</p>') !!}
 					</div>

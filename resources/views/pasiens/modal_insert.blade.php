@@ -1,6 +1,9 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 	{!! Form::open(['url' => 'pasiens/ajax/create', 'id' => 'pasienInsertForm', 'method' => 'post', 'autocomplete' => 'off'])!!}
+
+			  <h2>Pasien Baru</h2>
+			  <hr />
 		<div class="row">
 			<div class="col-lg-12 col-md-12">
 				 <div class="form-group">
@@ -107,6 +110,7 @@
 				</div>
 			  </div>
 		  </div>
+		  @if($facebook)
 		  <div class="row">
 		  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		  		<div class="form-group" @if($errors->has('email')) class="has-error" @endif>
@@ -130,6 +134,8 @@
 				</div>
 			</div>
 		  </div>
+		  @endif
+
 		  <div class="row">
 			  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				  @include('antrianpolis.webcamForm', [
@@ -139,5 +145,33 @@
 				  ])
 			  </div>
 		  </div>
+
+		  @if(!$facebook)
+			  <h2>Antrian Poli</h2>
+			  <hr />
+		 <div class="row">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group" @if($errors->has('staf_id')) class="has-error" @endif>
+				  {!! Form::label('staf_id', 'Nama Dokter') !!}
+				  {!! Form::select('staf_id' , App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick' , 'data-live-search' => 'true']) !!}
+				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group" @if($errors->has('poli')) class="has-error" @endif>
+				  {!! Form::label('poli', 'Poli') !!}
+				  {!! Form::select('poli' , App\Classes\Yoga::poliList(), null, ['class' => 'form-control']) !!}
+				  @if($errors->has('poli'))<code>{{ $errors->first('poli') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group" @if($errors->has('antrian')) class="has-error" @endif>
+				  {!! Form::label('antrian', 'Antrian') !!}
+				  {!! Form::text('antrian' , null, ['class' => 'form-control angka']) !!}
+				  @if($errors->has('antrian'))<code>{{ $errors->first('antrian') }}</code>@endif
+				</div>
+			</div>
+		 </div>
+		  @endif
 	  </div>
   </div>

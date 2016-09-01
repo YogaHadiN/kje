@@ -67,6 +67,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
+                                <th>Created At</th>
                                 <th>Nama Asuransi</th>
                                 <th>Periode</th>
                                 <th>Pembayaran</th>
@@ -77,6 +78,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
                         <tbody>
                             @foreach($pembayarans as $pemb)
                             <tr>
+                                <td>{{  $pemb->created_at  }}</td>
                                 <td>{{  $pemb->asuransi->nama  }}</td>
                                 <td>{{  $pemb->mulai->format('d-m-Y')  }} s/d {{  $pemb->akhir->format('d-m-Y')  }}</td>
                                 <td class="uang">{{  $pemb->pembayaran }}</td>

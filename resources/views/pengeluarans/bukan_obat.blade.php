@@ -48,7 +48,7 @@ Klinik Jati Elok | Laporan Belanja Bukan Obat
 									<td>{{ $p->keterangan }}</td>
 									<td nowrap>{{ $p->staf->nama }}</td>
 									<td class="uang">{{ $p->nilai }}</td>
-									<td> <a class="btn btn-success btn-xs btn-block" href="{{ url('pengeluarans/belanja_bukan_obat/detail/' . $p->id) }}">Detail</a> </td>
+									<td> <a class="btn btn-success btn-xs btn-block" href="{{ url('pengeluarans/belanja_bukan_obat/detail/' . $p->id) }}">Nota</a> </td>
 								</tr>
 							@endforeach
 						@else

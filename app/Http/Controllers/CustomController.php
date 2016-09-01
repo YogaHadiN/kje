@@ -224,9 +224,7 @@ class CustomController extends Controller
 	}
 	public function survey_post(){
 
-        //return Periksa::find( Input::get('periksa_id') )->terapii[0]->id;
         $periksa = Periksa::find( Input::get('periksa_id') );
-        //return dd( Input::all() );
         if ($periksa->lewat_kasir2 == '1') {
             return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien atas nama <strong>' . $periksa->pasien->nama . '</strong> sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>') );
         }
@@ -643,8 +641,12 @@ class CustomController extends Controller
 		}
 	}
     public function test(){
-         //return 'test';
-        return view('test');
+		return dd( (int)strtotime( date('Y-m-d H:i:s')) > (int)strtotime( date('2016-08-t 23:59:59') ) );
+		return dd( (int)strtotime( date('2016-08-t 23:59:59') )> (int)strtotime( date('Y-m-d H:i:s')) );
+		return (int)strtotime( date('Y-m-d H:i:s'));
+		return dd( strtotime( date('Y-m-d H:i:s') ) > strtotime( date('2016-08-t H:i:s') ) );
+		return dd( strtotime( date('Y-m-d H:i:s') ) < strtotime( date('2016-08-t H:i:s') ) );
+		return dd( strtotime(  date('2016-08-t H:i:s') ) );
     }
     public function getmereks(){
         $qs = str_split( Input::get('q') );

@@ -159,6 +159,49 @@ Klinik Jati Elok | Checkout Kasir
                 </div>
             </div>
         </div>
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">Pembayaran Asuransi</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th>Created At</th>
+								<th>Nama Asuransi</th>
+								<th>Tujuan Uang</th>
+								<th>Nilai</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if($pembayaran_asuransis->count() > 0)
+								@foreach($pembayaran_asuransis as $pemb)
+									<tr>
+									<td>{{ $pemb->created_at->format('d-m-Y') }}</td>
+										<td>{{ $pemb->asuransi->nama }}</td>
+										<td>{{ $pemb->coa->coa }}</td>
+										<td class="uang">{{ $pemb->pembayaran }}</td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td class="text-center" colspan="">Tidak Ada Data Untuk Ditampilkan :p</td>
+								</tr>
+							@endif
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3"><h3>Total Pembayaran Asuransi</h3></td>
+								<td class="uang">{{ $total_pembayaran_asuransi }}</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+		
     </div>
   </div>
   <div class="row">
