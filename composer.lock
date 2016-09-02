@@ -6023,7 +6023,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+<<<<<<< HEAD
+        "php": "7.0.9"
+=======
         "php": "7.0.5"
+>>>>>>> 17b321df96d6aee2ff7cf8716baab07552b99e0c
     },
     "platform-dev": []
 }
