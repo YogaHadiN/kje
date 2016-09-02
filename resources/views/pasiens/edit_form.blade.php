@@ -200,7 +200,7 @@
 						{!! Form::label('bpjs_image', 'Foto Kartu BPJS') !!}
 						{!! Form::file('bpjs_image') !!}
 						@if (isset($pasien) && $pasien->bpjs_image)
-							<p> {!! HTML::image(asset('img/pasien/'.$pasien->bpjs_image), null, ['class'=>'img-rounded upload']) !!} </p>
+							<p> {!! HTML::image(asset($pasien->bpjs_image), null, ['class'=>'img-rounded upload']) !!} </p>
 						@else
 							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 						@endif
@@ -215,7 +215,7 @@
 						{!! Form::label('ktp_image', 'Foto KTP') !!}
 						{!! Form::file('ktp_image') !!}
 						@if (isset($pasien) && $pasien->ktp_image)
-						<p> {!! HTML::image(asset('img/pasien/'.$pasien->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
+						<p> {!! HTML::image(asset($pasien->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
 						@else
 						<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 						@endif
@@ -224,6 +224,6 @@
 			 	</div>
 			 </div>
 		 </div>
-	
+         <h1>{{ $pasien->ktp_image }}</h1>
 </div>
 
