@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9f4d325e725cc0bf921c25145183d9f3",
-    "content-hash": "b34840930f0aceb25cdc1cf1d98491be",
+    "hash": "4b440dc311ae0d18c41ee1204cb40dd5",
+    "content-hash": "ba9e99ace0cbabfc38f7f91667fbc1d9",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.18.36",
+            "version": "3.19.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "48362bce008fa9c20a71dfa6a68aebac65a8ab1b"
+                "reference": "f67bc37fa4b76d85423052eae2a9577aab99adc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/48362bce008fa9c20a71dfa6a68aebac65a8ab1b",
-                "reference": "48362bce008fa9c20a71dfa6a68aebac65a8ab1b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f67bc37fa4b76d85423052eae2a9577aab99adc1",
+                "reference": "f67bc37fa4b76d85423052eae2a9577aab99adc1",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-08-02 20:49:01"
+            "time": "2016-09-01 21:37:32"
         },
         {
             "name": "barracuda/copy",
@@ -132,21 +132,21 @@
         },
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v2.2.2",
+            "version": "V2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "c291e58d0a13953e0f68d99182ee77ebc693edc0"
+                "reference": "ecd1ce5c4a827e2f6a8fb41bcf67713beb1c1cbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/c291e58d0a13953e0f68d99182ee77ebc693edc0",
-                "reference": "c291e58d0a13953e0f68d99182ee77ebc693edc0",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/ecd1ce5c4a827e2f6a8fb41bcf67713beb1c1cbd",
+                "reference": "ecd1ce5c4a827e2f6a8fb41bcf67713beb1c1cbd",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.1.*|5.2.*",
-                "maximebf/debugbar": "~1.11.0",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*",
+                "maximebf/debugbar": "~1.11.0|~1.12.0",
                 "php": ">=5.5.9",
                 "symfony/finder": "~2.7|~3.0"
             },
@@ -182,7 +182,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2016-05-11 13:54:43"
+            "time": "2016-07-29 15:00:36"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -388,16 +388,16 @@
         },
         {
             "name": "dog-ears/crud-d-scaffold",
-            "version": "1.1.5",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dog-ears/crud-d-scaffold.git",
-                "reference": "fcf0a09a0d7707896d4f9bf7ed90a8e96ddd4be1"
+                "reference": "bac30719c4eaf28fe510dfeea135d4733793ae6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dog-ears/crud-d-scaffold/zipball/fcf0a09a0d7707896d4f9bf7ed90a8e96ddd4be1",
-                "reference": "fcf0a09a0d7707896d4f9bf7ed90a8e96ddd4be1",
+                "url": "https://api.github.com/repos/dog-ears/crud-d-scaffold/zipball/bac30719c4eaf28fe510dfeea135d4733793ae6c",
+                "reference": "bac30719c4eaf28fe510dfeea135d4733793ae6c",
                 "shasum": ""
             },
             "require": {
@@ -429,7 +429,7 @@
                 "laravel5.2",
                 "scaffold"
             ],
-            "time": "2016-06-08 23:54:09"
+            "time": "2016-08-04 23:47:37"
         },
         {
             "name": "dompdf/dompdf",
@@ -474,16 +474,16 @@
         },
         {
             "name": "dropbox/dropbox-sdk",
-            "version": "v1.1.6",
+            "version": "v1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dropbox/dropbox-sdk-php.git",
-                "reference": "6901f8122458e0ce7e391468c0cf6cca465bd0ee"
+                "reference": "0f1a178ca9c0271bca6426dde8f5a2241578deae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dropbox/dropbox-sdk-php/zipball/6901f8122458e0ce7e391468c0cf6cca465bd0ee",
-                "reference": "6901f8122458e0ce7e391468c0cf6cca465bd0ee",
+                "url": "https://api.github.com/repos/dropbox/dropbox-sdk-php/zipball/0f1a178ca9c0271bca6426dde8f5a2241578deae",
+                "reference": "0f1a178ca9c0271bca6426dde8f5a2241578deae",
                 "shasum": ""
             },
             "require": {
@@ -491,7 +491,7 @@
                 "php": ">= 5.3"
             },
             "require-dev": {
-                "apigen/apigen": "2.8.2",
+                "apigen/apigen": "4.1.2",
                 "phpunit/phpunit": "~4.0",
                 "squizlabs/php_codesniffer": "2.0.0RC3"
             },
@@ -509,7 +509,7 @@
             "keywords": [
                 "dropbox"
             ],
-            "time": "2015-06-29 21:47:57"
+            "time": "2016-08-08 23:48:49"
         },
         {
             "name": "eher/oauth",
@@ -606,16 +606,16 @@
         },
         {
             "name": "graham-campbell/flysystem",
-            "version": "v3.4.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Flysystem.git",
-                "reference": "e723fca0e22442bd28b7900d82823c5989d351ef"
+                "reference": "a3d69206a67ce1b68e867dbc0ea30a88c5992b40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Flysystem/zipball/e723fca0e22442bd28b7900d82823c5989d351ef",
-                "reference": "e723fca0e22442bd28b7900d82823c5989d351ef",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Flysystem/zipball/a3d69206a67ce1b68e867dbc0ea30a88c5992b40",
+                "reference": "a3d69206a67ce1b68e867dbc0ea30a88c5992b40",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -691,7 +691,7 @@
                 "laravel",
                 "s3"
             ],
-            "time": "2016-04-26 14:23:32"
+            "time": "2016-08-28 09:18:27"
         },
         {
             "name": "graham-campbell/manager",
@@ -1163,16 +1163,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "5.2.41",
+            "version": "v5.2.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2"
+                "reference": "2a79f920d5584ec6df7cf996d922a742d11095d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2",
-                "reference": "29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2a79f920d5584ec6df7cf996d922a742d11095d1",
+                "reference": "2a79f920d5584ec6df7cf996d922a742d11095d1",
                 "shasum": ""
             },
             "require": {
@@ -1253,7 +1253,7 @@
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (~2.0).",
                 "symfony/css-selector": "Required to use some of the crawler integration testing tools (2.8.*|3.0.*).",
                 "symfony/dom-crawler": "Required to use most of the crawler integration testing tools (2.8.*|3.0.*).",
-                "symfony/psr-http-message-bridge": "Required to psr7 bridging features (0.2.*)."
+                "symfony/psr-http-message-bridge": "Required to use psr7 bridging features (0.2.*)."
             },
             "type": "library",
             "extra": {
@@ -1289,7 +1289,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-07-20 13:13:06"
+            "time": "2016-08-26 11:44:52"
         },
         {
             "name": "laravel/socialite",
@@ -1446,16 +1446,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.25",
+            "version": "1.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437"
+                "reference": "50e2045ed70a7e75a5e30bc3662904f3b67af8a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a76afa4035931be0c78ca8efc6abf3902362f437",
-                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/50e2045ed70a7e75a5e30bc3662904f3b67af8a9",
+                "reference": "50e2045ed70a7e75a5e30bc3662904f3b67af8a9",
                 "shasum": ""
             },
             "require": {
@@ -1525,7 +1525,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-07-18 12:22:57"
+            "time": "2016-08-10 08:55:11"
         },
         {
             "name": "league/flysystem-aws-s3-v3",
@@ -1951,16 +1951,16 @@
         },
         {
             "name": "league/flysystem-webdav",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-webdav.git",
-                "reference": "11dd918610ffa6bcedd7cf41604bacb4cc10e9fc"
+                "reference": "097422a055f8a79de1e72a174cd98f267368cf09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-webdav/zipball/11dd918610ffa6bcedd7cf41604bacb4cc10e9fc",
-                "reference": "11dd918610ffa6bcedd7cf41604bacb4cc10e9fc",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-webdav/zipball/097422a055f8a79de1e72a174cd98f267368cf09",
+                "reference": "097422a055f8a79de1e72a174cd98f267368cf09",
                 "shasum": ""
             },
             "require": {
@@ -1994,7 +1994,7 @@
                 }
             ],
             "description": "Flysystem adapter for WebDAV",
-            "time": "2016-07-11 12:25:25"
+            "time": "2016-08-11 12:46:00"
         },
         {
             "name": "league/flysystem-ziparchive",
@@ -2044,16 +2044,16 @@
         },
         {
             "name": "league/fractal",
-            "version": "0.13.0",
+            "version": "0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/fractal.git",
-                "reference": "3caeefbad51bce7a06947321938128512f42346c"
+                "reference": "56ad8933fbb40328ca3321c84143b2c16186eebf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/3caeefbad51bce7a06947321938128512f42346c",
-                "reference": "3caeefbad51bce7a06947321938128512f42346c",
+                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/56ad8933fbb40328ca3321c84143b2c16186eebf",
+                "reference": "56ad8933fbb40328ca3321c84143b2c16186eebf",
                 "shasum": ""
             },
             "require": {
@@ -2103,7 +2103,7 @@
                 "league",
                 "rest"
             ],
-            "time": "2015-10-07 14:48:58"
+            "time": "2016-07-21 09:56:14"
         },
         {
             "name": "league/oauth1-client",
@@ -2170,23 +2170,23 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "v2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "c6ab521e8a5f2a4acc83cb575c4a09733a5e17c9"
+                "reference": "b5c91156f6bd29f68f4f2c51186faae4310a5a68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/c6ab521e8a5f2a4acc83cb575c4a09733a5e17c9",
-                "reference": "c6ab521e8a5f2a4acc83cb575c4a09733a5e17c9",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/b5c91156f6bd29f68f4f2c51186faae4310a5a68",
+                "reference": "b5c91156f6bd29f68f4f2c51186faae4310a5a68",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cache": "5.0.*|5.1.*|5.2.*",
-                "illuminate/config": "5.0.*|5.1.*|5.2.*",
-                "illuminate/filesystem": "5.0.*|5.1.*|5.2.*",
-                "illuminate/support": "5.0.*|5.1.*|5.2.*",
+                "illuminate/cache": "5.0.*|5.1.*|5.2.*|5.3.*",
+                "illuminate/config": "5.0.*|5.1.*|5.2.*|5.3.*",
+                "illuminate/filesystem": "5.0.*|5.1.*|5.2.*|5.3.*",
+                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*",
                 "nesbot/carbon": "~1.0",
                 "php": ">=5.5",
                 "phpoffice/phpexcel": "1.8.*",
@@ -2199,10 +2199,10 @@
                 "phpunit/phpunit": "~4.0"
             },
             "suggest": {
-                "illuminate/http": "5.0.*|5.1.*|5.2.*",
-                "illuminate/queue": "5.0.*|5.1.*|5.2.*",
-                "illuminate/routing": "5.0.*|5.1.*|5.2.*",
-                "illuminate/view": "5.0.*|5.1.*|5.2.*"
+                "illuminate/http": "5.0.*|5.1.*|5.2.*|5.3.*",
+                "illuminate/queue": "5.0.*|5.1.*|5.2.*|5.3.*",
+                "illuminate/routing": "5.0.*|5.1.*|5.2.*|5.3.*",
+                "illuminate/view": "5.0.*|5.1.*|5.2.*|5.3.*"
             },
             "type": "library",
             "autoload": {
@@ -2233,20 +2233,20 @@
                 "import",
                 "laravel"
             ],
-            "time": "2016-07-09 09:40:10"
+            "time": "2016-08-28 20:25:51"
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.11.1",
+            "version": "v1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "d9302891c1f0a0ac5a4f66725163a00537c6359f"
+                "reference": "e634fbd32cd6bc3fa0e8c972b52d4bf49bab3988"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/d9302891c1f0a0ac5a4f66725163a00537c6359f",
-                "reference": "d9302891c1f0a0ac5a4f66725163a00537c6359f",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/e634fbd32cd6bc3fa0e8c972b52d4bf49bab3988",
+                "reference": "e634fbd32cd6bc3fa0e8c972b52d4bf49bab3988",
                 "shasum": ""
             },
             "require": {
@@ -2265,7 +2265,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.11-dev"
+                    "dev-master": "1.12-dev"
                 }
             },
             "autoload": {
@@ -2294,20 +2294,20 @@
                 "debug",
                 "debugbar"
             ],
-            "time": "2016-01-22 12:22:23"
+            "time": "2016-05-15 13:11:34"
         },
         {
             "name": "microsoft/azure-storage",
-            "version": "v0.10.1",
+            "version": "v0.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Azure/azure-storage-php.git",
-                "reference": "eadb0378df6e649b1e598a7e5b5fd1ae445f11b7"
+                "reference": "27de05b00c1858d6e1c6adbc489efa90e0342f82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Azure/azure-storage-php/zipball/eadb0378df6e649b1e598a7e5b5fd1ae445f11b7",
-                "reference": "eadb0378df6e649b1e598a7e5b5fd1ae445f11b7",
+                "url": "https://api.github.com/repos/Azure/azure-storage-php/zipball/27de05b00c1858d6e1c6adbc489efa90e0342f82",
+                "reference": "27de05b00c1858d6e1c6adbc489efa90e0342f82",
                 "shasum": ""
             },
             "require": {
@@ -2352,7 +2352,7 @@
                 "sdk",
                 "storage"
             ],
-            "time": "2016-05-12 07:55:05"
+            "time": "2016-08-19 08:32:57"
         },
         {
             "name": "mikemccabe/json-patch-php",
@@ -2797,16 +2797,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb"
+                "reference": "41f85e9c2582b3f6d1b7d20395fb40c687ad5370"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
-                "reference": "3d265f7c079f5b37d33475f996d7a383c5fc8aeb",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/41f85e9c2582b3f6d1b7d20395fb40c687ad5370",
+                "reference": "41f85e9c2582b3f6d1b7d20395fb40c687ad5370",
                 "shasum": ""
             },
             "require": {
@@ -2885,7 +2885,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2016-05-13 01:15:21"
+            "time": "2016-08-18 18:49:14"
         },
         {
             "name": "predis/predis",
@@ -2985,16 +2985,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
-                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
                 "shasum": ""
             },
             "require": {
@@ -3022,6 +3022,7 @@
                 }
             ],
             "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
             "keywords": [
                 "http",
                 "http-message",
@@ -3030,7 +3031,7 @@
                 "request",
                 "response"
             ],
-            "time": "2015-05-04 20:22:00"
+            "time": "2016-08-06 14:39:51"
         },
         {
             "name": "psr/log",
@@ -4539,16 +4540,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.3.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "9ca5644c536654e9509b9d257f53c58630eb2a6a"
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/9ca5644c536654e9509b9d257f53c58630eb2a6a",
-                "reference": "9ca5644c536654e9509b9d257f53c58630eb2a6a",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
                 "shasum": ""
             },
             "require": {
@@ -4560,7 +4561,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -4585,20 +4586,20 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-06-14 14:14:52"
+            "time": "2016-09-01 10:05:43"
         },
         {
             "name": "watson/rememberable",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dwightwatson/rememberable.git",
-                "reference": "9e74458559d90433e622d5701f3a10704d9a2441"
+                "reference": "f7be31319c759e1db649631e04b31dd25707e574"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dwightwatson/rememberable/zipball/9e74458559d90433e622d5701f3a10704d9a2441",
-                "reference": "9e74458559d90433e622d5701f3a10704d9a2441",
+                "url": "https://api.github.com/repos/dwightwatson/rememberable/zipball/f7be31319c759e1db649631e04b31dd25707e574",
+                "reference": "f7be31319c759e1db649631e04b31dd25707e574",
                 "shasum": ""
             },
             "require": {
@@ -4633,20 +4634,20 @@
                 "laravel",
                 "remember"
             ],
-            "time": "2016-05-26 06:45:47"
+            "time": "2016-08-22 03:54:16"
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v6.16.0",
+            "version": "v6.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "733e7051d9aef7ed8adcd94528ee6ea53b1d6d69"
+                "reference": "66186a1275156b922e5968a4d65bbc5966bbee5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/733e7051d9aef7ed8adcd94528ee6ea53b1d6d69",
-                "reference": "733e7051d9aef7ed8adcd94528ee6ea53b1d6d69",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/66186a1275156b922e5968a4d65bbc5966bbee5d",
+                "reference": "66186a1275156b922e5968a4d65bbc5966bbee5d",
                 "shasum": ""
             },
             "require": {
@@ -4693,7 +4694,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2016-07-19 05:43:32"
+            "time": "2016-08-10 00:31:22"
         }
     ],
     "packages-dev": [
@@ -5606,23 +5607,23 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.3.7",
+            "version": "1.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "4e8f0da10ac5802913afc151413bc8c53b6c2716"
+                "reference": "be2c607e43ce4c89ecd60e75c6a85c126e754aea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/4e8f0da10ac5802913afc151413bc8c53b6c2716",
-                "reference": "4e8f0da10ac5802913afc151413bc8c53b6c2716",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/be2c607e43ce4c89ecd60e75c6a85c126e754aea",
+                "reference": "be2c607e43ce4c89ecd60e75c6a85c126e754aea",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.4"
+                "phpunit/phpunit": "^4.8 || ^5.0"
             },
             "type": "library",
             "extra": {
@@ -5652,7 +5653,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-05-17 03:18:57"
+            "time": "2016-08-18 05:49:44"
         },
         {
             "name": "sebastian/exporter",
@@ -5967,28 +5968,29 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "30eed06dd6bc88410a4ff7f77b6d22f3ce13dbde"
+                "reference": "bb2d123231c095735130cc8f6d31385a44c7b308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/30eed06dd6bc88410a4ff7f77b6d22f3ce13dbde",
-                "reference": "30eed06dd6bc88410a4ff7f77b6d22f3ce13dbde",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/bb2d123231c095735130cc8f6d31385a44c7b308",
+                "reference": "bb2d123231c095735130cc8f6d31385a44c7b308",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3|^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.6"
+                "phpunit/phpunit": "^4.6",
+                "sebastian/version": "^1.0.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -6012,7 +6014,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2015-08-24 13:29:44"
+            "time": "2016-08-09 15:02:57"
         }
     ],
     "aliases": [],
@@ -6021,7 +6023,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.0.8"
+        "php": "7.0.9"
     },
     "platform-dev": []
 }
