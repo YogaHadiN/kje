@@ -12,11 +12,20 @@ use DB;
 class ProlanisController extends Controller
 {
 	public function index(){
-		//return dd( Yoga::prolanis() );
-		//$ht = Pasien::find( Yoga::prolanis()['hipertensi'] );
-		//$dm = Pasien::find( Yoga::prolanis()['dm'] );
 		$prolanis = Pasien::find( Yoga::prolanis() );
-		return view('prolanis.index', compact('prolanis'));
+        $hipertensi = [];
+        $dm = [];
+        foreach ($prolanis as $pro) {
+            if ($pro->adaDm == 'bukan DM') {
+                $hipertensi[] = $pro;
+            }else{
+                $dm[] = $pro;
+            }
+        }
+        return view('prolanis.index', compact(
+            'hipertensi',
+            'dm'
+        ));
 	}
 	
 }
