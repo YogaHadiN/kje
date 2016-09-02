@@ -162,7 +162,7 @@ class Pasien extends Model{
 			$upload_cover->move($destination_path, $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
-			return $filename;
+			return 'img/pasien/'. $filename;
 			
 		} else {
 			return null;

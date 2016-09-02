@@ -49,7 +49,7 @@ Klinik Jati Elok | sign Up
 							 {!! Form::label('ktp_image', 'Upload Gambar KTP') !!}
 							 {!! Form::file('ktp_image') !!}
 							 @if (isset($pasien) && $pasien->ktp_image)
-								 <p> {!! HTML::image(asset('img/pasien/'.$pasien->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
+								 <p> {!! HTML::image(asset($pasien->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
 							 @else
 								 <p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 							 @endif
@@ -63,7 +63,7 @@ Klinik Jati Elok | sign Up
 							 {!! Form::label('bpjs_image', 'Upload Kartu BPJS') !!}
 							 {!! Form::file('bpjs_image') !!}
 							 @if (isset($pasien) && $pasien->bpjs_image)
-								 <p> {!! HTML::image(asset('img/pasien/'.$pasien->bpjs_image), null, ['class'=>'img-rounded upload']) !!} </p>
+								 <p> {!! HTML::image(asset($pasien->bpjs_image), null, ['class'=>'img-rounded upload']) !!} </p>
 							 @else
 								 <p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 							 @endif
