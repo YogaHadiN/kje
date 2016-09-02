@@ -740,7 +740,7 @@ class PengeluaransController extends Controller
 
        if ($confirm) {
 
-		   if (date('Y-m-d H:i:s') > date($bulan . '-t 23:59:59') ) {
+		   if ((int)strtotime( date('Y-m-d H:i:s') ) > (int)strtotime( date($bulan . '-t 23:59:59') ) ) {
 				$timestamp = date($bulan . '-t 23:59:59');
 		   } else {
 				$timestamp = date('Y-m-d H:i:s');

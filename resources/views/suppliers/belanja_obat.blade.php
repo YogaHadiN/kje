@@ -376,6 +376,52 @@ Klinik Jati Elok | Belanja Obat
   </div><!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<div class="row">
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">Riwayat Pembelian Obat</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<?php echo $pembelians->appends(Input::except('page'))->links(); ?>
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal Pembelian</th>
+								<th>Nama Supplier</th>
+								<th>Nilai</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if($pembelians->count() > 0)
+								@foreach($pembelians as $p)
+									<tr>
+										<td>{{ $p->created_at->format('d-m-Y') }}</td>
+										<td>{{ $p->supplier->nama }}</td>
+										<td class="uang">{{ $p->totalbiaya }}</td>
+										<td> <a class="btn btn-success btn-xs" href="#">struk</a> </td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td class="text-center" colspan="3">Tidak Ada Data Untuk Ditampilkan :p</td>
+								</tr>
+							@endif
+						</tbody>
+					</table>
+					<?php echo $pembelians->appends(Input::except('page'))->links(); ?>
+				</div>
+
+				
+			</div>
+		</div>
+		
+	</div>
+	
+</div>
+
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">

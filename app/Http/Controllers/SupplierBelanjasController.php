@@ -54,11 +54,14 @@ class SupplierBelanjasController extends Controller
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
 
+		$pembelians = FakturBelanja::where('belanja_id', '1')->latest()->paginate(10);
+
 
 		return view('suppliers.belanja_obat', compact(
 			 'fakturbelanja'
 			, 'sediaan'
 			, 'generik'
+			, 'pembelians'
 			, 'exist'
 			, 'mereks'
 			, 'dijual_bebas'
@@ -69,7 +72,6 @@ class SupplierBelanjasController extends Controller
 			, 'aturan_minums'
 			, 'sumber_uang'
 			, 'alternatif_fornas'
-
 		));
     }
     public function belanja_bukan_obat(){
