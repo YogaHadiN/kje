@@ -407,6 +407,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('pdfs/bayar_gaji_karyawan/{bayar_gaji_id}', 'PdfsController@bayar_gaji_karyawan');
 			Route::get('pdfs/ns/{no_sale_id}', 'PdfsController@ns');
 			Route::get('pdfs/pengeluaran/{id}', 'PdfsController@pengeluaran');
+			Route::get('pdfs/merek', 'PdfsController@merek');
 
 
 

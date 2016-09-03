@@ -18,6 +18,7 @@ use App\JurnalUmum;
 use App\FakturBelanja;
 use App\PembayaranAsuransi;
 use App\Tarif;
+use App\Merek;
 use PDF;
 
 class PdfsController extends Controller
@@ -279,6 +280,12 @@ class PdfsController extends Controller
         return $pdf->stream();
 	}
 	
+    public function merek(){
+        $mereks = Merek::all();
+        $pdf = pdf::loadview('pdfs.merek', compact('mereks'))->setpaper('A4','potrait')->setwarnings(false);
+        return $pdf->stream();
+    }
+    
 	
     
     

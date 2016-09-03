@@ -123,6 +123,7 @@
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Obat</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('mereks', 'Merek')!!}</li>
+                            <li>{!! HTML::link('pdfs/merek', 'Merek PDF')!!}</li>
                             <li>{!! HTML::link('stokopnames', 'Stok Opname')!!}</li>
                             <li>{!! HTML::link('penjualans', 'Tanpa Resep')!!}</li>
                             <li>{!! HTML::link('obat/stokmin', 'Stok Minimal')!!}</li>
