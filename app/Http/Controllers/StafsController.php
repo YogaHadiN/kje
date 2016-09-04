@@ -67,16 +67,16 @@ class StafsController extends Controller
 		$staf->no_hp            = Input::get('no_hp'); 
 		$staf->no_telp          = Input::get('no_telp'); 
 		$staf->str              = Input::get('str'); 
-		$staf->tanggal_lahir    = Input::get('tanggal_lahir'); 
-		$staf->tanggal_lulus    = Input::get('tanggal_lulus'); 
-		$staf->tanggal_mulai    = Input::get('tanggal_mulai'); 
+		$staf->ktp_image              = $this->imageUpload('ktp', 'ktp_image', $staf_id); 
+		$staf->str_image              = $this->imageUpload('str', 'str_image', $staf_id); 
+		$staf->sip_image              = $this->imageUpload('sip', 'sip_image', $staf_id); 
+		$staf->tanggal_lahir    = Yoga::datePrep( Input::get('tanggal_lahir') ); 
+		$staf->tanggal_lulus    = Yoga::datePrep( Input::get('tanggal_lulus') ); 
+		$staf->tanggal_mulai    = Yoga::datePrep( Input::get('tanggal_mulai') ); 
 		$staf->universitas_asal = Input::get('universitas_asal'); 
 		
 		if (!empty(Input::get('image'))) {
 			$staf->image      	= Yoga::inputStafImageIfNotEmpty(Input::get('image'), $staf_id);
-		}
-		if (!empty(Input::get('ktp_image'))) {
-			$staf->ktp_image      = Yoga::inputStafKtpIfNotEmpty(Input::get('ktp_image'), $staf_id);
 		}
 
 		$staf->save();
@@ -119,6 +119,8 @@ class StafsController extends Controller
 	 */
 	public function update($id)
 	{
+		//return dd( Input::all() );
+		//return dd( Input::hasFile('ktp_image') );
 		$staf = Staf::findOrFail($id);
 
 		$staf = Staf::find($id);
@@ -131,6 +133,17 @@ class StafsController extends Controller
 		$staf->no_hp = Input::get('no_hp'); 
 		$staf->no_telp = Input::get('no_telp'); 
 		$staf->str = Input::get('str'); 
+		if (Input::hasFile('ktp_image')) {
+			$staf->ktp_image              = $this->imageUpload('ktp', 'ktp_image', $id); 
+		}
+
+		if (Input::hasFile('str_image')) {
+			$staf->str_image              = $this->imageUpload('str', 'str_image', $id); 
+		}
+
+		if (Input::hasFile('sip_image')) {
+			$staf->sip_image              = $this->imageUpload('sip', 'sip_image', $id); 
+		}
 		$staf->tanggal_lahir = Yoga::datePrep(Input::get('tanggal_lahir')); 
 		$staf->tanggal_lulus = Yoga::datePrep(Input::get('tanggal_lulus')); 
 		$staf->tanggal_mulai = Yoga::datePrep(Input::get('tanggal_mulai')); 
@@ -138,9 +151,6 @@ class StafsController extends Controller
 
 		if (!empty(Input::get('image'))) {
 			$staf->image      	= Yoga::inputStafImageIfNotEmpty(Input::get('image'), $id);
-		}
-		if (!empty(Input::get('ktp_image'))) {
-			$staf->ktp_image      = Yoga::inputStafKtpIfNotEmpty(Input::get('ktp_image'), $id);
 		}
 
 		$staf->save();
@@ -165,4 +175,29 @@ class StafsController extends Controller
 		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf <strong>' . $nama . '</strong> Berhasil <strong>Dihapus</strong>'));
 	}
 
+
+	private function imageUpload($pre, $fieldName, $id){
+		if(Input::hasFile($fieldName)) {
+
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/staf';
+
+			// Mengambil file yang di upload
+			$upload_cover->move($destination_path, $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return 'img/staf/'. $filename;
+			
+		} else {
+			return null;
+		}
+
+	}
 }

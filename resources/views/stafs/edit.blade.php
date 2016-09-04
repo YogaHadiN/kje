@@ -31,7 +31,8 @@ Klinik Jati Elok | edit Staf
       "url"   => "stafs/". $staf->id,
       "class" => "m-t", 
       "role"  => "form",
-      "method"=> "put"
+	  "method"=> "put",
+       "files"=> "true"
   ))!!}
 
     @include('stafs.form', [
@@ -43,14 +44,22 @@ Klinik Jati Elok | edit Staf
     ])
 
   {!! Form::close() !!}
+  <div class="row">
+  	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		  {!! Form::open(array('url' => 'stafs/' . $staf->id,'method' => 'DELETE'))!!} 
+			  {!! Form::submit('DELETE', array('class' => 'btn btn-danger btn-block', 'onclick' => 'return confirm("Anda akan menghapus data Staf ' . $staf->id . ' - '. $staf->nama .', Lanjutkan? ");'))!!}
+		  {!! Form::close() !!}
+  	</div>
+  </div>
+  
 
-  {!! Form::open(array('url' => 'stafs/' . $staf->id,'method' => 'DELETE'))!!} 
-      {!! Form::submit('DELETE', array('class' => 'btn btn-danger btn-block', 'onclick' => 'return confirm("Anda akan menghapus data Staf ' . $staf->id . ' - '. $staf->nama .', Lanjutkan? ");'))!!}
-  {!! Form::close() !!}
  </div>
 
  @stop
  @section('footer') 
+	 <script type="text/javascript" charset="utf-8">
+		var base = "{{ url ('/') }}";
+	 </script>
 {!! HTML::script('js/togglepanel.js')!!}
 {!! HTML::script('js/plugins/webcam/photo.js')!!}
 

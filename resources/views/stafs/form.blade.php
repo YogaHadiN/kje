@@ -154,11 +154,57 @@
 </div>
 </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        @include('antrianpolis.webcamForm', [
-        'image'     => $image, 
-        'ktp_image' => $ktp_image,
-        'subject'   => 'Staf'
-        ])  
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				@include('antrianpolis.webcamForm', [
+				'image'     => $image, 
+				'ktp_image' => $ktp_image,
+				'subject'   => 'Staf'
+				])  
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group{{ $errors->has('ktp_image') ? ' has-error' : '' }}">
+					{!! Form::label('ktp_image', 'Upload Gambar KTP') !!}
+					{!! Form::file('ktp_image') !!}
+						@if (isset($staf) && $staf->ktp_image)
+							<p> {!! HTML::image(asset($staf->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
+						@else
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+						@endif
+					{!! $errors->first('ktp_image', '<p class="help-block">:message</p>') !!}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group{{ $errors->has('str_image') ? ' has-error' : '' }}">
+					{!! Form::label('str_image', 'Upload Gambar STR') !!}
+					{!! Form::file('str_image') !!}
+						@if (isset($staf) && $staf->str_image)
+							<p> {!! HTML::image(asset($staf->str_image), null, ['class'=>'img-rounded upload']) !!} </p>
+						@else
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+						@endif
+					{!! $errors->first('str_image', '<p class="help-block">:message</p>') !!}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group{{ $errors->has('sip_image') ? ' has-error' : '' }}">
+					{!! Form::label('sip_image', 'Upload Gambar SIP') !!}
+					{!! Form::file('sip_image') !!}
+						@if (isset($staf) && $staf->sip_image)
+							<p> {!! HTML::image(asset($staf->sip_image), null, ['class'=>'img-rounded upload']) !!} </p>
+						@else
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+						@endif
+					{!! $errors->first('sip_image', '<p class="help-block">:message</p>') !!}
+				</div>
+			</div>
+		</div>
     </div>
 </div>
 <div class="row">

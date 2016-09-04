@@ -1,0 +1,2 @@
+alter table stafs add column str_image varchar(255);
+alter table stafs add column sip_image varchar(255);

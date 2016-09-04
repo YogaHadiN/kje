@@ -24,7 +24,8 @@ Klinik Jati Elok | sign Up
     "url"   => "stafs",
     "class" => "m-t", 
     "role"  => "form",
-    "method"=> "post"
+    "method"=> "post",
+    "files"=> "true"
 ))!!}
 
 @include('stafs.form', [
@@ -40,6 +41,11 @@ Klinik Jati Elok | sign Up
  @stop
  @section('footer') 
 
+	 <script type="text/javascript" charset="utf-8">
+		var base = "{{ url('/') }}";
+	 </script>
+{!! HTML::script('js/plugins/webcam/photo.js')!!}
+{!! HTML::script('js/togglepanel.js')!!}
 
  @stop
 

@@ -224,6 +224,5 @@
 			 	</div>
 			 </div>
 		 </div>
-         <h1>{{ $pasien->ktp_image }}</h1>
 </div>
 
