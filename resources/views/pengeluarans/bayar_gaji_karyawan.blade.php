@@ -86,6 +86,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Tanggal Pembayaran</th>
                                 <th>Nama Staf</th>
                                 <th>Periode</th>
@@ -97,7 +98,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
                         <tbody>
                             @foreach($pembayarans as $pemb)
                             <tr>
-                                <td>{{  $pemb->tanggal_dibayar->format('d-m-Y') }}</td>
+                                <td>{{  $pemb->id }}</td>
                                 <td>{{  $pemb->staf->nama  }}</td>
                                 <td>{{  $pemb->mulai->format('d-m-Y') }} s/d {{ $pemb->akhir->format('d-m-Y')  }}</td>
                                 <td class="uang">{{  $pemb->gaji_pokok + $pemb->bonus }}</td>
