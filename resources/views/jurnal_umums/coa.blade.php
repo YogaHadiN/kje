@@ -108,7 +108,7 @@ Klinik Jati Elok | Coa belum di set
 						</tr>
 						<tr>
 							<td>Kuitans : </td>
-							<td colspan="3"> <img src="{{ url('img/belanja/lain/'. $ju->faktur_image) }}" class="img-rounded"> </td>
+							<td colspan="3"> <img src="{{ url('img/belanja/lain/'. $ju->faktur_image) }}" class="img-rounded upload"> </td>
 							<td>{{ $ju->faktur_image }}</td>
 						</tr>
                     @endforeach
