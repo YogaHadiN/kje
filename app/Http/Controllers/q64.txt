@@ -1,0 +1,1 @@
+alter table coas add column saldo_awal int(11) default 0;

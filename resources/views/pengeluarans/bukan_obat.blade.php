@@ -74,7 +74,7 @@ Klinik Jati Elok | Laporan Belanja Bukan Obat
 					<tbody>
 						@if($peng->count() > 0)
 							@foreach($peng as $p)
-								<tr {{ $p->bgnota }}>
+								<tr class="{{ $p->bgnota }}">
 									<td>{{ $p->tanggal->format('d-m-Y') }}</td>
 									<td>{{ $p->keterangan }}</td>
 									<td nowrap>{{ $p->staf->nama }}</td>

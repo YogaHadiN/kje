@@ -19,7 +19,8 @@ class CoasController extends Controller
 	public function index()
 	{
 		$coas = Coa::with('kelompokCoa')->latest()->get();
-		return view('coas.index', compact('coas'));
+		$kelompokCoa = KelompokCoa::all();
+		return view('coas.index', compact('coas', 'kelompokCoa'));
 	}
 
 	/**
@@ -90,9 +91,10 @@ class CoasController extends Controller
 	 */
 	public function update($id)
 	{
+		$coa = Coa::findOrFail($id);
 		$rules = [
-			'coa_id' => 'unique:id|required',
-			'coa' => 'unique:id|required',
+			'coa_id' => 'unique:coas,id,' . $id . '|required',
+			'coa' => 'unique:coas,coa,' .$coa->id .'|required',
 			'kelompok_coa_id' => 'required'
 		];
 		
@@ -103,14 +105,17 @@ class CoasController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		
-		$coa = Coa::findOrFail($id);
 		$coa->id   = Input::get('coa_id');
 		$coa->coa   = Input::get('coa');
 		$coa->kelompok_coa_id   = Input::get('kelompok_coa_id');
+		$confirm = $coa->save();
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Chart Of Account '  . $coa->id . ' - '. $coa->coa . ' berhasil di Update');
+		} else {
+			$pesan = Yoga::gagalFlash('Chart Of Account '  . $coa->id . ' - '. $coa->coa . ' gagal di Update');
+		}
 
-
-
-		return \Redirect::route('coas.index');
+		return redirect('coas')->withPesan($pesan);
 	}
 
 	/**

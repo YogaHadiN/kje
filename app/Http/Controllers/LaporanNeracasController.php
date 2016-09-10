@@ -7,37 +7,39 @@ use App\Http\Requests;
 use Input;
 use DB;
 use App\JurnalUmum;
+use App\Coa;
 use App\Classes\Yoga;
 
 class LaporanNeracasController extends Controller
 {
-    public function index(){
-    	return view('laporan_neracas.index');
-    }
 
-    public function show(){
-    	$bulan = Input::get('bulan');
-    	$tahun = Input::get('tahun');
-        
-		$aktivaLancar      = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '11%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-		$aktivaLancar      = Yoga::getSumCoa($aktivaLancar, $tahun, $bulan);
-		$aktivaTidakLancar = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '12%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-		$aktivaTidakLancar = Yoga::getSumCoa($aktivaTidakLancar, $tahun, $bulan);
-		$biayas            = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '6%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-		$biayas            = Yoga::getSumCoa($biayas, $tahun, $bulan);
-		$pendapatan_lains  = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '7%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-		$pendapatan_lains  = Yoga::getSumCoa($pendapatan_lains, $tahun, $bulan);
-		$bebans            = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '8%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-		$bebans            = Yoga::getSumCoa($bebans, $tahun, $bulan);
+    public function index(){
+		$akunAktivaLancar = Coa::where('kelompok_coa_id', 'like', '11')->get();
+		$akunAktivaTidakLancar = Coa::where('kelompok_coa_id', 'like', '12')->get();
+		$total_harta = 0;
+		foreach ($akunAktivaLancar as $v) {
+			$total_harta += $v->total;
+		}
+		$akunHutang = Coa::where('kelompok_coa_id', 'like', '2')->get();
+		$total_hutang = 0;
+		foreach ($akunHutang as $v) {
+			$total_hutang += $v->total;
+		}
+		$akunModal = Coa::where('kelompok_coa_id', 'like', '3')->get();
+		$total_modal = 0;
+		foreach ($akunModal as $v) {
+			$total_modal += $v->total;
+		}
+		$laba_tahun_berjalan = $total_harta - $total_hutang - $total_modal;
 
     	return view('laporan_neracas.show', compact(
-            'pendapatan_usahas',
-            'hpps',
-            'biayas',
-            'pendapatan_lains',
-            'bulan',
-            'tahun',
-            'bebans'
+            'akunAktivaLancar',
+            'total_harta',
+            'akunHutang',
+            'akunModal',
+            'laba_tahun_berjalan',
+            'akunAktivaTidakLancar'
         ));
 	}
+
 }

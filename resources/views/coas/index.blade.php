@@ -30,13 +30,13 @@ Klinik Jati Elok | Chart Of Account
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
-					<table class="table table-hover table-condensed DT">
+					<table class="table table-hover table-condensed DTa">
 						<thead>
 							<tr>
 								<th>Coa Id</th>
 								<th>Chart Of Account</th>
-								<th>Kelompok Coa Id</th>
 								<th>Kelompok Coa</th>
+								<th>Saldo Awal</th>
 								<th>Details</th>
 								<th>Edit</th>
 							</tr>
@@ -46,12 +46,49 @@ Klinik Jati Elok | Chart Of Account
 								<tr>
 									<td>{{ $coa->id }}</td>
 									<td>{{ $coa->coa }}</td>
-									<td>{{ $coa->kelompok_coa_id }}</td>
 									<td>{{ $coa->kelompokCoa->kelompok_coa }}</td>
+									<td class="uang">{{ $coa->saldo_awal }}</td>
 									<td><a class="btn-sm btn-info btn-block" href="{{ url('coas/' . $coa->id ) }}">Details</a></td>
 									<td> <a class="btn-sm btn-primary btn-block"  href="{{ url('coas/' . $coa->id . '/edit') }}">Edit</a></td>
 								</tr>
 							@endforeach
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">Kelompok Coa</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Kelompok Coa</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if($kelompokCoa->count() > 0)
+								@foreach($kelompokCoa as $kel)
+									<tr>
+										<td>{{ $kel->id }}</td>
+										<td>{{ $kel->kelompok_coa }}</td>
+										<td></td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td class="text-center" colspan="">Tidak Ada Data Untuk Ditampilkan :p</td>
+								</tr>
+							@endif
 						</tbody>
 					</table>
 				</div>
@@ -60,9 +97,7 @@ Klinik Jati Elok | Chart Of Account
 		</div>
 		
 	</div>
-	
 </div>
-
 
 
 @stop

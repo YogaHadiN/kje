@@ -25,7 +25,7 @@ Klinik Jati Elok | Edit Coa
 </ol>
  @stop
  @section('content') 
- {!! Form::model( $coa, ['url' => 'coas', 'method' => 'put']) !!}
+	 {!! Form::model( $coa, ['url' => 'coas/'.$coa->id, 'method' => 'put']) !!}
 	 @include('coas.form', [
 		 'coa_id'=> $coa->id,
 		 'create' => false

@@ -101,6 +101,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('coas/create', 'CoasController@create');
 			Route::post('coas', 'CoasController@store');
 			Route::get('coas/{id}/edit', 'CoasController@edit');
+			Route::put('coas/{id}', 'CoasController@update');
 			Route::post('coas/cek_coa_sama', 'CoasController@cekCoaSama');
 			Route::post('/coas/cek_coa_sama_edit', 'CoasController@cekCoaSamaEdit');
 

@@ -16,40 +16,48 @@ Klinik Jati Elok | Laporan Neraca
 </ol>
 @stop
 @section('content') 
-<div class="panel panel-default">
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h1>
+			Laporan Neraca Tahun 2016
+		</h1>
+	</div>
   <div class="panel-body">
 
     <table class="table">
       <tbody>
         <tr>
-          <td>Harta / Aktiva</td>
-          <td>Hutang / Liabilitas</td>
+          <td><h1>Harta / Aktiva</h1></td>
+          <td><h1>Hutang / Liabilitas</h1></td>
         </tr>
         <tr>
           <td>
             <table class="table">
               <tbody>
-
                 <tr>
-                  <td colspan="3">Lancar</td>
+                  <td colspan="3"><h3>Lancar</h3></td>
                 </tr>
-                {{-- @foreach($jurnalumums as $ju) --}}
+				 @foreach($akunAktivaLancar as $ju) 
+					 @if($ju->total > 0)
+						<tr>
+							<td></td>
+							<td>{{ $ju->id }} - {{ $ju->coa }}</td>
+							<td class="uang">{{ $ju->total }}</td>
+						</tr>
+					@endif
+				 @endforeach 
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="3"><h3>Tidak Lancar</h3></td>
                 </tr>
-                {{-- @endforeach --}}
-                <tr>
-                  <td colspan="3">Tidak Lancar</td>
-                </tr>
-                {{-- @foreach($jurnalumums as $ju) --}}
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                {{-- @endforeach --}}
+				 @foreach($akunAktivaTidakLancar as $ju) 
+					 @if($ju->total > 0)
+						<tr>
+							<td></td>
+							<td>{{ $ju->id }} - {{ $ju->coa }}</td>
+							<td class="uang">{{ $ju->total }}</td>
+						</tr>
+					@endif
+				 @endforeach 
               </tbody>
             </table>
           </td>
@@ -57,29 +65,38 @@ Klinik Jati Elok | Laporan Neraca
             <table class="table">
               <tbody>
                 <tr>
-                  <td colspan="3">Hutang</td>
+                  <td colspan="3"><h3>Hutang</h3></td>
                 </tr>
-                {{-- @foreach() --}}
+				 @foreach($akunHutang as $v) 
+					<tr>
+					  <td></td>
+					  <td>{{ $v->id }} - {{ $v->coa }}</td>
+					  <td class="uang">{{ $v->total }}</td>
+					</tr>
+				 @endforeach 
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="3"><h3>Modal / Ekuitas</h3></td>
                 </tr>
-                {{-- @endforeach --}}
-                <tr>
-                  <td colspan="3">Modal / Ekuitas</td>
-                </tr>
-                {{-- @foreach() --}}
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                {{-- @endforeach --}}
+				 @foreach($akunModal as $v) 
+					<tr>
+					  <td></td>
+					  <td>{{ $v->id }} - {{ $v->coa }}</td>
+					  <td class="uang">{{ $v->total }}</td>
+					</tr>
+				 @endforeach 
+					<tr>
+					  <td></td>
+					  <td>301999 - Laba Tahun Berjalan</td>
+					  <td class="uang">{{ $laba_tahun_berjalan }}</td>
+					</tr>
               </tbody>
             </table>
           </td>
         </tr>
+		<tr>
+			<td><h1 class="uang">{{ $total_harta }}</h1></td>
+          <td><h1 class="uang">{{ $total_harta }}</h1></td>
+		</tr>
       </tbody>
     </table>
   </div>
