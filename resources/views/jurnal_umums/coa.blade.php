@@ -82,6 +82,7 @@ Klinik Jati Elok | Coa belum di set
             </div>
       </div>
       <div class="panel-body">
+		  <div class="table-responsive">
             <table class="table borderless table-condensed">
                 <thead>
                     <tr>
@@ -107,6 +108,7 @@ Klinik Jati Elok | Coa belum di set
                     @endforeach
                 </tbody>
             </table>
+		  </div>
       </div>
 </div>
 
@@ -120,6 +122,7 @@ Klinik Jati Elok | Coa belum di set
 				</div>
 		  </div>
 		  <div class="panel-body">
+			  <div class="table-responsive">
 				<table class="table borderless table-condensed">
 					<thead>
 						<tr>
@@ -151,12 +154,14 @@ Klinik Jati Elok | Coa belum di set
 						@endif
 					</tbody>
 				</table>
+			  </div>
+			  
 		  </div>
 	</div>
 @endif
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
-{!! Form::text('route', $route, ['class' => 'form-control']) !!}
-{!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
+{!! Form::text('route', $route, ['class' => 'form-control hide']) !!}
+{!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control hide', 'id' => 'temp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <button class="btn btn-success btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>
