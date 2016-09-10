@@ -35,5 +35,23 @@ class Pengeluaran extends Model{
 			return 'Pembelanjaan <strong>' . $barang . '<br /></strong> di  :  <strong>' . $supplier . '</strong><br />sebesar <strong><span class="uang">' . $nilai . '</span><strong>';
 
     }
+	public function getAdanotaAttribute(){
+		if (!empty( $this->faktur_image )) {
+			return 'ada nota';
+		}
+			return 'tidak ada nota';
+	}
+	public function getWarningnotaAttribute(){
+		if (!empty( $this->faktur_image )) {
+			return 'success';
+		}
+			return 'danger';
+	}
+	
+	public function getBgnotaAttribute(){
+		if (empty( $this->faktur_image )) {
+			return 'warning';
+		}
+	}
 
 }

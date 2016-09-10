@@ -21,6 +21,37 @@ Klinik Jati Elok | Laporan Belanja Bukan Obat
 	table td:first-child{
 		width:1%;
 	}
+	.table tbody tr > td.success {
+	  background-color: #dff0d8 !important;
+	}
+
+	.table tbody tr > td.error {
+	  background-color: #f2dede !important;
+	}
+
+	.table tbody tr > td.warning {
+	  background-color: #fcf8e3 !important;
+	}
+
+	.table tbody tr > td.info {
+	  background-color: #d9edf7 !important;
+	}
+
+	.table-hover tbody tr:hover > td.success {
+	  background-color: #d0e9c6 !important;
+	}
+
+	.table-hover tbody tr:hover > td.error {
+	  background-color: #ebcccc !important;
+	}
+
+	.table-hover tbody tr:hover > td.warning {
+	  background-color: #faf2cc !important;
+	}
+
+	.table-hover tbody tr:hover > td.info {
+	  background-color: #c4e3f3 !important;
+	}
 </style>
 @stop
 @section('content') 
@@ -43,12 +74,12 @@ Klinik Jati Elok | Laporan Belanja Bukan Obat
 					<tbody>
 						@if($peng->count() > 0)
 							@foreach($peng as $p)
-								<tr>
+								<tr {{ $p->bgnota }}>
 									<td>{{ $p->tanggal->format('d-m-Y') }}</td>
 									<td>{{ $p->keterangan }}</td>
 									<td nowrap>{{ $p->staf->nama }}</td>
 									<td class="uang">{{ $p->nilai }}</td>
-									<td> <a class="btn btn-success btn-xs btn-block" href="{{ url('pengeluarans/belanja_bukan_obat/detail/' . $p->id) }}">Nota</a> </td>
+									<td> <a class="btn btn-{{ $p->warningnota }} btn-xs btn-block" href="{{ url('pengeluarans/belanja_bukan_obat/detail/' . $p->id) }}">{{ $p->adanota }}</a> </td>
 								</tr>
 							@endforeach
 						@else
