@@ -104,7 +104,12 @@ Klinik Jati Elok | Coa belum di set
 						  <td class="uang">{!! $ju->nilai !!}</td>
 						  <td>
 							  {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
-						  </td> </tr>
+						  </td> 
+						</tr>
+						<tr>
+							<td>Kuitans : </td>
+							<td colspan="5"> <img src="{{ url('/'. '/' . $ju->nota_image ) }}" class="img-rounded"> </td>
+						</tr>
                     @endforeach
                 </tbody>
             </table>
