@@ -38,7 +38,7 @@ Klinik Jati Elok | Laporan Neraca
                   <td colspan="3"><h3>Lancar</h3></td>
                 </tr>
 				 @foreach($akunAktivaLancar as $ju) 
-					 @if($ju->total > 0)
+					 @if($ju->total != 0)
 						<tr>
 							<td></td>
 							<td>{{ $ju->id }} - {{ $ju->coa }}</td>
@@ -50,7 +50,7 @@ Klinik Jati Elok | Laporan Neraca
                   <td colspan="3"><h3>Tidak Lancar</h3></td>
                 </tr>
 				 @foreach($akunAktivaTidakLancar as $ju) 
-					 @if($ju->total > 0)
+					 @if($ju->total != 0)
 						<tr>
 							<td></td>
 							<td>{{ $ju->id }} - {{ $ju->coa }}</td>

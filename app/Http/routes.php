@@ -153,12 +153,13 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('pengeluarans/bayar_gaji_karyawan', 'PengeluaransController@bayar_gaji');
 			Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', 'PengeluaransController@bayar_gaji');
 
-
 			Route::get('pengeluarans/bayar_bonus_karyawan', 'PengeluaransController@bayar_bonus_karyawan');
 			Route::get('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus_show');
 			Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', 'PengeluaransController@bayar_bonus');
 
 			Route::get('pengeluarans/bagi_hasil_gigi', 'PengeluaransController@bagiHasilGigi');
+			Route::post('pengeluarans/bagi_hasil_gigi', 'PengeluaransController@bagiHasilGigiPost');
+
 			Route::get('pengeluarans/gaji_dokter_gigi', 'PengeluaransController@gajiDokterGigi');
 			Route::post('pengeluarans/gaji_dokter_gigi/bayar', 'PengeluaransController@gajiDokterGigiBayar');
 			Route::get('pengeluarans/peralatans', 'PengeluaransController@peralatans');

@@ -9,6 +9,7 @@ use App\FakturBelanja;
 use App\JenisPengeluaran;
 use App\Classes\Yoga;
 use App\BukanObat;
+use App\BagiGigi;
 use App\CheckoutDetail;
 use App\Pembelian;
 use App\BelanjaPeralatan;
@@ -868,7 +869,8 @@ class PengeluaransController extends Controller
         return $table;
     }
 	public function bagiHasilGigi(){
-		return view('pengeluarans.bagi_hasil_gigi');
+		$bagi_gigi = BagiGigi::latest()->paginate(10);
+		return view('pengeluarans.bagi_hasil_gigi', compact('bagi_gigi'));
 	}
 	
 	public function gajiDokterGigi(){
@@ -1089,5 +1091,65 @@ class PengeluaransController extends Controller
 			 'peng'
 		));
 	}
-	
+	public function bagiHasilGigiPost(){
+		$rules = [
+		  "sumber_coa_id" => "required",
+		  "nilai" => "required",
+		  "bulan" => "required",
+		  "petugas_id" => "required",
+		  "tanggal_dibayar" => "required"
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+       $bulan = Yoga::blnPrep( Input::get('bulan') );
+
+
+	   if ((int)strtotime( date('Y-m-d H:i:s') ) > (int)strtotime( date($bulan . '-t 23:59:59') ) ) {
+			$timestamp = date($bulan . '-t 23:59:59');
+	   } else {
+			$timestamp = date('Y-m-d H:i:s');
+	   }
+
+		$gaji       = new BagiGigi;
+		$gaji->petugas_id = Input::get('petugas_id');
+		$gaji->nilai = Input::get('nilai');
+	    $gaji->tanggal_mulai = $bulan . '-01';
+	    $gaji->tanggal_akhir = date("Y-m-t", strtotime($bulan . '-01'));
+		$gaji->tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
+		$confirm = $gaji->save();
+
+		if ($confirm) {
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $gaji->id; // id referensi yang baru dibuat
+			$jurnal->jurnalable_type = 'App\BagiGigi';
+			$jurnal->coa_id          = 610001; // biaya operasional bagi hasil pelayanan dokter gigi
+			$jurnal->debit           = 1;
+			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->created_at = $timestamp;
+			$jurnal->updated_at = $timestamp;
+			$jurnal->save();
+			
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $gaji->id;// id referensi yang baru dibuat
+			$jurnal->jurnalable_type = 'App\BagiGigi';
+			$jurnal->coa_id          = Input::get('sumber_coa_id'); // Kas di tangan 110004, Kas di kasir 110000, 
+			$jurnal->debit           = 0;
+			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->created_at = $timestamp;
+			$jurnal->updated_at = $timestamp;
+			$jurnal->save();
+
+			$pesan = Yoga::suksesFlash('Bagi Hasil Pelayanan Dokter Gigi sebesar <strong>' . Yoga::buatrp( $gaji->nilai ) . '</strong>, Telah berhasil diInput');
+		} else {
+			$pesan = Yoga::suksesFlash('Bagi Hasil Pelayanan Dokter Gagal diInput');
+		}
+		return redirect('pengeluarans/bagi_hasil_gigi')->withPesan($pesan);
+	}
+		
 }
