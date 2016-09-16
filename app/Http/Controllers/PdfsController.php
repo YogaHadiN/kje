@@ -216,6 +216,7 @@ class PdfsController extends Controller
     }
     public function notaz($checkout_kasir_id){
         $notaz = CheckoutKasir::find($checkout_kasir_id);
+		$buka_kasir = CheckoutKasir::find($checkout_kasir_id - 1)->created_at;
         $detils = json_decode( $notaz->detil_pengeluarans, true );
         $detils_tangan = json_decode( $notaz->detil_pengeluaran_tangan, true );
         $modals = json_decode( $notaz->detil_modals, true );
@@ -246,6 +247,7 @@ class PdfsController extends Controller
 			'pengeluarans',
 			'pengeluarans_tangan',
 			'modals', 
+			'buka_kasir', 
 			'total_modal', 
 			'total_pengeluaran',
 			'total_pengeluaran_tangan',

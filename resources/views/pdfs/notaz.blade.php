@@ -89,15 +89,15 @@
             <div class="box border-bottom">
                 <table>
                     <tbody>
-                        <tr>
-                            <td>Tanggal</td>
+						<tr>
+                            <td>Tanggal Buka Kasir</td>
                             <td>:</td>
-                            <td>{{ $notaz->created_at->format('d-m-Y') }}</td>
+                            <td>{{ $buka_kasir->format('d-m-Y H:i:s') }}</td>
                         </tr>
                         <tr>
-                            <td>Jam</td>
+                            <td>Tanggal Tutup Kasir</td>
                             <td>:</td>
-                            <td>{{ $notaz->created_at->format('H:i:s') }}</td>
+                            <td>{{ $notaz->created_at->format('d-m-Y H:i:s') }}</td>
                         </tr>
                         <tr>
                             <td>Uang di Kasir</td>
@@ -176,17 +176,19 @@
                           <tr>
 						  <td nowrap class="text-left">{{$plr->created_at->format('d-M')}}</td>
                               <td>
-									  @if ($plr->jurnalable_type == 'App\FakturBelanja')
-										  @if (isset($plr->jurnalable->supplier['nama']))
-										  {{ $plr->jurnalable->supplier['nama'] }}
-										 @endif
-									  @elseif ($plr->jurnalable_type == 'App\BayarDokter')
-										  {{ $plr->jurnalable->staf->nama }}
-									  @elseif ($plr->jurnalable_type == 'App\Pengeluaran')
-										  {{ $plr->jurnalable->supplier['nama'] }}
-									  @elseif ($plr->jurnalable_type == 'App\BayarGaji')
-										  {{ $plr->jurnalable->staf->nama }}
-									  @endif
+								  @if ($plr->jurnalable_type == 'App\FakturBelanja')
+									  @if (isset($plr->jurnalable->supplier['nama']))
+									  {{ $plr->jurnalable->supplier['nama'] }}
+									 @endif
+								  @elseif ($plr->jurnalable_type == 'App\BayarDokter')
+									  {{ $plr->jurnalable->staf->nama }}
+								  @elseif ($plr->jurnalable_type == 'App\Pengeluaran')
+									  {{ $plr->jurnalable->supplier['nama'] }}
+								  @elseif ($plr->jurnalable_type == 'App\BayarGaji')
+									  {{ $plr->jurnalable->staf->nama }}
+								  @elseif ($plr->jurnalable_type == 'App\Modal')
+									  Modal Masuk Ke Kasir
+								  @endif
                                       
                                   </td>
                               <td class="text-right">{{App\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>

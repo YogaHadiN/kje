@@ -42,6 +42,7 @@ Klinik Jati Elok | Antrian Beli Obat
                       <th>Nama Supplier</th>
                       <th>Nomor Faktur</th>
                       <th>Jenis Belanja</th>
+                      <th>Sumber Uang</th>
 				    	<th>Total Biaya</th>
                     	<th>Action</th>
                     </tr>
@@ -54,6 +55,7 @@ Klinik Jati Elok | Antrian Beli Obat
                         <td><div>{!!$faktur_beli->supplier->nama!!}</div></td>
                         <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
                         <td><div>{!!$faktur_beli->belanja->belanja!!}</div></td>
+                        <td><div>{!!$faktur_beli->sumberUang->coa!!}</div></td>
                         <td><div class="uang">{!!$faktur_beli->totalbiaya!!}</div></td>
                         <td>
                             @if ($faktur_beli->belanja->belanja == 'Belanja Obat')

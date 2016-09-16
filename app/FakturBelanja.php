@@ -28,6 +28,11 @@ class FakturBelanja extends Model{
 
 		return $this->belongsTo('App\Supplier');
 	}
+
+	public function sumberUang(){
+
+		return $this->belongsTo('App\Coa', 'sumber_uang_id');
+	}
 	public function staf(){
 
 		return $this->belongsTo('App\Staf');

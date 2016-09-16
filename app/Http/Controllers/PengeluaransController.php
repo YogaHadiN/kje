@@ -513,6 +513,7 @@ class PengeluaransController extends Controller
                                     ->where('debit', '0')
                                     ->where('created_at', '>=', $tanggal)
                                     ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
+                                    ->where('jurnalable_type', '!=', 'App\Modal')
                                     ->get(['id']);
         $detail_pengeluarans_tangan = [];
         foreach ($pengeluarans_tangan as $peng) {
@@ -641,8 +642,45 @@ class PengeluaransController extends Controller
     }
 
     public function show_checkout($id){
-        $checkout = CheckoutKasir::find($id);
-        return view('pengeluarans.show_checkout', compact('checkout'));
+
+        $notaz = CheckoutKasir::find($id);
+		$buka_kasir = CheckoutKasir::find($id - 1)->created_at;
+        $detils = json_decode( $notaz->detil_pengeluarans, true );
+        $detils_tangan = json_decode( $notaz->detil_pengeluaran_tangan, true );
+        $modals = json_decode( $notaz->detil_modals, true );
+        $pengeluarans = JurnalUmum::whereIn('id', $detils)->get();
+        $pengeluarans_tangan = JurnalUmum::whereIn('id', $detils_tangan)->get();
+        $modals = JurnalUmum::whereIn('id', $modals)->get();
+		$total_modal = 0;
+		foreach ($modals as $mdl) {
+			$total_modal += $mdl->nilai;
+		}
+
+		$total_pengeluaran = 0;
+		foreach ($pengeluarans as $mdl) {
+			$total_pengeluaran += $mdl->nilai;
+		}
+
+		$total_pengeluaran_tangan = 0;
+		foreach ($pengeluarans_tangan as $mdl) {
+			$total_pengeluaran_tangan += $mdl->nilai;
+		}
+        $total_pemasukan = 0;
+        foreach ($notaz->checkoutDetail as $cd) {
+            $total_pemasukan += $cd->nilai;
+        }
+		return view('pengeluarans.show_checkout', compact(
+			'notaz', 
+			'pengeluarans',
+			'pengeluarans_tangan',
+			'modals', 
+			'buka_kasir', 
+			'total_modal', 
+			'total_pengeluaran',
+			'total_pengeluaran_tangan',
+			'total_pemasukan',
+			'checkout'
+		));
     }
     
     

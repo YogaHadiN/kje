@@ -116,7 +116,7 @@ hr {
 							<tr>
                                <td>Sumber Uang</td>
                                 <td>:</td>
-                               <td>{{ $fakturbelanja->sumber_uang_id }}</td>
+								<td>{{ $fakturbelanja->sumberUang->coa }}</td>
                            </tr>
                        </tbody>
                    </table>

@@ -304,7 +304,7 @@ Klinik Jati Elok | Checkout Kasir
                                     <td class="uang">{{  $checkout->uang_masuk  }}</td>
                                     <td class="uang">{{  $checkout->uang_di_kasir  }}</td>
                                     <td> 
-                                        <a href="{{ url('pengelurans/checkout/' . $checkout->id) }}" class="btn btn-primary btn-xs">details</a> 
+                                        <a href="{{ url('pengeluarans/checkout/' . $checkout->id) }}" class="btn btn-primary btn-xs">details</a> 
                                         <a href='{!! url("pdfs/notaz/" . $checkout->id )!!}' class="btn btn-info btn-xs">Struk</a> 
                                     </td>
                                 </tr>
