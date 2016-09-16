@@ -1,114 +1,114 @@
 <div class="row">
 	 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<div class="form-group">
-						{!! Form::label('nama')!!}
+					<div class="form-group @if($errors->has('nama'))has-error @endif">
+					  {!! Form::label('nama', 'Nama', ['class' => 'control-label']) !!}
 						{!! Form::text('nama', $pasien->nama, array(
 							'class'         => 'form-control',
 							'placeholder'   => 'nama'
 						))!!}
-						<code>{!! $errors->first('nama')!!}</code>
+					  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
 					</div>
-					<div class="form-group">
-						{!! Form::label('alamat')!!}
+					<div class="form-group @if($errors->has('alamat'))has-error @endif">
+					  {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
 						{!! Form::textarea('alamat', $pasien->alamat, array(
 							'class'         => 'form-control textareacustom',
 							'placeholder'   => 'alamat'
 						))!!}
-						<code>{!! $errors->first('alamat')!!}</code>
+					  @if($errors->has('alamat'))<code>{{ $errors->first('alamat') }}</code>@endif
 					</div>
 					<div class="row">
 						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-							<div class="form-group">
-								{!! Form::label('tanggal_lahir')!!}
+							<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
+							  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
 								{!! Form::input('date','tanggal_lahir', App\Classes\Yoga::updateDatePrep($pasien->tanggal_lahir), array(
 									'class'         => 'form-control tanggal',
 									'placeholder'   => 'Tanggal Lahir'
 								))!!}
-								<code>{!! $errors->first('tanggal_lahir')!!}</code>
+							  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 							</div>
 						</div>
 						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-							<div class="form-group">
-								{!! Form::label('sex','Jenis Kelamin')!!}
+							<div class="form-group @if($errors->has('sex'))has-error @endif">
+							  {!! Form::label('sex', 'Jenis Kelamin', ['class' => 'control-label']) !!}
 								{!! Form::select('sex', array(
 									null        => '- Jenis Kelamin -',
 									'L'         => 'laki-laki',
 									'P'         => 'perempuan',
 								), null, array('class' => 'form-control'))!!}
-								<code>{!! $errors->first('no_telp')!!}</code>
+							  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
 							</div>
 						</div>
 						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-							<div class="form-group">
-								{!! Form::label('no_telp')!!}
+							<div class="form-group @if($errors->has('no_telp'))has-error @endif">
+							  {!! Form::label('no_telp', 'No Telp', ['class' => 'control-label']) !!}
 								{!! Form::text('no_telp', $pasien->no_telp, array(
 									'class'         => 'form-control',
 									'placeholder'   => 'no_telp'
 								))!!}
-								<code>{!! $errors->first('no_telp')!!}</code>
+							  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
 							</div>
 						</div>
 					</div>  
 					@if(!$facebook)
 					<div class="row"  >
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								{!! Form::label('nama_ayah')!!}
+							<div class="form-group @if($errors->has('nama_ayah'))has-error @endif">
+							  {!! Form::label('nama_ayah', 'Nama Ayah', ['class' => 'control-label']) !!}
 								{!! Form::text('nama_ayah', $pasien->nama_ayah, array(
 									'class'         => 'form-control',
 									'placeholder'   => 'nama ayah'
 								))!!}
-								<code>{!! $errors->first('nama_ayah')!!}</code>
+							  @if($errors->has('nama_ayah'))<code>{{ $errors->first('nama_ayah') }}</code>@endif
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								{!! Form::label('nama_ibu')!!}
+							<div class="form-group @if($errors->has('nama_ibu'))has-error @endif">
+							  {!! Form::label('nama_ibu', 'Nama Ibu', ['class' => 'control-label']) !!}
 								{!! Form::text('nama_ibu', $pasien->nama_ibu, array(
 									'class'         => 'form-control',
 									'placeholder'   => 'nama ibu'
 								))!!}
-								<code>{!! $errors->first('nama_ibu')!!}</code>
+							  @if($errors->has('nama_ibu'))<code>{{ $errors->first('nama_ibu') }}</code>@endif
 							</div>
 						</div>
 					</div>  
 					@endif
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								{!! Form::label('asuransi_id', 'Asuransi')!!}
+							<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
+							  {!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
 								{!! Form::select('asuransi_id', $asuransi, $pasien->asuransi_id, array(
 									'class'         => 'form-control selectpick', 
 									'data-live-search'         => 'true'
 								))!!}
-								<code>{!! $errors->first('asuransi_id')!!}</code>
+							  @if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								{!! Form::label('nama_peserta')!!}
+							<div class="form-group @if($errors->has('nama_peserta'))has-error @endif">
+							  {!! Form::label('nama_peserta', 'Nama Peserta', ['class' => 'control-label']) !!}
 								{!! Form::text('nama_peserta', $pasien->nama_peserta, array(
 									'class'         => 'form-control',
 									'placeholder'   => 'nama_peserta'
 								))!!}
-								<code>{!! $errors->first('nama_peserta')!!}</code>
+							  @if($errors->has('nama_peserta'))<code>{{ $errors->first('nama_peserta') }}</code>@endif
 							</div>
 						</div>
 					</div>  
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								{!! Form::label('nomor_asuransi')!!}
+							<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
+							  {!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
 								{!! Form::text('nomor_asuransi', $pasien->nomor_asuransi, array(
 									'class'         => 'form-control',
 									'placeholder'   => 'nomor asuransi'
 								))!!}
-								<code>{!! $errors->first('nomor_asuransi')!!}</code>
+							  @if($errors->has('nomor_asuransi'))<code>{{ $errors->first('nomor_asuransi') }}</code>@endif
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-								{!! Form::label('jenis_peserta')!!}
+							<div class="form-group @if($errors->has('jenis_peserta'))has-error @endif">
+							  {!! Form::label('jenis_peserta', 'Jenis Peserta', ['class' => 'control-label']) !!}
 								{!! Form::select('jenis_peserta', array(
 								   null => '- Pilih Peserta -',
 									'P' => 'Peserta',
@@ -118,14 +118,15 @@
 									), $pasien->jenis_peserta, array(
 									'class'         => 'form-control'
 								))!!}
-								<code>{!! $errors->first('jenis_peserta')!!}</code>
+							  @if($errors->has('jenis_peserta'))<code>{{ $errors->first('jenis_peserta') }}</code>@endif
 							</div>
 						</div>
 					</div>
 					@if($facebook)
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group" @if($errors->has('email')) class="has-error" @endif>
+
+							<div class="form-group @if($errors->has('email'))has-error @endif">
 							  {!! Form::label('email', 'Email') !!}
 							  {!! Form::text('email' , null, [
 								  'class' => 'form-control',
@@ -135,7 +136,8 @@
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group" @if($errors->has('facebook_id')) class="has-error" @endif>
+
+							<div class="form-group @if($errors->has('facebook_id'))has-error @endif">
 							  {!! Form::label('facebook_id', 'Facebook Id') !!}
 							  {!! Form::text('facebook_id' , null, [
 								  'class' => 'form-control',

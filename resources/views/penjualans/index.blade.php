@@ -34,7 +34,7 @@ Klinik Jati Elok | Entri Jual Obat
   {!! Form::open(['url' => 'penjualans', 'method' =>'post'])!!}
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="form-group @if($errors->has('staf_id')) has-error @endif">
-      {!! Form::label('staf_id', 'Petugas') !!}
+	  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
       {!! Form::select('staf_id', $stafs, null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true'])!!}
       @if($errors->has('staf_id'))
           <code>
@@ -44,10 +44,11 @@ Klinik Jati Elok | Entri Jual Obat
     </div>
   </div>
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-      <div class="form-group">
-        {!! Form::label('tanggal', 'Tanggal') !!}
+	  <div class="form-group @if($errors->has('tanggal'))has-error @endif">
+	    {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
         {!! Form::text('tanggal', date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
-      </div>
+	    @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+	  </div>
   </div>
   
 </div>
@@ -111,7 +112,7 @@ Klinik Jati Elok | Entri Jual Obat
               </div>
             </div>
             <div class="hide form-group @if($errors->has('tempBeli')) has-error @endif">
-                {!! Form::label('tempBeli', 'Barang Belanjaan') !!}
+			{!! Form::label('tempBeli', 'Barang Belanjaan', ['class' => 'control-label']) !!}
                 {!! Form::textarea('tempBeli' , null, ['class' => 'form-control rq', 'id' => 'tempBeli']) !!}
                 @if($errors->has('tempBeli'))
                   <code>

@@ -25,9 +25,10 @@ Klinik Jati Elok | Pengeluaran Klinik
   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <div class="panel panel-default">
       <div class="panel-body">
-        <div class="form-group">
-          {!! Form::label('staf_id', 'Nama Staf : ', ['id' => 'staf_label']) !!}
+        <div class="form-group @if($errors->has('staf_id'))has-error @endif">
+          {!! Form::label('staf_id', 'Nama Staf : ', ['id' => 'staf_label', 'class' => 'control-label']) !!}
           {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control rq', 'id' => 'staf_id', 'data-live-search' => 'true', 'content' => 'Nama Staf']) !!}
+		    @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
         </div>
       </div>
     </div>

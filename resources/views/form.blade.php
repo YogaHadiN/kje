@@ -119,35 +119,28 @@
 									<div class="row">
 										{!! Form::text('berat_badan', $berat_badan, ['class' => 'form-control hide', 'id' => 'berat_badan'])!!}
 										<div class="col-lg-12 col-md-12">
-											<div class="form-group">
-												<label for="anamnesa">Anamnesa</label><br />
-												{!! Form::textarea('anamnesa', null, ['class' => 'form-control textareacustom', 'id' => 'anamnesa'])!!}
-												@if ($errors->first('anamnesa'))
-												   <code> {!! $errors->first('anamnesa') !!} </code>
-												@endif
+											<div class="form-group @if($errors->has('anamnesa'))has-error @endif">
+											  {!! Form::label('anamnesa', 'Anamnesa', ['class' => 'control-label']) !!}
+											  {!! Form::textarea('anamnesa', null, ['class' => 'form-control textareacustom', 'id' => 'anamnesa'])!!}
+											  @if($errors->has('anamnesa'))<code>{{ $errors->first('anamnesa') }}</code>@endif
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-lg-12 col-md-12">
-											<div class="form-group">
-												<label for="pemeriksaanFisik">Pemeriksaan Fisik</label><br />
-
-												{!! Form::textarea('pemeriksaan_fisik', $pemeriksaan_awal, ['class' => 'form-control textareacustom', 'id' => 'pemeriksaan_fisik'])!!}
-												@if ($errors->first('pemeriksaan_fisik'))
-													<code>{!! $errors->first('pemeriksaan_fisik') !!} </code>
-												@endif
+											<div class="form-group @if($errors->has('pemeriksaanFisik'))has-error @endif">
+											  {!! Form::label('pemeriksaanFisik', 'Pemeriksaan Fisik', ['class' => 'control-label']) !!}
+											  {!! Form::textarea('pemeriksaan_fisik', $pemeriksaan_awal, ['class' => 'form-control textareacustom', 'id' => 'pemeriksaan_fisik'])!!}
+											  @if($errors->has('pemeriksaanFisik'))<code>{{ $errors->first('pemeriksaanFisik') }}</code>@endif
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-lg-12 col-md-12">
-											<div class="form-group">
-												<label for="pemeriksaanFisik">Pemeriksaan Penunjang, Injeksi dan Tindakan</label><br />
+											<div class="form-group @if($errors->has('pemeriksaan_penunjang'))has-error @endif">
+											    {!! Form::label('pemeriksaan_penunjang', 'Pemeriksaan Penunjang, Injeksi dan Tindakan', ['class' => 'control-label']) !!}
 												{!! Form::textarea('pemeriksaan_penunjang', $penunjang, ['class' => 'form-control textareacustom', 'id' => 'pemeriksaan_penunjang'])!!}
-												@if ($errors->first('pemeriksaan_penunjang'))
-													<code>{!! $errors->first('pemeriksaan_penunjang') !!} </code>
-												@endif
+											  @if($errors->has('pemeriksaan_penunjang'))<code>{{ $errors->first('pemeriksaan_penunjang') }}</code>@endif
 											</div>
 										</div>
 									</div>
@@ -155,7 +148,7 @@
 										<div class="col-lg-12 col-md-12">
 											<div class="form-group">
 												<label for="diagnosa_id" id="lblDiagnosa" data-placement="left"  data-toggle="popover" title="Popover title" data-content="Jika ASMA BERAT, berikan bersama dexa inj IV 2 ampul, dan prednison dosis tinggi, Decafil 20 tablet, termasuk untuk pasien BPJS">Diagnosa</label><br />
-												<div class="form-group">
+												<div class="form-group @if($errors->has('diagnosa_id'))has-error @endif">
 													<div class="input-group">
 														{!! Form::select('diagnosa_id', $diagnosa, null, [
 															'class'             => 'selectpick form-control',
@@ -167,26 +160,20 @@
 														]) !!}
 														<span class="input-group-addon anchor" id="showModal1" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
 													</div>
-														 @if ($errors->first('diagnosa_id'))
-														   <div><code>{!! $errors->first('diagnosa_id') !!} </code></div>
-														@endif
+												  @if($errors->has('diagnosa_id'))<code>{{ $errors->first('diagnosa_id') }}</code>@endif
 												</div>
 											</div>
 										</div>
-
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="keterangan_boleh_dirujuk">
-											
+
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-lg-12 col-md-12">
-											<div class="form-group">
-												<label for="keterangan_diagnosa">Keterangan Diagnosa dan Diagnosa Tambahan</label><br />
-												{!! Form::text('keterangan_diagnosa', null, ['class' => 'form-control', 'id' => 'keterangan_diagnosa'])!!}
-												<br>
-												 @if ($errors->first('keterangan_diagnosa'))
-												   <div><code>{!! $errors->first('keterangan_diagnosa') !!} </code></div>
-												@endif
+											<div class="form-group @if($errors->has('keterangan_diagnosa'))has-error @endif">
+											  {!! Form::label('keterangan_diagnosa', 'Keterangan Diagnosa dan Diagnosa Tambahan', ['class' => 'control-label']) !!}
+											  {!! Form::text('keterangan_diagnosa', null, ['class' => 'form-control', 'id' => 'keterangan_diagnosa'])!!}
+											  @if($errors->has('keterangan_diagnosa'))<code>{{ $errors->first('keterangan_diagnosa') }}</code>@endif
 											</div>
 										</div>
 									</div>

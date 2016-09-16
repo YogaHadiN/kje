@@ -94,6 +94,7 @@ var base = "{{ url('/') }}";
 	{!! HTML::script('js/plugins/webcam/photo.js')!!}
 	{!! HTML::script('js/togglepanel.js')!!}
 	{!! HTML::script('js/pasiens.js')!!}
+	{!! HTML::script('js/peringatan_usg.js')!!}
 <script>
     $(document).ready(function() {
         $('.datepicker').datepicker({

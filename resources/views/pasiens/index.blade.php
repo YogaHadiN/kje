@@ -179,14 +179,16 @@ Klinik Jati Elok | Pasien
             <h4>Riwayat Pemeriksaan Pasien Adalah RAHASIA</h4>
             <p>Hanya Dokter / Staf yang pernah periksa pasien ini yang memiliki wewenang untuk melihat riwayat pasien</p>
         </div> 
-        <div class="form-group">
-          {!! Form::label('email', 'Email') !!}
+		<div class="form-group @if($errors->has('email'))has-error @endif">
+		  {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
           {!! Form::text('email' , null, ['class' => 'form-control rq', 'autocomplete' => 'off']) !!}
-        </div>
-        <div class="form-group">
-          {!! Form::label('password', 'Password') !!}
+		  @if($errors->has('email'))<code>{{ $errors->first('email') }}</code>@endif
+		</div>
+		<div class="form-group @if($errors->has('password'))has-error @endif">
+		  {!! Form::label('password', 'Password', ['class' => 'control-label']) !!}
           {!! Form::password('password',  array('placeholder' => 'password', 'class'=>'form-control rq', 'autocomplete' => 'false'))!!}
-        </div>
+		  @if($errors->has('password'))<code>{{ $errors->first('password') }}</code>@endif
+		</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" onclick="confirmStaf(this);return false;">Submit</button>
@@ -205,4 +207,5 @@ Klinik Jati Elok | Pasien
 {!! HTML::script('js/plugins/webcam/photo.js')!!}
 {!! HTML::script('js/togglepanel.js')!!}
 {!! HTML::script('js/pasiens.js')!!}
+{!! HTML::script('js/peringatan_usg.js')!!}
 @stop

@@ -42,16 +42,18 @@ Klinik Jati Elok | Laporan Pembayaran
         <div class="alert alert-warning">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        {!! Form::label('terima_coa_id', 'Tujuan Uang') !!}
-                        {!! Form::select('terima_coa_id', $terima_coa_list, null, ['class' => 'form-control req', 'onchange' => 'change_tujuan_uang(this);return false;']) !!}
-                    </div>
+					<div class="form-group @if($errors->has('terima_coa_id'))has-error @endif">
+					  {!! Form::label('terima_coa_id', 'Tujuan Uang', ['class' => 'control-label']) !!}
+                      {!! Form::select('terima_coa_id', $terima_coa_list, null, ['class' => 'form-control req', 'onchange' => 'change_tujuan_uang(this);return false;']) !!}
+					  @if($errors->has('terima_coa_id'))<code>{{ $errors->first('terima_coa_id') }}</code>@endif
+					</div>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="form-group">
-                      {!! Form::label('tanggal', 'Tanggal Diterima') !!}
+					<div class="form-group @if($errors->has('tanggal'))has-error @endif">
+					  {!! Form::label('tanggal', 'Tanggal Diterima', ['class' => 'control-label']) !!}
                       {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal', 'onclick' => 'tanggal_change(this);return false;']) !!}
-                    </div>
+					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+					</div>
                 </div>
             </div>
             <div class="row">

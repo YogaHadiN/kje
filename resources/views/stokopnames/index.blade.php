@@ -23,16 +23,18 @@ Klinik Jati Elok | Entri Jual Obat
       {!! Form::open(['url' => 'stokopnames'])!!}
       <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <div class="form-group">
-            {!! Form::label('staf_id', 'Staf Penginput')!!}
-            {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => true, 'id' => 'staf_id'])!!}
-          </div>
+			<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+			  {!! Form::label('staf_id', 'Staf Penginput', ['class' => 'control-label']) !!}
+              {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => true, 'id' => 'staf_id'])!!}
+			  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+			</div>
         </div>
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <div class="form-group">
-              {!! Form::label('bulan')!!}
-              {!! Form::text('bulanTahun',  date('m-Y'), ['class' => ' form-control bulanTahun', 'id' => 'bulanTahun'])!!}
-            </div>
+			  <div class="form-group @if($errors->has('bulanTahun'))has-error @endif">
+			    {!! Form::label('bulanTahun', 'Bulan', ['class' => 'control-label']) !!}
+                {!! Form::text('bulanTahun',  date('m-Y'), ['class' => ' form-control bulanTahun', 'id' => 'bulanTahun'])!!}
+			    @if($errors->has('bulanTahun'))<code>{{ $errors->first('bulanTahun') }}</code>@endif
+			  </div>
          </div>
          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 hide">
           <div class="form-group">

@@ -2,110 +2,110 @@
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="form-group">
-                        {!! Form::label('nama')!!}
+					<div class="form-group @if($errors->has('nama'))has-error @endif">
+					  {!! Form::label('nama', 'Nama', ['class' => 'control-label']) !!}
                         {!! Form::text('nama', null, array(
                             'class'         => 'form-control',
                             'placeholder'   => 'Ketik nama tanpa gelar'
                         ))!!}
-                        <code>{!! $errors->first('nama')!!}</code>
-                    </div>
+					  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
+					</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="form-group">
-                        {!! Form::label('alamat_domisili')!!}
+					<div class="form-group @if($errors->has('alamat_domisili'))has-error @endif">
+					  {!! Form::label('alamat_domisili', 'Alamat Domisili', ['class' => 'control-label']) !!}
                         {!! Form::textarea('alamat_domisili', null, array(
                             'class'         => 'textareacustom form-control',
                             'placeholder'   => 'Alamat'
                         ))!!}
-                        <code>{!! $errors->first('alamat_domisili')!!}</code>
-                    </div>
+					  @if($errors->has('alamat_domisili'))<code>{{ $errors->first('alamat_domisili') }}</code>@endif
+					</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        {!! Form::label('tanggal_lahir')!!}
+					<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
+					  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
                         {!! Form::text('tanggal_lahir', $tanggal_lahir, array(
                             'class'         => 'form-control tanggal',
                             'placeholder'   => 'Tanggal Lahir'
                             ))!!}
-                            <code>{!! $errors->first('tanggal_lahir')!!}</code>
-                    </div>
+					  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
+					</div>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        {!! Form::label('ktp')!!}
+					<div class="form-group @if($errors->has('ktp'))has-error @endif">
+					  {!! Form::label('ktp', 'KTP', ['class' => 'control-label']) !!}
                         {!! Form::text('ktp', null, array(
                             'class'         => 'form-control',
                             'placeholder'   => 'No KTP'
-                            ))!!}
-                            <code>{!! $errors->first('ktp')!!}</code>
-                    </div>
+						))!!}
+					  @if($errors->has('ktp'))<code>{{ $errors->first('ktp') }}</code>@endif
+					</div>
                 </div>
             </div>
             <div class="row">
                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        {!! Form::label('email')!!}
+					 <div class="form-group @if($errors->has('email'))has-error @endif">
+					   {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
                         {!! Form::email('email', null, array(
                             'class'         => 'form-control',
                             'placeholder'   => 'email'
                         ))!!}
-                        <code>{!! $errors->first('email')!!}</code>
-                    </div>
+					   @if($errors->has('email'))<code>{{ $errors->first('email') }}</code>@endif
+					 </div>
                 </div>
                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        {!! Form::label('no_telp')!!}
+					 <div class="form-group @if($errors->has('no_telp'))has-error @endif">
+					   {!! Form::label('no_telp', 'No Telp', ['class' => 'control-label']) !!}
                         {!! Form::text('no_telp', null, array(
                             'class'         => 'form-control',
                             'placeholder'   => 'Nomor Telepon'
                         ))!!}
-                        <code>{!! $errors->first('no_telp')!!}</code>
-                    </div>
+					   @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
+					 </div>
                 </div>
             </div>
      <div class="row">
          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-         <div class="form-group">
-            {!! Form::label('alamat_ktp')!!}
-            {!! Form::textarea('alamat_ktp', null, array(
-                'class'         => 'textareacustom form-control',
-                'placeholder'   => 'Alamat KTP'
-            ))!!}
-            <code>{!! $errors->first('alamat_ktp')!!}</code>
-        </div>
+			 <div class="form-group @if($errors->has('alamat_ktp'))has-error @endif">
+			   {!! Form::label('alamat_ktp', 'Alamat KTP', ['class' => 'control-label']) !!}
+				{!! Form::textarea('alamat_ktp', null, array(
+					'class'         => 'textareacustom form-control',
+					'placeholder'   => 'Alamat KTP'
+				))!!}
+			   @if($errors->has('alamat_ktp'))<code>{{ $errors->first('alamat_ktp') }}</code>@endif
+			 </div>
         </div>
     </div>
   <div class="row">
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <div class="form-group">
-            {!! Form::label('str')!!}
+		 <div class="form-group @if($errors->has('str'))has-error @endif">
+		   {!! Form::label('str', 'STR', ['class' => 'control-label']) !!}
             {!! Form::text('str', null, array(
                 'class'         => 'form-control',
                 'placeholder'   => 'STR'
             ))!!}
-            <code>{!! $errors->first('str')!!}</code>
-        </div>
+		   @if($errors->has('str'))<code>{{ $errors->first('str') }}</code>@endif
+		 </div>
     </div>
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <div class="form-group">
-            {!! Form::label('universitas_asal')!!}
+		 <div class="form-group @if($errors->has('universitas_asal'))has-error @endif">
+		   {!! Form::label('universitas_asal', 'Universitas Asal', ['class' => 'control-label']) !!}
             {!! Form::text('universitas_asal', null, array(
                 'class'         => 'form-control',
                 'placeholder'   => 'Universitas Asal'
             ))!!}
-            <code>{!! $errors->first('universitas_asal')!!}</code>
-        </div>
+		   @if($errors->has('universitas_asal'))<code>{{ $errors->first('universitas_asal') }}</code>@endif
+		 </div>
     </div>
 </div>
   <div class="row">
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <div class="form-group">
-            {!! Form::label('titel')!!}
+		 <div class="form-group @if($errors->has('titel'))has-error @endif">
+		   {!! Form::label('titel', 'Titel', ['class' => 'control-label']) !!}
             {!! Form::select('titel', array(
                 ''      =>   '(tidak ada titel)',
                 'dr'    => 'Dokter',
@@ -116,40 +116,40 @@
                 'class'         => 'form-control',
                 'placeholder'   => 'Titel'
             ))!!}
-            <code>{!! $errors->first('titel')!!}</code>
-        </div>
+		   @if($errors->has('titel'))<code>{{ $errors->first('titel') }}</code>@endif
+		 </div>
     </div>
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <div class="form-group">
-            {!! Form::label('no_hp')!!}
+		 <div class="form-group @if($errors->has('no_hp'))has-error @endif">
+		   {!! Form::label('no_hp', 'No HP', ['class' => 'control-label']) !!}
             {!! Form::text('no_hp', null, array(
                 'class'         => 'form-control',
                 'placeholder'   => 'Nomor HP'
             ))!!}
-            <code>{!! $errors->first('no_hp')!!}</code>
-        </div>
+		   @if($errors->has('no_hp'))<code>{{ $errors->first('no_hp') }}</code>@endif
+		 </div>
     </div>
 </div>
   <div class="row">
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <div class="form-group">
-            {!! Form::label('tanggal_lulus')!!}
+		 <div class="form-group @if($errors->has('tanggal_lulus'))has-error @endif">
+		   {!! Form::label('tanggal_lulus', 'Tanggal Lulus', ['class' => 'control-label']) !!}
             {!! Form::text('tanggal_lulus', $tanggal_lulus, array(
                 'class'         => 'form-control tanggal',
                 'placeholder'   => 'Tanggal Lulus'
             ))!!}
-            <code>{!! $errors->first('tanggal_lulus')!!}</code>
-        </div>
+		   @if($errors->has('tanggal_lulus'))<code>{{ $errors->first('tanggal_lulus') }}</code>@endif
+		 </div>
     </div>
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <div class="form-group">
-            {!! Form::label('tanggal_mulai')!!}
+		 <div class="form-group @if($errors->has('tanggal_mulai'))has-error @endif">
+		   {!! Form::label('tanggal_mulai', 'Tanggal Mulai', ['class' => 'control-label']) !!}
             {!! Form::text('tanggal_mulai', $tanggal_mulai, array(
                 'class'         => 'form-control tanggal',
                 'placeholder'   => 'Tanggal Mulai'
             ))!!}
-            <code>{!! $errors->first('tanggal_mulai')!!}</code>
-        </div>
+		   @if($errors->has('tanggal_mulai'))<code>{{ $errors->first('tanggal_mulai') }}</code>@endif
+		 </div>
     </div>
 </div>
 </div>

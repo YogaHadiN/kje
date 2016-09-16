@@ -23,21 +23,21 @@ Klinik Jati Elok | Obat Buat Karyawan
 
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="form-group @if($errors->has('email')) has-error @endif">
-          {!! Form::label('email', 'Email') !!}
+		  {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
           {!! Form::email('email' , null, ['class' => 'form-control rq']) !!}
           @if($errors->has('email')) <code> {{ $errors->first('email') }} </code> @endif
       </div>
   </div>
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="form-group @if($errors->has('password')) has-error @endif">
-          {!! Form::label('password', 'Password') !!}
+		  {!! Form::label('password', 'Password', ['class' => 'control-label']) !!}
           {!! Form::password('password',  array('placeholder' => 'password', 'class'=>'form-control rq', 'autocomplete' => 'false'))!!}
           @if($errors->has('password')) <code> {{ $errors->first('password') }} </code> @endif
       </div>
   </div>
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
       <div class="form-group @if($errors->has('tanggal')) has-error @endif">
-          {!! Form::label('tanggal', 'Tanggal') !!}
+		  {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
           {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
           @if($errors->has('tanggal')) <code> {{ $errors->first('tanggal') }} </code> @endif
       </div>
@@ -92,7 +92,7 @@ Klinik Jati Elok | Obat Buat Karyawan
               </div>
             </div>
             <div class="hide form-group @if($errors->has('tempBeli')) has-error @endif">
-                {!! Form::label('tempBeli', 'Barang Belanjaan') !!}
+				{!! Form::label('tempBeli', 'Barang Belanjaan', ['class' => 'control-label']) !!}
                 {!! Form::textarea('tempBeli' , null, ['class' => 'form-control rq', 'id' => 'tempBeli']) !!}
                 @if($errors->has('tempBeli'))
                   <code>

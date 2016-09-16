@@ -41,12 +41,13 @@
             <div class="panel-body">
              <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="form-group">
-                  <label for="">Edit Merek</label>
-                  {!! Form::text('merek', $merek->merek, ['class' => 'form-control'])!!}
+				  <div class="form-group @if($errors->has('merek'))has-error @endif">
+				    {!! Form::label('merek', 'Edit Merek', ['class' => 'control-label']) !!}
+                    {!! Form::text('merek', $merek->merek, ['class' => 'form-control'])!!}
+				    @if($errors->has('merek'))<code>{{ $errors->first('merek') }}</code>@endif
+				  </div>
                 </div>
-                </div>
-                </div>
+			</div>
             <div class="row">
               @if(\Auth::user()->role == '6')
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

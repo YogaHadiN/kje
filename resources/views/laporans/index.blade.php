@@ -14,7 +14,7 @@ Klinik Jati Elok | Home
 </ol>
 @stop
 @section('content') 
-<div class="row">
+<div class="row hide">
             <div class="col-lg-3">
                 <a href="{{ url('antrianpolis')}}">
                 <div class="widget style1 blue-bg btn-success">
@@ -72,7 +72,7 @@ Klinik Jati Elok | Home
                 </div></a>
             </div>
         </div>
-<div class="row">
+<div class="row hide">
     <div class="col-lg-3">
         <a href="{{ url('ruangperiksa/umum')}}">
         <div class="widget style1grey-bg btn-success">
@@ -131,6 +131,52 @@ Klinik Jati Elok | Home
     </div>
 </div>
         <div class="row marginAtas">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                            RINGKASAN PASIEN HARI INI 
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nama Asuransi</th>
+                                    <th>Jumlah</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (count($hariinis) > 0)
+                                    @foreach ($hariinis as $hariini)
+                                        <tr>
+                                            <td>{!! $hariini->nama !!}</td>
+                                            <td>{!! $hariini->jumlah !!}</td>
+											<td><a href="{{ url("laporans/asuransi/detail/$hariini->id/" . date('Y-m-d')) }}" class="btn btn-success btn-xs">detail</a></td>
+                                        </tr>
+                                    @endforeach
+                                @else 
+                                <tr>
+                                    <td colspan="3" class="text-center">Belum ada transaksi pasien hari ini</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><strong>Total Pasien Hari Ini</strong></td>
+                                    <td><strong>{!!$jumlah!!}</strong></td>
+                                @if (count($hariinis) > 0)
+                                    <td>
+                                        <a href="{{ url('laporans/harian/harian?submit=submit&tanggal=' . date('d-m-Y') . '&asuransi_id=%') }}" class="btn btn-danger btn-xs">Show All</a>
+                                    </td>
+                                @else
+                                <td></td>
+                                @endif
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
                 @if ($auth->role != '1')
                     <div class="panel panel-success">
@@ -450,52 +496,6 @@ Klinik Jati Elok | Home
                           </div>
                     </div>
                 @endif
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                            RINGKASAN PASIEN HARI INI 
-                    </div>
-                    <div class="panel-body">
-                        <table class="table table-condensed table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nama Asuransi</th>
-                                    <th>Jumlah</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (count($hariinis) > 0)
-                                    @foreach ($hariinis as $hariini)
-                                        <tr>
-                                            <td>{!! $hariini->nama !!}</td>
-                                            <td>{!! $hariini->jumlah !!}</td>
-											<td><a href="{{ url("laporans/asuransi/detail/$hariini->id/" . date('Y-m-d')) }}" class="btn btn-success btn-xs">detail</a></td>
-                                        </tr>
-                                    @endforeach
-                                @else 
-                                <tr>
-                                    <td colspan="3" class="text-center">Belum ada transaksi pasien hari ini</td>
-                                </tr>
-                                @endif
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td><strong>Total Pasien Hari Ini</strong></td>
-                                    <td><strong>{!!$jumlah!!}</strong></td>
-                                @if (count($hariinis) > 0)
-                                    <td>
-                                        <a href="{{ url('laporans/harian/harian?submit=submit&tanggal=' . date('d-m-Y') . '&asuransi_id=%') }}" class="btn btn-danger btn-xs">Show All</a>
-                                    </td>
-                                @else
-                                <td></td>
-                                @endif
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
             </div>
             </div>
 @stop

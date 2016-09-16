@@ -87,24 +87,27 @@ Klinik Jati Elok | Antrian Beli Obat
                             {!! Form::open(['url' => 'pasiens', 'id' => 'faktur_insertForm', 'method' => 'post', 'autocomplete' => 'off'])!!}
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
-                                         <div class="form-group">
-                                            {!! Form::label('supplier_id', 'Nama Supplier')!!}
+										<div class="form-group @if($errors->has('supplier_id'))has-error @endif">
+										  {!! Form::label('supplier_id', 'Nama Supplier', ['class' => 'control-label']) !!}
                                             {!! Form::select('supplier_id', $suppliers, null, ['class' => 'form-control selectpick'])!!}
-                                        </div>
+										  @if($errors->has('supplier_id'))<code>{{ $errors->first('supplier_id') }}</code>@endif
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('tanggal')!!}
+										<div class="form-group @if($errors->has('tanggal'))has-error @endif">
+										  {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
                                             {!! Form::text('tanggal', null, ['class' => 'form-control tanggal'])!!}
-                                        </div>
+										  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+										</div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('nomor_faktur', 'Nomor Faktur')!!}
-                                            {!! Form::text('nomor_faktur', null, ['class' => 'form-control'])!!}
-                                        </div>
+										<div class="form-group @if($errors->has('nomor_faktur'))has-error @endif">
+										  {!! Form::label('nomor_faktur', 'Nomor Faktur', ['class' => 'control-label']) !!}
+                                          {!! Form::text('nomor_faktur', null, ['class' => 'form-control'])!!}
+										  @if($errors->has('nomor_faktur'))<code>{{ $errors->first('nomor_faktur') }}</code>@endif
+										</div>
                                     </div>
                                 </div>	
                                 <div class="row">

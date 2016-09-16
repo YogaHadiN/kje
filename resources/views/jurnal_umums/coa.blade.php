@@ -26,24 +26,27 @@ Klinik Jati Elok | Coa belum di set
       <div class="modal-body">
           <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('kelompok_coa_id', 'Kelompok Coa') !!}
+				  <div class="form-group @if($errors->has('kelompok_coa_id'))has-error @endif">
+				      {!! Form::label('kelompok_coa_id', 'Kelompok Coa', ['class' => 'control-label']) !!}
                       {!! Form::select('kelompok_coa_id', $kelompokCoaList , null, ['class' => 'form-control form-coa', 'id'=>'kelompok_coa_id']) !!}
-                  </div>
+				      @if($errors->has('kelompok_coa_id'))<code>{{ $errors->first('kelompok_coa_id') }}</code>@endif
+				  </div>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('coa_id', 'Kode Coa') !!}
+				  <div class="form-group @if($errors->has('coa_id'))has-error @endif">
+				    {!! Form::label('coa_id', 'Kode COA', ['class' => 'control-label']) !!}
                       {!! Form::text('coa_id' , null, ['class' => 'form-control form-coa', 'id'=>'kode_coa', 'disabled' => 'disabled']) !!}
-                  </div>
+				    @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
+				  </div>
               </div>
           </div>
           <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="form-group">
-                      {!! Form::label('coa', 'Keterangan Coa') !!}
+				  <div class="form-group @if($errors->has('coa'))has-error @endif">
+				    {!! Form::label('coa', 'Keterangan Coa', ['class' => 'control-label']) !!}
                       {!! Form::text('coa' , null, ['class' => 'form-control form-coa', 'id'=>'keterangan_coa', 'disabled' => 'disabled']) !!}
-                  </div>
+				    @if($errors->has('coa'))<code>{{ $errors->first('coa') }}</code>@endif
+				  </div>
               </div>
           </div>
           <div class="row">

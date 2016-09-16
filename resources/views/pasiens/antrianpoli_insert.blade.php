@@ -26,7 +26,7 @@
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">Poli:</label>
-						{!! Form::select('poli', $poli, null, ['class' => 'form-control'])!!}
+						{!! Form::select('poli', $poli, null, ['class' => 'form-control', 'onchange' => 'pilihPoli(this);return false;'])!!}
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -46,6 +46,20 @@
 							<option value="0">Biaya Pribadi</option>
 						</select>
 						<input type=text id="TextBox2" class="displayNone"/>
+					</div>
+				</div>
+			</div>
+			<div class="row hide" id="peringatan_trimester_pertama_usg">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="alert alert-danger">
+						Jika Umur Kehamilan kurang dari 12 minggu, harus menahan kencing karena baru bisa diperiksa dalam keadaan ingin kencing
+					</div>
+				</div>
+			</div>
+			<div class="row hide" id="peringatan_usg_abdomen">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="alert alert-danger">
+						Pada Pasien dengan USG Abdomen harus menahan kencing karena baru bisa diperiksa dalam keadaan ingin kencing
 					</div>
 				</div>
 			</div>

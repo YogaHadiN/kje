@@ -38,22 +38,26 @@ Klinik Jati Elok | Gaji Dokter
                     {!! Form::label('staf_id', 'Staf') !!}
                     {!! Form::text('staf_id' , $id, ['class' => 'form-control']) !!}
                 </div>
-                <div class="form-group">
-                    {!! Form::label('hutang', 'Jasa Dokter') !!}
+				<div class="form-group @if($errors->has('hutang'))has-error @endif">
+				  {!! Form::label('hutang', 'Jasa Dokter', ['class' => 'control-label']) !!}
                     {!! Form::text('hutang' , $total, ['class' => 'form-control', 'readonly' => 'readonly']) !!}
-                </div>  
-                <div class="form-group">
-                    {!! Form::label('dibayar', 'Pembayaran') !!}
+				  @if($errors->has('hutang'))<code>{{ $errors->first('hutang') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('dibayar'))has-error @endif">
+				  {!! Form::label('dibayar', 'Pembayaran', ['class' => 'control-label']) !!}
                     {!! Form::text('dibayar', null, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
-                </div>
-                <div class="form-group">
-                    {!! Form::label('petugas_id', 'Petugas') !!}
+				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('petugas_id'))has-error @endif">
+				  {!! Form::label('petugas_id', 'Petugas', ['class' => 'control-label']) !!}
                     {!! Form::select('petugas_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'id' => 'pembayaran', 'data-live-search' => 'true']) !!}
-                </div>
-				<div class="form-group">
-                    {!! Form::label('sumber_uang_id', 'Sumber Uang') !!}
-                    {!! Form::select('sumber_uang_id', App\Classes\Yoga::sumberuang(), null, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
-                </div>
+				  @if($errors->has('petugas_id'))<code>{{ $errors->first('petugas_id') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('sumber_uang_id'))has-error @endif">
+				  {!! Form::label('sumber_uang_id', 'Sumber Uang', ['class' => 'control-label']) !!}
+                  {!! Form::select('sumber_uang_id', App\Classes\Yoga::sumberuang(), null, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
+				  @if($errors->has('sumber_uang_id'))<code>{{ $errors->first('sumber_uang_id') }}</code>@endif
+				</div>
                 <div class="form-group">
                     <button class="btn btn-success" type="button" onclick="submitPage();return false;">Submit</button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}

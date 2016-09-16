@@ -63,8 +63,9 @@ Klinik Jati Elok | Register Terdaftar
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group" @if($errors->has('asuransi_id')) class="has-error" @endif>
-							  {!! Form::label('asuransi_id', 'Pembayaran') !!}
+
+							<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
+								{!! Form::label('asuransi_id', 'Pembayaran', ['class' => 'control-label']) !!}
 							  {!! Form::select('asuransi_id' , App\Classes\Yoga::asuransiList(), $asuransi_id, ['class' => 'form-control', 'data-live-search' => 'true']) !!}
 							  @if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
 							</div>

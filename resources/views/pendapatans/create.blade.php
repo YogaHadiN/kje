@@ -33,29 +33,34 @@ Klinik Jati Elok | Pendapatans Lain
             </div>
             <div class="panel-body">
                 {!! Form::open(['url'=>'pendapatans', 'method'=> 'post']) !!} 
-                    <div class="form-group">
-                      {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+					<div class="form-group @if($errors->has('sumber_uang'))has-error @endif">
+					  {!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
 					  {!! Form::text('sumber_uang',  null, ['class' => 'form-control selectpick cek_pembayaran_asuransi rq', 'data-live-search' => 'true']) !!}
-                    </div>
-					<div class="form-group">
-                      {!! Form::label('staf_id', 'Petugas') !!}
+					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
+					</div>
+					<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+					  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
                       {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true']) !!}
-                    </div>
-                    <div class="form-group">
-                      {!! Form::label('tanggal', 'Tanggal') !!}
+					  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+					</div>
+					<div class="form-group @if($errors->has('tanggal'))has-error @endif">
+					  {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
                       {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
-                    </div>
-					<div class="form-group">
-                      {!! Form::label('nilai', 'Nilai') !!}
-					 <div class="input-group">
-                          <div class="input-group-addon">Rp. </div>
-						  {!! Form::text('nilai' , null, ['class' => 'form-control rq']) !!}
-                     </div>
-                    </div>
-					<div class="form-group">
-                      {!! Form::label('keterangan', 'Uangnya didapat karena apa') !!}
+					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+					</div>
+					<div class="form-group @if($errors->has('nilai'))has-error @endif">
+					  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
+						 <div class="input-group">
+							  <div class="input-group-addon">Rp. </div>
+							  {!! Form::text('nilai' , null, ['class' => 'form-control rq']) !!}
+						 </div>
+					  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
+					</div>
+					<div class="form-group @if($errors->has('keterangan'))has-error @endif">
+					  {!! Form::label('keterangan', 'Keterangan', ['class' => 'control-label']) !!}
                       {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom cek_pembayaran_asuransi rq']) !!}
-                    </div>
+					  @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
+					</div>
                     <div class="form-group">
 						<button class="btn btn-success btn-block btn-lg" type="button" onclick="cek_tagihan();">Submit</button>
 						{!! Form::submit('Submit Pendapatan Lain-lain', ['class' => 'btn btn-success btn-block btn-lg hide', 'id' => 'submit_form']) !!}

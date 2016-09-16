@@ -93,22 +93,25 @@ Klinik Jati Elok | Supplier
               </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="form-group">
-              {!! Form::label('belanja_id', 'Jenis Belanja')!!}
-              {!! Form::select('belanja_id', $belanjaList, null, ['class' => 'form-control', 'id' => 'belanja_id_buy'])!!}
-            </div>
+			  <div class="form-group @if($errors->has('belanja_id'))has-error @endif">
+			    {!! Form::label('belanja_id', 'Jenis Belanja', ['class' => 'control-label']) !!}
+                {!! Form::select('belanja_id', $belanjaList, null, ['class' => 'form-control', 'id' => 'belanja_id_buy'])!!}
+			    @if($errors->has('belanja_idnja_id'))<code>{{ $errors->first('belanja_id') }}</code>@endif
+			  </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="form-group">
-              {!! Form::label('nomor_faktur')!!}
-              {!! Form::text('nomor_faktur', null, ['class' => 'form-control', 'id' => 'nomor_faktur_buy'])!!}
-            </div>
+			  <div class="form-group @if($errors->has('nomor_faktur'))has-error @endif">
+			    {!! Form::label('nomor_faktur', 'Nomor Faktur', ['class' => 'control-label']) !!}
+                {!! Form::text('nomor_faktur', null, ['class' => 'form-control', 'id' => 'nomor_faktur_buy'])!!}
+			    @if($errors->has('nomor_faktur'))<code>{{ $errors->first('nomor_faktur') }}</code>@endif
+			  </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="form-group">
-                {!! Form::label('Tanggal')!!}
+			  <div class="form-group @if($errors->has('tanggal'))has-error @endif">
+			    {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
                 {!! Form::text('tanggal', null, ['class' => 'form-control tanggal'])!!}
-              </div>
+			    @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+			  </div>
           </div>
         </div>
         <div class="row">

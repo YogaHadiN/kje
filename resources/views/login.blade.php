@@ -32,10 +32,11 @@
             <p>Silahkan masukkan email dan password dengan benar.</p>
 
             {!! Form::open(array('url' => 'login', 'class' => 'm-t', 'method' => 'post')) !!}
-                <div class="form-group">
+
+				<div class="form-group @if($errors->has('email'))has-error @endif">
                     {!! Form::email('email', null, array('class'=>'form-control', 'placeholder' => 'email', 'autocomplete' => 'false'))!!}
                 </div>
-                <div class="form-group">
+				<div class="form-group @if($errors->has('password'))has-error @endif">
                     {!! Form::password('password',  array('placeholder' => 'password', 'class'=>'form-control', 'autocomplete' => 'false'))!!}
                 </div>
                 <div class="form-group">

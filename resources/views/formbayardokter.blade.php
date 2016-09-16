@@ -28,35 +28,40 @@ Klinik Jati Elok | Laporan Gaji Dokter
           <div class="panel-body">
             <h1>Bayar Gaji Dokter</h1>
             <hr>
-                <div class="form-group">
-                  {!! Form::label('staf_id', 'Staf') !!}
+				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+				  {!! Form::label('staf_id', 'Staf', ['class' => 'control-label']) !!}
                   {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
-                </div>
+				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-						  {!! Form::label('mulai') !!}
+						<div class="form-group @if($errors->has('mulai'))has-error @endif">
+						  {!! Form::label('mulai', 'Mulai', ['class' => 'control-label']) !!}
 						  {!! Form::text('mulai', null, ['class' => 'form-control rq tanggal']) !!}
+						  @if($errors->has('mulai'))<code>{{ $errors->first('mulai') }}</code>@endif
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-						  {!! Form::label('jam_mulai') !!}
+						<div class="form-group @if($errors->has('jam_mulai'))has-error @endif">
+						  {!! Form::label('jam_mulai', 'Jam Mulai', ['class' => 'control-label']) !!}
 						  {!! Form::text('jam_mulai', '13:00:00', ['class' => 'form-control rq jam']) !!}
+						  @if($errors->has('jam_mulai'))<code>{{ $errors->first('jam_mulai') }}</code>@endif
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-						  {!! Form::label('akhir') !!}
+						<div class="form-group @if($errors->has('akhir'))has-error @endif">
+						  {!! Form::label('akhir', 'Akhir', ['class' => 'control-label']) !!}
 						  {!! Form::text('akhir', null, ['class' => 'form-control rq tanggal']) !!}
+						  @if($errors->has('akhir'))<code>{{ $errors->first('akhir') }}</code>@endif
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-						  {!! Form::label('jam_akhir') !!}
+						<div class="form-group @if($errors->has('jam_akhir'))has-error @endif">
+						  {!! Form::label('jam_akhir', 'Jam Akhir', ['class' => 'control-label']) !!}
 						  {!! Form::text('jam_akhir', '13:00:00', ['class' => 'form-control rq jam']) !!}
+						  @if($errors->has('jam_akhir'))<code>{{ $errors->first('jam_akhir') }}</code>@endif
 						</div>
 					</div>
 				</div>

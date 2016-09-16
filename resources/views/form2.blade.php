@@ -120,36 +120,29 @@
                                 <div class="row">
                                     {!! Form::text('berat_badan', $berat_badan, ['class' => 'form-control hide', 'id' => 'berat_badan'])!!}
                                     <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="anamnesa">Anamnesa</label><br />
-                                            {!! Form::textarea('anamnesa', null, ['class' => 'form-control textareacustom', 'id' => 'anamnesa'])!!}
-                                            @if ($errors->first('anamnesa'))
-                                               <code> {!! $errors->first('anamnesa') !!} </code>
-                                            @endif
-                                        </div>
+										<div class="form-group @if($errors->has('anamnesa'))has-error @endif">
+										  {!! Form::label('anamnesa', 'Anamnesa', ['class' => 'control-label']) !!}
+                                          {!! Form::textarea('anamnesa', null, ['class' => 'form-control textareacustom', 'id' => 'anamnesa'])!!}
+										  @if($errors->has('anamnesa'))<code>{{ $errors->first('anamnesa') }}</code>@endif
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="pemeriksaanFisik">Pemeriksaan Fisik</label><br />
-
-                                            {!! Form::textarea('pemeriksaan_fisik', $pemeriksaan_awal, ['class' => 'form-control textareacustom', 'id' => 'pemeriksaan_fisik'])!!}
-                                            @if ($errors->first('pemeriksaan_fisik'))
-                                                <code>{!! $errors->first('pemeriksaan_fisik') !!} </code>
-                                            @endif
-                                        </div>
+										<div class="form-group @if($errors->has('pemeriksaan_fisik'))has-error @endif">
+										  {!! Form::label('pemeriksaan_fisik', 'Pemeriksaan Fisik', ['class' => 'control-label']) !!}
+                                          {!! Form::textarea('pemeriksaan_fisik', $pemeriksaan_awal, ['class' => 'form-control textareacustom', 'id' => 'pemeriksaan_fisik'])!!}
+										  @if($errors->has('pemeriksaan_fisik'))<code>{{ $errors->first('pemeriksaan_fisik') }}</code>@endif
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="pemeriksaanFisik">Pemeriksaan Penunjang, Injeksi dan Tindakan</label><br />
+										<div class="form-group @if($errors->has('pemeriksaan_penunjang'))has-error @endif">
+										  {!! Form::label('pemeriksaan_penunjang', 'Pemeriksaan Penunjang, Injeksi dan Tindakan', ['class' => 'control-label']) !!}
                                             {!! Form::textarea('pemeriksaan_penunjang', $penunjang, ['class' => 'form-control textareacustom', 'id' => 'pemeriksaan_penunjang'])!!}
-                                            @if ($errors->first('pemeriksaan_penunjang'))
-                                                <code>{!! $errors->first('pemeriksaan_penunjang') !!} </code>
-                                            @endif
-                                        </div>
+										  @if($errors->has('pemeriksaan_penunjang'))<code>{{ $errors->first('pemeriksaan_penunjang') }}</code>@endif
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -181,14 +174,11 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="keterangan_diagnosa">Keterangan Diagnosa dan Diagnosa Tambahan</label><br />
-                                            {!! Form::text('keterangan_diagnosa', null, ['class' => 'form-control', 'id' => 'keterangan_diagnosa'])!!}
-                                            <br>
-                                             @if ($errors->first('keterangan_diagnosa'))
-                                               <div><code>{!! $errors->first('keterangan_diagnosa') !!} </code></div>
-                                            @endif
-                                        </div>
+										<div class="form-group @if($errors->has('keterangan_diagnosa'))has-error @endif">
+										  {!! Form::label('keterangan_diagnosa', 'Keterangan Diagnosa', ['class' => 'control-label']) !!}
+                                          {!! Form::text('keterangan_diagnosa', null, ['class' => 'form-control', 'id' => 'keterangan_diagnosa'])!!}
+										  @if($errors->has('keterangan_diagnosa'))<code>{{ $errors->first('keterangan_diagnosa') }}</code>@endif
+										</div>
                                     </div>
                                 </div>
                             </div>
@@ -339,18 +329,20 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="form-group">
-                                            {!! Form::label('kesimpulan')!!}
+										<div class="form-group @if($errors->has('kesimpulan'))has-error @endif">
+										  {!! Form::label('kesimpulan', 'Kesimpulan', ['class' => 'control-label']) !!}
                                             {!! Form::textarea('kesimpulan', $kesimpulan, ['class' => 'form-control textareacustom'])!!}
-                                        </div>
+										  @if($errors->has('kesimpulan'))<code>{{ $errors->first('kesimpulan') }}</code>@endif
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="form-group">
-                                            {!! Form::label('saran')!!}
+										<div class="form-group @if($errors->has('saran'))has-error @endif">
+										  {!! Form::label('saran', 'Saran', ['class' => 'control-label']) !!}
                                             {!! Form::text('saran', $saran, ['class' => 'form-control'])!!}
-                                        </div>
+										  @if($errors->has('saran'))<code>{{ $errors->first('saran') }}</code>@endif
+										</div>
                                     </div>
                                 </div>
                             </div>

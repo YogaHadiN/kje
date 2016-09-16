@@ -32,22 +32,28 @@ Klinik Jati Elok | Pendapatan Kapitasi BPJS
                 </div>
             </div>
             <div class="panel-body">
-				<div class="form-group">
-				  {!! Form::label('staf_id', 'Petugas') !!}
+				
+				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+				  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
 				  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true']) !!}
+				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
-				<div class="form-group">
-				  {!! Form::label('nilai', 'Nilai') !!}
+				
+				<div class="form-group @if($errors->has('nilai'))has-error @endif">
+				  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
 				 <div class="input-group">
 					  <div class="input-group-addon">Rp. </div>
 					  {!! Form::text('nilai' , null, ['class' => 'form-control rq']) !!}
 				 </div>
+				  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
 				</div>
-				<div class="form-group">
-				  {!! Form::label('periode_bulan', 'Periode Bulan') !!}
+				
+				<div class="form-group @if($errors->has('periode_bulan'))has-error @endif">
+				  {!! Form::label('periode_bulan', 'Periode Bulan', ['class' => 'control-label']) !!}
 				  {!! Form::text('periode_bulan' , date('m-Y') ,['class' => 'form-control bulanTahun rq']) !!}
+				  @if($errors->has('periode_bulan'))<code>{{ $errors->first('periode_bulan') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('tanggal_pembayaran')) class="has-error" @endif)>
+				<div class="form-group @if($errors->has('tanggal_pembayaran'))has-error @endif">
 				  {!! Form::label('tanggal_pembayaran', 'Tanggal Pembayaran') !!}
 				  {!! Form::text('tanggal_pembayaran' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
 				  @if($errors->has('tanggal_pembayaran'))<code>{{ $errors->first('tanggal_pembayaran') }}</code>@endif

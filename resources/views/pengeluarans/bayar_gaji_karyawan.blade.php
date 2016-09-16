@@ -28,36 +28,42 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
           <div class="panel-body">
             <h1>Pembayaran Gaji Karyawan</h1>
             <hr>
-                <div class="form-group">
-                  {!! Form::label('coa_id', 'Sumber Dana') !!}
+				<div class="form-group @if($errors->has('coa_id'))has-error @endif">
+				  {!! Form::label('coa_id', 'Sumber Dana', ['class' => 'control-label']) !!}
                   {!! Form::select('coa_id', $sumber_kas_lists, null , ['class' => 'form-control']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('staf_id', 'Nama Staf Yang Dibayarkan Gajiny') !!}
+				  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+				  {!! Form::label('staf_id', 'Nama Staf Yang Dibayarkan Gajinya', ['class' => 'control-label']) !!}
                   {!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('bulan', 'Periode') !!}
+				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('bulan'))has-error @endif">
+				  {!! Form::label('bulan', 'Periode Bulan', ['class' => 'control-label']) !!}
                   {!! Form::text('bulan', null, ['class' => 'form-control rq bulanTahun']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar') !!}
+				  @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
+				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
                   {!! Form::text('tanggal_dibayar', null, ['class' => 'form-control rq tanggal']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('gaji_pokok', 'Gaji Pokok') !!}
+				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('gaji_pokok'))has-error @endif">
+				  {!! Form::label('gaji_pokok', 'Gaji Pokok', ['class' => 'control-label']) !!}
                   <div class="input-group">
                       <span class="input-group-addon">Rp. </span>
                       {!! Form::text('gaji_pokok', null, ['class' => 'form-control rq']) !!}
                   </div>
-                </div>
-                <div class="form-group">
-                  {!! Form::label('bonus', 'Bonus') !!}
+				  @if($errors->has('gaji_pokok'))<code>{{ $errors->first('gaji_pokok') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('bonus'))has-error @endif">
+				  {!! Form::label('bonus', 'Bonus', ['class' => 'control-label']) !!}
                   <div class="input-group">
                       <span class="input-group-addon">Rp. </span>
                       {!! Form::text('bonus', null, ['class' => 'form-control rq']) !!}
                   </div>
-                </div>
+				  @if($errors->has('bonus'))<code>{{ $errors->first('bonus') }}</code>@endif
+				</div>
                 <div class="form-group">
                   <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

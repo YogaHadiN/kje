@@ -9,18 +9,20 @@
 			  		{!! Form::hidden('periksa_id', $periksa->id)!!}
 			  	 <div class="row">
 				  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-							<label for="">Tanggal Mulai</label>
+						<div class="form-group @if($errors->has('tanggal_mulai'))has-error @endif">
+						    {!! Form::label('tanggal_mulai', 'Tanggal Mulai', ['class' => 'control-label']) !!}
 							{!! Form::text('tanggal_mulai', $tanggal_mulai, ['class' => 'form-control tanggal'])!!}
+						  @if($errors->has('tanggal_mulai'))<code>{{ $errors->first('tanggal_mulai') }}</code>@endif
 						</div>
 				  	</div>
 				  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-							<label for="">Jumlah Hari</label>
+						<div class="form-group @if($errors->has('hari'))has-error @endif">
+						  {!! Form::label('hari', 'Jumlah Hari', ['class' => 'control-label']) !!}
                             <div class="input-group">
 								{!! Form::text('hari', $hari, ['class' => 'form-control', 'aria-describedby' => 'addonTekananDarah', 'dir' =>'rtl'])!!}
                                 <span class="input-group-addon" id="addonTekananDarah">Hari</span>
                             </div>
+						  @if($errors->has('hari'))<code>{{ $errors->first('hari') }}</code>@endif
 						</div>
 				  	</div>
 				 </div>

@@ -32,15 +32,15 @@ Klinik Jati Elok | Daftar Pasien Baru Melalui Facebook
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						<div class="form-group" @if($errors->has('antrian')) class="has-error" @endif>
-						  {!! Form::label('antrian', 'Antrian') !!}
+						<div class="form-group @if($errors->has('antrian'))has-error @endif">
+							{!! Form::label('antrian', 'Antrian', ['class' => 'control-label']) !!}
 						  {!! Form::text('antrian' , $antrian, ['class' => 'form-control angka rq']) !!}
 						  @if($errors->has('antrian'))<code>{{ $errors->first('antrian') }}</code>@endif
 						</div>
 					</div>
 					<div class="hide col-xs-4 col-sm-4 col-md-4 col-lg-4">
-						<div class="form-group" @if($errors->has('poli')) class="has-error" @endif>
-						  {!! Form::label('poli', 'Poli') !!}
+						<div class="form-group @if($errors->has('poli'))has-error @endif">
+							{!! Form::label('poli', 'Poli', ['class' => 'control-label']) !!}
 						  {!! Form::select('poli' , App\Classes\Yoga::poliList(), $fb->pilihan_poli, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
 						  @if($errors->has('poli'))<code>{{ $errors->first('poli') }}</code>@endif
 						</div>

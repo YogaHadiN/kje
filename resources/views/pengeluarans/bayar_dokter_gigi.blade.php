@@ -21,33 +21,33 @@ Klinik Jati Elok | Bayar Dokter Gigi
           <div class="panel-body">
 			  <h1>Bayar Gaji Dokter</h1>
             <hr>
-			<div class="form-group" @if($errors->has('staf_id')) class="has-error" @endif)>
-			  {!! Form::label('staf_id', 'Nama Dokter Gigi Yang DiGaji') !!}
+			<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+			  {!! Form::label('staf_id', 'Nama Dokter Gigi Yang DiGaji', ['class' => 'control-label']) !!}
 			  {!! Form::select('staf_id' , App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' =>'true']) !!}
 			  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 			</div>
-			<div class="form-group" @if($errors->has('sumber_coa_id')) class="has-error" @endif)>
-			  {!! Form::label('sumber_coa_id', 'Sumber Uang') !!}
+			<div class="form-group @if($errors->has('sumber_coa_id'))has-error @endif">
+			  {!! Form::label('sumber_coa_id', 'Sumber Uang', ['class' => 'control-label']) !!}
 			  {!! Form::select('sumber_coa_id' , App\Classes\Yoga::sumberCoaList(), 110004, ['class' => 'form-control']) !!}
 			  @if($errors->has('sumber_coa_id'))<code>{{ $errors->first('sumber_coa_id') }}</code>@endif
 			</div>
-			<div class="form-group" @if($errors->has('nilai')) class="has-error" @endif)>
-			  {!! Form::label('nilai', 'Nilai') !!}
+			<div class="form-group @if($errors->has('nilai'))has-error @endif">
+			  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
 			  {!! Form::text('nilai' , null, ['class' => 'form-control angka']) !!}
 			  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
 			</div>
-			<div class="form-group" @if($errors->has('bulan')) class="has-error" @endif)>
-			  {!! Form::label('bulan', 'Bulan Periode') !!}
+			<div class="form-group @if($errors->has('bulan'))has-error @endif">
+			  {!! Form::label('bulan', 'Bulan Periode', ['class' => 'control-label']) !!}
 			  {!! Form::text('bulan' , null, ['class' => 'form-control bulanTahun']) !!}
 			  @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
 			</div>
-			<div class="form-group" @if($errors->has('petugas_id')) class="has-error" @endif)>
-			  {!! Form::label('petugas_id', 'Petugas Penginput') !!}
+			<div class="form-group @if($errors->has('petugas_id'))has-error @endif">
+			  {!! Form::label('petugas_id', 'Petugas Penginput', ['class' => 'control-label']) !!}
 			  {!! Form::select('petugas_id' , App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
 			  @if($errors->has('petugas_id'))<code>{{ $errors->first('petugas_id') }}</code>@endif
 			</div>
-			<div class="form-group" @if($errors->has('tanggal_dibayar')) class="has-error" @endif)>
-			  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar') !!}
+			<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
+			  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
 			  {!! Form::text('tanggal_dibayar' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
 			  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
 			</div>

@@ -29,33 +29,37 @@ Klinik Jati Elok | Tambah Modal
             </div>
             <div class="panel-body">
                {!! Form::open(['url'=>'pengeluarans/rc', 'method'=> 'post']) !!} 
-               <div class="form-group">
-                   {!! Form::label('kas_masuk', 'Kas Masuk') !!}
+			   <div class="form-group @if($errors->has('kas_masuk'))has-error @endif">
+			     {!! Form::label('kas_masuk', 'Kas Masuk', ['class' => 'control-label']) !!}
                      <div class="input-group">
                           <div class="input-group-addon">Rp. </div>
                            {!! Form::text('kas_masuk' , null, ['class' => 'form-control rq']) !!}
                      </div>
-               </div>
-                @if (\Auth::id() == '28')
-                   <div class="form-group">
-                     {!! Form::label('sumber_uang', 'Sumber Uang') !!}
-                     {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
-                   </div>
-                @else
-                   <div class="form-group hide">
-                     {!! Form::label('sumber_uang', 'Sumber Uang') !!}
-                     {!! Form::select('sumber_uang', $sumberUangList, 110004, ['class' => 'form-control rq', 'readonly' => 'readonly']) !!}
-                   </div>
-                @endif
-                <div class="form-group">
-                 {!! Form::label('staf_id', 'Petugas Penginput') !!}
-                 {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' =>'true']) !!}
-               </div>
-			   <div class="form-group" @if($errors->has('keterangan')) class="has-error" @endif)>
-			     {!! Form::label('keterangan', 'Keterangan') !!}
-				 {!! Form::textarea('keterangan', null, ['class' => 'form-control textareacustom', 'placeholder' => 'Harus diisi kalau RC - PD, pemasukan dan pengeluaran, karena di bayar oleh pak yoga.. Ini pengeluarannya buat apa?']) !!}
-			     @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
+			     @if($errors->has('kas_masuk'))<code>{{ $errors->first('kas_masuk') }}</code>@endif
 			   </div>
+                @if (\Auth::id() == '28')
+					<div class="form-group @if($errors->has('sumber_uang'))has-error @endif">
+					  {!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
+                     {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
+					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
+					</div>
+                @else
+					<div class="form-group hide @if($errors->has('sumber_uang'))has-error @endif">
+					  {!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
+                     {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
+					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
+					</div>
+                @endif
+				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+				  {!! Form::label('staf_id', 'Petugas Penginput', ['class' => 'control-label']) !!}
+                 {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' =>'true']) !!}
+				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('keterangan'))has-error @endif">
+				  {!! Form::label('keterangan', 'Keterangan', ['class' => 'control-label']) !!}
+				 {!! Form::textarea('keterangan', null, ['class' => 'form-control textareacustom', 'placeholder' => 'Harus diisi kalau RC - PD, pemasukan dan pengeluaran, karena di bayar oleh pak yoga.. Ini pengeluarannya buat apa?']) !!}
+				  @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
+				</div>
                <div class="form-group">
                    <button class="btn btn-success" onclick="dummySubmit();return false;" type="button">Submit</button>
                    {!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}

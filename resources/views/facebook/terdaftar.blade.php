@@ -32,23 +32,25 @@
 			</div>
 
             {!! Form::open(array('url' => 'facebook/registered', 'class' => 'm-t', 'method' => 'post')) !!}
-				<div class="form-group hide" @if($errors->has('facebook_id')) class="has-error" @endif>
-				  {!! Form::label('facebook_id', 'Facebook Id') !!}
+
+				<div class="form-group @if($errors->has('facebook_id'))has-error @endif">
+				{!! Form::label('facebook_id', 'Facebook Id', ['class' => 'control-label']) !!}
 				  {!! Form::text('facebook_id' , $user->getId(), ['class' => 'form-control']) !!}
 				  @if($errors->has('facebook_id'))<code>{{ $errors->first('facebook_id') }}</code>@endif
 				</div>
-				<div class="form-group hide" @if($errors->has('gender_id')) class="has-error" @endif>
-				  {!! Form::label('gender_id', 'Gender Id') !!}
+
+				<div class="form-group @if($errors->has('gender_id'))has-error @endif">
+				{!! Form::label('gender_id', 'Gender Id', ['class' => 'control-label']) !!}
 				  {!! Form::text('gender_id' , $user['gender'], ['class' => 'form-control']) !!}
 				  @if($errors->has('gender_id'))<code>{{ $errors->first('gender_id') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('poli')) class="has-error" @endif>
-				  {!! Form::label('poli', 'Berobat ke Dokter mana ?') !!}
+				<div class="form-group @if($errors->has('poli'))has-error @endif">
+				{!! Form::label('poli', 'Berobat ke Dokter mana ?', ['class' => 'control-label']) !!}
 				  {!! Form::select('poli' , $polis, null, ['class' => 'form-control rq']) !!}
 				  @if($errors->has('poli'))<code>{{ $errors->first('poli') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('pembayaran')) class="has-error" @endif>
-				  {!! Form::label('pembayaran', 'Pembayaran dengan Asuransi atau Biaya Pribadi ?') !!}
+				<div class="form-group @if($errors->has('pembayaran'))has-error @endif">
+				{!! Form::label('pembayaran', 'Pembayaran dengan Asuransi atau Biaya Pribadi ?', ['class' => 'control-label']) !!}
 				  {!! Form::select('pembayaran', $pembayarans, null, ['class' => 'form-control rq']) !!}
 				  @if($errors->has('pembayaran'))<code>{{ $errors->first('pembayaran') }}</code>@endif
 				</div>

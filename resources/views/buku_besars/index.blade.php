@@ -23,18 +23,21 @@ Klinik Jati Elok | Buku Besar
     <hr>
     <div class="row">
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <div class="form-group">
-          {!! Form::label('coa_id', 'Chart Of Account') !!}
-		  {!! Form::select('coa_id', $coa_list, null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
-        </div>
-        <div class="form-group">
-          {!! Form::label('bulan') !!}
-          {!! Form::select('bulan', App\Classes\Yoga::bulanList(), date('m'), ['class' => 'form-control rq']) !!}
-        </div>
-        <div class="form-group">
-          {!! Form::label('tahun') !!}
-          {!! Form::text('tahun', date('Y'), ['class' => 'form-control rq']) !!}
-        </div>
+		  <div class="form-group @if($errors->has('coa_id'))has-error @endif">
+		    {!! Form::label('coa_id', 'Chart Of Account', ['class' => 'control-label']) !!}
+		    {!! Form::select('coa_id', $coa_list, null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
+		    @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
+		  </div>
+		  <div class="form-group @if($errors->has('bulan'))has-error @endif">
+		    {!! Form::label('bulan', 'Bulan', ['class' => 'control-label']) !!}
+            {!! Form::select('bulan', App\Classes\Yoga::bulanList(), date('m'), ['class' => 'form-control rq']) !!}
+		    @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
+		  </div>
+		  <div class="form-group @if($errors->has('tahun'))has-error @endif">
+		    {!! Form::label('tahun', 'Tahun', ['class' => 'control-label']) !!}
+            {!! Form::text('tahun', date('Y'), ['class' => 'form-control rq']) !!}
+		    @if($errors->has('tahun'))<code>{{ $errors->first('tahun') }}</code>@endif
+		  </div>
         <div class="form-group">
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

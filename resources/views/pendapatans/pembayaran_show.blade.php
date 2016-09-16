@@ -31,30 +31,35 @@ Klinik Jati Elok | Laporan Pembayaran
                     {!! Form::label('asuransi_id', 'Staf') !!}
                     {!! Form::text('asuransi_id' , $asuransi_id, ['class' => 'form-control']) !!}
                 </div>
-                <div class="form-group">
-                  {!! Form::label('staf_id', 'Petugas') !!}
+				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+				  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
                   {!! Form::select('staf_id', App\Classes\Yoga::stafList() , null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true', 'id'=>'staf_id']) !!}
-                </div>
+				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				</div>
                 @if (\Auth::id() == 28)
-                     <div class="form-group">
-                      {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
+					<div class="form-group @if($errors->has('coa_id'))has-error @endif">
+					  {!! Form::label('coa_id', 'Akun Kas Tujuan', ['class' => 'control-label']) !!}
                       {!! Form::select('coa_id', $kasList, null, ['class' => 'form-control rq', 'id'=>'kasList']) !!}
-                    </div>   
+					  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
+					</div>
                 @else
                     <div class="form-group">
                       {!! Form::label('coa_id', 'Akun Kas Tujuan') !!}
                       {!! Form::select('coa_id', $kasList, 110000, ['class' => 'form-control rq', 'id'=>'kasList', 'readonly' => 'readonly']) !!}
-                    </div>
+					  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
+					</div>
                 @endif
                 
-                <div class="form-group">
-                  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar') !!}
+				<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
+				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
                   {!! Form::text('tanggal_dibayar' , null, ['class' => 'form-control tanggal rq']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('dibayar', 'Dibayar Sebesar') !!}
+				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('dibayar'))has-error @endif">
+				  {!! Form::label('dibayar', 'Dibayar Sebesar', ['class' => 'control-label']) !!}
                   {!! Form::text('dibayar' , null, ['class' => 'form-control rq', 'id'=>'piutang']) !!}
-                </div>
+				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
+				</div>
                 <div class="form-group">
                     <button class="btn btn-success btn-lg btn-block" type="button" onclick="submitPage();return false;">Bayar</button>
                     {!! Form::submit('Bayar', ['class' => 'btn btn-success hide', 'id'=>'submit']) !!}

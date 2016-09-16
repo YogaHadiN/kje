@@ -27,18 +27,22 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
           <div class="panel-body">
             <h1>Pembayaran Asuransi</h1>
             <hr>
-                <div class="form-group">
-                  {!! Form::label('asuransi_id', 'Asuransi') !!}
+				<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
+				  {!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
 				  {!! Form::select('asuransi_id', $asuransi_list , null , ['class' => 'selectpick form-control rq', 'data-live-search' => 'true']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('mulai') !!}
+ {!! Form::text('asuransi_id' , null, ['class' => 'form-control']) !!}
+				  @if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('mulai'))has-error @endif">
+				  {!! Form::label('mulai', 'Mulai', ['class' => 'control-label']) !!}
                   {!! Form::text('mulai', null, ['class' => 'form-control rq tanggal']) !!}
-                </div>
-                <div class="form-group">
-                  {!! Form::label('akhir') !!}
+				  @if($errors->has('mulai'))<code>{{ $errors->first('mulai') }}</code>@endif
+				</div>
+				<div class="form-group @if($errors->has('akhir'))has-error @endif">
+				  {!! Form::label('akhir', 'Akhir', ['class' => 'control-label']) !!}
                   {!! Form::text('akhir', null, ['class' => 'form-control rq tanggal']) !!}
-                </div>
+				  @if($errors->has('akhir'))<code>{{ $errors->first('akhir') }}</code>@endif
+				</div>
                 <div class="form-group">
                   <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

@@ -82,41 +82,50 @@ Klinik Jati Elok | Tarif
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="form-group">
-                      {!! Form::label('jenis_tarif', 'Jenis Tarif')!!}
+					
+					<div class="form-group @if($errors->has('jenis_tarif'))has-error @endif">
+					  {!! Form::label('jenis_tarif', 'Jenis Tarif', ['class' => 'control-label']) !!}
                       {!! Form::text('jenis_tarif', null, ['class' => 'form-control', 'id' => 'txtJenisTarifInsert'])!!}
-                  </div>
+					  @if($errors->has('jenis_tarif'))<code>{{ $errors->first('jenis_tarif') }}</code>@endif
+					</div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                    {!! Form::label('tipe_tindakan_id', 'Tipe Tindakan')!!}
-                    {!! Form::select('tipe_tindakan_id', $tipeTindakans, '1', ['class' => 'form-control'])!!}
-
-                  </div>
+					
+					<div class="form-group @if($errors->has('tipe_tindakan_id'))has-error @endif">
+					  {!! Form::label('tipe_tindakan_id', 'Tipe Tindakan', ['class' => 'control-label']) !!}
+                      {!! Form::select('tipe_tindakan_id', $tipeTindakans, '1', ['class' => 'form-control'])!!}
+					  @if($errors->has('tipe_tindakan_id'))<code>{{ $errors->first('tipe_tindakan_id') }}</code>@endif
+					</div>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('biaya')!!}
+					
+					<div class="form-group @if($errors->has('biaya'))has-error @endif">
+					  {!! Form::label('biaya', 'Biaya', ['class' => 'control-label']) !!}
                       {!! Form::text('biaya', null, ['class' => 'form-control angka', 'id' => 'txtBiayaInsert'])!!}
-                  </div>
+					  @if($errors->has('biaya'))<code>{{ $errors->first('biaya') }}</code>@endif
+					</div>
                 </div>
             </div>
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					
+					<div class="form-group @if($errors->has('jasa_dokter'))has-error @endif">
+					  {!! Form::label('jasa_dokter', 'Jasa Dokter', ['class' => 'control-label']) !!}
+                      {!! Form::text('jasa_dokter', null, ['class' => 'form-control angka', 'id' => 'txtJasaDokterInsert'])!!}
+					  @if($errors->has('jasa_dokter'))<code>{{ $errors->first('jasa_dokter') }}</code>@endif
+					</div>
                   
-					<div class="form-group">
-                    {!! Form::label('jasa_dokter', 'Jasa Dokter')!!}
-                    {!! Form::text('jasa_dokter', null, ['class' => 'form-control angka', 'id' => 'txtJasaDokterInsert'])!!}
-                  </div>
 
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika')!!}
+					
+					<div class="form-group @if($errors->has('tipe_laporan_admedika_id'))has-error @endif">
+					  {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika', ['class' => 'control-label']) !!}
 					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::lists('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id'])!!}
-                  </div>
+					  @if($errors->has('tipe_laporan_admedika_id'))<code>{{ $errors->first('tipe_laporan_admedika_id') }}</code>@endif
+					</div>
                 </div>
               </div>
               <div class="row">
@@ -191,40 +200,50 @@ Klinik Jati Elok | Tarif
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="form-group">
-                      {!! Form::label('jenis_tarif', 'Jenis Tarif')!!}
+					
+					<div class="form-group @if($errors->has('jenis_tarif'))has-error @endif">
+					  {!! Form::label('jenis_tarif', 'Jenis Tarif', ['class' => 'control-label']) !!}
                       {!! Form::text('jenis_tarif', null, ['class' => 'form-control', 'id' => 'txtJenisTarifUpdate'])!!}
-                  </div>
+					  @if($errors->has('jenis_tarif'))<code>{{ $errors->first('jenis_tarif') }}</code>@endif
+					</div>
                 </div>
             </div>
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    {!! Form::label('tipe_tindakan_id', 'Tipe Tindakan')!!}
+				  
+				  <div class="form-group @if($errors->has('tipe_tindakan_id'))has-error @endif">
+				    {!! Form::label('tipe_tindakan_id', 'Tipe Tindakan', ['class' => 'control-label']) !!}
                     {!! Form::select('tipe_tindakan_id', $tipeTindakans, null, ['class' => 'form-control selectpick', 'id' => 'ddlTipeTindakanUpdate'])!!}
-                </div>
+				    @if($errors->has('tipe_tindakan_id'))<code>{{ $errors->first('tipe_tindakan_id') }}</code>@endif
+				  </div>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('biaya')!!}
+				  
+				  <div class="form-group @if($errors->has('biaya'))has-error @endif">
+				    {!! Form::label('biaya', 'Biaya', ['class' => 'control-label']) !!}
                       {!! Form::text('biaya', null, ['class' => 'form-control angka', 'id' => 'txtBiayaUpdate'])!!}
-                  </div>
+				    @if($errors->has('biaya'))<code>{{ $errors->first('biaya') }}</code>@endif
+				  </div>
               </div>
             </div>
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('jasa_dokter')!!}
+				  
+				  <div class="form-group @if($errors->has('jasa_dokter'))has-error @endif">
+				    {!! Form::label('jasa_dokter', 'Jasa Dokter', ['class' => 'control-label']) !!}
                       {!! Form::text('jasa_dokter', null, ['class' => 'form-control angka', 'id' => 'txtJasaDokterUpdate'])!!}
                       {!! Form::text('jenis_tarif_id', null, ['class' => 'displayNone', 'id' => 'txtJenisTarifIdUpdate'])!!}
                       {!! Form::text('asuransi_id', null, ['class' => 'displayNone', 'id' => 'txtAsuransiIdUpdate'])!!}
-                  </div>
+				    @if($errors->has('jasa_dokter'))<code>{{ $errors->first('jasa_dokter') }}</code>@endif
+				  </div>
               </div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="form-group">
-                      {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika')!!}
+					
+					<div class="form-group @if($errors->has('tipe_laporan_admedika_id'))has-error @endif">
+					  {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika', ['class' => 'control-label']) !!}
 					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::lists('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id_update'])!!}
-                  </div>
+					  @if($errors->has('tipe_laporan_admedika_id'))<code>{{ $errors->first('tipe_laporan_admedika_id') }}</code>@endif
+					</div>
                 </div>
             </div>
             <input type="text" id="ID_JENIS_TARIF_UPDATE" class="displayNone">

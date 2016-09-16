@@ -30,28 +30,32 @@ Klinik Jati Elok | Belanja Obat
             <div class="panel-body">
 			{!! Form::open(['url'=>'pembelians', 'method'=> 'post', 'files' => 'true']) !!} 
 				{!! Form::text('belanja_id', 1, ['class' => 'hide']) !!} 
-				<div class="form-group" @if($errors->has('supplier_id')) class="has-error" @endif)>
-				  {!! Form::label('supplier_id', 'Supplier') !!}
+				<div class="form-group @if($errors->has('supplier_id'))has-error @endif">
+					{!! Form::label('supplier_id', 'Supplier', ['class' => 'control-label']) !!}
 				  {!! Form::select('supplier_id', App\Classes\Yoga::supplierList(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true', 'id' => 'supplier_id']) !!}
 				  @if($errors->has('supplier_id'))<code>{{ $errors->first('supplier_id') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('sumber_uang')) class="has-error" @endif>
-				  {!! Form::label('sumber_uang', 'Sumber Uang') !!}
+
+				<div class="form-group @if($errors->has('sumber_uang'))has-error @endif">
+					{!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
 				  {!! Form::select('sumber_uang' , $sumber_uang, null, ['class' => 'form-control rq']) !!}
 				  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('nomor_faktur')) class="has-error" @endif)>
-				  {!! Form::label('nomor_faktur', 'Nomor Faktur') !!}
+
+				<div class="form-group @if($errors->has('nomor_faktur'))has-error @endif">
+					{!! Form::label('nomor_faktur', 'Nomor Faktur', ['class' => 'control-label']) !!}
 				  {!! Form::text('nomor_faktur' , null, ['class' => 'form-control rq']) !!}
 				  @if($errors->has('nomor_faktur'))<code>{{ $errors->first('nomor_faktur') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('tanggal')) class="has-error" @endif)>
-				  {!! Form::label('tanggal', 'Tanggal') !!}
+
+				<div class="form-group @if($errors->has('tanggal'))has-error @endif">
+					{!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
 				  {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
 				  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('staf_id')) class="has-error" @endif)>
-				  {!! Form::label('staf_id', 'Nama Penginput') !!}
+
+				<div class="form-group @if($errors->has('tanggal'))has-error @endif">
+					{!! Form::label('staf_id', 'Nama Penginput', ['class' => 'control-label']) !!}
 				  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class'=>'form-control selectpick rq', 'id'=>'staf_id', 'data-live-search' => 'true'])!!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
