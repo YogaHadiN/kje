@@ -41,8 +41,8 @@ Klinik Jati Elok | Antrian Beli Obat
 					  <th>tanggal</th>
                       <th>Nama Supplier</th>
                       <th>Nomor Faktur</th>
-                      <th>Jenis Belanja</th>
                       <th>Sumber Uang</th>
+                      <th>Petugas</th>
 				    	<th>Total Biaya</th>
                     	<th>Action</th>
                     </tr>
@@ -54,10 +54,23 @@ Klinik Jati Elok | Antrian Beli Obat
                         <td><div>{!!App\Classes\Yoga::updateDatePrep($faktur_beli->tanggal)!!}</div></td>
                         <td><div>{!!$faktur_beli->supplier->nama!!}</div></td>
                         <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
-                        <td><div>{!!$faktur_beli->belanja->belanja!!}</div></td>
-                        <td><div>{!!$faktur_beli->sumberUang->coa!!}</div></td>
+						<td><div>
+								
+								@if(isset($faktur_beli->sumberUang->coa))
+									{!!$faktur_beli->sumberUang->coa!!}
+								@endif
+							
+						</div></td>
+						<td><div>
+								
+								@if(isset($faktur_beli->petugas->nama))
+									{!!$faktur_beli->petugas->nama!!}
+								@endif
+							
+						</div></td>
+								
                         <td><div class="uang">{!!$faktur_beli->totalbiaya!!}</div></td>
-                        <td>
+                        <td nowrap>
                             @if ($faktur_beli->belanja->belanja == 'Belanja Obat')
                                 <a href="{{ url('pembelians/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail / Edit</a>
                             @endif

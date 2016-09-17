@@ -2221,6 +2221,10 @@ class Yoga {
 			return null;
 		}
 	}
+	public static function dokterList(){
+        return [null => '- Pilih -'] + Staf::where('titel', 'dr')->get()->lists('nama', 'id')->toArray();
+	}
+	
 	
     
 }

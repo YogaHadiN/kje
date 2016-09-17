@@ -1016,6 +1016,7 @@ class PengeluaransController extends Controller
 		$fb->belanja_id = 4;
 		$fb->supplier_id = Input::get('supplier_id');
 		$fb->sumber_uang_id = Input::get('sumber_uang');
+		$fb->petugas_id = $staf_id;
 		$fb->save();
 		$fb->faktur_image = $this->imageUploadAlat('faktur', 'faktur_image', $fb->id);
 		$confirm = $fb->save();

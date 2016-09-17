@@ -30,7 +30,7 @@ Klinik Jati Elok | Laporan Gaji Dokter
             <hr>
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Nama Dokter Yang Dibayar', ['class' => 'control-label']) !!}
-                  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
+                  {!! Form::select('staf_id', App\Classes\Yoga::dokterList(), null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
 				<div class="row">

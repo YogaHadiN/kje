@@ -117,6 +117,7 @@ class PembeliansController extends Controller
 		$faktur->belanja_id = Input::get('belanja_id');
 		$faktur->supplier_id = Input::get('supplier_id');
 		$faktur->sumber_uang_id = Input::get('sumber_uang');
+		$faktur->petugas_id = Input::get('staf_id');
 		$faktur->save();
 		$faktur->faktur_image = $this->imageUpload('faktur','faktur_image', $faktur->id);
 		$confirm = $faktur->save();
