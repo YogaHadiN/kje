@@ -96,9 +96,6 @@ border-spacing: -1px;
 					<table id="header">
 						<tr>
 							<td>
-								<img src="/home/vagrant/Code/jatielok/public/images/eka.jpg" alt="" class="image"/>
-							</td>
-							<td>
 								<div>
 									<div class="klinik">KLINIK JATI ELOK </div>
 									Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, <br>

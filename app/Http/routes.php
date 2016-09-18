@@ -47,7 +47,15 @@ Route::post('facebook/input_pasien_baru/{id}', 'FacebookController@postPasienBar
 Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianPoli');
 
     Route::resource('users', 'UsersController');
+	Route::get('test/sms', function(){
+
+		
+		App\Classes\Yoga::sms('085721012351', 'test aja disini');
+
+	});
+
   	Route::group(['middleware' => 'auth'], function(){
+
 
 
 		Route::get('testaja',function(){
@@ -63,6 +71,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 					'file2.jpg',
 					'file3.jpg',
 				];
+
 
 
 			});

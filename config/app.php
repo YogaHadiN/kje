@@ -154,6 +154,8 @@ return [
 		GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
 		Yajra\Datatables\DatatablesServiceProvider::class,
 	    Laravel\Socialite\SocialiteServiceProvider::class,
+		Nasution\ZenzivaSms\NotificationServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -209,6 +211,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Form'      => Collective\Html\FormFacade::class,
+		'Sms' => Nasution\ZenzivaSms\Client::class,
         'HTML'      => Collective\Html\HtmlFacade::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
 		'Datatables' => Yajra\Datatables\Facades\Datatables::class,

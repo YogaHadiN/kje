@@ -20,7 +20,6 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
         {{ Session::get('print') }}
     </div>
 @endif
-
 {!! Form::open(['url' => 'pengeluarans/bayar_gaji_karyawan', 'method' => 'post']) !!}
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -80,50 +79,48 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
   </div>
 </div>
 {!! Form::close() !!}
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">List Semua Pembayaran Gaji Karyawan</div>
-            </div>
-            <div class="panel-body">
-                <div class-"table-responsive">
-                    <?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
-                    <table class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tanggal Pembayaran</th>
-                                <th>Nama Staf</th>
-                                <th>Periode</th>
-                                <th>Total Gaji</th>
-                                <th>Sumber Kas</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($pembayarans as $pemb)
-                            <tr>
-                                <td>{{  $pemb->id }}</td>
-                                <td>{{  $pemb->staf->nama  }}</td>
-                                <td>{{  $pemb->mulai->format('d-m-Y') }} s/d {{ $pemb->akhir->format('d-m-Y')  }}</td>
-                                <td class="uang">{{  $pemb->gaji_pokok + $pemb->bonus }}</td>
-                                <td>{{  $pemb->coa->coa }}</td>
-								<td> <a class="btn btn-success btn-sm" href="{{ url('pdfs/bayar_gaji_karyawan/' . $pemb->id) }}" target="_blank">Struk</a> </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
-                </div>
-                
-                
-            </div>
-        </div>
-        
-    </div>
-    
-</div>
+@if(Auth::id() == '28')
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">List Semua Pembayaran Gaji Karyawan</div>
+				</div>
+				<div class="panel-body">
+					<div class-"table-responsive">
+						<?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
+						<table class="table table-hover table-condensed">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Tanggal Pembayaran</th>
+									<th>Nama Staf</th>
+									<th>Periode</th>
+									<th>Total Gaji</th>
+									<th>Sumber Kas</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach($pembayarans as $pemb)
+								<tr>
+									<td>{{  $pemb->id }}</td>
+									<td>{{  $pemb->staf->nama  }}</td>
+									<td>{{  $pemb->mulai->format('d-m-Y') }} s/d {{ $pemb->akhir->format('d-m-Y')  }}</td>
+									<td class="uang">{{  $pemb->gaji_pokok + $pemb->bonus }}</td>
+									<td>{{  $pemb->coa->coa }}</td>
+									<td> <a class="btn btn-success btn-sm" href="{{ url('pdfs/bayar_gaji_karyawan/' . $pemb->id) }}" target="_blank">Struk</a> </td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+						<?php echo $pembayarans->appends(Input::except('page'))->links(); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@endif
 
 @stop
 @section('footer') 
@@ -139,8 +136,4 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
         }
       }
 </script>
-
 @stop
-
-
-
