@@ -27,7 +27,7 @@ Klinik Jati Elok | Janis Belanja
 @section('content') 
 <div class="row">
 	<div class="col-lg-4">
-		<a href="{{ url('suppliers/belanja_obat') }}">
+		<a href="{{ url('fakturbelanjas/obat') }}">
 			<div class="widget-head-color-box navy-bg p-lg text-center">
 				<div class="m-b-md">
 					<h2 class="font-bold no-margins">

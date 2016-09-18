@@ -149,7 +149,6 @@ Klinik Jati Elok | Entri Jual Obat
         var param = $('form').serializeArray();
       
             $.post('{{ url("stokopnames") }}', param, function(data, textStatus, xhr) {
-      
               data = $.trim(data);
               datat = $.parseJSON(data);
               if (datat.confirm == '1') {
@@ -174,7 +173,7 @@ Klinik Jati Elok | Entri Jual Obat
   			datat = $.parseJSON(data);
   			if (datat.confirm == '1') {
   				$(control).closest('tr').find('div').slideUp('500', function(){
-            viewAwal(data);
+					viewAwal(data);
   				});
   			}
   		});

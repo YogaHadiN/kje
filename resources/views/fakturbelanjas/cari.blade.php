@@ -29,7 +29,7 @@ Klinik Jati Elok | Antrian Beli Obat
                     <h3>Total : {!! $fakturbelanjas->count() !!}</h3>
                 </div>
                 <div class="panelRight">
-					<a href="{{ url('suppliers/belanja_obat') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>	Belanja Persediaan Obat</a>
+					<a href="{{ url('suppliers/belanja_obat') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>	Belanja Obat Klik Disini</a>
                   </div>
                 </div>
                

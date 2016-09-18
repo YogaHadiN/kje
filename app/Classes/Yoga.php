@@ -597,7 +597,16 @@ class Yoga {
             );
 		}
 		public static function rakList() {
-			return  array('%' => 'Semua Rak') + Rak::lists('id', 'id')->all();
+			$rakList['%'] = ['Semua Rak'];
+			$raks = Rak::all();
+			foreach ($raks as $rak) {
+				$mereks = '';
+				foreach ($rak->merek as $mrk) {
+					$mereks .= $mrk->merek . ', ';
+				}
+				$rakList[$rak->id] = $mereks;
+			}
+			return  $rakList;
 		}
 
 		public static function customId($model){
@@ -2033,8 +2042,8 @@ class Yoga {
 	}
 	public static function sumberuang(){
 		$sumber_uang[null] = '-Pilih-';
-		$sumber_uang[110000] = 'Uang dari kasir';
-		$sumber_uang[110004] = 'Uang dokter Yoga';
+		$sumber_uang[110000] = 'Uang yang diambil dari kasir';
+		$sumber_uang[110004] = 'Uang punya dokter Yoga';
 
 		return $sumber_uang;
 	}

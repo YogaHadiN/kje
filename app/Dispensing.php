@@ -19,5 +19,16 @@ class Dispensing extends Model{
 	public function rak(){
 		return $this->belongsTo('App\Rak');
 	}
+	public function terapi(){
+		return $this->belongsTo('App\Terapi');
+	}
+
+	public function pembelian(){
+		return $this->belongsTo('App\Pembelian');
+	}
+
+	public function dispensable(){
+		return $this->morphTo();
+	}
 
 }

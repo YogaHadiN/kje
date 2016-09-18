@@ -23,4 +23,9 @@ class Pembelian extends Model{
 		return $this->belongsTo('App\FakturBelanja');
 	}
 
+    protected $morphClass = 'App\Pembelian';
+    public function dispens(){
+        return $this->morphMany('App\Dispensing', 'dispensable');
+    }
+
 }

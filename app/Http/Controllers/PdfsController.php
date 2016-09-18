@@ -19,6 +19,8 @@ use App\FakturBelanja;
 use App\PembayaranAsuransi;
 use App\Tarif;
 use App\Merek;
+use App\Rak;
+use DB;
 use PDF;
 
 class PdfsController extends Controller
@@ -287,6 +289,29 @@ class PdfsController extends Controller
         $pdf = pdf::loadview('pdfs.merek', compact('mereks'))->setpaper('A4','potrait')->setwarnings(false);
         return $pdf->stream();
     }
+	public function dispensing($rak_id, $mulai, $akhir){
+
+		// return 'mulai = ' . $mulai . ' akhir = ' . $akhir . ' rak_id = ' . $rak_id . ' ';
+		//$dispensings = DB::select("SELECT id, tanggal, rak_id, sum(keluar) as keluar, sum(masuk) as masuk, dispensable_id FROM dispensings where tanggal <= '{$akhir}' AND tanggal >= '{$mulai}' AND rak_id like '{$rak_id}' group by tanggal");
+		$dispensings = DB::select("SELECT id, tanggal, rak_id, sum(keluar) as keluar, sum(masuk) as masuk, dispensable_id, dispensable_type FROM dispensings where tanggal <= '{$akhir}' AND tanggal >= '{$mulai}' AND rak_id like '{$rak_id}' group by tanggal");
+		// $dispensings = Dispensing::where('tanggal', '>=', $mulai)->where('tanggal', '<=', $akhir)->where('rak_id', 'like', $rak_id)->groupBy('rak_id')->get();
+		$rak = Rak::find($rak_id);
+		$raks = Rak::all();
+
+
+
+		$pdf = pdf::loadview('pdfs.dispensing', compact(
+			'dispensings', 
+			'rak',  
+			'mulai',  
+			'akhir',  
+			'raks'
+		))->setPaper('a5')->setOrientation('potrait')->setWarnings(false);
+        return $pdf->stream();
+
+
+	}
+	
     
 	
     

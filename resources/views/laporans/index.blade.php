@@ -176,328 +176,330 @@ Klinik Jati Elok | Home
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-                @if ($auth->role != '1')
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            Laporan Khusus
-                        </div>
-                        <div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-hover">
-									<thead>
-										<tr>
-											<th>Cek</th>
-											<th>Jenis Laporan</th>
-											<th></th>
-											<th></th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<form action="{{ url('laporans/harian') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Harian</td>
-												<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
-												</td>
-												<td colspan="2">
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-
-													</select></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/hariandanjam') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td><input type="text" class="form-control tanggal" name="tanggal_awal" value="{!!date('d-m-Y')!!}"/>
-												</td>
-												<td><input type="text" class="form-control jam" name="jam_awal" value="13:00:00"/>
-												</td>
-												<td><input type="text" class="form-control tanggal" name="tanggal_akhir" value="{!!date('d-m-Y')!!}"/>
-												</td>
-												<td><input type="text" class="form-control jam" name="jam_akhir" value="13:00:00"/>
-												</td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/haridet') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Harian Asuransi</td>
-												<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
-												</td>
-												<td colspan="2">
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-
-													</select></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/harikas') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Harian Kasir</td>
-												<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
-												</td>
-												<td colspan="2">
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-													</select></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/bulanan') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Bulanan Asuransi</td>
-												<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-												<td colspan="2">
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-
-													</select></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/tanggal') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Bulanan Per Tanggal</td>
-												<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-												<td colspan="2">
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-
-													</select></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/detbulan') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Bulanan Detail</td>
-												<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-												<td colspan="2">
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-
-												</td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/points') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Points</td>
-												<td>
-												</td>
-												<td><input type="text" class="form-control tanggal" placeholder="mulai" name="mulai" value="{!! date('d-m-Y')!!}"/></td>
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
-											</form>
-										</tr> 
-										<tr>
-											<form action="{{ url('laporans/penyakit') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan REKAPITULASI PENYAKIT</td>
-												<td>
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-												</td>
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
-													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
-											</form>
-										</tr>	   
-										<tr>
-											<form action="{{ url('laporans/status') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td colspan="2">Laporan STATUS</td>
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
-													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('dispensings') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Dispensing</td>
-												<td>
-													{!!Form::select('rak_id', $raklist, null, ['class'=>'form-control selectpick', 'data-live-search'=>'true'])!!}
-												</td>						
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="mulai" name="mulai"/></td>
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('pembelians/riwayat') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Pembelian Obat</td>
-												<td>
-												</td>						
-												<td><input type="text" class="form-control bulanTahun" placeholder="bulan" name="bulanTahun" value="{!! date('m-Y')!!}"/></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('pengeluarans/list') }}" method="post">
-												<input type="hidden" name="_token" value="{{ Session::token() }}">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Pengeluaran</td>
-												<td>
-												</td>						
-												<td><input type="text" value="{{ date('d-m-Y') }}" class="form-control tanggal" placeholder="mulai" name="mulai"/></td>
-												<td><input type="text" value="{{ date('d-m-Y') }}" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/pendapatan') }}" method="post">
-												<input type="hidden" name="_token" value="{{ Session::token() }}">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Pendapatan Lain</td>
-												<td>
-												</td>						
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="mulai" name="mulai"/></td>
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
-											</form>
-										</tr>
-										<tr>
-											{!! Form::open(['url' => 'rujukans/show' , 'method' => 'get']) !!}
-											<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-											<td>Laporan kirim RUJUKAN</td>
-											<td></td>
-											<td><input value="{{ date('d-m-Y') }}" type="text" name="mulai" class="form-control tanggal" placeholder="mulai"/></td>
-											<td><input value="{{ date('d-m-Y') }}" type="text" name="akhir" class="form-control tanggal" placeholder="akhir"/></td>
-											{!! Form::close()!!}
-										</tr>
-										<tr>
-											{!! Form::open(['url' => 'laporans/rujukankebidanan', 'method' => 'get'])!!}
-											<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-											<td>Laporan RUJUKAN KASUS KEBIDANAN</td>
-											<td></td>
-											<td> {!! Form::text('mulai',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
-											<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
-											{!! Form::close()!!}
-										</tr>
-										<tr>
-											{!! Form::open(['url' => 'perbaikantrxs/show', 'method' => 'get'])!!}
-											<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-											<td>Laporan Perbaikan Transaksi</td>
-											<td></td>
-											<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
-											<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
-											{!! Form::close()!!}
-										</tr>
-
-										<tr>
-											{!! Form::open(['url' => 'perbaikanreseps/show', 'method' => 'get'])!!}
-											<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-											<td>Laporan Perbaikan Resep</td>
-											<td></td>
-											<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
-											<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
-											{!! Form::close()!!}
-										</tr>
-										<tr>
-											{!! Form::open(['url'=>'laporans/bayardokter', 'method'=> 'get']) !!} 
-											<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-											<td>Laporan Gaji Dokter</td>
-											<td> {!! Form::select('id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
-											<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
-											<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
-											{!! Form::close() !!}
-										</tr> 
-										<tr>
-											{!! Form::open(['url'=>'laporans/pembayaran/dokter', 'method'=> 'get']) !!} 
-											<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-											<td>Laporan Pembayaran Dokter </td>
-											<td></td>
-											<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
-											<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
-											{!! Form::close() !!}
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/no_asisten') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Tidak Ada Asisten</td>
-												<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-												<td colspan="2"></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/gigi') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Bulanan Gigi</td>
-												<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-												<td colspan="2"></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/kb') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Bulanan KB</td>
-												<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-												<td colspan="2"></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/anc') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Bulanan ANC</td>
-												<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-												<td colspan="2"></td>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/jumlahPasien') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Jumlah Pasien</td>
-												<td>
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-												</td>
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
-													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
-											</form>
-										</tr>
-										<tr>
-											<form action="{{ url('laporans/jumlahIspa') }}" method="get">
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-												<td>Laporan Jumlah Pasien ISPA</td>
-												<td>
-													{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
-												</td>
-												<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
-													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
-											</form>
-											<tr><form action="{{ url('laporans/jumlahDiare') }}" method="get">
+			</div>
+		</div>
+			<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					@if ($auth->role != '1')
+						<div class="panel panel-success">
+							<div class="panel-heading">
+								Laporan Khusus
+							</div>
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>Cek</th>
+												<th>Jenis Laporan</th>
+												<th></th>
+												<th></th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<form action="{{ url('laporans/harian') }}" method="get">
 													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-													<td>Laporan Jumlah Pasien Diare</td>
+													<td>Laporan Harian</td>
+													<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
+													</td>
+													<td colspan="2">
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+
+														</select></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/hariandanjam') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td><input type="text" class="form-control tanggal" name="tanggal_awal" value="{!!date('d-m-Y')!!}"/>
+													</td>
+													<td><input type="text" class="form-control jam" name="jam_awal" value="13:00:00"/>
+													</td>
+													<td><input type="text" class="form-control tanggal" name="tanggal_akhir" value="{!!date('d-m-Y')!!}"/>
+													</td>
+													<td><input type="text" class="form-control jam" name="jam_akhir" value="13:00:00"/>
+													</td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/haridet') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Harian Asuransi</td>
+													<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
+													</td>
+													<td colspan="2">
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+
+														</select></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/harikas') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Harian Kasir</td>
+													<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
+													</td>
+													<td colspan="2">
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+														</select></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/bulanan') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan Asuransi</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2">
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+
+														</select></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/tanggal') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan Per Tanggal</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2">
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+
+														</select></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/detbulan') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan Detail</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2">
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+
+													</td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/points') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Points</td>
+													<td>
+													</td>
+													<td><input type="text" class="form-control tanggal" placeholder="mulai" name="mulai" value="{!! date('d-m-Y')!!}"/></td>
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
+												</form>
+											</tr> 
+											<tr>
+												<form action="{{ url('laporans/penyakit') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan REKAPITULASI PENYAKIT</td>
 													<td>
 														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
 													</td>
 													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
 														<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
-												</form></tr>
-										</tr>
-									</tbody>
-								</table>
+												</form>
+											</tr>	   
+											<tr>
+												<form action="{{ url('laporans/status') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td colspan="2">Laporan STATUS</td>
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+														<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('dispensings') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Dispensing</td>
+													<td>
+														{!!Form::select('rak_id', $raklist, null, ['class'=>'form-control selectpick', 'data-live-search'=>'true'])!!}
+													</td>						
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="mulai" name="mulai"/></td>
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('pembelians/riwayat') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Pembelian Obat</td>
+													<td>
+													</td>						
+													<td><input type="text" class="form-control bulanTahun" placeholder="bulan" name="bulanTahun" value="{!! date('m-Y')!!}"/></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('pengeluarans/list') }}" method="post">
+													<input type="hidden" name="_token" value="{{ Session::token() }}">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Pengeluaran</td>
+													<td>
+													</td>						
+													<td><input type="text" value="{{ date('d-m-Y') }}" class="form-control tanggal" placeholder="mulai" name="mulai"/></td>
+													<td><input type="text" value="{{ date('d-m-Y') }}" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/pendapatan') }}" method="post">
+													<input type="hidden" name="_token" value="{{ Session::token() }}">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Pendapatan Lain</td>
+													<td>
+													</td>						
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="mulai" name="mulai"/></td>
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" placeholder="akhir" name="akhir"/></td>
+												</form>
+											</tr>
+											<tr>
+												{!! Form::open(['url' => 'rujukans/show' , 'method' => 'get']) !!}
+												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+												<td>Laporan kirim RUJUKAN</td>
+												<td></td>
+												<td><input value="{{ date('d-m-Y') }}" type="text" name="mulai" class="form-control tanggal" placeholder="mulai"/></td>
+												<td><input value="{{ date('d-m-Y') }}" type="text" name="akhir" class="form-control tanggal" placeholder="akhir"/></td>
+												{!! Form::close()!!}
+											</tr>
+											<tr>
+												{!! Form::open(['url' => 'laporans/rujukankebidanan', 'method' => 'get'])!!}
+												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+												<td>Laporan RUJUKAN KASUS KEBIDANAN</td>
+												<td></td>
+												<td> {!! Form::text('mulai',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+												{!! Form::close()!!}
+											</tr>
+											<tr>
+												{!! Form::open(['url' => 'perbaikantrxs/show', 'method' => 'get'])!!}
+												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+												<td>Laporan Perbaikan Transaksi</td>
+												<td></td>
+												<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+												{!! Form::close()!!}
+											</tr>
+
+											<tr>
+												{!! Form::open(['url' => 'perbaikanreseps/show', 'method' => 'get'])!!}
+												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+												<td>Laporan Perbaikan Resep</td>
+												<td></td>
+												<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+												{!! Form::close()!!}
+											</tr>
+											<tr>
+												{!! Form::open(['url'=>'laporans/bayardokter', 'method'=> 'get']) !!} 
+												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+												<td>Laporan Gaji Dokter</td>
+												<td> {!! Form::select('id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
+												<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+												{!! Form::close() !!}
+											</tr> 
+											<tr>
+												{!! Form::open(['url'=>'laporans/pembayaran/dokter', 'method'=> 'get']) !!} 
+												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
+												<td>Laporan Pembayaran Dokter </td>
+												<td></td>
+												<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
+												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
+												{!! Form::close() !!}
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/no_asisten') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Tidak Ada Asisten</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/gigi') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan Gigi</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/kb') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan KB</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/anc') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Bulanan ANC</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/jumlahPasien') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Jumlah Pasien</td>
+													<td>
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+													</td>
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+														<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/jumlahIspa') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Jumlah Pasien ISPA</td>
+													<td>
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+													</td>
+													<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+														<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
+												</form>
+												<tr><form action="{{ url('laporans/jumlahDiare') }}" method="get">
+														<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+														<td>Laporan Jumlah Pasien Diare</td>
+														<td>
+															{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+														</td>
+														<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="mulai" placeholder="mulai"/>
+															<td><input value="{{ date('d-m-Y') }}" type="text" class="form-control tanggal" name="akhir" placeholder="akhir"/>
+													</form></tr>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
-                        </div>
-                    </div>  
-                @else
-                    <div class="panel panel-info">
-                          <div class="panel-heading">
-                                <h3 class="panel-title">Pengumuman</h3>
-                          </div>
-                          <div class="panel-body">
-							  <div class="table-responsive">
-								  <table class="table table-condensed table-hover table-bordered">
-									  <thead>
-										  <tr>
-											  <th>Nama</th>
-											  <th>Alamat</th>
-											  <th>Action</th>
-										  </tr>
-									  </thead>
-									  <tbody>
-										  <tr>
-											  <td colspan="3" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
-										  </tr>
-									  </tbody>
-								  </table>
-							  </div>
-                          </div>
-                    </div>
-                @endif
-            </div>
-            </div>
+						</div>  
+					@else
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<h3 class="panel-title">Pengumuman</h3>
+							</div>
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-condensed table-hover table-bordered">
+										<thead>
+											<tr>
+												<th>Nama</th>
+												<th>Alamat</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="3" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					@endif
+					</div>
+				</div>
 @stop
 @section('footer') 
 

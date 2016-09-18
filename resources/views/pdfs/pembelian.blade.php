@@ -118,6 +118,11 @@ hr {
                                 <td>:</td>
 								<td>{{ $fakturbelanja->sumberUang->coa }}</td>
                            </tr>
+							<tr>
+                               <td>Petugas Penginput</td>
+                                <td>:</td>
+								<td>{{ $fakturbelanja->petugas->nama }}</td>
+                           </tr>
                        </tbody>
                    </table>
                </div>

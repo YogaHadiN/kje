@@ -42,6 +42,7 @@ class StokOpnamesController extends Controller
 	 */
 	public function store()
 	{
+		
 		$validator = \Validator::make($data = Input::all(), StokOpname::$rules);
 
 		if ($validator->fails())
@@ -51,18 +52,25 @@ class StokOpnamesController extends Controller
 		$date = Input::get('bulanTahun');
 		$rak_id = Input::get('rak_id');
 
-		$query = "SELECT count(id) as count FROM stok_opnames where created_at like '{$date}%' and rak_id = '{$rak_id}'";
+		$query = "SELECT * FROM stok_opnames where created_at like '{$date}%' and rak_id = '{$rak_id}'";
 		$count = count(DB::select($query));
-		// return $count;
 		if ($count < 1) {
+
+			$rk       = Rak::find( Input::get('rak_id') );
+
 			$so                = new StokOpname;
 			$so->id            = Input::get('id');
 			$so->rak_id        = Input::get('rak_id');
 			$so->staf_id       = Input::get('staf_id');
-			$so->stok_komputer = Rak::find(Input::get('rak_id'))->stok;
+			$so->stok_komputer = $rk->stok;
 			$so->stok_fisik    = Input::get('stok_fisik');
 			$so->exp_date      = Yoga::datePrep(Input::get('exp_date'));
-			$so->save();
+			$ok = $so->save();
+			if ($ok) {
+				$rk->stok   = Input::get('stok_fisik');
+				$rk->exp_date   = Yoga::datePrep(Input::get('exp_date'));
+				$rk->save();
+			}
 			$confirm = '1';
 		} else {
 			$confirm = '0';
@@ -107,7 +115,6 @@ class StokOpnamesController extends Controller
 	public function edit($id)
 	{
 		$stokopname = StokOpname::find($id);
-
 		return view('stokopnames.edit', compact('stokopname'));
 	}
 
@@ -142,9 +149,15 @@ class StokOpnamesController extends Controller
 	public function destroy()
 	{
 
-		$confirm = StokOpname::destroy(Input::get('id'));
+		$so = StokOpname::find( Input::get('id') );
+		$rak_id = $so->rak_id;
+		$stok_komputer = $so->stok_komputer;
+		$confirm = $so->delete();
 		if ($confirm) {
 			$confirm = '1';
+			$rk       = Rak::find($rak_id);
+			$rk->stok   = $stok_komputer;
+			$rk->save();
 		} else {
 			$confirm = '0';
 		}
@@ -165,7 +178,7 @@ class StokOpnamesController extends Controller
 	}
 
 	private function soOption($date){
-		$query = "SELECT m.merek as merek, r.id as rak_id, m.id as merek_id, r.stok as stok from mereks as m join raks as r on r.id = m.rak_id where r.id not in (select rak_id from stok_opnames where created_at like '{$date}%') order by rak_id";
+		$query = "SELECT m.merek as merek, r.id as rak_id, m.id as merek_id, r.stok as stok from mereks as m join raks as r on r.id = m.rak_id where r.id not in (select rak_id from stok_opnames where created_at like '{$date}%') order by stok_minimal desc";
 		$mereks = DB::select($query);
 		return $mereks;
 	}
@@ -174,7 +187,7 @@ class StokOpnamesController extends Controller
 		$option = '<option value="">- pilih -</option>';
 		$Array = $this->soOption($date);
 		foreach ($Array as $k => $v) {
-			$option .= '<option value="' . $v->rak_id . '">' .$v->merek . '</option>';
+			$option .= '<option value="' . $v->rak_id . '">' . $v->rak_id . ' - ' .$v->merek . '</option>';
 		}
 
 		return $option;

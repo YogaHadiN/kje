@@ -14,7 +14,6 @@ class Periksa extends Model{
 		// 'title' => 'required'
 	];
 
-    protected $morphClass = 'App\Periksa';
 
 
 	protected $guarded = [];
@@ -759,6 +758,8 @@ class Periksa extends Model{
 
     }
 
+
+    protected $morphClass = 'App\Periksa';
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Dispensing Obat
+Klinik Jati Elok | Dispensing Obat Per Tanggal
 
 @stop
 @section('page-title') 
@@ -11,7 +11,7 @@ Klinik Jati Elok | Dispensing Obat
       <a href="{{ url('laporans') }}">Home</a>
   </li>
   <li class="active">
-      <strong>Dispensing Obat</strong>
+  <strong>Dispensing Obat {{ $rak->id }} tanggal {{ $tanggal }}</strong>
   </li>
 </ol>
 
@@ -22,10 +22,10 @@ Klinik Jati Elok | Dispensing Obat
       <div class="panel-heading">
             <div class="panel-title">
 				<div class="panelLeft"><h3>
-					<h3>Total : {!! count($dispensings) !!}</h3>
+						Rak : {{ $rak->id }}
 					</h3></div>
 				<div class="panelRight">
-					<a class="btn btn-success" href="{{ url('pdfs/dispensing/' . $rak->id . '/' . $mulai . '/' . $akhir) }}" target="_blank">Cetak Bentuk PDF</a>
+					<h3>Total : {!! count($dispensings) !!}</h3>
                 </div>
             </div>
       </div>
@@ -36,22 +36,25 @@ Klinik Jati Elok | Dispensing Obat
 				<table class="table table-bordered table-hover" id="tableAsuransi">
 					<thead>
 						<tr>
-							<th>Tanggal</th>
-							<th>keluar</th>
-							<th>masuk</th>
-							<th>Action</th>
+							<th>Keterangan</th>
+							<th>Masuk</th>
+							<th>Keluar</th>
 							{{--<th>Keterangan</th>--}}
 						</tr>
 					</thead>
 					<tbody>
 						@foreach ($dispensings as $dispensing)
 							<tr>
-							<td>{!! App\Classes\Yoga::updateDatePrep($dispensing->tanggal) !!}</td>
-							<td>{!! $dispensing->keluar !!} {{ $rak->formula->sediaan }}</td>
-							<td>{!! $dispensing->masuk !!} {{ $rak->formula->sediaan }}</td>
-							<td> <a class="btn btn-info btn-xs btn-block" href="{{ url('dispensings/' . $rak->id . '/' . $dispensing->tanggal) }}">Detail</a> </td>
+								<td>
+									@if($dispensing->dispensable_type == 'App\Terapi')
+										{!! $dispensing->dispensable->periksa->ketjurnal !!}
+									@elseif($dispensing->dispensable_type == 'App\Pembelian')
+										{!! $dispensing->dispensable->fakturbelanja->ketjurnal !!}
+									@endif
 
-							  {{--<td>{!! $dispensing->dispensable_type !!} {!! $dispensing->dispensable_id !!}</td>--}}
+								</td>
+								<td nowrap>{!! $dispensing->masuk !!} {{ $rak->formula->sediaan }}</td>
+								<td nowrap>{!! $dispensing->keluar !!} {{ $rak->formula->sediaan }}</td>
 						</tr>
 						@endforeach
 					</tbody>
@@ -75,7 +78,7 @@ Klinik Jati Elok | Dispensing Obat
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<h3>Periode Tanggal</h3>
 					<div class="alert alert-info">
-						{{ App\Classes\Yoga::updateDatePrep( $mulai ) }} s/d {{ App\Classes\Yoga::updateDatePrep( $akhir ) }}
+						{{ App\Classes\Yoga::updateDatePrep( $tanggal ) }} 
 				  </div>
 				</div>
 			  </div>

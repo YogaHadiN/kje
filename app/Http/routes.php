@@ -89,11 +89,14 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::resource('mereks', 'MereksController');
 			Route::resource('tarifs', 'TarifsController');
 			Route::resource('komposisis', 'KomposisisController');
-			Route::resource('dispensings', 'DispensingsController');
 			Route::resource('antriankasirs', 'AntrianKasirsController');
 			Route::resource('antrianpolis', 'AntrianPolisController');
 			Route::resource('transaksis', 'TransaksisController');
 			Route::resource('antrianperiksas', 'AntrianPeriksasController');
+
+
+			Route::get('dispensings', 'DispensingsController@index');
+			Route::get('dispensings/{rak_id}/{tanggal}', 'DispensingsController@perTanggal');
 
 			Route::get('asuransis/riwayat/{id}', 'AsuransisExtraController@riwayat');
 
@@ -397,6 +400,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('laporans/contoh', 'LaporansController@contoh');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
+			Route::get('pdfs/dispensing/{rak_id}/{mulai}/{akhir}', 'PdfsController@dispensing');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');
 			Route::get('pdfs/struk/{periksa_id}', 'PdfsController@struk');
 			Route::get('pdfs/jasadokter/{bayar_dokter_id}', 'PdfsController@jasa_dokter');

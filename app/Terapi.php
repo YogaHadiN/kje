@@ -42,5 +42,11 @@ class Terapi extends Model{
 
 	}
 
+    protected $morphClass = 'App\Terapi';
+    public function dispens(){
+        return $this->morphMany('App\Dispensing', 'dispensable');
+    }
+
+
 
 }
