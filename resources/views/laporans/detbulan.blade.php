@@ -27,6 +27,7 @@ Klinik Jati Elok | Laporan Per Tanggal
                                   <thead>
                                     <tr>
                                         <th class="hide">ID</th>
+                                        <th>Tanggal</th>
                                         <th>Nama</th>
                                         <th class="hide">Diagnosa</th>
                                         @foreach($rincian as $rinci)
@@ -37,12 +38,13 @@ Klinik Jati Elok | Laporan Per Tanggal
                                         <th>Modal Obat</th>
                                         <th>Action</th>
                                     </tr>
-                                </thead>sp
+                                </thead>
                                 <tbody>
                                     @if (count($tanggal) > 0)
                                         @foreach ($tanggal as $key => $tgl)
                                         <tr>
                                             <td class="hide">{!! $tgl->periksa_id !!}</td>
+											<td>{!! $tgl->created_at !!}</td>
                                             <td>{!! $tgl->nama !!} <br><br>
                                                     id periksa : {!! $tgl->periksa_id !!}
                                                     nama : {!! $tgl->diagnosaICD !!}
