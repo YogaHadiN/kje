@@ -92,9 +92,6 @@
                             <li>{!! HTML::link('bayardokters', 'Pembayaran Dokter')!!}</li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
-                    </li>
 					<li>
                         <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
                     </li>
