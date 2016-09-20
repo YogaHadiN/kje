@@ -310,7 +310,7 @@ class LaporansController extends Controller
 		$asuransi_id 	= Input::get('asuransi_id');
 
 
-		$query = "SELECT icd.diagnosaICD as diagnosaICD, p.tanggal, ps.nama, s.nama as nama_asuransi, p.tunai as tunai, p.piutang as piutang, p.transaksi as transaksi, sum(tr.harga_beli_satuan * tr.jumlah) as modal_obat, p.id as periksa_id, p.created_at as created_at FROM terapis as tr join periksas as p on p.id = tr.periksa_id left outer join asuransis as s on s.id = p.asuransi_id left outer join pasiens as ps on ps.id = p.pasien_id join diagnosas as dg on dg.id = p.diagnosa_id join icd10s as icd on icd.id = dg.icd10_id where p.tanggal like '{$tanggal}%' AND p.asuransi_id like '{$asuransi_id}' group by p.id order by modal_obat desc, tunai desc";
+		$query = "SELECT icd.diagnosaICD as diagnosaICD, p.tanggal, ps.nama, s.nama as nama_asuransi, p.tunai as tunai, p.piutang as piutang, p.transaksi as transaksi, sum(tr.harga_beli_satuan * tr.jumlah) as modal_obat, p.id as periksa_id, p.created_at as created_at FROM terapis as tr join periksas as p on p.id = tr.periksa_id left outer join asuransis as s on s.id = p.asuransi_id left outer join pasiens as ps on ps.id = p.pasien_id join diagnosas as dg on dg.id = p.diagnosa_id join icd10s as icd on icd.id = dg.icd10_id where p.tanggal like '{$tanggal}%' AND p.asuransi_id like '{$asuransi_id}' group by p.id order by p.id desc";
 		// $query = "SELECT ";
 
 		if ($asuransi_id == '%') {
