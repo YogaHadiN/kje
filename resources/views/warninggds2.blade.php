@@ -1,10 +1,10 @@
-@if(App\Classes\Yoga::cekGDSBulanIni($pasien_id)['bayar'])
+@if(App\Classes\Yoga::cekGDSBulanIni($pasien_id, $periksa)['bayar'])
     <div class="row">
         <div class="alert alert-danger">
             <strong>Pasien Harus Bayar Tunai Rp. 15.000,- karena cek GDS </strong>
-            @if(App\Classes\Yoga::cekGDSBulanIni($pasien_id)['sudahGDS'])
+            @if(App\Classes\Yoga::cekGDSBulanIni($pasien_id, $periksa)['sudahGDS'])
                 <div class="font-small"> pasien sudah pernah periksa Gula Darah bulan ini tanggal 
-                    <span id="sudahGDS">{!! App\Classes\Yoga::updateDatePrep(App\Classes\Yoga::cekGDSBulanIni($pasien_id)['tanggal']) !!}</span>
+                    <span id="sudahGDS">{!! App\Classes\Yoga::updateDatePrep(App\Classes\Yoga::cekGDSBulanIni($pasien_id, $periksa)['tanggal']) !!}</span>
                     , pemeriksaan Gula Darah saat ini harus bayar Rp. 15.000,- , plafon untuk BPJS hanya sebulan sekali
                 </div>
             @else

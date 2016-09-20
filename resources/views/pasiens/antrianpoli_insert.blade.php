@@ -17,7 +17,7 @@
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 					<div class="form-group">
 						<label for="nama" class="control-label">Antrian</label>
-						<input type="text" class="form-control angka" name="antrian" id="antrian" required/>
+						<input type="text" class="form-control angka" name="antrian" id="antrianpoli_antrian" required/>
 						<div id="validasiAntrian"></div>
 					</div>
 				</div>
@@ -26,7 +26,11 @@
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">Poli:</label>
-						{!! Form::select('poli', $poli, null, ['class' => 'form-control', 'onchange' => 'pilihPoli(this);return false;'])!!}
+						{!! Form::select('poli', $poli, null, [
+							'id' => 'antrianpoli_poli', 
+							'class' => 'form-control', 
+							'onchange' => 'pilihPoli(this);return false;'
+						])!!}
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -34,6 +38,7 @@
 						<label for="recipient-name" class="control-label">Dokter</label>
 						{!! Form::select('staf_id', $staf, null, [
 						'class' => 'form-control selectpick',
+						'id' => 'antrianpoli_staf_id',
 						'data-live-search' => 'true'
 						])!!}
 					</div>

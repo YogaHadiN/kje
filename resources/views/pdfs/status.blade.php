@@ -296,7 +296,7 @@ border-spacing: -1px;
 						karena {!! $periksa->rujukan->alasan_rujuk!!}
 					@endif
 					@if($bayarGDS)
-					    @include('warninggds2', ['pasien_id' => $periksa->pasien_id ])
+						@include('warninggds2', ['pasien_id' => $periksa->pasien_id, 'periksa' => $periksa ])
 					@endif
 					@if($periksa->asuransi_id == 0 && !empty($periksa->keterangan))
 						<div class="alert alert-danger">

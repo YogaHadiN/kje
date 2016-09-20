@@ -130,52 +130,94 @@ Klinik Jati Elok | Home
         </div></a>
     </div>
 </div>
-        <div class="row marginAtas">
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-danger">
                     <div class="panel-heading">
                             RINGKASAN PASIEN HARI INI 
                     </div>
                     <div class="panel-body">
                         <table class="table table-condensed table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nama Asuransi</th>
-                                    <th>Jumlah</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (count($hariinis) > 0)
-                                    @foreach ($hariinis as $hariini)
-                                        <tr>
-                                            <td>{!! $hariini->nama !!}</td>
-                                            <td>{!! $hariini->jumlah !!}</td>
-											<td><a href="{{ url("laporans/asuransi/detail/$hariini->id/" . date('Y-m-d')) }}" class="btn btn-success btn-xs">detail</a></td>
-                                        </tr>
-                                    @endforeach
-                                @else 
-                                <tr>
-                                    <td colspan="3" class="text-center">Belum ada transaksi pasien hari ini</td>
-                                </tr>
-                                @endif
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td><strong>Total Pasien Hari Ini</strong></td>
-                                    <td><strong>{!!$jumlah!!}</strong></td>
-                                @if (count($hariinis) > 0)
-                                    <td>
-                                        <a href="{{ url('laporans/harian/harian?submit=submit&tanggal=' . date('d-m-Y') . '&asuransi_id=%') }}" class="btn btn-danger btn-xs">Show All</a>
-                                    </td>
-                                @else
-                                <td></td>
-                                @endif
-                                </tr>
-                            </tfoot>
-                        </table>
+						  <thead>
+							  <tr>
+								  <th>Nama Asuransi</th>
+								  <th>Jumlah</th>
+								  @foreach($polis as $poli)	
+									  <th>{{ $poli }}</th>
+								  @endforeach
+							  </tr>
+						  </thead>
+						  <tbody>
+							  @if (count($hariinis) > 0)
+								  @foreach ($hariinis as $hariini)
+									  <tr>
+										  <td>{!! $hariini->nama !!}</td>
+										  <th>{!! $hariini->jumlah !!}</th>
+										  @foreach($polis as $poli)	
+											  <td class="text-center">{{ App\Classes\Yoga::periksa_by_asuransi($tanggal, $hariini->id, $poli) }}</td>
+										  @endforeach
+									  </tr>
+								  @endforeach
+							  @else
+								  <tr>
+									  <td colspan="2" class="text-center">Tidak ada data untuk ditampilkan :p</td>
+								  </tr>
+							  @endif
+						  </tbody>
+						  <tfoot>
+							  <th> Jumlah </th>
+							  <th>{!! count($periksas) !!}</th>
+							  @foreach($polis as $poli)	
+								  <th class="text-center">{{ App\Classes\Yoga::periksa_by_poli($tanggal, $poli) }}</th>
+							  @endforeach
+						  </tfoot>
+					  </table>
                     </div>
                 </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<a href="{{ url('ruangperiksa/darurat')}}">
+				<div class="widget style1 grey-bg btn-info">
+					<div class="row">
+						<div class="col-xs-4">
+							<i class="fa fa-user-md fa-5x"></i>
+						</div>
+						<div class="col-xs-8 text-right">
+							<span></span>
+							<h2>Rawat Jalan</h2>
+						</div>
+					</div>
+				</div></a>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<a href="{{ url('ranaps')}}">
+				<div class="widget style1 grey-bg btn-success">
+					<div class="row">
+						<div class="col-xs-4">
+							<i class="fa fa-user-md fa-5x"></i>
+						</div>
+						<div class="col-xs-8 text-right">
+							<span></span>
+							<h2>Rawat Inap</h2>
+						</div>
+					</div>
+				</div></a>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<a href="{{ url('ruangperiksa/darurat')}}">
+				<div class="widget style1 grey-bg btn-danger">
+					<div class="row">
+						<div class="col-xs-4">
+							<i class="fa fa-user-md fa-5x"></i>
+						</div>
+						<div class="col-xs-8 text-right">
+							<span></span>
+							<h2>Transaksi Kasir</h2>
+						</div>
+					</div>
+				</div></a>
 			</div>
 		</div>
 			<div class="row">

@@ -1,17 +1,17 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pasien
+Klinik Jati Elok | Pasien Daftar Rawat Inap
 
 @stop
 @section('page-title') 
- <h2>Pasien</h2>
+ <h2>Daftar Rawat Inap</h2>
  <ol class="breadcrumb">
       <li>
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li class="active">
-          <strong>Pasien</strong>
+          <strong>Daftar Rawat Inap</strong>
       </li>
 </ol>
 

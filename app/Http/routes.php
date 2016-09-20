@@ -140,6 +140,8 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('pembelians/{faktur_beli_id}/edit', 'PembeliansController@edit');
 			Route::post('pembelians/{id}', 'PembeliansController@update');
 
+			Route::get('ranaps', 'RanapsController@index');
+
 
 			Route::post('pengeluarans/list', 'PengeluaransController@lists');
 			Route::get('pengeluarans/belanja_bukan_obat/detail/{id}', 'PengeluaransController@belanjaBukanObatDetail');

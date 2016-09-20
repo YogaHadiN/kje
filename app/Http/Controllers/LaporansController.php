@@ -47,14 +47,18 @@ class LaporansController extends Controller
 		$nursestation = AntrianPoli::all();
 		$auth = Auth::user();
 		$raklist = Yoga::rakList();
-		$hariinis = DB::select("SELECT min(asu.nama) as nama , count(asuransi_id) as jumlah, min(asu.id) as id FROM periksas as p LEFT OUTER JOIN asuransis as asu on p.asuransi_id = asu.id WHERE p.tanggal = '" . date('Y-m-d') . "'  group by asu.nama" );
+		$hariinis = DB::select("SELECT asu.nama , count(asuransi_id) as jumlah, asu.id as id FROM periksas as p left outer join asuransis as asu on p.asuransi_id = asu.id where p.tanggal = '" . date('Y-m-d') . "' group by asu.nama" );
 		$umum = AntrianPeriksa::where('poli', 'umum')->get();
 		$kandungan = AntrianPeriksa::where('poli', 'kandungan')->get();
 		$gigi = AntrianPeriksa::where('poli', 'gigi')->get();
 		$darurat = AntrianPeriksa::where('poli', 'darurat')->get();
 		$staf = Yoga::stafList();
+		$poliIni = $this->poliIni(date('Y-m-d'), '%%');
+		$polis = $poliIni['polis'];
+		$periksas = $poliIni['periksas'];
 		
 		$jumlah = 0;
+		$tanggal = date('Y-m-d');
 
 		foreach ($hariinis as $hariini) {
 			$jumlah += (int) $hariini->jumlah;
@@ -72,6 +76,9 @@ class LaporansController extends Controller
 			->withRaklist($raklist)
 			->withAuth($auth)
 			->withStaf($staf)
+			->withPolis($polis)
+			->withTanggal($tanggal)
+			->withPeriksas($periksas)
 			->withDarurat($darurat)
 			->withNursestation($nursestation);
 	}
@@ -870,6 +877,21 @@ class LaporansController extends Controller
 
 
 
+	}
+	private function poliIni($tanggal, $asuransi_id){
+		$polis=[];
+		 
+		$periksas = DB::select("SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id, p.poli as poli FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.tanggal like '{$tanggal}' AND p.asuransi_id like '{$asuransi_id}' AND p.lewat_kasir = '1'");
+		$poli_id = [];
+		foreach ($periksas as $periksa) {
+			$poli_id[] = $periksa->poli;
+		}
+		$polis = array_unique($poli_id, SORT_REGULAR);
+		sort( $polis );
+		return [
+			'polis' =>$polis,
+			'periksas' =>$periksas
+		];
 	}
 	
 	

@@ -11,22 +11,27 @@
 
        var request;
         $('#dummyButton').click(function(e) {
+
+                    console.log( $('#antrianpoli_staf_id').val() );
+                    console.log( $('select#ddlPembayaran').val() );
+                    console.log( $('#antrianpoli_poli').val() );
+                    console.log( $('#antrianpoli_antrian').val() );
                  if(
-                    $('select[name="staf_id"]').val() == '' ||
+                    $('#antrianpoli_staf_id').val() == '' ||
                     $('select#ddlPembayaran').val() == '' ||
-                    $('select[name="poli"]').val() == '' ||
-                    $('input[name="antrian"]').val() == '' ){
+                    $('#antrianpoli_poli').val() == '' ||
+                    $('#antrianpoli_antrian').val() == '' ){
 
-                    if($('select[name="staf_id"]').val() == '' ){
-                        validasi('select[name="staf_id"]', 'Harus Diisi');
+                    if($('#antrianpoli_staf_id').val() == '' ){
+                        validasi('#antrianpoli_staf_id', 'Harus Diisi');
                     }
 
-                    if($('select[name="poli"]').val() == '' ){
-                        validasi('select[name="poli"]', 'Harus Diisi');
+                    if($('#antrianpoli_poli').val() == '' ){
+                        validasi('#antrianpoli_poli', 'Harus Diisi');
                     }
 
-                    if($('input[name="antrian"]').val() == '' ){
-                        validasi('input[name="antrian"]', 'Harus Diisi');
+                    if($('#antrianpoli_antrian').val() == '' ){
+                        validasi('#antrianpoli_antrian', 'Harus Diisi');
                     }
 
                     if($('select#ddlPembayaran').val() == '' ){
@@ -453,25 +458,25 @@
 
         function dummy2(e){
 
-             if($('select[name="staf_id"]').val() == '' ||
+             if($('#antrianpoli_staf_id').val() == '' ||
                     $('select#ddlPembayaran').val() == '' ||
-                    $('select[name="poli"]').val() == '' ||
-                    $('input[name="antrian"]').val() == '' ||
+                    $('#antrianpoli_poli').val() == '' ||
+                    $('#antrianpoli_antrian').val() == '' ||
                     $('#staf_id_complain').val() == '' ||
                     $('#komplain').val() == ''
 
                 ){
 
-                    if($('select[name="staf_id"]').val() == '' ){
-                        validasi('select[name="staf_id"]', 'Harus Diisi');
+                    if($('#antrianpoli_staf_id').val() == '' ){
+                        validasi('#antrianpoli_staf_id', 'Harus Diisi');
                     }
 
-                    if($('select[name="poli"]').val() == '' ){
-                        validasi('select[name="poli"]', 'Harus Diisi');
+                    if($('#antrianpoli_poli').val() == '' ){
+                        validasi('#antrianpoli_poli', 'Harus Diisi');
                     }
 
-                    if($('input[name="antrian"]').val() == '' ){
-                        validasi('input[name="antrian"]', 'Harus Diisi');
+                    if($('#antrianpoli_antrian').val() == '' ){
+                        validasi('#antrianpoli_antrian', 'Harus Diisi');
                     }
 
                     if($('select#ddlPembayaran').val() == '' ){
@@ -494,14 +499,14 @@
 
         function lanjutSubmit(e){
              e.preventDefault();
-                $.post(base + '/pasiens/ajax/ajaxpasien', {antrian: $('input[name="antrian"]').val(), 'pasien_id' : $('#ID_PASIEN').val()}, function(data) {
+                $.post(base + '/pasiens/ajax/ajaxpasien', {antrian: $('#antrianpoli_antrian').val(), 'pasien_id' : $('#ID_PASIEN').val()}, function(data) {
 
                     data = JSON.parse(data);
                     if(data.antrian == '' && data.pasien == ''){
                         $('#submit').click();
                     } else {
                         if(data.antrian != ''){
-                            validasi('input[name="antrian"]', 'Sudah ada antrian <br /> nama : ' + data.antrian);
+                            validasi('#antrianpoli_antrian', 'Sudah ada antrian <br /> nama : ' + data.antrian);
                         }
                         if(data.pasien != ''){
                             validasi('input[name="pasien_id"]', 'Pasien sudah di antrian');
