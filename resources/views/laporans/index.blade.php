@@ -176,7 +176,7 @@ Klinik Jati Elok | Home
                 </div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row hide">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<a href="{{ url('ruangperiksa/darurat')}}">
 				<div class="widget style1 grey-bg btn-info">

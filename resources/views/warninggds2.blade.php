@@ -8,7 +8,8 @@
                     , pemeriksaan Gula Darah saat ini harus bayar Rp. 15.000,- , plafon untuk BPJS hanya sebulan sekali
                 </div>
             @else
-                <div class="font-small"> gratis khusus hanya untuk pasien peserta BPJS > 50 tahun atau riwayat Diabetes Mellitus dan plafon hanya sebulan sekali
+                <div class="font-small"> gratis khusus hanya untuk pasien peserta BPJS > 50 tahun dan atau riwayat Diabetes Mellitus dan plafon hanya sebulan sekali
+				usia pasien saat ini {{ App\Classes\Yoga::datediff( $periksa->pasien->tanggal_lahir ) }}
                 </div>
             @endif
         </div>

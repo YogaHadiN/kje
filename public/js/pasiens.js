@@ -393,7 +393,7 @@
                   var data = MyArray.kode;
                   var tanggal = MyArray.tanggal;
                   if (tanggal == '') {
-                    var text = 'GDS gratis untuk BPJS hanya untuk riwayat kencing manis atau usia > 50 tahun'
+                    var text = 'GDS gratis untuk BPJS hanya untuk riwayat kencing manis atau usia > 50 tahun usia pasien saat ini ' + MyArray.tanggal_lahir;
                   } else {
                     var text = 'Pasien sudah periksa GDS bulan ini tanggal ' + tanggal;
                   }
