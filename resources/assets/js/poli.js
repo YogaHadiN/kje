@@ -71,6 +71,7 @@
 
    jQuery(document).ready(function($) {
 
+
 	   $('#modal_buat_perujuk_baru').on('shown.bs.modal', function(){
 			 $('#nama_perujuk').focus();   
 	   });
@@ -1792,8 +1793,10 @@ function optionSyrup(ID_MEREK){
             }
             var plafon = $('#plafon_total').val() - totalBiayaObat;
             console.log('totalBiayaObat = ' + totalBiayaObat);
-            console.log('plafon adalah = ' + Math.abs( plafon ));
-            $('#plafon').html(Math.abs(plafon));
+            console.log('plafon value = ' + $('#plafon_total').val());
+            console.log('plafon = ' + plafon);
+            console.log('plafon adalah = ' + plafon);
+            $('#plafon').html(plafon);
 
             if (plafon < 0) {
 

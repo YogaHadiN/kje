@@ -1127,7 +1127,6 @@ function optionSyrup(ID_MEREK){
 
         $('#legendpop').popover('hide');
 
-
         data[data.length] = {
             
             'jumlah'   : juml,
@@ -1294,7 +1293,6 @@ function optionSyrup(ID_MEREK){
             var data_custom = $('#ddlNamaObat option:selected').attr("data-custom-value");
             merek = JSON.parse(data_custom);
             var kali_obat = $('#kali_obat').val();
-            console.log('kali_obat = ' + kali_obat);
             var harga_jual = merek.harga_jual * parseInt(kali_obat);
         } else {
             var harga_jual = '';
@@ -1739,6 +1737,8 @@ function optionSyrup(ID_MEREK){
                 console.log('harga dari ' + resep[i].merek + ' = ' + harga_jual)
             }
             var plafon = $('#plafon_total').val() - totalBiayaObat;
+            console.log('plafon = ' + plafon);
+            console.log('plafon.val = ' + $('#plafon_total').val());
             console.log('totalBiayaObat = ' + totalBiayaObat);
             $('#plafon').html(Math.abs(plafon));
 

@@ -995,7 +995,8 @@ class Yoga {
 			}
 			return $transaksis;
 		}
-		public static function dispensingObatBulanIni($asuransi, $periksa = [] ,$edit = false){
+		public static function dispensingObatBulanIni($asuransi, $periksa = [] ,$edit = false,$kasir = false){
+			//return dd( $edit );
 
 			if ($edit) {
 				$edit = 0;
@@ -1020,7 +1021,7 @@ class Yoga {
 				
 				$plafonObatSekaliBerobat       = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya;
 				$plafonJasaDokterSekaliBerobat = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '1')->first()->biaya;
-				$plafonSekaliBerobat           = $plafonObatSekaliBerobat + $plafonJasaDokterSekaliBerobat;
+				//return $plafonObatSekaliBerobat;
 				$sisaPlafon = 0;
 
 				//
@@ -1028,7 +1029,8 @@ class Yoga {
 				// 
 				
 				$periksaFlatBulanIni  = Periksa::with('terapii')->where('asuransi_id', $asuransi->id)->where('tanggal', 'like', date('Y-m') . '%')->get();
-				$sisaPlafonInhealth = Tarif::where('asuransi_id', '3')->where('jenis_tarif_id', '1')->first()->biaya;						
+				//return dd( $periksaFlatBulanIni );
+
 				foreach ($periksaFlatBulanIni as $key => $pxBulanIni) {
 					
 					//
@@ -1036,13 +1038,17 @@ class Yoga {
 					//
 					
 					$terapiArray = $pxBulanIni->terapii;
+					//return dd( $terapiArray );
+					$dispensingObat = 0;
 					foreach($terapiArray as $terapi){
 						//dispensing = harga_jual * jumlah * kali_obat;
-						$dispensingObat         = $terapi->harga_jual_satuan * $terapi->jumlah;
-						$dispensingObatBulanIni += $dispensingObat;
+						$dispensingObat         += $terapi->harga_jual_satuan * $terapi->jumlah;
 					}
 
+					$dispensingObatBulanIni += $dispensingObat;
+
 					if ($terapiArray->count() == '0' && $asuransi->id == '3') {
+						$sisaPlafonInhealth = Tarif::where('asuransi_id', '3')->where('jenis_tarif_id', '1')->first()->biaya;						
 						$sisaPlafon += $sisaPlafonInhealth;
 					} else {
 						//misalcya obat pasien 20 ribu, plafon obat 30 ribu
@@ -1050,11 +1056,19 @@ class Yoga {
 						//piutang ditulis 70 rb
 						//dibayar tunai = 0
 						//maka sisa plafon harusnya 20 ribu, dihitung dari 70 - 20 - 30 + 0;
-						$sisaPlafon        += $pxBulanIni->piutang - $dispensingObat - $plafonJasaDokterSekaliBerobat + $pxBulanIni->tunai;
+						if ($pxBulanIni->piutang == 0 && $pxBulanIni->tunai == 0) {
+							$sisaPlafon        += $plafonObatSekaliBerobat  - $dispensingObat;
+						} else {
+							$sisaPlafon        += $pxBulanIni->piutang - $dispensingObat - $plafonJasaDokterSekaliBerobat + $pxBulanIni->tunai;
+						}
 					}
 					$totalDibayarTunai += $pxBulanIni->tunai;
 				}
-				$plafonFlat = $sisaPlafon + ($plafonObatSekaliBerobat * $edit);
+				if ($kasir) {
+					$plafonFlat = $sisaPlafon;
+				} else {
+					$plafonFlat = $sisaPlafon + ($plafonObatSekaliBerobat * $edit);
+				}
 
 				if ($edit == 0) {
 					$terapis = $periksa->terapii;
@@ -1062,6 +1076,7 @@ class Yoga {
 						$plafonFlat += $terapi->harga_jual_satuan * $terapi->jumlah;
 					}
 				}
+
 				return [ 
 					'plafon'    => $plafonFlat,
 					'kunjungan' => $periksaFlatBulanIni->count(),
