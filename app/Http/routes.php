@@ -51,36 +51,6 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 		App\Classes\Yoga::sms('085721012351', 'test aja disini');
 	});
 
-	Route::get('test/this/sms', function(){
-		
-		$userkey='dfasdfasfda'; // userkey lihat di zenziva
-
-		$passkey='asdhklasdflkjhsldkjfk'; // set passkey di zenziva
-
-		$url = 'https://alpha.zenziva.net/apps/smsapi.php';
-
-		$curlHandle = curl_init();
-
-		curl_setopt($curlHandle, CURLOPT_URL, $url);
-
-		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='. $userkey .'&passkey='. $passkey .'&nohp='. $telepon.'&pesan='.urlencode($message));
-
-		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
-
-		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
-
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
-
-		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
-
-		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
-
-		curl_setopt($curlHandle, CURLOPT_POST, 1);
-
-		$results = curl_exec($curlHandle);
-
-		curl_close($curlHandle);
-	});
 
   	Route::group(['middleware' => 'auth'], function(){
 

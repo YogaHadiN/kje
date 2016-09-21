@@ -1047,21 +1047,12 @@ class Yoga {
 
 					$dispensingObatBulanIni += $dispensingObat;
 
-					if ($terapiArray->count() == '0' && $asuransi->id == '3') {
-						$sisaPlafonInhealth = Tarif::where('asuransi_id', '3')->where('jenis_tarif_id', '1')->first()->biaya;						
-						$sisaPlafon += $sisaPlafonInhealth;
-					} else {
-						//misalcya obat pasien 20 ribu, plafon obat 30 ribu
-						//plafon jasa dokter 30 rb
-						//piutang ditulis 70 rb
-						//dibayar tunai = 0
-						//maka sisa plafon harusnya 20 ribu, dihitung dari 70 - 20 - 30 + 0;
 						if ($pxBulanIni->piutang == 0 && $pxBulanIni->tunai == 0) {
 							$sisaPlafon        += $plafonObatSekaliBerobat  - $dispensingObat;
 						} else {
 							$sisaPlafon        += $pxBulanIni->piutang - $dispensingObat - $plafonJasaDokterSekaliBerobat + $pxBulanIni->tunai;
 						}
-					}
+					
 					$totalDibayarTunai += $pxBulanIni->tunai;
 				}
 				if ($kasir) {
