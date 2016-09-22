@@ -1033,7 +1033,7 @@ class PengeluaransController extends Controller
 				 'created_at' => $timestamp,
 				 'updated_at' => $timestamp
 			];
-			$total_nilai += $t['nilai'];
+			$total_nilai += $t['nilai'] * $t['jumlah'];
 		}
 
 		$confirm = BelanjaPeralatan::insert($data);

@@ -51,15 +51,15 @@ class JurnalUmumsController extends Controller
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
             ->paginate(10);
 
-        //$errors = [];
-        //foreach ($jurnalumums as $ju) {
-            //try {
-                //$ju->jurnalable->ketJurnal;
-            //} catch (\Exception $e) {
-                //$errors[] = $ju->id;
-            //}
-        //}
-        //return dd( $errors );
+		//$errors = [];
+		//foreach ($jurnalumums as $ju) {
+			//try {
+				 //$ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
+			//} catch (\Exception $e) {
+				//$errors[] = $ju->id;
+			//}
+		//}
+		//return dd( $errors );
         
 
 		return view('jurnal_umums.show', compact('jurnalumums'));

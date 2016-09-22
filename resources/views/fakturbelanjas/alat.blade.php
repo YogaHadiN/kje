@@ -26,7 +26,9 @@ Klinik Jati Elok | Riwayat Belanja Alat
 				<table class="table table-bordered table-hover DT" id="tabel_faktur_beli">
                   <thead>
                     <tr>
-					  <th>tanggal</th>
+					  <th class='hide'>id</th>
+					  <th class='hide'>created_at</th>
+                      <th>Tanggal</th>
                       <th>Nama Supplier</th>
                       <th>Nomor Faktur</th>
 					  <th>Total Biaya</th>
@@ -37,6 +39,8 @@ Klinik Jati Elok | Riwayat Belanja Alat
                   @if($fakturbelanjas->count())
                   	@foreach ($fakturbelanjas as $faktur_beli)
                 		<tr>
+                        <td class='hide'><div>{!!$faktur_beli->id!!}</div></td>
+                        <td class='hide'><div>{!!$faktur_beli->created_at !!}</div></td>
                         <td><div>{!!App\Classes\Yoga::updateDatePrep($faktur_beli->tanggal)!!}</div></td>
                         <td><div>{!!$faktur_beli->supplier->nama!!}</div></td>
                         <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
