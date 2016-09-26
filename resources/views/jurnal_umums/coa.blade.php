@@ -186,6 +186,10 @@ Klinik Jati Elok | Coa belum di set
 
 <script>
     $(function () {
+
+	    $('select.kode_coa').each(function(){
+			alert( $(this).val() );
+		});
 		$('#coa_baru').on('show.bs.modal', function(){
 			resetModal();
 		});
@@ -303,10 +307,11 @@ Klinik Jati Elok | Coa belum di set
                    temp += "<option value='" + j + "'>" + val[j] + '</option>';
                 }
 
-               $('select.kode_coa').html(temp).selectpicker('refresh');
                $('select.kode_coa').each(function(){
                     if( $(this).val() == '' ){
-                        $(this).html(temp).selectpicker('refresh');
+						$(this).html(temp)
+								.val('')
+								.selectpicker('refresh');
                     } else {
                         $(this).append('<option value="' + coa_id + '">' + coa + '</option>').selectpicker('refresh');
                     }

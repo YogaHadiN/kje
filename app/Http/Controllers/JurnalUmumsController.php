@@ -88,21 +88,6 @@ class JurnalUmumsController extends Controller
 			$route = session('route_coa');
 		}
 
-		//$jurnals = JurnalUmum::with('coa')->get();
-
-		//$ids = [];
-
-		//foreach ($jurnals as $k => $ju) {
-
-			//try {
-				//$ju->coa->coa;
-			//} catch (\Exception $e) {
-				//$ids[] = $ju->id;
-			//}
-
-		//}
-
-        //$jurnalumums = JurnalUmum::whereIn('id', $ids)->get();
 		$jurnalumums = JurnalUmum::whereNull('coa_id')->get();
 		$ids = [];
 		foreach ($jurnalumums as $ju) {
