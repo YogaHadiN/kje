@@ -187,9 +187,6 @@ Klinik Jati Elok | Coa belum di set
 <script>
     $(function () {
 
-	    $('select.kode_coa').each(function(){
-			alert( $(this).val() );
-		});
 		$('#coa_baru').on('show.bs.modal', function(){
 			resetModal();
 		});
