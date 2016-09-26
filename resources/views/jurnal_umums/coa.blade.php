@@ -186,6 +186,9 @@ Klinik Jati Elok | Coa belum di set
 
 <script>
     $(function () {
+		$('#coa_baru').on('show.bs.modal', function(){
+			resetModal();
+		});
         $('#kode_coa').keyup(function(e){
              var key = e.keyCode || e.which;
              $.get('{{ url('jurnal_umums/coa_list') }}',
@@ -323,6 +326,11 @@ Klinik Jati Elok | Coa belum di set
 		alert(i);
 
 	}
+	function resetModal(){
+		 $('#coa_baru').find('input,select,textarea').val('');
+	}
+	
+	
     
 </script>
 

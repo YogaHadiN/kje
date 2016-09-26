@@ -149,7 +149,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
             Route::get('pengeluarans/bayardoker', 'PengeluaransController@bayar');
             Route::get('pengeluarans/nota_z', 'PengeluaransController@nota_z');
             Route::get('pengeluarans/nota_z/detail/{id}', 'PengeluaransController@notaz_detail');
-            Route::post('pengeluarans/nota_z', 'PengeluaransController@notaz_post');
+            route::post('pengeluarans/nota_z', 'PengeluaransController@notaz_post');
             Route::get('pengeluarans/rc', 'PengeluaransController@erce');
             Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');

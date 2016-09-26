@@ -1924,11 +1924,17 @@ class Yoga {
 			 	];
 			 }
 		}
-		$periksas = Periksa::with('terapii.merek.rak.formula')->where('pasien_id', $pasien->id)->get();
+
+		
+		$pernahDiagnosaDM= false;
+		$periksas = Periksa::with('terapii.merek.rak.formula', 'diagnosa')->where('pasien_id', $pasien->id)->get();
 		foreach ($periksas as $key => $periksa) {
+			if (strpos( $periksa->diagnosa->diagnosa, 'DM ' ) !== false) {
+				$pernahDiagnosaDM = true;		
+			}
 			foreach ($periksa->terapii as $k => $terapi) {
 				$aturan_minum_id = $terapi->merek->rak->formula->aturan_minum_id;
-				if ($aturan_minum_id == '3') {
+				if ($aturan_minum_id == '3' || $pernahDiagnosaDM) {
 					$dikasihObatGula = true;
 				}
 			}

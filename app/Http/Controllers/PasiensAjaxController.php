@@ -185,25 +185,25 @@ class PasiensAjaxController extends Controller
 		{
 			$kembali = [
 				'kode' => '3', 
-				'tanggal' => $tanggal,
+				'tanggal' => Yoga::updateDatePrep( $tanggal ),
 				'tanggal_lahir' => $tanggal_lahir
 			];
 		} elseif($pakaiBayarPribadi){
 			$kembali = [
 				'kode' => '2',
-				'tanggal' => $tanggal,
+				'tanggal' => Yoga::updateDatePrep($tanggal),
 				'tanggal_lahir' => $tanggal_lahir
 			];
 		} elseif($cekGDSBulanIni['bayar']) {
 			$kembali = [
 				'kode' => '1', 
-				'tanggal' => $tanggal,
+				'tanggal' => Yoga::updateDatePrep($tanggal),
 				'tanggal_lahir' => $tanggal_lahir
 			];
 		} else {
 			$kembali = [
 				'kode' => '0', 
-				'tanggal' => $tanggal,
+				'tanggal' => Yoga::updateDatePrep($tanggal),
 				'tanggal_lahir' => $tanggal_lahir
 			];
 		}

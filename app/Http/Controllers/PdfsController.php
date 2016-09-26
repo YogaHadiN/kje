@@ -36,7 +36,9 @@ class PdfsController extends Controller
 	{
 		header ('Content-type: text/html; charset=utf-8');
 		$periksa    = Periksa::find($periksa_id);
+
 		//cek apakah pasien ini sudah pernah periksa GDS sebelumnya
+		//
 		//
 		//
 		$tarifObatFlat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;		

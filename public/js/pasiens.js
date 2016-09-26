@@ -379,12 +379,6 @@
 
             $('#cekBPJSkontrol').hide();
             $('#cekGDSBPJS').hide();
-             console.log('ID = ' + ID);
-             console.log('nama = ' + nama);
-             console.log('asuransi_id = ' + asuransi_id);
-             console.log('image = ' + image);
-             console.log('nama_asuransi = ' + nama_asuransi);
-             console.log('option_asuransi = ' + option_asuransi);
 
              if (asuransi_id == '32') {
                 $.post(base + '/pasiens/ajax/cekbpjskontrol', {'pasien_id': ID, 'asuransi_id' : asuransi_id}, function(data, textStatus, xhr) {
@@ -392,10 +386,10 @@
                   MyArray = $.parseJSON(data);
                   var data = MyArray.kode;
                   var tanggal = MyArray.tanggal;
-                  if (tanggal == '') {
-                    var text = 'GDS gratis untuk BPJS hanya untuk riwayat kencing manis atau usia > 50 tahun usia pasien saat ini ' + MyArray.tanggal_lahir;
-                  } else {
+                  if (tanggal != '') {
                     var text = 'Pasien sudah periksa GDS bulan ini tanggal ' + tanggal;
+                  } else {
+                    var text = 'GDS gratis untuk BPJS hanya untuk riwayat kencing manis atau usia > 50 tahun usia pasien saat ini ' + MyArray.tanggal_lahir;
                   }
                   $('#karena').html(text)
 

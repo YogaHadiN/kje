@@ -83,27 +83,37 @@ class JurnalUmumsController extends Controller
 	public function coa()
 	{
 		$route = null;
+
 		if (session()->has('route_coa')) {
 			$route = session('route_coa');
 		}
 
-		$jurnals = JurnalUmum::with('coa')->get();
+		//$jurnals = JurnalUmum::with('coa')->get();
+
+		//$ids = [];
+
+		//foreach ($jurnals as $k => $ju) {
+
+			//try {
+				//$ju->coa->coa;
+			//} catch (\Exception $e) {
+				//$ids[] = $ju->id;
+			//}
+
+		//}
+
+        //$jurnalumums = JurnalUmum::whereIn('id', $ids)->get();
+		$jurnalumums = JurnalUmum::whereNull('coa_id')->get();
 		$ids = [];
-		foreach ($jurnals as $k => $ju) {
-			try {
-				$ju->coa->coa;
-			} catch (\Exception $e) {
-				$ids[] = $ju->id;
-			}
+		foreach ($jurnalumums as $ju) {
+			$ids[] = $ju->id;
 		}
-
-        $jurnalumums = JurnalUmum::whereIn('id', $ids)
-                                ->get();
-
 		$data_ids = '';
+
 		foreach ($ids as $id) {
 			$data_ids .= $id . ',';
 		}
+
 		$data_ids .= $ids[ count($ids) - 1 ];
 		$query = "select ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal, pg.keterangan as nama, st.nama as nama_staf, pg.faktur_image from jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id join stafs as st on st.id=pg.staf_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\Pengeluaran' group by jurnal_umum_id";
 		$pengeluarans = DB::select($query);
