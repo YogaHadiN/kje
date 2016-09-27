@@ -176,6 +176,7 @@ class PasiensAjaxController extends Controller
 		$tanggal = $cekGDSBulanIni['tanggal'];
 		$pemeriksaanTerakhir = Periksa::where('pasien_id', $pasien_id)->latest()->first();
 		$pakaiBayarPribadi = Yoga::pakaiBayarPribadi($asuransi_id, $pasien_id, $pemeriksaanTerakhir);
+
 		$tanggal_lahir = Yoga::datediff($pasien->tanggal_lahir, date('Y-m-d'));
 
 
