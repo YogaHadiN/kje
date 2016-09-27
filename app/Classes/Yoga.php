@@ -1929,8 +1929,10 @@ class Yoga {
 		$pernahDiagnosaDM= false;
 		$periksas = Periksa::with('terapii.merek.rak.formula', 'diagnosa')->where('pasien_id', $pasien->id)->get();
 		foreach ($periksas as $key => $periksa) {
-			if (strpos( $periksa->diagnosa->diagnosa, 'DM ' ) !== false) {
-				$pernahDiagnosaDM = true;		
+			if (isset( $periksa->diagnosa->diagnosa )) {
+				if (strpos( $periksa->diagnosa->diagnosa, 'DM ' ) !== false || strpos( $periksa->keterangan_diagnosa, 'DM ' ) !== false) {
+					$pernahDiagnosaDM = true;		
+				}
 			}
 			foreach ($periksa->terapii as $k => $terapi) {
 				$aturan_minum_id = $terapi->merek->rak->formula->aturan_minum_id;
