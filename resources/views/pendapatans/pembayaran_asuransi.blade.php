@@ -30,7 +30,6 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
 				<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
 				  {!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
 				  {!! Form::select('asuransi_id', $asuransi_list , null , ['class' => 'selectpick form-control rq', 'data-live-search' => 'true']) !!}
- {!! Form::text('asuransi_id' , null, ['class' => 'form-control']) !!}
 				  @if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('mulai'))has-error @endif">
