@@ -73,25 +73,25 @@
 		  
       </div>
 </div>
-<div class="modal fade bs-example-modal-md" id="pasienInsert" tabindex="-1" role="dialog" aria-labelledby="kriteriaLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="kriteriaLabel">PASIEN INSERT</h4>
-                </div>
-				<div class="modal-body">
+{{--<div class="modal fade bs-example-modal-md" id="pasienInsert" tabindex="-1" role="dialog" aria-labelledby="kriteriaLabel" aria-hidden="true">--}}
+        {{--<div class="modal-dialog">--}}
+            {{--<div class="modal-content">--}}
+                {{--<div class="modal-header">--}}
+                    {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--}}
+                    {{--<h4 class="modal-title" id="kriteriaLabel">PASIEN INSERT</h4>--}}
+                {{--</div>--}}
+				{{--<div class="modal-body">--}}
 				
-				@include('pasiens.modal_insert', [ 'rq' => false , 'facebook' => false])
-				</div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id="submitPasien" value="opop">Submit</button>
-                            <button type="button" class="btn btn-danger" id="closeModal" data-dismiss="modal">Cancel</button>
-                 {!! Form::close() !!}
-            </div>
-        </div>
-        </div>
-    </div>
+				{{--@include('pasiens.modal_insert', [ 'rq' => false , 'facebook' => false])--}}
+				{{--</div>--}}
+                          {{--<div class="modal-footer">--}}
+                            {{--<button type="button" class="btn btn-success" id="submitPasien" value="opop">Submit</button>--}}
+                            {{--<button type="button" class="btn btn-danger" id="closeModal" data-dismiss="modal">Cancel</button>--}}
+                 {{--{!! Form::close() !!}--}}
+            {{--</div>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
      <div class="modal fade bs-example-modal-sm" id="kriteria" tabindex="-1" role="dialog" aria-labelledby="kriteriaLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">

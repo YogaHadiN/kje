@@ -15,6 +15,7 @@ class Periksa extends Model{
 	];
 
 
+	protected $dates = ['created_at'];
 
 	protected $guarded = [];
 

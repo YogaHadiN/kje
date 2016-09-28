@@ -92,7 +92,7 @@ Klinik Jati Elok | ANC - {{ $periksa->pasien->nama }}
                   </tr>
                   <tr>
                     <td nowrap>Umur Kehamilan</td>
-                    <td nowrap>{!! App\Classes\Yoga::umurKehamilan($periksa->registerAnc->registerHamil->hpht, date('Y-m-d')) !!}</td>
+					<td nowrap>{!! App\Classes\Yoga::umurKehamilan($periksa->registerAnc->registerHamil->hpht, $periksa->created_at->format('Y-m-d')) !!}</td>
                   </tr>
                   <tr>
                     <td nowrap>Rencana Penolong</td>
@@ -185,6 +185,8 @@ Klinik Jati Elok | ANC - {{ $periksa->pasien->nama }}
               </td>
             </tr>
           </table>
+		  <h2>Riwayat Obstetri</h2>
+		  <hr />
           {!! $periksa->registerAnc->registerHamil->riwobs !!}
       </div>
 </div>
