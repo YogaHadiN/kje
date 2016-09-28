@@ -216,6 +216,7 @@ class PendapatansController extends Controller
     }
     
     public function asuransi_bayar(){
+		//return dd( Input::all() );
 		$rules = [
 			 'tanggal_dibayar' => 'date|required',
 			 'mulai' => 'date|required',

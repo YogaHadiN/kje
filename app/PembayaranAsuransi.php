@@ -14,11 +14,11 @@ class PembayaranAsuransi extends Model
     public function staf(){
          return $this->belongsTo('App\Staf');
     }
-    public function coa(){
+	public function coa(){
          return $this->belongsTo('App\Coa', 'kas_coa_id');
     }
-    protected $morphClass = 'App\PembayaranAsuransi';
     protected $dates = ['tanggal_dibayar', 'mulai', 'akhir', 'created_at'];
+	protected $morphClass = 'App\PembayaranAsuransi';
 
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');

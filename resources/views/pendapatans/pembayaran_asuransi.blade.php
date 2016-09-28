@@ -85,7 +85,7 @@ Klinik Jati Elok | Laporan Pembayaran Asuransi
                                 <td>{{  $pemb->asuransi->nama  }}</td>
                                 <td>{{  $pemb->mulai->format('d-m-Y')  }} s/d {{  $pemb->akhir->format('d-m-Y')  }}</td>
                                 <td class="uang">{{  $pemb->pembayaran }}</td>
-                                <td>{{  $pemb->akhir->format('d-m-Y')  }}</td>
+                                <td>{{  $pemb->tanggal_dibayar->format('d-m-Y')  }}</td>
                                 <td>{{ $pemb->kas_coa_id }}-{{  $pemb->coa->coa }}</td>
                             </tr>
                             @endforeach
