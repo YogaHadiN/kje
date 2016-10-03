@@ -6,7 +6,6 @@
 
         $('#confirm_staf').on('shown.bs.modal', function(){
             $('#email').focus();
-            // setTimeout(function(){ $('#email').focus(); }, 300);
         });
 
        var request;
