@@ -180,24 +180,54 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col2">
-							<div class="panel panel-info col2">
-								<div class="panel-heading">
-									<h3>Pembayaran : {!! $antrianperiksa->asuransi->nama !!}</h3>
-								</div>
-								<div class="panel-body">
-									@if($antrianperiksa->asuransi->umum != ''  && $antrianperiksa->asuransi->umum != '[]' && $antrianperiksa->asuransi->umum != null)
-									   @foreach(json_decode($antrianperiksa->asuransi->umum, true) as $ket)
-											<p>
-												{!! $ket !!}
-											</p>
-									   @endforeach
-									@else
-									<h2 class="text-center">Tidak ada catatan penting</h2>
-								   @endif
+						@if($antrianperiksa->poli != 'estetika')
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col2">
+								<div class="panel panel-info col2">
+									<div class="panel-heading">
+										<h3>Pembayaran : {!! $antrianperiksa->asuransi->nama !!}</h3>
+									</div>
+									<div class="panel-body">
+										@if($antrianperiksa->asuransi->umum != ''  && $antrianperiksa->asuransi->umum != '[]' && $antrianperiksa->asuransi->umum != null)
+										   @foreach(json_decode($antrianperiksa->asuransi->umum, true) as $ket)
+												<p>
+													{!! $ket !!}
+												</p>
+										   @endforeach
+										@else
+										<h2 class="text-center">Tidak ada catatan penting</h2>
+									   @endif
+									</div>
 								</div>
 							</div>
-						</div>
+
+						@else
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col2">
+								<div class="panel panel-info col2">
+									<div class="panel-heading">
+										<h3>Tangkapan Foto</h3>
+									</div>
+									<div class="panel-body">
+									
+										<div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+												<div class="control-group{{ $errors->has('foto') ? ' has-error' : '' }}">
+													<div class="controls">
+													{!! Form::label('foto', 'Foto') !!}
+													{!! Form::file('foto[]', [
+													'multiple' => 'true',
+													'id' => 'fileupload'
+												]) !!}
+															<div id="dvPreview">
+															</div>
+													</div>
+													{!! $errors->first('foto', '<p class="help-block">:message</p>') !!}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						@endif
 					</div>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="usg">

@@ -98,20 +98,13 @@
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Poli</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="{{ url('ruangperiksa/umum') }}">Poli Umum</a> 
-                            </li>
+                            <li><a href="{{ url('ruangperiksa/umum') }}">Poli Umum</a> </li>
                             <li><a href="{{ url('ruangperiksa/anc') }}">Poli ANC</a> </li>
                             <li><a href="{{ url('ruangperiksa/suntikkb') }}">Suntik KB</a> </li>
-
-
+                            <li><a href="{{ url('ruangperiksa/estetika') }}">Estetika</a> </li>
                             <li><a href="{{ url('ruangperiksa/usg') }}">Poli USG Kebidanan</a> </li>
-
                             <li><a href="{{ url('ruangperiksa/usgabdomen') }}">Poli USG Abdomen</a> </li>
-                            
-
                             <li><a href="{{ url('ruangperiksa/gigi') }}">Poli Gigi </a> </li>
-
-
                             <li><a href="{{ url('ruangperiksa/darurat') }}">Poli Gawat Darurat </a> </li>
                         </ul>
                     </li>

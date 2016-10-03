@@ -375,6 +375,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('ruangperiksa/kandungan', 'RuangPeriksaController@kandungan');
 			Route::get('ruangperiksa/anc', 'RuangPeriksaController@anc');
 			Route::get('ruangperiksa/suntikkb', 'RuangPeriksaController@suntikkb');
+			Route::get('ruangperiksa/estetika', 'RuangPeriksaController@estetika');
 			Route::get('ruangperiksa/usg', 'RuangPeriksaController@usg');
 			Route::get('ruangperiksa/usgabdomen', 'RuangPeriksaController@usgabdomen');
 			Route::get('ruangperiksa/gigi', 'RuangPeriksaController@gigi');

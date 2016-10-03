@@ -46,7 +46,7 @@ Klinik Jati Elok | Tambah Modal
                 @else
 					<div class="form-group hide @if($errors->has('sumber_uang'))has-error @endif">
 					  {!! Form::label('sumber_uang', 'Sumber Uang', ['class' => 'control-label']) !!}
-                     {!! Form::select('sumber_uang', $sumberUangList, null, ['class' => 'form-control rq']) !!}
+                     {!! Form::select('sumber_uang', $sumberUangList, '110004', ['class' => 'form-control rq']) !!}
 					  @if($errors->has('sumber_uang'))<code>{{ $errors->first('sumber_uang') }}</code>@endif
 					</div>
                 @endif
