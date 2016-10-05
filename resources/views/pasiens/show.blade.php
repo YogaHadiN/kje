@@ -57,11 +57,6 @@ Klinik Jati Elok | Riwayat Pasien
                         Pembayaran : <br>
                         <strong>{!! $periksa->asuransi->nama!!}</strong><br><br>
                         {{ $periksa->id }}
-
-
-
-
-
                       </td>
                       <td>
                           <strong>Anamnesa : {!! $periksa->id !!}</strong> <br>
@@ -116,6 +111,13 @@ Klinik Jati Elok | Riwayat Pasien
 
                       </td>
                     </tr>
+					@if($periksa->gambarPeriksa->count() > 0)
+					<tr>
+						<td colspan='3'>
+							@include('gambar_periksa')
+						</td>
+					</tr>
+					@endif
                    @endforeach
                 </tbody>
             </table>

@@ -70,6 +70,9 @@
 	
 
    jQuery(document).ready(function($) {
+	   if ( $('#notified').val() == '0' && $('#asuransi_id').val() == '32') {
+	   	alert('Harap baca dengan Jelas aturan mengenai asuransi ini, ada satu / beberapa hal yang sudah ditambahkan. Terima kasih');
+	   }
 
 	   if ( $('#poli_id').val() == 'estetika' ) {
 		   tambahGambar();

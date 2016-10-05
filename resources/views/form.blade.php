@@ -104,6 +104,7 @@
 									{!! Form::text('kali_obat', $antrianperiksa->asuransi->kali_obat, ['class' => 'hide', 'id' => 'kali_obat'])!!}
 									{!! Form::text('pasien_id', $antrianperiksa->pasien_id, ['class' => 'displayNone', 'id' => 'pasien_id']) !!}
 									{!! Form::text('jam', $antrianperiksa->jam, ['class' => 'displayNone']) !!}
+									{!! Form::text('notified', $antrianperiksa->staf->notified, ['class' => 'displayNone', 'id' => 'notified']) !!}
 									{!! Form::text('_token', Session::token(), ['class' => 'displayNone', 'id'=>'token']) !!}
 									{!! Form::text('jam_periksa', date('H:i:s'), ['class' => 'displayNone']) !!}
 									{!! Form::text('tanggal', $antrianperiksa->tanggal, ['class' => 'displayNone']) !!}
