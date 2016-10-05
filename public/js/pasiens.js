@@ -366,47 +366,20 @@
             });
     }
         function rowEntry(control) {
-            var ID = $(control).closest('tr').find('td:first-child div').html();
-            var nama = $(control).closest('tr').find('td:nth-child(2) div').html();
-            var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
-            var image = $(control).closest('tr').find('td:nth-child(12) div').html();
-            var nama_asuransi = $(control).closest('tr').find('td:nth-child(6) div').html();
-            var option_asuransi = '<option value="">- Pilih Pembayaran -</option>';
-            option_asuransi += '<option value="0">Biaya Pribadi</option>';
 
             $('#cekBPJSkontrol').hide();
             $('#cekGDSBPJS').hide();
 
-             if (asuransi_id == '32') {
-                $.post(base + '/pasiens/ajax/cekbpjskontrol', {'pasien_id': ID, 'asuransi_id' : asuransi_id}, function(data, textStatus, xhr) {
-                  /*optional stuff to do after success */
-                  MyArray = $.parseJSON(data);
-                  var data = MyArray.kode;
-                  var tanggal = MyArray.tanggal;
-                  if (tanggal != '' && tanggal != null) {
-                    var text = 'Pasien sudah periksa GDS bulan ini tanggal ' + tanggal;
-                  } else {
-                    var text = 'GDS gratis untuk BPJS hanya untuk riwayat kencing manis atau usia > 50 tahun usia pasien saat ini ' + MyArray.tanggal_lahir;
-                  }
-                  $('#karena').html(text)
+			var nama = $(control).closest('tr').find('td:nth-child(2) div').html();
+			var image = $(control).closest('tr').find('td:nth-child(12) div').html();
+			var nama_asuransi = $(control).closest('tr').find('td:nth-child(6) div').html();
+			var option_asuransi = '<option value="">- Pilih Pembayaran -</option>';
+			option_asuransi += '<option value="0">Biaya Pribadi</option>';
 
-                  if (data == '3') {
-                    $('#cekBPJSkontrol').show();
-                    $('#cekGDSBPJS').show();
-                  } else if(data == '2'){
-                    $('#cekBPJSkontrol').show();
-                    $('#cekGDSBPJS').hide();
-                  } else if(data == '1'){
-                    $('#cekBPJSkontrol').hide();
-                    $('#cekGDSBPJS').show();
-                  } else {
-                    $('#cekBPJSkontrol').hide();
-                    $('#cekGDSBPJS').hide();
-                  }
-                });
-             } else {
-              $('#cekBPJSkontrol').hide();
-             }
+			var ID = $(control).closest('tr').find('td:first-child div').html();
+			var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
+
+			cekBPJSkontrol(ID, asuransi_id);
 
              imgError();
 

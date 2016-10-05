@@ -327,6 +327,8 @@ Klinik Jati Elok | Nurse Station
 @stop
 @section('footer') 
 <script src="{{ url('js/togglepanel.js') }}" type="text/javascript"></script>
+
+	{!! HTML::script('js/cekbpjskontrol.js')!!}
     {!! HTML::script('js/uk.js') !!}   
     <script>
         var base = "{{ url('/') }}";
@@ -409,31 +411,7 @@ Klinik Jati Elok | Nurse Station
 
             if (ID_ASURANSI == '32') {
                 $('#pastikan').show();
-                $.post('{{ url("pasiens/ajax/cekbpjskontrol") }}', {'pasien_id': ID_PASIEN, 'asuransi_id' : ID_ASURANSI}, function(data, textStatus, xhr) {
-                      MyArray = $.parseJSON(data);
-                      var data = MyArray.kode;
-                      var tanggal = MyArray.tanggal;
-                      if (tanggal == '') {
-                        var text = 'GDS gratis untuk BPJS hanya untuk riwayat kencing manis atau usia > 50 tahun usia pasien saat ini ' + MyArray.tanggal_lahir;
-                      } else {
-                        var text = 'Pasien sudah periksa GDS bulan ini tanggal ' + tanggal;
-                      }
-                      $('#karena').html(text)
-
-                      if (data == '3') {
-                        $('#cekBPJSkontrol').show();
-                        $('#cekGDSBPJS').show();
-                      } else if(data == '2'){
-                        $('#cekBPJSkontrol').show();
-                        $('#cekGDSBPJS').hide();
-                      } else if(data == '1'){
-                        $('#cekBPJSkontrol').hide();
-                        $('#cekGDSBPJS').show();
-                      } else {
-                        $('#cekBPJSkontrol').hide();
-                        $('#cekGDSBPJS').hide();
-                      }
-                });
+				cekBPJSkontrol(ID_PASIEN, ID_ASURANSI);
                 $('#lblKecelakaanKerja').html('Kecelakaan Kerja / Kecelakaan Lalu Lintas')
             } else {
                 $('#cekBPJSkontrol').hide();
