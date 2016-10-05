@@ -64,6 +64,17 @@ class PeriksasController extends Controller
 		$periksa_id = Yoga::customId('App\Periksa');
 		$periksa = new Periksa;
 
+
+		//Bila asuransi adalah BPJS dan staf belum notified, maka buat notified = 1, supaya tidak muncul peringatan berulang2
+		//
+		//
+
+		if ( Input::get('asuransi_id') == '32' && Input::get('notified') == '0' ) {
+			$st       = Staf::find( Input::get('staf_id') );
+			$st->notified   = '1';
+			$st->save();
+		}
+
 		//Buat collection tabel asuransi
 		$asuransi = Asuransi::find(Input::get('asuransi_id'));
 		
