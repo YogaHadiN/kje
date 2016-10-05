@@ -15,6 +15,7 @@ use App\RegisterHamil;
 use App\AntrianPeriksa;
 use App\Asuransi;
 use App\Terapi;
+use App\Staf;
 use App\Usg;
 use App\RegisterAnc;
 use App\GambarPeriksa;

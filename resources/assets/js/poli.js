@@ -70,7 +70,12 @@
 	
 
    jQuery(document).ready(function($) {
-	   if ( $('#notified').val() == '0' && $('#asuransi_id').val() == '32') {
+
+		$('#LinkButton2').on('click', function () {
+			validasiKeterangan();
+		});
+		var notif = $('#notified').val();
+	   if ( notif == '0' && $('#asuransi_id').val() == '32') {
 	   	alert('Harap baca dengan Jelas aturan mengenai asuransi ini, ada satu / beberapa hal yang sudah ditambahkan. Terima kasih');
 	   }
 
@@ -2260,40 +2265,44 @@ function temporaryImage(input) {
 	}
 }
 function validasiKeterangan(){
-	var pesan = 'Harus Diisi!';
-	var result = true;
-	$('.required').each(function(){
-		if ( $(this).val() == '' || $(this).val() == null ) {
+	if ( $('#poli_id').val() == 'estetika' ) {
+		var pesan = 'Harus Diisi!';
+		var result = true;
+		$('.required').each(function(){
+			if ( $(this).val() == '' || $(this).val() == null ) {
 
-				$(this).parent()
-				.find('code')
-				.remove();
+					$(this).parent()
+					.find('code')
+					.remove();
 
-				$(this).parent()
-				.addClass('has-error')
-				.append('<code>' + pesan + '</code>');
+					$(this).parent()
+					.addClass('has-error')
+					.append('<code>' + pesan + '</code>');
 
-				$(this).parent()
-				.find('code')
-				.hide()
-				.fadeIn(1000);
+					$(this).parent()
+					.find('code')
+					.hide()
+					.fadeIn(1000);
 
-			   $(this).on('keyup change', function(){
-				  $(this).parent()
-				  .removeClass('has-error')
-				  .find('code')
-				  .fadeOut('1000', function() {
-					  $(this).remove();
-				  });
-			   })   
-			result = false;
+				   $(this).on('keyup change', function(){
+					  $(this).parent()
+					  .removeClass('has-error')
+					  .find('code')
+					  .fadeOut('1000', function() {
+						  $(this).remove();
+					  });
+				   })   
+				result = false;
+			}
+		});
+		if (!result) {
+			alert('Keterangan Gambar Harus Diisi');
+			$('#tab-status').tab('show');
+			$('.required:first').focus();
+			console.log($(':focus'));
+		} else {
+			dummySubmit();
 		}
-	});
-	if (!result) {
-		alert('Keterangan Gambar Harus Diisi');
-		$('#tab-status').tab('show');
-		$('.required:first').focus();
-		console.log($(':focus'));
 	} else {
 		dummySubmit();
 	}

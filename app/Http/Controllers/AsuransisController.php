@@ -160,6 +160,13 @@ class AsuransisController extends Controller
 		$asuransi->tanggal_berakhir = Yoga::datePrep(Input::get('tanggal_berakhir'));
 		$asuransi->save();
 
+
+		if ( $id == '32' ) {
+			$query = "update stafs set notified=0;";
+			DB::statement($query);
+
+		}
+
 		$tarifs = Input::get('tarifs');
 
 		$tarifs = json_decode($tarifs, true);

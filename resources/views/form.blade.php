@@ -185,7 +185,7 @@
 									<div class="panel-heading">
 										<h3>Pembayaran : {!! $antrianperiksa->asuransi->nama !!}</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body" id="peringatan_pembayaran">
 										@if($antrianperiksa->asuransi->umum != ''  && $antrianperiksa->asuransi->umum != '[]' && $antrianperiksa->asuransi->umum != null)
 										   @foreach(json_decode($antrianperiksa->asuransi->umum, true) as $ket)
 												<p>
