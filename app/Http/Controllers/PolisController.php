@@ -14,10 +14,13 @@ use App\Diagnosa;
 use App\Icd10;
 use App\Tarif;
 use App\Asuransi;
+use App\GambarPeriksa;
+use File;
 
 class PolisController extends Controller
 {
 	public function poli($id){
+
 		$antrianperiksa 		= AntrianPeriksa::with('pasien')->where('id', $id)->first();
 		$pasien_id 				= $antrianperiksa->pasien_id;
 		$tekanan_darah 			= $antrianperiksa->tekanan_darah;
@@ -150,6 +153,23 @@ class PolisController extends Controller
 			return Asuransi::find(32);
 		});
 		if($periksaExist != null){
+
+			if (isset($periksaExist->gambarPeriksa)) {
+				$files= [];
+				$ids = [];
+
+				 foreach ($periksaExist->gambarPeriksa as $img) {
+					 $ids[] = $img->id;
+
+					 $filename = public_path() . '/img/estetika/' . $img->nama;
+					 if ( File::exists($filename) ) {
+					 	$files[] = $filename;
+					 }
+				 	
+				 }
+				File::delete($files);
+				GambarPeriksa::destroy($ids);
+			}
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
 			$transaksi = $periksaExist->transaksi;
 			$transaksi = json_decode($transaksi, true);
@@ -261,6 +281,8 @@ class PolisController extends Controller
 				$kesimpulan		= null;
 				$saran			= null;
 			}
+
+
 
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
@@ -423,6 +445,7 @@ class PolisController extends Controller
 		}
 		$transaksiusg = json_encode($transaksiusg);
 		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id, $periksa);
+
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)

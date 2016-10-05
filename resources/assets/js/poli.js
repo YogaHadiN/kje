@@ -70,34 +70,36 @@
 	
 
    jQuery(document).ready(function($) {
+
 	   if ( $('#poli_id').val() == 'estetika' ) {
-			$("#fileupload").wrap('<form>').closest('form').get(0).reset();
-			$("#fileupload").change(function () {
-				if (typeof (FileReader) != "undefined") {
-					var dvPreview = $("#dvPreview");
-					dvPreview.html("");
-					var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-					$($(this)[0].files).each(function () { //this bisa digantikan pakai variabel apa?
-						var file = $(this);
-						if (regex.test(file[0].name.toLowerCase())) {
-							var reader = new FileReader();
-							reader.onload = function (e) {
-								var img = $("<img />");
-								img.attr("style", "height:100px;width: 100px");
-								img.attr("src", e.target.result);
-								dvPreview.append(img);
-							}
-							reader.readAsDataURL(file[0]);
-						} else {
-							alert(file[0].name + " is not a valid image file.");
-							dvPreview.html("");
-							return false;
-						}
-					});
-				} else {
-					alert("This browser does not support HTML5 FileReader.");
-				}
-			});
+		   tambahGambar();
+			//$("#fileupload").trigger('change');
+			//$("#fileupload").change(function () {
+				//if (typeof (FileReader) != "undefined") {
+					//var dvPreview = $("#dvPreview");
+					//dvPreview.html("");
+					//var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+					//$($(this)[0].files).each(function () { //this bisa digantikan pakai variabel apa?
+						//var file = $(this);
+						//if (regex.test(file[0].name.toLowerCase())) {
+							//var reader = new FileReader();
+							//reader.onload = function (e) {
+								//var img = $("<img />");
+								//img.attr("style", "height:100px;width: 100px");
+								//img.attr("src", e.target.result);
+								//dvPreview.append(img);
+							//}
+							//reader.readAsDataURL(file[0]);
+						//} else {
+							//alert(file[0].name + " is not a valid image file.");
+							//dvPreview.html("");
+							//return false;
+						//}
+					//});
+				//} else {
+					//alert("This browser does not support HTML5 FileReader.");
+				//}
+			//});
 	   }
 
 
@@ -353,65 +355,6 @@
             }
         });
        // Validasi jika anamnesa dan diagnosa belum diisi, maka gagal menginput
-    $('#LinkButton2').click(function () {
-        var puyer    = $('#puyer').val();
-        var boolAdd  = $('#boolAdd').val();
-        
-        var tindakan  = $('#adatindakan').val();
-        var tindakans = $.parseJSON($('#tindakan').val());
-
-        if (boolAdd == '1' || puyer == '1') {
-            alert('Puyer atau Add Sirup belum selesai. Resep tidak bisa dilanjutkan sebelum diselesaikan');
-            return false
-        }
-
-		if ( $('#asuransi_id').val() == '3' && ( $('#terapi').val() == '[]' || $('#terapi').val() == '' ) ) {
-			var r = confirm('Untuk peserta Inhealth, jika tidak ada terapi yang diberikan , maka bagi hasil untuk dokter tidak bisa dibayarkan untuk pasien ini, Apakah anda yakin ingin melanjutkan? karena anda akan tidak dibayar ntuk pasien ini tanpa terapi');
-
-			if (!r) {
-				alert('Kalau Bingung mau kasih obat apa untuk pasien ini, kasih saja vitamin 4 tablet. bisa pakai neurodex, atau therabex');
-				return false;
-			} else {
-				alert('Anda telah menyetujui untuk tidak dibayar karena melayani pasien ini');
-			}
-		}
-        if ($('#anamnesa').val() == '' || $('#ddlDiagnosa').val() == '') {
-            alert('Anamnesa dan Diagnosa tidak boleh dikosongkan!!');
-            $('#tab-status').tab('show');
-            if($('#anamnesa').val() == '' ){
-                validasi('#anamnesa', 'Harus Diisi!');
-            }
-            if($('#ddlDiagnosa').val() == '' ){
-                validasi2('#ddlDiagnosa', 'Harus Diisi!');
-            }
-            return false;
-        } else if(tindakan == '1'){
-            var tindakanTambahan = 0;
-            for (var i = 0; i < tindakans.length; i++) {
-                if (
-                    tindakans[i]['jenis_tarif_id'] != '1' &&
-                    tindakans[i]['jenis_tarif_id'] != '9' &&
-                    tindakans[i]['jenis_tarif_id'] != '140'
-                ){
-                    tindakanTambahan++;
-                }
-            }
-            if (tindakanTambahan == 0) {
-                var r = confirm('Apa Anda lupa isi kolom tindakan? Jika anda yakin bahwa tidak ada tindakan tambahan, tekan tombol OK');
-                if (r) {
-                    $('#submitFormPeriksa').click();
-                } else {
-                    return false;
-                }
-            } else {
-                $('#submitFormPeriksa').click();
-            }
-        } else {
-            $('#submitFormPeriksa').click();
-        }
-
-
-    });
 
     //ketika exampleModal ditutup mereset example Modal = memilih ICD
     $('#exampleModal').on('hidden.bs.modal', function () {
@@ -2278,4 +2221,137 @@ function bahanHabisPakai(){
         );
 
         $('#pemeriksaan_penunjang').val(temp).focus();
+}
+function tambahGambar(){
+
+    $('#LinkButton2').off('click', function () {
+		validasiKeterangan();
+	});
+	var temp = $('#container_image').html();	 
+	$('#panel_gambar').append(temp);
+
+	$("input[type='file']").off('change', function(){
+		temporaryImage(this);
+	});
+	$("input[type='file']").on('change', function(){
+		temporaryImage(this);
+	});
+    $('#LinkButton2').on('click', function () {
+		validasiKeterangan();
+	});
+
+
+}
+function hapusGambar(control){
+	 $(control).closest('.inputGambar').remove();
+}
+
+function temporaryImage(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$(input).closest('.inputGambar').find('img').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+function validasiKeterangan(){
+	var pesan = 'Harus Diisi!';
+	var result = true;
+	$('.required').each(function(){
+		if ( $(this).val() == '' || $(this).val() == null ) {
+
+				$(this).parent()
+				.find('code')
+				.remove();
+
+				$(this).parent()
+				.addClass('has-error')
+				.append('<code>' + pesan + '</code>');
+
+				$(this).parent()
+				.find('code')
+				.hide()
+				.fadeIn(1000);
+
+			   $(this).on('keyup change', function(){
+				  $(this).parent()
+				  .removeClass('has-error')
+				  .find('code')
+				  .fadeOut('1000', function() {
+					  $(this).remove();
+				  });
+			   })   
+			result = false;
+		}
+	});
+	if (!result) {
+		alert('Keterangan Gambar Harus Diisi');
+		$('#tab-status').tab('show');
+		$('.required:first').focus();
+		console.log($(':focus'));
+	} else {
+		dummySubmit();
+	}
+}
+
+function dummySubmit(){
+        var puyer    = $('#puyer').val();
+        var boolAdd  = $('#boolAdd').val();
+        
+        var tindakan  = $('#adatindakan').val();
+        var tindakans = $.parseJSON($('#tindakan').val());
+
+        if (boolAdd == '1' || puyer == '1') {
+            alert('Puyer atau Add Sirup belum selesai. Resep tidak bisa dilanjutkan sebelum diselesaikan');
+            return false
+        }
+
+		if ( $('#asuransi_id').val() == '3' && ( $('#terapi').val() == '[]' || $('#terapi').val() == '' ) ) {
+			var r = confirm('Untuk peserta Inhealth, jika tidak ada terapi yang diberikan , maka bagi hasil untuk dokter tidak bisa dibayarkan untuk pasien ini, Apakah anda yakin ingin melanjutkan? karena anda akan tidak dibayar ntuk pasien ini tanpa terapi');
+			if (!r) {
+				alert('Kalau Bingung mau kasih obat apa untuk pasien ini, kasih saja vitamin 4 tablet. bisa pakai neurodex, atau therabex');
+				return false;
+			} else {
+				alert('Anda telah menyetujui untuk tidak dibayar karena melayani pasien ini');
+			}
+		}
+        if ($('#anamnesa').val() == '' || $('#ddlDiagnosa').val() == '') {
+            alert('Anamnesa dan Diagnosa tidak boleh dikosongkan!!');
+            $('#tab-status').tab('show');
+            if($('#anamnesa').val() == '' ){
+                validasi('#anamnesa', 'Harus Diisi!');
+            }
+            if($('#ddlDiagnosa').val() == '' ){
+                validasi2('#ddlDiagnosa', 'Harus Diisi!');
+            }
+            return false;
+        } else if(tindakan == '1'){
+            var tindakanTambahan = 0;
+            for (var i = 0; i < tindakans.length; i++) {
+                if (
+                    tindakans[i]['jenis_tarif_id'] != '1' &&
+                    tindakans[i]['jenis_tarif_id'] != '9' &&
+                    tindakans[i]['jenis_tarif_id'] != '140'
+                ){
+                    tindakanTambahan++;
+                }
+            }
+            if (tindakanTambahan == 0) {
+                var r = confirm('Apa Anda lupa isi kolom tindakan? Jika anda yakin bahwa tidak ada tindakan tambahan, tekan tombol OK');
+                if (r) {
+                    $('#submitFormPeriksa').click();
+                } else {
+                    return false;
+                }
+            } else {
+                $('#submitFormPeriksa').click();
+            }
+        } else {
+            $('#submitFormPeriksa').click();
+        }
+
+
+	 
 }

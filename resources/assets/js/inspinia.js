@@ -1,7 +1,12 @@
 // Custom script
 $(document).ready(function () {
+
+	$('.carousel').carousel({
+		interval: false
+	});
+
 	$("input[type='file']").change(function(){
-		readURL(this);
+		readurl(this);
 	});
    $('input, select, textarea').on('keyup change', function(){
       $(this).parent()

@@ -19,6 +19,22 @@ Klinik Jati Elok | Laporan Bulanan
 @stop
 @section('content') 
 <div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<div class="panel-title">Laporan Angka Kontak BPJS</div>
+			</div>
+			<div class="panel-body">
+				<h1>Angka Kontak</h1>
+				<h3>{{ $angka_kontak }}</h3>
+				<h1>Angka Kunjungan</h1>
+				<h3>{{ $angka_kunjungan }}</h3>
+			</div>
+		</div>
+		
+	</div>
+</div>
+<div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="panel panel-primary">
           <div class="panel-heading">

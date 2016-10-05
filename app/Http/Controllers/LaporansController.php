@@ -256,6 +256,11 @@ class LaporansController extends Controller
 
 		$query = "SELECT ps.nama as nama_pasien, p.id as periksa_id, s.nama as nama, s.id as id, count(s.id) as jumlah, sum(p.tunai) as tunai, sum(p.piutang) as piutang from periksas as p LEFT OUTER JOIN asuransis as s on s.id = p.asuransi_id join pasiens as ps on ps.id = p.pasien_id where p.tanggal like '{$tanggal}%' AND p.asuransi_id like '{$asuransi_id}' GROUP BY s.nama ORDER BY jumlah desc";
 		$bulan = DB::select($query);
+		$query = "select count(*) as jumlah from ( SELECT count(pasien_id) as angka_kontak FROM periksas where asuransi_id=32 and tanggal like '$tanggal%' group by pasien_id  ) as x";
+		$angka_kontak = DB::select($query)[0]->jumlah;
+		$query = "select count(*) as jumlah from ( SELECT * FROM periksas where asuransi_id=32 and tanggal like '$tanggal%' ) as x";
+		$angka_kunjungan = DB::select($query)[0]->jumlah;
+
 		$periksa = Periksa::where('tanggal', 'like', $tanggal . '%')->get();
 		$rak = Rak::all();
 		return view('laporans.bulanan')
@@ -264,6 +269,8 @@ class LaporansController extends Controller
 			->withTanggal($tanggal)
 			->withAsuransi_id($asuransi_id)
 			->withTanggall($tanggall)
+			->withAngkaKontak($angka_kontak)
+			->withAngkaKunjungan($angka_kunjungan)
 			->withBulan($bulan);
 
 	}

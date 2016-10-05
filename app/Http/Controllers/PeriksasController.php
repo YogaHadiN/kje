@@ -17,6 +17,7 @@ use App\Asuransi;
 use App\Terapi;
 use App\Usg;
 use App\RegisterAnc;
+use App\GambarPeriksa;
 use App\Tarif;
 
 class PeriksasController extends Controller
@@ -52,7 +53,7 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
-        //return dd( Input::all() );
+
 		// return var_dump(json_decode(Input::get('terapi'), true));
 		//Pada tahap ini ada beberapa yang perlu ditambahkan
 		//BHP (Bahan Habis Pakai) ditambahkan dalam json transaksis bila tindakan tidak kosong
@@ -120,6 +121,31 @@ class PeriksasController extends Controller
 		$periksa->keterangan 			= Input::get('keterangan_periksa');
 		$periksa->transaksi 			= json_encode($transaksis);
 		$confirm = $periksa->save();
+
+
+		//JIKA ADA FOTO ESTETIKA MASUKKAN GAMBAR ESTETIKA
+		//
+		//
+
+		if ( Input::hasFile('foto_estetika') ) {
+			if (count( Input::file('foto_estetika') ) > 0 ) {
+				$timestamp = date('Y-m-d H:i:s');
+				$files = Input::file('foto_estetika');
+				foreach ($files as $k=>$file) {
+
+					$filename = $this->imageUpload($file, $periksa_id, $k); 
+					$data[] = [
+						 'nama'		  => $filename,
+						 'keterangan' => Input::get('keterangan_gambar')[$k],
+						 'periksa_id' => $periksa_id,
+						 'created_at' => $timestamp,
+						 'updated_at' => $timestamp
+					];
+
+				}
+				GambarPeriksa::insert($data);
+			}
+		}
 
 		//INPUT DATA UNTUK TERAPI
 		//
@@ -301,6 +327,9 @@ class PeriksasController extends Controller
 	public function edit($id)
 	{
 		$periksa = Periksa::find($id);
+		if (isset($periksa->gambarPeriksa)) {
+			$periksa->gambarPeriksa->delete();
+		}
 		return view('periksas.edit', compact('periksa'));
 	}
 
@@ -348,6 +377,30 @@ class PeriksasController extends Controller
 		$periksa->jam_selesai_periksa	= date('H:i:s');
 		$confirm = $periksa->save();
 		$terapis = json_decode($terapis, true);
+
+
+		if ( Input::hasFile('foto_estetika') ) {
+			if (count( Input::file('foto_estetika') ) > 0 ) {
+				$timestamp = date('Y-m-d H:i:s');
+				$files = Input::file('foto_estetika');
+
+				foreach ($files as $k=>$file) {
+					if ( $file != null ) {
+						if (empty(  Input::get('id_estetika')[$k] )) {
+							$filename = $this->imageUpload($file, $id, $k); 
+							$data[] = [
+								 'nama'   => $filename,
+								 'keterangan' => Input::get('keterangan_gambar')[$k],
+								 'periksa_id' => $id,
+								 'created_at' => $timestamp,
+								 'updated_at' => $timestamp
+							];
+						}
+					}
+				}
+				GambarPeriksa::insert($data);
+			}
+		}
 
 		$terapiEx = Terapi::where('periksa_id', $id)->get();
 
@@ -626,6 +679,22 @@ class PeriksasController extends Controller
 		//jenis tarif id = 1 adalah jasa dokter
 		//jika ada tindakan surat keterangan sehat, maka jasa dokter adalah 0
 		return $this->inputJasaDokter($transaksis, $asuransi);
+
+	}
+
+	private function imageUpload($file, $id, $k){
+			$extension = $file->getClientOriginalExtension();
+
+			//membuat nama file 
+			$filename =	 $id . '-' . $k . '.' . $extension;
+
+			//menyimpan estetika_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/estetika';
+
+			// Mengambil file yang di upload
+			$file->move($destination_path, $filename);
+
+			return $filename;
 
 	}
 }

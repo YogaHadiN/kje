@@ -8,13 +8,11 @@
             $('#email').focus();
         });
 
+
+
        var request;
         $('#dummyButton').click(function(e) {
 
-                    console.log( $('#antrianpoli_staf_id').val() );
-                    console.log( $('select#ddlPembayaran').val() );
-                    console.log( $('#antrianpoli_poli').val() );
-                    console.log( $('#antrianpoli_antrian').val() );
                  if(
                     $('#antrianpoli_staf_id').val() == '' ||
                     $('select#ddlPembayaran').val() == '' ||

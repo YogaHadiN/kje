@@ -1090,6 +1090,11 @@ class Periksa extends Model{
 		}
 		return $temp;
 	}
+
+	public function gambarPeriksa(){
+		return $this->hasMany('App\GambarPeriksa');
+	}
+	
 	
 	
 	

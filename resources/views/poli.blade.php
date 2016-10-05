@@ -28,7 +28,14 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
     </ol>
 @stop
 @section('content') 
-@include('before') {!! Form::open(['url' => 'periksas', 'method' => 'post', 'id' => 'submitPeriksa', 'autocomplete' => 'on'])!!}
+	@include('before') 
+	{!! Form::open([
+		'url'			=> 'periksas', 
+		'method'		=> 'post', 
+		'id'			=> 'submitPeriksa', 
+		'files'			=> 'true', 
+		'autocomplete'	=> 'on'
+	])!!}
       @include('form', [
           'pemeriksaan_awal'             => $pemeriksaan_awal,
           'transaksi'                    => $transaksiusg, 
@@ -93,6 +100,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
 {!! Form::close()!!}
 
 @include('after', ['cekGdsBulanIni' => $cekGdsBulanIni])
+@include('gambar_periksa')
 @stop
 @section('footer') 
 <script>

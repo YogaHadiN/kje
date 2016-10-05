@@ -146,9 +146,8 @@
 									</div>
 									<div class="row">
 										<div class="col-lg-12 col-md-12">
-											<div class="form-group">
-												<label for="diagnosa_id" id="lblDiagnosa" data-placement="left"  data-toggle="popover" title="Popover title" data-content="Jika ASMA BERAT, berikan bersama dexa inj IV 2 ampul, dan prednison dosis tinggi, Decafil 20 tablet, termasuk untuk pasien BPJS">Diagnosa</label><br />
-												<div class="form-group @if($errors->has('diagnosa_id'))has-error @endif">
+											<div class="form-group @if($errors->has('diagnosa_id'))has-error @endif">
+												<label for="diagnosa_id" id="lblDiagnosa" class="control-label" data-placement="left"  data-toggle="popover" title="Popover title" data-content="Jika ASMA BERAT, berikan bersama dexa inj IV 2 ampul, dan prednison dosis tinggi, Decafil 20 tablet, termasuk untuk pasien BPJS">Diagnosa</label><br />
 													<div class="input-group">
 														{!! Form::select('diagnosa_id', $diagnosa, null, [
 															'class'             => 'selectpick form-control',
@@ -161,7 +160,6 @@
 														<span class="input-group-addon anchor" id="showModal1" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
 													</div>
 												  @if($errors->has('diagnosa_id'))<code>{{ $errors->first('diagnosa_id') }}</code>@endif
-												</div>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="keterangan_boleh_dirujuk">
@@ -206,25 +204,9 @@
 									<div class="panel-heading">
 										<h3>Tangkapan Foto</h3>
 									</div>
-									<div class="panel-body">
-									
-										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-												<div class="control-group{{ $errors->has('foto') ? ' has-error' : '' }}">
-													<div class="controls">
-													{!! Form::label('foto', 'Foto') !!}
-													{!! Form::file('foto[]', [
-													'multiple' => 'true',
-													'id' => 'fileupload'
-												]) !!}
-															<div id="dvPreview">
-															</div>
-													</div>
-													{!! $errors->first('foto', '<p class="help-block">:message</p>') !!}
-												</div>
-											</div>
-										</div>
+									<div class="panel-body" id="panel_gambar">
 									</div>
+									<button type="button" class="btn btn-success btn-block" onclick="tambahGambar();return false;">Tambah Gambar</button>
 								</div>
 							</div>
 						@endif
@@ -566,7 +548,6 @@
     </div>
 @endif
 @include('tunggu');
-
 
 
 

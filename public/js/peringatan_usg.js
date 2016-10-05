@@ -1,4 +1,14 @@
   function pilihPoli(control){
+	  if ( $(control).val() == 'estetika' ) {
+		   $('#ddlPembayaran')
+			   .attr('readonly', 'readonly')
+			   .val('0');
+		   return false;
+	  } else {
+		   $('#ddlPembayaran')
+			   .removeAttr('readonly')
+			   .val('');
+	  }
 	   if( $(control).val() == 'usg' ||  $(control).val() == 'usgabdomen'  ){
 	   	$('#peringatan_trimester_pertama_usg').removeClass('hide');
 	   	$('#peringatan_usg_abdomen').removeClass('hide');

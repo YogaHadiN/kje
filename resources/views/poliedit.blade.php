@@ -35,7 +35,12 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 @section('content') 
 
 @include('before')
-{!! Form::model($periksaex, ['url' => 'periksas/' . $periksaex->id, 'method' => 'put', 'id' => 'submitPeriksa'])!!}
+{!! Form::model($periksaex, [
+	'url' => 'periksas/' . $periksaex->id, 
+	'method' => 'put', 
+	'files' => 'true', 
+	'id' => 'submitPeriksa'
+])!!}
 
 @include('form', [
           'pemeriksaan_awal'             => $periksaex->pemeriksaan_fisik, 
@@ -92,6 +97,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
           'p'                            => $p,
           'a'                            => $a,
           'pasien_id'                    => $periksaex->pasien_id,
+          'gambarPeriksa'                    => $periksaex->gambarPeriksa,
           'riwayat_kehamilan_sebelumnya' => $riwayat_persalinan_sebelumnya,
           'hpht'                         => App\Classes\Yoga::updateDatePrep($hpht),
           'tanggal_lahir_anak_terakhir'  => App\Classes\Yoga::updateDatePrep($tanggal_lahir_anak_terakhir)
@@ -102,6 +108,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 
 {{-- {{ dd(get_defined_vars()) }} --}}
 @include('after')
+@include('gambar_periksa')
      
 @stop
 @section('footer') 
