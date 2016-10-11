@@ -175,40 +175,38 @@ class PasiensController extends Controller
 									'Pernah' => 'Pernah Menikah',
 									'Belum' => 'Belum Menikah'
 									);
+		$panggilan = array(
+			null => '-Panggilan-',
+			'Tn' => 'Tn',
+			'Ny' => 'Ny',
+			'Nn' => 'Nn',
+			'An' => 'An',
+			'By' => 'By'
+			);
 
+		$asuransi = array('0' => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
 
-				$panggilan = array(
-					null => '-Panggilan-',
-					'Tn' => 'Tn',
-					'Ny' => 'Ny',
-					'Nn' => 'Nn',
-					'An' => 'An',
-					'By' => 'By'
-					);
+		$jenis_peserta = array(
 
-				$asuransi = array('0' => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
+			null => ' - pilih asuransi -',  
+			"P" => 'Peserta',
+			"S" => 'Suami',
+			"I" => 'Istri',
+			"A" => 'Anak'
 
-				$jenis_peserta = array(
+			);
+		$staf = array('0' => '- Pilih Staf -') + Staf::lists('nama', 'id')->all();
 
-					null => ' - pilih asuransi -',  
-		            "P" => 'Peserta',
-		            "S" => 'Suami',
-		            "I" => 'Istri',
-		            "A" => 'Anak'
-
-					);
-				$staf = array('0' => '- Pilih Staf -') + Staf::lists('nama', 'id')->all();
-
-				$poli = Yoga::poliList();
-				// return dd($asuransi);
-				return view('pasiens.edit')
-					->withPasien($pasien)
-					->withAsuransi($asuransi)
-					->with('statusPernikahan', $statusPernikahan)
-					->with('panggilan', $panggilan)
-					->withJenis_peserta($jenis_peserta)
-					->withStaf($staf)
-					->withPoli($poli);
+		$poli = Yoga::poliList();
+		// return dd($asuransi);
+		return view('pasiens.edit')
+			->withPasien($pasien)
+			->withAsuransi($asuransi)
+			->with('statusPernikahan', $statusPernikahan)
+			->with('panggilan', $panggilan)
+			->withJenis_peserta($jenis_peserta)
+			->withStaf($staf)
+			->withPoli($poli);
 	}
 
 	/**
@@ -253,6 +251,10 @@ class PasiensController extends Controller
 
 
 
+			if ( !empty( Input::get('back') ) ) {
+				
+				return redirect( Input::get('back') )->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
+			} 
 		return \Redirect::route('pasiens.index')->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
 	}
 	/**

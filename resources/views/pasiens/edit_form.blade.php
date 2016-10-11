@@ -1,54 +1,54 @@
 <div class="row">
 	 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<div class="form-group @if($errors->has('nama'))has-error @endif">
-					  {!! Form::label('nama', 'Nama', ['class' => 'control-label']) !!}
-						{!! Form::text('nama', $pasien->nama, array(
-							'class'         => 'form-control',
-							'placeholder'   => 'nama'
-						))!!}
-					  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
-					</div>
-					<div class="form-group @if($errors->has('alamat'))has-error @endif">
-					  {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
-						{!! Form::textarea('alamat', $pasien->alamat, array(
-							'class'         => 'form-control textareacustom',
-							'placeholder'   => 'alamat'
-						))!!}
-					  @if($errors->has('alamat'))<code>{{ $errors->first('alamat') }}</code>@endif
-					</div>
-					<div class="row">
-						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-							<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
-							  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
-								{!! Form::input('date','tanggal_lahir', App\Classes\Yoga::updateDatePrep($pasien->tanggal_lahir), array(
-									'class'         => 'form-control tanggal',
-									'placeholder'   => 'Tanggal Lahir'
-								))!!}
-							  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
-							</div>
-						</div>
-						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-							<div class="form-group @if($errors->has('sex'))has-error @endif">
-							  {!! Form::label('sex', 'Jenis Kelamin', ['class' => 'control-label']) !!}
-								{!! Form::select('sex', array(
-									null        => '- Jenis Kelamin -',
-									'L'         => 'laki-laki',
-									'P'         => 'perempuan',
-								), null, array('class' => 'form-control'))!!}
-							  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
-							</div>
-						</div>
-						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-							<div class="form-group @if($errors->has('no_telp'))has-error @endif">
-							  {!! Form::label('no_telp', 'No Telp', ['class' => 'control-label']) !!}
-								{!! Form::text('no_telp', $pasien->no_telp, array(
-									'class'         => 'form-control',
-									'placeholder'   => 'no_telp'
-								))!!}
-							  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
-							</div>
-						</div>
-					</div>  
+		<div class="form-group @if($errors->has('nama'))has-error @endif">
+		  {!! Form::label('nama', 'Nama', ['class' => 'control-label']) !!}
+			{!! Form::text('nama', $pasien->nama, array(
+				'class'         => 'form-control',
+				'placeholder'   => 'nama'
+			))!!}
+		  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
+		</div>
+		<div class="form-group @if($errors->has('alamat'))has-error @endif">
+		  {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
+			{!! Form::textarea('alamat', $pasien->alamat, array(
+				'class'         => 'form-control textareacustom',
+				'placeholder'   => 'alamat'
+			))!!}
+		  @if($errors->has('alamat'))<code>{{ $errors->first('alamat') }}</code>@endif
+		</div>
+		<div class="row">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
+				  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
+					{!! Form::input('date','tanggal_lahir', App\Classes\Yoga::updateDatePrep($pasien->tanggal_lahir), array(
+						'class'         => 'form-control tanggal',
+						'placeholder'   => 'Tanggal Lahir'
+					))!!}
+				  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group @if($errors->has('sex'))has-error @endif">
+				  {!! Form::label('sex', 'Jenis Kelamin', ['class' => 'control-label']) !!}
+					{!! Form::select('sex', array(
+						null        => '- Jenis Kelamin -',
+						'L'         => 'laki-laki',
+						'P'         => 'perempuan',
+					), null, array('class' => 'form-control'))!!}
+				  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group @if($errors->has('no_telp'))has-error @endif">
+				  {!! Form::label('no_telp', 'No Telp', ['class' => 'control-label']) !!}
+					{!! Form::text('no_telp', $pasien->no_telp, array(
+						'class'         => 'form-control',
+						'placeholder'   => 'no_telp'
+					))!!}
+				  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
+				</div>
+			</div>
+		</div>  
 					@if(!$facebook)
 					<div class="row"  >
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -189,9 +189,10 @@
 								  <li>Klik tombol Ambil Gambar untuk menangkap gambar</li>
 								  <li>Klik Submit untuk Update data pasien</li>
 							  </ul> 
-							
-
 						  </div>
+						@endif
+						@if( Session::has('back'))
+							<input class="form-control" type="text" name="back" id="back" value="{{ Session::get('back') }}" />
 						@endif
 					</div>
 			 	</div>

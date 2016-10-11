@@ -21,7 +21,14 @@ class PolisController extends Controller
 {
 	public function poli($id){
 
+
 		$antrianperiksa 		= AntrianPeriksa::with('pasien')->where('id', $id)->first();
+
+		if ( $antrianperiksa->asuransi_id == '32' && empty( $antrianperiksa->pasien->image ) ) {
+			return redirect('pasiens/' . $antrianperiksa->pasien_id . '/edit')
+				->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu')
+				->withBack( 'poli/' . $id );
+		}
 		$pasien_id 				= $antrianperiksa->pasien_id;
 		$tekanan_darah 			= $antrianperiksa->tekanan_darah;
 		$suhu 					= $antrianperiksa->suhu;

@@ -6,7 +6,7 @@ Klinik Jati Elok | Nurse Station
 @stop
 @section('head')
     <style>
-
+		
     </style>
 @stop
 @section('page-title') 
@@ -78,9 +78,6 @@ Klinik Jati Elok | Nurse Station
         						{!! Form::close() !!}
     	                	</td>
                             <td class="hide">
-
-
-
                                 {!! App\Classes\Yoga::datediff($antrianpoli->pasien->tanggal_lahir, date('Y-m-d')) !!}
                             </td>
                     	</tr>
@@ -130,7 +127,7 @@ Klinik Jati Elok | Nurse Station
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="pembayaran" id="lblPembayaran">Pembayaran</label>
-                                              {!!Form::select('asuransi_id', $asu, null, ['class' => 'form-control rq', 'id' => 'pembayaran1']) !!}
+											{!!Form::select('asuransi_id', $asu, null, ['class' => 'form-control rq selectpick', 'id' => 'pembayaran1', 'data-live-search' => 'true']) !!}
                                         </div>
                                     </div>
                                 </div>
@@ -327,19 +324,14 @@ Klinik Jati Elok | Nurse Station
 @stop
 @section('footer') 
 <script src="{{ url('js/togglepanel.js') }}" type="text/javascript"></script>
-
 	{!! HTML::script('js/cekbpjskontrol.js')!!}
     {!! HTML::script('js/uk.js') !!}   
     <script>
         var base = "{{ url('/') }}";
-
         $('#G').keyup(function(e) {
             riwObsG();
         });
-
         uk('umur_kehamilan', 'hpht');
-
-
         $('#hamil').change(function(e) {
             if ($(this).val() == '1') {
                 $('.divAnc').removeClass('hide').hide().fadeIn(500);
@@ -348,7 +340,6 @@ Klinik Jati Elok | Nurse Station
                 $('.divAnc').fadeOut(500);
             }
         });
-
         $('#perujuk_submit').click(function(e) {
             var nama = $('#nama_perujuk').val();
             var alamat = $('#alamat_perujuk').val();
@@ -424,7 +415,7 @@ Klinik Jati Elok | Nurse Station
             $('.nama').html(namaPasien);
             $('#jamDatang1').html(jam);
             $('#jamDatang').val(jam);
-            $('#pembayaran1 ').val(ID_ASURANSI);
+            $('#pembayaran1 ').val(ID_ASURANSI).selectpicker('refresh');
             $('#ddlDokter').val(ID_STAF);
             $('#poli1').val(ID_POLI);
             $('#ID_PASIEN').val(ID_PASIEN);
