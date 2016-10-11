@@ -796,7 +796,8 @@ class PengeluaransController extends Controller
        if ($confirm) {
 
 		   if ((int)strtotime( date('Y-m-d H:i:s') ) > (int)strtotime( date($bulan . '-t 23:59:59') ) ) {
-				$timestamp = date($bulan . '-t 23:59:59');
+			    $a_date = $bulan. '-01';
+				$timestamp = date('Y-m-t', strtotime($a_date)) . ' 23:59:59';
 		   } else {
 				$timestamp = date('Y-m-d H:i:s');
 		   }
