@@ -734,6 +734,22 @@ class PengeluaransController extends Controller
     }
     
    public function bayar_gaji(){
+	   $rules = [
+		 "coa_id" => "required",
+		  "staf_id" => "required",
+		  "bulan" => "required",
+		  "tanggal_dibayar" => "required",
+		  "gaji_pokok" => "required",
+		  "bonus" => "required"
+	   ];
+	   
+	   $validator = \Validator::make(Input::all(), $rules);
+	   
+	   if ($validator->fails())
+	   {
+	   	return \Redirect::back()->withErrors($validator)->withInput();
+	   }
+
        $staf_id = Input::get('staf_id');
        $coa_id = Input::get('coa_id');
        $bulan = Input::get('bulan');

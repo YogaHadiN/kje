@@ -29,12 +29,12 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
             <hr>
 				<div class="form-group @if($errors->has('coa_id'))has-error @endif">
 				  {!! Form::label('coa_id', 'Sumber Dana', ['class' => 'control-label']) !!}
-                  {!! Form::select('coa_id', $sumber_kas_lists, null , ['class' => 'form-control']) !!}
+                  {!! Form::select('coa_id', $sumber_kas_lists, null , ['class' => 'form-control rq']) !!}
 				  @if($errors->has('coa_id'))<code>{{ $errors->first('coa_id') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Nama Staf Yang Dibayarkan Gajinya', ['class' => 'control-label']) !!}
-                  {!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
+                  {!! Form::select('staf_id',App\Classes\Yoga::stafList(), null , ['class' => 'rq form-control selectpick', 'data-live-search' => 'true']) !!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('bulan'))has-error @endif">
