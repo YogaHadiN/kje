@@ -44,7 +44,7 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
 				</div>
 				<div class="form-group @if($errors->has('tanggal_dibayar'))has-error @endif">
 				  {!! Form::label('tanggal_dibayar', 'Tanggal Dibayar', ['class' => 'control-label']) !!}
-                  {!! Form::text('tanggal_dibayar', null, ['class' => 'form-control rq tanggal']) !!}
+                  {!! Form::text('tanggal_dibayar', date('d-m-Y'), ['class' => 'form-control rq tanggal']) !!}
 				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('gaji_pokok'))has-error @endif">
