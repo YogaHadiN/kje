@@ -16,6 +16,7 @@ Klinik Jati Elok | Laporan Per Tanggal
 </ol>
 
 @stop
+
 @section('content') 
 <div class="row">
             <div class="col-lg-12">

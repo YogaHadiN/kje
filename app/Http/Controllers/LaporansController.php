@@ -289,11 +289,34 @@ class LaporansController extends Controller
 			$nama_asuransi = 'Semua Pembayaran';
 		}
 		$query = "SELECT p. tanggal, min(s.nama), count(p.id) as jumlah, sum(p.tunai) as tunai, sum(p.piutang) as piutang FROM periksas as p left outer join asuransis as s on s.id = p.asuransi_id where p.tanggal like '{$tanggal}%' AND asuransi_id like '{$asuransi_id}' group by p.tanggal";
-		// $query = "SELECT ";
-
-		return $query;
 		$tanggal = DB::select($query);
 		$bln = Input::get('bulanTahun');
+
+
+		$date = Yoga::blnPrep(Input::get('bulanTahun'));
+ 
+		$query = "SELECT p.asuransi_id as asuransi_id, p.tanggal as tanggal, asu.nama as asuransi, count(*) as jumlah, sum(p.tunai) as tunai, sum(p.piutang) as piutang from periksas as p join asuransis as asu on asu.id = p.asuransi_id where p.tanggal like '{$date}%' group by p.tanggal, p.asuransi_id";
+
+		$daftar_asuransi = DB::select($query);
+		$rows = [];
+		$tanggals = $this->unique($daftar_asuransi, 'tanggal');
+		$asuransis = $this->unique($daftar_asuransi, 'asuransi');
+		foreach ($tanggals as $k=> $tg) {
+			$rows[$k]['tanggal'] = $tg;
+		}
+		foreach ($rows as $k => $row) {
+			foreach ($daftar_asuransi as $d) {
+				if ($d->tanggal == $row['tanggal']) {
+					foreach ($asuransis as $asu) {
+						if ($d->asuransi == $asu) {
+							$rows[$k][$d->asuransi] = $d->jumlah;
+						}else {
+							$rows[$k][$asu] = '0';
+						}
+					}
+				}
+			}
+		}
 
 
 		$totalTunaiTanggal = 0;
@@ -306,7 +329,15 @@ class LaporansController extends Controller
 			$totalJumlahTanggal += $v->jumlah;
 		}
 
-		return view('laporans.tanggal', compact('tanggal', 'totalTunaiTanggal', 'totalPiutangTanggal', 'totalJumlahTanggal', 'bln', 'nama_asuransi'));
+		return view('laporans.tanggal', compact(
+			'tanggal', 
+			'totalTunaiTanggal', 
+			'totalPiutangTanggal', 
+			'daftar_asuransi', 
+			'totalJumlahTanggal', 
+			'bln', 
+			'rows', 
+			'nama_asuransi'));
 
 	}
 
@@ -899,6 +930,17 @@ class LaporansController extends Controller
 			'polis' =>$polis,
 			'periksas' =>$periksas
 		];
+	}
+
+	private function unique($arr, $param){
+		$uniqueEmails = array();
+		foreach($arr as $array)
+		{
+			if(!in_array($array->$param, $uniqueEmails)){
+				$uniqueEmails[] = $array->$param;
+			}
+		}
+		return $uniqueEmails;
 	}
 	
 	
