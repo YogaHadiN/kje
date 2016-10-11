@@ -777,11 +777,14 @@ class PengeluaransController extends Controller
                $total_bonus_sudah_dibayar += $ju->nilai;
            }
            //return $total_bonus_sudah_dibayar . ' total bonys sudah dibayar';
+
+		   
            $sisa_hutang_bonus = $total_bonus - $total_bonus_sudah_dibayar;
            $data =  'total_bonus = ' . $total_bonus . '<br />';
            $data .=  'total_bonus_sudah_dibayar = ' . $total_bonus_sudah_dibayar . '<br />';
            $data .=  'sisa_hutang_bonus = ' . $sisa_hutang_bonus . '<br />';
            $data .=  'bonus = ' . $bonus . '<br />';
+
 
        $bg = new BayarGaji;
        $bg->staf_id = $staf_id;
@@ -827,7 +830,11 @@ class PengeluaransController extends Controller
                     $jurnal->save();
                }
            } else{
-               $beban_produksi_hutang_asisten = $bonus - $sisa_hutang_bonus;
+			   if ($sisa_hutang_bonus > 0) {
+				   $beban_produksi_hutang_asisten = $bonus - $sisa_hutang_bonus;
+			   }else{
+				   $beban_produksi_hutang_asisten = $bonus;
+			   }
                if ($sisa_hutang_bonus > 0) {
                     $jurnal                  = new JurnalUmum;
                     $jurnal->jurnalable_id   = $bg->id;
@@ -839,6 +846,7 @@ class PengeluaransController extends Controller
                     $jurnal->nilai           = $sisa_hutang_bonus;
                     $jurnal->save();
                }
+
                if ($beban_produksi_hutang_asisten > 0) {
                     $jurnal                  = new JurnalUmum;
                     $jurnal->jurnalable_id   = $bg->id;
