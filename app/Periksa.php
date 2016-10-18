@@ -765,6 +765,10 @@ class Periksa extends Model{
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }
 
+    public function antars(){
+        return $this->morphMany('App\PengantarPasien', 'antarable');
+    }
+
     public function getKetjurnalAttribute(){
         $pasien = $this->pasien->nama;
         $diagnosis = $this->diagnosa->diagnosa .' - ' . $this->diagnosa->icd10->diagnosaICD;

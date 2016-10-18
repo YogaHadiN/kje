@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class AntrianPeriksa extends Model{
+
 	public $incrementing = false; 
 
 	// Add your validation rules here
@@ -20,9 +21,16 @@ class AntrianPeriksa extends Model{
 	public function asuransi() {
 		return $this->belongsTo('App\Asuransi');
 	}
+
 	public function pasien() {
 		return $this->belongsTo('App\Pasien');
 	}
+
+
+    protected $morphClass = 'App\AntrianPeriksa';
+    public function antars(){
+        return $this->morphMany('App\PengantarPasien', 'antarable');
+    }
 	public function staf() {
 		return $this->belongsTo('App\Staf');
 	}

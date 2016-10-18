@@ -11,6 +11,7 @@ use App\Formula;
 use App\Merek;
 use App\Rak;
 use App\BahanHabisPakai;
+use App\PengantarPasien;
 use App\JenisTarif;
 use App\PiutangAsuransi;
 use App\Periksa;
@@ -117,9 +118,10 @@ class CustomController extends Controller
 		 $periksa->lewat_kasir = '0';
 		 $periksa->save();
 
+		 $antrian_periksa_id = Yoga::customId('App\AntrianPeriksa');
 
 		$antrian = new AntrianPeriksa;
-		$antrian->id = Yoga::customId('App\AntrianPeriksa');
+		$antrian->id = $antrian_periksa_id;
 		$antrian->antrian = $periksa->antrian;
 		$antrian->asuransi_id = $periksa->asuransi_id;
 		$antrian->pasien_id = $periksa->pasien_id;
@@ -128,6 +130,14 @@ class CustomController extends Controller
 		$antrian->jam = $periksa->jam;
 		$antrian->tanggal = $periksa->tanggal;
 		$antrian->save();
+
+
+		PengantarPasien::where('antarable_type', 'App\Periksa')
+			->where('antarable_id', $id)
+			->update([
+			 'antarable_type' => 'App\AntrianPeriksa',
+			 'antarable_id' => $antrian_periksa_id
+		 ]);
 
 		$pasien = Pasien::find($periksa->pasien_id);
 
@@ -155,11 +165,17 @@ class CustomController extends Controller
 		$antrian->antrian = $periksa->antrian;
 		$antrian->asuransi_id = $periksa->asuransi_id;
 		$antrian->pasien_id = $periksa->pasien_id;
-		$antrian->poli = $periksa->poli;
-		$antrian->staf_id = $periksa->staf_id;
 		$antrian->jam = $periksa->jam;
 		$antrian->tanggal = $periksa->tanggal;
 		$antrian->save();
+
+
+		PengantarPasien::where('antarable_type', 'App\Periksa')
+			->where('antarable_id', $id)
+			->update([
+			 'antarable_type' => 'App\AntrianPeriksa',
+			 'antarable_id' => $antrian_id
+		 ]);
 
 		$pasien = Pasien::find($periksa->pasien_id);
         $poli = $periksa->poli;

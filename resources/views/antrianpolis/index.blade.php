@@ -46,6 +46,7 @@ Klinik Jati Elok | Nurse Station
 						<th class="displayNone">staf_id</th>
                         <th class="displayNone">asuransi_id</th>
 						<th class="hide">image_url</th>
+						<th class="hide">pengantar</th>
 						<th class="">Action</th>
                     </tr>
                 </thead>
@@ -56,7 +57,7 @@ Klinik Jati Elok | Nurse Station
     						<td>{!! $antrianpoli->id !!}</td>
     	                   	<td>{!! $antrianpoli->antrian!!}</td>
 							<td>{!! $antrianpoli->asuransi->nama !!}</td>
-    						<td>{!! $antrianpoli->pasien->nama!!}</td>
+							<td>{!! $antrianpoli->pasien->nama!!} </td>
     						<td>{!! $antrianpoli->jam!!}</td>
     						<td>{!! $antrianpoli->tanggal!!}</td>
     						<td class="displayNone">{!! $antrianpoli->poli !!}</td>
@@ -64,12 +65,19 @@ Klinik Jati Elok | Nurse Station
     						<td class="displayNone">{!! $antrianpoli->staf_id !!}</td>
                             <td class="displayNone">{!! $antrianpoli->asuransi_id !!}</td>
     						<td class="hide">{!! $antrianpoli->pasien->image !!}?{{ time() }}</td>
+                            <td class="displayNone">{!! $antrianpoli->pengantar !!}</td>
     	                	<td>
         						{!! Form::open(['url' => 'antrianpolis/' . $antrianpoli->id, 'method' => 'delete'])!!}
         							<a href=\"#\" class="btn btn-primary btn-xs" onclick="rowEntry(this);return false;" data-toggle="modal" data-target="#exampleModal">Proses</a>
                                     {!! Form::hidden('alasan', null, ['class' => 'alasan', 'id' => 'alasan_hapus' . $antrianpoli->id])!!}
                                     {!! Form::hidden('pasien_id', $antrianpoli->pasien_id, ['class' => 'form-control'])!!}
                                     <button type="button" class="btn btn-danger btn-xs" onclick="alas(this);return false;">Delete</button>
+
+									@if($antrianpoli->antars->count() > 0 && $antrianpoli->asuransi_id == '32')
+									<a href="{{ url('antrianpolis/pengantar/' . $antrianpoli->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antrianpoli->antars->count() }} pengantar</a>		
+								@elseif( $antrianpoli->asuransi_id == '32' )
+								<a class="btn btn-warning btn-xs" href="{{ url('antrianpolis/pengantar/' . $antrianpoli->id . '/edit') }}">Edit Pengantar</a>
+									@endif
         							{!! Form::submit('Delete', [
                                     'class' => 'btn btn-danger btn-xs hide submit', 
                                     'onclick' => 'return confirm("Anda yakin ingin menghapus pasien ' . $antrianpoli->id . ' - ' . $antrianpoli->pasien->nama . '")', 
@@ -115,6 +123,7 @@ Klinik Jati Elok | Nurse Station
                                             <input type="text" class="displayNone" name="tanggal" id="tanggal">
                                             <input type="text" class="displayNone" name="antrian_id" id="ID_ANTRIAN_POLI">
                                             <input type="text" class="displayNone" name="antrian" id="antrian">
+                                            <input type="text" class="displayNone" name="pengantar" id="pengantar">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3 hide">
@@ -385,6 +394,7 @@ Klinik Jati Elok | Nurse Station
             var ID_ANTRIAN_POLI = $(control).closest('tr').find('td:first-child').html();
             var antrian = $(control).closest('tr').find('td:nth-child(2)').html();
             var image = $(control).closest('tr').find('td:nth-child(11)').html();
+            var pengantar = $(control).closest('tr').find('td:nth-child(12)').html();
             var umur = $(control).closest('tr').find('td:last-child').html();
 
 			$.get('{{url('antrianpolis/ajax/getGolonganProlanis')}}',
@@ -423,6 +433,7 @@ Klinik Jati Elok | Nurse Station
             $('#ID_ANTRIAN_POLI').val(ID_ANTRIAN_POLI);
             $('#antrian').val(antrian);
             $('#formfield').val(image);
+            $('#pengantar').val(pengantar);
             $('#photo').attr("src", "{{ url('/') }}"+image);
 
             empty();

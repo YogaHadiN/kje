@@ -16,6 +16,7 @@ use App\Periksa;
 use App\Terapi;
 use App\TransaksiPeriksa;
 use App\Rujukan;
+use App\PengantarPasien;
 use App\SuratSakit;
 use App\RegisterAnc;
 use App\Usg;
@@ -129,6 +130,13 @@ class AntrianPeriksasController extends Controller
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
 		$hapus                   = AntrianPoli::find($antrian_id);
 		$hapus->delete();
+
+		PengantarPasien::where('antarable_id', $antrian_id)
+			->where('antarable_type', 'App\AntrianPoli')
+			->update([
+				'antarable_id' => $antrianperiksa_id,
+				'antarable_type' => 'App\AntrianPeriksa'
+			]);
 
 		return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$pasien->id . ' - ' . $pasien->nama . '</strong> berhasil masuk antrian periksa'));
 	}

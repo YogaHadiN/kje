@@ -121,7 +121,7 @@
 
                     temp += "<td nowrap class='displayNone'><div>" + result[0].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + result[0].image + "</div></td>";
-                    temp += "<td nowrap nowrap><div class='invisible'><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk periksa pasien\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
+                    temp += "<td nowrap nowrap><div class='invisible'><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk periksa pasien\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "/edit\" style=\"color: ##337AB7; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk ubah data pasien\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a onclick='confirmStafModal();' data-value=\"pasiens/" + result[0].id + "\" style=\"color: orange; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk melihat riwayat pasien\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>";
                    temp += "</tr>";
@@ -356,7 +356,7 @@
 
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].image + "</div></td>";
-                    temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
+                    temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + MyArray[i].ID_PASIEN + "/edit\" style=\"color: ##337AB7; font-size: large;\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a data-value='" + MyArray[i].ID_PASIEN + "' onclick='confirmStafModal(this);' href='#' style=\"color: orange; font-size: large;\" ><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a> </td>";
          
@@ -381,7 +381,7 @@
 
 			cekBPJSkontrol(ID, asuransi_id);
 
-             imgError();
+            imgError();
 
             if (asuransi_id != '0') {
                 option_asuransi += '<option value="' + asuransi_id + '">' + nama_asuransi + '</option>'
@@ -423,11 +423,11 @@
         function dummy2(e){
 
              if($('#antrianpoli_staf_id').val() == '' ||
-                    $('select#ddlPembayaran').val() == '' ||
-                    $('#antrianpoli_poli').val() == '' ||
-                    $('#antrianpoli_antrian').val() == '' ||
-                    $('#staf_id_complain').val() == '' ||
-                    $('#komplain').val() == ''
+				$('select#ddlPembayaran').val() == '' ||
+				$('#antrianpoli_poli').val() == '' ||
+				$('#antrianpoli_antrian').val() == '' ||
+				$('#staf_id_complain').val() == '' ||
+				$('#komplain').val() == ''
 
                 ){
 
@@ -463,17 +463,17 @@
 
         function lanjutSubmit(e){
              e.preventDefault();
-                $.post(base + '/pasiens/ajax/ajaxpasien', {antrian: $('#antrianpoli_antrian').val(), 'pasien_id' : $('#ID_PASIEN').val()}, function(data) {
+                $.post(base + '/pasiens/ajax/ajaxpasien', {antrian: $('#antrianpoli_antrian').val(), 'pasien_id' : $('#id_pasien').val()}, function(data) {
 
                     data = JSON.parse(data);
                     if(data.antrian == '' && data.pasien == ''){
                         $('#submit').click();
                     } else {
                         if(data.antrian != ''){
-                            validasi('#antrianpoli_antrian', 'Sudah ada antrian <br /> nama : ' + data.antrian);
+                            validasi('#antrianpoli_antrian', 'sudah ada antrian <br /> nama : ' + data.antrian);
                         }
                         if(data.pasien != ''){
-                            validasi('input[name="pasien_id"]', 'Pasien sudah di antrian');
+                            validasi('input[name="pasien_id"]', 'pasien sudah di antrian');
                         }
                     }
                 });

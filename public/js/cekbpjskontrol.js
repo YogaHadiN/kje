@@ -28,8 +28,10 @@ function cekBPJSkontrol(ID, asuransi_id){
 			$('#cekGDSBPJS').hide();
 		  }
 		});
+		$('#pengantar_pasien').show();
 	 } else {
-	  $('#cekBPJSkontrol').hide();
+	    $('#cekBPJSkontrol').hide();
+		$('#pengantar_pasien').hide();
 	 }
 	 
 }

@@ -47,6 +47,10 @@ Klinik Jati Elok | Checkout Kasir
                                   <td>Uang Keluar</td>
                                   <td class="uang">{{ $total_uang_keluar }}</td>
                               </tr>
+								<tr>
+                                  <td>Tanggal Buka Kasir</td>
+								  <td class="text-right">{{ $checkout->tanggal }}</td>
+                              </tr>
                           </tbody>
                       </table>
                         <button class="btn btn-primary btn-lg btn-block" type="button" onclick="validate();return false;"> Checkout </button>
@@ -167,7 +171,7 @@ Klinik Jati Elok | Checkout Kasir
 										<td>{{ $p->created_at->format('d-m-Y') }}</td>
 										<td>{{ $p->sumber_uang }}</td>
 										<td>{{ $p->keterangan }}</td>
-										<td>{{ $p->nilai }}</td>
+										<td class="uang">{{ $p->nilai }}</td>
 									</tr>
 								@endforeach
 							@else
@@ -179,8 +183,8 @@ Klinik Jati Elok | Checkout Kasir
 						@if($pendapatans->count() > 0)
 							<tfoot>
 								<tr>
-									<td><h3>Total Pendapatan Lain</h3></td>
-									<td>{{ $total_pendapatan_lain }}</td>
+									<td colspan="2"><h3>Total Pendapatan Lain</h3></td>
+									<td colspan="2"><h3 class="uang">{{ $total_pendapatan_lain }}</h3></td>
 								</tr>
 							</tfoot>
 						@endif
@@ -261,8 +265,8 @@ Klinik Jati Elok | Checkout Kasir
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="3"><h3>Total Pembayaran Asuransi</h3></td>
-								<td class="uang">{{ $total_pembayaran_asuransi }}</td>
+								<td colspan="2"><h3>Total Pembayaran Asuransi</h3></td>
+								<td colspan="2"><h3 class="uang">{{ $total_pembayaran_asuransi }}</h3></td>
 							</tr>
 						</tfoot>
 					</table>

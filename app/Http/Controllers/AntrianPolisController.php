@@ -106,6 +106,9 @@ class AntrianPolisController extends Controller
 			$pesan = '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station';
 		}
 
+		if (Input::get('asuransi_id') == '32') {
+			return redirect('antrianpolis/pengantar/create/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat'));
+		}
 		return redirect('antrianpolis')->withPesan(Yoga::suksesFlash($pesan));
 	}
 

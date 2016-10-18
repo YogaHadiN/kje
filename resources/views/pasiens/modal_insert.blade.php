@@ -41,8 +41,6 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-6 col-md-6">
-
-
 				<div class="form-group @if($errors->has('nama_ibu'))has-error @endif">
 				  {!! Form::label('nama_ibu', 'Nama Ibu', ['class' => 'control-label']) !!}
 					{!! Form::text('nama_ibu',null, ['class' => 'form-control hh'])!!}
@@ -50,7 +48,6 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6">
-
 				<div class="form-group @if($errors->has('nama_ayah'))has-error @endif">
 				  {!! Form::label('nama_ayah', 'Nama Ayah', ['class' => 'control-label']) !!}
 					{!! Form::text('nama_ayah', null, ['class' => 'form-control hh'])!!}
@@ -91,43 +88,37 @@
 		</div>
 		 <div class="displayNone transition" id="xx">
 			<div class="row">
-				<div class="col-lg-3 col-md-3 col-xs-3 col-sm-63">
-
-
-				<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
 					  {!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
 					  {!!Form::select('asuransi_id', $asuransi, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true'])!!}
 					  @if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-
-
-				<div class="form-group @if($errors->has('jenis_peserta'))has-error @endif">
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group @if($errors->has('jenis_peserta'))has-error @endif">
 					  {!! Form::label('jenis_peserta', 'Jenis Peserta', ['class' => 'control-label']) !!}
 						{!! Form::select('jenis_peserta', $jenis_peserta, null, ['class' => 'form-control tog hh'])!!}
 					  @if($errors->has('jenis_peserta'))<code>{{ $errors->first('jenis_peserta') }}</code>@endif
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-
-
-				<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
 					  {!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
 						{!! Form::text('nomor_asuransi', null, ['class' => 'form-control tog hh'])!!}
 					  @if($errors->has('nomor_asuransi'))<code>{{ $errors->first('nomor_asuransi') }}</code>@endif
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-
-
-				<div class="form-group @if($errors->has('nama_peserta'))has-error @endif">
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group @if($errors->has('nama_peserta'))has-error @endif">
 					  {!! Form::label('nama_peserta', 'Nama Peserta', ['class' => 'control-label']) !!}
 						{!! Form::text('nama_peserta', null, ['class'=>'form-control tog hh'])!!}
 					  @if($errors->has('nama_peserta'))<code>{{ $errors->first('nama_peserta') }}</code>@endif
 					</div>
 				</div>
-			</div>
+			</div>	
 		  </div>
 		  <div class="row">
 			  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -139,6 +130,68 @@
 				  </div>
 			  </div>
 		  </div>
+		  
+		{{--<div class="row">--}}
+			{{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">--}}
+				{{--<div>--}}
+				
+				  {{--<!-- Nav tabs -->--}}
+				  {{--<ul class="nav nav-tabs" role="tablist">--}}
+					{{--<li role="presentation" class="active"><a href="#cari_kepala_keluarga" aria-controls="cari_kepala_keluarga" role="tab" data-toggle="tab">Cari Kepala Keluarga</a></li>--}}
+					{{--<li role="presentation"><a href="#buat_kepala_keluarga" aria-controls="buat_kepala_keluarga" role="tab" data-toggle="tab">Buat Kepala Keluarga</a></li>--}}
+				  {{--</ul>--}}
+				  {{--<!-- Tab panes -->--}}
+				  {{--<div class="tab-content">--}}
+					{{--<div role="tabpanel" class="tab-pane active" id="cari_kepala_keluarga">--}}
+						{{--<div class="form-group @if($errors->has('kepala_keluarga_id'))has-error @endif">--}}
+						  {{--{!! Form::label('kepala_keluarga_id', 'Nama Kepala Keluarga', ['class' => 'control-label']) !!}--}}
+						  {{--<p>format : nama(spasi)tanggal_lahir(spasi)alamat</p>--}}
+ 
+						  {{--{!! Form::select('kepala_keluarga_id' , [], null, ['class' => 'form-control selectPasien']) !!}--}}
+						  {{--@if($errors->has('kepala_keluarga_id'))<code>{{ $errors->first('kepala_keluarga_id') }}</code>@endif--}}
+						{{--</div>--}}
+					{{--</div>--}}
+					{{--<div role="tabpanel" class="tab-pane" id="buat_kepala_keluarga">--}}
+						{{--<div class="row">--}}
+							{{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">--}}
+								{{--<div class="form-group @if($errors->has('kepala_keluarga_nama'))has-error @endif">--}}
+								  {{--{!! Form::label('kepala_keluarga_nama', 'Nama Kepala Keluarga', ['class' => 'control-label']) !!}--}}
+								  {{--{!! Form::text('kepala_keluarga_nama' , null, ['class' => 'form-control']) !!}--}}
+								  {{--@if($errors->has('kepala_keluarga_nama'))<code>{{ $errors->first('kepala_keluarga_nama') }}</code>@endif--}}
+								{{--</div>--}}
+							{{--</div>--}}
+						{{--</div>	--}}
+						{{--<div class="row">--}}
+							{{--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">--}}
+								{{--<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">--}}
+								  {{--{!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}--}}
+								  {{--{!! Form::text('tanggal_lahir' , null, ['class' => 'form-control tanggal']) !!}--}}
+								  {{--@if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif--}}
+								{{--</div>--}}
+							{{--</div>--}}
+							{{--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">--}}
+								{{--<div class="form-group @if($errors->has('nomor asuransi'))has-error @endif">--}}
+								  {{--{!! Form::label('kepala_keluarga_nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}--}}
+								  {{--{!! Form::text('kepala_keluarga_nomor_asuransi' , null, ['class' => 'form-control']) !!}--}}
+								  {{--@if($errors->has('kepala_keluarga_nomor_asuransi'))<code>{{ $errors->first('nomor asuransi') }}</code>@endif--}}
+								{{--</div>--}}
+							{{--</div>--}}
+						{{--</div>--}}
+						{{--<div class="row">--}}
+							{{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">--}}
+								{{--<div class="form-group{{ $errors->has('kepala_keluarga_kartu_bpjs') ? ' has-error' : '' }}">--}}
+									{{--{!! Form::label('kepala_keluarga_kartu_bpjs', 'Kartu BPJS Kepala Keluarga') !!}--}}
+									{{--{!! Form::file('kepala_keluarga_kartu_bpjs') !!}--}}
+										{{--<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>--}}
+									{{--{!! $errors->first('kepala_keluarga_kartu_bpjs', '<p class="help-block">:message</p>') !!}--}}
+								{{--</div>--}}
+							{{--</div>--}}
+						{{--</div>--}}
+					{{--</div>--}}
+				  {{--</div>--}}
+				{{--</div>--}}
+			{{--</div>--}}
+		{{--</div>--}}
 		  @if($facebook)
 		  <div class="row">
 		  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -166,16 +219,8 @@
 			</div>
 		  </div>
 		  @endif
-
-		  <div class="row">
-			  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				  @include('antrianpolis.webcamForm', [
-				  'image' => null,
-				  'ktp_image' => null,
-				  'subject'   => 'Pasien'
-				  ])
-			  </div>
-		  </div>
+		@if(!isset( $pengantar ))	
+		  @endif
 
 		  @if(!$facebook)
 			  <h2>Antrian Poli</h2>

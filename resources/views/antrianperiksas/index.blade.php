@@ -37,7 +37,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                         <th>Jam</th>
                         <th>Pembayaran</th>
                         <th>Nama Pasien</th>
-                        <th>Tujuan</th>
+                        <th>Pengantar</th>
                         <th>Pemeriksa</th>
                         <th style="width:5px" nowrap>Action</th>
                     </tr>
@@ -51,7 +51,13 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                 <td>{!! $periksa->jam !!}</td>
                                 <td>{!! $periksa->asuransi->nama !!}</td>
                                 <td>{!! $periksa->pasien->nama !!}</td>
-                                <td>{!! $periksa->poli !!}</td>
+								<td>
+									@if( $periksa->asuransi_id == '32' && $periksa->antars->count() > 0 )		
+										<a class="btn btn-success btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">{!! $periksa->antars->count() !!} pengantar</a>
+									@elseif( $periksa->asuransi_id == '32' && $periksa->antars->count() < 1 )
+										<a class="btn btn-warning btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">Edit Pengantar</a>
+									@endif
+								</td>
                                 <td>{!! $periksa->staf->nama !!}</td>
 
                                 <td nowrap>
@@ -128,7 +134,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                     </td>
                                     <td nowrap>
                                       {!! Form::open(['url' => 'update/kembali2/' . $periksa->id, 'method' => 'post'])!!}
-
                                         @if(!$periksa->suratSakit)
                                             <span>
                                                 <button type="button" onclick="cekMasihAda(this);return false;" class="btn btn-success btn-sm">Buat Surat Sakit</button>
@@ -140,9 +145,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                                 <a href="{{ url('suratsakits/' . $periksa->suratSakit->id . '/edit') }}" class="btn btn-warning btn-sm rujukan hide">Edit Surat Sakit2</a>
                                             </span>
                                         @endif
-
-
-
                                         @if(!$periksa->rujukan)
                                             <span>
                                                 <button type="button" onclick="cekMasihAda(this);return false;" class="btn btn-success btn-sm">Buat Rujukan</button>

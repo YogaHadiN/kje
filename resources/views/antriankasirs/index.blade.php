@@ -49,21 +49,24 @@ Klinik Jati Elok | Antrian Kasir
         						<td>{!! $antriankasir->id !!}</td>
         						<td>{!! $antriankasir->pasien->nama!!}</td>
         						<td>{!! $antriankasir->jam!!}</td>
-                    <td>{!! $antriankasir->tanggal!!}</td>
+								<td>{!! $antriankasir->tanggal!!}</td>
         						<td>{!! $antriankasir->asuransi->nama!!}</td>
 	                	<td>
                       @if ($antriankasir->lewat_kasir == '0')
                           {!! Form::open(['url' => 'update/kembali/' . $antriankasir->id, 'method' => 'post'])!!}
                             <a href="{{ url('kasir/' . $antriankasir->id) }}" class="btn btn-primary btn-xs">Prosesi</a>
+						  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
                             {!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke ruang periksa?")']) !!}
+
                           {!! Form::close() !!}
                       @else 
                           {!! Form::open(['url' => 'update/kembali3/' . $antriankasir->id, 'method' => 'post'])!!}
                             <a href="#" class="btn btn-warning btn-xs"  onclick="monitor_available(this); return false;">Lanjut</a>
                              <a href="{{ url('update/surveys/' . $antriankasir->id) }}" class="btn btn-warning btn-xs displayNone">Lanjutlah</a>
+
+							  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
                             {!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke Apotek?")']) !!}
                           {!! Form::close() !!}
-
                       @endif
                   	</td>
                 	</tr>

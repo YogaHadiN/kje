@@ -12,6 +12,7 @@ use App\BukanObat;
 use App\BagiGigi;
 use App\CheckoutDetail;
 use App\Pembelian;
+use App\Pasien;
 use App\BelanjaPeralatan;
 use App\Pendapatan;
 use App\Diagnosa;
@@ -341,8 +342,10 @@ class PengeluaransController extends Controller
     public function nota_z(){
 
         $checkout = CheckoutKasir::latest()->first();
+		//return dd( $checkout );
 
         $tanggal = $checkout->created_at;
+		//return $tanggal;
 
         $jurnal_umum_id = $checkout->jurnal_umum_id;
 
@@ -355,9 +358,10 @@ class PengeluaransController extends Controller
 			$totalModal += $modal->modal;
 		}
 
-        $pengeluarans = JurnalUmum::with('jurnalable')->where('coa_id', 110000)
+		$pengeluarans = JurnalUmum::with('jurnalable')
+									->where('coa_id', 110000)
                                     ->where('debit', '0')
-                                    ->where('created_at', '>=', $tanggal)
+                                    ->where('id', '>=', $checkout->jurnal_umum_id)
                                     ->where('jurnalable_type', 'not like', 'App\\\CheckoutKasir')
                                     ->get();
 
@@ -365,7 +369,7 @@ class PengeluaransController extends Controller
         foreach ($pengeluarans as $peng) {
             $totalPengeluarans += $peng->nilai;
         }
-        $jurnalumums = JurnalUmum::with('coa')->where('created_at', '>=', $tanggal)->get();;
+        $jurnalumums = JurnalUmum::with('coa')->where('id', '>=', $checkout->jurnal_umum_id)->get();;
 
 		foreach ($jurnalumums as $k => $ju) {
 			try {
@@ -377,20 +381,20 @@ class PengeluaransController extends Controller
 
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
 
-		$uang_masuks = JurnalUmum::with('jurnalable')->where('created_at', '>=', $tanggal)
+		$uang_masuks = JurnalUmum::with('jurnalable')->where('id', '>=', $checkout->jurnal_umum_id)
 									->where('coa_id', 110000)
 									->where('jurnalable_type', '!=', 'App\Modal')
 									->where('jurnalable_type', '!=', 'App\CheckoutKasir')
 									->where('debit', '1')
 									->get();
 
-        $modal_awals = JurnalUmum::where('created_at', '>=', $tanggal)
+        $modal_awals = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
                                     ->where('coa_id', 110000)
                                     ->where('jurnalable_type', 'App\Modal')
                                     ->where('debit', '1')
                                     ->get();
 
-        $uang_keluar = JurnalUmum::where('created_at', '>=', $tanggal)
+        $uang_keluar = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
                                     ->where('coa_id', 110000)
                                     ->where('jurnalable_type', '!=', 'App\Modal')
                                     ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
@@ -450,6 +454,7 @@ class PengeluaransController extends Controller
 			'total_uang_keluar', 
 			'uang_di_kasir', 
 			'modal_awal', 
+			'checkout', 
 			'pengeluarans', 
 			'totalPengeluarans', 
 			'modals', 
@@ -458,6 +463,7 @@ class PengeluaransController extends Controller
     }
     public function notaz_post(){
 		// mereturn Checkout yang terakhir
+		//
         $last_chekcout = CheckoutKasir::latest()->first();
         $table = $this->table($last_chekcout);
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
@@ -472,8 +478,7 @@ class PengeluaransController extends Controller
             if (
                 $ju->debit == 0 && 
                 ($ju->coa_id == 301000 || $ju->coa_id == 110004) //301000 adalah Modal, 110004 adalah kas di tangan
-			) 
-			{
+			){
                $modal_awal +=  $ju->nilai;
 			   $modal_ids[] = $ju->id;
             }
@@ -1216,4 +1221,43 @@ class PengeluaransController extends Controller
 		return redirect('pengeluarans/bagi_hasil_gigi')->withPesan($pesan);
 	}
 		
+	private function convertArray($collection){
+		$array = [];
+		 foreach ($collection as $value) {
+		 	$array[] = $value;
+		 }
+		return $array;
+	}
+	public function product(){
+		$param = Input::get('q');
+		
+		$param = trim($param);
+
+
+		$data = '%';
+		$arr = str_split($param, 1);
+
+		foreach ($arr as $value) {
+			$data .= $value . '%';
+		}
+
+		$pasiens = Pasien::with('asuransi')->where('nama', 'like', $data)->take(10)->get();
+
+		$data = [];
+
+		foreach ($pasiens as $ps) {
+			$data['items'][] = [
+				 'id' => $ps->id,
+				 'text' => $ps->nama,
+				 'asuransi' => $ps->asuransi->nama,
+				 'tanggal_lahir' => Yoga::updateDatePrep( $ps->tanggal_lahir ),
+				 'bpjs' => $ps->bpjs_image
+			];
+		}
+
+		return json_encode($data);
+
+
+	}
+	
 }

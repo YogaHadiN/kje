@@ -54,6 +54,15 @@
 					</div>
 				</div>
 			</div>
+			<div class="row hide" id="pengantar_pasien">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="form-group @if($errors->has('pengantar_pasiens'))has-error @endif">
+					  {!! Form::label('pengantar_pasiens', 'Pengantar Pasien', ['class' => 'control-label']) !!}
+					  {!! Form::text('pengantar_pasiens' , null, ['class' => 'form-control']) !!}
+					  @if($errors->has('pengantar_pasiens'))<code>{{ $errors->first('pengantar_pasiens') }}</code>@endif
+					</div>
+				</div>
+			</div>
 			<div class="row hide" id="peringatan_trimester_pertama_usg">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="alert alert-danger">
@@ -104,16 +113,23 @@
 			</div>
 		</div>
 	</div>
-
-<div class="modal-footer" id="modal-footer">
+<div class="modal-footer-left" id="modal-footer">
+	<br />
 <div class="row">
   <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 red text-left">
 	 @include('peringatanbpjs', ['ns' => false])
   </div>
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-	<button type="button" class="btn btn-success" id="dummyButton">Masukkan</button>
-	<input type="submit" name="submit" id="submit" class="btn btn-success displayNone" value="Masukkan"/>
-	<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="modalClose()">Close</button>
+	  <div class="row">
+	  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<button type="button" class="btn btn-success  btn-block" id="dummyButton">Masukkan</button>
+			<input type="submit" name="submit" id="submit" class="btn btn-success displayNone" value="Masukkan"/>
+	  	</div>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<button type="button" class="btn btn-danger btn-block" data-dismiss="modal" onclick="modalClose()">Close</button>
+		</div>
+		
+	  </div>
   </div>
 </div>
 </div>

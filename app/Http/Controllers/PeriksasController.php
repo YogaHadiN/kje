@@ -19,6 +19,7 @@ use App\Staf;
 use App\Usg;
 use App\RegisterAnc;
 use App\GambarPeriksa;
+use App\PengantarPasien;
 use App\Tarif;
 
 class PeriksasController extends Controller
@@ -133,6 +134,11 @@ class PeriksasController extends Controller
 		$periksa->keterangan 			= Input::get('keterangan_periksa');
 		$periksa->transaksi 			= json_encode($transaksis);
 		$confirm = $periksa->save();
+
+		//MASUKKAN periksa_id ke PENGANTAR
+		//
+		//
+
 
 
 		//JIKA ADA FOTO ESTETIKA MASUKKAN GAMBAR ESTETIKA
@@ -305,9 +311,23 @@ class PeriksasController extends Controller
 		$anc->rujukan_tiba_meninggal   = '1';
 		$anc->save();
 	}
+		$antrian_id = Input::get('antrian_id');
 		if($confirm ){
-			AntrianPeriksa::destroy(Input::get('antrian_id'));
+			AntrianPeriksa::destroy( $antrian_id );
 		}
+
+		//UPDATE pengantar tambahkan periksa_id
+		//
+		//
+	
+		PengantarPasien::where('antarable_id', $antrian_id)
+			->where('antarable_type', 'App\AntrianPeriksa')
+			->update([
+				'antarable_id' => $periksa_id,
+				'antarable_type' => 'App\Periksa'
+			]);
+
+
 		$pasien = Pasien::find(Input::get('pasien_id'));
 		$poli = Input::get('poli');
 		if ($poli == 'sks' || $poli == 'luka') {
@@ -353,7 +373,6 @@ class PeriksasController extends Controller
 	 */
 	public function update($id)
 	{
-		// return var_dump(Input::all());
 		$periksa = Periksa::find($id);
 
 		//Buat collection tabel asuransi
@@ -576,8 +595,17 @@ class PeriksasController extends Controller
 		$anc->save();
 	}
 
+
+		$antrian_id = Input::get('antrianperiksa_id');
+		PengantarPasien::where('antarable_id', $antrian_id)
+			->where('antarable_type', 'App\AntrianPeriksa')
+			->update([
+				'antarable_id' => $id,
+				'antarable_type' => 'App\Periksa'
+			]);
+
 		if($confirm){
-			AntrianPeriksa::where('pasien_id', Input::get('pasien_id'))->delete();
+			AntrianPeriksa::destroy($antrian_id);
 		}
 		$pasien = Pasien::find(Input::get('pasien_id'));
 		return redirect('ruangperiksa/' . Input::get('poli'))->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));

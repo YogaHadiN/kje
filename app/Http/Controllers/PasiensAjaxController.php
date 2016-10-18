@@ -247,7 +247,54 @@ class PasiensAjaxController extends Controller
 
     }
     
-	public function ajax_pasien_show(){
+	public function cariPasien(){
+
+		$param = Input::get('q');
+		
+		$param = trim($param);
+
+
+		$params = explode(" ", $param);
+
+		$query = "SELECT * FROM pasiens where ";
+		foreach ($params as $k => $param) {
+
+			$data = '%';
+			$arr = str_split($param, 1);
+
+			foreach ($arr as $value) {
+				$data .= $value . '%';
+			}
+
+			if ($k == 0) {
+				$query .= "nama like '{$data}' and ";
+			} else if( $k == 1 ){
+				$query .= "DATE_FORMAT( tanggal_lahir, '%d-%m-%Y' ) like '{$data}' and ";
+			} else if ($k == 2){
+				$query .= "alamat like '{$data}' and ";
+			}
+		}
+
+		$query = substr($query, 0, -5);
+		$query .= ' limit 15;';
+			
+		$pasiens = DB::select($query);
+
+		$data = [];
+
+		foreach ($pasiens as $ps) {
+			$data['items'][] = [
+				 'id' => $ps->id,
+				 'text' => $ps->nama,
+				 'alamat' => $ps->alamat,
+				 'tanggal_lahir' => Yoga::updateDatePrep( $ps->tanggal_lahir ),
+				 'image' => $ps->image
+			];
+		}
+
+		return json_encode($data);
+
+
 	}
 	
 

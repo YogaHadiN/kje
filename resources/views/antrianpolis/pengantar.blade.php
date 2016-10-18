@@ -1,12 +1,10 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pasien
-
+	Klinik Jati Elok | Input Pengantar Pasien
 @stop
-
 @section('head') 
-	
+
     <link href="{!! asset('js/select2/dist/css/select2.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/select2-bootstrap-theme/dist/select2-bootstrap.css') !!}" rel="stylesheet">
 	<style type="text/css" media="all">
@@ -20,39 +18,47 @@ Klinik Jati Elok | Pasien
 		.select2-result-repository__description { font-size: 13px; color: #777; margin-top: 4px; }
 		.select2-results__option--highlighted .select2-result-repository__title { color: white; }
 		.select2-results__option--highlighted .select2-result-repository__forks, .select2-results__option--highlighted .select2-result-repository__stargazers, .select2-results__option--highlighted .select2-result-repository__description, .select2-results__option--highlighted .select2-result-repository__watchers { color: #c6dcef; }
+		#table_pengantar tr td:first-child, #table_pengantar tr th:first-child {
+			 width: 10%;
+		}
+
+		#table_pengantar tr td:nth-child( 2 ), #table_pengantar tr th:nth-child( 2 ) {
+			 width: 40%;
+		}
+
+		#table_pengantar tr td:nth-child( 3 ), #table_pengantar tr th:nth-child( 3 ) {
+			 width: 40%;
+		}
 		
+		#table_pengantar tr td:nth-child( 4 ), #table_pengantar tr th:nth-child( 4 ) {
+			 width: 10%;
+		}
 	</style>
+
 
 @stop
 @section('page-title') 
-
- <h2>Pasien</h2>
- <ol class="breadcrumb">
-      <li>
-          <a href="{{ url('laporans')}}">Home</a>
-      </li>
-      <li class="active">
-          <strong>Pasien</strong>
-      </li>
+<h2>Input Pengantar Pasien</h2>
+<ol class="breadcrumb">
+	  <li>
+		  <a href="{{ url('laporans')}}">Home</a>
+	  </li>
+	  <li class="active">
+		  <strong>Input Pengantar Pasien</strong>
+	  </li>
 </ol>
-
 @stop
-@section('content')
-	@include('pasiens.form', ['createLink' => true])
+@section('content') 
+{!! Form::open(['url' => 'antrianpolis/pengantar/create', 'method' => 'post', 'files' => 'true']) !!}
+@include('antrianpolis.pengantar_form', ['pengantar' => true, 'edit' => false, 'halamanAwal' => 'antrian_poli_id'])
 @stop
 @section('footer') 
-<script>
-
-  var base = "{{ url('/') }}";
-  
-</script>
-{!! HTML::script('js/plugins/webcam/photo.js')!!}
-{!! HTML::script('js/togglepanel.js')!!}
-{!! HTML::script('js/select2/dist/js/select2.min.js')!!}
-{!! HTML::script('js/pasiens.js')!!}
-{!! HTML::script('js/rowEntryPasien.js')!!}
-{!! HTML::script('js/cekbpjskontrol.js')!!}
-{!! HTML::script('js/peringatan_usg.js')!!}
-<script type="text/javascript" charset="utf-8">
-</script>
+	<script type="text/javascript" charset="utf-8">
+		var base = "{{ url('/') }}";
+	</script>
+	{!! HTML::script('js/pasiens.js')!!}
+	{!! HTML::script('js/rowEntryPengantar.js')!!}
+	{!! HTML::script('js/select2/dist/js/select2.min.js')!!}
+	{!! HTML::script('js/pengantar.js')!!}
 @stop
+

@@ -79,10 +79,23 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('suppliers/belanja_obat', 'SupplierBelanjasController@belanja_obat');
 			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');
 			Route::get('pasien_coba', 'PasiensCobaController@index');
-
 			Route::get('antrian_pasien', 'SupplierBelanjasController@belanja_obat');
 			Route::get('suppliers/belanja_bukan_obat', 'SupplierBelanjasController@belanja_bukan_obat');
 			Route::get('antrianpolis/ajax/getGolonganProlanis', 'AntrianPolisAjaxController@getProlanis');
+			Route::get('antrianpolis/pengantar/create/{id}', 'PengantarsController@pengantar');
+			Route::get('antrianpolis/pengantar/{id}/edit', 'PengantarsController@pengantarEdit');
+			Route::post('antrianpolis/get/kartubpjs', 'PengantarsController@kartubpjs');
+			Route::post('antrianpolis/pengantar/create', 'PengantarsController@pengantarPost');
+			Route::get('antrianpolis/pengantar/pasien/create', 'PengantarsController@createPasien');
+			Route::post('antrianpolis/pengantar/pasien/create', 'PengantarsController@storePasien');
+			Route::post('antrianpolis/pengantar/pasien/create/ajax', 'PengantarsController@storePasienAjax');
+			Route::post('antrianpolis/pengantar/{id}/edit', 'PengantarsController@pengantarUpdate');
+			Route::get('antrianperiksas/pengantar/{id}/edit', 'PengantarsController@antrianperiksasEdit');
+			Route::post('antrianperiksas/pengantar/{id}/edit', 'PengantarsController@antrianperiksasUpdate');
+			Route::get('antriankasirs/pengantar/{id}/edit', 'PengantarsController@antriankasirsEdit');
+			Route::post('antriankasirs/pengantar/{id}/edit', 'PengantarsController@antriankasirsUpdate');
+
+
 
 			// dari menu users
 			Route::resource('pasiens', 'PasiensController');
@@ -153,6 +166,9 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
             Route::get('pengeluarans/rc', 'PengeluaransController@erce');
             Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
+
+			Route::get('ajax/products', 'PengeluaransController@product');
+
 
 			Route::get('pengeluarans/bayardoker/{id}', 'PengeluaransController@bayardokter');
 			Route::get('pengeluarans/bayardokter/bayar', 'PengeluaransController@dokterbayar');
@@ -362,6 +378,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('pasiens/ajax/create', 'PasiensAjaxController@create');
 			Route::post('pasiens/ajax/cekbpjskontrol', 'PasiensAjaxController@cekbpjskontrol');
 			Route::post('pasiens/ajax/confirm_staf', 'PasiensAjaxController@confirm_staf');
+			Route::get('pasiens/ajax/cari', 'PasiensAjaxController@cariPasien');
 			
 
 			Route::get('survey', 'KasirsController@index');
@@ -383,6 +400,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 
 			Route::get('laporans', 'LaporansController@index');
+			Route::get('laporans/pengantar', 'LaporansController@pengantar');
 			Route::get('laporans/harian', 'LaporansController@harian');
 			Route::get('laporans/haridet', 'LaporansController@haridet');
 			Route::get('laporans/harikas', 'LaporansController@harikas');

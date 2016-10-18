@@ -5,8 +5,8 @@ $(document).ready(function () {
 		interval: false
 	});
 
-	$("input[type='file']").change(function(){
-		readurl(this);
+	$("input[type='file']").on('change', function(){
+		readURL(this);
 	});
    $('input, select, textarea').on('keyup change', function(){
       $(this).parent()
