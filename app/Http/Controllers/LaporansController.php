@@ -32,7 +32,7 @@ class LaporansController extends Controller
 
 	public function __construct()
 	 {
-	     $this->middleware('super', ['except' => ['index', 'harian','penyakit', 'points', 'rujukankebidanan', 'no_asisten', 'jumlahDiare', 'jumlahIspa']]);
+	     $this->middleware('super', ['except' => ['pengantar','index', 'harian','penyakit', 'points', 'rujukankebidanan', 'no_asisten', 'jumlahDiare', 'jumlahIspa']]);
 	 }
 
 	public function pengantar(){
@@ -40,7 +40,7 @@ class LaporansController extends Controller
 		$tanggal = Yoga::datePrep( Input::get('tanggal') );
 
 
-		$query = "SELECT pp.antarable_id as periksa_id, ps.nama as nama_pengantar, ps.bpjs_image as bpjs, ps.ktp_image as ktp   FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id where pp.antarable_type='App\\\Periksa' and pp.updated_at like '{$tanggal}%';";
+		$query = "SELECT pp.antarable_id as periksa_id, ps.nama as nama_pengantar, ps.bpjs_image as bpjs, ps.ktp_image as ktp, ps.nomor_asuransi as nomor_asuransi, pp.kunjungan_sehat as kunjungan_sehat   FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id where pp.antarable_type='App\\\Periksa' and pp.updated_at like '{$tanggal}%';";
 		$pp = DB::select($query);
 
 		return view('laporans.pengantar', compact('pp'));

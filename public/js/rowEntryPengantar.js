@@ -46,7 +46,6 @@
 						'kartu_bpjs'		: data.bpjs_image,
 						'kunjungan_sehat'	: kunjungan_sehat
 					};
-					console.log(arr);
 					view(arr);
 				});
 			}

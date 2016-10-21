@@ -125,7 +125,11 @@
 
 				<div class="form-group @if($errors->has('alamat'))has-error @endif">
 				    {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
-					{!! Form::textarea('alamat', null, ['class' => 'form-control textareacustom'])!!}
+					@if( isset($alamatPasien) )
+						{!! Form::textarea('alamat', $alamatPasien, ['class' => 'form-control textareacustom'])!!}
+					@else
+						{!! Form::textarea('alamat', null, ['class' => 'form-control textareacustom'])!!}
+					@endif
 				    @if($errors->has('alamat'))<code>{{ $errors->first('alamat') }}</code>@endif
 				  </div>
 			  </div>

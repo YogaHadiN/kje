@@ -18,6 +18,10 @@
 							<th class='text-left'>Dokter Yang Menangani</th>
 							<td>{{ $ap->staf->nama }}</td>
 						</tr>
+						<tr>
+							<th class='text-left'>Alamat Pasien</th>
+							<td>{{ $ap->pasien->alamat }}</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -84,13 +88,14 @@
 	  <!-- Tab panes -->
 	  <div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="cariPasien">
-			@include('pasiens.form', ['pengantar' =>true, 'createLink' =>false])
+		@include('pasiens.form', ['pengantar' =>true, 'createLink' =>false])
 		</div>
 		<div role="tabpanel" class="tab-pane" id="buatPasien">
 			{!! Form::open(['url' => 'antrianpolis/ajax/pasien/create', 'method' => 'post', 'id' => 'pengantar_pasien_create']) !!}
 					@include('pasiens.createForm', [
 						'antrianpolis' => false,
-						'pengantar' => true
+						'pengantar' => true,
+						'alamatPasien' => $ap->pasien->alamat
 					])
 			{!! Form::close() !!}
 		</div>

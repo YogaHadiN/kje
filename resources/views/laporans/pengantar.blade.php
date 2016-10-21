@@ -38,42 +38,109 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 
 @stop
 @section('content') 
-	<div class="panel panel-success">
-		<div class="panel-heading">
-			<div class="panel-title">Laporan Pengantar Pasien BPJS</div>
-		</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table class="table table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>pasien id</th>
-							<th>Nama Pengantar</th>
-							<th>KTP</th>
-							<th>BPJS</th>
-						</tr>
-					</thead>
-					<tbody>
-						@if(count($pp) > 0)
-							@foreach($pp as $p)
-								<tr>
-									<td>{{ $p->periksa_id }}</td>
-									<td>{{ $p->nama_pengantar }}</td>
-									<td>{{ $p->ktp }}</td>
-									<td> <img src="{{ url('/'). '/' . $p->bpjs }}" alt="" class="img-rounded upload" /> </td>
-								</tr>
-							@endforeach
-						@else
-							<tr>
-								<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
-							</tr>
-						@endif
-					</tbody>
-				</table>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<div>
+
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#harus_diinput" aria-controls="harus_diinput" role="tab" data-toggle="tab">Harus Diinput</a></li>
+			<li role="presentation"><a href="#tidak_perlu_diinput" aria-controls="tidak_perlu_diinput" role="tab" data-toggle="tab">Tidak Perlu Diinput</a></li>
+		  </ul>
+
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="harus_diinput">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<div class="panel-title">Harus Diinput</div>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed">
+								<thead>
+									<tr>
+										<th>pasien id</th>
+										<th>Nama Pengantar</th>
+										<th>KTP</th>
+										<th>BPJS</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if(count($pp) > 0)
+										@foreach($pp as $p)
+											@if( $p->kunjungan_sehat == '1' )
+												<tr>
+													<td>{{ $p->periksa_id }}</td>
+													<td>{{ $p->nama_pengantar }}</td>
+													<td>{{ $p->ktp }}</td>
+													<td> <img src="{{ url('/'). '/' . $p->bpjs }}" alt="" class="img-rounded upload" /> </td>
+												</tr>
+											@endif
+										@endforeach
+									@else
+										<tr>
+											<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
+										</tr>
+									@endif
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
+			<div role="tabpanel" class="tab-pane" id="tidak_perlu_diinput">
+				<div class="panel panel-danger">
+						<div class="panel-heading">
+							<div class="panel-title">Harus Diinput</div>
+						</div>
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table table-hover table-condensed">
+									<thead>
+										<tr>
+											<th>pasien id</th>
+											<th>Nama Pengantar</th>
+											<th>KTP</th>
+											<th>BPJS</th>
+										</tr>
+									</thead>
+									<tbody>
+										@if(count($pp) > 0)
+											@foreach($pp as $p)
+												@if( $p->kunjungan_sehat == '0' )
+													<tr>
+														<td>{{ $p->periksa_id }}</td>
+														<td>{{ $p->nama_pengantar }}</td>
+														<td>{{ $p->ktp }}</td>
+														<td> <img src="{{ url('/'). '/' . $p->bpjs }}" alt="" class="img-rounded upload" /> </td>
+													</tr>
+												@endif
+											@endforeach
+										@else
+											<tr>
+												<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
+											</tr>
+										@endif
+									</tbody>
+								</table>
+							</div>
+							
+						</div>
+					</div>
 			
+			</div>
+		  </div>
+
 		</div>
+		
 	</div>
+</div>
+
+
+
 	
 @stop
 @section('footer') 
