@@ -11,7 +11,15 @@
 
 			for (var i = 0; i < data.length; i++) {
 				temp += '<tr>';
-				temp += '<td>' + data[i].nama + '</td>';
+				temp += '<td>' + data[i].nama +  '<br />';
+				if( data[i].asuransi_id == '32' ){
+					alert(data[i].asuransi_id);
+					temp +=	'<strong>Nomor Asuransi :' + data[i].nomor_asuransi + '</strong>'
+				} else {
+					alert(data[i].asuransi_id);
+				}
+				temp += '</td>';
+
 				if( data[i].kartu_bpjs == null || data[i].kartu_bpjs == '' || data[i].kartu_bpjs == 'null' ){
 					temp += '<td>' + tempForm + '</td>';
 				}else{
@@ -23,6 +31,7 @@
 				}else{
 					temp += '<td><img class="img-rounded upload" src="' + base + '/' + data[i].ktp + '"/></td>';
 				}
+
 				temp += '<td> <button class="btn btn-xs btn-danger" type="button" onclick="rowdel(this);return false;" value="'+i+'">delete</button> </td>';
 				temp += '</tr>';
 			}

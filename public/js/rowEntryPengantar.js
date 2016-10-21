@@ -17,8 +17,8 @@
 					break;
 				}
 			}
-
 			if (sama) {
+				//Bila sama gagalkan input, karena percuma input 2 kali di pemeriksaan yang sama
 				alert('Tidak bisa dimasukkan, karena ' + id + '-' + nama + ' sudah ada di daftar pengantar' );
 				return false;
 			}
@@ -41,10 +41,11 @@
 						'id'				: id,
 						'nama'				: nama,
 						'ktp'				: data.ktp_image,
+						'asuransi_id'		: data.asuransi_id,
+						'nomor_asuransi'	: data.nomor_asuransi,
 						'kartu_bpjs'		: data.bpjs_image,
 						'kunjungan_sehat'	: kunjungan_sehat
 					};
-
 					console.log(arr);
 					view(arr);
 				});

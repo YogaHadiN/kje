@@ -258,6 +258,8 @@ class PengantarsController extends Controller
 		return json_encode( [
 			'bpjs_image' => $pasien->bpjs_image,
 			'ktp_image' => $pasien->ktp_image,
+			'asuransi_id' => $pasien->asuransi_id,
+			'nomor_asuransi' => $pasien->nomor_asuransi,
 			'confirmSudah' => $confirmSudah
 		] );
 	}
