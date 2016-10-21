@@ -18,6 +18,8 @@ use App\Periksa;
 use App\Rujukan;
 use App\Pasien;
 use App\AntrianPeriksa;
+use App\PengantarPasien;
+
 use App\Tarif;
 use App\Monitor;
 use App\Dispensing;
@@ -282,9 +284,10 @@ class CustomController extends Controller
 		$px                  = Periksa::find($periksa_id);
 		$px->tunai           = $dibayar_pasien;
 		$px->piutang         = $dibayar_asuransi;
-		$px->pembayaran         = $pembayaran;
-		$px->kembalian         = $kembalian;
+		$px->pembayaran      = $pembayaran;
+		$px->kembalian       = $kembalian;
 		$px->transaksi       = $tarif;
+		$px->nomor_asuransi  = $px->pasien->nomor_asuransi;
 
 		if ($px->asuransi_id == 32 && !empty($px->keterangan)) {
 			$px->keterangan = null;
@@ -537,6 +540,35 @@ class CustomController extends Controller
 		if ($fix) {
 			$mess =  '<strong> dan Perbaikan Sudah Didokumentasi </strong>';
 		}
+
+
+		if ( $px->asuransi_id == '32' && !empty( $px->pasien->nomor_asuransi ) ) {
+
+				$countPeriksaPakaiBpjs = Periksa::where('pasien_id', $px->pasien_id)
+					->where('asuransi_id', '32')
+					->where('tanggal', 'like', date('Y-m') . '%')
+					->count();
+
+				$countAntarPakaiBpjs = PengantarPasien::where('pengantar_id', $px->pasien_id)
+					->where('created_at', 'like', date('Y-m') . '%')
+					->where('pcare_submit',1)
+					->count();
+
+				$query = "SELECT * FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
+				$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
+				$query .= "AND ks.pcare_submit = 1 ";
+				$query .= "AND px.pasien_id = '" . $px->pasien_id . "';";
+
+				$countKunjunganSakit = DB::select($query);
+				$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;
+				if ($hitung < 1) {
+					$ks       = new KunjunganSakit;
+					$ks->periksa_id   = $periksa_id;
+					$ks->save();
+				}
+		}
+
+
 		if($confirm){
             return redirect('antriankasirs')
                 ->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $px->pasien_id . '-' . $px->pasien->nama . '</strong> telah selesai' . $mess))

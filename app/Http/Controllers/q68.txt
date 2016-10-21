@@ -1,0 +1,9 @@
+create table `kunjungan_sakits` ( 
+	`id` int(11) unsigned not null auto_increment primary key, 
+	`periksa_id` varchar(255) not null, 
+	`pcare_submit` varchar(255) not null default 0, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+alter table periksas add column nomor_asuransi varchar(255);

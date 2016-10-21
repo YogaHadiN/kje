@@ -258,8 +258,8 @@ Klinik Jati Elok | Home
 												<form action="{{ url('laporans/pengantar') }}" method="get">
 													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
 													<td>Laporan Pengantar Pasien BPJS</td>
-
-													<td colspan="3"></td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
 												</form>
 											</tr>
 											<tr>

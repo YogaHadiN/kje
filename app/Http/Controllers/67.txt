@@ -2,3 +2,4 @@ alter table pengantar_pasiens add column pcare_submit int(1) not null default 0;
 alter table pasiens add column nomor_asuransi_bpjs  varchar(255);
 alter table pasiens add column nomor_ktp varchar(255);
 
+

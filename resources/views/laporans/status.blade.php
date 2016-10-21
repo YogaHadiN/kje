@@ -42,11 +42,8 @@ Klinik Jati Elok | Laporan Pemeriksaan
                     </tr>
                 </thead>
                 <tbody>
-
                   @if($periksas->count() > 0)
-
                 	 @foreach ($periksas as $key => $periksa)
-                    
                     <tr>
                       <td>
                         {!! $key + 1!!}
@@ -59,11 +56,8 @@ Klinik Jati Elok | Laporan Pemeriksaan
                         {!! $periksa->asuransi->nama !!}
                       </td>
                       <td>
-                          
                         {!! $periksa->staf->nama !!} <br>
-
                         <strong>{!! $periksa->id !!}</strong> <br><br>
-
                           <strong>Nama :</strong> <br>
                           {!! $periksa->pasien->nama !!} <br>
                           <strong>Anamnesa :</strong> <br>
@@ -90,7 +84,6 @@ Klinik Jati Elok | Laporan Pemeriksaan
                                       <th>{!! $periksa->total_transaksi !!}</th>
                                   </tr>
                               </tfoot>
-                              
                           </table>
                       </td>
                       <td>
@@ -102,10 +95,8 @@ Klinik Jati Elok | Laporan Pemeriksaan
                           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                           <strong>Diagnosa :</strong> <br>
                               @if($periksa->diagnosa_id)
-
                                 {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!} <br>
                                 {!! $periksa->keterangan_diagnosa !!}
-
                               @else
                                 {!! $periksa->keterangan_diagnosa !!}
                               @endif

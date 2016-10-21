@@ -23,6 +23,7 @@ use Auth;
 use App\Classes\Yoga;
 use DB;
 use App\JenisTarif;
+use App\KunjunganSakit;
 use App\TipeLaporanAdmedika;
 use App\TipeLaporanKasir;
 use App\Rak;
@@ -37,33 +38,25 @@ class LaporansController extends Controller
 	 }
 
 	public function pengantar(){
-
-		$pp = PengantarPasien::all();
-
-
+		$tanggall = Input::get('bulanTahun');
+		$tanggal  = Yoga::blnPrep($tanggall);
+		$pp = PengantarPasien::where('created_at', 'like', $tanggal . '%')->get();
 		// Ini Untuk memastikan bahwa pasien tidak diinput 2 kali bulan ini
 		//
 		//
 		foreach ($pp as $p) {
-
-			// cek Berapa Kali Pengantar ini berobat
-			$berapaKaliPeriksa = Periksa::where('pasien_id', $p->pengantar_id)
-			->where('created_at', 'like', date('Y-m') . '%') 
-			->count() ;
-
-			// cek Berapa Kali Pengantar ini mengantar
-			$berapaKaliPengantar = PengantarPasien::where('pengantar_id', $p->pengantar_id)
-			->where('created_at', 'like', date('Y-m') . '%') 
-			->where('pcare_submit', 1)
-			->count() ;
-
-			$count = $berapaKaliPeriksa + $berapaKaliPengantar;
 			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
-			if ( $count > 0) {
+			if ( $this->count($p->pengantar_id, $tanggal) > 0) {
 				$p->delete();
 			}
 		}
-
+		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')->where('created_at', 'like', $tanggal . '%')->get();
+		foreach ($ks as $k) {
+			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
+			if ( $this->count($k->pengantar_id, $tanggal) > 0) {
+				$k->delete();
+			}
+		}
 		$query = "SELECT ";
 		$query .= "pp.created_at as created_at, ";
 		$query .= "pp.id as pengantar_id, ";
@@ -78,19 +71,24 @@ class LaporansController extends Controller
 		$query .= "pp.kunjungan_sehat as kunjungan_sehat, ";
 		$query .= "ps.asuransi_id as asuransi_id ";
 		$query .= "FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id ";
-		$query .= "WHERE pp.antarable_type='App\\\Periksa' and pcare_submit = 0 ";
+		$query .= "WHERE pp.antarable_type='App\\\Periksa' ";
+		$query .= "AND pp.pcare_submit = 0 ";
+		$query .= "AND pp.created_at like '" . $tanggal . "%' ";
 		$query .= "GROUP BY pp.pengantar_id;";
 		$pp = DB::select($query);
-
-
-		return view('laporans.pengantar', compact('pp'));
+		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
+			->where('created_at', 'like', $tanggal . '%')
+			->where('pcare_submit', 0)
+			->get();
+		return view('laporans.pengantar', compact(
+			'pp',
+			'ks'
+		));
 	}
 	
 
 	public function index()
 	{
-
-		// return Auth::id();
 
 		$asuransis = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::lists('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
@@ -995,5 +993,30 @@ class LaporansController extends Controller
 		return $uniqueEmails;
 	}
 	
+	private function count($id){
+
+			// cek Berapa Kali Pengantar ini berobat
+			$berapaKaliPeriksa = Periksa::where('pasien_id', $id)
+			->where('created_at', 'like', date('Y-m') . '%') 
+			->count() ;
+
+			// cek Berapa Kali Pengantar ini mengantar
+			$berapaKaliPengantar = PengantarPasien::where('pengantar_id', $id)
+			->where('created_at', 'like', date('Y-m') . '%') 
+			->where('pcare_submit', 1)
+			->count() ;
+
+
+			$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
+			$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
+			$query .= "AND ks.pcare_submit = 1 ";
+			$query .= "AND px.pasien_id = '" . $id . "';";
+
+			$countKunjunganSakit = DB::select($query)[0]->jumlah;
+
+			return $berapaKaliPeriksa + $berapaKaliPengantar + $countKunjunganSakit;
+		 
+	}
+
 	
 }

@@ -101,6 +101,60 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 		</div>
 	</div>
 </div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">Kunjungan Sakit BPJS yang tidak pakai BPJS</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal</th>
+								<th>Nama</th>
+								<th>Nomor BPJS</th>
+								<th>Terapi</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if(count($ks) > 0)
+								@foreach($ks as $px)
+									<tr>
+										<td>{{ $px->created_at->format('d-m-Y') }}</td>
+										<td>
+											{{ $px->periksa->pasien->nama }} <br />
+											<strong>Nomor BPJS :</strong> <br />
+											{{ $px->periksa->pasien->nomor_asuransi_bpjs }}
+										</td>
+										<td>
+											<strong>Anemnesa :</strong> <br />
+											{{ $px->periksa->anamnesa }} <br /><br />
+											<strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br />
+											{{ $px->periksa->pemeriksaan_fisik }} <br />{{ $px->periksa->pemeriksaan_penunjang }} <br /><br />
+											<strong>Diagnosa : </strong> <br />
+											{{  $px->periksa->diagnosa->diagnosa  }}
+											{{ $px->periksa->diagnosa->icd10_id }} - {{ $px->periksa->diagnosa->icd10->diagnosaICD }}
+
+										</td>
+										<td>{{ $px->terapiHtmll }}</td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
+								</tr>
+							@endif
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+		
+	</div>
+</div>
 
 @stop
 @section('footer') 
