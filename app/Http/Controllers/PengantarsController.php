@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Pasien;
 use Input;
+use DB;
 use App\AntrianPeriksa;
 use App\AntrianPoli;
 use App\PengantarPasien;
@@ -30,12 +31,7 @@ class PengantarsController extends Controller
 
 
 		foreach ($ap->antars as $v) {
-			$pengantars[] = [
-				'id' => $v->pengantar->id ,
-				'nama' => $v->pengantar->nama ,
-				'kartu_bpjs' => $v->pengantar->bpjs_image,
-				'ktp' => $v->pengantar->ktp_image
-			];	
+			$pengantars[] =  $this->pengantarArray($v);
 		}
 
 		$pengantars = json_encode($pengantars);
@@ -225,12 +221,7 @@ class PengantarsController extends Controller
 
 
 		foreach ($ap->antars as $v) {
-			$pengantars[] = [
-				'id' => $v->pengantar->id ,
-				'nama' => $v->pengantar->nama ,
-				'kartu_bpjs' => $v->pengantar->bpjs_image,
-				'ktp' => $v->pengantar->ktp_image
-			];	
+			$pengantars[] =  $this->pengantarArray($v);
 		}
 
 		$pengantars = json_encode($pengantars);
@@ -253,7 +244,22 @@ class PengantarsController extends Controller
 
 		$pasien_id = Input::get('pasien_id');
 		$pasien = Pasien::find($pasien_id);
-		return $pasien->bpjs_image;
+		$date = date('Y-m'). '%';
+		$sudah = Periksa::where('tanggal', 'like', $date)->where('pasien_id', $pasien_id)->count();
+		$query = "SELECT count(pp.id) as count FROM pengantar_pasiens as pp join periksas as px on px.id = pp.antarable_id WHERE antarable_type='App\\\Periksa' and pp.pengantar_id = '{$pasien_id}' and tanggal like '{$date}'";
+		$iniPengantar = DB::select($query);
+		$adaPengantar = $iniPengantar[0]->count;
+		$sudah = $sudah + $adaPengantar;
+		if ($sudah > 0) {
+			$confirmSudah = '1';
+		} else {
+			$confirmSudah = '0';
+		}
+		return json_encode( [
+			'bpjs_image' => $pasien->bpjs_image,
+			'ktp_image' => $pasien->ktp_image,
+			'confirmSudah' => $confirmSudah
+		] );
 	}
 
 	public function pengantarUpdate($id){
@@ -322,6 +328,7 @@ class PengantarsController extends Controller
 					'antarable_id' => $antrian_poli_id,
 					'antarable_type' =>$model,
 					'pengantar_id' => $j['id'],
+					'kunjungan_sehat' => $j['kunjungan_sehat'],
 					'created_at' => date('Y-m-d H:i:s'),
 					'updated_at' => date('Y-m-d H:i:s')
 				];
@@ -374,12 +381,7 @@ class PengantarsController extends Controller
 		$pengantars = [];
 
 		foreach ($ap->antars as $v) {
-			$pengantars[] = [
-				'id' => $v->pengantar->id ,
-				'nama' => $v->pengantar->nama ,
-				'kartu_bpjs' => $v->pengantar->bpjs_image,
-				'ktp' => $v->pengantar->ktp_image
-			];	
+			$pengantars[] =  $this->pengantarArray( $v );
 		}
 
 		$pengantars = json_encode($pengantars);
@@ -417,5 +419,17 @@ class PengantarsController extends Controller
 		}
 		$pesan = 'Pengantar Berhasil Diedit, total ada <strong>' . $insert . ' pengantar</strong> yang terdaftar untuk ' . Periksa::find( Input::get('periksa_id') )->pasien->nama;
 		return redirect('antriankasirs')->withPesan( Yoga::suksesFlash($pesan) );
+	}
+	private function pengantarArray($v){
+		 
+			return [
+				'id' => $v->pengantar->id ,
+				'nama' => $v->pengantar->nama ,
+				'kartu_bpjs' => $v->pengantar->bpjs_image,
+				'ktp' => $v->pengantar->ktp_image,
+				'kunjungan_sehat' => $v->kunjungan_sehat
+			];	
+
+			
 	}
 }

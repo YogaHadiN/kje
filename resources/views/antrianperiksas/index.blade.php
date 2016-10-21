@@ -37,7 +37,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                         <th>Jam</th>
                         <th>Pembayaran</th>
                         <th>Nama Pasien</th>
-                        <th>Pengantar</th>
                         <th>Pemeriksa</th>
                         <th style="width:5px" nowrap>Action</th>
                     </tr>
@@ -51,13 +50,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                 <td>{!! $periksa->jam !!}</td>
                                 <td>{!! $periksa->asuransi->nama !!}</td>
                                 <td>{!! $periksa->pasien->nama !!}</td>
-								<td>
-									@if( $periksa->asuransi_id == '32' && $periksa->antars->count() > 0 )		
-										<a class="btn btn-success btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">{!! $periksa->antars->count() !!} pengantar</a>
-									@elseif( $periksa->asuransi_id == '32' && $periksa->antars->count() < 1 )
-										<a class="btn btn-warning btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">Edit Pengantar</a>
-									@endif
-								</td>
                                 <td>{!! $periksa->staf->nama !!}</td>
 
                                 <td nowrap>
@@ -66,6 +58,12 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                         {!! Form::hidden('pasien_id', $periksa->pasien_id, ['class' => 'pasien_id'])!!}
                                         {!! Form::hidden('alasan', null, ['class' => 'alasan', 'id' => 'alasan' . $periksa->id])!!}
                                         <button type="button" class="btn btn-danger btn-xs" onclick="alas(this);return false;">Delete</button>
+
+										@if( $periksa->asuransi_id == '32' && $periksa->antars->count() > 0 )		
+											<a class="btn btn-primary btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">{!! $periksa->antars->count() !!} pengantar</a>
+										@elseif( $periksa->asuransi_id == '32' && $periksa->antars->count() < 1 )
+											<a class="btn btn-warning btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">Edit Pengantar</a>
+										@endif
                                         {!! Form::submit('delete', ['class' => 'btn btn-danger btn-xs hide submit', 'onclick' => 'return confirm("Apa anda yakin mau menghapus ' . $periksa->id . ' - ' . $periksa->pasien->nama . ' dari antrian?" )', 'id' => 'submit' . $periksa->id])!!}
                                     {!! Form::close()!!}
                                 </td>

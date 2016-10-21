@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Asuransi;
 use App\Tarif;
 use App\Classes\Yoga;
+use DB;
 
 
 class AsuransisController extends Controller

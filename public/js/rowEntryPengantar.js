@@ -1,7 +1,7 @@
         function rowEntry(control) {
 			var id = $(control).closest('tr').find('td:first-child').find('div').html();
 			var nama = $(control).closest('tr').find('td:nth-child(2)').find('div').html();
-			var ktp = $(control).closest('tr').find('td:nth-child(12)').find('div').html();
+			var image = $(control).closest('tr').find('td:nth-child(12)').find('div').html();
 
 			var MyArray = $('#jsonArray').val();
 			MyArray = JSON.parse(MyArray);
@@ -27,15 +27,24 @@
 			if (r) {
 
 				$.post(base + '/antrianpolis/get/kartubpjs', {'pasien_id' : id}, function(data) {
+					data = $.trim(data);
+					data = JSON.parse(data);
+					if (data.confirmSudah == '1') {
+						var kunjungan_sehat = '0';
+					} else {
+						var kunjungan_sehat = '1';
+					}
 
 					var arr = $('#jsonArray').val();
 					arr = JSON.parse(arr);
 					arr[arr.length] = {
-						'id' : id,
-						'nama' : nama,
-						'ktp' : ktp,
-						'kartu_bpjs' : data
+						'id'				: id,
+						'nama'				: nama,
+						'ktp'				: data.ktp_image,
+						'kartu_bpjs'		: data.bpjs_image,
+						'kunjungan_sehat'	: kunjungan_sehat
 					};
+
 					console.log(arr);
 					view(arr);
 				});

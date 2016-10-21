@@ -53,12 +53,7 @@
 		view(arr);
 	}
 	function dummyButton(){
-		 //if( $('#jsonArray').val() != '[]' && $('#jsonArray').val() != '' ){
-		 	$('#submit').click();
-		 //} else {
-			  //alert('Pengantar masih kosong');
-			  //return false;
-		 //}
+		$('#submit').click();
 	}
 	
 	function pasiensCreate(){
@@ -82,15 +77,18 @@
 			}
 		});
 	}
-function aktifkanTabCariPasien(){
-    $('#tabCariPasien').tab('show');
-	$('#pengantar_pasien_create').find('input', 'textarea','select' ).val('');
-}
-function fokuskanKeTabelUpdated(){
-	 $('#table_pengantar').focus();
-}
-function moveScreenTo(element) {
-    $("body").scrollTop($(element).offset().top);
-	alert('focused');
-}
+
+	function aktifkanTabCariPasien(){
+		$('#tabCariPasien').tab('show');
+		$('#pengantar_pasien_create').find('input', 'textarea','select' ).val('');
+	}
+
+	function fokuskanKeTabelUpdated(){
+		 $('#table_pengantar').focus();
+	}
+
+	function moveScreenTo(element) {
+		$("body").scrollTop($(element).offset().top);
+		alert('focused');
+	}
 	

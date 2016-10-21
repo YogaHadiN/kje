@@ -621,8 +621,9 @@ class Yoga {
     			$idCustom = date('ymd').sprintf("%03d", $insert_id);
     		}
 
-    		return $idCustom;
+    		return $idCustom; // id ke 100, tanggal 01-01-2016 mereturn 1601010100
 		}
+
 		public static function customIdPasien(){
 			
 			if(Pasien::where('id', 'like', date('ymd') . '%')->get()->count() == 0) {

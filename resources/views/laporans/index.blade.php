@@ -243,15 +243,6 @@ Klinik Jati Elok | Home
 										</thead>
 										<tbody>
 											<tr>
-												<form action="{{ url('laporans/pengantar') }}" method="get">
-													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-													<td>Laporan Pengantar Pasien BPJS</td>
-													<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
-													</td>
-													<td colspan="2"></td>
-												</form>
-											</tr>
-											<tr>
 												<form action="{{ url('laporans/harian') }}" method="get">
 													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
 													<td>Laporan Harian</td>
@@ -261,6 +252,15 @@ Klinik Jati Elok | Home
 														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
 
 														</select></td>
+												</form>
+											</tr>
+											<tr>
+												<form action="{{ url('laporans/pengantar') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Pengantar Pasien BPJS</td>
+													<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
+													</td>
+													<td colspan="2"></td>
 												</form>
 											</tr>
 											<tr>
