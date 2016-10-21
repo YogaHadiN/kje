@@ -37,8 +37,23 @@ class LaporansController extends Controller
 
 	public function pengantar(){
 
-		$query = "SELECT pp.created_at as created_at, pp.id as pengantar_id, pp.pengantar_id as pasien_id, pp.antarable_id as periksa_id, ps.nama as nama_pengantar, ps.bpjs_image as bpjs, ps.ktp_image as ktp, ps.nomor_asuransi as nomor_asuransi, ps.nomor_asuransi_bpjs as nomor_asuransi_bpjs, ps.nomor_ktp as no_ktp, pp.kunjungan_sehat as kunjungan_sehat, ps.asuransi_id as asuransi_id FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id where pp.antarable_type='App\\\Periksa' and pcare_submit = 0;";
+		$query = "SELECT ";
+		$query .= "pp.created_at as created_at, ";
+		$query .= "pp.id as pengantar_id, ";
+		$query .= "pp.pengantar_id as pasien_id, ";
+		$query .= "pp.antarable_id as periksa_id, ";
+		$query .= "ps.nama as nama_pengantar, ";
+		$query .= "ps.bpjs_image as bpjs, ";
+		$query .= "ps.ktp_image as ktp, ";
+		$query .= "ps.nomor_asuransi as nomor_asuransi, ";
+		$query .= "ps.nomor_asuransi_bpjs as nomor_asuransi_bpjs, ";
+		$query .= "ps.nomor_ktp as no_ktp, ";
+		$query .= "pp.kunjungan_sehat as kunjungan_sehat, ";
+		$query .= "ps.asuransi_id as asuransi_id ";
+		$query .= "FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id ";
+		$query .= "WHERE pp.antarable_type='App\\\Periksa' and pcare_submit = 0;";
 		$pp = DB::select($query);
+
 
 		return view('laporans.pengantar', compact('pp'));
 	}

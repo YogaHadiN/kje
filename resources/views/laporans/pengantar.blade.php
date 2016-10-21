@@ -80,7 +80,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 													<a class="btn btn-primary btn-xs btn-block" href="{{ url('pasiens/' . $p->pasien_id . '/edit') }}">Detail</a>	
 													</td>
 													<td>
-														<img src="{{ url($p->ktp) }}" alt="" class="img-rounded upload" />
+														<img src="{{ url('/'). '/' . $p->ktp }}" alt="" class="img-rounded upload" />
 														@if(!empty( $p->no_ktp ))
 															<br />  {{ $p->no_ktp }}
 														@else
@@ -88,7 +88,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 														@endif
 													</td>
 													<td>
-														<img src="{{ url($p->bpjs) }}" alt="" class="img-rounded upload" />
+														<img src="{{ url('/'). '/' . $p->bpjs }}" alt="" class="img-rounded upload" />
 														@if(!empty( $p->nomor_asuransi_bpjs ))
 															<br />  {{ $p->nomor_asuransi_bpjs }}
 														@else
