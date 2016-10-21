@@ -229,10 +229,15 @@ class PasiensController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 			$pn = new Pasien;
+			if (empty(trim(Input::get('asuransi_id')))) {
+				$asuransi_id = 0;
+			} else {
+				$asuransi_id = Input::get('asuransi_id');
+			}
 
 			$pasien                 = Pasien::find($id);
 			$pasien->alamat         = Input::get('alamat');
-			$pasien->asuransi_id    = Input::get('asuransi_id');
+			$pasien->asuransi_id    = $asuransi_id;
 			$pasien->sex            = Input::get('sex');
 			$pasien->jenis_peserta  = Input::get('jenis_peserta');
 			$pasien->nama_ayah      = Input::get('nama_ayah');
@@ -241,7 +246,7 @@ class PasiensController extends Controller
 			$pasien->nama_peserta   = Input::get('nama_peserta');
 			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
 			$pasien->nomor_ktp = Input::get('no_ktp');
-			if (Input::get('asuransi_id') == '32') {
+			if ( $asuransi_id == '32') {
 				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
 			}
 			$pasien->no_telp        = Input::get('no_telp');

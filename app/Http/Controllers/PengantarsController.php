@@ -166,6 +166,9 @@ class PengantarsController extends Controller
 		$pasien->nama           = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 		$pasien->nama_peserta   = ucwords(strtolower(Input::get('nama_peserta')));
 		$pasien->nomor_asuransi = Input::get('nomor_asuransi');
+		if ($asuransi_id == '32') {
+			$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
+		}
 		$pasien->no_telp        = Input::get('no_telp');
 		$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
 		$pasien->id             = $id;
@@ -422,6 +425,21 @@ class PengantarsController extends Controller
 		$pesan = 'Pengantar Berhasil Diedit, total ada <strong>' . $insert . ' pengantar</strong> yang terdaftar untuk ' . Periksa::find( Input::get('periksa_id') )->pasien->nama;
 		return redirect('antriankasirs')->withPesan( Yoga::suksesFlash($pesan) );
 	}
+
+	public function submitPcare(){
+		$id = Input::get('id');
+		$pp = Pasien::find($id);
+		$confirm = PengantarPasien::where('pengantar_id', $id)
+			->where('created_at', 'like' , date('Y-m') . '%')
+			->update(['pcare_submit' => 1]);
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Pengantar <strong>' . $pp->nama . '</strong> sudah dimasukkan dalam Pcare');
+		} else {
+			$pesan = Yoga::gagalFlash('Pengantar <strong>' . $pp->nama . '</strong> gagal dimasukkan dalam Pcare');
+		}
+		return redirect()->back()->withPesan($pesan);
+	}
+	
 	private function pengantarArray($v){
 		 
 			return [

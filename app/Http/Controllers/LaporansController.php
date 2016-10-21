@@ -16,6 +16,7 @@ use App\JurnalUmum;
 use App\NotaJual;
 use App\Coa;
 use App\FakturBelanja;
+use App\PengantarPasien;
 use App\Terapi;
 use App\AntrianPoli;
 use Auth;
@@ -37,6 +38,32 @@ class LaporansController extends Controller
 
 	public function pengantar(){
 
+		$pp = PengantarPasien::all();
+
+
+		// Ini Untuk memastikan bahwa pasien tidak diinput 2 kali bulan ini
+		//
+		//
+		foreach ($pp as $p) {
+
+			// cek Berapa Kali Pengantar ini berobat
+			$berapaKaliPeriksa = Periksa::where('pasien_id', $p->pengantar_id)
+			->where('created_at', 'like', date('Y-m') . '%') 
+			->count() ;
+
+			// cek Berapa Kali Pengantar ini mengantar
+			$berapaKaliPengantar = PengantarPasien::where('pengantar_id', $p->pengantar_id)
+			->where('created_at', 'like', date('Y-m') . '%') 
+			->where('pcare_submit', 1)
+			->count() ;
+
+			$count = $berapaKaliPeriksa + $berapaKaliPengantar;
+			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
+			if ( $count > 0) {
+				$p->delete();
+			}
+		}
+
 		$query = "SELECT ";
 		$query .= "pp.created_at as created_at, ";
 		$query .= "pp.id as pengantar_id, ";
@@ -51,7 +78,8 @@ class LaporansController extends Controller
 		$query .= "pp.kunjungan_sehat as kunjungan_sehat, ";
 		$query .= "ps.asuransi_id as asuransi_id ";
 		$query .= "FROM pengantar_pasiens as pp join pasiens as ps on ps.id = pp.pengantar_id ";
-		$query .= "WHERE pp.antarable_type='App\\\Periksa' and pcare_submit = 0;";
+		$query .= "WHERE pp.antarable_type='App\\\Periksa' and pcare_submit = 0 ";
+		$query .= "GROUP BY pp.pengantar_id;";
 		$pp = DB::select($query);
 
 

@@ -136,6 +136,9 @@ class PasiensAjaxController extends Controller
 			$pasien->nama           = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 			$pasien->nama_peserta   = ucwords(strtolower(Input::get('nama_peserta')));
 			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
+			if ($asuransi_id == '32') {
+				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
+			}
 			$pasien->no_telp        = Input::get('no_telp');
 			$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
 			$pasien->id             = $id;

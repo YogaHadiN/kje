@@ -233,15 +233,21 @@ class FacebookController extends Controller
 	
 	public function postVerified($fb_id, $id){
 
-		$psn = new Pasien;
+		$ps = new Pasien;
 
+			if (empty(trim(Input::get('asuransi_id')))) {
+				$asuransi_id = 0;
+			} else {
+				$asuransi_id = Input::get('asuransi_id');
+			}
 
 		$ps							= Pasien::find($id);
 		$ps->nama					= Input::get('nama');
 		$ps->nama_peserta			= Input::get('nama_peserta');
 		$ps->nomor_asuransi			= Input::get('nomor_asuransi');
-		if (!(  Input::get('asuransi_d') == 0 ) || empty( $ps->asuransi_id )) {
-			$ps->asuransi_id			= Input::get('asuransi_id');
+		$ps->asuransi_id			= $asuransi_id;
+		if ($asuransi_id == '32') {
+			$ps->nomor_asuransi_bpjs			= Input::get('nomor_asuransi');
 		}
 		$ps->jenis_peserta			= Input::get('jenis_peserta');
 		$ps->sex					= Input::get('sex');
@@ -606,9 +612,15 @@ class FacebookController extends Controller
 			
 			$id = Yoga::customId('App\Pasien');
 
+			if (empty(trim(Input::get('asuransi_id')))) {
+				$asuransi_id = 0;
+			} else {
+				$asuransi_id = Input::get('asuransi_id');
+			}
+
 			$pasien                 = new Pasien;
 			$pasien->alamat         = Input::get('alamat');
-			$pasien->asuransi_id    = Input::get('asuransi_id')? Input::get('asuransi_id'):0;
+			$pasien->asuransi_id    = $asuransi_id;
 			$pasien->sex            = Input::get('sex');
 			$pasien->jenis_peserta  = Input::get('jenis_peserta');
 			$pasien->nama_ayah      = ucwords(strtolower(Input::get('nama_ayah')));
@@ -616,6 +628,9 @@ class FacebookController extends Controller
 			$pasien->nama           = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 			$pasien->nama_peserta   = ucwords(strtolower(Input::get('nama_peserta')));
 			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
+			if ( $asuransi_id == '32') {
+				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
+			}
 			$pasien->facebook_id = Input::get('facebook_id');
 			$pasien->email = Input::get('email');
 			$pasien->no_telp        = Input::get('no_telp');

@@ -94,6 +94,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('antrianperiksas/pengantar/{id}/edit', 'PengantarsController@antrianperiksasUpdate');
 			Route::get('antriankasirs/pengantar/{id}/edit', 'PengantarsController@antriankasirsEdit');
 			Route::post('antriankasirs/pengantar/{id}/edit', 'PengantarsController@antriankasirsUpdate');
+			Route::post('laporans/pengantar', 'PengantarsController@submitPcare');
 
 
 

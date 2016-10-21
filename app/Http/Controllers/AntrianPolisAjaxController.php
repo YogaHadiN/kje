@@ -21,12 +21,20 @@ class AntrianPolisAjaxController extends Controller
 	public function storePasienAjax(){
 		$pasien_id = Yoga::customId('App\Pasien');
 		$ps       = new Pasien;
+		if (empty(trim(Input::get('asuransi_id')))) {
+			$asuransi_id = 0;
+		} else {
+			$asuransi_id = Input::get('asuransi_id');
+		}
 		$ps->id   = $pasien_id;
 		$ps->nama   = Input::get('nama') . ', '. Input::get('panggilan');
 		$ps->alamat   = Input::get('alamat');
 		$ps->tanggal_lahir   = Yoga::datePrep( Input::get('tanggal_lahir') );
 		$ps->sex   = Input::get('sex');
-		$ps->asuransi_id   = Input::get('asuransi_id');
+		$ps->asuransi_id   = $asuransi_id;
+		if ($asuransi_id == '32') {
+			$ps->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
+		}
 		$ps->nomor_asuransi   = Input::get('nomor_asuransi');
 		$ps->jenis_peserta   = Input::get('jenis_peserta');
 		$ps->nomor_asuransi   = Input::get('nomor_asuransi');
