@@ -12,7 +12,7 @@ table tr th:first-child, table tr td:first-child {
 }
 
 table tr th:nth-child(2), table tr td:nth-child(2) {
-	width:10%;
+	width:40%;
 }
 
 table tr th:nth-child(3), table tr td:nth-child(3) {
@@ -20,7 +20,7 @@ table tr th:nth-child(3), table tr td:nth-child(3) {
 }
 
 table tr th:nth-child(4), table tr td:nth-child(4) {
-	width:40%;
+	width:10%;
 }
 </style>
 
@@ -62,10 +62,10 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 							<table class="table table-hover table-condensed">
 								<thead>
 									<tr>
-										<th>pasien id</th>
 										<th>Nama Pengantar</th>
 										<th>KTP</th>
 										<th>BPJS</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -73,10 +73,35 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 										@foreach($pp as $p)
 											@if( $p->kunjungan_sehat == '1' )
 												<tr>
-													<td>{{ $p->periksa_id }}</td>
-													<td>{{ $p->nama_pengantar }}</td>
-													<td>{{ $p->ktp }}</td>
-													<td> <img src="{{ url('/'). '/' . $p->bpjs }}" alt="" class="img-rounded upload" /> </td>
+													<td>{{ $p->nama_pengantar }} <br />
+														<strong>Tanggal</strong> <br />
+														{{App\Classes\Yoga::updateDatePrep(  explode( " ", $p->created_at )[0]  )}} <br />
+													
+													<a class="btn btn-primary btn-xs btn-block" href="{{ url('pasiens/' . $p->pasien_id . '/edit') }}">Detail</a>	
+													</td>
+													<td>
+														<img src="{{ url($p->ktp) }}" alt="" class="img-rounded upload" />
+														@if(!empty( $p->no_ktp ))
+															<br />  {{ $p->no_ktp }}
+														@else
+															<br />  Nomor KTP tidak terdaftar
+														@endif
+													</td>
+													<td>
+														<img src="{{ url($p->bpjs) }}" alt="" class="img-rounded upload" />
+														@if(!empty( $p->nomor_asuransi_bpjs ))
+															<br />  {{ $p->nomor_asuransi_bpjs }}
+														@else
+															<br />  Nomor BPJS tidak terdaftar
+														@endif
+													</td>
+													<td>
+														{!! Form::open(['url' => 'pengantar/submit', 'method' => 'post']) !!}
+														  {!! Form::text('id', $p->pengantar_id, ['class' => 'form-control hide']) !!}
+														  <button class="btn btn-success btn-xs btn-block" type="button" onclick="dummySubmit('{{ $p->nama_pengantar }}');return false;">Submit</button>
+														  {!! Form::submit('Submit', ['class' => 'hide submit']) !!}
+														{!! Form::close() !!}
+													</td>
 												</tr>
 											@endif
 										@endforeach
@@ -138,12 +163,17 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 		
 	</div>
 </div>
-
-
-
-	
 @stop
 @section('footer') 
+<script type="text/javascript" charset="utf-8">
+	function dummySubmit(control){
+
+		 var r = confirm('Anda yakin ' + control + ' sudah diproses di Pcare?');
+		 if(r){
+		 	$(control).closest('form').find('.submit').click();
+		 }
+	}
+</script>
 	
 @stop
 

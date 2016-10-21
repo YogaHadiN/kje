@@ -17,7 +17,7 @@
 		  @if($errors->has('alamat'))<code>{{ $errors->first('alamat') }}</code>@endif
 		</div>
 		<div class="row">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
 				  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
 					{!! Form::input('date','tanggal_lahir', App\Classes\Yoga::updateDatePrep($pasien->tanggal_lahir), array(
@@ -27,7 +27,7 @@
 				  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 				</div>
 			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('sex'))has-error @endif">
 				  {!! Form::label('sex', 'Jenis Kelamin', ['class' => 'control-label']) !!}
 					{!! Form::select('sex', array(
@@ -38,7 +38,16 @@
 				  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
 				</div>
 			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		</div>  
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group @if($errors->has('no_ktp'))has-error @endif">
+				  {!! Form::label('no_ktp', 'Nomor KTP', ['class' => 'control-label']) !!}
+				  {!! Form::text('no_ktp' , null, ['class' => 'form-control']) !!}
+				  @if($errors->has('no_ktp'))<code>{{ $errors->first('no_ktp') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 				  {!! Form::label('no_telp', 'No Telp', ['class' => 'control-label']) !!}
 					{!! Form::text('no_telp', $pasien->no_telp, array(
@@ -48,7 +57,7 @@
 				  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
 				</div>
 			</div>
-		</div>  
+		</div>
 					@if(!$facebook)
 					<div class="row"  >
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

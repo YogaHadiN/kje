@@ -68,6 +68,7 @@
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pasiens', 'Pasien')!!}</li>
+                            <li>{!! HTML::link('laporans/pengantar', 'Pengantar Pasien BPJS')!!}</li>
                             <li>{!! HTML::link('stafs', 'Staf')!!}</li>
                             <li>{!! HTML::link('asuransis', 'Asuransi')!!}</li>
                             <li>{!! HTML::link('suppliers', 'Supplier')!!}</li>

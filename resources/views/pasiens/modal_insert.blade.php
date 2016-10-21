@@ -56,7 +56,7 @@
 			</div>
 		</div>
 		 <div class="row">
-			<div class="col-lg-4 col-md-4">
+			<div class="col-lg-6 col-md-6">
 
 				<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 				  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
@@ -64,7 +64,7 @@
 				  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-4">
+			<div class="col-lg-6 col-md-6">
 
 
 				<div class="form-group @if($errors->has('panggilan'))has-error @endif">
@@ -77,8 +77,16 @@
 				  @if($errors->has('panggilan'))<code>{{ $errors->first('panggilan') }}</code>@endif
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-4">
-
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group @if($errors->has('no_ktp'))has-error @endif">
+				  {!! Form::label('no_ktp', 'Nomor KTP', ['class' => 'control-label']) !!}
+				  {!! Form::text('no_ktp' , null, ['class' => 'form-control']) !!}
+				  @if($errors->has('no_ktp'))<code>{{ $errors->first('no_ktp') }}</code>@endif
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6">
 				<div class="form-group @if($errors->has('punya_asuransi'))has-error @endif">
 				  {!! Form::label('punya_asuransi', 'Punya Asuransi', ['class' => 'control-label']) !!}
 					{!! Form::checkbox('punya_asuransi', 0, false, ['id' => 'CheckBox1'])!!}

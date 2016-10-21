@@ -162,6 +162,8 @@ class CustomController extends Controller
 
 		$antrian = new AntrianPeriksa;
 		$antrian->id = $antrian_id;
+		$antrian->poli = $periksa->poli;
+		$antrian->staf_id = $periksa->staf_id;
 		$antrian->antrian = $periksa->antrian;
 		$antrian->asuransi_id = $periksa->asuransi_id;
 		$antrian->pasien_id = $periksa->pasien_id;

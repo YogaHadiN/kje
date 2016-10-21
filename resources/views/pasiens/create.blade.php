@@ -34,7 +34,7 @@ Klinik Jati Elok | sign Up
 	"files"  => "true",
 	"method"=> "post"
 ))!!}
-@include('pasiens.createForm', ['antrianpolis' => true])
+	@include('pasiens.createForm', ['antrianpolis' => true])
 {!! Form::close() !!}
  @stop
  @section('footer') 
