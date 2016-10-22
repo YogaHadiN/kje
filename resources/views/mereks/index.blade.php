@@ -33,7 +33,7 @@ Klinik Jati Elok | Mereks
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered DT actionAutoWidth" id="tableAsuransi">
+            <table class="table table-bordered actionAutoWidth" id="tableAsuransi">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -45,6 +45,7 @@ Klinik Jati Elok | Mereks
                       <th>Harga Beli</th>
                       <th>Harga Jual</th>
                       <th>Komposisi</th>
+                      <th>Unit / Paket</th>
                       <th>Rak</th>
                       <th>Formula</th>
                       {{-- <th>History</th> --}}
@@ -74,6 +75,7 @@ Klinik Jati Elok | Mereks
 
                           @endforeach
                       </td>
+					  <td></td>
                         <td nowrap>
                               <a href="raks/{!! $merek->rak->id !!}" class="">{!! $merek->rak->id !!}</a>
                         </td>
