@@ -445,6 +445,8 @@ class PengantarsController extends Controller
 			return [
 				'id' => $v->pengantar->id ,
 				'nama' => $v->pengantar->nama ,
+				'asuransi_id' => $v->pengantar->asuransi_id ,
+				'nomor_asuransi' => $v->pengantar->nomor_asuransi_bpjs ,
 				'kartu_bpjs' => $v->pengantar->bpjs_image,
 				'ktp' => $v->pengantar->ktp_image,
 				'kunjungan_sehat' => $v->kunjungan_sehat
@@ -482,7 +484,7 @@ class PengantarsController extends Controller
 
 			$data = [
 				'pasien_id' => $pasien_id,
-				'nama' => $ps->nama
+				'nama' => $ps->nama,
 				'nomor_asuransi' => $ps->nomor_asuransi
 			];
 			

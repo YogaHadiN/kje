@@ -75,11 +75,11 @@
 				previous[previous.length] = {
 					'id' : data.insert.pasien_id,
 					'nama' : data.insert.nama,
+					'ktp' : 'null',
 					'asuransi_id' : '32',
 					'nomor_asuransi' : data.insert.nomor_asuransi,
-					'kunjungan_sehat'	: '1'
 					'kartu_bpjs' : 'null',
-					'ktp' : 'null'
+					'kunjungan_sehat'	: '1'
 				};
 				view(previous);
 				aktifkanTabCariPasien();

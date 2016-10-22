@@ -58,7 +58,13 @@
 		 <div class="panel-footer">
 		 	<div class="row">
 		 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<button class="btn btn-success btn-lg btn-block" @if(isset($pengantar)) type="button" onclick="pasiensCreate();return false;" @else type="submit" @endif > Submit </button>
+			<button class="btn btn-success btn-lg btn-block" 
+				 @if(isset($pengantar)) 
+					type="button" onclick="pasiensCreate();return false;" 
+				 @else 
+					 type="submit" 
+				 @endif 
+			 > Submit </button>
 		 		</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<a class="btn btn-danger btn-lg btn-block" href="{{ url('pasiens') }}">Cancel</a>
