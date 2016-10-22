@@ -18,8 +18,6 @@ use App\Periksa;
 use App\Rujukan;
 use App\Pasien;
 use App\AntrianPeriksa;
-use App\PengantarPasien;
-
 use App\Tarif;
 use App\Monitor;
 use App\Dispensing;
