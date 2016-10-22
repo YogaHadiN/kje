@@ -552,12 +552,12 @@ class CustomController extends Controller
 					->where('pcare_submit',1)
 					->count();
 
-				$query = "SELECT * FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
+				$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
 				$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
 				$query .= "AND ks.pcare_submit = 1 ";
-				$query .= "AND px.pasien_id = '" . $px->pasien_id . "';";
+				$query .= "AND px.pasien_id = '" . $id . "';";
 
-				$countKunjunganSakit = DB::select($query);
+				$countKunjunganSakit = DB::select($query)[0]->jumlah;
 				$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;
 				if ($hitung < 1) {
 					$ks       = new KunjunganSakit;
