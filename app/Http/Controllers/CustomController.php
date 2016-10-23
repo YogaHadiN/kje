@@ -540,7 +540,7 @@ class CustomController extends Controller
 		}
 
 
-		if ( $px->asuransi_id == '32' && !empty( $px->pasien->nomor_asuransi ) ) {
+		if ( $px->asuransi_id != '32' && !empty( $px->pasien->nomor_asuransi ) ) {
 
 				$countPeriksaPakaiBpjs = Periksa::where('pasien_id', $px->pasien_id)
 					->where('asuransi_id', '32')
@@ -555,7 +555,7 @@ class CustomController extends Controller
 				$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
 				$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
 				$query .= "AND ks.pcare_submit = 1 ";
-				$query .= "AND px.pasien_id = '" . $id . "';";
+				$query .= "AND px.pasien_id = '" . $px->pasien_id . "';";
 
 				$countKunjunganSakit = DB::select($query)[0]->jumlah;
 				$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;

@@ -28,7 +28,8 @@
 		"league/flysystem-eventable-filesystem": "^1.0",
         "yajra/laravel-datatables-oracle": "~6.0",
         "laravel/socialite": "^2.0",
-        "nasution/zenziva-sms": "^1.3"
+        "nasution/zenziva-sms": "^1.3",
+        "twilio/sdk": "^5.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

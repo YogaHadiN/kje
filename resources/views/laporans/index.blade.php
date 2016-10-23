@@ -263,6 +263,14 @@ Klinik Jati Elok | Home
 												</form>
 											</tr>
 											<tr>
+												<form action="{{ url('laporans/sms/bpjs') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan SMS Pasien BPJS</td>
+													<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
+													<td colspan="2"></td>
+												</form>
+											</tr>
+											<tr>
 												<form action="{{ url('laporans/hariandanjam') }}" method="get">
 													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
 													<td><input type="text" class="form-control tanggal" name="tanggal_awal" value="{!!date('d-m-Y')!!}"/>

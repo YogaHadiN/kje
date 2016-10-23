@@ -16,6 +16,8 @@ use App\JurnalUmum;
 use App\NotaJual;
 use App\Coa;
 use App\FakturBelanja;
+use App\SmsBpjs;
+
 use App\PengantarPasien;
 use App\Terapi;
 use App\AntrianPoli;
@@ -992,6 +994,14 @@ class LaporansController extends Controller
 		}
 		return $uniqueEmails;
 	}
+
+	public function smsBpjs(){
+		$tanggall = Input::get('bulanTahun');
+		$tanggal  = Yoga::blnPrep($tanggall);
+		$sms_bpjs = SmsBpjs::where('created_at', 'like', $tanggal. '%')->get();
+		return view('laporans.sms_bpjs', compact('sms_bpjs'));
+	}
+	
 	
 	private function count($id){
 

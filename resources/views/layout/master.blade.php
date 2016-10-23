@@ -169,6 +169,7 @@
                             <li>{!! HTML::link('fasilitas/antrian_pasien', 'Antrian Pasien')!!}</li>
                             <li>{!! HTML::link('fasilitas/survey', 'Survey Pasien')!!}</li>
                             <li>{!! HTML::link('facebook', 'Daftar dengan Facebook')!!}</li>
+                            <li>{!! HTML::link('sms', 'SMS')!!}</li>
                         </ul>
                      </li>
                 </ul>
