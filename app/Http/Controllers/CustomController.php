@@ -10,6 +10,7 @@ use App\Perbaikantrx;
 use App\Formula;
 use App\Merek;
 use App\Rak;
+use App\KunjunganSakit;
 use App\BahanHabisPakai;
 use App\PengantarPasien;
 use App\JenisTarif;

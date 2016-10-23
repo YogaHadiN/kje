@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
 		 $schedule->command('task:penyusutan')
 				  ->monthlyOn(date('t'), '15:00');
 
-		 $schedule->command('sms:angkakontak')
-				  ->everyMinute();
+		 //$schedule->command('sms:kontak')
+				  //->everyMinute();
     }
 }
