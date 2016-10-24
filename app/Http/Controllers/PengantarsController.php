@@ -10,6 +10,7 @@ use DB;
 use App\AntrianPeriksa;
 use App\AntrianPoli;
 use App\PengantarPasien;
+use App\KunjunganSakit;
 use App\Periksa;
 use App\Classes\Yoga;
 
@@ -496,4 +497,20 @@ class PengantarsController extends Controller
 			return json_encode( ['confirm' => 0] );
 		}
 	}
+
+	public function postKunjunganSakit(){
+		$id = Input::get('id');
+
+		$ks       = KunjunganSakit::find($id);
+		$ks->pcare_submit   = '1';
+		$confirm = $ks->save();
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Pastikan anda sudah memasukkan pasien <strong>' . $ks->periksa->pasien->nama . '</strong> di PCare');
+		} else {
+			$pesan = Yoga::gagalFlash('Pasien gagal dimasukkan');
+		}
+
+		return redirect()->back()->withPesan($pesan);
+	}
+	
 }

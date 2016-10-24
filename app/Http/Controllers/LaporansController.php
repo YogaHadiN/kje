@@ -82,7 +82,9 @@ class LaporansController extends Controller
 		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
 			->where('created_at', 'like', $tanggal . '%')
 			->where('pcare_submit', 0)
+			->orderBy('created_at', 'desc')
 			->get();
+
 
 
 		
@@ -1032,5 +1034,9 @@ class LaporansController extends Controller
 		 
 	}
 
+	public function postKunjunganSakit(){
+		return dd( Input::all() );
+	}
+	
 	
 }

@@ -40,9 +40,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 @section('content') 
 
 <div class="panel panel-success">
-	<div class="panel-heading">
-		<div class="panel-title">Harus Diinput</div>
-	</div>
+<div class="panel-heading">Terdaftar {{ count($pp) }}</div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-hover table-condensed DT">
@@ -55,7 +53,6 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 					</tr>
 				</thead>
 				<tbody>
-					@if(count($pp) > 0)
 						@foreach($pp as $p)
 							@if( $p->kunjungan_sehat == '1' )
 								<tr>
@@ -91,11 +88,6 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 								</tr>
 							@endif
 						@endforeach
-					@else
-						<tr>
-							<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
-						</tr>
-					@endif
 				</tbody>
 			</table>
 		</div>
@@ -105,25 +97,24 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<div class="panel-title">Kunjungan Sakit BPJS yang tidak pakai BPJS</div>
+			<div class="panel-title">Terdaftar {{ $ks->count() }}</div>
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
-					<table class="table table-hover table-condensed">
+					<table class="table table-hover table-condensed DT">
 						<thead>
 							<tr>
-								<th>Tanggal</th>
-								<th>Nama</th>
-								<th>Nomor BPJS</th>
+								<th>Informasi</th>
+								<th>Status</th>
 								<th>Terapi</th>
 							</tr>
 						</thead>
 						<tbody>
-							@if(count($ks) > 0)
 								@foreach($ks as $px)
 									<tr>
-										<td>{{ $px->created_at->format('d-m-Y') }}</td>
 										<td>
+											<strong>Tanggal</strong>
+											{{ $px->created_at->format('d-m-Y') }}<br /><br />
 											{{ $px->periksa->pasien->nama }} <br />
 											<strong>Nomor BPJS :</strong> <br />
 											{{ $px->periksa->pasien->nomor_asuransi_bpjs }}
@@ -138,14 +129,14 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 											{{ $px->periksa->diagnosa->icd10_id }} - {{ $px->periksa->diagnosa->icd10->diagnosaICD }}
 
 										</td>
-										<td>{{ $px->terapiHtmll }}</td>
+										<td>{!! $px->periksa->terapi_html !!} <br />
+											{!! Form::open(['url' => 'laporans/kunjungansakit', 'method' => 'post']) !!}
+												{!! Form::text('id', $px->id, ['class' => 'hide']) !!}
+												{!! Form::submit('Terdaftar di PCare', ['class' => 'btn btn-success btn-block btn-lg', 'onclick' => 'return confirm("Anda yakin pasien ' . $px->periksa->pasien->nama . ' sudah terdaftar di Pcare?"); return false']) !!}
+											{!! Form::close() !!}
+										</td>
 									</tr>
 								@endforeach
-							@else
-								<tr>
-									<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
-								</tr>
-							@endif
 						</tbody>
 					</table>
 				</div>
@@ -156,8 +147,14 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 	</div>
 </div>
 
+@include('obat')
 @stop
 @section('footer') 
+	<script type="text/javascript" charset="utf-8">
+var base = '{{ url('/') }}';
+	</script>
+
+	{!! HTML::script('js/informasi_obat.js') !!}
 <script type="text/javascript" charset="utf-8">
 	function dummySubmit(control, nama){
 		 var r = confirm('Anda yakin ' + nama + ' sudah diproses di Pcare?');
