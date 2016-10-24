@@ -116,8 +116,10 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 											<strong>Tanggal</strong>
 											{{ $px->created_at->format('d-m-Y') }}<br /><br />
 											{{ $px->periksa->pasien->nama }} <br />
+											<strong>({{ $px->periksa->pasien_id }})</strong>
 											<strong>Nomor BPJS :</strong> <br />
-											{{ $px->periksa->pasien->nomor_asuransi_bpjs }}
+											{{ $px->periksa->pasien->nomor_asuransi_bpjs }} <br />
+											<a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $px->periksa->pasien_id . '/edit') }}">Detail</a>
 										</td>
 										<td>
 											<strong>Anemnesa :</strong> <br />

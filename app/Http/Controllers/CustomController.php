@@ -541,7 +541,7 @@ class CustomController extends Controller
 		}
 
 
-		if ( $px->asuransi_id != '32' && !empty( $px->pasien->nomor_asuransi ) ) {
+		if ( $px->asuransi_id != '32' && !empty(trim(  $px->pasien->nomor_asuransi_bpjs  )) ) {
 
 				$countPeriksaPakaiBpjs = Periksa::where('pasien_id', $px->pasien_id)
 					->where('asuransi_id', '32')

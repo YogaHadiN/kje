@@ -434,7 +434,7 @@ class PengantarsController extends Controller
 			->where('created_at', 'like' , date('Y-m') . '%')
 			->update(['pcare_submit' => 1]);
 		if ($confirm) {
-			$pesan = Yoga::suksesFlash('Pengantar <strong>' . $pp->nama . '</strong> sudah dimasukkan dalam Pcare');
+			$pesan = Yoga::suksesFlash('Pastikan anda sudah memasukkan pasien <strong>' . $pp->nama . '</strong> di PCare');
 		} else {
 			$pesan = Yoga::gagalFlash('Pengantar <strong>' . $pp->nama . '</strong> gagal dimasukkan dalam Pcare');
 		}
