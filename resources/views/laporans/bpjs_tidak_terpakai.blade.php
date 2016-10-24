@@ -47,7 +47,7 @@ Klinik Jati Elok | BPJS tidak pakai BPJS
 											{{ $px->periksa->pasien->nomor_asuransi_bpjs }} <br /><br />
 											<strong>Pembayaran saat ini :</strong> <br />
 											{{ $px->periksa->asuransi->nama }} <br />
-											<a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $px->periksa->pasien_id . '/edit') }}">Detail</a>
+											<a class="btn btn-info btn-lg btn-block" href="{{ url('pasiens/' . $px->periksa->pasien_id . '/edit') }}">Detail</a>
 										</td>
 										<td>
 											<strong>Anemnesa :</strong> <br />
