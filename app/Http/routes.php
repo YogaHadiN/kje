@@ -467,6 +467,8 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 			Route::get('sms', 'SmsController@sms');
 			Route::post('sms', 'SmsController@smsPost');
+			Route::post('pasiens/sms/angkakontak', 'SmsController@angkakontak');
+
 			
   	});
 

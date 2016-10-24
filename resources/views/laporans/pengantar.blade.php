@@ -45,7 +45,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 	</div>
 	<div class="panel-body">
 		<div class="table-responsive">
-			<table class="table table-hover table-condensed">
+			<table class="table table-hover table-condensed DT">
 				<thead>
 					<tr>
 						<th>Nama Pengantar</th>
@@ -63,7 +63,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 										<strong>Tanggal</strong> <br />
 										{{App\Classes\Yoga::updateDatePrep(  explode( " ", $p->created_at )[0]  )}} <br />
 									
-									<a class="btn btn-primary btn-xs btn-block" href="{{ url('pasiens/' . $p->pasien_id . '/edit') }}">Detail</a>	
+									<a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $p->pasien_id . '/edit') }}">Detail</a>	
 									</td>
 									<td>
 										<img src="{{ url('/'). '/' . $p->ktp }}" alt="" class="img-rounded upload" />
@@ -84,8 +84,8 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 									<td>
 										{!! Form::open(['url' => 'laporans/pengantar', 'method' => 'post']) !!}
 										  {!! Form::text('id', $p->pasien_id, ['class' => 'form-control hide']) !!}
-										  <button class="btn btn-success btn-xs btn-block" type="button" onclick="dummySubmit(this, '{{ $p->nama_pengantar }}');return false;">Submit</button>
-										  {!! Form::submit('Submit', ['class' => 'hide submit']) !!}
+										  <button class="btn btn-primary btn-lg btn-block" type="button" onclick="dummySubmit(this, '{{ $p->nama_pengantar }}');return false;">Terdaftar di PCare</button>
+										  {!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
 										{!! Form::close() !!}
 									</td>
 								</tr>

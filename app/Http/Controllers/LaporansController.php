@@ -42,7 +42,7 @@ class LaporansController extends Controller
 	public function pengantar(){
 		$tanggall = Input::get('bulanTahun');
 		$tanggal  = Yoga::blnPrep($tanggall);
-		$pp = PengantarPasien::where('created_at', 'like', $tanggal . '%')->get();
+		$pp = PengantarPasien::where('created_at', 'like', $tanggal . '%')->latest()->get();
 		// Ini Untuk memastikan bahwa pasien tidak diinput 2 kali bulan ini
 		//
 		//
@@ -76,12 +76,16 @@ class LaporansController extends Controller
 		$query .= "WHERE pp.antarable_type='App\\\Periksa' ";
 		$query .= "AND pp.pcare_submit = 0 ";
 		$query .= "AND pp.created_at like '" . $tanggal . "%' ";
-		$query .= "GROUP BY pp.pengantar_id;";
+		$query .= "GROUP BY pp.pengantar_id ";
+		$query .= "ORDER BY pp.created_at DESC; ";
 		$pp = DB::select($query);
 		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
 			->where('created_at', 'like', $tanggal . '%')
 			->where('pcare_submit', 0)
 			->get();
+
+
+		
 		return view('laporans.pengantar', compact(
 			'pp',
 			'ks'

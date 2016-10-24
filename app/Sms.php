@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Twilio\Rest\Client;
 use Twilio\Exceptions\Twilioexception;
+use App\Classes\Yoga;
 
 class Sms extends Model
 {
@@ -47,10 +48,15 @@ class Sms extends Model
 		$sms_id = Yoga::customId('App\SmsBpjs');
 		$callBackUrl = url('sms/report/' . $sms_id );
 		$no = $pasien->no_telp;
-		$no_array = str_split($no, 1)[0];
+
+		$length = strlen($no);
+		$no_array[0] = substr($no, 0, 1);
+		$no_array[1] = substr($no, 1, $length );
 		if ($no_array[0] == '0') {
 			$no = '+62' . $no_array[1];
-		}else{
+		} else if ($no_array[0] == '+'){
+
+		} else {
 			$no = '+62' . $no;
 		}
 
@@ -61,16 +67,16 @@ class Sms extends Model
 				// Step 6: Change the 'From' number below to be a valid Twilio number 
 				// that you've purchased
 				'from' =>env('TWILLIO_NUMBER'), 
-				'statusCallback' => $callBackUrl,
 				// the sms body
 				'body' => $message
 			)
 		);
 		$sb					= new SmsBpjs;
 		$sb->pasien_id   = $pasien->id;
-		$sb->pesan   = $pesan;
-		$sb->callBackUrl   = $callBackUrl;
+		$sb->pesan   = $message;
 		$sb->save();
 		// Display a confirmation message on the screen
+	}
+	private function split_on($string, $num) {
 	}
 }

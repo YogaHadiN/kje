@@ -53,9 +53,9 @@
 					</div>
 						{!! Form::text($halamanAwal, $ap->id, ['class' => 'form-control hide']) !!}
 						@if($edit)
-							{!! Form::textarea('jsonArray',$pengantars, ['class' => 'form-control', 'id' => 'jsonArray']) !!}
+							{!! Form::textarea('jsonArray',$pengantars, ['class' => 'form-control hide', 'id' => 'jsonArray']) !!}
 						@else
-							{!! Form::textarea('jsonArray', '[]', ['class' => 'form-control', 'id' => 'jsonArray']) !!}
+							{!! Form::textarea('jsonArray', '[]', ['class' => 'form-control hide', 'id' => 'jsonArray']) !!}
 						@endif
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

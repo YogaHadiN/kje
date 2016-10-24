@@ -13,10 +13,7 @@
 				temp += '<tr>';
 				temp += '<td>' + data[i].nama +  '<br />';
 				if( data[i].asuransi_id == '32' ){
-					alert(data[i].asuransi_id);
 					temp +=	'<strong>Nomor Asuransi :' + data[i].nomor_asuransi + '</strong>'
-				} else {
-					alert(data[i].asuransi_id);
 				}
 				temp += '</td>';
 
@@ -100,6 +97,5 @@
 
 	function moveScreenTo(element) {
 		$("body").scrollTop($(element).offset().top);
-		alert('focused');
 	}
 	

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Input;
 use App\Sms;
+use App\Pasien;
 use App\Classes\Yoga;
 use twilio\rest\client;
 use twilio\exceptions\twilioexception;
@@ -35,6 +36,13 @@ class SmsController extends Controller
 	public function smsBpjs($id){
 		Sms::smsBpjs(Pasien::find($id), 'okelah kalau begitu');
 	}
+	public function angkakontak(){
+		Sms::smsBpjs( Pasien::find( Input::get('pasien_id') ), 'Gile lu ndro!!');
+		$pesan = Yoga::suksesFlash('Pengiriman pesan berhasil');
+		return redirect()->back()->withPesan($pesan);
+		
+	}
+	
 	
 
 }

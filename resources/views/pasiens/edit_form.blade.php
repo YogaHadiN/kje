@@ -227,9 +227,9 @@
 						{!! Form::label('ktp_image', 'Foto KTP') !!}
 						{!! Form::file('ktp_image') !!}
 						@if (isset($pasien) && $pasien->ktp_image)
-						<p> {!! HTML::image(asset($pasien->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
+							<p> {!! HTML::image(asset($pasien->ktp_image), null, ['class'=>'img-rounded upload']) !!} </p>
 						@else
-						<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+							<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 						@endif
 						{!! $errors->first('ktp_image', '<p class="help-block">:message</p>') !!}
 					</div>
