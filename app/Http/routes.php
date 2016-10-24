@@ -430,6 +430,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('laporans/hariandanjam', 'LaporansController@hariandanjam');
 			Route::get('laporans/asuransi/detail/{asuransi_id}/{tanggal}', 'LaporansController@asuransi_detail');
 			Route::get('laporans/contoh', 'LaporansController@contoh');
+			Route::get('laporans/bpjs_tidak_terpakai', 'LaporansController@bpjsTidakTerpakai');
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/dispensing/{rak_id}/{mulai}/{akhir}', 'PdfsController@dispensing');

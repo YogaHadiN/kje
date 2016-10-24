@@ -39,6 +39,29 @@ class LaporansController extends Controller
 	     $this->middleware('super', ['except' => ['pengantar','index', 'harian','penyakit', 'points', 'rujukankebidanan', 'no_asisten', 'jumlahDiare', 'jumlahIspa']]);
 	 }
 
+	public function bpjsTidakTerpakai(){
+		$tanggall = Input::get('bulanTahun');
+		$tanggal  = Yoga::blnPrep($tanggall);
+		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')->where('created_at', 'like', $tanggal . '%')->get();
+		foreach ($ks as $k) {
+			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
+			if ( $this->count($k->pengantar_id, $tanggal) > 0 && $k->kunjungan_sehat == '1') {
+				$k->delete();
+			}
+		}
+
+		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
+			->where('created_at', 'like', $tanggal . '%')
+			->where('pcare_submit', 0)
+			->orderBy('created_at', 'desc')
+			->get();
+		
+		return view('laporans.bpjs_tidak_terpakai', compact(
+			'ks'
+		));
+	}
+	
+
 	public function pengantar(){
 		$tanggall = Input::get('bulanTahun');
 		$tanggal  = Yoga::blnPrep($tanggall);
@@ -48,15 +71,9 @@ class LaporansController extends Controller
 		//
 		foreach ($pp as $p) {
 			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
-			if ( $this->count($p->pengantar_id, $tanggal) > 0) {
-				$p->delete();
-			}
-		}
-		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')->where('created_at', 'like', $tanggal . '%')->get();
-		foreach ($ks as $k) {
-			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
-			if ( $this->count($k->pengantar_id, $tanggal) > 0) {
-				$k->delete();
+			if ( $this->count($p->pengantar_id, $tanggal) > 0 && $p->kunjungan_sehat == '1') {
+				$p->kunjungan_sehat = '0';
+				$p->save();
 			}
 		}
 		$query = "SELECT ";
@@ -79,18 +96,9 @@ class LaporansController extends Controller
 		$query .= "GROUP BY pp.pengantar_id ";
 		$query .= "ORDER BY pp.created_at DESC; ";
 		$pp = DB::select($query);
-		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
-			->where('created_at', 'like', $tanggal . '%')
-			->where('pcare_submit', 0)
-			->orderBy('created_at', 'desc')
-			->get();
-
-
-
 		
 		return view('laporans.pengantar', compact(
-			'pp',
-			'ks'
+			'pp'
 		));
 	}
 	
