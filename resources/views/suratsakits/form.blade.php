@@ -45,4 +45,42 @@
 			  </div>
 		</div>
 	</div>
+	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+		<div class="panel panel-danger">
+				<div class="panel-heading">
+					<h3 class="panel-title">Riwayat Minta Surat Sakit</h3>
+			  </div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Tanggal Izin</th>
+								<th>Berapa Hari</th>
+								<th>Pemeriksa</th>
+							</tr>
+						</thead>
+						<tbody>
+							@if(count($ss) > 0)
+								@foreach($ss as $s)
+									<tr>
+										<td>{{ $s->tanggal_izin }}</td>
+										<td>{{ $s->jumlah_hari }}</td>
+										<td>{{ $s->nama_staf }}</td>
+									</tr>
+								@endforeach
+							@else
+								<tr>
+									<td class="text-center" colspan="3">Tidak Ada Data Untuk Ditampilkan :p</td>
+								</tr>
+							@endif
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+		
+	</div>
+	
 </div>

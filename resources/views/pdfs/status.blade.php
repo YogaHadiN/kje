@@ -22,10 +22,10 @@
 		text-align:center;
 		font-size:15px;
 		font-weight:bold;
-		border: 2px solid black;
+		border-bottom: 2px solid black;
 	}
 	.content2 {
-		padding:15px;
+		padding:5px;
 		border-collapse: collapse;
 		border: 1px solid black;
 	}
@@ -196,11 +196,12 @@ border-spacing: -1px;
 </head>
 <body style="font-size:11px; font-family:sans-serif">
 	<div style="" class="klinik">
-		<table width="100%">
+		<table width="100%" class="status">
 			<tr>
 				<td nowrap class="text-left">
 					KLINIK JATI ELOK
 				</td>
+				<td nowrap colspan="2" >STATUS - {!! $periksa->id !!}</td>
 				<td nowrap class="text-right">
 					DOKUMEN RAHASIA!!
 				</td>
@@ -208,9 +209,6 @@ border-spacing: -1px;
 		</table>
 	</div>
 	<table style="width:100%">
-		<tr>
-			<td nowrap colspan="2" class="status">STATUS - {!! $periksa->id !!}</td>
-		</tr>
 		<tr>
 			<td nowrap>
 				<table style="width:100%" class="content1">
@@ -275,6 +273,9 @@ border-spacing: -1px;
 					<strong>Diagnosa</strong><br>
 					{!! $periksa->diagnosa->diagnosa !!} ({!! $periksa->diagnosa->icd10_id!!} - 
 					{!! $periksa->diagnosa->icd10->diagnosaICD !!})
+					@if( isset( $perika->rujukan ) && $periksa->rujukan->tacc )
+						<strong>TACC</strong>
+					@endif
 	              @if($periksa->suratSakit)
 	                @include('pdfs.suratSakit')
 	              @endif
@@ -293,10 +294,34 @@ border-spacing: -1px;
 						@if($periksa->rujukan->tujuanRujuk)
 							{!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} 
 						@endif
-						karena {!! $periksa->rujukan->alasan_rujuk!!}
+						karena 
+
+						@if( $periksa->asuransi_id == '32' )
+							@if( !empty( $periksa->rujukan->time ) )
+								<strong>(Time)</strong>{!! $periksa->rujukan->time!!}
+							@endif	
+							@if( !empty($periksa->rujukan->age) )
+								<strong>(Age)</strong>{!! $periksa->rujukan->age!!}
+							@endif	
+							@if( !empty($periksa->rujukan->comorbidity) )
+								<strong>(Comorbidity)</strong>{!! $periksa->rujukan->comorbidity!!}
+							@endif	
+							@if( !empty($periksa->rujukan->complication) )
+								<strong>(Complication)</strong>{!! $periksa->rujukan->complication!!}
+							@endif	
+
+						@else
+							{!! $periksa->rujukan->complication!!}
+						@endif
 					@endif
 					@if($bayarGDS)
 						@include('warninggds2', ['pasien_id' => $periksa->pasien_id, 'periksa' => $periksa ])
+					@endif
+					@if( $periksa->asuransi_id == '32' &&  strpos($periksa->rujukan->tujuanRujuk->tujuan_rujuk, 'UGD') !== false   )
+						<div class="alert alert-danger">
+							Rujukan ke UGD pasien BPJS, tidak perlu diberikan Rujukan BPJS, cukup Surat Rujukan sama seperti Pasien Umum
+							, lalu Pasien diproses seperti Pasien BPJS biasa tanpa rujukan
+						</div>
 					@endif
 					@if($periksa->asuransi_id == 0 && !empty($periksa->keterangan))
 						<div class="alert alert-danger">
@@ -524,7 +549,23 @@ border-spacing: -1px;
 				</td>
 				<td>
 					@if($periksa->rujukan)
-						dirujuk ke {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} karena {!! $periksa->rujukan->alasan_rujuk!!}
+						@if( $periksa->asuransi_id == '32' )
+							@if( !empty( $periksa->rujukan->time ) )
+								<strong>(Time)</strong>{!! $periksa->rujukan->time!!}
+							@endif	
+							@if( !empty($periksa->rujukan->age) )
+								<strong>(Age)</strong>{!! $periksa->rujukan->age!!}
+							@endif	
+							@if( !empty($periksa->rujukan->comorbidity) )
+								<strong>(Comorbidity)</strong>{!! $periksa->rujukan->comorbidity!!}
+							@endif	
+							@if( !empty($periksa->rujukan->complication) )
+								<strong>(Complication)</strong>{!! $periksa->rujukan->complication!!}
+							@endif	
+
+						@else
+							{!! $periksa->rujukan->complication!!}
+						@endif
 					@endif
 				</td>
 			</tr>
@@ -587,12 +628,35 @@ border-spacing: -1px;
 									<td>
 										{!! $periksa->diagnosa->diagnosa !!} ({!! $periksa->diagnosa->icd10_id!!} - 
 										{!! $periksa->diagnosa->icd10->diagnosaICD !!})
+										@if( $periksa->rujukan->tacc )
+											<strong>TACC</strong>
+										@endif
 									</td>
 								</tr>
 								<tr>
 									<td>Alasan Rujuk</td>
 									<td>:</td>
-									<td>{!!$periksa->rujukan->alasan_rujuk!!}</td>
+									<td>
+										@if($periksa->rujukan)
+											@if( $periksa->asuransi_id == '32' )
+												@if( !empty( $periksa->rujukan->time ) )
+													<strong>(Time)</strong>{!! $periksa->rujukan->time!!}
+												@endif	
+												@if( !empty($periksa->rujukan->age) )
+													<strong>(Age)</strong>{!! $periksa->rujukan->age!!}
+												@endif	
+												@if( !empty($periksa->rujukan->comorbidity) )
+													<strong>(Comorbidity)</strong>{!! $periksa->rujukan->comorbidity!!}
+												@endif	
+												@if( !empty($periksa->rujukan->complication) )
+													<strong>(Complication)</strong>{!! $periksa->rujukan->complication!!}
+												@endif	
+
+											@else
+												{!! $periksa->rujukan->complication!!}
+											@endif
+										@endif
+									</td>
 								</tr>
 								<tr>
 									<td>Tindakan Awal</td>

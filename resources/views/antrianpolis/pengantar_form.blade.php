@@ -74,6 +74,7 @@
 								">Tidak Ada Pengantar</a> 
 							</div>
 						</div>
+					{!! Form::text('full_url', null, ['class' => 'form-control']) !!}
 					{!! Form::close() !!}
 				</div>
 			</div>

@@ -96,6 +96,9 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('antriankasirs/pengantar/{id}/edit', 'PengantarsController@antriankasirsUpdate');
 			Route::post('laporans/pengantar', 'PengantarsController@submitPcare');
 			Route::post('laporans/kunjungansakit', 'PengantarsController@postKunjunganSakit');
+			Route::get('laporans/periksa/pengantar/{id}/edit', 'PengantarsController@editPengantarPeriksa');
+			Route::post('laporans/periksa/pengantar/{id}', 'PengantarsController@updatePengantarPeriksa');
+
 
 
 
@@ -431,6 +434,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('laporans/asuransi/detail/{asuransi_id}/{tanggal}', 'LaporansController@asuransi_detail');
 			Route::get('laporans/contoh', 'LaporansController@contoh');
 			Route::get('laporans/bpjs_tidak_terpakai', 'LaporansController@bpjsTidakTerpakai');
+
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
 			Route::get('pdfs/dispensing/{rak_id}/{mulai}/{akhir}', 'PdfsController@dispensing');

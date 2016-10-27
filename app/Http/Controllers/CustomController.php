@@ -295,20 +295,17 @@ class CustomController extends Controller
 		$px->terapi          = $this->terapisBaru($px->terapii);
 		$px->jam_terima_obat = date('H:i:s');
 		if ($px->rujukan) {
+			$ps = new Pasien;
 			$rujukan = Rujukan::find($px->rujukan->id);
-			if (!empty(Input::get('image'))) {
-				$rujukan->image = Yoga::inputImageIRujukanfNotEmpty(Input::get('image'), $px->id);
+			if (Input::hasFile('image')) {
+				$rujukan->image = $ps->imageUpload('rjk', 'image', Input::get('periksa_id') );
 			}
 			$rujukan->save();
 		}
-
 		$px->lewat_kasir2    = '1';
 		$confirm             = $px->save();
-
 		$resep = $px->terapii;
-
 		$merek = Merek::all();
-
 		foreach ($resep as $key => $value) {
 			$rak_id = $merek->find($resep[$key]['merek_id'])->rak_id;
 			$rak       = Rak::find($rak_id);

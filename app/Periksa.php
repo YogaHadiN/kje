@@ -1083,7 +1083,7 @@ class Periksa extends Model{
 			$temp .= '<div class="alert alert-warning"> dirujuk ke ';
 			$temp .= $this->rujukan->tujuanRujuk->tujuan_rujuk ;
 			$temp .= '<br> karena ';
-			$temp .= $this->rujukan->alasan_rujuk;
+			$temp .= $this->rujukan->complication;
 			$temp .= '<br>';
 			if($this->asuransi_id == '32'){
 				$temp .= '<a href="'.url('rujukans/' . $this->id ).'" class="btn btn-success">Lihat Rujukan</a>';
@@ -1098,9 +1098,8 @@ class Periksa extends Model{
 	public function gambarPeriksa(){
 		return $this->hasMany('App\GambarPeriksa');
 	}
-	
-	
-	
-	
+	public function getDiagnosahtmlAttribute(){
+		return $this->diagnosa->diagnosa . ' - ' . $this->diagnosa->icd10->diagnosaICD . ' (' . $this->diagnosa->icd10_id . ')';
+	}
 	
 }

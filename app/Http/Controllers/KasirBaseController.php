@@ -10,6 +10,7 @@ use App\Terapi;
 use App\Tarif;
 use App\Pasien;
 use App\Perbaikanresep;
+use App\Tidakdirujuk;
 use App\Merek;
 use App\Asuransi;
 
@@ -84,6 +85,22 @@ class KasirBaseController extends Controller
 		$prx = Periksa::find($periksa_id);
 		$prx->lewat_kasir = '1';
 		$prx->save();
+
+		if ( ( Input::get('tacc') ) && Input::get('tacc') == '1' ) {
+			$rjk       = $prx->rujukan;
+			$rjk->time   = Input::get('time_tacc') ;
+			$rjk->age   = Input::get('age_tacc') ;
+			$rjk->complication   = Input::get('complication_tacc') ;
+			$rjk->comorbidity   = Input::get('comorbidity_tacc') ;
+			$rjk->tacc   = 1;
+			$rjk->save();
+
+
+			$tidakdirujuk             = Tidakdirujuk::firstOrNew(['icd10_id' => $prx->diagnosa->icd10_id]);
+			$tidakdirujuk->diagnosa   = $prx->diagnosa->diagnosa ;
+			$tidakdirujuk->save();
+		}
+
 
         if (!empty(Input::get('terapi2'))) {
             $perbaikan = new Perbaikanresep;

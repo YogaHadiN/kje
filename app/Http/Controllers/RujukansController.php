@@ -59,8 +59,11 @@ class RujukansController extends Controller
   			$tujuan_rujuks[] = $sp->tujuan_rujuk;
   		}
   		
+		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
+            return Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all();
+		});
   		$tujuan_rujuks = json_encode($tujuan_rujuks);
-		return view('rujukans.create', compact('periksa', 'tujuan_rujuks', 'isHamil', 'g', 'p', 'a', 'hpht'));
+		return view('rujukans.create', compact('periksa', 'tujuan_rujuks', 'isHamil', 'g', 'p', 'a', 'hpht', 'diagnosa'));
 	}
 
 	/**
@@ -74,12 +77,22 @@ class RujukansController extends Controller
 		$rules =[
 			'tujuan_rujuk' => 'required',
 			'rumah_sakit'  => 'required',
-			'alasan_rujuk' => 'required',
 			'periksa_id'   => 'required'
 		];
+
+		if (
+				empty( Input::get('time_tacc') ) &&
+				empty( Input::get('age_tacc') ) &&
+				empty( Input::get('comorbidity_tacc') ) &&
+				empty( Input::get('complication') )
+			) {
+			
+				$rules['alasan_rujuk'] = 'required';
+		}
 		$validator = \Validator::make($data = Input::all(), $rules);
 
-		if ($validator->fails())
+
+		if ($validator->fails() )
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
@@ -104,7 +117,19 @@ class RujukansController extends Controller
 			$id                        = $tujuan_baru->id;
 		}
 		$rujuk->tujuan_rujuk_id = $id;
-		$rujuk->alasan_rujuk    = Input::get('alasan_rujuk');
+		$rujuk->complication    = Input::get('complication');
+		if ( !empty( Input::get('time_tacc') ) ) {
+			$rujuk->time = Input::get('time_tacc');
+		}
+
+		if ( !empty( Input::get('age_tacc') ) ) {
+			$rujuk->age = Input::get('age_tacc');
+		}
+
+		if ( !empty( Input::get('comorbidity_tacc') ) ) {
+			$rujuk->comorbidity = Input::get('comorbidity_tacc');
+		}
+		$rujuk->complication    = Input::get('complication');
 		$rujuk->periksa_id      = $periksa->id;
 		// cek apakah rumah sakit baru atau lama 
 		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));
@@ -221,10 +246,13 @@ class RujukansController extends Controller
   			$hamil = '0';
   		}
 
+		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
+            return Diagnosa::with('icd10')->get()->lists('diagnosa_icd', 'id')->all();
+		});
 
   		// return $hamil;
 
-		return view('rujukans.edit', compact('rujukan', 'tujuan_rujuks', 'hamil', 'g', 'p', 'a', 'hpht'));
+		return view('rujukans.edit', compact('rujukan', 'tujuan_rujuks', 'hamil', 'g', 'p', 'a', 'hpht', 'diagnosa'));
 	}
 
 	/**
@@ -240,9 +268,18 @@ class RujukansController extends Controller
 		$rules =[
 			'tujuan_rujuk' => 'required',
 			'rumah_sakit'  => 'required',
-			'alasan_rujuk' => 'required',
 			'periksa_id'   => 'required'
 		];
+
+		if (
+				empty( Input::get('time_tacc') ) &&
+				empty( Input::get('age_tacc') ) &&
+				empty( Input::get('comorbidity_tacc') ) &&
+				empty( Input::get('complication') )
+			) {
+			
+				$rules['alasan_rujuk'] = 'required';
+		}
 		$validator = \Validator::make($data = Input::all(), $rules);
 
 		if ($validator->fails())
@@ -267,7 +304,10 @@ class RujukansController extends Controller
 			$id                        = $tujuan_baru->id;
 		}
 		$rujuk->tujuan_rujuk_id = $id;
-		$rujuk->alasan_rujuk    = Input::get('alasan_rujuk');
+		$rujuk->complication    = Input::get('complication');
+		$rujuk->age    = Input::get('age_tacc');
+		$rujuk->time    = Input::get('time_tacc');
+		$rujuk->comorbidity    = Input::get('comorbidity_tacc');
 		$rujuk->periksa_id      = $periksa->id;
 		// cek apakah rumah sakit baru atau lama 
 		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));

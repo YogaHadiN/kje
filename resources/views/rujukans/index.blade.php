@@ -66,7 +66,7 @@ Klinik Jati Elok | Rujukans
                                 @if(isset( $rujukan->rumahSakit->nama ))
                                 {!! $rujukan->rumahSakit->nama !!}</td>
                                 @endif
-                               <td>{!! $rujukan->alasan_rujuk !!}</td>
+                               <td>{!! $rujukan->complication !!}</td>
                            </tr>
                     @endforeach
                 @else

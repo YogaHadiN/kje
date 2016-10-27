@@ -5284,5 +5284,6 @@ table.tabelTerapi tr td {
 .carousel-control.left, .carousel-control.right {
     background-image: none !important;
 }
-
-
+.tacustom2{
+	  height: 150px !important;
+}

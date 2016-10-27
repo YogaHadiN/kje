@@ -84,7 +84,7 @@
 										  @if(isset($periksa->rujukan->tujuanRujuk))
 											  {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} <br>
 										  @endif
-										  karena {!!$periksa->rujukan->alasan_rujuk !!}
+										  karena {!!$periksa->rujukan->complication !!}
 										</div>
 										<a href="{{ url('rujukans/'.$periksa->id) }}">Show Rujukan</a>
 									  @endif

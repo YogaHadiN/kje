@@ -95,7 +95,7 @@ Klinik Jati Elok | Riwayat Pasien
                           <hr>
                             <div class="alert alert-warning">
                               dirujuk ke {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} <br>
-                              karena {!!$periksa->rujukan->alasan_rujuk !!} <br>
+                              karena {!!$periksa->rujukan->complication !!} <br>
                               @if($periksa->asuransi_id == '32')
                               <a href="{{ url('rujukans/' . $periksa->id ) }}" class="btn btn-success">Lihat Rujukan</a>
                               @else

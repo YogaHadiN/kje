@@ -21,6 +21,7 @@ use App\RefleksPatela;
 use App\KepalaTerhadapPap;
 use App\Presentasi;
 use App\Buku;
+use App\PengantarPasien;
 use App\Staf;
 use App\Asuransi;
 use App\JenisRumahSakit;
@@ -2279,7 +2280,29 @@ class Yoga {
 
 		curl_close($curlHandle);
 	}
+
+	public static function pengantarBerobat($pasien_id, $bulanTahun){
+	   return Periksa::where('pasien_id', $pasien_id)
+			->where('tanggal', $bulanTahun)
+			->get(['created_at']);
+	}
 	
+
+	public static function pengantarMengantar($pasien_id, $bulanTahun){
+	   return PengantarPasien::where('pengantar_id', $pasien_id)
+			->where('created_at', 'like', $bulanTahun . '%')
+			->where('pcare_submit', '1')
+			->get(['created_at']);
+	}
+	
+	public static function pengantarKunjunganSakit($pasien_id, $bulanTahun){
+		$query = "SELECT ks.created_at FROM kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id ";
+		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
+		$query .= "AND ks.created_at like '{$bulanTahun}%' ";
+		$query .= "AND ks.pcare_submit = 0 ";
+		$query .= "ORDER BY ks.created_at desc;";
+		return DB::select($query);
+	}
 	
     
 }

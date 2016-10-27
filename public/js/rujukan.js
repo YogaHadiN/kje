@@ -1,6 +1,5 @@
 jQuery(document).ready(function($) {
       hideOff();
-      // emptyObs();
       tagsAutocomplete();
 
       uk('umur_kehamilan', 'HPHT');

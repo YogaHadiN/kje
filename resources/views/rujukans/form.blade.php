@@ -63,10 +63,68 @@
 				 </div>
 				 <div class="row">
 				 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<div class="form-group @if($errors->has('alasan_rujuk'))has-error @endif">
-						  {!! Form::label('alasan_rujuk', 'Alasan Rujuk', ['class' => 'control-label']) !!}
-				 		  {!! Form::textarea('alasan_rujuk', null, ['class' => 'form-control textareacustom'])!!}
-						  @if($errors->has('alasan_rujuk'))<code>{{ $errors->first('alasan_rujuk') }}</code>@endif
+				 		<div class="form-group @if($errors->has('diagnosa'))has-error @endif">
+				 		  {!! Form::label('diagnosa', 'Diagnosa', ['class' => 'control-label']) !!}
+						  {{ Form::text('diagnosa' , $periksa->diagnosahtml, ['class' => 'form-control', 'disabled' => 'disabled']) }}
+				 		  @if($errors->has('diagnosa'))<code>{{ $errors->first('diagnosa') }}</code>@endif
+				 		</div>
+				 		
+				 	</div>
+				 </div>
+				 @if( $periksa->asuransi_id == '32' )
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+							<h2>Alasan Merujuk Pasien </h2>
+							<h3>(Khusus Pasien BPJS)</h3>
+							<div class="alert alert-success">
+								Mohon kerjasamanya dokter mengisi alasan merujuk sesuai kolom yang disediakan. Boleh diisi salah satu saja atau lebih.
+								Kalau bingung mau isi yang mana isi saja complication. <strong>Contoh salah : Perlu Penanganan Lebih Lanjut</strong>
+							</div>
+							
+							<hr />
+						</div>
+					</div>
+				 	<div class="row">
+				 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				 			<div class="form-group @if($errors->has('time_tacc'))has-error @endif">
+				 			  {!! Form::label('time_tacc', 'Time', ['class' => 'control-label']) !!}
+							  {!! Form::textarea('time_tacc' , null, ['class' => 'form-control tacustom2', 'placeholder' => 'Alasan kronis atau lama berlangsungnya penyakit yang membuat pasien tidak bisa ditangani di klinik, Contoh : 1. Tekanan darah tinggi kronis,  2. DM tipe 2 kronis sudah observasi 1 bulan']) !!}
+				 			  @if($errors->has('time_tacc'))<code>{{ $errors->first('time_tacc') }}</code>@endif
+				 			</div>
+				 		</div>
+				 	</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="form-group @if($errors->has('age_tacc'))has-error @endif">
+							  {!! Form::label('age_tacc', 'Age', ['class' => 'control-label']) !!}
+							  {!! Form::textarea('age_tacc' , null, ['class' => 'form-control tacustom2', 'placeholder' => 'Alasan umur pasien yang membuat pasien tidak bisa ditangani di klinik, Contoh : 1. Usia pasien terlalu kecil untuk diambil darahnya, 2. Demam pada bayi kurang dari 3 minggu, suspek sepsis']) !!}
+							  @if($errors->has('age_tacc'))<code>{{ $errors->first('age_tacc') }}</code>@endif
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="form-group @if($errors->has('comorbidity_tacc'))has-error @endif">
+							  {!! Form::label('comorbidity_tacc', 'Comorbidity', ['class' => 'control-label']) !!}
+							  {!! Form::textarea('comorbidity_tacc' , null, ['class' => 'form-control tacustom2' , 'placeholder' => 'Alasan penyakit penyerta yang membuat pasien tidak bisa ditangani di klinik']) !!}
+							  @if($errors->has('comorbidity_tacc'))<code>{{ $errors->first('comorbidity_tacc') }}</code>@endif
+							</div>
+						</div>
+					</div>
+				 @endif
+				 <div class="row">
+				 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-group @if($errors->has('complication'))has-error @endif">
+							@if($periksa->asuransi_id == '32')
+							  {!! Form::label('complication', 'Complication', ['class' => 'control-label']) !!}
+							  {!! Form::textarea('complication', null, ['class' => 'form-control tacustom2', 'placeholder' => 'Alasan beratnya penyakit  yang membuat pasien tidak bisa ditangani di klinik, Contoh : 1. Demam Berdarah, 2. Asma persisten, kambuh 3 x seminggu, 3. Gagal Jantung kronis tidak respon dengan pengobatan oral, 4. Tifoid fever tidak respons dengan pengobatan dengan Levofloxacine 1 x 500 mg 5 hari '])!!}
+						    @else
+							  {!! Form::label('complication', 'Alasan Rujuk', ['class' => 'control-label']) !!}
+							  {!! Form::textarea('complication', null, ['class' => 'form-control tacustom2'])!!}
+							@endif
+
+						  @if($errors->has('complication'))<code>{{ $errors->first('complication') }}</code>@endif
 						</div>
 				 	</div>
 				 </div>

@@ -429,10 +429,15 @@ class PengantarsController extends Controller
 
 	public function submitPcare(){
 		$id = Input::get('id');
+		$kunjungan_sehat = Input::get('kunjungan_sehat');
+		$pcare_submit = Input::get('pcare_submit');
 		$pp = Pasien::find($id);
 		$confirm = PengantarPasien::where('pengantar_id', $id)
 			->where('created_at', 'like' , date('Y-m') . '%')
-			->update(['pcare_submit' => 1]);
+			->update([
+				'pcare_submit' => $pcare_submit,
+				'kunjungan_sehat' => $kunjungan_sehat
+			]);
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Pastikan anda sudah memasukkan pasien <strong>' . $pp->nama . '</strong> di PCare');
 		} else {
@@ -513,4 +518,57 @@ class PengantarsController extends Controller
 		return redirect()->back()->withPesan($pesan);
 	}
 	
+	public function editPengantarPeriksa($id){
+
+		$ps = new Pasien;
+		$statusPernikahan = $ps->statusPernikahan();
+		$panggilan = $ps->panggilan();
+		$asuransi = Yoga::asuransiList();
+		$jenis_peserta = $ps->jenisPeserta();
+		$staf = Yoga::stafList();
+		$poli = Yoga::poliList();
+		$ap = Periksa::find($id);
+
+		$pengantars = [];
+
+		foreach ($ap->antars as $v) {
+			$pengantars[] =  $this->pengantarArray($v);
+		}
+
+		$pengantars = json_encode($pengantars);
+		return view('laporans.pengantar_edit', compact(
+			'ap',
+			'panggilan',
+			'pengantars',
+			'statusPernikahan',
+			'asuransi',
+			'jenis_peserta',
+			'staf',
+			'poli'
+		));
+	}
+	
+	public function updatePengantarPeriksa($id){
+		$rules = [
+			'periksa_id' => 'required'
+		];
+		$validator = \Validator::make(Input::all(), $rules);
+		if ($validator->fails())
+		{ return \Redirect::back()->withErrors($validator)->withInput(); }
+		PengantarPasien::where('antarable_type', 'App\Periksa')->where('antarable_id', $id)->delete();
+		$insert =  $this->insertArrayPengantar( 
+			Input::all(), 
+			Input::file('kartu_bpjs'), 
+			Input::hasFile('kartu_bpjs'), 
+			Input::file('ktp'), 
+			Input::hasFile('ktp'), 
+			'App\Periksa',
+			'periksa_id'
+		); 
+		if(!$insert){
+			return redirect('antriankasirs')->withPesan(Yoga::gagalFlash('Tidak ada pengantar yang ditambahkan'));
+		}
+		$pesan = 'Pengantar Berhasil Diedit, total ada <strong>' . $insert . ' pengantar</strong> yang terdaftar untuk ' . Periksa::find( Input::get('periksa_id') )->pasien->nama;
+		return redirect('antriankasirs')->withPesan( Yoga::suksesFlash($pesan) );
+	}
 }

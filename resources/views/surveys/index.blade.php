@@ -22,7 +22,12 @@ Klinik Jati Elok | Asuransi
 </ol>
 @stop
 @section('content') 
-{!! Form::open(['url' => 'update/surveys', 'method' => 'post', 'autocomplete' => 'off'])!!}
+	{!! Form::open([
+		'url' => 'update/surveys', 
+		'method' => 'post', 
+		'files' => true, 
+		'autocomplete' => 'off'
+	])!!}
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-primary">
@@ -107,10 +112,29 @@ Klinik Jati Elok | Asuransi
                             </div>
                           </div>
                     </div>
-                    @if($periksa->rujukan)
-                        @include('antrianpolis.webcamrujuk', ['image' => null])
+					@if($periksa->rujukan && $periksa->asuransi_id == '32')
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<div class="panel-title">Panel Rujukan</div>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+										{!! Form::label('image', 'Gambar Rujukan') !!}
+										{!! Form::file('image') !!}
+										@if (isset($periksa->rujukan) && $periksa->rujukan->image)
+											<p> {!! HTML::image(asset($periksa->rujukan->image), null, ['class'=>'img-rounded upload']) !!} </p>
+											@else
+												<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+											@endif
+										{!! $errors->first('image', '<p class="help-block">:message</p>') !!}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
                     @endif
-               
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="panel panel-default">

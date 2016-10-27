@@ -214,6 +214,79 @@ Klinik Jati Elok | Kasir
                            {!! Form::textarea('terapi2', null, ['class' => 'form-control hide', 'id' => 'terapi2'])!!} 
                        </div>
                    </div>
+
+				   @if( $periksa->asuransi_id == '32' && isset( $periksa->rujukan ) )
+					   <div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="panel panel-success">
+								<div class="panel-heading">
+									<div class="panel-title">TACC</div>
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="form-group @if($errors->has('tacc'))has-error @endif">
+											  {!! Form::label('tacc', 'Apakah Pilihan TACC keluar di rujukan Pcare?', ['class' => 'control-label']) !!}
+											  {!! Form::select('tacc', [ 
+												  null => ' - Pilih - ' , 
+												  0    => 'Bukan Diagnosa TACC',
+												  1    => 'Diagnosa adalah golongan TACC'
+											  ],  $periksa->rujukan->tacc , ['class' => 'form-control', 'id' => 'tacc_muncul', 'onchange' => 'inputTaccChange();return false;']) !!}
+											  @if($errors->has('tacc'))<code>{{ $errors->first('tacc') }}</code>@endif
+											</div>
+										</div>
+									</div>
+									<div class="row hide" id="inputTacc">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<h2>TACC</h2>
+													<hr />
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<div class="form-group @if($errors->has('Time'))has-error @endif">
+													  {!! Form::label('time_tacc', 'Time ( Alasan dari lama pennyakit yang mengharuskan pasien dirujuk )', ['class' => 'control-label']) !!}
+													  {!! Form::textarea('time_tacc' , $periksa->rujukan->time, ['class' => 'form-control textareacustom', 'id' => 'time_tacc' ]) !!}
+													  @if($errors->has('time_tacc'))<code>{{ $errors->first('Time') }}</code>@endif
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<div class="form-group @if($errors->has('Age'))has-error @endif">
+													{!! Form::label('age_tacc', 'Age ( Alasan dari usia pasien yang mengharuskan pasien dirujuk )', ['class' => 'control-label' ]) !!}
+													  {!! Form::textarea('age_tacc' , $periksa->rujukan->age, ['class' => 'form-control textareacustom', 'id' => 'age_tacc']) !!}
+													  @if($errors->has('age_tacc'))<code>{{ $errors->first('Age') }}</code>@endif
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<div class="form-group @if($errors->has('complication_tacc'))has-error @endif">
+													  {!! Form::label('complication_tacc', 'Complication ( Alasan dari faktor pemberat atau komplikasi yang mengharuskan pasien dirujuk )', ['class' => 'control-label']) !!}
+													  {!! Form::textarea('complication_tacc' , $periksa->rujukan->complication, ['class' => 'form-control textareacustom', 'id' => 'complication_tacc' ]) !!}
+													  @if($errors->has('complication_tacc'))<code>{{ $errors->first('compolication_tacc') }}</code>@endif
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<div class="form-group @if($errors->has('comorbidity_tacc'))has-error @endif">
+													  {!! Form::label('comorbidity_tacc', 'Comorbidity ( Alasan dari Penyakit Penyerta yang mengharuskan pasien dirujuk )', ['class' => 'control-label']) !!}
+													  {!! Form::textarea('comorbidity_tacc' , $periksa->rujukan->comorbidity, ['class' => 'form-control textareacustom', 'id' => 'comorbidity_tacc' ]) !!}
+													  @if($errors->has('comorbidity_tacc'))<code>{{ $errors->first('comorbidity_tacc') }}</code>@endif
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					   </div>
+				   @endif
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <button class="btn btn-success btn-block btn-lg" type="button" onclick="dummyClick();return false;">Submit</button>
@@ -247,6 +320,7 @@ Klinik Jati Elok | Kasir
     var totalAwal = 0;
 
     $(document).ready(function() {
+		inputTaccChange();
         $('.jumlah').keyup(function(e) {
             var awal = $(this).closest('tr').find('td:nth-child(7)').html();
             var id = $(this).closest('tr').find('td:last-child').html();
@@ -348,8 +422,25 @@ Klinik Jati Elok | Kasir
     }
 
     function dummyClick(){
-        window.open("{!! url('pdfs/status/' . $periksa->id ) !!}");
-        $('input[type="submit"]').click();
+		if( $('#inputTacc').length > 0 && ( $('#tacc_muncul').val() == '' || $('#tacc_muncul').val() ==  null ) ){
+			alert('Apakah pilihan Tacc keluar pada rujukan? Mohon diisi dengan benar');
+			validasi('#tacc_muncul', 'Harus diisi!');
+
+		} else if( $('#inputTacc').length > 0 && $('#tacc_muncul').val() == '1' && ( 
+						( $('#time_tacc').val() == '' || $('#time_tacc').val() == null   ) &&
+						( $('#age_tacc').val() == '' || $('#age_tacc').val() == null   ) &&
+						( $('#complication_tacc').val() == '' || $('#complication_tacc').val() == null   ) &&
+						( $('#comorbidity_tacc').val() == '' || $('#comorbidity_tacc').val() == null   )
+						
+		) ){
+			validateWarning( '#time_tacc' );
+			validateWarning( '#age_tacc' );
+			validateWarning( '#complication_tacc' );
+			validateWarning( '#comorbidity_tacc' );
+		} else {
+			window.open("{!! url('pdfs/status/' . $periksa->id ) !!}");
+			$('input[type="submit"]').click();
+		}
     }
 
     function hitungTotal(){
@@ -361,6 +452,28 @@ Klinik Jati Elok | Kasir
         });
         $('#biaya').html(rataAtas5000(total));
     }
+
+	function inputTaccChange(){
+		if( $('#tacc_muncul').val() == '' || $('#tacc_muncul').val() == null || $('#tacc_muncul').val() ==  '0' ){
+			$('#inputTacc').removeClass('hide');
+			$('#inputTacc').slideUp('500');
+			$('#tacc_muncul').closest('.panel').find('textarea').val('');
+
+		} else {
+			$('#inputTacc').removeClass('hide');
+			$('#inputTacc').hide();
+			$('#inputTacc').slideDown('500');
+		}
+		 
+	}
+	function validateWarning(selector){
+		if( $(selector).val() == '' || $(selector).val() == null   ){
+			validasi(selector, 'Harus Diisi');
+		}
+	}
+	
+	
 </script>
+
 
 @stop

@@ -39,14 +39,12 @@ Klinik Jati Elok | Edit Rujukan
 
 @stop
 @section('footer') 
-<script src="{{ url('js/jquery-ui.min.js') }}"></script>
-
-  <script>
-    var base = '{{ url("/") }}';
-    var asuransi_id = '{{$rujukan->periksa->asuransi_id}}';
-    var tujuan_rujuk_tags = '{!! $tujuan_rujuks !!}';
-    tujuan_rujuk_tags = $.parseJSON(tujuan_rujuk_tags);
-  </script>
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+<script>
+var base = '{{ url("/") }}';
+var asuransi_id = '{{$rujukan->periksa->asuransi_id}}';
+var tujuan_rujuk_tags = {!! $tujuan_rujuks !!};
+</script>
   {!! HTML::script('js/rujukan.js')!!}
 <script src="{{ url('js/uk.js') }}" type="text/javascript"></script>
 @stop

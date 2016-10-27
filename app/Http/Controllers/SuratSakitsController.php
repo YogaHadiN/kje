@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\SuratSakit;
 use App\Periksa;
+use DB;
 use App\Classes\Yoga;
 
 class SuratSakitsController extends Controller
@@ -33,7 +34,23 @@ class SuratSakitsController extends Controller
 	public function create($id)
 	{	
 		$periksa = Periksa::find($id);
-		return view('suratsakits.create', compact('periksa'));
+
+		$query = "SELECT px.tanggal as tanggal_periksa, ";
+		$query .= "ss.tanggal_mulai as tanggal_izin, ";
+		$query .= "ss.hari as jumlah_hari, ";
+		$query .= "st.nama as nama_pemeriksa ";
+		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
+		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
+		$query .= "join stafs as st on px.staf_id = st.id ";
+		$query .= "WHERE px.pasien_id = '{$periksa->pasien_id}' ";
+		$query .= "ORDER BY px.created_at desc ";
+
+		$ss = DB::select($query);
+
+		return view('suratsakits.create', compact(
+			'periksa',
+			'ss'
+		));
 	}
 
 	/**

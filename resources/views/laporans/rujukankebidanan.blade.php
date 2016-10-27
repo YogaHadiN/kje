@@ -55,7 +55,7 @@ Klinik Jati Elok | Laporan Rujukan Kebidanan
                                     <td>{!! $rujukan->icd10_id!!} - {!! $rujukan->diagnosa !!}</td>
                                     <td> tidak tau </td>
                                     <td>{!! App\Classes\Yoga::updateDatePrep($rujukan->tanggal) !!}</td>
-                                    <td>{!! $rujukan->alasan_rujuk !!}</td>
+                                    <td>{!! $rujukan->complication !!}</td>
                                 </tr>
                             @endforeach
                         @else

@@ -127,7 +127,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                             --
                                         @else 
                                             {!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk!!} <br>
-                                            {!! $periksa->rujukan->alasan_rujuk!!}
+                                            {!! $periksa->rujukan->complication!!}
                                         @endif
                                     </td>
                                     <td nowrap>
