@@ -317,12 +317,12 @@ border-spacing: -1px;
 					@if($bayarGDS)
 						@include('warninggds2', ['pasien_id' => $periksa->pasien_id, 'periksa' => $periksa ])
 					@endif
-					@if( $periksa->asuransi_id == '32' &&  strpos($periksa->rujukan->tujuanRujuk->tujuan_rujuk, 'UGD') !== false   )
-						<div class="alert alert-danger">
-							Rujukan ke UGD pasien BPJS, tidak perlu diberikan Rujukan BPJS, cukup Surat Rujukan sama seperti Pasien Umum
-							, lalu Pasien diproses seperti Pasien BPJS biasa tanpa rujukan
-						</div>
-					@endif
+					{{--@if( $periksa->asuransi_id == '32' &&  strpos($periksa->rujukan->tujuanRujuk->tujuan_rujuk, 'UGD') !== false   )--}}
+						{{--<div class="alert alert-danger">--}}
+							{{--Rujukan ke UGD pasien BPJS, tidak perlu diberikan Rujukan BPJS, cukup Surat Rujukan sama seperti Pasien Umum--}}
+							{{--, lalu Pasien diproses seperti Pasien BPJS biasa tanpa rujukan--}}
+						{{--</div>--}}
+					{{--@endif--}}
 					@if($periksa->asuransi_id == 0 && !empty($periksa->keterangan))
 						<div class="alert alert-danger">
 							{{ $periksa->keterangan }}
