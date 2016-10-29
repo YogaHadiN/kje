@@ -250,8 +250,8 @@ class PasiensController extends Controller
 				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
 			}
 			$pasien->no_telp        = Input::get('no_telp');
-			if (!empty(Input::get('image'))) {
-				$pasien->image      	= Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
+			if (!empty(Input::hasFile('image'))) {
+				$pasien->image      	= $pn->imageUpload('img','image', $id);
 			}
 			if (Input::hasFile('bpjs_image')) {
 				$pasien->bpjs_image     = $pn->imageUpload('bpjs','bpjs_image', $id);
