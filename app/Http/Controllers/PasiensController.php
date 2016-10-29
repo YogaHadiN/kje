@@ -121,7 +121,7 @@ class PasiensController extends Controller
 		$pasien->id             = $id;
 		$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
 		$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
-		$pasien->image          = Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
+		$pasien->image          = $pasien->imageUpload('img', 'image', $id);
 		$pasien->save();
 	
 		$antrian_poli_id = Yoga::customId('App\AntrianPoli');

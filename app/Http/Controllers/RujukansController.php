@@ -11,6 +11,7 @@ use App\Classes\Yoga;
 use App\TujuanRujuk;
 use App\RumahSakit;
 use App\Periksa;
+use App\Diagnosa;
 
 class RujukansController extends Controller
 {

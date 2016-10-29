@@ -179,11 +179,21 @@
 			 <div class="row">
 			 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div>
-						@include('antrianpolis.webcamForm', [
-							'image' => $pasien->image, 
-							'ktp_image'=> $pasien->ktp_image,
-							'subject'   => 'Pasien'
-						])    
+						<div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+							{!! Form::label('image', 'Foto Wajah Pasien') !!}
+							{!! Form::file('image') !!}
+								@if (isset($pasien) && $pasien->image)
+									<p> {!! HTML::image(asset($pasien->image), null, ['class'=>'img-rounded upload']) !!} </p>
+								@else
+									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+								@endif
+							{!! $errors->first('image', '<p class="help-block">:message</p>') !!}
+						</div>
+						{{--@include('antrianpolis.webcamForm', [--}}
+							{{--'image' => $pasien->image, --}}
+							{{--'ktp_image'=> $pasien->ktp_image,--}}
+							{{--'subject'   => 'Pasien'--}}
+						{{--])    --}}
 					</div>
 					<div>
 						@if (Session::has('cek'))

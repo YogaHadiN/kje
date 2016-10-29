@@ -38,10 +38,14 @@ class SuratSakitsController extends Controller
 		$query = "SELECT px.tanggal as tanggal_periksa, ";
 		$query .= "ss.tanggal_mulai as tanggal_izin, ";
 		$query .= "ss.hari as jumlah_hari, ";
-		$query .= "st.nama as nama_pemeriksa ";
+		$query .= "st.nama as nama_staf, ";
+		$query .= "asu.nama as pembayaran, ";
+		$query .= "dg.diagnosa as diagnosa ";
 		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "join stafs as st on px.staf_id = st.id ";
+		$query .= "join diagnosas as dg on px.diagnosa_id = dg.id ";
+		$query .= "join asuransis as asu on px.asuransi_id = asu.id ";
 		$query .= "WHERE px.pasien_id = '{$periksa->pasien_id}' ";
 		$query .= "ORDER BY px.created_at desc ";
 
@@ -105,8 +109,29 @@ class SuratSakitsController extends Controller
 	public function edit($id)
 	{
 		$suratsakit = SuratSakit::find($id);
+		$periksa = $suratsakit->periksa;
 
-		return view('suratsakits.edit', compact('suratsakit'));
+		$query = "SELECT px.tanggal as tanggal_periksa, ";
+		$query .= "ss.tanggal_mulai as tanggal_izin, ";
+		$query .= "ss.hari as jumlah_hari, ";
+		$query .= "st.nama as nama_staf, ";
+		$query .= "asu.nama as pembayaran, ";
+		$query .= "dg.diagnosa as diagnosa ";
+		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
+		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
+		$query .= "join stafs as st on px.staf_id = st.id ";
+		$query .= "join diagnosas as dg on px.diagnosa_id = dg.id ";
+		$query .= "join asuransis as asu on px.asuransi_id = asu.id ";
+		$query .= "WHERE px.pasien_id = '{$periksa->pasien_id}' ";
+		$query .= "AND ss.id not like '{$id}'";
+		$query .= "ORDER BY px.created_at desc ";
+
+		$ss = DB::select($query);
+
+		return view('suratsakits.edit', compact(
+			'ss',
+			'suratsakit'
+		));
 	}
 
 	/**
