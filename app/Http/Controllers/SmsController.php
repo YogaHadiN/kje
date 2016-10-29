@@ -31,7 +31,14 @@ class SmsController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		
-		return Sms::sendSms( Input::get('nomor'), Input::get('pesan'));
+		$confirm = Sms::sendSms( Input::get('nomor'), Input::get('pesan'));
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Pengiriman pesan ke nomor ' . Input::get('nomor'). ' berhasil');
+		} else {
+			$pesan = Yoga::gagalFlash('Pengiriman pesan ke nomor ' . Input::get('nomor'). ' gagal');
+		}
+
+		return redirect()->back()->withPesan($pesan);
 	}
 	public function smsBpjs($id){
 		Sms::smsBpjs(Pasien::find($id), 'okelah kalau begitu');
