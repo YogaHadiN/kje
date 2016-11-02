@@ -715,13 +715,10 @@ class PeriksasController extends Controller
 		// return $plafonFlat;
 		// return $plafon;
 		$transaksis = Yoga::kaliObat($transaksis, $terapis, $asuransi, $plafonFlat);
-		 return $transaksis;
-
 		//INPUT TRANSAKSI JASA DOKTER
 		//jenis tarif id = 1 adalah jasa dokter
 		//jika ada tindakan surat keterangan sehat, maka jasa dokter adalah 0
 		return $this->inputJasaDokter($transaksis, $asuransi);
-
 	}
 
 	private function imageUpload($file, $id, $k){

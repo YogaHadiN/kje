@@ -66,18 +66,8 @@
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-													<div class="form-group @if($errors->has('no_telp'))has-error @endif">
-													  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
-                                                        {!! Form::text('no_telp', null, array(
-                                                            'class'         => 'form-control',
-                                                            'placeholder'   => 'No Telp'
-                                                            ))!!}
-													  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
-													</div>
-												</div>
-												<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<div class="row">
+												<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 													<div class="form-group @if($errors->has('pic'))has-error @endif">
 													  {!! Form::label('pic', 'PIC', ['class' => 'control-label']) !!}
 														{!! Form::text('pic',null, array(
@@ -85,6 +75,26 @@
 															'placeholder'   => 'PIC'
 															))!!}
 													  @if($errors->has('pic'))<code>{{ $errors->first('pic') }}</code>@endif
+													</div>
+												</div>
+											</div>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+													<div class="form-group @if($errors->has('kali_obat'))has-error @endif">
+													  {!! Form::label('kali_obat', 'Pengali Obat', ['class' => 'control-label']) !!}
+													  {!! Form::text('kali_obat' , '1.25', ['class' => 'form-control']) !!}
+													  @if($errors->has('kali_obat'))<code>{{ $errors->first('kali_obat') }}</code>@endif
+													</div>
+												</div>
+												<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+													<div class="form-group @if($errors->has('no_telp'))has-error @endif">
+													  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
+                                                        {!! Form::text('no_telp', null, array(
+                                                            'class'         => 'form-control',
+                                                            'placeholder'   => 'No Telp'
+                                                            ))!!}
+													  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
 													</div>
 												</div>
 											</div>
