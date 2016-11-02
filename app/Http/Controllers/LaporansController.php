@@ -1061,10 +1061,10 @@ class LaporansController extends Controller
 		$tanggall       = Input::get('bulanTahun');
 		$tanggal		= Yoga::blnPrep($tanggall);
 		$sms_kontak		= SmsKontak::where('created_at', 'like', $tanggal. '%')
-									->where('pcare_submit', '0');
+									->where('pcare_submit', '0')
 									->get();
 		$sms_masuk		= SmsKontak::where('created_at', 'like', $tanggal. '%')
-									->where('pcare_submit', '1');
+									->where('pcare_submit', '1')
 									->get();
 		$sms_gagal		= SmsKontak::where('created_at', 'like', $tanggal. '%')->get();
 		$pcare_submits  = PcareSubmit::lists('pcare_submit', 'id');

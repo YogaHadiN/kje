@@ -1,6 +1,4 @@
 create table `sms_kontaks` ( `id` int not null auto_increment primary key, `pasien_id` varchar(255) not null, `pcare_submit` int(1) not null default 0, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null, `pesan` varchar(255)) default character set utf8 collate utf8_unicode_ci; create table `configs` ( `id` int not null auto_increment primary key, `config_variable` varchar(255) not null, `value` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci; insert into configs (config_variable, value) values ('jumlah_peserta_bpjs', '7700'), ('sms_blast_angka_kontak_bpjs', 'Selamat Siang, kami dari Klinik Jati Elok mengingatkan bapak/ ibu agar  1. Menutup tempat penampungan air 2. Mengubur sampah yang menampung air, 3. Menguras tempat penampungan air seminggu sekali. Untuk menjaga keluarga bapak/ibu dari penyakit DEMAM BERDARAH selam musim hujan ini'); ; ALTER TABLE antrian_periksas CHANGE id `id` int not null auto_increment; ALTER TABLE periksas ADD COLUMN antrian_periksa_id int(11);
-
-		
 create table `sms_gagals` ( 
 	`id` int not null auto_increment primary key, 
 	`pasien_id` varchar(255) not null, 
