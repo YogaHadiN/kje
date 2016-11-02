@@ -152,7 +152,10 @@ class SmsController extends Controller
 				];
 			}
 		}
-		return dd( $dataSms );
+		$dataSms[] = [
+			'id' => ['151013024'],
+			'no_telp' => '081381912803'
+		];
 
 		// pesan apa yang mau kita sms ada di dalam tabel configs , 
 		$pesan = Config::where('config_variable', 'sms_blast_angka_kontak_bpjs')->first()->value;
@@ -163,7 +166,7 @@ class SmsController extends Controller
 			try {
 				
 				// Kita sms ke nomor satu per satu di looping sesuai query yang sudah kita buat
-				//Sms::send( str_replace(' ','', $value->no_telp ), $pesan);
+				Sms::send( str_replace(' ','', $value->no_telp ), $pesan);
 				// Jika berhasil masukkan array data;
 				// Karena satu nomor telepon bisa memiliki lebih dari satu pemilik, 
 				// maka masukkan semua pasien_id yang memiliki nomor telepon tersebut
