@@ -242,6 +242,7 @@ class CustomController extends Controller
 		->withTindakans($tindakans);
 	}
 	public function survey_post(){
+		$periksa_id = Input::get('periksa_id');	
 
         $periksa = Periksa::find( Input::get('periksa_id') );
         if ($periksa->lewat_kasir2 == '1') {
@@ -274,37 +275,35 @@ class CustomController extends Controller
 			$perbaikan->save();
 		}
 
-		$periksa_id       = Input::get('periksa_id');
 		$dibayar_pasien   = Yoga::clean(Input::get('dibayar_pasien'));
 		$dibayar_asuransi = Yoga::clean(Input::get('dibayar_asuransi'));
 		$pembayaran = Yoga::clean(Input::get('pembayaran'));
 		$kembalian = Yoga::clean(Input::get('kembalian'));
 
-		$px                  = Periksa::find($periksa_id);
-		$px->tunai           = $dibayar_pasien;
-		$px->piutang         = $dibayar_asuransi;
-		$px->pembayaran      = $pembayaran;
-		$px->kembalian       = $kembalian;
-		$px->transaksi       = $tarif;
-		$px->nomor_asuransi  = $px->pasien->nomor_asuransi;
+		$periksa->tunai           = $dibayar_pasien;
+		$periksa->piutang         = $dibayar_asuransi;
+		$periksa->pembayaran      = $pembayaran;
+		$periksa->kembalian       = $kembalian;
+		$periksa->transaksi       = $tarif;
+		$periksa->nomor_asuransi  = $periksa->pasien->nomor_asuransi;
 
-		if ($px->asuransi_id == 32 && !empty($px->keterangan)) {
-			$px->keterangan = null;
+		if ($periksa->asuransi_id == 32 && !empty($periksa->keterangan)) {
+			$periksa->keterangan = null;
 		}
 
-		$px->terapi          = $this->terapisBaru($px->terapii);
-		$px->jam_terima_obat = date('H:i:s');
-		if ($px->rujukan) {
+		$periksa->terapi          = $this->terapisBaru($periksa->terapii);
+		$periksa->jam_terima_obat = date('H:i:s');
+		if ($periksa->rujukan) {
 			$ps = new Pasien;
-			$rujukan = Rujukan::find($px->rujukan->id);
+			$rujukan = Rujukan::find($periksa->rujukan->id);
 			if (Input::hasFile('image')) {
 				$rujukan->image = $ps->imageUpload('rjk', 'image', Input::get('periksa_id') );
 			}
 			$rujukan->save();
 		}
-		$px->lewat_kasir2    = '1';
-		$confirm             = $px->save();
-		$resep = $px->terapii;
+		$periksa->lewat_kasir2    = '1';
+		$confirm             = $periksa->save();
+		$resep = $periksa->terapii;
 		$merek = Merek::all();
 		foreach ($resep as $key => $value) {
 			$rak_id = $merek->find($resep[$key]['merek_id'])->rak_id;
@@ -325,41 +324,41 @@ class CustomController extends Controller
 		$mess = '';
 
 		if ($confirm) {
-			$terapis = $px->terapii;
+			$terapis = $periksa->terapii;
 			$biayaProduksiObat = 0;
 			foreach ($terapis as $terapi) {
 				$biayaProduksiObat += $terapi->harga_beli_satuan * $terapi->jumlah;
 			}
 
             // Input jurnal umum kas di tangan bila tunai > 0
-			if ($px->tunai>0) {
+			if ($periksa->tunai>0) {
 				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $px->id;
+				$jurnal->jurnalable_id   = $periksa->id;
 				$jurnal->jurnalable_type = 'App\Periksa';
 				$jurnal->coa_id          = 110000; // Kas di tangan
 				$jurnal->debit           = 1;
-				$jurnal->nilai           = $px->tunai;
+				$jurnal->nilai           = $periksa->tunai;
 				$jurnal->save();
 			}
 
             // Input jurnal umum kas di tangan bila piutang > 0
-			if ($px->piutang>0) {
+			if ($periksa->piutang>0) {
 				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $px->id;
+				$jurnal->jurnalable_id   = $periksa->id;
 				$jurnal->jurnalable_type = 'App\Periksa';
 				$jurnal->debit           = 1;
-				$jurnal->coa_id          = $px->asuransi->coa_id; // Piutang berdasarkan masing2 asuransi
-				$jurnal->nilai           = $px->piutang;
+				$jurnal->coa_id          = $periksa->asuransi->coa_id; // Piutang berdasarkan masing2 asuransi
+				$jurnal->nilai           = $periksa->piutang;
 				$jurnal->save();
 
                 $piutang = new PiutangAsuransi;
                 $piutang->periksa_id = $periksa_id;
-                $piutang->tunai = $px->tunai;
-                $piutang->piutang = $px->piutang;
+                $piutang->tunai = $periksa->tunai;
+                $piutang->piutang = $periksa->piutang;
                 $piutang->save();
 			}
 
-			$transaksis = $px->transaksi;
+			$transaksis = $periksa->transaksi;
 			$transaksis = json_decode($transaksis, true);
 			$adaJasaDokter = false;
 			$feeDokter = 0;
@@ -375,12 +374,12 @@ class CustomController extends Controller
 				$oke                 = $trx->save();
 
                 if ( !($transaksi['jenis_tarif_id'] == '116' && $transaksi['biaya'] == 0) ) {
-                    $feeDokter += Tarif::where('asuransi_id', $px->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
+                    $feeDokter += Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
                 }
 				if ($oke) {
 					if ($transaksi['biaya'] > 0) {
 						$jurnal                  = new JurnalUmum;
-						$jurnal->jurnalable_id   = $px->id;
+						$jurnal->jurnalable_id   = $periksa->id;
 						$jurnal->jurnalable_type = 'App\Periksa';
 						$jurnal->coa_id          = $trx->jenisTarif->coa_id;
 						$jurnal->debit           = 0;
@@ -420,7 +419,7 @@ class CustomController extends Controller
             //Masukkan pembayaran ke dalam Transaksi
             if ($hutang_asisten_tindakan > 0) {
                 $jurnal                  = new JurnalUmum;
-                $jurnal->jurnalable_id   = $px->id;
+                $jurnal->jurnalable_id   = $periksa->id;
                 $jurnal->jurnalable_type = 'App\Periksa';
                 $jurnal->coa_id          = 50205; // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
                 $jurnal->debit           = 1;
@@ -428,21 +427,17 @@ class CustomController extends Controller
                 $jurnal->save();
 
                 $jurnal                  = new JurnalUmum;
-                $jurnal->jurnalable_id   = $px->id;
+                $jurnal->jurnalable_id   = $periksa->id;
                 $jurnal->jurnalable_type = 'App\Periksa';
                 $jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
                 $jurnal->debit           = 0;
                 $jurnal->nilai           = $hutang_asisten_tindakan;
                 $jurnal->save();
-                
             }
-
-
 			// Input hutang kepada dokter
 			if ($feeDokter > 0) {
-
 					$jurnal                  = new JurnalUmum;
-					$jurnal->jurnalable_id   = $px->id;
+					$jurnal->jurnalable_id   = $periksa->id;
 					$jurnal->jurnalable_type = 'App\Periksa';
 					$jurnal->coa_id          = 50201; //Beban Jasa Dokter
 					$jurnal->debit           = 1;
@@ -450,20 +445,18 @@ class CustomController extends Controller
 					$jurnal->save();
 
 					$jurnal                  = new JurnalUmum;
-					$jurnal->jurnalable_id   = $px->id;
+					$jurnal->jurnalable_id   = $periksa->id;
 					$jurnal->jurnalable_type = 'App\Periksa';
 					$jurnal->coa_id          = 200001; // Hutang Kepada dokter
 					$jurnal->debit           = 0;
 					$jurnal->nilai           = $feeDokter;
 					$jurnal->save();
-
 			}
-
 			// Input Transaksi ini untuk pengurangan persediaan obat tiap transaksi pasien
 			if ($biayaProduksiObat > 0) {
 				
 				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $px->id;
+				$jurnal->jurnalable_id   = $periksa->id;
 				$jurnal->jurnalable_type = 'App\Periksa';
 				$jurnal->coa_id          = 50204; // Biaya Produksi : Obat
 				$jurnal->debit           = 1;
@@ -471,25 +464,24 @@ class CustomController extends Controller
 				$jurnal->save();
 
 				$jurnal                  = new JurnalUmum;
-				$jurnal->jurnalable_id   = $px->id;
+				$jurnal->jurnalable_id   = $periksa->id;
 				$jurnal->jurnalable_type = 'App\Periksa';
 				$jurnal->coa_id          = 112000; // Persediaan Obat
 				$jurnal->debit           = 0;
 				$jurnal->nilai           = $biayaProduksiObat;
 				$jurnal->save();
 			}
-
 			//INPUT points untuk tim bidan
 			//jika tidak ada tekanan_dara, berat_badan, suhu, dan tingggi badan yang diisi, tidak ada point\
-			if ($px->periksa_awal != '[]') {
-				$arr = $px->periksa_awal;
+			if ($periksa->periksa_awal != '[]') {
+				$arr = $periksa->periksa_awal;
 				$arr = json_decode($arr, true);
 
 				$tekanan_darah = $arr['tekanan_darah'];
 				$berat_badan   = $arr['berat_badan'];
 				$suhu          = $arr['suhu'];
 				$tinggi_badan  = $arr['tinggi_badan'];
-				$periksa_id    = $px->id;
+				$periksa_id    = $periksa->id;
 
 
 				$pn = new Point;
@@ -503,7 +495,7 @@ class CustomController extends Controller
 				if ($adaPoin) {
 					
 					$jurnal                  = new JurnalUmum;
-					$jurnal->jurnalable_id   = $px->id;
+					$jurnal->jurnalable_id   = $periksa->id;
 					$jurnal->jurnalable_type = 'App\Periksa';
 					$jurnal->coa_id          = 50202; // Biaya Produksi : Bonus per pasien
 					$jurnal->debit           = 1;
@@ -511,17 +503,15 @@ class CustomController extends Controller
 					$jurnal->save();
 
 					$jurnal                  = new JurnalUmum;
-					$jurnal->jurnalable_id   = $px->id;
+					$jurnal->jurnalable_id   = $periksa->id;
 					$jurnal->jurnalable_type = 'App\Periksa';
 					$jurnal->coa_id          = 200002; // Hutang Kepada Asisten Dokter
 					$jurnal->debit           = 0;
 					$jurnal->nilai           = 1530;
 					$jurnal->save();
 				}
-
 			}
         }
-
         if ( Input::get('dibayar_pasien') > 0 ) {
             $data = [
                 'pembayaran' => Input::get('pembayaran'),
@@ -537,15 +527,14 @@ class CustomController extends Controller
 			$mess =  '<strong> dan Perbaikan Sudah Didokumentasi </strong>';
 		}
 
+		if ( $periksa->asuransi_id != '32' && !empty(trim(  $periksa->pasien->nomor_asuransi_bpjs  )) ) {
 
-		if ( $px->asuransi_id != '32' && !empty(trim(  $px->pasien->nomor_asuransi_bpjs  )) ) {
-
-				$countPeriksaPakaiBpjs = Periksa::where('pasien_id', $px->pasien_id)
+				$countPeriksaPakaiBpjs = Periksa::where('pasien_id', $periksa->pasien_id)
 					->where('asuransi_id', '32')
 					->where('tanggal', 'like', date('Y-m') . '%')
 					->count();
 
-				$countAntarPakaiBpjs = PengantarPasien::where('pengantar_id', $px->pasien_id)
+				$countAntarPakaiBpjs = PengantarPasien::where('pengantar_id', $periksa->pasien_id)
 					->where('created_at', 'like', date('Y-m') . '%')
 					->where('pcare_submit',1)
 					->count();
@@ -553,7 +542,7 @@ class CustomController extends Controller
 				$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
 				$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
 				$query .= "AND ks.pcare_submit = 1 ";
-				$query .= "AND px.pasien_id = '" . $px->pasien_id . "';";
+				$query .= "AND px.pasien_id = '" . $periksa->pasien_id . "';";
 
 				$countKunjunganSakit = DB::select($query)[0]->jumlah;
 				$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;
@@ -563,18 +552,14 @@ class CustomController extends Controller
 					$ks->save();
 				}
 		}
-
-
 		if($confirm){
             return redirect('antriankasirs')
-                ->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $px->pasien_id . '-' . $px->pasien->nama . '</strong> telah selesai' . $mess))
-                ->withPrint($px->id);
+                ->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $periksa->pasien_id . '-' . $periksa->pasien->nama . '</strong> telah selesai' . $mess))
+                ->withPrint($periksa->id);
 		} else {
-			return redirect('antriankasirs')->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $px->pasien_id . '-' . $px->pasien->nama . '</strong> gagal dilakukan' . $mess));
+			return redirect('antriankasirs')->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $periksa->pasien_id . '-' . $periksa->pasien->nama . '</strong> gagal dilakukan' . $mess));
 		}
 	}
-
-
 
 	public function monitor($id){
 

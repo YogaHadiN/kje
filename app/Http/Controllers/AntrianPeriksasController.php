@@ -96,7 +96,6 @@ class AntrianPeriksasController extends Controller
 
 
 
-		$antrianperiksa_id       = Yoga::customId('App\AntrianPeriksa');
 		$ap->antrian             = Input::get('antrian');
 		$ap->berat_badan         = $berat_badan;
 		$ap->hamil               = Input::get('hamil');
@@ -122,7 +121,6 @@ class AntrianPeriksasController extends Controller
 		$ap->kecelakaan_kerja    = $kecelakaan_kerja;
 		$ap->tekanan_darah       = $tekanan_darah;
 		$ap->tinggi_badan        = $tinggi_badan;
-		$ap->id                  = $antrianperiksa_id;
 		$ap->save();
 
 
@@ -134,7 +132,7 @@ class AntrianPeriksasController extends Controller
 		PengantarPasien::where('antarable_id', $antrian_id)
 			->where('antarable_type', 'App\AntrianPoli')
 			->update([
-				'antarable_id' => $antrianperiksa_id,
+				'antarable_id' => $ap->id,
 				'antarable_type' => 'App\AntrianPeriksa'
 			]);
 
@@ -160,7 +158,7 @@ class AntrianPeriksasController extends Controller
 		$kabur->alasan    = Input::get('alasan');
 		$conf             = $kabur->save();
 
-		$periksa = Periksa::where('pasien_id', $ap->pasien_id)->where('jam', $ap->jam)->where('tanggal', $ap->tanggal)->first();
+		$periksa = Periksa::where('antrian_periksa_id', $id)->first();
 		if(isset($periksa)){
 			TransaksiPeriksa::where('periksa_id', $periksa->id)->delete(); // Haput Transaksi bila ada periksa id
 			Terapi::where('periksa_id', $periksa->id)->delete(); // Haput Terapi bila ada periksa id

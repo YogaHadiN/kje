@@ -2251,18 +2251,17 @@ class Yoga {
 	}
 	
 	public static function sms($telepon, $message){
-		
-		$userkey='u2hl0p'; // userkey lihat di zenziva
+		// Script http API SMS Reguler Zenziva
 
-		$passkey='19071983123'; // set passkey di zenziva
+		$userkey=env('ZENZIVA_USERKEY'); // userkey lihat di zenziva
 
-		$url = 'https://alpha.zenziva.net/apps/smsapi.php';
+		$passkey=env('ZENZIVA_PASSKEY'); // set passkey di zenziva
 
-		$curlHandle = curl_init();
+		$url = 'https://reguler.zenziva.net/apps/smsapi.php';$curlHandle = curl_init();
 
 		curl_setopt($curlHandle, CURLOPT_URL, $url);
 
-		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='. $userkey .'&passkey='. $passkey .'&nohp='. $telepon.'&pesan='.urlencode($message));
+		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='.$userkey.'&passkey='.$passkey.'&nohp='.$telepon.'&pesan='.urlencode($message));
 
 		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
 
@@ -2279,6 +2278,7 @@ class Yoga {
 		$results = curl_exec($curlHandle);
 
 		curl_close($curlHandle);
+		return $results;
 	}
 
 	public static function pengantarBerobat($pasien_id, $bulanTahun){

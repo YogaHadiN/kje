@@ -2,7 +2,6 @@
 
 @section('title') 
 Klinik Jati Elok | SMS
-
 @stop
 @section('page-title') 
 <h2>SMS</h2>

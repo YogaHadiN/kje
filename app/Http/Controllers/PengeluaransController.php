@@ -730,7 +730,6 @@ class PengeluaransController extends Controller
         }else {
             return '3'; // kombinasi email / password salah
         }
-
     }
     public function bayar_gaji_karyawan(){
         $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->lists('coa', 'id')->all();
@@ -892,7 +891,9 @@ class PengeluaransController extends Controller
         $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
         $rinci = DB::select($query);
         $table = [];
+
         foreach ($rinci as $rc) {
+
 			$arrs = $rc->jurnalable_type::where('id', $rc->jurnalable_id)->first()->jurnals;
             $valid = false;
             foreach ($arrs as $key => $ar) {

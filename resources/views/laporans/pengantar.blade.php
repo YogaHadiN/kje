@@ -109,7 +109,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 										{!! Form::text('id', $p->pasien_id, ['class' => 'form-control hide']) !!}
 										{!! Form::text('nama', $p->nama_pengantar, ['class' => 'hide nama']) !!}
 										{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
-										{!! Form::text('kunjungan_sehat', '0', ['class' => 'hide previous']) !!}
+										{!! Form::text('kunjungan_sehat', '1', ['class' => 'form-control hide kunjungan_sehat']) !!}
 										{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
 										{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
 										{!! Form::close() !!}
@@ -210,7 +210,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 										{!! Form::text('id', $p->pasien_id, ['class' => 'form-control hide']) !!}
 										{!! Form::text('nama', $p->nama_pengantar, ['class' => 'hide nama']) !!}
 										{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
-										{!! Form::text('kunjungan_sehat', '1', ['class' => 'hide kunjungan_sehat']) !!}
+										{!! Form::text('kunjungan_sehat', '1', ['class' => 'kunjungan_sehat']) !!}
 										{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
 										{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
 										{!! Form::close() !!}

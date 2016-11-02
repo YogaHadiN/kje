@@ -107,6 +107,7 @@ class TarifsController extends Controller
 					'jenis_tarif_id' =>  $jenis_tarif->id, 
 					'tipe_tindakan_id' =>  Input::get('tipe_tindakan_id'), 
 					'jasa_dokter' =>  Input::get('jasa_dokter'), 
+					'jasa_dokter_tanpa_sip' =>  Input::get('jasa_dokter'), 
 					'bhp_items' =>  Input::get('bhp_items'), 
 					'created_at' =>  $timestamps, 
 					'updated_at' =>  $timestamps
@@ -176,12 +177,12 @@ class TarifsController extends Controller
 
 
 		$data = [
-		Input::get('jenis_tarif'),
-		Input::get('bahan_habis_pakai'),
-		Input::get('biaya'),
-		Input::get('biaya'),
-		Input::get('tipe_tindakan_id'),
-		Input::get('jasa_dokter')
+			Input::get('jenis_tarif'),
+			Input::get('bahan_habis_pakai'),
+			Input::get('biaya'),
+			Input::get('biaya'),
+			Input::get('tipe_tindakan_id'),
+			Input::get('jasa_dokter')
 		];
 
 		return json_encode($data);

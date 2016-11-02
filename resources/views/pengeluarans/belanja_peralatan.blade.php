@@ -135,6 +135,9 @@ Klinik Jati Elok | Belanja Peralatan
 								</td>
 							</tfoot>
 						</table>
+						<div class="alert alert-danger" style="display:none;" id="peringatan_barang_kosong">
+							Mungkin belum menekan tombol <strong>Insert</strong> jadi barang belanjaan masih kosong. 
+						</div>
 							<div class="form-group hide " @if($errors->has('temp')) class="has-error" @endif>
 							  {!! Form::label('temp', 'Daftar Belanja') !!}
 							  {!! Form::textarea('temp', '[]', ['class' => 'form-control rq', 'id'=>'temp']) !!}
@@ -201,6 +204,7 @@ Klinik Jati Elok | Belanja Peralatan
 	}
 
 	function insert(){
+		$('#peringatan_barang_kosong').fadeOut(300);
 		var peralatan = $('#peralatan').val();
 		var nilai = $('#nilai').val();
 		var jumlah = $('#jumlah').val();
@@ -262,7 +266,13 @@ Klinik Jati Elok | Belanja Peralatan
 	}
 
 	function dummySubmit(){
-		 if(validatePass()){
+		var temp = $('#temp').val();
+		if( temp == '[]' || temp == '' ){
+			alert('Belum ada barang belanjaan yang dimasukkan');
+			$('#peringatan_barang_kosong').hide().fadeIn(300);
+
+		}
+		 if(validatePass() && ( temp != '[]' && temp!= '' )){
 			 $('#submit').click();
 		 }
 	}

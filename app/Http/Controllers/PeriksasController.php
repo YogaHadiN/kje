@@ -123,6 +123,7 @@ class PeriksasController extends Controller
 		$periksa->lewat_poli 			= '1';
 		$periksa->lewat_kasir 			= '0';
 		$periksa->lewat_kasir2 			= '0';
+		$periksa->antrian_periksa_id	= Input::get('antrian_id');
 		$periksa->resepluar 			= Input::get('resepluar');
 		$periksa->pemeriksaan_fisik 	= Input::get('pemeriksaan_fisik');
 		$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
@@ -398,6 +399,7 @@ class PeriksasController extends Controller
 		$periksa->jam_resep 			= date('H:i:s');
 		$periksa->keterangan_diagnosa 	= Input::get('keterangan_diagnosa');
 		$periksa->lewat_poli 			= '1';
+		$periksa->antrian_periksa_id	= Input::get('antrian_id');
 		$periksa->lewat_kasir 			= '0';
 		$periksa->lewat_kasir2 			= '0';
 		$periksa->resepluar 			= Input::get('resepluar');
@@ -713,7 +715,7 @@ class PeriksasController extends Controller
 		// return $plafonFlat;
 		// return $plafon;
 		$transaksis = Yoga::kaliObat($transaksis, $terapis, $asuransi, $plafonFlat);
-		// return $transaksis;
+		 return $transaksis;
 
 		//INPUT TRANSAKSI JASA DOKTER
 		//jenis tarif id = 1 adalah jasa dokter

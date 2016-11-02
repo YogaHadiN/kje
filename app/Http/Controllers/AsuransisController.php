@@ -86,22 +86,20 @@ class AsuransisController extends Controller
 		$tarifs = Input::get('tarifs');
 		$tarifs = json_decode($tarifs, true);
 
+		$data = [];
+
 		foreach ($tarifs as $tarif_pribadi) {
-
-			$tarif = new Tarif;
-			$tarif->biaya = $tarif_pribadi['biaya'];
-			$tarif->dibayar_asuransi = $tarif_pribadi['dibayar_asuransi'];
-			$tarif->asuransi_id = $asuransi_id;
-			$tarif->jenis_tarif_id = $tarif_pribadi['jenis_tarif_id'];
-			$tarif->tipe_tindakan_id = $tarif_pribadi['tipe_tindakan_id'];
-			$tarif->bhp_items = $tarif_pribadi['bhp_items'];
-			$tarif->jasa_dokter = $tarif_pribadi['jasa_dokter'];
-			$confirm = $tarif->save();
-
-			if(!$confirm){
-				return 'gak ada yang masuk mulai ' . $tarif->id;
-			}
+			$data [] = [
+				'biaya' => $tarif_pribadi['biaya'], 
+				'asuransi_id' => $asuransi_id,
+				'jenis_tarif_id' => $tarif_pribadi['jenis_tarif_id'],
+				'tipe_tindakan_id' => $tarif_pribadi['tipe_tindakan_id'],
+				'bhp_items' => $tarif_pribadi['bhp_items'],
+				'jasa_dokter' => $tarif_pribadi['jasa_dokter'],
+				'jasa_dokter_tanpa_sip' => $tarif_pribadi['jasa_dokter']
+			];
 		}
+		Tarif::insert($data);
 
 		return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . ucwords(strtolower(Input::get('nama')))  .'</strong> berhasil dibuat'));
 	}

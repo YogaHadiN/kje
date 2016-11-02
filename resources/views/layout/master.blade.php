@@ -170,6 +170,7 @@
                             <li>{!! HTML::link('fasilitas/survey', 'Survey Pasien')!!}</li>
                             <li>{!! HTML::link('facebook', 'Daftar dengan Facebook')!!}</li>
                             <li>{!! HTML::link('sms', 'SMS')!!}</li>
+                            <li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>
                         </ul>
                      </li>
                 </ul>

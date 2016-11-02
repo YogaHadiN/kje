@@ -20,6 +20,8 @@ use App\SmsBpjs;
 use App\PcareSubmit;
 use App\PengantarPasien;
 use App\Terapi;
+use App\SmsKontak;
+use App\SmsGagal;
 use App\AntrianPoli;
 use Auth;
 use App\Classes\Yoga;
@@ -101,6 +103,12 @@ class LaporansController extends Controller
 		$query .= "ORDER BY pp.pcare_submit asc, ";
 		$query .= "pp.created_at DESC; ";
 		$pp_harus_diinput = DB::select($query);
+
+		//foreach ($pp_harus_diinput as $value) {
+			//if ($value->pcare_submit == '2') {
+				//return dd( $value );
+			//}
+		//}
 		
 		$pp_tidak_harus_diinput = PengantarPasien::with('pengantar')
 											->where('kunjungan_sehat', '0')
@@ -1050,10 +1058,22 @@ class LaporansController extends Controller
 	}
 
 	public function smsBpjs(){
-		$tanggall = Input::get('bulanTahun');
-		$tanggal  = Yoga::blnPrep($tanggall);
-		$sms_bpjs = SmsBpjs::where('created_at', 'like', $tanggal. '%')->get();
-		return view('laporans.sms_bpjs', compact('sms_bpjs'));
+		$tanggall       = Input::get('bulanTahun');
+		$tanggal		= Yoga::blnPrep($tanggall);
+		$sms_kontak		= SmsKontak::where('created_at', 'like', $tanggal. '%')
+									->where('pcare_submit', '0');
+									->get();
+		$sms_masuk		= SmsKontak::where('created_at', 'like', $tanggal. '%')
+									->where('pcare_submit', '1');
+									->get();
+		$sms_gagal		= SmsKontak::where('created_at', 'like', $tanggal. '%')->get();
+		$pcare_submits  = PcareSubmit::lists('pcare_submit', 'id');
+		return view('laporans.sms_bpjs', compact(
+			'sms_kontak',
+			'sms_masuk',
+			'sms_gagal',
+			'pcare_submit'
+		));
 	}
 	
 	

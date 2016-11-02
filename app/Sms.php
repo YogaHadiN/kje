@@ -77,6 +77,58 @@ class Sms extends Model
 		$sb->save();
 		// Display a confirmation message on the screen
 	}
-	private function split_on($string, $num) {
+	public function formatSmsNumber($number) {
+		$split = str_split($number);
+		$num = '+62';
+		if ( $split[0] == '0' ) {
+			foreach ($split as $k => $sp) {
+				if ($k > 0) {
+					$num .= $sp;
+				}
+			}
+		} else if( $split[0] == '8' ||  $split[0] == '2'  ){
+		    $num = '+62' . $number;
+		}
+		return $num;
 	}
+
+	public function smsMesabot(){
+		
+	}
+
+	public function smsZenziva(){
+		
+	}
+
+	public static function send(){
+		// Script http API SMS Reguler Zenziva
+		$userkey=env('ZENZIVA_USERKEY'); // userkey lihat di zenziva
+
+		$passkey=env('ZENZIVA_PASSKEY'); // set passkey di zenziva
+
+		$url = 'https://reguler.zenziva.net/apps/smsapi.php';$curlHandle = curl_init();
+
+		curl_setopt($curlHandle, CURLOPT_URL, $url);
+
+		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey='.$userkey.'&passkey='.$passkey.'&nohp='.$telepon.'&pesan='.urlencode($message));
+
+		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+
+		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+
+		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+
+		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+
+		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+
+		curl_setopt($curlHandle, CURLOPT_POST, 1);
+
+		$results = curl_exec($curlHandle);
+
+		curl_close($curlHandle);
+		return $results;
+	}
+	
+	
 }

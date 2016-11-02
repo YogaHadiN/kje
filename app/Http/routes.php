@@ -434,6 +434,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('laporans/asuransi/detail/{asuransi_id}/{tanggal}', 'LaporansController@asuransi_detail');
 			Route::get('laporans/contoh', 'LaporansController@contoh');
 			Route::get('laporans/bpjs_tidak_terpakai', 'LaporansController@bpjsTidakTerpakai');
+			Route::get('laporans/sms/bpjs', 'LaporansController@smsBpjs');
 
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
@@ -472,9 +473,19 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 			Route::get('sms', 'SmsController@sms');
 			Route::post('sms', 'SmsController@smsPost');
-			Route::post('pasiens/sms/angkakontak', 'SmsController@angkakontak');
+			Route::get('sms/angkakontak', 'SmsController@angkakontak');
+			Route::get('sms/kontak/ulangi', 'SmsController@kontakulangi');
+			Route::get('sms/kontak/anulir_no_telp/{id}', 'SmsController@kontakanulir');
+			Route::get('sms/kontak/hapus/{id}', 'SmsController@kontakhapus');
+			Route::get('sms/gagal/ulangi', 'SmsController@gagalulangi');
+			Route::get('sms/gagal/anulir_no_telp/{id}', 'SmsController@gagalanulir');
+			Route::get('sms/gagal/hapus/{id}', 'SmsController@gagalhapus');
+			Route::post('laporans/sms/kontak/action', 'SmsController@smsKontakPost');
+			Route::post('laporans/sms/gagal/action', 'SmsController@smsGagalPost');
+			Route::post('laporans/sms/masuk/action', 'SmsController@smsMasukPost');
 
-			
+
+
   	});
 
 
