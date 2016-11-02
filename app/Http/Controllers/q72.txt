@@ -1,0 +1,3 @@
+ALTER TABLE configs CHANGE value `value` VARCHAR(160) NOT NULL;
+update configs set value = 'ingt 3M 1.Menutp tmpt penampungan air,2.Mengubur sampah yg penampung air,3.Menguras tmpt penampungan air seminggu skali.Jg keluarga dr DEMAM BERDARAH-KJE' where id=2;
+
