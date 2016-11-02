@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 		 Commands\JadwalPenyusutan::class,
 		 Commands\LogDemo::class,
-		 Commands\AngkaKontak::class,
+		 Commands\smsAngkakontak::class
     ];
 
     /**
@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
 		 $schedule->command('task:penyusutan')
 				  ->monthlyOn(date('t'), '15:00');
 
+		 $schedule->command('sms:angkakontak')
+					->dailyAt('12:00');
 		 //$schedule->command('sms:kontak')
 				  //->everyMinute();
     }

@@ -100,7 +100,7 @@ class Sms extends Model
 		
 	}
 
-	public static function send(){
+	public static function send($telepon, $message){
 		// Script http API SMS Reguler Zenziva
 		$userkey=env('ZENZIVA_USERKEY'); // userkey lihat di zenziva
 
