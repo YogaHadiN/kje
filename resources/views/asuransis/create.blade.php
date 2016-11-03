@@ -49,7 +49,6 @@
 
 ])
     {!! Form::close() !!}
-
     @stop
     @section('footer') 
             @include('asuransis/footer', ['tarifs' => $tarifs])

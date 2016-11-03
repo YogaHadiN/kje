@@ -140,8 +140,10 @@ class AsuransisController extends Controller
 	{
 		$asuransi = Asuransi::find($id);
 		$tarifs = Tarif::where('asuransi_id', $id)->get();
-		// return $asuransi->gigi;
-		return view('asuransis.edit', compact('asuransi', 'tarifs'));
+		return view('asuransis.edit', compact(
+			'asuransi', 
+			'tarifs'
+		));
 	}
 
 	/**
@@ -163,6 +165,7 @@ class AsuransisController extends Controller
 		$asuransi->nama = Input::get('nama');
 		$asuransi->hp_pic = Input::get('hp_pic');
 		$asuransi->no_telp = Input::get('no_telp');
+		$asuransi->kali_obat = Input::get('kali_obat');
 		$asuransi->email = Input::get('email');
 		$asuransi->pic = Input::get('pic');
 		$asuransi->gigi = Yoga::cleanArrayJson(Input::get('gigi'));
