@@ -152,21 +152,27 @@ class smsAngkakontak extends Command
 				];
 			}
 		}
-		$dataSms[] = [
-			'id' => ['151013024'],
-			'no_telp' => '081381912803'
+		$dataSms = [
+			[
+				'id' => ['151013024'],
+				'no_telp' => '081381912803'
+			]
 		];
 
 		// pesan apa yang mau kita sms ada di dalam tabel configs , 
 		$pesan = Config::where('config_variable', 'sms_blast_angka_kontak_bpjs')->first()->value;
+		\Log::info('Pesan adanya di ');
+		\Log::info($pesan);
 		$timestamp = date('Y-m-d H:i:s');
 		$data = [];
 		$gagal = [];
+
+		\Log::info( json_encode($dataSms) );
 		foreach ($dataSms as $value) {
 			try {
 				
 				// Kita sms ke nomor satu per satu di looping sesuai query yang sudah kita buat
-				Sms::send( str_replace(' ','', $value->no_telp ), $pesan);
+				Sms::send( str_replace(' ','', $value[ 'no_telp' ] ), $pesan);
 				// Jika berhasil masukkan array data;
 				// Karena satu nomor telepon bisa memiliki lebih dari satu pemilik, 
 				// maka masukkan semua pasien_id yang memiliki nomor telepon tersebut
@@ -178,6 +184,7 @@ class smsAngkakontak extends Command
 						'updated_at' => $timestamp
 					];
 				}
+				\Log::info('pengiriman ke ' . $value[ 'no_telp' ] . ' BERHASIL dilakukan pada ' . date('d-m-Y H:i:s'));
 			} catch (\Exception $e) {
 				// Jika gagal masukkan array gagal;
 				//
@@ -190,6 +197,8 @@ class smsAngkakontak extends Command
 						'updated_at' => $timestamp
 					];
 				}
+				\Log::info('pengiriman ke ' . $value[ 'no_telp'  ]. ' GAGAL dilakukan pada ' . date('d-m-Y H:i:s'));
+				\Log::info( $e->getMessage() );
 			}
 		}
 		// masukkan semua yang berhasil (array data) ke tabel sms_kontaks

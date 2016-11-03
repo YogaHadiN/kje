@@ -37,7 +37,7 @@ class SmsController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Yoga::sms( Input::get('nomor'), Input::get('pesan'));
+		Sms::send( Input::get('nomor'), Input::get('pesan'));
 
 		$pesan = Yoga::suksesFlash('Pengiriman pesan ke nomor ' . Input::get('nomor'). ' berhasil');
 		return redirect()->back()->withPesan($pesan);
@@ -152,7 +152,9 @@ class SmsController extends Controller
 				];
 			}
 		}
-		$dataSms[] = [
+
+		//masukkan sms pak yoga untuk kontrol sebagai sms terakhir yang masuk
+		$dataSms = [
 			'id' => ['151013024'],
 			'no_telp' => '081381912803'
 		];
@@ -164,12 +166,15 @@ class SmsController extends Controller
 		$gagal = [];
 		foreach ($dataSms as $value) {
 			try {
+
+
 				
 				// Kita sms ke nomor satu per satu di looping sesuai query yang sudah kita buat
-				Sms::send( str_replace(' ','', $value->no_telp ), $pesan);
+				//Sms::send( str_replace(' ','', $value->no_telp ), $pesan);
 				// Jika berhasil masukkan array data;
 				// Karena satu nomor telepon bisa memiliki lebih dari satu pemilik, 
 				// maka masukkan semua pasien_id yang memiliki nomor telepon tersebut
+				\Log::info('pengiriman ke ' . $value->no_telp . ' BERHASIL dilakukan pada ' . date('d-m-Y H:i:s'));
 				foreach ($value['id'] as $val) {
 					$data[] = [ 
 						'pasien_id'  => $val,
@@ -179,6 +184,7 @@ class SmsController extends Controller
 					];
 				}
 			} catch (\Exception $e) {
+				\Log::info('pengiriman ke ' . $value->no_telp . ' GAGAL dilakukan pada ' . date('d-m-Y H:i:s'));
 				// Jika gagal masukkan array gagal;
 				//
 				foreach ($value['id'] as $val) {
