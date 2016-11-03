@@ -46,7 +46,6 @@ class smsAngkakontak extends Command
     public function handle()
     {
 
-
 		$tanggal = date('Y-m');
 		$jumlah_peserta_bpjs = Config::where('config_variable', 'jumlah_peserta_bpjs')->first()->value;
 
