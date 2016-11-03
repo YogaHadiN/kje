@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
 				  ->monthlyOn(date('t'), '15:00');
 
 		 $schedule->command('sms:angkakontak')
-					->dailyAt('14:40');
+					->dailyAt('14:50'); 
 		 //$schedule->command('sms:kontak')
 				  //->everyMinute();
     }
