@@ -199,8 +199,12 @@ class smsAngkakontak extends Command
 			}
 		}
 		// masukkan semua yang berhasil (array data) ke tabel sms_kontaks
+		\Log::info('Terkirim berhasil sebanyak : ');
+		\Log::info( count($data) . ' sms' );
 		SmsKontak::insert($data);
 		// masukkan semua yang gagal (array gagal) ke tabel sms_gagals
+		\Log::info('Terkirim gagal sebanyak : ');
+		\Log::info( count($gagal) . ' sms' );
 		SmsGagal::insert($gagal);
     }
 }

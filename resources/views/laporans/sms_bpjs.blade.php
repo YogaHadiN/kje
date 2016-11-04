@@ -4,6 +4,20 @@
 Klinik Jati Elok | Laporan SMS BPJS
 
 @stop
+@section('head') 
+<style type="text/css" media="all">
+.smskontak tr td:first-child, .smskontak tr th:first-child {
+	width:20%
+}
+
+.smskontak tr td:nth-child(2), .smskontak tr th:nth-child(2) {
+	width:50%
+}
+.smskontak tr td:nth-child(3), .smskontak tr th:nth-child(3) {
+	width:30%
+}
+</style>
+@stop
 @section('page-title') 
 <h2>Laporan SMS BPJS</h2>
 <ol class="breadcrumb">
@@ -20,54 +34,50 @@ Klinik Jati Elok | Laporan SMS BPJS
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div>
-			  <!-- Nav tabs -->
-			  <ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#sms_kontak" aria-controls="sms_kontak" role="tab" data-toggle="tab">Sms Berhasil</a></li>
-				<li role="presentation"><a href="#sms_gagal" aria-controls="sms_gagal" role="tab" data-toggle="tab">Sms Gagal</a></li>
-				<li role="presentation"><a href="#sms_masuk" aria-controls="sms_masuk" role="tab" data-toggle="tab">Sms Masuk</a></li>
-			  </ul>
-			
-			  <!-- Tab panes -->
-			  <div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="sms_kontak">
-					<div class="panel panel-success">
-						<div class="panel-heading">
-							<div class="panel-title">SMS Berhasil</div>
-						</div>
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-hover table-condensed">
-									<thead>
-										<tr>
-											<th>Nama Pasien</th>
-											<th>No Telp</th>
-											<th>Pesan</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										@if($sms_kontak->count() > 0)
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#sms_kontak" aria-controls="sms_kontak" role="tab" data-toggle="tab">Sms Berhasil ({{ $sms_kontak->count() }})</a></li>
+					<li role="presentation"><a href="#sms_gagal" aria-controls="sms_gagal" role="tab" data-toggle="tab">Sms Gagal ({{ $sms_gagal->count() }})</a></li>
+					<li role="presentation"><a href="#sms_masuk" aria-controls="sms_masuk" role="tab" data-toggle="tab">Sms Masuk ({{ $sms_masuk->count() }})</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="sms_kontak">
+						<div class="panel panel-success">
+							<div class="panel-heading">
+								<div class="panel-title">SMS Berhasil</div>
+							</div>
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="table-smskontak"class="table table-hover table-condensed DT smskontak">
+										<thead>
+											<tr>
+												<th>Informasi</th>
+												<th>Pesan</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
 											@foreach($sms_kontak as $sms)
-												<tr>
-													<td>{{ $sms->pasien->nama }}</td>
-													<td>{{ $sms->pasien->no_telp }}</td>
-													<td>{{ $sms->pesan }}</td>
-													<td>
-														{!! Form::open(['url' => 'laporans/sms/kontak/action', 'method' => 'post']) !!}
-															{!! Form::text('id', $p->pasien_id, ['class' => 'form-control hide']) !!}
-															{!! Form::text('nama', $p->nama_pengantar, ['class' => 'hide nama']) !!}
+											<tr @if( $sms->pcare_submit == '2' ) class="danger" @endif >
+												<td>
+													<strong>Nama :</strong><br /> {{ $sms->pasien->nama }} <br />
+													<strong>No BPJS :</strong><br />  {{ $sms->pasien->nomor_asuransi_bpjs }} <br />
+													<strong>No Telp :</strong><br />  {{ $sms->pasien->no_telp }}
+												</td>
+												<td>{{ $sms->pesan }}</td>
+												<td>
+													{!! Form::open(['url' => 'laporans/sms/kontak/action', 'method' => 'post']) !!}
+															{!! Form::text('id', $sms->id, ['class' => 'form-control hide']) !!}
+															{!! Form::text('nama', $sms->pasien->nama, ['class' => 'hide nama']) !!}
 															{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
-															{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
+															{!! Form::select('pcare_submit', $pcare_submits, $sms->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
 															{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
 														{!! Form::close() !!}
 													</td>
 												</tr>
 											@endforeach
-										@else
-											<tr>
-												<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
-											</tr>
-										@endif
 									</tbody>
 								</table>
 							</div>
@@ -81,38 +91,39 @@ Klinik Jati Elok | Laporan SMS BPJS
 						</div>
 						<div class="panel-body">
 							<div class="table-responsive">
-								<table class="table table-hover table-condensed">
+								<table class="table table-hover table-condensed DT smskontak">
 									<thead>
 										<tr>
-											<th>Nama Pasien</th>
-											<th>No Telp</th>
-											<th>Error</th>
+											<th>Informasi</th>
+											<th>Pesan</th>
 											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
-										@if($sms_gagal->count() > 0)
-											@foreach($sms_gagal as $sms)
-												<tr>
-													<td>{{ $sms->pasien->nama }}</td>
-													<td>{{ $sms->pasien->no_telp }}</td>
-													<td>{{ $sms->error }}</td>
-													<td>
-														{!! Form::open(['url' => 'laporans/sms/gagal/action', 'method' => 'post']) !!}
-															{!! Form::text('id', $p->pasien_id, ['class' => 'form-control hide']) !!}
-															{!! Form::text('nama', $p->nama_pengantar, ['class' => 'hide nama']) !!}
-															{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
-															{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
-															{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
-														{!! Form::close() !!}
-													</td>
-												</tr>
-											@endforeach
-										@else
+										@foreach($sms_kontak as $sms)
 											<tr>
-												<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
+												<td>
+													<strong>Nama :</strong><br /> {{ $sms->pasien->nama }} <br />
+													<strong>No BPJS :</strong><br />  {{ $sms->pasien->nomor_asuransi_bpjs }} <br />
+													<strong>No Telp :</strong><br />  {{ $sms->pasien->no_telp }}
+												</td>
+												<td>
+													<strong>Pesan :</strong><br />
+													{{ $sms->pesan }}<br /><br />
+													<strong>Error :</strong><br />
+													{{ $sms->error }}
+												</td>
+												<td>
+													{!! Form::open(['url' => 'laporans/sms/gagal/action', 'method' => 'post']) !!}
+														{!! Form::text('id', $sms->pasien_id, ['class' => 'form-control hide']) !!}
+														{!! Form::text('nama', $sms->pasien->nama, ['class' => 'hide nama']) !!}
+														{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
+														{!! Form::select('pcare_submit', $pcare_submits, $sms->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
+														{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
+													{!! Form::close() !!}
+												</td>
 											</tr>
-										@endif
+										@endforeach
 									</tbody>
 								</table>
 							</div>
@@ -130,58 +141,72 @@ Klinik Jati Elok | Laporan SMS BPJS
 						</div>
 						<div class="panel-body">
 							<div class="table-responsive">
-								<table class="table table-hover table-condensed">
+								<table class="table table-hover table-condensed DT smskontak">
 									<thead>
 										<tr>
-											<th>Nama Pasien</th>
-											<th>No Telp</th>
+											<th>Informasi</th>
 											<th>Pesan</th>
 											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
-										@if($sms_gagal->count() > 0)
-											@foreach($sms_gagal as $sms)
-												<tr>
-													<td>{{ $sms->pasien->nama }}</td>
-													<td>{{ $sms->pasien->no_telp }}</td>
-													<td>{{ $sms->pesan }}</td>
-													<td>
-														{!! Form::open(['url' => 'laporans/sms/masuk/action', 'method' => 'post']) !!}
-															{!! Form::text('id', $p->pasien_id, ['class' => 'form-control hide']) !!}
-															{!! Form::text('nama', $p->nama_pengantar, ['class' => 'hide nama']) !!}
-															{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
-															{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
-															{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
-														{!! Form::close() !!}
-													</td>
-												</tr>
-											@endforeach
-										@else
+										@foreach($sms_masuk as $sms)
 											<tr>
-												<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
+												<td>
+													<strong>Nama :</strong><br /> {{ $sms->pasien->nama }} <br />
+													<strong>No BPJS :</strong><br />  {{ $sms->pasien->nomor_asuransi_bpjs }} <br />
+													<strong>No Telp :</strong><br />  {{ $sms->pasien->no_telp }}
+												</td>
+												<td>{{ $sms->pesan }}</td>
+												<td>
+													{!! Form::open(['url' => 'laporans/sms/kontak/action', 'method' => 'post']) !!}
+														{!! Form::text('id', $sms->id, ['class' => 'form-control hide']) !!}
+														{!! Form::text('nama', $sms->pasien->nama, ['class' => 'hide nama']) !!}
+														{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
+														{!! Form::select('pcare_submit', $pcare_submits, $sms->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
+														{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
+													{!! Form::close() !!}
+												</td>
 											</tr>
-										@endif
+										@endforeach
 									</tbody>
 								</table>
 							</div>
-							
 						</div>
 					</div>
-					
-					
-				
 				</div>
 			  </div>
-			
 			</div>
-			
 		</div>
 	</div>
-	
-		
 @stop
 @section('footer') 
 	
+	<script type="text/javascript" charset="utf-8">
+		
+		$('.pcareSubmit').focus(function(){
+			$(this).closest('form').find('.previous').val($(this).val());
+		}).change(function(){
+			var text = $(this).find('option:selected').text();
+			var nama = $(this).closest('form').find('.nama').val();
+			var r = confirm('Anda yakin ' + nama + ' ' + text + '?' );
+			if(r){
+				$(this).closest('form').find('.submit').click();
+			} else {
+				var previous = $(this).closest('form').find('.previous').val();
+				$(this).val(previous);
+				$(this).closest('form').find('.previous').val('');
+			}
+		}).blur(function(){
+			$(this).closest('form').find('.previous').val('');
+		});
+
+		function dummySubmit(control, nama){
+			 var r = confirm('Anda yakin ' + nama + ' sudah diproses di Pcare?');
+			 if(r){
+				$(control).closest('form').find('.submit').click();
+			 }
+		}
+	</script>
 @stop
 

@@ -296,13 +296,75 @@ class SmsController extends Controller
 		return redirect()->back()->withPesan($pesan);
 	}
 	public function smsKontakPost(){
-		return dd( Input::all() );
+		//return dd( Input::all() );
+		//return Input::get('pcare_submit');
+		$rules = [
+		  "id" => "required",
+		  "pcare_submit" => "required"
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		$sms               = SmsKontak::find( Input::get('id') );
+		$sms->pcare_submit = Input::get('pcare_submit');
+		$confirm = $sms->save();
+
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('SMS SUDAH di submit di pcare ');
+		} else {
+			$pesan = Yoga::gagalFlash('SMS BELUM di submit di pcare');
+		}
+		return redirect()->back()->withPesan($pesan);
 	}
 	public function smsGagalPost(){
-		return dd( Input::all() );
+		$rules = [
+		  "id" => "required",
+		  "pcare_submit" => "required"
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		$sms               = SmsGagal::find( Input::get('id') );
+		$sms->pcare_submit = Input::get('pcare_submit');
+		$confirm = $sms->save();
+
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('SMS SUDAH di submit di pcare ');
+		} else {
+			$pesan = Yoga::gagalFlash('SMS BELUM di submit di pcare');
+		}
+		return redirect()->back()->withPesan($pesan);
 	}
 	public function smsMasukPost(){
-		return dd( Input::all() );
+		$rules = [
+		  "id" => "required",
+		  "pcare_submit" => "required"
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		$sms               = SmsKontak::find( Input::get('id') );
+		$sms->pcare_submit = Input::get('pcare_submit');
+		$confirm = $sms->save();
+
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('SMS SUDAH di submit di pcare ');
+		} else {
+			$pesan = Yoga::gagalFlash('SMS BELUM di submit di pcare');
+		}
+		return redirect()->back()->withPesan($pesan);
 	}
 	
 	

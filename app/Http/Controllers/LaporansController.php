@@ -38,7 +38,19 @@ class LaporansController extends Controller
 
 	public function __construct()
 	 {
-	     $this->middleware('super', ['except' => ['pengantar','index', 'harian','penyakit', 'points', 'rujukankebidanan', 'no_asisten', 'jumlahDiare', 'jumlahIspa']]);
+		 $this->middleware('super', ['except' => ['pengantar',
+			 'index',
+			 'harian',
+			 'penyakit',
+			 'points',
+			 'rujukankebidanan',
+			 'no_asisten',
+			 'jumlahDiare',
+			 'bpjsTidakTerpakai',
+			 'pengantar',
+			 'jumlahIspa',
+			 'smsBpjs'
+		 ]]);
 	 }
 
 	public function bpjsTidakTerpakai(){
@@ -1061,18 +1073,19 @@ class LaporansController extends Controller
 		$tanggall       = Input::get('bulanTahun');
 		$tanggal		= Yoga::blnPrep($tanggall);
 		$sms_kontak		= SmsKontak::where('created_at', 'like', $tanggal. '%')
-									->where('pcare_submit', '0')
+									->whereRaw('pcare_submit = 0 or pcare_submit = 2')
+									->orderBy('pcare_submit')
 									->get();
 		$sms_masuk		= SmsKontak::where('created_at', 'like', $tanggal. '%')
 									->where('pcare_submit', '1')
 									->get();
-		$sms_gagal		= SmsKontak::where('created_at', 'like', $tanggal. '%')->get();
+		$sms_gagal		= SmsGagal::where('created_at', 'like', $tanggal. '%')->get();
 		$pcare_submits  = PcareSubmit::lists('pcare_submit', 'id');
 		return view('laporans.sms_bpjs', compact(
 			'sms_kontak',
 			'sms_masuk',
 			'sms_gagal',
-			'pcare_submit'
+			'pcare_submits'
 		));
 	}
 	
