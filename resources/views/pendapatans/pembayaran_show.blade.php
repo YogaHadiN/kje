@@ -138,32 +138,6 @@ Klinik Jati Elok | Laporan Pembayaran
         </div>
     </div>
 </div>   
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <div class="panelLeft">
-            <div class="panel-title">Detail Pembayaran</div>
-        </div>
-        <div class="panelRight"></div>
-    </div>
-    <div class="panel-body">
-        <div class-"table-responsive">
-            <table class="table table-hover table-condensed">
-                <thead>
-                    <tr>
-                        <th>ID PERIKSA</th>
-                        <th>Nama Pasien</th>
-                        <th>Piutang</th>
-                        <th>Sudah Dibayar</th>
-                        <th class="hide">Pembayaran</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="table_temp">
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
