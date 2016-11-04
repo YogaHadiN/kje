@@ -24,7 +24,7 @@ Klinik Jati Elok | Laporan Pembayaran
             </div>
             <div class="panel-body">
                 {!! Form::open(['url'=>'pendapatans/pembayaran/asuransi', 'method'=> 'post']) !!} 
-                    {!! Form::textarea('temp', json_encode( $pembayarans ), ['class' => 'form-control', 'id' => 'pembayarans']) !!} 
+                    {!! Form::textarea('temp', json_encode( $pembayarans ), ['class' => 'form-control hide', 'id' => 'pembayarans']) !!} 
                     {!! Form::hidden('mulai', $mulai, ['class' => 'form-control']) !!} 
                     {!! Form::hidden('akhir', $akhir, ['class' => 'form-control']) !!} 
                 <div class="form-group hide">
@@ -242,7 +242,7 @@ function view(){
             temp += '<td class="hide"><button class="btn btn-sm btn-primary" onclick="cek(this);return false;" type="button" value="' + i + '">Cek</button> ';
             temp += '<button class="btn btn-sm btn-warning" onclick="reset(this);return false;" type="button" value="' + i + '">Reset</button></td>';
             temp += '</tr>';
-            akan_dibayar += MyArray[i].akan_dibayar;
+            akan_dibayar += parseInt( MyArray[i].akan_dibayar );
 
         } else {
         
@@ -268,7 +268,7 @@ function view(){
             temp2 += '<td><button class="btn btn-sm btn-primary" onclick="cek(this);return false;" type="button" value="' + i + '">Cek</button> ';
             temp2 += '<button class="btn btn-sm btn-warning" onclick="reset(this);return false;" type="button" value="' + i + '">Reset</button></td>';
             temp2 += '</tr>';
-            akan_dibayar += MyArray[i].akan_dibayar;
+            akan_dibayar += parseInt( MyArray[i].akan_dibayar );
 
         }
 
