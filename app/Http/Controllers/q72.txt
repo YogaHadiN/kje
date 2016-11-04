@@ -1,3 +1,11 @@
-ALTER TABLE configs CHANGE value `value` VARCHAR(160) NOT NULL;
-update configs set value = 'ingt 3M 1.Menutp tmpt penampungan air,2.Mengubur sampah yg penampung air,3.Menguras tmpt penampungan air seminggu skali.Jg keluarga dr DEMAM BERDARAH-KJE' where id=2;
+create table `prolanis` ( 
+	`id` int not null auto_increment primary key, 
+	`pasien_id` varchar(255) not null, 
+	`golongan_prolanis_id` varchar(255) not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null
+) default character set utf8 collate utf8_unicode_ci; 
 
+insert into configs (config_variable, value) values (
+'tanggal_prolanis', '19-07-1983'
+);

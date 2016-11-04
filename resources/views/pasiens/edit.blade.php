@@ -30,16 +30,22 @@
             ))!!}
 				@include('pasiens.edit_form', ['facebook' =>false, 'pasien' => $pasien])
             {!! Form::close() !!}
+
             @if(\Auth::user()->role == '6')
                 {!! Form::open(array('url' => 'pasiens/' . $pasien->id, 'method' => 'DELETE'))!!} 
-                    {!! Form::submit('DELETE', array('class' => 'btn btn-danger btn-block', 'onclick' => 'return confirm("Anda yakin mau menghapus pasien ' . $pasien->id . ' - ' . $pasien->nama . '")')) !!}
+				<div class="row">
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						{!! Form::submit('Delete', array('class' => 'btn btn-danger btn-block', 'onclick' => 'return confirm("Anda yakin mau menghapus pasien ' . $pasien->id . ' - ' . $pasien->nama . '")')) !!}
+					</div>
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						@if( $pasien->prolanis )
+							<a class="btn btn-info btn-block" href="{{ url('prolanis/' . $pasien->prolanis->id . '/edit') }}">Edit Prolanis</a>
+						@else
+							<a class="btn btn-success btn-block" href="{{ url('prolanis/create/' . $pasien->id) }}">Create Prolanis</a>
+						@endif
+					</div>
+				</div>
                 {!! Form::close() !!}
-				{!! Form::open(['url' => 'pasiens/sms/angkakontak', 'method' => 'post']) !!}
-					{!! Form::text('pasien_id', $pasien->id, ['class' => 'form-control hide']) !!}	
-					<button class="btn btn-success btn-block btn-lg" type="button" onclick="dummySubmit2(this); return false;">SMS</button>
-					{!! Form::submit('submit', ['id' => 'submitSMS', 'class' => 'btn btn-success btn-block btn-lg hide']) !!}
-				{!! Form::close() !!}
-				
             @endif
  @stop
  @section('footer') 

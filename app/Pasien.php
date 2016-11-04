@@ -198,4 +198,16 @@ class Pasien extends Model{
 		            "A" => 'Anak'
 		);
 	}
+
+	public function prolanis(){
+        return $this->hasOne('App\Prolanis', 'pasien_id');
+	}
+	
+	public function getIsGolonganProlanis(){
+		if (isset(  $this->prolanis  )) {
+			return true;
+		}
+		return false;
+	}
+	
 }

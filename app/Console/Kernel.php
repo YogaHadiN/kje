@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 		 Commands\JadwalPenyusutan::class,
 		 Commands\LogDemo::class,
-		 Commands\smsAngkakontak::class
+		 Commands\smsAngkakontak::class,
+		 Commands\smsUndanganprolanis::class,
     ];
 
     /**

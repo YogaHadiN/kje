@@ -205,6 +205,11 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 			Route::get('belanjalist', 'BelanjaListsController@index');
 			Route::get('prolanis', 'ProlanisController@index');
+			Route::post('prolanis', 'ProlanisController@store');
+			Route::get('prolanis/terdaftar', 'ProlanisController@terdaftar');
+			Route::get('prolanis/create/{id}', 'ProlanisController@create');
+			Route::get('prolanis/{id}/edit', 'ProlanisController@edit');
+			Route::put('prolanis/{id}', 'ProlanisController@update');
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
 			Route::get('fakturbelanjas/obat', 'FakturBelanjasController@obat');

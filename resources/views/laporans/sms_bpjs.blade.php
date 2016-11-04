@@ -62,6 +62,7 @@ Klinik Jati Elok | Laporan SMS BPJS
 											@foreach($sms_kontak as $sms)
 											<tr @if( $sms->pcare_submit == '2' ) class="danger" @endif >
 												<td>
+												<strong>Tanggal :</strong><br /> {{ $sms->created_at->format('d-m-Y') }} <br /><br />
 													<strong>Nama :</strong><br /> {{ $sms->pasien->nama }} <br />
 													<strong>No BPJS :</strong><br />  {{ $sms->pasien->nomor_asuransi_bpjs }} <br />
 													<strong>No Telp :</strong><br />  {{ $sms->pasien->no_telp }}

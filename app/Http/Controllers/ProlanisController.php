@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Pasien;
+use App\Prolanis;
 use App\Classes\Yoga;
 use DB;
+use Input;
 
 class ProlanisController extends Controller
 {
@@ -27,5 +29,100 @@ class ProlanisController extends Controller
             'dm'
         ));
 	}
+
+	public function terdaftar(){
+		
+		$prolanis = Prolanis::all();
+		return view('prolanis.terdaftar', compact('prolanis'));
+	}
+	public function create($id){
+		$pasien = Pasien::find($id);
+		$golongan_prolanis = $this->golonganProlanis();
+		return view('prolanis.create', compact(
+			'pasien',
+			'golongan_prolanis'
+		));
+	}
+
+	public function store(){
+		$rules = [
+			'pasien_id' => 'required',
+			'golongan_prolanis_id' => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		$p       = new Prolanis;
+		$p->pasien_id   = Input::get('pasien_id');
+		$p->golongan_prolanis_id   = Input::get('golongan_prolanis_id');
+		$confirm = $p->save();
+		if( Input::get('golongan_prolanis_id') == '1' ){
+			$golonganProlanis = 'Hipertensi';
+		} else {
+			$golonganProlanis = 'Diabetes Mellitus';
+		}
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Pasien BERHASIL mendapat status <strong>Prolanis Golongan ' . $golonganProlanis .  '</strong> ');
+		} else {
+			$pesan = Yoga::gagalFlash('Pasien GAGAL mendapat status <strong>Prolanis Golongan ' . $golonganProlanis .  '</strong> ');
+		}
+
+		return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withPesan($pesan);
+		
+	}
+	public function edit($id){
+		$prolanis = Prolanis::find($id);
+		$pasien = $prolanis->pasien;
+		$golongan_prolanis = $this->golonganProlanis();
+
+		return view('prolanis.edit', compact(
+			'prolanis',
+			'pasien',
+			'golongan_prolanis'
+		));
+		
+	}
+
+	public function update($id){
+		$rules = [
+			'pasien_id' => 'required',
+			'golongan_prolanis_id' => 'required'
+
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$p       = Prolanis::find($id);
+		$p->golongan_prolanis_id   = Input::get('golongan_prolanis_id');
+		$confirm = $p->save();
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Prolanis pasien BERHASIL diubah');
+		} else {
+			$pesan = Yoga::gagalFlash('Prolanis pasien GAGAL diubah');
+		}
+		return redirect('pasiens/' . $p->pasien_id . '/edit')->withPesan($pesan);
+	}
+	
+
+	private function golonganProlanis(){
+		return [
+			null => ' - pilih - ',
+			'1' => 'Hipertensi',
+			'2' => 'Diabetes Mellitus'
+		] ;
+	}
+	
+	
+	
+	
 	
 }
