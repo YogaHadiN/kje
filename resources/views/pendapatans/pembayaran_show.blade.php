@@ -24,7 +24,7 @@ Klinik Jati Elok | Laporan Pembayaran
             </div>
             <div class="panel-body">
                 {!! Form::open(['url'=>'pendapatans/pembayaran/asuransi', 'method'=> 'post']) !!} 
-                    {!! Form::textarea('temp', json_encode( $pembayarans ), ['class' => 'form-control hide', 'id' => 'pembayarans']) !!} 
+                    {!! Form::textarea('temp', json_encode( $pembayarans ), ['class' => 'form-control', 'id' => 'pembayarans']) !!} 
                     {!! Form::hidden('mulai', $mulai, ['class' => 'form-control']) !!} 
                     {!! Form::hidden('akhir', $akhir, ['class' => 'form-control']) !!} 
                 <div class="form-group hide">
@@ -254,7 +254,7 @@ function view(){
             temp2 += '<td>' + MyArray[i].nama_pasien + '</td>';
             temp2 += '<td class="uang">' + MyArray[i].piutang + '</td>';
             temp2 += '<td class="uang">' + MyArray[i].pembayaran + '</td>';
-            temp2 += '<td><input class="form-control" value="' + MyArray[i].akan_dibayar + '" /></td>';
+            temp2 += '<td><input class="form-control angka2 akan_dibayar" value="' + MyArray[i].akan_dibayar + '" onkeyup="akanDibayarKeyup(this);return false;" /></td>';
             if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
             var status = '<div class="alert-success">';
             status += 'Sudah Lunas';
@@ -280,7 +280,6 @@ function view(){
     $('#belum_dibayar_total').html(belum_dibayar_total);
     $('#sudah_dibayar_total').html(sudah_dibayar_total);
     $('#dibayar_sebesar').html(akan_dibayar);
-
     formatUang();
 }
 function resetAll(){
@@ -301,8 +300,36 @@ function submitPage(){
     } else if($('#piutang').val() < 1 ){
         alert('Nilai yang dibayarkan harus lebih besar dari 0');
     }
+
      
 }
+function akanDibayarKeyup(control){
+
+	var before = $(control).val();
+	$(control).val(parseInt(before) || '');
+	if ( $(control).val() == '' ) {
+		$(control).val('0')
+	}
+
+	var jumlahAkanDibayar =0;
+	$('.akan_dibayar').each(function(){
+		 jumlahAkanDibayar += parseInt( $(this).val() );
+	});
+	$('#piutang').val(jumlahAkanDibayar); 
+	console.log("jumlahAkanDibayar");
+	console.log(jumlahAkanDibayar);
+
+	var tempJson = $('#pembayarans').val();
+	var tempArray = JSON.parse(tempJson);
+
+	var i = $(control).closest('tr').find('.btn-primary').val();
+
+	tempArray[i].akan_dibayar = $(control).val();
+
+	$('#pembayarans').val( JSON.stringify(tempArray) );
+}
+
+
 
 
 </script>
