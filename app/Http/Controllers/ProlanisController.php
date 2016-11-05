@@ -120,6 +120,18 @@ class ProlanisController extends Controller
 			'2' => 'Diabetes Mellitus'
 		] ;
 	}
+
+	public function destroy($id){
+		$prolanis = Prolanis::find($id);
+		$pasien = $prolanis->pasien;
+		if ( $prolanis->delete() ) {
+			$pesan = Yoga::suksesFlash('Prolanis ' . $pasien->nama . ' BERHASIL dihapus');
+		}else {
+			$pesan = Yoga::gagalFlash('Prolanis ' . $pasien->nama . ' GAGAL dihapus');
+		}
+		return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
+	}
+	
 	
 	
 	

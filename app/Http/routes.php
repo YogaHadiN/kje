@@ -210,6 +210,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('prolanis/create/{id}', 'ProlanisController@create');
 			Route::get('prolanis/{id}/edit', 'ProlanisController@edit');
 			Route::put('prolanis/{id}', 'ProlanisController@update');
+			Route::post('prolanis/destroy/{id}', 'ProlanisController@destroy');
 
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
 			Route::get('fakturbelanjas/obat', 'FakturBelanjasController@obat');

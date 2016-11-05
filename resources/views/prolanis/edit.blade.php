@@ -24,9 +24,25 @@ Klinik Jati Elok | Edit Prolanis
 					<div class="panel-title">Edit Prolanis</div>
 				</div>
 				<div class="panel-body">
-				{!! Form::model($prolanis, ['url' => 'prolanis/' . $prolanis->id , 'method' => 'put']) !!}
-						@include('prolanis.form')
-					{!! Form::close() !!}
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							{!! Form::model($prolanis, ['url' => 'prolanis/' . $prolanis->id , 'method' => 'put']) !!}
+								@include('prolanis.form')
+							{!! Form::close() !!}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							{!! Form::open(['url' => 'prolanis/destroy/' . $prolanis->id, 'method' => 'post']) !!}
+								<div class="form-group">
+									{!! Form::submit('Delete', [
+										'class' => 'btn btn-warning btn-block btn-lg',
+										'onclick' => 'return confirm("Anda yakin mau menghapus Prolanis untuk pasien ini ");'
+									]) !!}
+								</div> 
+							{!! Form::close() !!}
+						</div>
+					</div>
 				</div>
 			</div>
 			
