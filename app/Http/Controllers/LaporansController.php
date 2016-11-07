@@ -194,13 +194,13 @@ class LaporansController extends Controller
 
 		$angka_kontak_saat_ini = SmsKontak::angkaKontak(date('Y-m'));
 		$pengantar_belum_disubmit = PengantarPasien::where('created_at', 'like', date('Y-m') . '%')
-									->where('pcare_submit', 'not like', '1')
+									->where('pcare_submit', '0')
 									->count();
 		$sms_belum_di_submit = SmsKontak::where('created_at', 'like', date('Y-m') . '%')
-									->where('pcare_submit', 'not like', '1')
+									->where('pcare_submit', '0')
 									->count();
 		$kunjungan_sakit_belum_di_submit = KunjunganSakit::where('created_at', 'like', date('Y-m') . '%')
-									->where('pcare_submit', 'not like', '1')
+									->where('pcare_submit', '0')
 									->count();;
 
 		return view('laporans.index', compact(
