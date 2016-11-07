@@ -46,6 +46,9 @@ class smsAngkakontak extends Command
     public function handle()
     {
 
+		\Log::info('==============================================================================');
+		\Log::info('================MEMULAI SMS BLAST BISMILLAH===============================');
+		\Log::info('==============================================================================');
 		$tanggal = date('Y-m');
 		$jumlah_peserta_bpjs = Config::where('config_variable', 'jumlah_peserta_bpjs')->first()->value;
 
@@ -122,6 +125,8 @@ class smsAngkakontak extends Command
 		$query.= "AND id not in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tanggal}%' and ks.pcare_submit = 1 ) ";
 		// dikurangi pasien BPJS yang berobat sebagai pembayaran BPJS yang berhasil kita masukkan di pcare
 		$query.= "AND id not in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' ) ";
+		// dikurangi pasien BPJS yang terdaftar di tabel sms_jangans;
+		$query.= "AND id not in( Select pasien_id from sms_jangans ) ";
 		// pilih pasien yang memiliki no_telp dengan awalan 08 atau +62 
 		$query.= "AND ( no_telp like '08%' or no_telp like '+628%' ) ";
 		// kita order by menurut no_telp, jangan sampai no_telp yang sama di sms 2 kali
@@ -131,6 +136,7 @@ class smsAngkakontak extends Command
 
 
 		$sms = DB::select($query);
+
 		// kita akan buat array dimana satu array memiliki element string no_telp dan element array id, 
 		// dimana satu nomor telepon memungkinkan memiliki lebih dari 1 id, 
 		// jadi satu sms, bisa masuk ke 2 atau lebih inputa pcare
@@ -151,6 +157,7 @@ class smsAngkakontak extends Command
 				];
 			}
 		}
+
 		$dataSms[] = [
 			'id' => ['151013024'],
 			'no_telp' => '081381912803'
@@ -168,6 +175,7 @@ class smsAngkakontak extends Command
 		foreach ($dataSms as $value) {
 			try {
 				
+			\Log::info( json_encode($value) );
 				// Kita sms ke nomor satu per satu di looping sesuai query yang sudah kita buat
 				Sms::send( str_replace(' ','', $value[ 'no_telp' ] ), $pesan);
 				// Jika berhasil masukkan array data;
@@ -206,5 +214,8 @@ class smsAngkakontak extends Command
 		\Log::info('Terkirim gagal sebanyak : ');
 		\Log::info( count($gagal) . ' sms' );
 		SmsGagal::insert($gagal);
+		\Log::info('==============================================================================');
+		\Log::info('================MENGAKHIRI SMS BLAST ALHAMDULILLAH============================');
+		\Log::info('==============================================================================');
     }
 }

@@ -1,0 +1,1 @@
+insert into pcare_submits (pcare_submit) values ('nomor tidak terdaftar');
