@@ -175,9 +175,11 @@
                             {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
                         </ul>
                      </li>
+					@if(\Auth::id() == 28)
 					<li>
                         <a href="{{ url('configs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Pengaturan</span> </a>
                     </li>
+					@endif
                 </ul>
             </div>
         </nav>
