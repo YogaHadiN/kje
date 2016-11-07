@@ -98,6 +98,8 @@ class SmsController extends Controller
 		$query.= "AND id not in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tanggal}%' and ks.pcare_submit = 1 ) ";
 		// dikurangi pasien BPJS yang berobat sebagai pembayaran BPJS yang berhasil kita masukkan di pcare
 		$query.= "AND id not in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' ) ";
+		// dikurangi pasien BPJS yang termasuk dalam pasien pcare yang sudah pindah faskes ke tempat lain
+		$query.= "AND id not in( Select pasien_id from sms_jangans ) ";
 		// pilih pasien yang memiliki no_telp dengan awalan 08 atau +62 
 		$query.= "AND ( no_telp like '08%' or no_telp like '+628%' ) ";
 		// kita order by menurut no_telp, jangan sampai no_telp yang sama di sms 2 kali
