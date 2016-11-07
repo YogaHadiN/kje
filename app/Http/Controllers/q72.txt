@@ -7,5 +7,5 @@ create table `prolanis` (
 ) default character set utf8 collate utf8_unicode_ci; 
 
 insert into configs (config_variable, value) values (
-'tanggal_prolanis', '19-07-1983'
+	'tanggal_prolanis', '19-07-1983'
 );

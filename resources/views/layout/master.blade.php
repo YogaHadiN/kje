@@ -175,6 +175,9 @@
                             {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
                         </ul>
                      </li>
+					<li>
+                        <a href="{{ url('configs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Pengaturan</span> </a>
+                    </li>
                 </ul>
             </div>
         </nav>

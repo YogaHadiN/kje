@@ -56,8 +56,6 @@ Klinik Jati Elok | Edit Prolanis
 			$('#submit').click();
 		}
 	}
-	
-	
 </script>
 	
 @stop
