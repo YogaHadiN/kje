@@ -204,6 +204,7 @@ class LaporansController extends Controller
 		$angka_kontak_saat_ini = SmsKontak::angkaKontak(date('Y-m'));
 		$pengantar_belum_disubmit = PengantarPasien::where('created_at', 'like', date('Y-m') . '%')
 									->where('pcare_submit', '0')
+									->where('kunjungan_sehat', '1')
 									->count();
 		$sms_belum_di_submit = SmsKontak::where('created_at', 'like', date('Y-m') . '%')
 									->where('pcare_submit', '0')

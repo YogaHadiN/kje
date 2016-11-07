@@ -216,7 +216,7 @@ class SmsController extends Controller
 	
 	private function smsJangan($pcare_submit, $id){
 		$confirm = false;
-		if ($pcare_submit == '4') {
+		if ($pcare_submit == '3' ||$pcare_submit == '4') {
 			$coungSmsJangan = SmsJangan::where('pasien_id', $id)->count();
 			if ($coungSmsJangan == 0) {
 				$sms       = new SmsJangan;
