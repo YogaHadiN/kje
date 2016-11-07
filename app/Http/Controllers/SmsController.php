@@ -49,33 +49,7 @@ class SmsController extends Controller
 
 		$tanggal = date('Y-m');
 		$jumlah_peserta_bpjs = Config::where('config_variable', 'jumlah_peserta_bpjs')->first()->value;
-
-		// Untuk menghitung berapa pasien yang sudah masuk angka kontak kita, 
-		// ===================================================================
-		//
-		// kita hitung dulu jumlah pasien yang punya nomor asuransi bpjs
-		// yang termsuk pengantar yang sudah di masukkan pcare_submit
-		// yang termsuk  sms_kontaks yang sudah di sms yang dimasukkan di pcare_submit
-		// yang termsuk  pasien bpjs yang mengunakan Pembayaran non bpjs
-		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
-
-		// Untuk menghitung berapa pasien yang sudah masuk angka kontak kita, 
-		// ===================================================================
-		$query = "SELECT DISTINCT count(*) as jumlah FROM pasiens ";
-		// kita hitung dulu jumlah pasien yang punya nomor asuransi bpjs
-		$query.= "WHERE nomor_asuransi_bpjs is not null ";
-		// yang termsuk pengantar yang sudah di masukkan pcare_submit
-		$query.= "AND (id in( Select pengantar_id from pengantar_pasiens where created_at like '{$tanggal}%' and pcare_submit = 1 )";
-		// yang termsuk  sms_kontaks yang sudah di sms yang dimasukkan di pcare_submit
-		$query.= "OR id in( Select pasien_id from sms_kontaks where created_at like '{$tanggal}%' and pcare_submit = 1 )";
-		// yang termsuk  pasien bpjs yang mengunakan Pembayaran non bpjs
-		$query.= "OR id in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tanggal}%' and ks.pcare_submit = 1 ) ";
-		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
-		$query.= "OR id in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' )) ";
-		// Sehingga kita bisa mendapat angka kontak saat ini
-		$angka_kontak_saat_ini = DB::select($query)[0]->jumlah;
-
-		
+		$angka_kontak_saat_ini = SmsKontak::angkaKontak($tanggal);
 		// Kita asumsikan bahwa tanggal 1 itu belum bisa dihitung, jadi kita anggap tanggal 1 = tanggal 0, maka tanggal sekarang dikurangi 1
 		$date = date('d') -1;
 

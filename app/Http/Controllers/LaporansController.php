@@ -189,24 +189,43 @@ class LaporansController extends Controller
 		foreach ($hariinis as $hariini) {
 			$jumlah += (int) $hariini->jumlah;
 		}
-		return view('laporans.index')
-			->withAsuransis($asuransis)
-			->withAntrianperiksa($antrianperiksa)
-			->withAntriankasir($antriankasir)
-			->withAntrianbelanja($antrianbelanja)
-			->withHariinis($hariinis)
-			->withJumlah($jumlah)
-			->withUmum($umum)
-			->withKandungan($kandungan)
-			->withGigi($gigi)
-			->withRaklist($raklist)
-			->withAuth($auth)
-			->withStaf($staf)
-			->withPolis($polis)
-			->withTanggal($tanggal)
-			->withPeriksas($periksas)
-			->withDarurat($darurat)
-			->withNursestation($nursestation);
+
+
+
+		$angka_kontak_saat_ini = SmsKontak::angkaKontak(date('Y-m'));
+		$pengantar_belum_disubmit = PengantarPasien::where('created_at', 'like', date('Y-m') . '%')
+									->where('pcare_submit', 'not like', '1')
+									->count();
+		$sms_belum_di_submit = SmsKontak::where('created_at', 'like', date('Y-m') . '%')
+									->where('pcare_submit', 'not like', '1')
+									->count();
+		$kunjungan_sakit_belum_di_submit = KunjunganSakit::where('created_at', 'like', date('Y-m') . '%')
+									->where('pcare_submit', 'not like', '1')
+									->count();;
+
+		return view('laporans.index', compact(
+			'asuransis',
+			'antrianperiksa',
+			'antriankasir',
+			'antrianbelanja',
+			'hariinis',
+			'jumlah',
+			'umum',
+			'kandungan',
+			'gigi',
+			'raklist',
+			'auth',
+			'staf',
+			'polis',
+			'tanggal',
+			'periksas',
+			'darurat',
+			'angka_kontak_saat_ini',
+			'pengantar_belum_disubmit',
+			'sms_belum_di_submit',
+			'kunjungan_sakit_belum_di_submit',
+			'nursestation'
+		));
 	}
 
 	public function harian()

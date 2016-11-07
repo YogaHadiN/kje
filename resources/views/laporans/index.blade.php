@@ -222,6 +222,29 @@ Klinik Jati Elok | Home
 				</div></a>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-info">
+					<table class="table table-condensed text-center">
+						<tbody>
+							<tr>
+								<td><h3>Angka Kontak Saat ini</h3></td>
+								<td><h3>Pengantar belum disubmit</h3></td>
+								<td><h3>SMS belum disubmit</h3></td>
+								<td><h3>Kunjungan sakit belum disubmit</h3></td>
+							</tr>
+							<tr>
+								<td><h1>{{ $angka_kontak_saat_ini }}</h1></td>
+								<td><h1>{{ $pengantar_belum_disubmit }}</h1></td>
+								<td><h1>{{ $sms_belum_di_submit }}</h1></td>
+								<td><h1>{{ $kunjungan_sakit_belum_di_submit }}</h1></td>
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+		</div>
 			<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					@if ($auth->role != '1')
