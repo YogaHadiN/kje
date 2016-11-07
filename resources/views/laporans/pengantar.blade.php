@@ -234,22 +234,7 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 
 var previous = '';
 		
-	$('.pcareSubmit').focus(function(){
-		$(this).closest('form').find('.previous').val($(this).val());
-	}).change(function(){
-		var text = $(this).find('option:selected').text();
-		var nama = $(this).closest('form').find('.nama').val();
-		var r = confirm('Anda yakin ' + nama + ' ' + text + '?' );
-		if(r){
-			$(this).closest('form').find('.submit').click();
-		} else {
-			var previous = $(this).closest('form').find('.previous').val();
-			$(this).val(previous);
-			$(this).closest('form').find('.previous').val('');
-		}
-	}).blur(function(){
-		$(this).closest('form').find('.previous').val('');
-	});
+	pcareSubmit()
 
 	function dummySubmit(control, nama){
 		 var r = confirm('Anda yakin ' + nama + ' sudah diproses di Pcare?');

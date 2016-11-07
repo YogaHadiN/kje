@@ -13,7 +13,6 @@ Klinik Jati Elok | SMS
 		  <strong>SMS</strong>
 	  </li>
 </ol>
-
 @stop
 @section('content') 
 	{!! Form::open(['url' => 'sms', 'method' => 'post']) !!}
@@ -60,11 +59,7 @@ Klinik Jati Elok | SMS
 				</div>
 			</div>
 		</div>
-		
 	{!! Form::close() !!}
-	
-
-	
 @stop
 @section('footer') 
 	

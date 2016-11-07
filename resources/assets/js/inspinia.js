@@ -450,4 +450,23 @@ function readURL(input) {
 		reader.readAsDataURL(input.files[0]);
 	}
 }
+function pcareSubmit(){
+
+	$('.pcareSubmit').focus(function(){
+		$(this).closest('form').find('.previous').val($(this).val());
+	}).change(function(){
+		var text = $(this).find('option:selected').text();
+		var nama = $(this).closest('form').find('.nama').val();
+		var r = confirm('Anda yakin ' + nama + ' ' + text + '?' );
+		if(r){
+			$(this).closest('form').find('.submit').click();
+		} else {
+			var previous = $(this).closest('form').find('.previous').val();
+			$(this).val(previous);
+			$(this).closest('form').find('.previous').val('');
+		}
+	}).blur(function(){
+		$(this).closest('form').find('.previous').val('');
+	});
+}
 

@@ -505,10 +505,10 @@ class PengantarsController extends Controller
 	}
 
 	public function postKunjunganSakit(){
-		$id = Input::get('id');
-
+		//return dd( Input::all() );
+		$id			= Input::get('id');
 		$ks       = KunjunganSakit::find($id);
-		$ks->pcare_submit   = '1';
+		$ks->pcare_submit   = Input::get('pcare_submit');
 		$confirm = $ks->save();
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Pastikan anda sudah memasukkan pasien <strong>' . $ks->periksa->pasien->nama . '</strong> di PCare');

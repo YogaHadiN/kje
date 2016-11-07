@@ -56,7 +56,17 @@ class LaporansController extends Controller
 	public function bpjsTidakTerpakai(){
 		$tanggall = Input::get('bulanTahun');
 		$tanggal  = Yoga::blnPrep($tanggall);
-		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')->where('created_at', 'like', $tanggal . '%')->get();
+		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
+			->where('created_at', 'like', $tanggal . '%')
+			->whereRaw('pcare_submit = 0 or pcare_submit = 2')
+			->orderBy('pcare_submit')
+			->get();
+		//return dd($ks);
+		$ksSubmit = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
+			->where('created_at', 'like', $tanggal . '%')
+			->whereRaw('pcare_submit = 1 or pcare_submit = 3')
+			->orderBy('pcare_submit')
+			->get();
 		foreach ($ks as $k) {
 			// jika pasien pernah mengantar atau berobat, maka hapus dia dari daftar pengantar karena sudah masuk ke dalam angka kontak
 			if ( $this->count($k->pengantar_id, $tanggal) > 0 && $k->kunjungan_sehat == '1') {
@@ -64,13 +74,12 @@ class LaporansController extends Controller
 			}
 		}
 
-		$ks = KunjunganSakit::with('periksa.pasien', 'periksa.diagnosa.icd10')
-			->where('created_at', 'like', $tanggal . '%')
-			->where('pcare_submit', 0)
-			->orderBy('created_at', 'desc')
-			->get();
-		
+
+		$pcare_submits =  PcareSubmit::lists('pcare_submit', 'id');
+
 		return view('laporans.bpjs_tidak_terpakai', compact(
+			'pcare_submits',
+			'ksSubmit',
 			'ks'
 		));
 	}
