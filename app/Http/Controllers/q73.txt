@@ -1,1 +1,2 @@
-update
+update pcare_submits set pcare_submit = 'pasien BPJS tidak aktif' where id=2;
+insert into pcare_submits (pcare_submit) values ( 'Pasien sudah pindah kepesertaan');

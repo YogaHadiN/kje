@@ -8,6 +8,7 @@ use App\Http\Requests;
 use Input;
 use App\Mesabot;
 use App\Sms;
+use App\SmsJangan;
 use App\SmsGagal;
 use App\Pasien;
 use App\Config;
@@ -287,6 +288,7 @@ class SmsController extends Controller
 		$sms->pcare_submit = Input::get('pcare_submit');
 		$confirm = $sms->save();
 
+		$this->smsJangan( Input::get('pcare_submit'), Input::get('id') );
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('SMS SUDAH di submit di pcare ');
 		} else {
@@ -309,6 +311,8 @@ class SmsController extends Controller
 		$sms               = SmsGagal::find( Input::get('id') );
 		$sms->pcare_submit = Input::get('pcare_submit');
 		$confirm = $sms->save();
+
+		$this->smsJangan( Input::get('pcare_submit'), Input::get('id') );
 
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('SMS SUDAH di submit di pcare ');
@@ -333,6 +337,7 @@ class SmsController extends Controller
 		$sms->pcare_submit = Input::get('pcare_submit');
 		$confirm = $sms->save();
 
+		$this->smsJangan( Input::get('pcare_submit'), Input::get('id') );
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('SMS SUDAH di submit di pcare ');
 		} else {
@@ -341,7 +346,18 @@ class SmsController extends Controller
 		return redirect()->back()->withPesan($pesan);
 	}
 	
-	
+	private function smsJangan($pcare_submit, $id){
+		$confirm = false;
+		if ($pcare_submit == '4') {
+			$coungSmsJangan = SmsJangan::where('pasien_id', $id)->count();
+			if ($coungSmsJangan == 0) {
+				$sms       = new SmsJangan;
+				$sms->pasien_id   = $id;
+				$confirm = $sms->save();
+			}
+		}
+		return $confirm;
+	}
 }
 
 

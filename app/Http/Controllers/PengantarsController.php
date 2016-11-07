@@ -9,6 +9,7 @@ use Input;
 use DB;
 use App\AntrianPeriksa;
 use App\AntrianPoli;
+use App\SmsJangan;
 use App\PengantarPasien;
 use App\KunjunganSakit;
 use App\Periksa;
@@ -571,4 +572,5 @@ class PengantarsController extends Controller
 		$pesan = 'Pengantar Berhasil Diedit, total ada <strong>' . $insert . ' pengantar</strong> yang terdaftar untuk ' . Periksa::find( Input::get('periksa_id') )->pasien->nama;
 		return redirect('antriankasirs')->withPesan( Yoga::suksesFlash($pesan) );
 	}
+	
 }
