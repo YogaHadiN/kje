@@ -23,6 +23,7 @@ use App\Tarif;
 use App\Monitor;
 use App\Dispensing;
 use App\Point;
+use App\SmsJangan;
 use App\TransaksiPeriksa;
 use App\JurnalUmum;
 use App\Fakturbeli;
@@ -290,6 +291,14 @@ class CustomController extends Controller
 		if ($periksa->asuransi_id == 32 && !empty($periksa->keterangan)) {
 			$periksa->keterangan = null;
 		}
+		//Jika pembayaran yang digunakan saat ini adalah bpjs dan pasien berada dalam list jangan sms, maka hapus list tersebut, karena
+		//ternyata pasien tersebut sekarang aktif
+		if ($periksa->asuransi_id == 32) {
+			 $smsJangan = SmsJangan::where('pasien_id', $periksa->pasien_id)->get();
+			if ($smsJangan->count() > 0) {
+				$smsJangan->delete();
+			}
+		}
 
 		$periksa->terapi          = $this->terapisBaru($periksa->terapii);
 		$periksa->jam_terima_obat = date('H:i:s');
@@ -552,6 +561,7 @@ class CustomController extends Controller
 					$ks->save();
 				}
 		}
+
 		if($confirm){
             return redirect('antriankasirs')
                 ->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $periksa->pasien_id . '-' . $periksa->pasien->nama . '</strong> telah selesai' . $mess))

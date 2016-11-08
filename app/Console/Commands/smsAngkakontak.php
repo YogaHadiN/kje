@@ -177,7 +177,7 @@ class smsAngkakontak extends Command
 				
 			\Log::info( json_encode($value) );
 				// Kita sms ke nomor satu per satu di looping sesuai query yang sudah kita buat
-				Sms::send( str_replace(' ','', $value[ 'no_telp' ] ), $pesan);
+				//Sms::send( str_replace(' ','', $value[ 'no_telp' ] ), $pesan);
 				// Jika berhasil masukkan array data;
 				// Karena satu nomor telepon bisa memiliki lebih dari satu pemilik, 
 				// maka masukkan semua pasien_id yang memiliki nomor telepon tersebut
