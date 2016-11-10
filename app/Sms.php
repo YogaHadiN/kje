@@ -10,7 +10,6 @@ use App\Classes\Yoga;
 class Sms extends Model
 {
 	public static function sendSms($no, $message){
-	
 		// Step 2: set our AccountSid and AuthToken from https://twilio.com/console
 		$AccountSid =env('TWILLIO_ACCOUNT_SID');
 		$AuthToken =env('TWILLIO_AUTH_TOKEN');
@@ -29,15 +28,34 @@ class Sms extends Model
 				'body' => $message
 			)
 		);
-
 		return $sms->sid;
-
-
+		// Display a confirmation message on the screen
+	}
+	public static function sendBlast($array, $message){ // $array = array dari nomor telepon2, $message = isi pesan yang di sms
+		// Step 2: set our AccountSid and AuthToken from https://twilio.com/console
+		$AccountSid =env('TWILLIO_ACCOUNT_SID');
+		$AuthToken =env('TWILLIO_AUTH_TOKEN');
+		// Step 3: instantiate a new Twilio Rest Client
+		$client = new Client($AccountSid, $AuthToken);
+		// Step 4: make an array of people we know, to send them a message. 
+		// Feel free to change/add your own phone number and name here.
+		foreach ($array as $no) {
+			$sms = $client->account->messages->create(
+				// the number we are sending to - Any phone number
+				$no,
+				array(
+					// Step 6: Change the 'From' number below to be a valid Twilio number 
+					// that you've purchased
+					'from' =>env('TWILLIO_NUMBER'), 
+					// the sms body
+					'body' => $message
+				)
+			);
+		}
 		// Display a confirmation message on the screen
 	}
 
 	public static function smsBpjs($pasien, $message){
-	
 		// Step 2: set our AccountSid and AuthToken from https://twilio.com/console
 		$AccountSid =env('TWILLIO_ACCOUNT_SID');
 		$AuthToken =env('TWILLIO_AUTH_TOKEN');

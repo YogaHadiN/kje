@@ -892,8 +892,9 @@ class PengeluaransController extends Controller
         $rinci = DB::select($query);
         $table = [];
 
-        foreach ($rinci as $rc) {
+		$errors = [];
 
+        foreach ($rinci as $rc) {
 			$arrs = $rc->jurnalable_type::where('id', $rc->jurnalable_id)->first()->jurnals;
             $valid = false;
             foreach ($arrs as $key => $ar) {
