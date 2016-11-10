@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
 		 Commands\LogDemo::class,
 		 Commands\smsAngkakontak::class,
 		 Commands\smsUndanganprolanis::class,
+		 Commands\cronTest::class,
+
     ];
 
     /**
@@ -32,7 +34,7 @@ class Kernel extends ConsoleKernel
 
 		 //$schedule->command('sms:angkakontak')
 					//->dailyAt('15:30'); 
-		 //$schedule->command('sms:kontak')
-				  //->everyMinute();
+		 $schedule->command('cron:test')
+				  ->everyMinute();
     }
 }
