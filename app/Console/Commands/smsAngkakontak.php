@@ -212,6 +212,7 @@ class smsAngkakontak extends Command
 		\Log::info('Terkirim gagal sebanyak : ');
 		\Log::info( count($gagal) . ' sms' );
 		SmsGagal::insert($gagal);
+		Sms::send('081381912803', 'Terkirim sebanyak ' . count($data) . ' sms, gagal sebanyak ' . count($gagal) . ' sms');
 		\Log::info('==============================================================================');
 		\Log::info('================MENGAKHIRI SMS BLAST ALHAMDULILLAH============================');
 		\Log::info('==============================================================================');

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\CheckoutKasir;
 use DB;
+use App\Sms;
 
 class testPeriksahilang extends Command
 {
@@ -45,9 +46,7 @@ class testPeriksahilang extends Command
         $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
         $rinci = DB::select($query);
         $table = [];
-
 		$errors = [];
-
         foreach ($rinci as $rc) {
 			try {
 				$arrs = $rc->jurnalable_type::where('id', $rc->jurnalable_id)->first()->jurnals;
@@ -55,6 +54,14 @@ class testPeriksahilang extends Command
 				$errors[] = $rc ;
 			}
         }
-		return dd( $errors );
+		if ( count( $errors ) ) {
+			$pesan = "Ada " . count($errors) . " yang hilang, yaitu ";
+			foreach ($errors as $error) {
+				$pesan .= $error . ', ';
+			}
+			Sms::send('081381912803', $pesan);
+		} else{
+			Sms::send('081381912803', 'Tidak ada pemeriksaan yang hilang');
+		} 
     }
 }
