@@ -9,7 +9,7 @@
                 </div>
             @else
                 <div class="font-small"> gratis khusus hanya untuk pasien peserta BPJS > 50 tahun dan atau riwayat Diabetes Mellitus dan plafon hanya sebulan sekali
-				usia pasien saat ini {{ App\Classes\Yoga::datediff( $periksa->pasien->tanggal_lahir ) }}
+				usia pasien saat ini {{ App\Classes\Yoga::datediff( $periksa->pasien->tanggal_lahir, $periksa->tanggal ) }}
                 </div>
             @endif
         </div>
