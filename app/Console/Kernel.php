@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
 		 $schedule->command('sms:angkakontak')
 					->dailyAt('15:30'); 
 		 $schedule->command('cron:test')
-				  ->everyhour();
+				  ->hourly();
 		 $schedule->command('test:periksahilang')
 					->dailyAt('22:00'); 
     }
