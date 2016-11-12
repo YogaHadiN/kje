@@ -88,6 +88,7 @@ class LaporansController extends Controller
 	public function pengantar(){
 		$tanggall = Input::get('bulanTahun');
 		$tanggal  = Yoga::blnPrep($tanggall);
+
 		$pp = PengantarPasien::where('created_at', 'like', $tanggal . '%')->latest()->get();
 
 		// Ini Untuk memastikan bahwa pasien tidak diinput 2 kali bulan ini

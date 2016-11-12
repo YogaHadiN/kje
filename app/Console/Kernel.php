@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
 		 Commands\smsAngkakontak::class,
 		 Commands\smsUndanganprolanis::class,
 		 Commands\cronTest::class,
+		 Commands\testPeriksahilang::class,
 
     ];
 
