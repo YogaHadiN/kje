@@ -120,10 +120,8 @@ class CustomController extends Controller
 		 $periksa->lewat_kasir = '0';
 		 $periksa->save();
 
-		 $antrian_periksa_id = Yoga::customId('App\AntrianPeriksa');
 
 		$antrian = new AntrianPeriksa;
-		$antrian->id = $antrian_periksa_id;
 		$antrian->antrian = $periksa->antrian;
 		$antrian->asuransi_id = $periksa->asuransi_id;
 		$antrian->pasien_id = $periksa->pasien_id;
@@ -160,10 +158,8 @@ class CustomController extends Controller
 		 } else {
 		 	$usg = '0';
 		 }
-		$antrian_id = Yoga::customId('App\AntrianPeriksa');
 
 		$antrian = new AntrianPeriksa;
-		$antrian->id = $antrian_id;
 		$antrian->poli = $periksa->poli;
 		$antrian->staf_id = $periksa->staf_id;
 		$antrian->antrian = $periksa->antrian;

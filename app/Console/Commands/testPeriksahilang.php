@@ -51,7 +51,7 @@ class testPeriksahilang extends Command
 			try {
 				$arrs = $rc->jurnalable_type::where('id', $rc->jurnalable_id)->first()->jurnals;
 			} catch (\Exception $e) {
-				$errors[] = $rc ;
+				$errors[] = $rc->jurnalable_id ;
 			}
         }
 		if ( count( $errors ) ) {
