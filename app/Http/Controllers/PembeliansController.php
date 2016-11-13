@@ -28,9 +28,18 @@ class PembeliansController extends Controller
 	
 	public function index(){
 
-		$pembelians = Pembelian::latest()->get();
-
-		// return $pembelians;
+		$pembelians = Pembelian::with('fakturbelanja')->latest()->paginate(10);
+		//$errors = [];
+		//foreach ($pembelians as $value) {
+			//try {
+				//$value->fakturBelanja->nomor_faktur;
+			//} catch (\Exception $e) {
+				//$value->delete();
+				
+			//}
+		//}
+		//return dd( $errors );
+		//return dd( $pembelians );
 		return view('pembelians.index', compact('pembelians'));
 
 	}

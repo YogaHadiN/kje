@@ -30,11 +30,11 @@ Klinik Jati Elok | Entri Beli Obat
                 <div class="panelRight bold">
                   <span class="">Total : </span><span class="uang " id="totalHargaObat">0</span>
                 </div>
-
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered DT" id="tableEntriBeli" nowrap>
+            <?php echo $pembelians->appends(Input::except('page'))->links(); ?>
+            <table class="table table-bordered" id="tableEntriBeli" nowrap>
                   <thead>
                     <tr>
                        <th>id</th>
@@ -65,8 +65,8 @@ Klinik Jati Elok | Entri Beli Obat
                         </tr>
                    @endforeach
                 </tbody>
-                  
             </table>
+            <?php echo $pembelians->appends(Input::except('page'))->links(); ?>
 
 
       </div>
