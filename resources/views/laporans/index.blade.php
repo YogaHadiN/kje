@@ -234,10 +234,11 @@ Klinik Jati Elok | Home
 								<td><h3>Kunjungan sakit belum disubmit</h3></td>
 							</tr>
 							<tr>
-								<td><h1>{{ $angka_kontak_saat_ini }}</h1></td>
-								<td><h1>{{ $pengantar_belum_disubmit }}</h1></td>
-								<td><h1>{{ $sms_belum_di_submit }}</h1></td>
-								<td><h1>{{ $kunjungan_sakit_belum_di_submit }}</h1></td>
+								<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>
+								<td><h1> <a class="" href="{{ url('laporans/pengantar?bulanTahun='. date('m-Y')) }}">{{ $pengantar_belum_disubmit }}</a> </h1></td>
+								<td><h1> <a class="" href="{{ url('laporans/sms/bpjs?bulanTahun='. date('m-Y')) }}">{{ $sms_belum_di_submit }}</a> </h1></td>
+								<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
+								<td><h1></h1></td>
 							</tr>
 						</tbody>
 					</table>

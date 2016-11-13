@@ -33,7 +33,7 @@ Klinik Jati Elok | Mereks
             </div>
       </div>
       <div class="panel-body">
-            <table class="table table-bordered actionAutoWidth" id="tableAsuransi">
+            <table class="table table-bordered DT" id="tableAsuransi">
                   <thead>
                     <tr>
                       <th>ID</th>

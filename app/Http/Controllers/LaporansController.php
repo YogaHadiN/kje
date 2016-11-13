@@ -86,6 +86,7 @@ class LaporansController extends Controller
 	
 
 	public function pengantar(){
+
 		$tanggall = Input::get('bulanTahun');
 		$tanggal  = Yoga::blnPrep($tanggall);
 
@@ -1073,19 +1074,8 @@ class LaporansController extends Controller
 
 	}
 	private function poliIni($tanggal, $asuransi_id){
-		$polis=[];
-		 
-		$periksas = DB::select("SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id, p.poli as poli FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.tanggal like '{$tanggal}' AND p.asuransi_id like '{$asuransi_id}' AND p.lewat_kasir = '1'");
-		$poli_id = [];
-		foreach ($periksas as $periksa) {
-			$poli_id[] = $periksa->poli;
-		}
-		$polis = array_unique($poli_id, SORT_REGULAR);
-		sort( $polis );
-		return [
-			'polis' =>$polis,
-			'periksas' =>$periksas
-		];
+		$periksa = new Periksa;
+		return $periksa->poliIni($tanggal, $asuransi_id);
 	}
 
 	private function unique($arr, $param){

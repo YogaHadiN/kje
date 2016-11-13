@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Classes\Yoga;
+use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -1101,5 +1102,21 @@ class Periksa extends Model{
 	public function getDiagnosahtmlAttribute(){
 		return $this->diagnosa->diagnosa . ' - ' . $this->diagnosa->icd10->diagnosaICD . ' (' . $this->diagnosa->icd10_id . ')';
 	}
+	public function poliIni($tanggal, $asuransi_id){
+		$polis=[];
+		 
+		$periksas = DB::select("SELECT *, p.id as periksa_id, ps.nama as nama_pasien, asu.nama as nama_asuransi, p.id as periksa_id, p.poli as poli FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id where p.tanggal like '{$tanggal}' AND p.asuransi_id like '{$asuransi_id}' AND p.lewat_kasir = '1'");
+		$poli_id = [];
+		foreach ($periksas as $periksa) {
+			$poli_id[] = $periksa->poli;
+		}
+		$polis = array_unique($poli_id, SORT_REGULAR);
+		sort( $polis );
+		return [
+			'polis' =>$polis,
+			'periksas' =>$periksas
+		];
+	}
+	
 	
 }
