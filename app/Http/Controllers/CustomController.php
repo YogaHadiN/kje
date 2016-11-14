@@ -136,7 +136,7 @@ class CustomController extends Controller
 			->where('antarable_id', $id)
 			->update([
 			 'antarable_type' => 'App\AntrianPeriksa',
-			 'antarable_id' => $antrian_periksa_id
+			 'antarable_id' => $antrian->id
 		 ]);
 
 		$pasien = Pasien::find($periksa->pasien_id);
@@ -174,7 +174,7 @@ class CustomController extends Controller
 			->where('antarable_id', $id)
 			->update([
 			 'antarable_type' => 'App\AntrianPeriksa',
-			 'antarable_id' => $antrian_id
+			 'antarable_id' => $antrian->id
 		 ]);
 
 		$pasien = Pasien::find($periksa->pasien_id);
