@@ -63,5 +63,7 @@ class testPeriksahilang extends Command
 		} else{
 			Sms::send('081381912803', 'Tidak ada pemeriksaan yang hilang');
 		} 
+
+		
     }
 }

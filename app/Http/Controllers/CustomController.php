@@ -281,6 +281,7 @@ class CustomController extends Controller
 		$periksa->piutang         = $dibayar_asuransi;
 		$periksa->pembayaran      = $pembayaran;
 		$periksa->kembalian       = $kembalian;
+		$periksa->antrian_periksa_id       = null;
 		$periksa->transaksi       = $tarif;
 		$periksa->nomor_asuransi  = $periksa->pasien->nomor_asuransi;
 
