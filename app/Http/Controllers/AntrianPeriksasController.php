@@ -62,6 +62,7 @@ class AntrianPeriksasController extends Controller
 	 */
 	public function store()
 	{
+
 		$rules = [
 
 			'staf_id' => 'required',
@@ -81,6 +82,10 @@ class AntrianPeriksasController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		if (AntrianPoli::find( Input::get('antrian_id') ) == null) {
+			$pesan = Yoga::gagalFlash('Pasien sudah hilang dari antrian poli, mungkin sudah dimasukkan sebelumnya');
+			return redirect()->back()->withPesan($pesan);
+		}
 
 		$tekanan_darah 			= Input::get('tekanan_darah');
 		$berat_badan 			= Input::get('berat_badan');
