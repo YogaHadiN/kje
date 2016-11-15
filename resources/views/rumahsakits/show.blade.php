@@ -34,7 +34,7 @@ Klinik Jati Elok | Detail
             <tbody>
                 <tr>
                     <td>Nama Rumah Sakit</td>
-                    <td> {!! Form::text('rumah_sakit', $rumahsakit->nama, ['class' => 'form-control']) !!} </td>
+                    <td> {!! Form::text('nama', $rumahsakit->nama, ['class' => 'form-control']) !!} </td>
                 </tr>
                 <tr>
                     <td>Alamat</td>
@@ -74,16 +74,6 @@ Klinik Jati Elok | Detail
                       <tbody id="spesialiss">
                           
                       </tbody> 
-                        <!--@foreach ($rumahsakit->tujuanRujuk as $spesialis)-->
-                        <!--<tr>-->
-                            <!--<td>{{ $spesialis->tujuan_rujuk }}</td>-->
-                            <!--<td>-->
-                                <!--{!! Form::open(['url'=>'tujuanrujuks', 'method'=> 'post']) !!}-->
-                                <!--<button class="btn btn-danger" type="submit">delete</button> -->
-                                <!--{!! Form::close() !!}-->
-                            <!--</td>-->
-                        <!--</tr> -->
-                        <!--@endforeach  -->
                 </table>
             </div>
             {!! Form::textarea('spesialis', $rumahsakit->tujuanRujuk, ['class' => 'form-control hide', 'id' => 'spesialis']) !!}
@@ -106,7 +96,7 @@ Klinik Jati Elok | Detail
                     <tbody>
 
                         <tr>
-                            <td> {!! Form::text('nama', null, ['class' => 'form-control', 'id'=> 'nama']) !!} </td>
+                            <td> {!! Form::text('nama_pic', null, ['class' => 'form-control', 'id'=> 'nama']) !!} </td>
                             <td> {!! Form::text('telp', null, ['class' => 'form-control', 'id'=> 'telp']) !!} </td>
                             <td> <button class="btn btn-primary btn-sm btn-block" type="button" onclick="tambahBJ(this);return false;" id="tambahPIC">Tambah</button> </td>
                         </tr>

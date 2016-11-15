@@ -133,13 +133,29 @@ class RumahSakitsController extends Controller
 	public function update($id)
 	{
         
+		$rules = [
+			'nama' => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
        //Perintah untuk menghapus SPESIALISASI 
         $spesialis = Input::get('spesialis');
         $bpjscenter = Input::get('bpjscenter');
 
+		$rs = RumahSakit::find($id);
+		$rs->nama = Input::get('nama');
+		$rs->alamat = Input::get('alamat');
+		$rs->telepon = Input::get('telepon');
+		$rs->save();
+
         $spesialis = json_decode($spesialis, true);
         $bpjscenter = json_decode($bpjscenter, true);
-        $spesialis_awal = RumahSakit::find($id)->tujuanRujuk;
+        $spesialis_awal = $rs->tujuanRujuk;
         $delete_tujuan_rujuk = [];
         foreach ($spesialis_awal as $sp) {
             $kosong = true;
@@ -173,7 +189,7 @@ class RumahSakitsController extends Controller
         }
 
        //menghapus BPJS center yang dihapus 
-        $bpjscenter_awal = RumahSakit::find($id)->bpjsCenter;
+        $bpjscenter_awal = $rs->bpjsCenter;
         $delete_bpjscenter = [];
         foreach ($bpjscenter as $b) {
                 if ($b['id'] == null) {
@@ -204,7 +220,7 @@ class RumahSakitsController extends Controller
         }
         BpjsCenter::destroy($delete_bpjscenter);
 
-        $pesan = Yoga::suksesFlash('Update berhasil');
+        $pesan = Yoga::suksesFlash('Update ' . $rs->id . ' - ' . $rs->nama . ' berhasil');
         return redirect('rumahsakits')->withPesan($pesan);
 	}
 
