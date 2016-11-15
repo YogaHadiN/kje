@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
-
 use App\RumahSakit;
 use App\Fasilitas;
 use App\BpjsCenter;
+use App\JenisRumahSakit;
+use App\Rayon;
 use App\Classes\Yoga;
 
 class RumahSakitsController extends Controller
@@ -22,7 +23,6 @@ class RumahSakitsController extends Controller
 	public function index()
 	{
 		$rumahsakits = Rumahsakit::all();
-
 		return view('rumahsakits.index', compact('rumahsakits'));
 	}
 
@@ -33,26 +33,69 @@ class RumahSakitsController extends Controller
 	 */
 	public function create()
 	{
-		return view('rumahsakits.create');
+		$termasukBpjsOptions = [
+			null => '- Pilih -',
+			0 => 'Tidak Melayani',
+			1 => 'Melayani'
+		];
+
+		$jenisRumahSakitOptions = array(null => '- Pilih Staf -') + JenisRumahSakit::lists('jenis_rumah_sakit', 'id')->all();
+		$tipeRumahSakitOptions = [
+			null => '- Pilih -',
+			'A' => 'A',
+			'B' => 'B',
+			'C' => 'C',
+			'D' => 'D'
+		];
+		$rayonOptions = array(null => '- Pilih Rayon -') + Rayon::lists('rayon', 'id')->all();
+
+		return view('rumahsakits.create', compact('jenisRumahSakitOptions','termasukBpjsOptions', 'tipeRumahSakitOptions', 'rayonOptions'));
 	}
 
 	/**
 	 * Store a newly created rumahsakit in storage.
-	 *
+	 
 	 * return Response
 	 */
 	public function store()
 	{
-		$validator = \Validator::make($data = Input::all(), Rumahsakit::$rules);
 
+		$rules = [
+		  "nama" => "required",
+		  "alamat" => "required",
+		  "jenis_rumah_sakit" => "required",
+		  "tipe_rumah_sakit" => "required",
+		  "rayon_id" => "required",
+		  "bpjs" => "required"
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Rumahsakit::create($data);
 
-		return \Redirect::route('rumahsakits.index');
+		$rs       = new RumahSakit;
+		$rs->nama = Input::get('nama');
+		$rs->alamat = Input::get('alamat');
+		$rs->jenis_rumah_sakit = Input::get('jenis_rumah_sakit');
+		$rs->tipe_rumah_sakit = Input::get('tipe_rumah_sakit');
+		$rs->kode_pos = Input::get('kode_pos');
+		$rs->telepon = Input::get('telepon');
+		$rs->fax = Input::get('fax');
+		$rs->email = Input::get('email');
+		$rs->rayon_id = Input::get('rayon_id');
+		$rs->bpjs = Input::get('bpjs');
+		$confirm = $rs->save();
+
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Input Rumah Sakit '. $rs->id . ' - ' . $rs->nama . ' <strong>BERHASIL</strong>');
+		}else {
+			$pesan = Yoga::gagalFlash('Input Rumah Sakit '. $rs->id . ' - ' . $rs->nama . ' <strong>GAGAL</strong>');
+		}
+		return redirect('rumahsakits')->withPesan($pesan);
 	}
 
 	/**

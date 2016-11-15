@@ -24,7 +24,7 @@ Klinik Jati Elok | Rumah Sakit
                     <h3>Total : </h3>
                 </div>
                 <div class="panelRight">
-                   <a href='{{ url("rumahsakits/create") }}' type="button" class="btn btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ASURANSI Baru</a>
+                   <a href='{{ url("rumahsakits/create") }}' type="button" class="btn btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Rumah Sakit Baru</a>
 
                 </div>
             </div>

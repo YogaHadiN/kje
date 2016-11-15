@@ -137,10 +137,13 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('coas/{id}', 'CoasController@update');
 
 			Route::get('rumahsakits', 'RumahSakitsController@index'); //penjualan obat tanpa resep
+			Route::get('rumahsakits/create', 'RumahSakitsController@create'); //form membuat rumah sakit baru
 			Route::get('rumahsakits/{id}', 'RumahSakitsController@show'); //penjualan obat tanpa resep
 			Route::put('rumahsakits/{id}', 'RumahSakitsController@update'); //penjualan obat tanpa resep
-			Route::post('rumahsakits', 'RumahSakitsController@destroy'); //penjualan obat tanpa resep
+			Route::post('rumahsakits', 'RumahSakitsController@store'); //penjualan obat tanpa resep
 
+			Route::get('rayons/create', 'RayonsController@create'); //form membuat rumah sakit baru
+			Route::post('rayons', 'RayonsController@store'); //form membuat rumah sakit baru
 			Route::get('bayardokters', 'BayarDoktersController@index'); //penjualan obat tanpa resep
 
 			Route::get('penjualans', 'PenjualansController@index'); //penjualan obat tanpa resep
