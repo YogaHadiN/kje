@@ -21,7 +21,7 @@ class smsLaporanHarian extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Laporan jumlah pasien harian yang dikirim lewat SMS';
 
     /**
      * Create a new command instance.
@@ -40,11 +40,13 @@ class smsLaporanHarian extends Command
      */
     public function handle()
     {
-		$periksa = new Periksa;
-		$poliIni = $periksa->poliIni(date('Y-m-d'), '%%');
-		$polis = $poliIni['polis'];
-		$periksas = $poliIni['periksas'];
-		$pesan = 'Jumlah pasien saat ini ' . count($periksas) . ' pasien';
+		$jumlahPasienTotal = Periksa::where('tanggal', 'like', date('Y-m-d'))->count();
+		$jumlahPasienBPJS = Periksa::where('tanggal', 'like', date('Y-m-d'))
+							->where('asuransi_id', '32')
+							->count();
+
+		$pesan = 'Jumlah pasien saat ini ' . $jumlahPasienTotal . ' pasien, pasien BPJS sebanyak ' . $jumlahPasienBPJS . ' pasien';
 		Sms::send('081381912803', $pesan);
+		Sms::send('085721012351', $pesan);
     }
 }
