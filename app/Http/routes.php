@@ -120,6 +120,10 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::resource('transaksis', 'TransaksisController');
 			Route::resource('antrianperiksas', 'AntrianPeriksasController');
 
+			Route::get('generiks', 'GeneriksController@index');
+			Route::get('generiks/create', 'GeneriksController@create');
+			Route::post('generiks', 'GeneriksController@store');
+
 
 			Route::get('dispensings', 'DispensingsController@index');
 			Route::get('dispensings/{rak_id}/{tanggal}', 'DispensingsController@perTanggal');

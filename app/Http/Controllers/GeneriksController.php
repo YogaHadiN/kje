@@ -7,6 +7,7 @@ use Input;
 
 use App\Http\Requests;
 
+use App\Classes\Yoga;
 use App\Generik;
 
 class GeneriksController extends Controller
@@ -20,7 +21,6 @@ class GeneriksController extends Controller
 	public function index()
 	{
 		$generiks = Generik::all();
-
 		return view('generiks.index', compact('generiks'));
 	}
 
@@ -41,16 +41,28 @@ class GeneriksController extends Controller
 	 */
 	public function store()
 	{
-		$validator = \Validator::make($data = Input::all(), Generik::$rules);
-
+		$rules = [
+		 "generik" => "required",
+		  "pregnancy_safety_index" => "required",
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+		$generik       = new Generik;
+		$generik->generik   = Input::get('generik');
+		$generik->pregnancy_safety_index   = Input::get('pregnancy_safety_index');
+		$confirm = $generik->save();
 
-		Generik::create($data);
-
-		return \Redirect::route('generiks.index');
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Generik baru '  . $generik->id . ' - ' . $generik->generik . ' <strong>BERHASIL</strong> dibuat');
+		} else {
+			$pesan = Yoga::gagalFlash('Generik baru '  . $generik->id . ' - ' . $generik->generik . ' <strong>GAGAL</strong> dibuat');
+		}
+		return redirect('generiks')->withPesan($pesan);
 	}
 
 	/**
