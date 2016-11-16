@@ -21,6 +21,13 @@ class PolisController extends Controller
 {
 	public function poli($id){
 
+		try {
+			
+			asdfasfasfafaf
+		} catch (\Exception $e) {
+			return $e->getMessage();
+		}
+
 
 		$antrianperiksa 		= AntrianPeriksa::with('pasien')->where('id', $id)->first();
 
