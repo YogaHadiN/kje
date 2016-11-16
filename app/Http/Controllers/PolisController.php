@@ -24,6 +24,12 @@ class PolisController extends Controller
 
 		$antrianperiksa 		= AntrianPeriksa::with('pasien')->where('id', $id)->first();
 
+
+		if ($antrianperiksa == null) {
+			$pesan = Yoga::gagalFlash('Pasien sudah dimasukkan sebelumnya atau buatlah antrian baru');
+			return redirect()->back()->withPesan($pesan);
+		}
+
 		if ( $antrianperiksa->asuransi_id == '32' && empty( $antrianperiksa->pasien->image ) ) {
 			return redirect('pasiens/' . $antrianperiksa->pasien_id . '/edit')
 				->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu')

@@ -56,6 +56,34 @@ class PeriksasController extends Controller
 	public function store()
 	{
 
+		$rules = [
+		  "kecelakaan_kerja" => "required",
+		  "asuransi_id" => "required",
+		  "hamil" => "required",
+		  "staf_id" => "required",
+		  "kali_obat" => "required",
+		  "pasien_id" => "required",
+		  "jam" => "required",
+		  "jam_periksa" => "required",
+		  "tanggal" => "required",
+		  "poli" => "required",
+		  "adatindakan" => "required",
+		  "asisten_id" => "required",
+		  "antrian_id" => "required",
+		  "anamnesa" => "required",
+		  "diagnosa_id" => "required"
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		if( AntrianPeriksa::find( Input::get('antrian_id') ) == null ){
+			$pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrianperiksa, mungkin sudah dimasukkan atau buatlah antrian yang baru');
+			return redirect('ruangperiksa/' , Input::get('poli'))->withPesan($pesan);
+		}
 		// return var_dump(json_decode(Input::get('terapi'), true));
 		//Pada tahap ini ada beberapa yang perlu ditambahkan
 		//BHP (Bahan Habis Pakai) ditambahkan dalam json transaksis bila tindakan tidak kosong
