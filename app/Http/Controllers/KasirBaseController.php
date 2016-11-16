@@ -17,7 +17,15 @@ use App\Asuransi;
 class KasirBaseController extends Controller
 {
 	public function kasir($id){
+
+
+
         $periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
+
+		if ( $periksa->lewat_kasir == '1' ) {
+			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
+			return redirect()->back()->withPesan($pesan);
+		}
 		$pasien_id  = $periksa->pasien_id;
 		$periksa_id = $periksa->id;
 		$terapis    = $periksa->terapii;
@@ -83,6 +91,12 @@ class KasirBaseController extends Controller
 		$merek      = Merek::all();
 
 		$prx = Periksa::find($periksa_id);
+
+		if ( $prx->lewat_kasir == '1' ) {
+			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
+			return redirect('antriankasirs')->withPesan($pesan);
+		}
+
 		$prx->lewat_kasir = '1';
 		$prx->save();
 
