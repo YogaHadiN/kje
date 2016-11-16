@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-		 if (!empty( $e->getMessage() )) {
+		 if (!empty( trim( $e->getMessage() ) )) {
 			// emails.exception is the template of your email
 			// it will have access to the $error that we are passing below
 			 Sms::send('081381912803', $e->getMessage());
