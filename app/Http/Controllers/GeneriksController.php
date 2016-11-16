@@ -121,9 +121,16 @@ class GeneriksController extends Controller
 	 */
 	public function destroy($id)
 	{
-		Generik::destroy($id);
+		$generik = Generik::find($id);
+		$nama = $generik->generik;
+		$confirm = $generik->delete();
+			if ($confirm) {
+				$pesan = Yoga::suksesFlash('Generik ' . $nama . ' <strong>BERHASIL</strong> dihapus');
+			} else {
+				$pesan = Yoga::gagalFlash('Generik ' . $nama . ' <strong>GAGAL</strong> dihapus');
+			}
 
-		return \Redirect::route('generiks.index');
+		return redirect('generiks')->withPesan($pesan);
 	}
 
 }

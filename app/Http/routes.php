@@ -123,6 +123,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('generiks', 'GeneriksController@index');
 			Route::get('generiks/create', 'GeneriksController@create');
 			Route::post('generiks', 'GeneriksController@store');
+			Route::delete('generiks/{id}', 'GeneriksController@destroy');
 
 
 			Route::get('dispensings', 'DispensingsController@index');

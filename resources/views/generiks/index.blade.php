@@ -47,7 +47,22 @@ Klinik Jati Elok | Data Obat Generik
 									<td>{{ $generik->id }}</td>
 									<td>{{ $generik->generik }}</td>
 									<td>{{ $generik->pregnancy_safety_index }}</td>
-									<td>Action</td>
+									<td>
+										@if($generik->id > 1152)
+										{!! Form::open(['url' => 'generiks/' . $generik->id, 'method' => 'delete']) !!}
+											<div class="form-group">
+											  {!! Form::submit('Hapus', [
+												  'class' => 'btn btn-danger btn-block btn-xs',
+												  'onclick' => 'return confirm("Apa anda yakin mau menghapus ' . $generik->generik . ' ?")'
+											  ]) !!}
+											</div> 
+										{!! Form::close() !!}
+										
+										@else
+										<button class="btn btn-danger btn-block btn-xs" type="button" disabled>Hapus</button>
+										@endif
+									
+									</td>
 								</tr>
 							@endforeach
 						@else
