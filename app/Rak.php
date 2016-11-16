@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use Session;
 use App\Classes\Yoga;
+
 class Rak extends Model{
+
 	public static function boot(){
 		parent::boot();
 		self::deleting(function(){
@@ -37,6 +39,7 @@ class Rak extends Model{
 	public function merek(){
 		return $this->hasMany('App\Merek');
 	}
+
 	public function getMereksAttribute(){
 
 		$mereks = '';

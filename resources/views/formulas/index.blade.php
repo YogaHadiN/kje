@@ -46,21 +46,25 @@ Klinik Jati Elok | Formulas
                     </tr>
                 </thead>
                 <tbody>
-                	@foreach ($formulas as $asuransi)
+                	@foreach ($formulas as $formula)
             		<tr>
 
-                        <td>{!! $asuransi->id !!}</td>
-                        <td>{!! $asuransi->rak[0]->merek[0]->merek !!}</td>
+                        <td>{!! $formula->id !!}</td>
+						<td>
+							@foreach($formula->rak as $r)
+								{!! $r->mereks!!}
+							@endforeach
+						</td>
                         <td>
-                          @foreach($asuransi->komposisi as $komp)
+                          @foreach($formula->komposisi as $komp)
                           {!! $komp->generik->generik !!} {!!$komp->bobot!!}, <br>
                           @endforeach
                         </td>
-                        <td>{!! $asuransi->sediaan !!}</td>
-                        <td>{!! $asuransi->kontraindikasi !!}</td>
+                        <td>{!! $formula->sediaan !!}</td>
+                        <td>{!! $formula->kontraindikasi !!}</td>
 	                	<td>
-                            {!! HTML::link('formulas/'. $asuransi->id , "Show", ['class' => 'btn-sm btn btn-info btn-block'])!!}
-                            {!! HTML::link('formulas/'. $asuransi->id . '/edit', "Edit", ['class' => 'btn-sm btn btn-default btn-block'])!!}
+                            {!! HTML::link('formulas/'. $formula->id , "Show", ['class' => 'btn-sm btn btn-info btn-block'])!!}
+                            {!! HTML::link('formulas/'. $formula->id . '/edit', "Edit", ['class' => 'btn-sm btn btn-default btn-block'])!!}
                         </td>
                 	</tr>
                 	@endforeach

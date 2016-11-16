@@ -31,6 +31,20 @@ class FormulasController extends Controller
 	public function index()
 	{
 		$formulas = Formula::all();
+		//$errors = [];
+		//foreach ($formulas as $v) {
+			//try {
+				//$test = $v->rak[0]->merek;
+			//} catch (\Exception $e) {
+				//$errors[] = [
+					//'id' => $v->rak,
+					//'pesan' =>$e->getMessage(),
+					//'komposisi' => $v->komposisi
+				//];
+			//}
+		//}	
+		//return dd( $errors );
+		//return dd( $formulas );
 		return view('formulas.index', compact('formulas'));
 	}
 
