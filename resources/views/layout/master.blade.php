@@ -123,6 +123,7 @@
                             <li>{!! HTML::link('obat/stokmin', 'Stok Minimal')!!}</li>
                             <li>{!! HTML::link('obat/pesanobat', 'Pesan Obat')!!}</li>
                             <li>{!! HTML::link('generiks', 'Data Generik Obat')!!}</li>
+                            <li>{!! HTML::link('sediaans', 'Data Sediaan Obat')!!}</li>
                         </ul>
                     </li>
 					@if(\Auth::id() == 28)

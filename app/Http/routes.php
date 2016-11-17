@@ -125,6 +125,10 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('generiks', 'GeneriksController@store');
 			Route::delete('generiks/{id}', 'GeneriksController@destroy');
 
+			Route::get('sediaans', 'SediaansController@index');
+			Route::get('sediaans/create', 'SediaansController@create');
+			Route::post('sediaans', 'SediaansController@store');
+			Route::delete('sediaans/{id}', 'SediaansController@destroy');
 
 			Route::get('dispensings', 'DispensingsController@index');
 			Route::get('dispensings/{rak_id}/{tanggal}', 'DispensingsController@perTanggal');
