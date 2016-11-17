@@ -31,7 +31,7 @@ Klinik Jati Elok | Data Obat Generik
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table class="table table-hover table-condensed DT">
+				<table class="table table-hover table-condensed DT table-bordered">
 					<thead>
 						<tr>
 							<th>id</th>
