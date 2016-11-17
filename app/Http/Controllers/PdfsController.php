@@ -34,60 +34,7 @@ class PdfsController extends Controller
 	 */
 	public function status($periksa_id)
 	{
-		header ('Content-type: text/html; charset=utf-8');
-		$periksa    = Periksa::find($periksa_id);
-
-		//cek apakah pasien ini sudah pernah periksa GDS sebelumnya
-		//
-		//
-		//
-		$tarifObatFlat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;		
-
-
-		$bayarGDS   = false;
-		$transaksi_before = json_decode($periksa->transaksi, true);
-		// return 'oke';
-		if ($periksa->asuransi_id == 32) {
-			foreach ($transaksi_before as $key => $value) {
-				if (($value['jenis_tarif_id'] == '116')) {
-					$bayarGDS = Yoga::cekGDSBulanIni($periksa->pasien, $periksa)['bayar'];
-				}
-			}
-			$cetak_usg = '1';
-		} else {
-			$cetak_usg = '2';
-		}
-
-		// return $periksa->register_anc->register_hamil->riwobs;
-		$puyerAdd = false;
-		foreach ($periksa->terapii as $key => $v) {
-			if ($v->merek_id < 0) {
-				$puyerAdd = true;
-				break;
-			}
-		}
-
-		$transaksis = $periksa->transaksi;
-		$biaya = 0;
-		$transaksis = json_decode($transaksis, true);
-		// return $t
-		foreach ($transaksis as $transaksi) {
-			$biaya += $transaksi['biaya'];
-			if ($transaksi['jenis_tarif_id'] == '9') {
-				$biayaObat = $transaksi['biaya'];
-			}
-		}
-		// return $periksa->asuransi->tipe_asuransi;
-		// return $biayaObat;
-		// return $tarifObatFlat;
-
-		// return dd($transaksis);
-
-		// return $periksa->registerAnc->presentasi_id;
-
-        $pdf = PDF::loadView('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS', 'biaya', 'biayaObat', 'tarifObatFlat'))->setPaper('a5')->setOrientation('landscape')->setWarnings(false);
-        // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
-        return $pdf->stream();
+		return $this->status_private('a5', $periksa_id);
 	}
 	public function kuitansi($periksa_id)
 	{
@@ -313,6 +260,67 @@ class PdfsController extends Controller
 
 
 	}
+	public function status_a4($periksa_id){
+		return $this->status_private('a4', $periksa_id);
+	}
+	private function status_private($a, $periksa_id){
+		header ('Content-type: text/html; charset=utf-8');
+		$periksa    = Periksa::find($periksa_id);
+
+		//cek apakah pasien ini sudah pernah periksa GDS sebelumnya
+		//
+		//
+		//
+		$tarifObatFlat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;		
+
+
+		$bayarGDS   = false;
+		$transaksi_before = json_decode($periksa->transaksi, true);
+		// return 'oke';
+		if ($periksa->asuransi_id == 32) {
+			foreach ($transaksi_before as $key => $value) {
+				if (($value['jenis_tarif_id'] == '116')) {
+					$bayarGDS = Yoga::cekGDSBulanIni($periksa->pasien, $periksa)['bayar'];
+				}
+			}
+			$cetak_usg = '1';
+		} else {
+			$cetak_usg = '2';
+		}
+
+		// return $periksa->register_anc->register_hamil->riwobs;
+		$puyerAdd = false;
+		foreach ($periksa->terapii as $key => $v) {
+			if ($v->merek_id < 0) {
+				$puyerAdd = true;
+				break;
+			}
+		}
+
+		$transaksis = $periksa->transaksi;
+		$biaya = 0;
+		$transaksis = json_decode($transaksis, true);
+		// return $t
+		foreach ($transaksis as $transaksi) {
+			$biaya += $transaksi['biaya'];
+			if ($transaksi['jenis_tarif_id'] == '9') {
+				$biayaObat = $transaksi['biaya'];
+			}
+		}
+		// return $periksa->asuransi->tipe_asuransi;
+		// return $biayaObat;
+		// return $tarifObatFlat;
+
+		// return dd($transaksis);
+
+		// return $periksa->registerAnc->presentasi_id;
+
+        $pdf = PDF::loadView('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS', 'biaya', 'biayaObat', 'tarifObatFlat'))->setPaper($a)->setOrientation('landscape')->setWarnings(false);
+        // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
+        return $pdf->stream();
+
+	}
+	
 	
     
 	

@@ -63,6 +63,7 @@ Klinik Jati Elok | Antrian Kasir
                           {!! Form::open(['url' => 'update/kembali3/' . $antriankasir->id, 'method' => 'post'])!!}
                             <a href="#" class="btn btn-warning btn-xs"  onclick="monitor_available(this); return false;">Lanjut</a>
                              <a href="{{ url('update/surveys/' . $antriankasir->id) }}" class="btn btn-warning btn-xs displayNone">Lanjutlah</a>
+                             <a href="{{ url('pdfs/status/a4/' . $antriankasir->id) }}" target="_blank" class="btn btn-info btn-xs">Print A4</a>
 
 							  <a href="{{ url('antriankasirs/pengantar/' . $antriankasir->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antriankasir->antars->count() }} pengantar</a>
                             {!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->pasien_id . ' - ' . $antriankasir->pasien->nama. ' ke Apotek?")']) !!}

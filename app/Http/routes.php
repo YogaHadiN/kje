@@ -456,6 +456,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 
 			Route::get('pdfs/status/{periksa_id}', 'PdfsController@status');
+			Route::get('pdfs/status/a4/{periksa_id}', 'PdfsController@status_a4');
 			Route::get('pdfs/dispensing/{rak_id}/{mulai}/{akhir}', 'PdfsController@dispensing');
 			Route::get('pdfs/kuitansi/{periksa_id}', 'PdfsController@kuitansi');
 			Route::get('pdfs/struk/{periksa_id}', 'PdfsController@struk');
