@@ -462,17 +462,23 @@ class PengeluaransController extends Controller
 		));
     }
     public function notaz_post(){
+
+
+		//if (gethostname() == 'dell') {
+			//$backup = "mysqldump -u root -pYogaman89 jatielok | gzip > /home/dell/Downloads/database_" . date('m-d-Y') . '_' . date('H:i:s') .".sql.gz";
+		//} else {
+			//$backup = "mysqldump -u root -pYogaman89 jatielok | gzip > /home/kje/Dropbox/backup11/database_" . date('m-d-Y') . '_' . date('H:i:s') .".sql.gz";
+		//}
+		//DB::statement($backup);
 		// mereturn Checkout yang terakhir
 		//
         $last_chekcout = CheckoutKasir::latest()->first();
-        $table = $this->table($last_chekcout);
-		//return 'yuhuuu';
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal = $last_chekcout->created_at;
         $jurnal_umums = JurnalUmum::where('id', '>=', $jurnal_umum_id_last_cehckout)
-                        ->where('jurnalable_type', 'App\Modal')
-                        ->get();
+									->where('jurnalable_type', 'App\Modal')
+									->get();
         $modal_awal = 0;
 		$modal_ids = [];
         foreach ($jurnal_umums as $ju) {
@@ -561,17 +567,6 @@ class PengeluaransController extends Controller
             $jurnal->nilai           = $uang_di_kasir;
             $jurnal->save();
         }
-    
-
-        foreach ($table as $transaksi) {
-            $detail = new CheckoutDetail; 
-            $detail->coa_id = $transaksi['coa_id'];
-            $detail->jumlah = $transaksi['jumlah'];
-            $detail->nilai = $transaksi['nilai'];
-            $detail->checkout_kasir_id = $new_z->id;
-            $detail->save();
-        }
-		
         //tambah semua komponen yang masuk kas, retrieve semua last id nya
         $pesan = Yoga::suksesFlash('Transaksi Checkout ( Nota Z ) tanggal ' . $new_z->created_at . ' <strong>Berhasil</strong> dilakukan');
 		return redirect('pengeluarans/nota_z')
@@ -888,7 +883,6 @@ class PengeluaransController extends Controller
        }
    }
     private function table($checkout){
-
         $jurnal_umum_id = $checkout->jurnal_umum_id;
 		$query = "select jurnalable_type, jurnalable_id from jurnal_umums as ju ";
 		$query .= "where coa_id=110000 and ";
@@ -896,7 +890,10 @@ class PengeluaransController extends Controller
 		$query .= "ju.id > {$jurnal_umum_id} ";
 		$query .= "group by jurnalable_type, jurnalable_id;";
 		$type_and_id = DB::select($query);
-        $text = "select ju.debit, jurnalable_type, ju.id, ju.coa_id, co.coa, ju.nilai, ju.jurnalable_id from jurnal_umums as ju join coas as co on co.id = ju.coa_id where ju.id > {$jurnal_umum_id} and ( ";
+        $text = "select ju.debit, jurnalable_type, ju.id, ju.coa_id, co.coa, ju.nilai, ju.jurnalable_id from jurnal_umums as ju join coas as co on co.id = ju.coa_id where ju.id > {$jurnal_umum_id} ";
+		if (count($type_and_id)) {
+			$text .= "and ( ";
+		}
 		foreach ($type_and_id as $k => $value) {
 			$type = $value->jurnalable_type;
 			$type = explode("\\", $type);
@@ -907,7 +904,11 @@ class PengeluaransController extends Controller
 				$text .= "or ";
 			}
 		}
-		$text .= ")";
+
+		if (count($type_and_id)) {
+			$text .= ")";
+		}
+
         $rinci = DB::select($text);
 		$array=[];
 		foreach ($rinci as $key => $r) {
