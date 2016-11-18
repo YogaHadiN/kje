@@ -466,6 +466,7 @@ class PengeluaransController extends Controller
 		//
         $last_chekcout = CheckoutKasir::latest()->first();
         $table = $this->table($last_chekcout);
+		//return 'yuhuuu';
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal = $last_chekcout->created_at;
@@ -887,51 +888,111 @@ class PengeluaransController extends Controller
        }
    }
     private function table($checkout){
-        $jurnal_umum_id = $checkout->jurnal_umum_id;
-        $query = "select min(jurnalable_type) as jurnalable_type, min(ju.id) as id, jurnalable_id as jurnalable_id, min( coa_id ) as coa_id from jurnal_umums as ju where coa_id=110000 and debit = 1 and ju.id > {$jurnal_umum_id} group by jurnalable_id;";
-        $rinci = DB::select($query);
-        $table = [];
 
+        $jurnal_umum_id = $checkout->jurnal_umum_id;
+		$query = "select jurnalable_type, jurnalable_id from jurnal_umums as ju ";
+		$query .= "where coa_id=110000 and ";
+		$query .= "debit = 1 and ";
+		$query .= "ju.id > {$jurnal_umum_id} ";
+		$query .= "group by jurnalable_type, jurnalable_id;";
+		$type_and_id = DB::select($query);
+        $text = "select ju.debit, jurnalable_type, ju.id, ju.coa_id, co.coa, ju.nilai, ju.jurnalable_id from jurnal_umums as ju join coas as co on co.id = ju.coa_id where ju.id > {$jurnal_umum_id} and ( ";
+		foreach ($type_and_id as $k => $value) {
+			$type = $value->jurnalable_type;
+			$type = explode("\\", $type);
+			$jurnalable_type = $type[0] . '\\\\\\' . $type[1];
+
+			$text .= "( jurnalable_type = '" . $jurnalable_type. "' and jurnalable_id = '" . $value->jurnalable_id. "' ) ";
+			if ($k < count($type_and_id) -1) {
+				$text .= "or ";
+			}
+		}
+		$text .= ")";
+        $rinci = DB::select($text);
+		$array=[];
+		foreach ($rinci as $key => $r) {
+			$sama = false;
+			foreach ($array as $k=>$rr) { 
+				foreach ($rr as $rrr) {
+					if (
+						$r->jurnalable_id == $rrr['jurnalable_id'] && 
+						$r->jurnalable_type == $rrr['jurnalable_type']
+					) {
+						$sama = true;
+						$count = count($array[$k]);
+						$data = [
+							'jurnalable_id' => $r->jurnalable_id,
+							'jurnalable_type' => $r->jurnalable_type,
+							'id' => $r->id,
+							'debit' => $r->debit,
+							'coa_id' => $r->coa_id,
+							'coa' => $r->coa,
+							'nilai' => $r->nilai,
+						];
+
+						$array[$k][count( $array[$k] )] = $data;
+						break;
+					}
+				}
+			}
+
+			if (!$sama) {
+				$count = count( $array );
+				$data = [
+					'jurnalable_id' => $r->jurnalable_id,
+					'jurnalable_type' => $r->jurnalable_type,
+					'id' => $r->id,
+					'debit' => $r->debit,
+					'coa_id' => $r->coa_id,
+					'coa' => $r->coa,
+					'nilai' => $r->nilai,
+				];
+				$array[$count][] = $data;
+			}
+		}
+		
+        $table = [];
 		$errors = [];
 
-        foreach ($rinci as $rc) {
-			$arrs = $rc->jurnalable_type::where('id', $rc->jurnalable_id)->first()->jurnals;
+        foreach ($array as $rc) {
             $valid = false;
-            foreach ($arrs as $key => $ar) {
-                if ( $key > 0 && $arrs[$key-1]->coa_id == 110000 && $arrs[$key-1]->debit == 1 ){
+            foreach ($rc as $key => $ar) {
+				if (  $ar['coa_id'] == 110000 && $ar[ 'debit' ] == 1 ){
                     $valid = true;
-                }
-                if ($valid && $ar->debit == 0) {
+				} else if(  $ar['coa_id'] != 110000 && $ar[ 'debit' ] == 1 ){
+                    $valid = false;
+				}
+                if ($valid && $ar['debit']== 0) {
                     $sama = false;
                     foreach ($table as $k=> $tab) {
-                        if( $tab['coa_id'] == $ar->coa_id){
-                            $table[$k]['nilai'] = $tab['nilai'] + $ar->nilai;
+                        if( $tab['coa_id'] == $ar[ 'coa_id' ]){
+                            $table[$k]['nilai'] = $tab['nilai'] + $ar[ 'nilai' ];
                             $table[$k]['jumlah'] = $tab['jumlah'] + 1;
                             $sama = true;
                             $id_sama = false;
                             foreach ($tab['jurnalable_id'] as $jurnl) {
-                                if ($jurnl == $rc->jurnalable_id) {
+                                if ($jurnl == $ar[ 'jurnalable_id' ]) {
                                     $id_sama = true;
                                 }
                             }
                             if (!$id_sama) {
-                                $table[$k]['jurnalable_id'][] = $rc->jurnalable_id;
+                                $table[$k]['jurnalable_id'][] = $ar[ 'jurnalable_id' ];
                             }
                         }
                     }
                     if (!$sama) {
                         $table[] =[
-                            'id' => $ar->id,
-                            'coa_id' => $ar->coa_id,
-                            'coa'    => $ar->coa->coa,
-                            'nilai'  => $ar->nilai,
+                            'id' => $ar[ 'id' ],
+                            'coa_id' => $ar[ 'coa_id' ],
+                            'coa'    => $ar[ 'coa' ],
+                            'nilai'  => $ar[ 'nilai' ],
                             'jumlah' => 1,
                             'jurnalable_id' => [
-                                 $rc->jurnalable_id
+                                 $ar[ 'jurnalable_id' ]
                             ]
                         ]; 
                     }
-                } else if ($ar->debit == 1 && $ar->coa_id != 110000 ) {
+                } else if ($ar[ 'debit'  ]== 1 && $ar[ 'coa_id'  ]!= 110000 ) {
                         break;
                 }
             }
