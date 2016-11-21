@@ -107,8 +107,8 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
 var base = '{!! url('/') !!}';
 console.log(base);
 </script>
-{!! HTML::script('js/allpoli.js')!!} 
 {!! HTML::script('js/gambar_periksa.js')!!} 
+{!! HTML::script('js/allpoli.js')!!} 
 <script>
     afiCount();
 </script>

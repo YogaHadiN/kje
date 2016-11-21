@@ -6,6 +6,10 @@
     var temp_sop_terapi = [];
     var length_sop_terapi = '';
     var i_sop_terapi = 0;
+
+    $('#LinkButton2').on('click', function () {
+		validasiKeterangan();
+	});
     
      if($('#terapi').val() == '' || $('#terapi').val() == '[]'){
             var data = [];
@@ -75,11 +79,6 @@
 	   if ( notif == '0' && $('#asuransi_id').val() == '32') {
 	   	alert('Harap baca dengan Jelas aturan mengenai asuransi ini, ada satu / beberapa hal yang sudah ditambahkan. Terima kasih');
 	   }
-
-	   if ( $('#poli_id').val() == 'estetika' ) {
-		   tambahGambar();
-	   }
-
 
 	   $('#modal_buat_perujuk_baru').on('shown.bs.modal', function(){
 			 $('#nama_perujuk').focus();   
@@ -196,7 +195,6 @@
                         temp += '<td><button type="button" class="btn btn-success btn-xs" value="' + data[i].id + '" onclick="pilihSigna(this)">pilih</button></td>';
                         temp += '</tr>';
                     }
-
                     if(data.length == 0){
                         temp = '<tr><td colspan="3" class="text-center">Data tidak ditemukan</td></tr>'
                     }
@@ -204,7 +202,6 @@
                 });
             }
         });
-
         $('#inputAturanMinum').keyup(function(e) {
             var key = e.keyCode || e.which;
             if(key != 13 || key != 38 || key != 40 || key != 9){
@@ -340,14 +337,12 @@
         $('#byDiagnosa').val('').focus();
         table_ICD();
     });
-
     //ketika di klik, maka tabel di exampleModal = pencarian ICD akan menyala (highlight)
     $(document).on('click', 'table#GridView4 tbody tr', function(e) {
         $('.rowHighlight').toggleClass('rowHighlight');
         $(this).toggleClass('rowHighlight');
         $('#byDiagnosa').focus();
     });
-
     //ketika di klik, maka tabel di pencarian diagnosa akan menyala (highlight)
     $(document).on('click', 'table#GridView2 tbody tr', function(e) {
         $('.rowHighlight').toggleClass('rowHighlight');
@@ -782,6 +777,7 @@ function table_ICD(){
     var pattern = /syrup/;
     var sirup = pattern.test(MER);
     var attr = $('#ddlNamaObat').attr('disabled');
+
 
     if (typeof attr !== typeof undefined && attr !== false) {
         $('#ddlNamaObat').removeAttr('disabled').selectpicker('refresh');
