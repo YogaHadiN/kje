@@ -166,22 +166,6 @@ class PolisController extends Controller
 		});
 		if($periksaExist != null){
 
-			if (isset($periksaExist->gambarPeriksa)) {
-				$files= [];
-				$ids = [];
-
-				 foreach ($periksaExist->gambarPeriksa as $img) {
-					 $ids[] = $img->id;
-
-					 $filename = public_path() . '/img/estetika/' . $img->nama;
-					 if ( File::exists($filename) ) {
-					 	$files[] = $filename;
-					 }
-				 	
-				 }
-				File::delete($files);
-				GambarPeriksa::destroy($ids);
-			}
 			$plafonFlat = Yoga::dispensingObatBulanIni($antrianperiksa->asuransi, $periksaExist ,true);
 			$transaksi = $periksaExist->transaksi;
 			$transaksi = json_decode($transaksi, true);
@@ -293,9 +277,6 @@ class PolisController extends Controller
 				$kesimpulan		= null;
 				$saran			= null;
 			}
-
-
-
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)

@@ -1,17 +1,17 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Gambar Estetika
+Klinik Jati Elok | Edit Gambar Estetika
 
 @stop
 @section('page-title') 
-<h2>Gambar Estetika</h2>
+<h2>Edit Gambar Estetika</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Gambar Estetika</strong>
+		  <strong>Edit Gambar Estetika</strong>
 	  </li>
 </ol>
 
@@ -19,10 +19,10 @@ Klinik Jati Elok | Gambar Estetika
 @section('content') 
 	{!! Form::open([
 		'url'		=> 'periksa/' . $periksa->id . '/images', 
-		'method'	=> 'post', 
+		'method'	=> 'put', 
 		'files'		=> 'true'
 	]) !!}
-	@include('images.form')
+		@include('images.form')
 	{!! Form::close() !!}
 	@include('gambar_periksa')
 @stop

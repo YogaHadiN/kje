@@ -102,7 +102,6 @@
 							<textarea name="" id="terapiTemp" cols="30" rows="10" class="displayNone">{!! $periksa->terapi !!}</textarea>
 						</div>
 					</div>
-
 					@if($periksa->gambarPeriksa->count() > 0)
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

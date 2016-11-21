@@ -117,8 +117,10 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                     <td class="hide">{!! $periksa->id !!}</td>
 									<td>
 
-										@if($periksa->poli == 'estetika')
+										@if($periksa->poli == 'estetika' && $periksa->gambarPeriksa->count() < 1)
                                             <a href="{{ url('periksa/' . $periksa->id . '/images') }}" class="btn btn-info btn-sm rujukan">Gambar</a>
+										@elseif($periksa->poli == 'estetika' && $periksa->gambarPeriksa->count() >0)
+                                            <a href="{{ url('periksa/' . $periksa->id . '/images/edit') }}" class="btn btn-warning btn-sm rujukan">Edit Gambar</a>
 										@else
 											{!! $periksa->antrian !!}</td> 
                                         @endif

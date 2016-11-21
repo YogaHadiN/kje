@@ -124,6 +124,8 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 			Route::get('periksa/{id}/images', 'ImagesController@create');
 			Route::post('periksa/{id}/images', 'ImagesController@store');
+			Route::get('periksa/{id}/images/edit', 'ImagesController@edit');
+			Route::put('periksa/{id}/images', 'ImagesController@update');
 
 			Route::get('generiks', 'GeneriksController@index');
 			Route::get('generiks/create', 'GeneriksController@create');

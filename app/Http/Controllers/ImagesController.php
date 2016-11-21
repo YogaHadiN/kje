@@ -25,7 +25,6 @@ class ImagesController extends Controller
 				$timestamp = date('Y-m-d H:i:s');
 				$files = Input::file('foto_estetika');
 				foreach ($files as $k=>$file) {
-
 					$filename = $px->imageUpload($file, $id, $k); 
 					$data[] = [
 						 'nama'		  => $filename,
@@ -34,7 +33,6 @@ class ImagesController extends Controller
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];
-
 				}
 				$confirm = GambarPeriksa::insert($data);
 			}
@@ -48,6 +46,12 @@ class ImagesController extends Controller
 
 		return redirect('ruangperiksa/estetika')->withPesan($pesan);
 	}
+	public function edit($id){
+		$periksa = Periksa::find($id);
+		return view('images.edit', compact('periksa'));
+		
+	}
+	
 	
 	
 }

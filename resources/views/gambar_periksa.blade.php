@@ -13,8 +13,8 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						{!! Form::file('foto_estetika[]') !!}
-							@if (isset($periksa) && $periksa->tampak_depan)
-								<p> {!! HTML::image(asset('img/estetika/'.$periksa->tampak_depan), null, ['class'=>'img-rounded upload']) !!} </p>
+							@if (isset($image))
+								<p> {!! HTML::image(asset('img/estetika/'.$image->nama), null, ['class'=>'img-rounded upload']) !!} </p>
 							@else
 								<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 							@endif
