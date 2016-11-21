@@ -21,9 +21,17 @@ Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
 
 Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
-Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@pilih_poli'); //antrian pasien
+Route::put('fasilitas/konfirmasi', 'FasilitasController@konfirmasi'); //antrian pasien
+Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@input_tgl_lahir'); //antrian pasien
+Route::post('fasilitas/antrian_pasien/{poli}/tanggal', 'FasilitasController@post_tgl_lahir'); //antrian pasien
+Route::get('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}', 'FasilitasController@cari_pasien'); //cari_pasien
+Route::post('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}', 'FasilitasController@cari_asuransi'); //cari_pasien
+Route::get('fasilitas/antrian_pasien/{poli}/{tanggal_lahir}', 'FasilitasController@post_tgl_lahir'); //antrian pasien
 Route::get('fasilitas/input_telp', 'FasilitasController@input_telp'); //antrian pasien
 Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
+Route::post('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}/{asuransi_id}', 'FasilitasController@submit_antrian'); //cari_pasien
+Route::delete('fasilitas/antrianpolis/destroy', 'FasilitasController@antrianPoliDestroy'); //cari_pasien
+
 
 Route::get('facebook', 'FacebookController@facebook');
 Route::get('callback', 'FacebookController@callback');

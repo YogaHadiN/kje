@@ -1,3 +1,2 @@
 insert into pcare_submits (pcare_submit) values ('nomor tidak terdaftar');
-
 ALTER TABLE sediaans CHANGE id `id` VARCHAR(255) NOT NULL;

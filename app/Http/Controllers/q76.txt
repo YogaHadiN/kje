@@ -1,0 +1,4 @@
+alter table antrian_polis add column self_register int(1);
+ALTER TABLE kaburs MODIFY COLUMN alasan varchar(255);
+ALTER TABLE kaburs DROP COLUMN tanggal;
+ALTER TABLE kaburs DROP COLUMN jam;

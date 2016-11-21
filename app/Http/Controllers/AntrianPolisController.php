@@ -161,6 +161,7 @@ class AntrianPolisController extends Controller
 	 */
 	public function destroy($id)
 	{
+		return dd( Input::all() );
 
 		$antrianpoli = AntrianPoli::find($id);
 		$pasien_id = $antrianpoli->pasien_id;
@@ -168,9 +169,7 @@ class AntrianPolisController extends Controller
 
 		$kabur            = new Kabur;
 		$kabur->pasien_id = $pasien_id;
-		$kabur->jam       = date('H:i:s');
-		$kabur->tanggal   = date('Y-m-d');
-		$kabur->alasan    = Input::get('alasan');
+		$kabur->alasan    = Input::get('alasan_kabur');
 		$conf             = $kabur->save();
 
 		if ($conf) {

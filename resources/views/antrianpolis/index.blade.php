@@ -6,7 +6,20 @@ Klinik Jati Elok | Nurse Station
 @stop
 @section('head')
     <style>
-		
+		.left {
+		  float: left;
+		  width: 125px;
+		  text-align: right;
+		  margin: 2px 10px;
+		  display: inline;
+		}
+
+		.right {
+		  float: left;
+		  text-align: left;
+		  margin: 2px 10px;
+		  display: inline;
+		}
     </style>
 @stop
 @section('page-title') 
@@ -35,7 +48,7 @@ Klinik Jati Elok | Nurse Station
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
-						<th>id</th>
+						<th class="id hide">id</th>
                     	<th>Antrian</th>
 						<th>Asuransi</th>
 						<th>Pasien</th>
@@ -47,28 +60,46 @@ Klinik Jati Elok | Nurse Station
                         <th class="displayNone">asuransi_id</th>
 						<th class="hide">image_url</th>
 						<th class="hide">pengantar</th>
+						<th class="hide">pasien_image</th>
+						<th class="hide">ktp_image</th>
+						<th class="hide">bpjs_image</th>
+						<th class="hide">alamat</th>
+                    	<th class="hide">No Asuransi</th>
 						<th class="">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (count($antrianpolis) > 0)
                     	@foreach ($antrianpolis as $antrianpoli)
-                		<tr>
-    						<td>{!! $antrianpoli->id !!}</td>
+							<tr
+							  @if($antrianpoli->self_register == '1' && $antrianpoli->asuransi_id != 0)
+								  class="danger"
+							  @endif>
+    						<td class="hide id">{!! $antrianpoli->id !!}</td>
     	                   	<td>{!! $antrianpoli->antrian!!}</td>
 							<td>{!! $antrianpoli->asuransi->nama !!}</td>
-							<td>{!! $antrianpoli->pasien->nama!!} </td>
+							<td class="nama">{!! $antrianpoli->pasien->nama!!} </td>
     						<td>{!! $antrianpoli->jam!!}</td>
     						<td>{!! $antrianpoli->tanggal!!}</td>
     						<td class="displayNone">{!! $antrianpoli->poli !!}</td>
-    						<td class="displayNone">{!! $antrianpoli->pasien_id !!}</td>
+    						<td class="displayNone pasien_id">{!! $antrianpoli->pasien_id !!}</td>
     						<td class="displayNone">{!! $antrianpoli->staf_id !!}</td>
                             <td class="displayNone">{!! $antrianpoli->asuransi_id !!}</td>
     						<td class="hide">{!! $antrianpoli->pasien->image !!}?{{ time() }}</td>
                             <td class="displayNone">{!! $antrianpoli->pengantar !!}</td>
-    	                	<td>
-        						{!! Form::open(['url' => 'antrianpolis/' . $antrianpoli->id, 'method' => 'delete'])!!}
+							<td class="displayNone image">{!! $antrianpoli->pasien->image !!}</td>
+							<td class="displayNone ktp_image">{!! $antrianpoli->pasien->ktp_image !!}</td>
+							<td class="displayNone bpjs_image">{!! $antrianpoli->pasien->bpjs_image !!}</td>
+							<td class="displayNone alamat">{!! $antrianpoli->pasien->alamat !!}</td>
+							<td class="displayNone tanggal_lahir">{!! $antrianpoli->pasien->tanggal_lahir !!}</td>
+							<td class="displayNone nomor_asuransi">{!! $antrianpoli->pasien->nomor_asuransi!!}</td>
+    	                	<td nowrap>
+
+								@if($antrianpoli->self_register == '1' && $antrianpoli->asuransi_id != 0)
+        							<a href=\"#\" class="btn btn-primary btn-xs btn-success" onclick="konfirmasiAsuransi(this);return false;" data-toggle="modal" data-target="#konfirmasiAsuransi">Konfirmasi</a>
+								@else
         							<a href=\"#\" class="btn btn-primary btn-xs" onclick="rowEntry(this);return false;" data-toggle="modal" data-target="#exampleModal">Proses</a>
+								  @endif
                                     {!! Form::hidden('alasan', null, ['class' => 'alasan', 'id' => 'alasan_hapus' . $antrianpoli->id])!!}
                                     {!! Form::hidden('pasien_id', $antrianpoli->pasien_id, ['class' => 'form-control'])!!}
                                     <button type="button" class="btn btn-danger btn-xs" onclick="alas(this);return false;">Delete</button>
@@ -78,6 +109,7 @@ Klinik Jati Elok | Nurse Station
 								@elseif( $antrianpoli->asuransi_id == '32' )
 								<a class="btn btn-warning btn-xs" href="{{ url('antrianpolis/pengantar/' . $antrianpoli->id . '/edit') }}">Edit Pengantar</a>
 									@endif
+								{!! Form::open(['url' => 'antrianpolis/' . $antrianpoli->id, 'method' => 'delete', 'class' => 'right'])!!}
         							{!! Form::submit('Delete', [
                                     'class' => 'btn btn-danger btn-xs hide submit', 
                                     'onclick' => 'return confirm("Anda yakin ingin menghapus pasien ' . $antrianpoli->id . ' - ' . $antrianpoli->pasien->nama . '")', 
@@ -102,6 +134,11 @@ Klinik Jati Elok | Nurse Station
       </div>
 </div>
 @include('antrianpolis.modalalasan')
+@include('antrianpolis.modalKonfirmasi')
+
+<div class="alert alert-danger">
+	Baris tabel dengan background merah adalah pasien yang melakukan Pendaftaran sendiri, harap cek dulu asuransi nya bisa dipakai atau tidak
+</div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -298,6 +335,8 @@ Klinik Jati Elok | Nurse Station
                     </form>
             </div>
         </div>
+	</div>
+</div>
 
 		<div class="modal fade" tabindex="-1" role="dialog" id="alert_prolanis">
 		  <div class="modal-dialog">
@@ -327,9 +366,6 @@ Klinik Jati Elok | Nurse Station
 			</div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
-		
-
-
 @stop
 @section('footer') 
 <script src="{{ url('js/togglepanel.js') }}" type="text/javascript"></script>
@@ -483,17 +519,11 @@ Klinik Jati Elok | Nurse Station
         }
 
         function alas(control){
-            $('.alasan').val('');
-            var id = $(control).closest('tr').find('.alasan').attr('id');
-            var submit_id = $(control).closest('tr').find('.submit').attr('id');
-			console.log('id = ' + id);
-			console.log('submit_id = ' + submit_id);
-            $('#modal-alasan').modal('show');
-            $('#modal-alasan').on('shown.bs.modal', function(){
-                $('#alasan_textarea').val('').focus(); 
-            });
-            $('#alasan_id').val(id);
-            $('#submit_id').val(submit_id);
+			var id = $(control).closest('tr').find('.id').html();
+			var pasien_id = $(control).closest('tr').find('.pasien_id').html();
+			$('#modal-alasan .id').val(id);
+			$('#modal-alasan .pasien_id').val(pasien_id);
+			$('#modal-alasan').modal('show');
         }
 
         function hapusSajalah(){
@@ -504,7 +534,6 @@ Klinik Jati Elok | Nurse Station
             $('#' + submit_id).click();
         }
 
-        
         function testSubmit2(){
 
             $('#LinkButton1').click();
@@ -556,6 +585,39 @@ Klinik Jati Elok | Nurse Station
 		function closeModal(){
 			 $('#alert_prolanis').modal('hide');
 		}
+		function konfirmasiAsuransi(control){
+			var image = $(control).closest('tr').find('.image').html();
+			var ktp_image = $(control).closest('tr').find('.ktp_image').html();
+			var bpjs_image = $(control).closest('tr').find('.bpjs_image').html();
+			var nama = $(control).closest('tr').find('.nama').html();
+			var alamat = $(control).closest('tr').find('.alamat').html();
+			var tanggal_lahir = $(control).closest('tr').find('.tanggal_lahir').html();
+			var id = $(control).closest('tr').find('.id').html();
+			var nomor_asuransi = $(control).closest('tr').find('.nomor_asuransi').html();
+		
+
+			console.log(image);
+			console.log(ktp_image);
+			console.log(bpjs_image);
+			console.log(nama);
+			console.log(alamat);
+			console.log(tanggal_lahir);
+
+			$('#konfirmasi_antrian_poli_id').val(id);
+			$('#konfirmasi_nama').val(nama);
+			$('#konfirmasi_alamat').val(alamat);
+			$('#konfirmasi_tanggal_lahir').val(tanggal_lahir);
+			$('#konfirmasi_pasien_image').attr('src',image);
+			$('#konfirmasi_ktp_image').attr('src',ktp_image);
+			$('#konfirmasi_bpjs_image').attr('src',bpjs_image);
+			$('#konfirmasi_nomor_asuransi').val(nomor_asuransi);
+
+			
+			imgError();
+
+		}
+
+
     </script>
 
 @stop

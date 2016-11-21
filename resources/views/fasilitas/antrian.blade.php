@@ -20,13 +20,17 @@
 </head>
 
 <body class="gray-bg">
-
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			@if (Session::has('pesan'))
+				{!! Session::get('pesan')!!}
+			@endif
+		</div>
+	</div>
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
             <div>
-
                 <h1 class="logo-name">KJE+</h1>
-
             </div>
             <h3>Selamat Datang di Klinik Jati Elok</h3>
             <p>Silahkan tekan tombol sesuai tujuan Anda</p>
