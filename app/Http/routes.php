@@ -21,6 +21,7 @@ Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
 
 Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
+Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@pilih_poli'); //antrian pasien
 Route::get('fasilitas/input_telp', 'FasilitasController@input_telp'); //antrian pasien
 Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
 
@@ -120,6 +121,9 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::resource('antrianpolis', 'AntrianPolisController');
 			Route::resource('transaksis', 'TransaksisController');
 			Route::resource('antrianperiksas', 'AntrianPeriksasController');
+
+			Route::get('periksa/{id}/images', 'ImagesController@create');
+			Route::post('periksa/{id}/images', 'ImagesController@store');
 
 			Route::get('generiks', 'GeneriksController@index');
 			Route::get('generiks/create', 'GeneriksController@create');

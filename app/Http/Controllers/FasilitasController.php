@@ -22,6 +22,18 @@ class FasilitasController extends Controller
 	public function input_telp(){
 		return view('fasilitas.input_telp', compact(''));
 	}
+	public function pilih_poli($poli){
+		$dates= [];
+		$months= [];
+		$years= [];
+		return view('fasilitas.input_tgl_lahir', compact(
+			'poli',
+			'dates',
+			'months',
+			'years'
+		));
+	}
+	
 	
     
 }

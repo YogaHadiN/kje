@@ -35,9 +35,6 @@
 
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
-            <div>
-
-            </div>
             <h3>Silahkan masukkan nomor telepon Anda</h3>
 			<div>
 				<input type="text" name="" id="" class="form-control" />

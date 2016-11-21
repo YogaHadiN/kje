@@ -29,6 +29,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
             </div>
       </div>
       <div class="panel-body">             
+		  <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
@@ -78,6 +79,8 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                     
                 </tbody>
             </table>
+		  	
+		  </div>
       </div>
 </div>
 @if ($postperiksa->count() > 0)
@@ -94,6 +97,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                 </div>
           </div>
           <div class="panel-body">             
+			  <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tableAsuransi">
                       <thead>
                         <tr>
@@ -111,7 +115,13 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                             @foreach ($postperiksa as $periksa)
                                 <tr>
                                     <td class="hide">{!! $periksa->id !!}</td>
-                                    <td>{!! $periksa->antrian !!}</td> 
+									<td>
+
+										@if($periksa->poli == 'estetika')
+                                            <a href="{{ url('periksa/' . $periksa->id . '/images') }}" class="btn btn-info btn-sm rujukan">Gambar</a>
+										@else
+											{!! $periksa->antrian !!}</td> 
+                                        @endif
                                     <td>{!! $periksa->pasien->nama !!}</td>
                                     <td>{!! $periksa->staf->nama !!}</td> 
                                     <td>{!! $periksa->asuransi->nama !!}</td>
@@ -154,7 +164,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                                 <a href="{{ url('rujukans/' . $periksa->rujukan->id . '/edit') }}" class="btn btn-warning btn-sm rujukan hide">Edit Rujukan2</a>
                                             </span>
                                         @endif
-
                                             <span>
                                                 <button type="button" onclick="cekMasihAda(this);return false;" class="btn btn-danger btn-sm">Periksa Lagi</button>
                                             {!! Form::submit('Periksa Lagi2', ['class' => 'btn btn-danger btn-sm periksa hide', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $periksa->pasien_id . ' - ' . $periksa->pasien->nama. ' ke ruang periksa?")']) !!}
@@ -165,6 +174,8 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                             @endforeach
                     </tbody>
                 </table>
+			  	
+			  </div>
           </div>
     </div>
 @endif

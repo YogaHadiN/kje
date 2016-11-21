@@ -114,7 +114,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 @section('footer') 
 <script>
     var base = '{!! url("/") !!}'
-    console.log(base);
 </script>
 {!! HTML::script('js/allpoli.js')!!} 
+{!! HTML::script('js/gambar_periksa.js')!!} 
 @stop

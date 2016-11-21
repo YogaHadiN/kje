@@ -33,7 +33,7 @@
 
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<button class="btn btn-lg btn-block btn-success" type="button"><h3>Dokter Umum</h3></button>
+					<a class="btn btn-lg btn-block btn-success" href="{{ url('fasilitas/antrian_pasien/umum') }}">Dokter Umum</a>
 				</div>
 			</div>
 			<div class="row">
@@ -43,7 +43,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<button class="btn btn-lg btn-block btn-primary" type="button"><h3>Dokter Gigi</h3></button>
+					<a class="btn btn-lg btn-block btn-primary" href="{{ url('fasilitas/antrian_pasien/gigi') }}">Dokter Gigi</a>
 				</div>
 			</div>
 			<div class="row">
@@ -53,7 +53,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<button class="btn btn-lg btn-block btn-info" type="button"><h3>Suntik KB</h3></button>
+					<a class="btn btn-lg btn-block btn-info" href="{{ url('fasilitas/antrian_pasien/kb 1 bulan') }}">Suntik KB 1 Bulan</a>
 				</div>
 			</div>
 			<div class="row">
@@ -63,7 +63,17 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<button class="btn btn-lg btn-block btn-warning" type="button"><h3>Kecantikan</h3></button>
+					<a class="btn btn-lg btn-block btn-info" href="{{ url('fasilitas/antrian_pasien/kb 3 bulan') }}">Suntik KB 3 Bulan</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<br />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<a class="btn btn-lg btn-block btn-warning" href="{{ url('antrian_pasien/estetika') }}">Kecantikan</a>
 				</div>
 			</div>
 

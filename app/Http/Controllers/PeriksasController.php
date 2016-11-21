@@ -173,6 +173,7 @@ class PeriksasController extends Controller
 		//JIKA ADA FOTO ESTETIKA MASUKKAN GAMBAR ESTETIKA
 		//
 		//
+		
 
 		if ( Input::hasFile('foto_estetika') ) {
 			if (count( Input::file('foto_estetika') ) > 0 ) {
@@ -180,7 +181,7 @@ class PeriksasController extends Controller
 				$files = Input::file('foto_estetika');
 				foreach ($files as $k=>$file) {
 
-					$filename = $this->imageUpload($file, $periksa_id, $k); 
+					$filename = $periksa->imageUpload($file, $periksa_id, $k); 
 					$data[] = [
 						 'nama'		  => $filename,
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
@@ -749,19 +750,4 @@ class PeriksasController extends Controller
 		return $this->inputJasaDokter($transaksis, $asuransi);
 	}
 
-	private function imageUpload($file, $id, $k){
-			$extension = $file->getClientOriginalExtension();
-
-			//membuat nama file 
-			$filename =	 $id . '-' . $k . '.' . $extension;
-
-			//menyimpan estetika_image ke folder public/img
-			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/estetika';
-
-			// Mengambil file yang di upload
-			$file->move($destination_path, $filename);
-
-			return $filename;
-
-	}
 }

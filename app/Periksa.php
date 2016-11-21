@@ -1118,5 +1118,21 @@ class Periksa extends Model{
 		];
 	}
 	
+
+	public function imageUpload($file, $id, $k){
+			$extension = $file->getClientOriginalExtension();
+
+			//membuat nama file 
+			$filename =	 $id . '-' . $k . '.' . $extension;
+
+			//menyimpan estetika_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/estetika';
+
+			// Mengambil file yang di upload
+			$file->move($destination_path, $filename);
+
+			return $filename;
+
+	}
 	
 }

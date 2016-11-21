@@ -207,7 +207,7 @@
 									</div>
 									<div class="panel-body" id="panel_gambar">
 									</div>
-									<button type="button" class="btn btn-success btn-block" onclick="tambahGambar();return false;">Tambah Gambar</button>
+									@include('tambah_gambar')
 								</div>
 							</div>
 						@endif
