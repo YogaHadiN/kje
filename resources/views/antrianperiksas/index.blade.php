@@ -184,6 +184,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<img src="{!! url('img/qr.png') !!}? {{ time() }}" alt="" width="300px" height="300px">
+				dfdfdfdf
 			</div>
 		</div>
 	@endif
