@@ -21,6 +21,7 @@ Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
 
 Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
+Route::get('fasilitas/input_telp', 'FasilitasController@input_telp'); //antrian pasien
 Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
 
 Route::get('facebook', 'FacebookController@facebook');

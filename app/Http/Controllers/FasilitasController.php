@@ -19,5 +19,9 @@ class FasilitasController extends Controller
     public function survey(){
 		return view('surveys.survey');
     }
+	public function input_telp(){
+		return view('fasilitas.input_telp', compact(''));
+	}
+	
     
 }

@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
 		 Commands\cronTest::class,
 		 Commands\testPeriksahilang::class,
 		 Commands\smsLaporanHarian::class,
+		 Commands\smsDonnaruko::class,
     ];
 
     /**
@@ -40,5 +41,10 @@ class Kernel extends ConsoleKernel
 					->dailyAt('22:00'); 
 		 $schedule->command('sms:laporanharian')
 					->dailyAt('23:00'); 
+		 $schedule->command('sms:donnaruko')
+			 ->dailyAt('13:00')
+			 ->when(function(){
+				return date('Y-m-d')  == '2017-09-30';
+			 }); 
     }
 }

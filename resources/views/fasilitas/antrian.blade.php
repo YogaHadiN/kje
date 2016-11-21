@@ -1,38 +1,82 @@
 <!DOCTYPE html>
-<html moznomarginboxes mozdisallowselectionprint>
+<html>
+
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>@yield('title')</title>
-    <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
 
-<link href="{!! asset('font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet">
+    <title>INSPINIA | Login</title>
+    {!! HTML::style('css/bootstrap.min.css')!!}
+    {!! HTML::style('font-awesome/css/font-awesome.css')!!}
+    {!! HTML::style('css/animate.css')!!}
+    {!! HTML::style('css/style.css')!!}
+  {{--   <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    @yield('head')
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> --}}
+
 </head>
-<body>
-	<div class="page-wrapper">
-		<div class="wrapper white-bg">
-			@foreach($antrianperiksa as $k =>$ap)
-			<div class="row">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<div class="widget blue-bg btn-success">
-							<div class="row">
-								<div class="col-xs-4 text-center">
 
-									<h1>{{ $ap->antrian }}</h1>
-								</div>
-								<div class="col-xs-8 text-left">
-									<h1>{{ $ap->pasien->nama }}</h1>
-								</div>
-							</div>
-						</div>
-					</div>
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">KJE+</h1>
+
+            </div>
+            <h3>Selamat Datang di Klinik Jati Elok</h3>
+            <p>Silahkan tekan tombol sesuai tujuan Anda</p>
+
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<button class="btn btn-lg btn-block btn-success" type="button"><h3>Dokter Umum</h3></button>
 				</div>
-			@endforeach
-		</div>
-	</div>
-<script src="{!! asset('js/all.js') !!}"></script>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<br />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<button class="btn btn-lg btn-block btn-primary" type="button"><h3>Dokter Gigi</h3></button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<br />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<button class="btn btn-lg btn-block btn-info" type="button"><h3>Suntik KB</h3></button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<br />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<button class="btn btn-lg btn-block btn-warning" type="button"><h3>Kecantikan</h3></button>
+				</div>
+			</div>
+
+
+            <p>Khusus Untuk Pasien Lama Yang Sudah Mendaftarkan No HP untuk membuat akun baru</p> 
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+
+    {!! HTML::script('js/jquery-2.1.1.js')!!}
+    {!! HTML::script('js/bootstrap.min.js')!!}
+
 </body>
+
 </html>

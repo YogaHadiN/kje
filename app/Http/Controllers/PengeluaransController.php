@@ -463,15 +463,6 @@ class PengeluaransController extends Controller
     }
     public function notaz_post(){
 
-
-		//if (gethostname() == 'dell') {
-			//$backup = "mysqldump -u root -pYogaman89 jatielok | gzip > /home/dell/Downloads/database_" . date('m-d-Y') . '_' . date('H:i:s') .".sql.gz";
-		//} else {
-			//$backup = "mysqldump -u root -pYogaman89 jatielok | gzip > /home/kje/Dropbox/backup11/database_" . date('m-d-Y') . '_' . date('H:i:s') .".sql.gz";
-		//}
-		//DB::statement($backup);
-		// mereturn Checkout yang terakhir
-		//
         $last_chekcout = CheckoutKasir::latest()->first();
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
@@ -490,25 +481,19 @@ class PengeluaransController extends Controller
 			   $modal_ids[] = $ju->id;
             }
         }
-        $uang_masuks = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
+        $total_uang_masuk = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
                                 ->where('coa_id', 110000) 
                                 ->where('jurnalable_type', '!=', 'App\Modal')
                                 ->where('debit', '1')
-                                ->get();
-        $total_uang_masuk = 0;
-        foreach ($uang_masuks as $masuk) {
-            $total_uang_masuk += $masuk->nilai;
-        }
-        $uang_keluars = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
+                                ->sum('nilai');
+
+        $total_uang_keluar = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
                                 ->where('coa_id', 110000) 
                                 ->where('jurnalable_type', '!=', 'App\Modal')
                                 ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
                                 ->where('debit', '0')
-                                ->get();
-        $total_uang_keluar = 0;
-        foreach ($uang_keluars as $keluar) {
-            $total_uang_keluar += $keluar->nilai;
-        }
+                                ->sum('nilai');
+
         $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
         $query = "select min(jenis_tarif_id) as jenis_tarif_id, min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
@@ -531,8 +516,6 @@ class PengeluaransController extends Controller
         foreach ($pengeluarans_tangan as $peng) {
             $detail_pengeluarans_tangan[] = $peng->id;
         } 
-
-	
         $detail_pengeluarans = json_encode( $detail_pengeluarans );
         //pindahkan semua kas di kasir menjadi kas di tangan
         $new_z = new CheckoutKasir;
