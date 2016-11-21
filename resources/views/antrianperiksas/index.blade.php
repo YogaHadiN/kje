@@ -180,6 +180,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 			  </div>
           </div>
     </div>
+@endif
 	<h1>{{ $poli }}</h1>
 	@if($poli == 'estetika')
 		<div class="row">
@@ -189,7 +190,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 			</div>
 		</div>
 	@endif
-@endif
 @include('antrianpolis.modalalasan')
 @stop
 @section('footer') 
