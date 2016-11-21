@@ -112,6 +112,7 @@ class FasilitasController extends Controller
 	public function antrianPoliDestroy(){
 		$rules = [
 			'id' => 'required',
+			'pasien_id' => 'required',
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);
@@ -128,6 +129,37 @@ class FasilitasController extends Controller
 		$kb->save();
 
 		$confirm = AntrianPoli::destroy( Input::get('id') );
+
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Antrian berhasil dihapus');
+		} else {
+			$pesan = Yoga::gagalFlash('Antrian gagal dihapus');
+		}
+
+		return redirect()->back()->withPesan($pesan);
+
+
+	}
+	public function antrianPeriksaDestroy(){
+		$rules = [
+			'id' => 'required',
+			'pasien_id' => 'required',
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+
+		$kb       = new Kabur;
+		$kb->pasien_id   = Input::get('pasien_id');
+		$kb->alasan   = Input::get('alasan_kabur');
+		$kb->save();
+
+		$confirm = AntrianPeriksa::destroy( Input::get('id') );
 
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Antrian berhasil dihapus');

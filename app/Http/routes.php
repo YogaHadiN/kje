@@ -31,6 +31,7 @@ Route::get('fasilitas/input_telp', 'FasilitasController@input_telp'); //antrian 
 Route::get('fasilitas/survey', 'FasilitasController@survey'); //survey kepuasan pelanggan
 Route::post('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}/{asuransi_id}', 'FasilitasController@submit_antrian'); //cari_pasien
 Route::delete('fasilitas/antrianpolis/destroy', 'FasilitasController@antrianPoliDestroy'); //cari_pasien
+Route::delete('fasilitas/antrianperiksa/destroy', 'FasilitasController@antrianPeriksaDestroy'); //cari_pasien
 
 
 Route::get('facebook', 'FacebookController@facebook');

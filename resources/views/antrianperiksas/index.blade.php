@@ -39,6 +39,8 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                         <th>Pembayaran</th>
                         <th>Nama Pasien</th>
                         <th>Pemeriksa</th>
+                        <th class="hide">pasien_id</th>
+                        <th class="hide">id</th>
                         <th style="width:5px" nowrap>Action</th>
                     </tr>
                 </thead>
@@ -52,6 +54,8 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                 <td>{!! $periksa->asuransi->nama !!}</td>
                                 <td>{!! $periksa->pasien->nama !!}</td>
                                 <td>{!! $periksa->staf->nama !!}</td>
+                                <td class="hide pasien_id">{!! $periksa->pasien_id !!}</td>
+                                <td class="hide id">{!! $periksa->id !!}</td>
 
                                 <td nowrap>
                                     {!! Form::open(['url' => 'antrianperiksas/' . $periksa->id, 'method' => 'delete'])!!}
@@ -65,8 +69,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 										@elseif( $periksa->asuransi_id == '32' && $periksa->antars->count() < 1 )
 											<a class="btn btn-warning btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">Edit Pengantar</a>
 										@endif
-                                        {!! Form::submit('delete', ['class' => 'btn btn-danger btn-xs hide submit', 'onclick' => 'return confirm("Apa anda yakin mau menghapus ' . $periksa->id . ' - ' . $periksa->pasien->nama . ' dari antrian?" )', 'id' => 'submit' . $periksa->id])!!}
-                                    {!! Form::close()!!}
                                 </td>
                             </tr>
                         @endforeach
@@ -188,21 +190,20 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 			</div>
 		</div>
 	@endif
-@include('antrianpolis.modalalasan')
+	@include('antrianpolis.modalalasan', ['antrianperiksa' => 'fasilitas/antrianperiksa/destroy'])
 @stop
 @section('footer') 
     <script>
-      function alas(control){
-            $('.alasan').val('');
-            var id = $(control).closest('td').find('.alasan').attr('id');
-            var submit_id = $(control).closest('td').find('.submit').attr('id');
-            $('#modal-alasan').modal('show');
-            $('#modal-alasan').on('shown.bs.modal', function(){
-                $('#alasan_textarea').val('').focus(); 
-            });
-            $('#alasan_id').val(id);
-            $('#submit_id').val(submit_id);
-        }
+		function alas(control){
+			var id = $(control).closest('tr').find('.id').html()
+			var pasien_id = $(control).closest('tr').find('.pasien_id').html()
+
+			$('#modal-alasan .id').val(id);
+			$('#modal-alasan .pasien_id').val(pasien_id);
+
+			$('#modal-alasan').modal('show');
+
+		}
 
         function hapusSajalah(){
             var id = $('#alasan_id').val();

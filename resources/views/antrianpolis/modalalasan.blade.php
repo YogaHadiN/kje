@@ -1,6 +1,10 @@
 
 <div class="modal fade" id="modal-alasan">
-{!! Form::open(['url' => 'fasilitas/antrianpolis/destroy', 'method' => 'delete']) !!}
+	@if(isset($antrianperiksa))
+		{!! Form::open(['url' => $antrianperiksa, 'method' => 'delete']) !!}
+	@else
+		{!! Form::open(['url' => 'fasilitas/antrianpolis/destroy', 'method' => 'delete']) !!}
+	@endif
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
