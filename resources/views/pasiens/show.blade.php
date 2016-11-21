@@ -56,7 +56,6 @@ Klinik Jati Elok | Riwayat Pasien
                         @endif
                         Pembayaran : <br>
                         <strong>{!! $periksa->asuransi->nama!!}</strong><br><br>
-                        {{ $periksa->id }}
                       </td>
                       <td>
                           <strong>Anamnesa : {!! $periksa->id !!}</strong> <br>
@@ -111,12 +110,43 @@ Klinik Jati Elok | Riwayat Pasien
 
                       </td>
                     </tr>
+
 					@if($periksa->gambarPeriksa->count() > 0)
-					<tr>
-						<td colspan='3'>
-							@include('gambar_periksa')
-						</td>
-					</tr>
+						<tr>
+							<td colspan="3">
+								<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+								  <!-- Indicators -->
+								  <ol class="carousel-indicators">
+									  @foreach($periksa->gambarPeriksa as $k => $gambar)
+										<li data-target="#carousel-example-generic" data-slide-to="{{ $k }}"@if($k == 0) class="active"@endif></li>
+									  @endforeach
+								  </ol>
+								
+								  <!-- Wrapper for slides -->
+								  <div class="carousel-inner" role="listbox">
+								    @foreach($periksa->gambarPeriksa as $k => $gambar)
+									<div class="item @if($k == 0) active @endif">
+									  <img src="{{ url('img/estetika/'.$gambar->nama ) }}" class="upload" alt="...">
+									  <div class="carousel-caption">
+										<h3>{{ $gambar->keterangan }}</h3>
+									  </div>
+									</div>
+									@endforeach
+								  </div>
+								
+								  <!-- Controls -->
+								  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+									<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+									<span class="sr-only">Previous</span>
+								  </a>
+								  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+									<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+									<span class="sr-only">Next</span>
+								  </a>
+								</div>
+							
+							</td>
+						</tr>
 					@endif
                    @endforeach
                 </tbody>
