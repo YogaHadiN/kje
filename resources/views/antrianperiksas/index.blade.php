@@ -180,6 +180,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 			  </div>
           </div>
     </div>
+	<h1>{{ $poli }}</h1>
 	@if($poli == 'estetika')
 		<div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
