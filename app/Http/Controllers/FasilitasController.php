@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Fasilitas;
 use App\Pasien;
+use App\Periksa;
 use App\AntrianPeriksa;
 use App\Kabur;
 use App\AntrianPoli;

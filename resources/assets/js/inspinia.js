@@ -473,4 +473,13 @@ function pcareSubmit(){
 function testDate(str) {
   return str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
 }
+function modalAlasan(control, pasien_id, nama_pasien){
+
+	var r = confirm('Anda yakin mau menghapus dari antrian?');
+	if (r) {
+		$(control).click();
+		$('#modal-alasan').modal('hide');
+	}
+	 
+}
 

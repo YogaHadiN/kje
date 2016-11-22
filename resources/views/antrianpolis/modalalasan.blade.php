@@ -24,7 +24,7 @@
 							<button type="submit" class="btn btn-success btn-block">Hapus</button>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<button type="button" class="btn btn-danger btn-block" onclick="$('#modal-alasan').modal('hide');return false;">Cancel</button>
+							<button type="button" class="btn btn-danger btn-block" onclick="modalAlasan();return false;">Cancel</button>
 						</div>
 					</div>
 				</div>
