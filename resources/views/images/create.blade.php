@@ -22,7 +22,7 @@ Klinik Jati Elok | Gambar Estetika
 		'method'	=> 'post', 
 		'files'		=> 'true'
 	]) !!}
-	@include('images.form')
+		@include('images.form')
 	{!! Form::close() !!}
 	@include('gambar_periksa')
 @stop
