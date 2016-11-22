@@ -77,7 +77,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<a class="btn btn-lg btn-block btn-warning" href="{{ url('antrian_pasien/estetika') }}">Kecantikan</a>
+					<a class="btn btn-lg btn-block btn-warning" href="{{ url('fasilitas/antrian_pasien/estetika') }}">Kecantikan</a>
 				</div>
 			</div>
 
@@ -87,6 +87,11 @@
     </div>
 
     <!-- Mainly scripts -->
+	<script type="text/javascript" charset="utf-8">
+			 setTimeout(function(){ 
+				$('.alert').fadeOut(500);
+			 }, 10000);
+	</script>
 
     {!! HTML::script('js/jquery-2.1.1.js')!!}
     {!! HTML::script('js/bootstrap.min.js')!!}

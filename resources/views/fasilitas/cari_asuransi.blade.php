@@ -39,11 +39,8 @@
 			height:70px;
 		}
 	</style>
-
 </head>
-
 <body class="gray-bg">
-
 	<div class="text-center loginscreen aturLebar animated fadeInDown">
 		<h3>Pilih Pembayaran</h3>	
 		<div>
@@ -86,14 +83,10 @@
 		@include('fasilitas.kembali')
 	</div>
     <!-- Mainly scripts -->
-	{!! Form::text('nomor_asuransi_bpjs', $pasien->nomor_asuransi_bpjs, ['class' => 'form-control']) !!}
     {!! HTML::script('js/jquery-2.1.1.js')!!}
     {!! HTML::script('js/bootstrap.min.js')!!}
-
 	<script type="text/javascript" charset="utf-8">
 		var input = $('#telpnih').val();
-		console.log('input');
-		console.log(input);
 		function klik(control){
 			 var angka = $(control).find('h2').html();
 		    	var input = $('#telpnih').val();

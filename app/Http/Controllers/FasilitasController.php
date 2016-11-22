@@ -34,6 +34,10 @@ class FasilitasController extends Controller
 	public function post_tgl_lahir($poli){
 		$tanggal = Yoga::datePrep( Input::get('tanggal_lahir') );
 		$pasiens = Pasien::where('tanggal_lahir', $tanggal)->get();
+		if ($pasiens->count() < 1) {
+			$pesan = Yoga::gagalFlash('Tidak ada Pasien yang terdaftar dengan Tanggl Lahir ' . Input::get('tanggal_lahir') . '<br /><strong> Silahkan Ulangi Kembali </strong>');
+			return redirect('fasilitas/antrian_pasien')->withPesan($pesan);
+		}
 		return view('fasilitas.cari_pasien', compact(
 			'pasiens',
 			'poli',
@@ -153,22 +157,28 @@ class FasilitasController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		$id = Input::get('id');
 
-		$kb       = new Kabur;
-		$kb->pasien_id   = Input::get('pasien_id');
-		$kb->alasan   = Input::get('alasan_kabur');
-		$kb->save();
+		$ap = AntrianPeriksa::find($id);
 
-		$confirm = AntrianPeriksa::destroy( Input::get('id') );
+		$kabur            = new Kabur;
+		$kabur->pasien_id = Input::get('pasien_id');
+		$kabur->alasan    = Input::get('alasan_kabur');
+		$conf             = $kabur->save();
 
-		if ($confirm) {
-			$pesan = Yoga::suksesFlash('Antrian berhasil dihapus');
-		} else {
-			$pesan = Yoga::gagalFlash('Antrian gagal dihapus');
+		$periksa = Periksa::where('antrian_periksa_id', $id)->first();
+		if($periksa != null){
+			TransaksiPeriksa::where('periksa_id', $periksa->id)->delete(); // Haput Transaksi bila ada periksa id
+			Terapi::where('periksa_id', $periksa->id)->delete(); // Haput Terapi bila ada periksa id
+			$periksa->delete(); // hapus row di tabel periksa
+			Rujukan::where('periksa_id', $periksa->id)->delete(); //hapus rujukan yang memiliki id periksa ini
+			SuratSakit::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
+			RegisterAnc::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
+			Usg::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
 		}
+		$ap->delete();
 
-		return redirect()->back()->withPesan($pesan);
-
+		return redirect()->back()->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
 
 	}
 	

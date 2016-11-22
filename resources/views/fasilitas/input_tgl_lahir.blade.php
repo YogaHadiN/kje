@@ -36,6 +36,20 @@
 		.height{
 			height:70px;
 		}
+
+		.error{
+			  border: 3px solid #A94442 !important;
+		}
+
+		.ok{
+			  border: 3px solid #3C7B50 !important;
+		}
+		.loaded {
+		  -webkit-transition: all 0.5s ease-in-out;
+		  -moz-transition: all 0.5s ease-in-out;
+		  -o-transition: all 0.5s ease-in-out;
+		  transition: all 0.5s ease-in-out;
+		}
 	</style>
 
 </head>
@@ -51,7 +65,10 @@
             <h3>Contoh : 19 Juli 1983, ketik 19-07-1983</h3>
 			<div class="row">
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" name="tanggal_lahir" id="telpnih" class="form-control" value=""/>
+					<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
+						{!! Form::text('tanggal_lahir' , null, ['class' => 'form-control loaded', 'id'=>'telpnih']) !!}
+					  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
+					</div>
 				</div>
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 					<button class="btn btn-danger height btn-lg btn-block" type="button" onclick="del();return false">Hapus</button>
@@ -108,7 +125,8 @@
 			<br />
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<button class="btn btn-lg btn-block btn-info" type="submit"><h2>Lanjutkan</h2></button>
+					<button class="btn btn-lg btn-block btn-info" type="button" onclick="dummySubmit();return false;"><h2>Lanjutkan</h2></button>
+					<button class="btn btn-lg btn-block btn-info hide" type="submit" id="lanjutkan"><h2>Lanjutkan</h2></button>
 				</div>
 			</div>
 
@@ -129,24 +147,46 @@
 		console.log('input');
 		console.log(input);
 		function klik(control){
-			 var angka = $(control).find('h2').html();
-		    	var input = $('#telpnih').val();
-			 var hasil = input + angka;
-			 if(hasil.length == 2 ||hasil.length ==  5){
-			 	hasil = hasil + '-';
-			 }
-			 $('#telpnih').val(hasil);
-
+		    var input = $('#telpnih').val();
+			if(input.length < 10){
+				 var angka = $(control).find('h2').html();
+				 var hasil = input + angka;
+				 if(hasil.length == 2 ||hasil.length ==  5){
+					hasil = hasil + '-';
+				 }
+				 rubahWarna(hasil);
+			}	
 		}
 		function del(){
 			var input = $('#telpnih').val();
 			input = input.slice(0, -1);
-			 $('#telpnih').val(input);
+			rubahWarna(input);
 		}
 		
-		
-		
-			
+		function testDate(str) {
+		  return str.match(/(^(((0[1-9]|1[0-9]|2[0-8])[-](0[1-9]|1[012]))|((29|30|31)[-](0[13578]|1[02]))|((29|30)[-](0[4,6,9]|11)))[-](19|[2-9][0-9])\d\d$)|(^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/);
+		}
+		function rubahWarna(hasil){
+			 $('#telpnih').val(hasil);
+			if( testDate(hasil) && $('#telpnih').closest('.form-group').hasClass('has-error') ){
+				$('#telpnih').closest('.form-group').removeClass('has-error');
+				$('#telpnih').closest('.form-group').addClass('has-success');
+				$('#telpnih').closest('.form-group').find('code').remove();
+			} else if (!$('#telpnih').closest('.form-group').hasClass('has-error')){
+				$('#telpnih').closest('.form-group').removeClass('has-success');
+				$('#telpnih').closest('.form-group').addClass('has-error');
+			} else if( !testDate(hasil) && !$('#telpnih').closest('.form-group').hasClass('has-error') ){
+				$('#telpnih').closest('.form-group').removeClass('has-success');
+				$('#telpnih').closest('.form-group').addClass('has-error');
+			}
+		}
+		function dummySubmit(){
+			if( $('#telpnih').closest('.form-group').hasClass('has-error') || $('#telpnih').val() == '' ){ 
+				$('#telpnih').closest('.form-group').append('<code>Format tanggal salah</code>');
+			} else {
+				 $('#lanjutkan').click();
+			}
+		}
 	</script>
 </body>
 

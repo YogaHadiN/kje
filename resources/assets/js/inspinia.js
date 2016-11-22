@@ -470,3 +470,7 @@ function pcareSubmit(){
 	});
 }
 
+function testDate(str) {
+  return str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+}
+
