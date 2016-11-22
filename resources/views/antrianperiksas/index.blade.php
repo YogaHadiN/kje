@@ -52,7 +52,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                 <td>{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!}</td>
                                 <td>{!! $periksa->jam !!}</td>
                                 <td>{!! $periksa->asuransi->nama !!}</td>
-                                <td>{!! $periksa->pasien->nama !!}</td>
+                                <td class="nama_pasien">{!! $periksa->pasien->nama !!}</td>
                                 <td>{!! $periksa->staf->nama !!}</td>
                                 <td class="hide pasien_id">{!! $periksa->pasien_id !!}</td>
                                 <td class="hide id">{!! $periksa->id !!}</td>
@@ -62,7 +62,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                     <a href="{!! URL::to('poli/' . $periksa->id)!!}" class="btn btn-success btn-xs">Proses</a>
                                         {!! Form::hidden('pasien_id', $periksa->pasien_id, ['class' => 'pasien_id'])!!}
                                         {!! Form::hidden('alasan', null, ['class' => 'alasan', 'id' => 'alasan' . $periksa->id])!!}
-                                        <button type="button" class="btn btn-danger btn-xs" onclick="alas(this);return false;">Delete</button>
+                                        <button type="button" class="btn btn-danger btn-xs" onclick="alasas_hapus(this);return false;">Delete</button>
 
 										@if( $periksa->asuransi_id == '32' && $periksa->antars->count() > 0 )		
 											<a class="btn btn-primary btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">{!! $periksa->antars->count() !!} pengantar</a>
@@ -195,15 +195,21 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 @stop
 @section('footer') 
     <script>
-		function alas(control){
+		function alasas_hapus(control){
 			var id = $(control).closest('tr').find('.id').html()
 			var pasien_id = $(control).closest('tr').find('.pasien_id').html()
+			var nama_pasien = $(control).closest('tr').find('.nama_pasien').html()
+			var onclick = "modalAlasan(this" + ", '" + pasien_id + "', '" + nama_pasien + "'); return false;";
+
+			console.log(id);
+			console.log(pasien_id);
+			console.log(nama_pasien);
+			console.log(onclick);
 
 			$('#modal-alasan .id').val(id);
 			$('#modal-alasan .pasien_id').val(pasien_id);
-
 			$('#modal-alasan').modal('show');
-
+			$('#modal-alasan .dummySubmit').attr('onclick', onclick);
 		}
 
         function hapusSajalah(){
@@ -215,7 +221,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
         }
 
         function cekMasihAda(control){
-
             var periksa_id = $(control).closest('tr').find('td:first-child').html();
 
             $.post('{{ url("antrianperiksas/ajax/cekada") }}', {'periksa_id': periksa_id }, function(data) {
@@ -230,8 +235,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                     location.reload();
                 }
             });
-
-
         }
     </script>
 @stop
