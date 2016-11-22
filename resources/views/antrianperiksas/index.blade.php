@@ -201,11 +201,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 			var nama_pasien = $(control).closest('tr').find('.nama_pasien').html()
 			var onclick = "modalAlasan(this" + ", '" + pasien_id + "', '" + nama_pasien + "'); return false;";
 
-			console.log(id);
-			console.log(pasien_id);
-			console.log(nama_pasien);
-			console.log(onclick);
-
 			$('#modal-alasan .id').val(id);
 			$('#modal-alasan .pasien_id').val(pasien_id);
 			$('#modal-alasan').modal('show');
