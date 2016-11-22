@@ -69,6 +69,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 										@elseif( $periksa->asuransi_id == '32' && $periksa->antars->count() < 1 )
 											<a class="btn btn-warning btn-xs" href="{{ url('antrianperiksas/pengantar/' . $periksa->id . '/edit') }}">Edit Pengantar</a>
 										@endif
+                                      {!! Form::close() !!}
                                 </td>
                             </tr>
                         @endforeach
