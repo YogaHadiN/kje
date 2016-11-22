@@ -158,8 +158,6 @@ class AntrianPeriksasController extends Controller
 
 		$kabur            = new Kabur;
 		$kabur->pasien_id = $ap->pasien_id;
-		$kabur->jam       = date('H:i:s');
-		$kabur->tanggal   = date('Y-m-d');
 		$kabur->alasan    = Input::get('alasan');
 		$conf             = $kabur->save();
 

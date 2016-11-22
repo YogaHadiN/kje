@@ -20,6 +20,12 @@ Klinik Jati Elok | Nurse Station
 		  margin: 2px 10px;
 		  display: inline;
 		}
+		.imgKonfirmasi {
+
+			width:400px;
+			height:300px;
+
+		}
     </style>
 @stop
 @section('page-title') 
@@ -65,6 +71,7 @@ Klinik Jati Elok | Nurse Station
 						<th class="hide">bpjs_image</th>
 						<th class="hide">alamat</th>
                     	<th class="hide">No Asuransi</th>
+                    	<th class="hide">Nama Asuransi</th>
 						<th class="">Action</th>
                     </tr>
                 </thead>
@@ -93,6 +100,7 @@ Klinik Jati Elok | Nurse Station
 							<td class="displayNone alamat">{!! $antrianpoli->pasien->alamat !!}</td>
 							<td class="displayNone tanggal_lahir">{!! $antrianpoli->pasien->tanggal_lahir !!}</td>
 							<td class="displayNone nomor_asuransi">{!! $antrianpoli->pasien->nomor_asuransi!!}</td>
+							<td class="displayNone nama_asuransi">{!! $antrianpoli->asuransi->nama !!}</td>
     	                	<td nowrap>
 
 								@if($antrianpoli->self_register == '1' && $antrianpoli->asuransi_id != 0)
@@ -594,6 +602,7 @@ Klinik Jati Elok | Nurse Station
 			var tanggal_lahir = $(control).closest('tr').find('.tanggal_lahir').html();
 			var id = $(control).closest('tr').find('.id').html();
 			var nomor_asuransi = $(control).closest('tr').find('.nomor_asuransi').html();
+			var nama_asuransi = $(control).closest('tr').find('.nama_asuransi').html();
 		
 
 			console.log(image);
@@ -602,6 +611,7 @@ Klinik Jati Elok | Nurse Station
 			console.log(nama);
 			console.log(alamat);
 			console.log(tanggal_lahir);
+			console.log(nama_asuransi);
 
 			$('#konfirmasi_antrian_poli_id').val(id);
 			$('#konfirmasi_nama').val(nama);
@@ -611,7 +621,7 @@ Klinik Jati Elok | Nurse Station
 			$('#konfirmasi_ktp_image').attr('src',ktp_image);
 			$('#konfirmasi_bpjs_image').attr('src',bpjs_image);
 			$('#konfirmasi_nomor_asuransi').val(nomor_asuransi);
-
+			$('#konfirmasiAsuransi .nama_asuransi').html(nama_asuransi);
 			
 			imgError();
 

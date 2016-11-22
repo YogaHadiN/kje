@@ -16,6 +16,12 @@
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet"> --}}
+	<style type="text/css" media="all">
+		.imgKonfirmasi {
+			width : 300px;
+			height : 300px;
+		}
+	</style>
 
 </head>
 

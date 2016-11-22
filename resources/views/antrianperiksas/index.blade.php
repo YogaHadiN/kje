@@ -217,8 +217,6 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
 
             var periksa_id = $(control).closest('tr').find('td:first-child').html();
 
-            console.log(periksa_id);
-
             $.post('{{ url("antrianperiksas/ajax/cekada") }}', {'periksa_id': periksa_id }, function(data) {
                 data = $.trim(data);
                 if (data == '1') {

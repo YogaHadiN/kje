@@ -2,12 +2,12 @@
   <div class="modal-dialog modal-lg">
 	<div class="modal-content">
 	  <div class="modal-header">
-		<h4 class="modal-title">Konfirmasi Asuransi</h4>
+		<h4 class="modal-title">Konfirmasi Asuransi, Asuransi <span class="nama_asuransi"></span> </h4>
 	  </div>
 	  <div class="modal-body">
 		  <div class="row">
 		  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<img src="" alt="" width="500px" height="375px" id="konfirmasi_pasien_image">
+				<img class="imgKonfirmasi img-rounded" src="" alt="" width="500px" height="375px" id="konfirmasi_pasien_image">
 		  	</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="row">
@@ -51,10 +51,10 @@
 		  </div>
 			<div class="row">
 		  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<img src="" alt="" width="500px" height="375px" id="konfirmasi_ktp_image">
+				<img class="imgKonfirmasi img-rounded" src="" alt="" width="500px" height="375px" id="konfirmasi_ktp_image">
 		  	</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<img src="" alt="" width="500px" height="375px" id="konfirmasi_bpjs_image">
+				<img class="imgKonfirmasi img-rounded" src="" alt="" width="500px" height="375px" id="konfirmasi_bpjs_image">
 		  	</div>
 		  </div>
 	  </div>
