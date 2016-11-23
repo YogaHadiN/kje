@@ -28,6 +28,7 @@
                     $('#antrianpoli_staf_id').val() == '' ||
                     $('select#ddlPembayaran').val() == '' ||
                     $('#antrianpoli_poli').val() == '' ||
+                    $('#antrianpoli_tanggal').val() == '' ||
                     $('#antrianpoli_antrian').val() == '' ){
 
                     if($('#antrianpoli_staf_id').val() == '' ){
@@ -40,6 +41,9 @@
 
                     if($('#antrianpoli_antrian').val() == '' ){
                         validasi('#antrianpoli_antrian', 'Harus Diisi');
+                    }
+                    if($('#antrianpoli_tanggal').val() == '' ){
+                        validasi('#antrianpoli_tanggal', 'Harus Diisi');
                     }
 
                     if($('select#ddlPembayaran').val() == '' ){
@@ -474,8 +478,12 @@
 
         function lanjutSubmit(e){
              e.preventDefault();
-                $.post(base + '/pasiens/ajax/ajaxpasien', {antrian: $('#antrianpoli_antrian').val(), 'pasien_id' : $('#id_pasien').val()}, function(data) {
-
+				var param = {
+					'antrian'		: $('#antrianpoli_antrian').val(), 
+					'pasien_id'		: $('#id_pasien').val(),
+					'tanggal'		: $('#antrianpoli_tanggal').val()
+				};
+                $.post(base + '/pasiens/ajax/ajaxpasien', param, function(data) {
                     data = JSON.parse(data);
                     if(data.antrian == '' && data.pasien == ''){
                         $('#submit').click();
@@ -525,5 +533,18 @@ function caseNama(nama){
 	}
 }
 
+function tanggalChange(control){
+	var param = {
+		'antrian'		: $('#antrianpoli_antrian').val(), 
+		'pasien_id'		: $('#id_pasien').val(),
+		'tanggal'		: $(control).val()
+	};
+	$.post(base + "/pasiens/ajax/cekantrian/tanggal", param, function(data) {
+		var pesan = '<div class="alert alert-info">';
+		pesan += 'Antrian Terkahir = ' + data;
+		pesan += '</div>';
+		$('#antrian_terakhir').html(pesan).hide().fadeIn(300);
+	});
+}
 
     

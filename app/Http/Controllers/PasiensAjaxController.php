@@ -73,40 +73,15 @@ class PasiensAjaxController extends Controller
 
 
 			$antrian = Input::get('antrian');
-			$nama = '';
-
-			$count = AntrianPoli::where('antrian', $antrian)->get()->count() + AntrianPeriksa::where('antrian', $antrian)->get()->count();
-
-			if(AntrianPoli::where('antrian', $antrian)->get()->count() > 0){
-				$id = AntrianPoli::where('antrian', $antrian)->first()->pasien_id;
-
-				$nama = Pasien::find($id)->nama;
-			} else if (AntrianPeriksa::where('antrian', $antrian)->get()->count() > 0){
-				$id = AntrianPeriksa::where('antrian', $antrian)->first()->pasien_id;
-
-				$nama = Pasien::find($id)->nama;
-			}
-
-			$antrian_pesan = '';
-
-			if($count > 0){
-				$antrian_pesan = $nama;
-			} else {
-				$antrian_pesan = '';
-			}
-
+			$tanggal = Yoga::datePrep( Input::get('tanggal') );
 			$pasien_id = Input::get('pasien_id');
 
-			$count = AntrianPoli::where('pasien_id', $pasien_id)->get()->count() + AntrianPeriksa::where('pasien_id', $pasien_id)->get()->count();
+			$nama = $this->countAntrian($antrian, $tanggal)['nama'];
+			$pasien_pesan = $this->countPasien($pasien_id, $tanggal)['pasien_pesan'];
 
-			$pasien_pesan = '';
-
-			if($count > 0){
-				$pasien_pesan = Pasien::find($pasien_id)->nama;
-			}
 
 			$data = [
-				'antrian' => $antrian_pesan,
+				'antrian' => $nama,
 				'pasien' => $pasien_pesan
 			];
 
@@ -299,6 +274,86 @@ class PasiensAjaxController extends Controller
 
 
 	}
+	public function cekAntrianPerTanggal(){
+		$tanggal = Yoga::datePrep( Input::get('tanggal') );
+		$antrian = Input::get('antrian');
+
+		$antrianpoli = AntrianPoli::where('tanggal', $tanggal)->orderBy('antrian', 'desc')->first();
+		$antrianpoli_antrian = 0;
+		if ($antrianpoli != null) {
+			$antrianpoli_antrian = $antrianpoli->antrian;
+		}
+
+		$antrianperiksa = AntrianPeriksa::where('tanggal', $tanggal)->orderBy('antrian', 'desc')->first();
+		$antrianperiksa_antrian = 0;
+		if ($antrianperiksa != null) {
+			$antrianperiksa_antrian = $antrianperiksa->antrian;
+		}
+
+		return max([$antrianpoli_antrian, $antrianperiksa_antrian]);
+	}
 	
+	private function countAntrian($antrian, $tanggal){
+			$count_antrian_poli =  AntrianPoli::where('antrian', $antrian)
+									->where('tanggal', '<=', $tanggal)
+									->count();
+			$count_antrian_periksa = AntrianPeriksa::where('antrian', $antrian)
+										->where('tanggal', '<=', $tanggal)
+										->count();
+			$count = $count_antrian_poli + $count_antrian_periksa;
+			$nama = '';
+
+			if($count_antrian_poli > 0){
+				$nama = AntrianPoli::where('antrian', $antrian)
+						->where('tanggal', '<=', $tanggal)
+						->first()->pasien->nama;
+				$antrian = AntrianPoli::where('antrian', $antrian)
+						->where('tanggal', '<=', $tanggal)
+						->first()->antrian;
+				
+			} else if ($count_antrian_periksa > 0){
+				$nama = AntrianPeriksa::where('antrian', $antrian)
+						->where('tanggal', '<=', $tanggal)
+						->first()->pasien->nama;
+
+				$antrian = AntrianPeriksa::where('antrian', $antrian)
+						->where('tanggal', '<=', $tanggal)
+						->first()->antrian;
+			}
+
+			$antrian_pesan = '';
+			if($count > 0){
+				$antrian_pesan = $nama;
+			} else {
+				$antrian_pesan = '';
+			}
+			return [
+				 'count' => $count_antrian_poli + $count_antrian_periksa,
+				 'nama' => $nama
+			];
+	}
+
+
+	private function countPasien($pasien_id, $tanggal){
+		$count_pasien_poli = AntrianPoli::where('pasien_id', $pasien_id)
+								->where('tanggal', '<=', $tanggal)
+								->count();
+
+		$count_pasien_poli = AntrianPeriksa::where('pasien_id', $pasien_id)
+								->where('tanggal', '<=', $tanggal)
+								->count();
+		$count = $count_pasien_poli + $count_pasien_poli;
+
+		$pasien_pesan = '';
+
+		if($count > 0){
+			$pasien_pesan = Pasien::find($pasien_id)->nama;
+		}
+		return [
+			'pasien_pesan' => $pasien_pesan,
+			'count' => $count
+		];
+
+	}
 
 }

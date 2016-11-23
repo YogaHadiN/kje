@@ -40,13 +40,17 @@ class AntrianPolisController extends Controller
 
 		$perujuks_list = [null => ' - pilih perujuk -'] + Perujuk::lists('nama', 'id')->all();
 		$staf          = Yoga::stafList();
-		$antrianpolis  = AntrianPoli::orderBy('antrian', 'asc')->get();
+		$antrianpolis  = AntrianPoli::where('tanggal', '<=', date('Y-m-d'))
+								->orderBy('antrian', 'asc')->get();
+		$perjanjian  = AntrianPoli::where('tanggal', '>', date('Y-m-d'))
+								->orderBy('antrian', 'asc')->get();
 
 		return view('antrianpolis.index')
 			->withAntrianpolis($antrianpolis)
 			->withPerujuks_list($perujuks_list)
 			->withUsg($usg)
 			->withAsu($asu)
+			->withPerjanjian($perjanjian)
 			->withStaf($staf);
 	}
 
@@ -74,8 +78,20 @@ class AntrianPolisController extends Controller
 			return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu');
 		}
 
-		$antrian_poli_id = Yoga::customId('App\AntrianPoli');
+		$rules = [
+			'tanggal' => 'required',
+			'pasien_id' => 'required',
+			'poli' => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
 
+		$antrian_poli_id = Yoga::customId('App\AntrianPoli');
 		$ap              = new Antrianpoli;
 		$ap->antrian     = Input::get('antrian');
 		$ap->asuransi_id = Input::get('asuransi_id');
@@ -83,7 +99,7 @@ class AntrianPolisController extends Controller
 		$ap->poli        = Input::get('poli');
 		$ap->staf_id     = Input::get('staf_id');
 		$ap->jam         = date("H:i:s");
-		$ap->tanggal     = date('Y-m-d');
+		$ap->tanggal     = Yoga::datePrep( Input::get('tanggal') );
 		$ap->id          = $antrian_poli_id;
 		$ap->save();
 

@@ -54,6 +54,19 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<div class="form-group @if($errors->has('tanggal'))has-error @endif">
+					  {!! Form::label('tanggal', 'Tanggal Konsultasi', ['class' => 'control-label']) !!}
+					  {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal', 'id' => 'antrianpoli_tanggal', 'onchange' => 'tanggalChange(this);return false;']) !!}
+					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+					</div>
+					
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="antrian_terakhir">
+					
+				</div>	
+			</div>
 			<div class="row hide" id="pengantar_pasien">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="form-group @if($errors->has('pengantar_pasiens'))has-error @endif">

@@ -420,7 +420,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('pasiens/ajax/cekbpjskontrol', 'PasiensAjaxController@cekbpjskontrol');
 			Route::post('pasiens/ajax/confirm_staf', 'PasiensAjaxController@confirm_staf');
 			Route::get('pasiens/ajax/cari', 'PasiensAjaxController@cariPasien');
-			
+			Route::post('pasiens/ajax/cekantrian/tanggal', 'PasiensAjaxController@cekAntrianPerTanggal');
 
 			Route::get('survey', 'KasirsController@index');
 
