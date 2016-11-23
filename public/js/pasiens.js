@@ -8,6 +8,9 @@
             $('#email').focus();
         });
 
+		$('#antrianpoli_tanggal').datepicker().on('changeDate', function(e) {
+			tanggalChange();
+		});
 
        var request;
         $('#dummyButton').click(function(e) {
@@ -23,38 +26,31 @@
 					return false;
 				}
 			}
+			 if(
+				$('#antrianpoli_staf_id').val() == '' ||
+				$('select#ddlPembayaran').val() == '' ||
+				$('#antrianpoli_poli').val() == '' ||
+				$('#antrianpoli_tanggal').val() == '' ||
+				$('#antrianpoli_antrian').val() == '' ){
+				if($('#antrianpoli_staf_id').val() == '' ){
+					validasi('#antrianpoli_staf_id', 'Harus Diisi');
+				}
+				if($('#antrianpoli_poli').val() == '' ){
+					validasi('#antrianpoli_poli', 'Harus Diisi');
+				}
+				if($('#antrianpoli_antrian').val() == '' ){
+					validasi('#antrianpoli_antrian', 'Harus Diisi');
+				}
+				if($('#antrianpoli_tanggal').val() == '' ){
+					validasi('#antrianpoli_tanggal', 'Harus Diisi');
+				}
+				if($('select#ddlPembayaran').val() == '' ){
 
-                 if(
-                    $('#antrianpoli_staf_id').val() == '' ||
-                    $('select#ddlPembayaran').val() == '' ||
-                    $('#antrianpoli_poli').val() == '' ||
-                    $('#antrianpoli_tanggal').val() == '' ||
-                    $('#antrianpoli_antrian').val() == '' ){
-
-                    if($('#antrianpoli_staf_id').val() == '' ){
-                        validasi('#antrianpoli_staf_id', 'Harus Diisi');
-                    }
-
-                    if($('#antrianpoli_poli').val() == '' ){
-                        validasi('#antrianpoli_poli', 'Harus Diisi');
-                    }
-
-                    if($('#antrianpoli_antrian').val() == '' ){
-                        validasi('#antrianpoli_antrian', 'Harus Diisi');
-                    }
-                    if($('#antrianpoli_tanggal').val() == '' ){
-                        validasi('#antrianpoli_tanggal', 'Harus Diisi');
-                    }
-
-                    if($('select#ddlPembayaran').val() == '' ){
-
-                        console.log('asuransi_id = ' + $('select#ddlPembayaran').val());
-                        validasi('select#ddlPembayaran', 'Harus Diisi');
-                    }
-
-                } else {
-               lanjutSubmit(e);
-                
+					console.log('asuransi_id = ' + $('select#ddlPembayaran').val());
+					validasi('select#ddlPembayaran', 'Harus Diisi');
+				}
+			} else {
+			   lanjutSubmit(e);
             }
         });
 
@@ -533,17 +529,21 @@ function caseNama(nama){
 	}
 }
 
-function tanggalChange(control){
+function tanggalChange(){
+	var tanggal = $('#antrianpoli_tanggal').val();
 	var param = {
 		'antrian'		: $('#antrianpoli_antrian').val(), 
 		'pasien_id'		: $('#id_pasien').val(),
-		'tanggal'		: $(control).val()
+		'tanggal'		: tanggal
 	};
 	$.post(base + "/pasiens/ajax/cekantrian/tanggal", param, function(data) {
 		var pesan = '<div class="alert alert-info">';
 		pesan += 'Antrian Terkahir = ' + data;
 		pesan += '</div>';
 		$('#antrian_terakhir').html(pesan).hide().fadeIn(300);
+		if (parseInt( strTime( tanggal ) ) > parseInt( strTime( date() ) ) ) {
+			$('#antrianpoli_antrian').val(parseInt(data) + 1)	;
+		}
 	});
 }
 

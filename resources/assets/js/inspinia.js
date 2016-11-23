@@ -480,3 +480,6 @@ function modalAlasan(control, pasien_id, nama_pasien){
 	}
 }
 
+function strTime(time){
+	return new Date(time.split("-").reverse().join("-")).getTime();
+}
