@@ -410,8 +410,6 @@
             resetComplain();
             $('#exampleModal').modal('show');
             return false;
-
-
         }
         function resetComplain(){
             $('#timbul').hide();
@@ -473,25 +471,29 @@
         }
 
         function lanjutSubmit(e){
-             e.preventDefault();
-				var param = {
-					'antrian'		: $('#antrianpoli_antrian').val(), 
-					'pasien_id'		: $('#id_pasien').val(),
-					'tanggal'		: $('#antrianpoli_tanggal').val()
-				};
-                $.post(base + '/pasiens/ajax/ajaxpasien', param, function(data) {
-                    data = JSON.parse(data);
-                    if(data.antrian == '' && data.pasien == ''){
-                        $('#submit').click();
-                    } else {
-                        if(data.antrian != ''){
-                            validasi('#antrianpoli_antrian', 'sudah ada antrian <br /> nama : ' + data.antrian);
-                        }
-                        if(data.pasien != ''){
-                            validasi('input[name="pasien_id"]', 'pasien sudah di antrian');
-                        }
-                    }
-                });
+			e.preventDefault();
+			var pasien_id = $('#ID_PASIEN').val();
+			var param = {
+				'antrian'		: $('#antrianpoli_antrian').val(), 
+				'pasien_id'		: pasien_id,
+				'tanggal'		: $('#antrianpoli_tanggal').val()
+			};
+			$.post(base + '/pasiens/ajax/ajaxpasien', param, function(data) {
+				data = JSON.parse(data);
+				if(data.antrian == '' && data.pasien == ''){
+					if ( $('#antrianpoli_poli').val() == 'usg' ) {
+						window.open(base + "/pdfs/formulir/usg/" + pasien_id);
+					}
+					$('#submit').click();
+				} else {
+					if(data.antrian != ''){
+						validasi('#antrianpoli_antrian', 'sudah ada antrian <br /> nama : ' + data.antrian);
+					}
+					if(data.pasien != ''){
+						validasi('input[name="pasien_id"]', 'pasien sudah di antrian');
+					}
+				}
+			});
         }
 
         function modalClose(){

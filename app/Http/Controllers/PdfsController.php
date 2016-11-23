@@ -13,6 +13,8 @@ use App\NoSale;
 use App\CheckoutKasir;
 use App\BayarGaji;
 use App\NotaJual;
+use App\AntrianPoli;
+use App\Pasien;
 use App\Pendapatan;
 use App\JurnalUmum;
 use App\FakturBelanja;
@@ -320,6 +322,13 @@ class PdfsController extends Controller
         return $pdf->stream();
 
 	}
+	public function formUsg($id){
+		$pasien = Pasien::find($id);
+        $pdf = PDF::loadView('pdfs.form_usg', compact('pasien'))->setPaper('a5')->setOrientation('landscape')->setWarnings(false);
+        // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
+        return $pdf->stream();
+	}
+	
 	
 	
     

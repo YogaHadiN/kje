@@ -21,7 +21,6 @@ class KasirBaseController extends Controller
 
 
         $periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
-
 		if ( $periksa->lewat_kasir == '1' ) {
 			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
 			return redirect()->back()->withPesan($pesan);
