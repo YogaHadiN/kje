@@ -9,9 +9,20 @@
         });
 
 
-
        var request;
         $('#dummyButton').click(function(e) {
+			if ( $('#antrianpoli_poli').val() == 'usg' ) {
+				var r = confirm('Pastikan pasien diperiksa dalam keadaan kandung kencing penuh, UNTUK PASIEN USG DENGAN UMUMR KEHAMILAN 12 MINGGU');
+				if (!r) {
+					return false;
+				}
+			}
+			if ( $('#antrianpoli_poli').val() == 'usgabdomen' ) {
+				var r = confirm('Pastikan pasien diperiksa dalam keadaan kandung kencing penuh');
+				if (!r) {
+					return false;
+				}
+			}
 
                  if(
                     $('#antrianpoli_staf_id').val() == '' ||

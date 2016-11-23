@@ -49,13 +49,6 @@ Klinik Jati Elok | Edit Gambar Estetika
 	};
 	function delImage(control){
 		var id = $(control).val();
-		console.log('id');
-		console.log(id);
-		var json = $('#image_delete').val(); 
-		var array = JSON.parse(json);
-		array.push(id);
-		var json = JSON.stringify(array);
-		$('#image_delete').val(json);
 		$(control).closest('.satu_gambar').slideUp(300);
 		var sisa = $('#image_sisa').val();
 		sisa = JSON.parse(sisa);

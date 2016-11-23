@@ -25,7 +25,7 @@
 				.fadeIn(500);
 		}
 	   } else {
-
+			$('#dummyButton').removeAttr('onclick');
 		   if( $('#peringatan_trimester_pertama_usg').is(':visible')  ){
 			   $('#peringatan_trimester_pertama_usg').fadeOut(500, function(){
 				   if( !$('#peringatan_trimester_pertama_usg').hasClass('hide')  ){

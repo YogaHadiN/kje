@@ -49,5 +49,4 @@
 		</div>
 	</div>
 </div>
-{!! Form::textarea('image_delete', '[]', ['class' => 'hide', 'id' => 'image_delete']) !!}
 {!! Form::textarea('image_sisa', null, ['class' => 'hide', 'id' => 'image_sisa']) !!}
