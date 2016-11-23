@@ -7,8 +7,28 @@
 			</div>
 			<div class="panel-body">
 				<div id="panel_gambar">
-					@foreach($periksa->gambarPeriksa as $image)	
-						@include('gambar_periksa',['image' => $image])	
+					@foreach($periksa->gambarPeriksa as $k=> $image)	
+						<div class="satu_gambar">
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								  {!! Form::label('name', $image->nama , ['class' => 'control-label']) !!}
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+									<button class="btn btn-block btn-danger" type="button" onclick="delImage(this);return false;" value="{{ $image->id }}">hapus</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<img src="{{ url('img/estetika/' . $image->nama) }}" class="img-rounded upload" alt="Responsive image">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<strong>Keterangan gambar :</strong>	{{ $image->keterangan }}
+								</div>
+							</div>
+							<hr />
+						</div>
 					@endforeach
 				</div>
 				@include('tambah_gambar')
@@ -29,3 +49,5 @@
 		</div>
 	</div>
 </div>
+{!! Form::textarea('image_delete', '[]', ['class' => 'hide', 'id' => 'image_delete']) !!}
+{!! Form::textarea('image_sisa', null, ['class' => 'hide', 'id' => 'image_sisa']) !!}
