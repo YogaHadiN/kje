@@ -162,6 +162,7 @@ border-spacing: -1px;
 	}
 	table.usg {
 		border-collapse:collapse;
+		padding-top:20px;
 	}
 
 	table.usg tr td{
@@ -244,7 +245,7 @@ border-spacing: -1px;
 						<tr>
 							<td nowrap>Pembayaran</td>
 							<td nowrap>:</td>
-							<td nowrap>{!! $pasien->asuransi->nama !!}</td>
+							<td nowrap>{!! $asuransi->nama !!}</td>
 						</tr>
 					</tbody>
 				</table>

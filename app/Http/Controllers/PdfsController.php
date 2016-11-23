@@ -10,6 +10,7 @@ use App\Modal;
 use App\BayarDokter;
 use App\Pengeluaran;
 use App\NoSale;
+use App\Asuransi;
 use App\CheckoutKasir;
 use App\BayarGaji;
 use App\NotaJual;
@@ -322,9 +323,13 @@ class PdfsController extends Controller
         return $pdf->stream();
 
 	}
-	public function formUsg($id){
+	public function formUsg($id, $asuransi_id){
 		$pasien = Pasien::find($id);
-        $pdf = PDF::loadView('pdfs.form_usg', compact('pasien'))->setPaper('a5')->setOrientation('landscape')->setWarnings(false);
+		$asuransi = Asuransi::find($asuransi_id);
+		$pdf = PDF::loadView('pdfs.form_usg', compact(
+			'pasien',
+			'asuransi'
+		))->setPaper('a5')->setOrientation('landscape')->setWarnings(false);
         // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
         return $pdf->stream();
 	}

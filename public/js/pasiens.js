@@ -473,6 +473,8 @@
         function lanjutSubmit(e){
 			e.preventDefault();
 			var pasien_id = $('#ID_PASIEN').val();
+			var asuransi_id = $('#ddlPembayaran').val();
+
 			var param = {
 				'antrian'		: $('#antrianpoli_antrian').val(), 
 				'pasien_id'		: pasien_id,
@@ -482,7 +484,7 @@
 				data = JSON.parse(data);
 				if(data.antrian == '' && data.pasien == ''){
 					if ( $('#antrianpoli_poli').val() == 'usg' ) {
-						window.open(base + "/pdfs/formulir/usg/" + pasien_id);
+						window.open(base + "/pdfs/formulir/usg/" + pasien_id + '/'+ asuransi_id);
 					}
 					$('#submit').click();
 				} else {
