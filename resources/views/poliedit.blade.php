@@ -104,6 +104,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 ])
 {!! Form::close()!!}
 
+@if($periksaex->poli == 'estetika')
 <div class="row">
 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 	</div>
@@ -111,6 +112,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 	<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/image' ) !!}" alt="">
 	</div>
 </div>
+@endif
 @include('after')
 @include('gambar_periksa')
 
