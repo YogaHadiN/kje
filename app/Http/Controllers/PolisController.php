@@ -279,6 +279,7 @@ class PolisController extends Controller
 			}
 			$url = url('/');
 			$text = 'http://www.google.com';
+			//return $periksaExist->gambarPeriksa->count();
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)

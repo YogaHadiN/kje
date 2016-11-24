@@ -112,7 +112,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 		<div class="panel panel-default">
 			<div class="panel-body text-center">
 				<h2>Scan disini untuk input gambar</h2>
-					@if($periksaex->gambarEstetika->count() > 0)
+				@if($periksaex->gambarPeriksa->count())
 						<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images/edit' ) !!}" alt="">
 					@else
 						<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images' ) !!}" alt="">
