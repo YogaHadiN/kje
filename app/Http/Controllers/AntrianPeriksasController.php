@@ -128,6 +128,9 @@ class AntrianPeriksasController extends Controller
 		$ap->tinggi_badan        = $tinggi_badan;
 		$ap->save();
 
+		if ($ap->poli == 'estetika') {
+			$this->periksaKosong($ap->pasien_id, $ap->staf_id, $ap->asisten_id, $ap->id, $ap->antrian, $ap->jam);
+		}
 
 		$antrian_id              = Input::get('antrian_id');
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
@@ -177,4 +180,34 @@ class AntrianPeriksasController extends Controller
 		return redirect('ruangperiksa/' . $ap->poli)->withPesan(Yoga::suksesFlash('Pasien <strong>' . $ap->pasien_id . ' - ' . $ap->pasien->nama . '</strong> Berhasil dihapus dari antrian'  ));
 	}
 
+	private function periksaKosong($pasien_id, $staf_id, $asisten_id, $ap_id, $antrian, $jamdatang){
+		$periksa_id = Yoga::customId('App\Periksa');
+  		 $p       = new Periksa;
+		  $p->id = $periksa_id;
+		  $p->asuransi_id = "0";
+		  $p->pasien_id =$pasien_id;
+		  $p->berat_badan = "";
+		  $p->poli = "estetika";
+		  $p->staf_id =$staf_id;
+		  $p->asisten_id =$asisten_id;
+		  $p->periksa_awal = "[]";
+		  $p->jam =$jamdatang;
+		  $p->jam_resep = date('H:i:s');
+		  $p->keterangan_diagnosa = "";
+		  $p->lewat_poli = "0";
+		  $p->lewat_kasir = "0";
+		  $p->lewat_kasir2 = "0";
+		  $p->antrian_periksa_id =$ap_id;
+		  $p->resepluar = "";
+		  $p->pemeriksaan_fisik = "";
+		  $p->pemeriksaan_penunjang = "";
+		  $p->tanggal =date('Y-m-d');
+		  $p->terapi = "[]";
+		  $p->antrian =$antrian;
+		  $p->jam_periksa =date('H:i:s');
+		  $p->jam_selesai_periksa =date('H:i:s');
+		  $p->keterangan = "";
+		  $p->transaksi = '[{"jenis_tarif_id":"1","jenis_tarif":"Jasa Dokter","biaya":0},{"jenis_tarif_id":"9","jenis_tarif":"Biaya Obat","biaya":0}]';
+		  $p->save();
+	}
 }

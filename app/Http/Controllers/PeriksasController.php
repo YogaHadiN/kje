@@ -750,4 +750,5 @@ class PeriksasController extends Controller
 		return $this->inputJasaDokter($transaksis, $asuransi);
 	}
 
+
 }

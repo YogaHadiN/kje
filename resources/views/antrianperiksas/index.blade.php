@@ -33,7 +33,11 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
-                        <th>Antrian</th>
+						@if($antrianperiksa->first()->poli == 'estetika')
+							<th>Gambar</th>
+						@else
+							<th>Antrian</th>
+						@endif
                         <th>Tanggal</th>
                         <th>Jam</th>
                         <th>Pembayaran</th>
@@ -48,7 +52,11 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                     @if ($antrianperiksa->count() > 0)
                         @foreach ($antrianperiksa as $periksa)
                             <tr>
-                                <td>{!! $periksa->antrian !!}</td>
+								@if($periksa->poli == 'estetika' && $periksa->periksaEx != null)
+								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksaEx->id . '/images') }}">Gambar</a> </td>
+								@else
+									<td>{!! $periksa->antrian !!}</td>
+								@endif
                                 <td>{!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!}</td>
                                 <td>{!! $periksa->jam !!}</td>
                                 <td>{!! $periksa->asuransi->nama !!}</td>

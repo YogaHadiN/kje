@@ -88,6 +88,7 @@ class RuangPeriksaController extends Controller
 		$poli = 'estetika';
 		$antrianperiksa = AntrianPeriksa::with('pasien', 'staf', 'asuransi')->where('poli', '=', $poli)->orderBy('tanggal')->orderBy('antrian')->get();
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and poli='estetika'")->get();
+
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
 			->withAntrianperiksa($antrianperiksa)

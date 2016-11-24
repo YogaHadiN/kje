@@ -36,5 +36,9 @@ class AntrianPeriksa extends Model{
 	public function perujuk(){
 		return $this->belongsTo('App\Perujuk');
 	}
+	public function periksaEx(){
+		return $this->hasOne('App\Periksa', 'antrian_periksa_id', 'id');
+	}
+	
 
 }

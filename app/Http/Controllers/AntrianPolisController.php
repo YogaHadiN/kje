@@ -116,6 +116,7 @@ class AntrianPolisController extends Controller
 
 		}
 
+
 		if ($conf) {
 			$pesan = '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>';
 		} else {
