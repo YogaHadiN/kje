@@ -33,7 +33,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
-						@if($antrianperiksa->first()->poli == 'estetika')
+						@if($poli == 'estetika')
 							<th>Gambar</th>
 						@else
 							<th>Antrian</th>
