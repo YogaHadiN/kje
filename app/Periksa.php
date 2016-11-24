@@ -1134,5 +1134,9 @@ class Periksa extends Model{
 			return $filename;
 
 	}
+	public function kontrol(){
+		return $this->hasOne('App\Kontrol');
+	}
+	
 	
 }

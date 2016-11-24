@@ -274,7 +274,6 @@
 
 
 
-			$(':input:enabled:visible:first').focus();
 
 
 

@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\AntrianPoli;
+use DateTime;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,6 +23,8 @@ class Kernel extends ConsoleKernel
 		 Commands\testPeriksahilang::class,
 		 Commands\smsLaporanHarian::class,
 		 Commands\smsDonnaruko::class,
+		 Commands\smsIngatkanJanji::class,
+
     ];
 
     /**
@@ -45,6 +49,14 @@ class Kernel extends ConsoleKernel
 			 ->dailyAt('13:00')
 			 ->when(function(){
 				return date('Y-m-d')  == '2017-09-30';
+			 }); 
+		 $schedule->command('sms:ingatkanJanji')
+			 ->dailyAt('13:00')
+			 ->when(function(){
+				$ap = new AntrianPoli;
+				$antrianpolis = $ap->besokKonsulGigi();
+				$count = $antrianpolis->count();
+				return $count > 0;
 			 }); 
     }
 }
