@@ -277,9 +277,13 @@ class PolisController extends Controller
 				$kesimpulan		= null;
 				$saran			= null;
 			}
+			$url = url('/');
+			$text = 'http://www.google.com';
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
+			->withUrl($url)
+			->withText($text)
 			->withIcd10s($icd10s)
 			->withPasien($pasien)
 			->withSignas($signas)

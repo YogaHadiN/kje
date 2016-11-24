@@ -136,6 +136,8 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::get('periksa/{id}/images/edit', 'ImagesController@edit');
 			Route::put('periksa/{id}/images', 'ImagesController@update');
 
+			Route::get('qrcode', 'QrCodeController@index');
+
 			Route::get('kontrols/create/{periksa_id}', 'KontrolsController@create');
 			Route::post('kontrols', 'KontrolsController@store');
 			Route::get('kontrols/{periksa_id}/edit', 'KontrolsController@edit');

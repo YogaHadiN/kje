@@ -6,6 +6,7 @@ use Input;
 use App\Http\Requests;
 use App\AntrianPeriksa;
 use App\Periksa;
+use Endroid\QrCode\QrCode;
 
 class RuangPeriksaController extends Controller
 {

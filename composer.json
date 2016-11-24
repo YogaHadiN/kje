@@ -29,7 +29,8 @@
         "yajra/laravel-datatables-oracle": "~6.0",
         "laravel/socialite": "^2.0",
         "nasution/zenziva-sms": "^1.3",
-        "twilio/sdk": "^5.4"
+        "twilio/sdk": "^5.4",
+        "endroid/qrcode": "^1.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
