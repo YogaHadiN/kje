@@ -7,10 +7,10 @@
 						<h2>Scan disini untuk input gambar</h2>
 						@if(isset($periksa))
 							@if($periksa->gambars->count() < 1)
-							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksa->id . '/images/edit' ) !!}" alt="">
+							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksa->id . '/images' ) !!}" alt="">
 							<p> <a class="" href="{{ url('periksa/' . $periksa->id . '/images') }}">Create Gambar</a> </p>
 							@else
-							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksa->id . '/images' ) !!}" alt="">
+							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksa->id . '/images/edit' ) !!}" alt="">
 							<p> <a class="" href="{{ url('periksa/' . $periksa->id . '/images/edit') }}">Edit Gambar</a> </p>
 							@endif
 						@else
