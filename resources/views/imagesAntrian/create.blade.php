@@ -38,8 +38,8 @@ Klinik Jati Elok | Gambar Estetika
 		 $('#submit').click();
 	}
 </script>
-	{!! HTML::script('js/inputGambar.js')!!} 
 	{!! HTML::script('js/gambar_periksa.js')!!} 
+	{!! HTML::script('js/inputGambar.js')!!} 
 </body>
 
 </html>

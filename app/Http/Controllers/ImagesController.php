@@ -48,7 +48,11 @@ class ImagesController extends Controller
 			$pesan = Yoga::gagalFlash('Gambar GAGAL di Update');
 		}
 
-		return redirect('ruangperiksa/'. $periksa->poli)->withPesan($pesan);
+		if ($periksa->gambars->count() > 0) {
+			return redirect('periksa/'. $periksa->id . '/images/edit')->withPesan($pesan);
+		}
+		return redirect('periksa/'. $periksa->id . '/images')->withPesan($pesan);
+
 	}
 	public function edit($id){
 		$periksa = Periksa::find($id);
@@ -97,6 +101,10 @@ class ImagesController extends Controller
 		} else {
 			$pesan = Yoga::gagalFlash('Update gambar periksa gagal');
 		}
-		return redirect('ruangperiksa/' . Periksa::find($id)->poli)->withPesan($pesan);
+		$periksa = Periksa::find($id);
+		if ($periksa->gambars->count() > 0) {
+			return redirect('periksa/'. $id . '/images/edit')->withPesan($pesan);
+		}
+		return redirect('periksa/'. $id . '/images')->withPesan($pesan);
 	}
 }

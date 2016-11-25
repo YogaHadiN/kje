@@ -33,15 +33,14 @@ Klinik Jati Elok | Gambar Estetika
     <!-- Mainly scripts -->
 
 	{!! HTML::script('js/all.js')!!} 
-
 <script type="text/javascript" charset="utf-8">
 	tambahGambar();
 	function dummySubmit(){
 		 $('#submit').click();
 	}
 </script>
-	{!! HTML::script('js/inputGambar.js')!!} 
 	{!! HTML::script('js/gambar_periksa.js')!!} 
+	{!! HTML::script('js/inputGambar.js')!!} 
 </body>
 
 </html>
