@@ -1,22 +1,20 @@
-@extends('layout.master')
+<!DOCTYPE html>
+<html>
 
-@section('title') 
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
 Klinik Jati Elok | Edit Gambar Estetika
+</title>
+    {!! HTML::style('css/all.css')!!}
+</head>
 
-@stop
-@section('page-title') 
-<h2>Edit Gambar Estetika</h2>
-<ol class="breadcrumb">
-	  <li>
-		  <a href="{{ url('laporans')}}">Home</a>
-	  </li>
-	  <li class="active">
-		  <strong>Edit Gambar Estetika</strong>
-	  </li>
-</ol>
+<body class="gray-bg">
 
-@stop
-@section('content') 
+	<h2>Edit Gambar Estetika</h2>
 	{!! Form::open([
 		'url'		=> 'antrianperiksa/' . $antrianperiksa->id . '/images', 
 		'method'	=> 'put', 
@@ -28,12 +26,15 @@ Klinik Jati Elok | Edit Gambar Estetika
 	])
 	{!! Form::close() !!}
 	@include('gambar_periksa')
-@stop
-@section('footer') 
+
+    <!-- Mainly scripts -->
+
 	<script type="text/javascript" charset="utf-8">
 		var gambars = '{!!  json_encode( $antrianperiksa->gambars ) !!}';
 	</script>
-{!! HTML::script('js/gambar_periksa.js')!!} 
-{!! HTML::script('js/inputGambar.js')!!} 
+	{!! HTML::script('js/all.js')!!} 
+	{!! HTML::script('js/gambar_periksa.js')!!} 
+	{!! HTML::script('js/inputGambar.js')!!} 
+</body>
 
-@stop
+</html>

@@ -57,4 +57,4 @@
 		</div>
 	</div>
 </div>
-{!! Form::textarea('image_sisa', null, ['class' => 'form-control', 'id' => 'image_sisa']) !!}
+{!! Form::textarea('image_sisa', null, ['class' => 'hide', 'id' => 'image_sisa']) !!}

@@ -1,22 +1,25 @@
-@extends('layout.master')
+<!DOCTYPE html>
+<html>
 
-@section('title') 
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
 Klinik Jati Elok | Edit Gambar Estetika
+</title>
+    {!! HTML::style('css/all.css')!!}
+  {{--   <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-@stop
-@section('page-title') 
-<h2>Edit Gambar Estetika</h2>
-<ol class="breadcrumb">
-	  <li>
-		  <a href="{{ url('laporans')}}">Home</a>
-	  </li>
-	  <li class="active">
-		  <strong>Edit Gambar Estetika</strong>
-	  </li>
-</ol>
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> --}}
 
-@stop
-@section('content') 
+</head>
+
+<body class="gray-bg">
+
 	{!! Form::open([
 		'url'		=> 'periksa/' . $periksa->id . '/images', 
 		'method'	=> 'put', 
@@ -25,11 +28,15 @@ Klinik Jati Elok | Edit Gambar Estetika
 		@include('images.form')
 	{!! Form::close() !!}
 	@include('gambar_periksa')
-@stop
-@section('footer') 
+
+    <!-- Mainly scripts -->
+
+	{!! HTML::script('js/all.js')!!} 
 	<script type="text/javascript" charset="utf-8">
 		var gambars = '{!!  json_encode( $periksa->gambars ) !!}';
 	</script>
-{!! HTML::script('js/gambar_periksa.js')!!} 
-{!! HTML::script('js/inputGambar.js')!!} 
-@stop
+	{!! HTML::script('js/gambar_periksa.js')!!} 
+	{!! HTML::script('js/inputGambar.js')!!} 
+</body>
+
+</html>

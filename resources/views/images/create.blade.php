@@ -1,22 +1,26 @@
-@extends('layout.master')
+<!DOCTYPE html>
+<html>
 
-@section('title') 
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
 Klinik Jati Elok | Gambar Estetika
+</title>
+    {!! HTML::style('css/all.css')!!}
+  {{--   <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-@stop
-@section('page-title') 
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> --}}
+
+</head>
+
+<body class="gray-bg">
+
 <h2>Gambar Estetika</h2>
-<ol class="breadcrumb">
-	  <li>
-		  <a href="{{ url('laporans')}}">Home</a>
-	  </li>
-	  <li class="active">
-		  <strong>Gambar Estetika</strong>
-	  </li>
-</ol>
-
-@stop
-@section('content') 
 	{!! Form::open([
 		'url'		=> 'periksa/' . $periksa->id . '/images', 
 		'method'	=> 'post', 
@@ -25,15 +29,19 @@ Klinik Jati Elok | Gambar Estetika
 		@include('images.form')
 	{!! Form::close() !!}
 	@include('gambar_periksa')
-@stop
-@section('footer') 
-{!! HTML::script('js/gambar_periksa.js')!!} 
+
+    <!-- Mainly scripts -->
+
+	{!! HTML::script('js/all.js')!!} 
+
 <script type="text/javascript" charset="utf-8">
 	tambahGambar();
 	function dummySubmit(){
 		 $('#submit').click();
 	}
-	
-	
 </script>
-@stop
+	{!! HTML::script('js/inputGambar.js')!!} 
+	{!! HTML::script('js/gambar_periksa.js')!!} 
+</body>
+
+</html>
