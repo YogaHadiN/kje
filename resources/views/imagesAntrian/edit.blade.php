@@ -18,18 +18,19 @@ Klinik Jati Elok | Edit Gambar Estetika
 @stop
 @section('content') 
 	{!! Form::open([
-		'url'		=> 'periksa/' . $periksa->id . '/images', 
+		'url'		=> 'antrianperiksa/' . $antrianperiksa->id . '/images', 
 		'method'	=> 'put', 
 		'files'		=> 'true'
 	]) !!}
-		@include('images.form')
+		@include('imagesAntrian.form')
 	{!! Form::close() !!}
 	@include('gambar_periksa')
 @stop
 @section('footer') 
 	<script type="text/javascript" charset="utf-8">
-		var gambars = '{!!  json_encode( $periksa->gambars ) !!}';
+		var gambars = '{!!  json_encode( $antrianperiksa->gambars ) !!}';
 	</script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
 {!! HTML::script('js/inputGambar.js')!!} 
+
 @stop

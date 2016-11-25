@@ -1,13 +1,13 @@
-{!! Form::text('periksa_id', $periksa->id, ['class' => 'form-control hide']) !!}
+{!! Form::text('antrianperiksa', $antrianperiksa->id, ['class' => 'form-control hide']) !!}
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-			<div class="panel-title">Gambar Estetika | {{ $periksa->pasien->nama }}</div>
+			<div class="panel-title">Gambar Estetika | {{ $antrianperiksa->pasien->nama }}</div>
 			</div>
 			<div class="panel-body">
 				<div id="panel_gambar">
-					@foreach($periksa->gambars as $k=> $image)	
+					@foreach($antrianperiksa->gambars as $k=> $image)	
 						<div class="satu_gambar">
 							<div class="row">
 								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -42,7 +42,7 @@
 						</div> 
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<a class="btn btn-danger btn-block btn-lg" href="{{ url('antrianperiksas') }}">Cancel</a>
+					<a class="btn btn-danger btn-block btn-lg" href="{{ url('poli/' . $antrianperiksa->id) }}">Cancel</a>
 					</div>
 				</div>
 			</div>

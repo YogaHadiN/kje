@@ -5,19 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\AntrianPeriksa;
 use App\Periksa;
 use App\Classes\Yoga;
 use App\GambarPeriksa;
 use Input;
 
-class ImagesController extends Controller
+class ImagesAntrianPeriksaController extends Controller
 {
 	public function create($id){
-		$periksa = Periksa::find($id);
-		return view('images.create', compact('periksa'));
+		$antrianperiksa = AntrianPeriksa::find($id);
+		return view('imagesAntrian.create', compact('antrianperiksa'));
 	}
 	public function store($id){
-		$periksa = Periksa::find($id);
+		$periksa = AntrianPeriksa::find($id);
 		$confirm = false;
 		$px = new Periksa;
 		if ( Input::hasFile('foto_estetika') ) {
@@ -30,7 +31,7 @@ class ImagesController extends Controller
 						 'nama'		  => $filename,
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id' => $id,
-						 'gambarable_type' => 'App\Periksa',
+						 'gambarable_type' => 'App\AntrianPeriksa',
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];
@@ -40,52 +41,52 @@ class ImagesController extends Controller
 		}
 
 		if ($confirm) {
-			$pesan = Yoga::suksesFlash('Gambar Berhasil di Update');
+			$pesan = Yoga::suksesFlash('Gambar Berhasil di Masukkan');
 		} else {
 			$pesan = Yoga::gagalFlash('Gambar GAGAL di Update');
 		}
 
-		return redirect('ruangperiksa/'. $periksa->poli)->withPesan($pesan);
+		return redirect('ruangperiksa/' . $periksa->poli)->withPesan($pesan);
 	}
 	public function edit($id){
-		$periksa = Periksa::find($id);
-
-		return view('images.edit', compact(
-			'periksa',
+		$antrianperiksa = AntrianPeriksa::find($id);
+		return view('imagesAntrian.edit', compact(
+			'antrianperiksa',
 			'sisa'
 		));
 		
 	}
 	public function update($id){
+		//return Input::get('image_sisa');
 		$px = new Periksa;
+
 		GambarPeriksa::where('gambarable_id', $id)
-						->where('gambarable_type', 'App\Periksa')
-						->delete();
+			->where('gambarable_type', 'App\AntrianPeriksa')
+			->delete();
 
 		$image_sisa = Input::get('image_sisa');
+		$image_sisa = str_replace('\\', '\\\\', $image_sisa );
 		$sisa = json_decode($image_sisa,true);
-		//return dd( $sisa );
+
 		$start_input_key = count($sisa);
 		$confirm = GambarPeriksa::insert($sisa);
-
-		//return  dd(Input::file('foto_estetika')) ;
-
 		if ( Input::hasFile('foto_estetika') ) {
 			if (count( Input::file('foto_estetika') ) > 0 ) {
 				$timestamp = date('Y-m-d H:i:s');
 				$files = Input::file('foto_estetika');
+				$data=[];
 				foreach ($files as $k=>$file) {
 					$filename = $px->imageUpload($file, $id, (int)$k + (int)$start_input_key); 
 					$data[] = [
 						 'nama'		  => $filename,
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id' => $id,
-						 'gambarable_type' => 'App\Periksa',
+						 'gambarable_type' => 'App\AntrianPeriksa',
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];
 				}
-				//return $data;
+				return dd( $data );
 				$confirm = GambarPeriksa::insert($data);
 			}
 		}
@@ -94,6 +95,6 @@ class ImagesController extends Controller
 		} else {
 			$pesan = Yoga::gagalFlash('Update gambar periksa gagal');
 		}
-		return redirect('ruangperiksa/' . Periksa::find($id)->poli)->withPesan($pesan);
+		return redirect('ruangperiksa/' . AntrianPeriksa::find($id)->poli)->withPesan($pesan);
 	}
 }

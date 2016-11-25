@@ -173,27 +173,34 @@ class PeriksasController extends Controller
 		//JIKA ADA FOTO ESTETIKA MASUKKAN GAMBAR ESTETIKA
 		//
 		//
+
+		$gambar = GambarPeriksa::where('gambarable_type', 'App\AntrianPeriksa')
+								->where('gambarable_id', Input::get('antrian_id'))
+								->update([
+									'gambarable_type' => 'App\Periksa',
+									'gambarable_id' => $periksa_id,
+								]);
 		
 
-		if ( Input::hasFile('foto_estetika') ) {
-			if (count( Input::file('foto_estetika') ) > 0 ) {
-				$timestamp = date('Y-m-d H:i:s');
-				$files = Input::file('foto_estetika');
-				foreach ($files as $k=>$file) {
+		//if ( Input::hasFile('foto_estetika') ) {
+			//if (count( Input::file('foto_estetika') ) > 0 ) {
+				//$timestamp = date('Y-m-d H:i:s');
+				//$files = Input::file('foto_estetika');
+				//foreach ($files as $k=>$file) {
 
-					$filename = $periksa->imageUpload($file, $periksa_id, $k); 
-					$data[] = [
-						 'nama'		  => $filename,
-						 'keterangan' => Input::get('keterangan_gambar')[$k],
-						 'periksa_id' => $periksa_id,
-						 'created_at' => $timestamp,
-						 'updated_at' => $timestamp
-					];
+					//$filename = $periksa->imageUpload($file, $periksa_id, $k); 
+					//$data[] = [
+						 //'nama'		  => $filename,
+						 //'keterangan' => Input::get('keterangan_gambar')[$k],
+						 //'periksa_id' => $periksa_id,
+						 //'created_at' => $timestamp,
+						 //'updated_at' => $timestamp
+					//];
 
-				}
-				GambarPeriksa::insert($data);
-			}
-		}
+				//}
+				//GambarPeriksa::insert($data);
+			//}
+		//}
 
 		//INPUT DATA UNTUK TERAPI
 		//
@@ -389,9 +396,9 @@ class PeriksasController extends Controller
 	public function edit($id)
 	{
 		$periksa = Periksa::find($id);
-		if (isset($periksa->gambarPeriksa)) {
-			$periksa->gambarPeriksa->delete();
-		}
+		//if (isset($periksa->gambar)) {
+			//$periksa->gambar->delete();
+		//}
 		return view('periksas.edit', compact('periksa'));
 	}
 

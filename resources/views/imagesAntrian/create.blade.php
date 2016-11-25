@@ -1,35 +1,39 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Edit Gambar Estetika
+Klinik Jati Elok | Gambar Estetika
 
 @stop
 @section('page-title') 
-<h2>Edit Gambar Estetika</h2>
+<h2>Gambar Estetika</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Edit Gambar Estetika</strong>
+		  <strong>Gambar Estetika</strong>
 	  </li>
 </ol>
 
 @stop
 @section('content') 
 	{!! Form::open([
-		'url'		=> 'periksa/' . $periksa->id . '/images', 
-		'method'	=> 'put', 
+		'url'		=> 'antrianperiksa/' . $antrianperiksa->id . '/images', 
+		'method'	=> 'post', 
 		'files'		=> 'true'
 	]) !!}
-		@include('images.form')
+		@include('imagesAntrian.form')
 	{!! Form::close() !!}
 	@include('gambar_periksa')
 @stop
 @section('footer') 
-	<script type="text/javascript" charset="utf-8">
-		var gambars = '{!!  json_encode( $periksa->gambars ) !!}';
-	</script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
-{!! HTML::script('js/inputGambar.js')!!} 
+<script type="text/javascript" charset="utf-8">
+	tambahGambar();
+	function dummySubmit(){
+		 $('#submit').click();
+	}
+	
+	
+</script>
 @stop

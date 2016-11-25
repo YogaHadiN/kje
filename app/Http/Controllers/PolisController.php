@@ -444,9 +444,12 @@ class PolisController extends Controller
 		$transaksiusg = json_encode($transaksiusg);
 		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id, $periksa);
 
+		$url = url('/');
+		//return dd( $antrianperiksa->gambars );
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
+			->withUrl($url)
 			->withIcd10s($icd10s)
 			->withPasien($pasien)
 			->withPakai_bayar_pribadi($pakai_bayar_pribadi)

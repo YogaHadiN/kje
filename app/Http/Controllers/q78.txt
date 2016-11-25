@@ -1,0 +1,3 @@
+ALTER TABLE gambar_periksas CHANGE periksa_id `gambarable_id` VARCHAR(255);
+ALTER TABLE gambar_periksas add column `gambarable_type` VARCHAR(255);
+update gambar_periksas set gambarable_type = 'App\\\Periksa';

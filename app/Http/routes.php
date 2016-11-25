@@ -67,6 +67,11 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 	Route::get('periksa/{id}/images/edit', 'ImagesController@edit');
 	Route::put('periksa/{id}/images', 'ImagesController@update');
 
+	Route::get('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@create');
+	Route::post('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@store');
+	Route::get('antrianperiksa/{id}/images/edit', 'ImagesAntrianPeriksaController@edit');
+	Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update');
+
   	Route::group(['middleware' => 'auth'], function(){
 
 

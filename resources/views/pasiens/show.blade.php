@@ -111,20 +111,20 @@ Klinik Jati Elok | Riwayat Pasien
                       </td>
                     </tr>
 
-					@if($periksa->gambarPeriksa->count() > 0)
+					@if($periksa->gambars->count() > 0)
 						<tr>
 							<td colspan="3">
 								<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 								  <!-- Indicators -->
 								  <ol class="carousel-indicators">
-									  @foreach($periksa->gambarPeriksa as $k => $gambar)
+									  @foreach($periksa->gambars as $k => $gambar)
 										<li data-target="#carousel-example-generic" data-slide-to="{{ $k }}"@if($k == 0) class="active"@endif></li>
 									  @endforeach
 								  </ol>
 								
 								  <!-- Wrapper for slides -->
 								  <div class="carousel-inner" role="listbox">
-								    @foreach($periksa->gambarPeriksa as $k => $gambar)
+								    @foreach($periksa->gambars as $k => $gambar)
 									<div class="item @if($k == 0) active @endif">
 									  <img src="{{ url('img/estetika/'.$gambar->nama ) }}" class="upload" alt="...">
 									  <div class="carousel-caption">

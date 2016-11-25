@@ -97,31 +97,13 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
           'p'                            => $p,
           'a'                            => $a,
           'pasien_id'                    => $periksaex->pasien_id,
-          'gambarPeriksa'                    => $periksaex->gambarPeriksa,
+          'gambarPeriksa'                    => $periksaex->gambars,
           'riwayat_kehamilan_sebelumnya' => $riwayat_persalinan_sebelumnya,
           'hpht'                         => App\Classes\Yoga::updateDatePrep($hpht),
           'tanggal_lahir_anak_terakhir'  => App\Classes\Yoga::updateDatePrep($tanggal_lahir_anak_terakhir)
 ])
 {!! Form::close()!!}
-
-@if($periksaex->poli == 'estetika')
-<div class="row">
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-	</div>
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		<div class="panel panel-default">
-			<div class="panel-body text-center">
-				<h2>Scan disini untuk input gambar</h2>
-				@if($periksaex->gambarPeriksa->count())
-						<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images/edit' ) !!}" alt="">
-					@else
-						<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images' ) !!}" alt="">
-					@endif
-			</div>
-		</div>
-	</div>
-</div>
-@endif
+@include('images.formPoli', ['periksa' => $periksaex])
 @include('after')
 @include('gambar_periksa')
 

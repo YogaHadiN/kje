@@ -39,6 +39,8 @@ class AntrianPeriksa extends Model{
 	public function periksaEx(){
 		return $this->hasOne('App\Periksa', 'antrian_periksa_id', 'id');
 	}
-	
+    public function gambars(){
+        return $this->morphMany('App\GambarPeriksa', 'gambarable');
+    }
 
 }

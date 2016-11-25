@@ -33,11 +33,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
-						@if($poli == 'estetika')
-							<th>Gambar</th>
-						@else
-							<th>Antrian</th>
-						@endif
+						<th>Antrian</th>
                         <th>Tanggal</th>
                         <th>Jam</th>
                         <th>Pembayaran</th>
@@ -126,15 +122,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                             @foreach ($postperiksa as $periksa)
                                 <tr>
                                     <td class="hide">{!! $periksa->id !!}</td>
-									<td>
-
-										@if($periksa->poli == 'estetika' && $periksa->gambarPeriksa->count() < 1)
-                                            <a href="{{ url('periksa/' . $periksa->id . '/images') }}" class="btn btn-info btn-sm rujukan">Gambar</a>
-										@elseif($periksa->poli == 'estetika' && $periksa->gambarPeriksa->count() >0)
-                                            <a href="{{ url('periksa/' . $periksa->id . '/images/edit') }}" class="btn btn-warning btn-sm rujukan">Edit Gambar</a>
-										@else
-											{!! $periksa->antrian !!}</td> 
-                                        @endif
+									<td>{!! $periksa->antrian !!}</td> 
                                     <td>{!! $periksa->pasien->nama !!}</td>
                                     <td>{!! $periksa->staf->nama !!}</td> 
                                     <td>{!! $periksa->asuransi->nama !!}</td>

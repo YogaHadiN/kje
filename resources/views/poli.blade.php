@@ -98,7 +98,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
           'hpht'                         => App\Classes\Yoga::updateDatePrep($antrianperiksa->hpht)
       ])
 {!! Form::close()!!}
-
+@include('images.formPoli')
 @include('after', ['cekGdsBulanIni' => $cekGdsBulanIni])
 @include('gambar_periksa')
 @stop

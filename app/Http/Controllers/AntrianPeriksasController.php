@@ -128,9 +128,9 @@ class AntrianPeriksasController extends Controller
 		$ap->tinggi_badan        = $tinggi_badan;
 		$ap->save();
 
-		if ($ap->poli == 'estetika') {
-			$this->periksaKosong($ap->pasien_id, $ap->staf_id, $ap->asisten_id, $ap->id, $ap->antrian, $ap->jam);
-		}
+		//if ($ap->poli == 'estetika') {
+			//$this->periksaKosong($ap->pasien_id, $ap->staf_id, $ap->asisten_id, $ap->id, $ap->antrian, $ap->jam);
+		//}
 
 		$antrian_id              = Input::get('antrian_id');
 		$pasien                  = Pasien::find(Input::get('pasien_id'));

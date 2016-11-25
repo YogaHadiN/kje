@@ -151,7 +151,6 @@ class CustomController extends Controller
 
 		 $periksa->lewat_poli = '0';
 		 $periksa->lewat_kasir = '0';
-		 $periksa->save();
 
 		 if ($periksa->usg) {
 		 	$usg = '1';
@@ -169,7 +168,8 @@ class CustomController extends Controller
 		$antrian->tanggal = $periksa->tanggal;
 		$antrian->save();
 
-
+		$periksa->antrian_periksa_id = $antrian->id;
+		$periksa->save();
 		PengantarPasien::where('antarable_type', 'App\Periksa')
 			->where('antarable_id', $id)
 			->update([

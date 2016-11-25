@@ -102,21 +102,21 @@
 							<textarea name="" id="terapiTemp" cols="30" rows="10" class="displayNone">{!! $periksa->terapi !!}</textarea>
 						</div>
 					</div>
-					@if($periksa->gambarPeriksa->count() > 0)
+					@if($periksa->gambars->count() > 0)
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							
 								<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 								  <!-- Indicators -->
 								  <ol class="carousel-indicators">
-									  @foreach($periksa->gambarPeriksa as $k => $gambar)
+									  @foreach($periksa->gambars as $k => $gambar)
 										<li data-target="#carousel-example-generic" data-slide-to="{{ $k }}"@if($k == 0) class="active"@endif></li>
 									  @endforeach
 								  </ol>
 								
 								  <!-- Wrapper for slides -->
 								  <div class="carousel-inner" role="listbox">
-								    @foreach($periksa->gambarPeriksa as $k => $gambar)
+								    @foreach($periksa->gambars as $k => $gambar)
 									<div class="item @if($k == 0) active @endif">
 									  <img src="{{ url('img/estetika/'.$gambar->nama ) }}" class="upload" alt="...">
 									  <div class="carousel-caption">

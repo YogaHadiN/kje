@@ -770,6 +770,9 @@ class Periksa extends Model{
         return $this->morphMany('App\PengantarPasien', 'antarable');
     }
 
+    public function gambars(){
+        return $this->morphMany('App\GambarPeriksa', 'gambarable');
+    }
     public function getKetjurnalAttribute(){
         $pasien = $this->pasien->nama;
         $diagnosis = $this->diagnosa->diagnosa .' - ' . $this->diagnosa->icd10->diagnosaICD;
@@ -1094,10 +1097,6 @@ class Periksa extends Model{
 			$temp .= '</div>';
 		}
 		return $temp;
-	}
-
-	public function gambarPeriksa(){
-		return $this->hasMany('App\GambarPeriksa');
 	}
 	public function getDiagnosahtmlAttribute(){
 		return $this->diagnosa->diagnosa . ' - ' . $this->diagnosa->icd10->diagnosaICD . ' (' . $this->diagnosa->icd10_id . ')';
