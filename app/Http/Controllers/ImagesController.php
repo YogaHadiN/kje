@@ -48,10 +48,7 @@ class ImagesController extends Controller
 			$pesan = Yoga::gagalFlash('Gambar GAGAL di Update');
 		}
 
-		if ($periksa->gambars->count() > 0) {
-			return redirect('periksa/'. $periksa->id . '/images/edit')->withPesan($pesan);
-		}
-		return redirect('periksa/'. $periksa->id . '/images')->withPesan($pesan);
+		return redirect('images/result')->withPesan($pesan);
 
 	}
 	public function edit($id){
@@ -102,9 +99,10 @@ class ImagesController extends Controller
 			$pesan = Yoga::gagalFlash('Update gambar periksa gagal');
 		}
 		$periksa = Periksa::find($id);
-		if ($periksa->gambars->count() > 0) {
-			return redirect('periksa/'. $id . '/images/edit')->withPesan($pesan);
-		}
-		return redirect('periksa/'. $id . '/images')->withPesan($pesan);
+		return redirect('images/result')->withPesan($pesan);
 	}
+	public function result(){
+		return view('images.result', compact(''));
+	}
+	
 }

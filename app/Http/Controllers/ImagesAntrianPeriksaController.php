@@ -55,11 +55,7 @@ class ImagesAntrianPeriksaController extends Controller
 		} else {
 			$poli = $periksa->poli;
 		}
-
-		if ($periksa->gambars->count() > 0) {
-			return redirect('antrianperiksa/'. $periksa->id . '/images/edit')->withPesan($pesan);
-		}
-		return redirect('antrianperiksa/'. $periksa->id . '/images')->withPesan($pesan);
+		return redirect('images/result')->withPesan($pesan);
 	}
 	public function edit($id){
 		$antrianperiksa = AntrianPeriksa::find($id);
@@ -107,9 +103,6 @@ class ImagesAntrianPeriksaController extends Controller
 			$pesan = Yoga::gagalFlash('Update gambar periksa gagal');
 		}
 		$periksa = AntrianPeriksa::find($id);
-		if ($periksa->gambars->count() > 0) {
-			return redirect('antrianperiksa/'. $periksa->id . '/images/edit')->withPesan($pesan);
-		}
-		return redirect('antrianperiksa/'. $periksa->id . '/images')->withPesan($pesan);
+		return redirect('images/result')->withPesan($pesan);
 	}
 }

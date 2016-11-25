@@ -64,6 +64,7 @@ Route::get('periksa/{id}/images', 'ImagesController@create');
 Route::post('periksa/{id}/images', 'ImagesController@store');
 Route::get('periksa/{id}/images/edit', 'ImagesController@edit');
 Route::put('periksa/{id}/images', 'ImagesController@update');
+Route::get('images/result', 'ImagesController@result');
 
 Route::get('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@create');
 Route::post('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@store');
