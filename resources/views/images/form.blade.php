@@ -6,7 +6,7 @@
 				<div class="panel-title">
 					@if($periksa->gambars->count() > 0)
 						Edit
-					@else
+					@endif
 					Gambar Estetika | {{ $periksa->pasien->nama }}</div>
 			</div>
 			<div class="panel-body">
@@ -50,7 +50,7 @@
 						</div> 
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<a class="btn btn-danger btn-block btn-lg" href="{{ url('antrianperiksas') }}">Cancel</a>
+					<a class="btn btn-danger btn-block btn-lg" href="{{ url('ruangperiksa/'. $periksa->poli) }}">Cancel</a>
 					</div>
 				</div>
 			</div>

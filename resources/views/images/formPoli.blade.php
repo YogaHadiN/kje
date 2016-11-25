@@ -8,40 +8,72 @@
 						@if(isset($periksaex))
 							@if($periksaex->gambars->count() < 1)
 							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images' ) !!}" alt="">
+							<p>{!! $url . '/periksa/' . $periksaex->id . '/images' !!}</p>
 							<p> <a class="" href="{{ url('periksa/' . $periksaex->id . '/images') }}">Create Gambar</a> </p>
 							@else
 							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images/edit' ) !!}" alt="">
+							<p>{!! $url . '/periksa/' . $periksaex->id . '/images/edit' !!}</p>
 							<p> <a class="" href="{{ url('periksa/' . $periksaex->id . '/images/edit') }}">Edit Gambar</a> </p>
 							@endif
 						@else
 							@if($antrianperiksa->gambars->count() < 1)
 							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' ) !!}" alt="">
+							<p>{!! $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' !!}</p>
 							<p> <a class="" href="{{ url('antrianperiksa/' . $antrianperiksa->id . '/images') }}">Create Gambar</a> </p>
 							@else
 							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' ) !!}" alt="">
+							<p>{!! $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' !!}</p>
 							<p> <a class="" href="{{ url('antrianperiksa/' . $antrianperiksa->id . '/images/edit') }}">Edit Gambar</a> </p>
 							@endif
 						@endif
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
+				<div class="alert alert-info">
+					<h2>Input Gambar</h2>
+					<ul>
+						<li>Pastikan Handphone menggunakan wifi kje</li>
+						<li>Scan QR Code disamping dengan Smartphone</li>
+						<li>Login dahulu bila belum login di Smartphone</li>
+						<li>Scan QR Code untuk yang kedua kali</li>
+						<li>Upload Image, Ambil Gambar, Submit</li>
+						<li>Refersh halaman / Tekan F5 untuk melihat hasilnya dibawah ini</li>
+					</ul>
+				</div>
+			</div>
+			</div>
 				@if(isset($periksaex))
-					@foreach($periksaex->gambars as $img)
+				@foreach($periksaex->gambars as $k=> $img)
+					@if( !App\Classes\Yoga::even($k) )
+						<div class="row">
+					@endif
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<img src="{!! url( 'img/estetika/' . $img->nama ) !!}" alt="" class="upload img-rounded">
 						<div class="alert alert-info">
 							 {{ $img->keterangan }} 
 						</div>
+					</div>
+					@if( !App\Classes\Yoga::even($k) )
+						</div>
+					@endif
 					@endforeach
 				@else
-					@foreach($antrianperiksa->gambars as $img)
+				@foreach($antrianperiksa->gambars as $k=> $img)
+					@if( !App\Classes\Yoga::even($k) )
+						<div class="row">
+					@endif
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<img src="{!! url( 'img/estetika/' . $img->nama ) !!}" alt="" class="upload img-rounded">
 						<div class="alert alert-info">
 							 {{ $img->keterangan }} 
 						</div>
+					</div>
+					@if( !App\Classes\Yoga::even($k) )
+						</div>
+					@endif
 					@endforeach
 				@endif
-			</div>
 		</div>
 	</div>
 </div>

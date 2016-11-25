@@ -50,7 +50,13 @@ class ImagesAntrianPeriksaController extends Controller
 			$pesan = Yoga::gagalFlash('Gambar GAGAL di Update');
 		}
 
-		return redirect('ruangperiksa/' . $periksa->poli)->withPesan($pesan);
+		if ($periksa->poli == 'sks') {
+			$poli = 'umum';
+		} else {
+			$poli = $periksa->poli;
+		}
+
+		return redirect('ruangperiksa/' . $poli)->withPesan($pesan);
 	}
 	public function edit($id){
 		$antrianperiksa = AntrianPeriksa::find($id);
@@ -69,7 +75,6 @@ class ImagesAntrianPeriksaController extends Controller
 			->delete();
 
 		$image_sisa = Input::get('image_sisa');
-		$image_sisa = str_replace('\\', '\\\\', $image_sisa );
 		$sisa = json_decode($image_sisa,true);
 
 		$start_input_key = count($sisa);
@@ -90,7 +95,6 @@ class ImagesAntrianPeriksaController extends Controller
 						 'updated_at' => $timestamp
 					];
 				}
-				return dd( $data );
 				$confirm = GambarPeriksa::insert($data);
 			}
 		}

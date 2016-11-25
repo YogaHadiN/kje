@@ -2303,6 +2303,13 @@ class Yoga {
 		$query .= "ORDER BY ks.created_at desc;";
 		return DB::select($query);
 	}
+	public static function even($number){
+		if ($number % 2 == 0) {
+		  return true;
+		}
+		return false;
+	}
+	
 	
     
 }

@@ -34,7 +34,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
 @stop
 @section('content') 
 
-@include('before')
+	@include('before', ['periksa' => $before])
 {!! Form::model($periksaex, [
 	'url' => 'periksas/' . $periksaex->id, 
 	'method' => 'put', 

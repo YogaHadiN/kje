@@ -279,6 +279,7 @@ class PolisController extends Controller
 			}
 			$url = url('/');
 			$text = 'http://www.google.com';
+			$before = Periksa::where('pasien_id', $pasien->id)->orderBy('created_at', 'desc')->take(2)->get()[1];
 			//return $periksaExist->gambarPeriksa->count();
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
@@ -305,6 +306,7 @@ class PolisController extends Controller
 			->withPemeriksaan_awal($pemeriksaan_awal)
 			->withTransaksi($transaksi)
 			->withPeriksaex($periksaExist)
+			->withBefore($before)
 			->withPresentasi($presentasi)
 			->withPenunjang($periksaExist->pemeriksaan_penunjang)
 			->withBpdw($bpdw)
@@ -447,7 +449,6 @@ class PolisController extends Controller
 		$url = url('/');
 		//return dd( $antrianperiksa->gambars );
 		//return dd( $periksa->gambars );
-		
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
