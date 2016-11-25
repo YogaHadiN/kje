@@ -103,7 +103,7 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
           'tanggal_lahir_anak_terakhir'  => App\Classes\Yoga::updateDatePrep($tanggal_lahir_anak_terakhir)
 ])
 {!! Form::close()!!}
-@include('images.formPoli', ['periksa' => $periksaex])
+@include('images.formPoli', ['periksaex' => $periksaex])
 @include('after')
 @include('gambar_periksa')
 

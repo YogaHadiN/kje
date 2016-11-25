@@ -446,6 +446,8 @@ class PolisController extends Controller
 
 		$url = url('/');
 		//return dd( $antrianperiksa->gambars );
+		//return dd( $periksa->gambars );
+		
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
@@ -475,8 +477,7 @@ class PolisController extends Controller
 			->withSudah($sudah)
 			->withTransaksiusg($transaksiusg)
 			->withPeriksa($periksa)
-			->withPemeriksaan_awal($pemeriksaan_awal)
-			->withPeriksaex($periksaExist);
+			->withPemeriksaan_awal($pemeriksaan_awal);
 	}
 
 
