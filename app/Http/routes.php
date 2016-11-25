@@ -62,15 +62,6 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 		App\Classes\Yoga::sms('085721012351', 'test aja disini');
 	});
 
-	Route::get('periksa/{id}/images', 'ImagesController@create');
-	Route::post('periksa/{id}/images', 'ImagesController@store');
-	Route::get('periksa/{id}/images/edit', 'ImagesController@edit');
-	Route::put('periksa/{id}/images', 'ImagesController@update');
-
-	Route::get('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@create');
-	Route::post('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@store');
-	Route::get('antrianperiksa/{id}/images/edit', 'ImagesAntrianPeriksaController@edit');
-	Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update');
 
   	Route::group(['middleware' => 'auth'], function(){
 
@@ -533,6 +524,15 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 			Route::post('laporans/sms/gagal/action', 'SmsController@smsGagalPost');
 			Route::post('laporans/sms/masuk/action', 'SmsController@smsMasukPost');
 
+			Route::get('periksa/{id}/images', 'ImagesController@create');
+			Route::post('periksa/{id}/images', 'ImagesController@store');
+			Route::get('periksa/{id}/images/edit', 'ImagesController@edit');
+			Route::put('periksa/{id}/images', 'ImagesController@update');
+
+			Route::get('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@create');
+			Route::post('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@store');
+			Route::get('antrianperiksa/{id}/images/edit', 'ImagesAntrianPeriksaController@edit');
+			Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update');
 
 			Route::get('configs', 'ConfigsController@index');
 			Route::post('configs/update', 'ConfigsController@update');
