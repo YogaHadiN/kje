@@ -13,6 +13,9 @@ use Input;
 class ImagesController extends Controller
 {
 	public function create($id){
+		if ( Periksa::find($id)->gambars->count() > 0 ) {
+			return redirect('periksa/' . $id . '/images/edit');
+		}
 		$periksa = Periksa::find($id);
 		return view('images.create', compact('periksa'));
 	}

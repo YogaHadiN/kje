@@ -14,6 +14,10 @@ use Input;
 class ImagesAntrianPeriksaController extends Controller
 {
 	public function create($id){
+
+		if ( AntrianPeriksa::find($id)->gambars->count() > 0 ) {
+			return redirect('antrianperiksa/' . $id . '/images/edit');
+		}
 		$antrianperiksa = AntrianPeriksa::find($id);
 		return view('imagesAntrian.create', compact('antrianperiksa'));
 	}

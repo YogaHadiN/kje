@@ -3,7 +3,11 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-			<div class="panel-title">Gambar Estetika | {{ $periksa->pasien->nama }}</div>
+				<div class="panel-title">
+					@if($periksa->gambars->count() > 0)
+						Edit
+					@else
+					Gambar Estetika | {{ $periksa->pasien->nama }}</div>
 			</div>
 			<div class="panel-body">
 				<div id="panel_gambar">
@@ -37,7 +41,11 @@
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
+							@if($periksa->gambars->count() > 0)
+							<button class="btn btn-success btn-block btn-lg" type="button" onclick="validasiKeterangan();return false;">Update</button>
+						@else
 							<button class="btn btn-success btn-block btn-lg" type="button" onclick="validasiKeterangan();return false;">Submit</button>
+						@endif
 							{!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit']) !!}
 						</div> 
 					</div>
