@@ -59,6 +59,7 @@ Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianP
 
 
 
+Route::get('phpinfo', 'PhpController@index');
 Route::get('periksa/{id}/images', 'ImagesController@create');
 Route::post('periksa/{id}/images', 'ImagesController@store');
 Route::get('periksa/{id}/images/edit', 'ImagesController@edit');
