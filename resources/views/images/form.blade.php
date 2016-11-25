@@ -1,3 +1,10 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		@if (Session::has('pesan'))
+			{!! Session::get('pesan')!!}
+		@endif
+	</div>
+</div>
 {!! Form::text('periksa_id', $periksa->id, ['class' => 'form-control hide']) !!}
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
