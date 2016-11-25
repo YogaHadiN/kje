@@ -15,10 +15,10 @@
 							@endif
 						@else
 							@if($antrianperiksa->gambars->count() < 1)
-							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' ) !!}" alt="">
+							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' ) !!}" alt="">
 							<p> <a class="" href="{{ url('antrianperiksa/' . $antrianperiksa->id . '/images') }}">Create Gambar</a> </p>
 							@else
-							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' ) !!}" alt="">
+							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' ) !!}" alt="">
 							<p> <a class="" href="{{ url('antrianperiksa/' . $antrianperiksa->id . '/images/edit') }}">Edit Gambar</a> </p>
 							@endif
 						@endif
