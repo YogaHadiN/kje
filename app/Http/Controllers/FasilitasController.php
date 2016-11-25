@@ -10,10 +10,18 @@ use App\Fasilitas;
 use App\Pasien;
 use App\Periksa;
 use App\AntrianPeriksa;
+use App\TransaksiPeriksa;
 use App\Kabur;
 use App\AntrianPoli;
 use App\Classes\Yoga;
 use App\RumahSakit;
+use App\Terapi;
+use App\Rujukan;
+use App\SuratSakit;
+use App\RegisterAnc;
+use App\GambarPeriksa;
+use App\Usg;
+
 
 class FasilitasController extends Controller
 {
@@ -175,7 +183,10 @@ class FasilitasController extends Controller
 			Rujukan::where('periksa_id', $periksa->id)->delete(); //hapus rujukan yang memiliki id periksa ini
 			SuratSakit::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
 			RegisterAnc::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
-			Usg::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
+			GambarPeriksa::where('gambarable_id', $periksa->id)
+							->where('gambarable_type', 'App\Periksa')
+							->delete(); // hapus gambar_periksas yang memiliki id periksa ini
+			Usg::where('periksa_id', $periksa->id)->delete(); // hapus usg yang memiliki id periksa ini
 		}
 		$ap->delete();
 
