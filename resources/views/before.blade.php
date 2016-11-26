@@ -12,22 +12,27 @@
                 <div class="panel-title">
                     <div class="row">
                         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                            @if(!$pasien->periksa->count() == 0)
-                            <h4>
-                                Tanggal {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} 
-                                 |
-                              Pemeriksa : 
-                                @if($periksa->staf)
-                                    <strong>{!! $periksa->staf->nama !!}</strong> <br><br>
-                                @endif
-                            </h4>
-                            @endif
+							@if($periksa != null)
+								@if(!$pasien->periksa->count() == 0)
+								<h4>
+									Tanggal {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} 
+									 |
+								  Pemeriksa : 
+									@if($periksa->staf)
+										<strong>{!! $periksa->staf->nama !!}</strong> <br><br>
+									@endif
+								</h4>
+								@endif
+							@endif
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right">
-							@if( $pasien->periksa->count() > 0 )
-							   <a href="{!! url('pasiens/' . $antrianperiksa->pasien_id) !!} " class="btn btn-success" target="_blank">Semua Riwayat</a>
-						   @else
-							   <a href="#" class="btn btn-success" onclick="alert('Tidak ada riwayat untuk ditampilkan'); return false;">Semua Riwayat</a>
+
+							@if($periksa != null)
+								@if( $pasien->periksa->count() > 0 )
+								   <a href="{!! url('pasiens/' . $antrianperiksa->pasien_id) !!} " class="btn btn-success" target="_blank">Semua Riwayat</a>
+							   @else
+								   <a href="#" class="btn btn-success" onclick="alert('Tidak ada riwayat untuk ditampilkan'); return false;">Semua Riwayat</a>
+								@endif
 							@endif
                         </div>
                     </div>
