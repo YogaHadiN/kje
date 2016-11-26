@@ -8,22 +8,14 @@
 						@if(isset($periksaex))
 							@if($periksaex->gambars->count() < 1)
 							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images' ) !!}" alt="">
-							<p>{!! $url . '/periksa/' . $periksaex->id . '/images' !!}</p>
-							<p> <a class="" href="{{ url('periksa/' . $periksaex->id . '/images') }}">Create Gambar</a> </p>
 							@else
 							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images/edit' ) !!}" alt="">
-							<p>{!! $url . '/periksa/' . $periksaex->id . '/images/edit' !!}</p>
-							<p> <a class="" href="{{ url('periksa/' . $periksaex->id . '/images/edit') }}">Edit Gambar</a> </p>
 							@endif
 						@else
 							@if($antrianperiksa->gambars->count() < 1)
 							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' ) !!}" alt="">
-							<p>{!! $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' !!}</p>
-							<p> <a class="" href="{{ url('antrianperiksa/' . $antrianperiksa->id . '/images') }}">Create Gambar</a> </p>
 							@else
 							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' ) !!}" alt="">
-							<p>{!! $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' !!}</p>
-							<p> <a class="" href="{{ url('antrianperiksa/' . $antrianperiksa->id . '/images/edit') }}">Edit Gambar</a> </p>
 							@endif
 						@endif
 					</div>
