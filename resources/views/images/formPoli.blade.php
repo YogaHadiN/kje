@@ -21,18 +21,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left">
-				<div class="alert alert-info">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-left blue-bg">
 					<h2>Input Gambar</h2>
 					<ul>
 						<li>Pastikan Handphone menggunakan wifi kje</li>
 						<li>Scan QR Code disamping dengan Smartphone</li>
-						<li>Login dahulu bila belum login di Smartphone</li>
-						<li>Scan QR Code untuk yang kedua kali</li>
 						<li>Upload Image, Ambil Gambar, Submit</li>
 						<li>Refersh halaman / Tekan F5 untuk melihat hasilnya dibawah ini</li>
 					</ul>
-				</div>
 			</div>
 			</div>
 				@if(isset($periksaex))
