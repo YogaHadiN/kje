@@ -14,7 +14,7 @@
 					@if($periksa->gambars->count() > 0)
 						Edit
 					@endif
-					Gambar Estetika | {{ $periksa->pasien->nama }}</div>
+					Gambar Periksa | {{ $periksa->pasien->nama }}</div>
 			</div>
 			<div class="panel-body">
 				<div id="panel_gambar">

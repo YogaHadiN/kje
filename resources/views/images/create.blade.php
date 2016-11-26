@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-Klinik Jati Elok | Gambar Estetika
+Klinik Jati Elok | Gambar Periksa
 </title>
     {!! HTML::style('css/all.css')!!}
   {{--   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@ Klinik Jati Elok | Gambar Estetika
 
 <body class="gray-bg">
 
-<h2>Gambar Estetika</h2>
+<h2>Gambar Periksa</h2>
 	{!! Form::open([
 		'url'		=> 'periksa/' . $periksa->id . '/images', 
 		'method'	=> 'post', 

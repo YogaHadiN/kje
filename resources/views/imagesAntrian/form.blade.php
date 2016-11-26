@@ -3,7 +3,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-			<div class="panel-title">Gambar Estetika | {{ $antrianperiksa->pasien->nama }}</div>
+			<div class="panel-title">Gambar Periksa | {{ $antrianperiksa->pasien->nama }}</div>
 			</div>
 			<div class="panel-body">
 				<div id="panel_gambar">

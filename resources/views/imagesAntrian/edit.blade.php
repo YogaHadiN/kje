@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-Klinik Jati Elok | Edit Gambar Estetika
+Klinik Jati Elok | Edit Gambar Periksa
 </title>
     {!! HTML::style('css/all.css')!!}
 </head>
 
 <body class="gray-bg">
 
-	<h2>Edit Gambar Estetika</h2>
+	<h2>Edit Gambar Periksa</h2>
 	{!! Form::open([
 		'url'		=> 'antrianperiksa/' . $antrianperiksa->id . '/images', 
 		'method'	=> 'put', 

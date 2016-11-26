@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-Klinik Jati Elok | Edit Gambar Estetika
+Klinik Jati Elok | Edit Gambar Periksa
 </title>
     {!! HTML::style('css/all.css')!!}
   {{--   <link href="css/bootstrap.min.css" rel="stylesheet">
