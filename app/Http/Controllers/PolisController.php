@@ -279,7 +279,13 @@ class PolisController extends Controller
 			}
 			$url = url('/');
 			$text = 'http://www.google.com';
-			$before = Periksa::where('pasien_id', $pasien->id)->orderBy('created_at', 'desc')->take(2)->get()[1];
+			$befores = Periksa::where('pasien_id', $pasien->id)->orderBy('created_at', 'desc')->take(2)->get();
+			if ( $befores->count() == 1 ) {
+				$before = null;
+			} else {
+				$before = $befores[1];
+			}
+			 
 			//return $periksaExist->gambarPeriksa->count();
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
