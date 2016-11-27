@@ -175,7 +175,10 @@ class smsAngkakontak extends Command
 			try {
 				
 				// Kita sms ke nomor satu per satu di looping sesuai query yang sudah kita buat
-				Sms::send( str_replace(' ','', $value[ 'no_telp' ] ), $pesan);
+				if (gethostname() != 'dell') {
+					Sms::send( str_replace(' ','', $value[ 'no_telp' ] ), $pesan);
+				}
+
 				// Jika berhasil masukkan array data;
 				// Karena satu nomor telepon bisa memiliki lebih dari satu pemilik, 
 				// maka masukkan semua pasien_id yang memiliki nomor telepon tersebut
@@ -211,8 +214,11 @@ class smsAngkakontak extends Command
 		// masukkan semua yang gagal (array gagal) ke tabel sms_gagals
 		\Log::info('Terkirim gagal sebanyak : ');
 		\Log::info( count($gagal) . ' sms' );
-		SmsGagal::insert($gagal);
-		Sms::send('081381912803', 'Terkirim sebanyak ' . count($data) . ' sms, gagal sebanyak ' . count($gagal) . ' sms');
+
+		 if (gethostname() != 'dell') {
+			SmsGagal::insert($gagal);
+			Sms::send('081381912803', 'Terkirim sebanyak ' . count($data) . ' sms, gagal sebanyak ' . count($gagal) . ' sms');
+		 }
 		\Log::info('==============================================================================');
 		\Log::info('================MENGAKHIRI SMS BLAST ALHAMDULILLAH============================');
 		\Log::info('==============================================================================');

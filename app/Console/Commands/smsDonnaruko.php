@@ -39,6 +39,9 @@ class smsDonnaruko extends Command
     public function handle()
     {
 		$pesan = "Siang dok, mengingatkan skr sdh 2 bulan sblm ms sewa habis.apa mau perpanjang sewa ruko? bls di 081381912803";
-		Sms::send('081282098500', $pesan);
+
+		if (gethostname() != 'dell') {
+			Sms::send('081282098500', $pesan);
+		}
     }
 }

@@ -43,9 +43,9 @@ class smsUndanganprolanis extends Command
 		\Log::info('SMS untuk mengundang peserta prolanis dilakukan setiap bulan');
 		$prolanis = Prolanis::all();
 		$tanggal_prolanis = Config::where('config_variable', 'tanggal_prolanis')->first()->value;
-		Sms::send('085721012351', 'Undangan Prolanis BPJS untuk tanggal ' . $tanggal_prolanis);
-		//foreach ($prolanis as $p) {
-			//Sms::send( $p->pasien->no_telp, $text_undangan );
-		//}
+
+		if (gethostname() != 'dell') {
+			Sms::send('085721012351', 'Undangan Prolanis BPJS untuk tanggal ' . $tanggal_prolanis);
+		}
     }
 }
