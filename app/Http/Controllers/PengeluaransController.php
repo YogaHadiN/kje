@@ -467,19 +467,13 @@ class PengeluaransController extends Controller
         $uang_di_tangan = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal = $last_chekcout->created_at;
-        $jurnal_umums = JurnalUmum::where('id', '>=', $jurnal_umum_id_last_cehckout)
-									->where('jurnalable_type', 'App\Modal')
+        $jurnal_umums = JurnalUmum::whereRaw("id >= $jurnal_umum_id_last_cehckout and jurnalable_type = 'App\\\Modal' and debit = 0 and (coa_id = 301000 or coa_id=110004) ")
 									->get();
         $modal_awal = 0;
 		$modal_ids = [];
         foreach ($jurnal_umums as $ju) {
-            if (
-                $ju->debit == 0 && 
-                ($ju->coa_id == 301000 || $ju->coa_id == 110004) //301000 adalah Modal, 110004 adalah kas di tangan
-			){
-               $modal_awal +=  $ju->nilai;
-			   $modal_ids[] = $ju->id;
-            }
+		   $modal_awal +=  $ju->nilai;
+		   $modal_ids[] = $ju->id;
         }
         $total_uang_masuk = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
                                 ->where('coa_id', 110000) 
@@ -522,9 +516,10 @@ class PengeluaransController extends Controller
         $new_z->modal_awal = $modal_awal;
         $new_z->uang_di_kasir = $uang_di_kasir;
         $new_z->uang_di_tangan = $uang_di_tangan + $uang_di_kasir;
-        if (isset(JurnalUmum::all()->last()->id)) {
-            $new_z->jurnal_umum_id = JurnalUmum::all()->last()->id;
-        } else {
+		$last_jurnal_id = JurnalUmum::orderBy('id', 'desc')->first()->id;
+        if (isset($last_jurnal_id)) {
+			$new_z->jurnal_umum_id = $last_jurnal_id;
+		} else {
             $new_z->jurnal_umum_id = 1;
         }
         $new_z->uang_masuk = $total_uang_masuk;

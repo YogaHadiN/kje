@@ -34,9 +34,9 @@ Klinik Jati Elok | Antrian Kasir
                   <thead>
                     <tr>
 						<th>id</th>
-          	<th>Nama Pasien</th>
+						<th>Nama Pasien</th>
 						<th>Jam Terima Resep</th>
-            <th>Tanggal</th>
+						<th>Tanggal</th>
 						<th>Pembayaran</th>
 						<th>Action</th>
                     </tr>
