@@ -599,7 +599,7 @@ class Yoga {
 		}
 		public static function rakList() {
 			$rakList['%'] = ['Semua Rak'];
-			$raks = Rak::all();
+			$raks = Rak::with('merek')->get();
 			foreach ($raks as $rak) {
 				$mereks = '';
 				foreach ($rak->merek as $mrk) {
