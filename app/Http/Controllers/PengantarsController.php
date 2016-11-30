@@ -191,7 +191,6 @@ class PengantarsController extends Controller
 
 	public function pengantar($id){
 
-
 		$ps = new Pasien;
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan = $ps->panggilan();

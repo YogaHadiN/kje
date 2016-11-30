@@ -10,6 +10,11 @@ use Endroid\QrCode\QrCode;
 
 class RuangPeriksaController extends Controller
 {
+
+	public function index(){
+
+		return redirect('ruangperiksa/umum');
+	}
 	public function umum(){
 
 		$antrianperiksa = AntrianPeriksa::with('pasien', 'staf', 'asuransi')->where('poli', '=', 'umum')

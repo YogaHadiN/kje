@@ -14,6 +14,7 @@ use App\Generik;
 use App\Classes\Yoga;
 use App\Rak;
 use DB;
+use Response;
 use App\Dose;
 use App\Komposisi;
 use App\Sediaan;

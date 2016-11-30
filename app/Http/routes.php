@@ -447,6 +447,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('ancs/{id}', 'AncsController@show');
 
 
+			Route::get('ruangperiksa', 'RuangPeriksaController@index');
 			Route::get('ruangperiksa/umum', 'RuangPeriksaController@umum');
 			Route::get('ruangperiksa/kandungan', 'RuangPeriksaController@kandungan');
 			Route::get('ruangperiksa/anc', 'RuangPeriksaController@anc');

@@ -229,7 +229,7 @@ class PolisController extends Controller
 			$terapiArray = Yoga::masukLagi($periksaExist->terapii)	;
 			$terapiArray = json_encode($terapiArray);
 
-			if ($periksa->usg) {
+			if (isset( $periksa->usg )) {
 				$presentasi		= $periksa->usg->presentasi;
 				$bpdw			= $periksa->usg->bpdw;
 				$bpdd			= $periksa->usg->bpdd;
