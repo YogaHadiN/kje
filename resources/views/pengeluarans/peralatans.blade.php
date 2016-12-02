@@ -70,5 +70,10 @@ Klinik Jati Elok | Daftar Peralatan
 	</div>
 @stop
 @section('footer') 
-	
+	@if( Session::has('print') )
+		<script type="text/javascript" charset="utf-8">
+			var base = "{{ url('/') }}";
+			window.open(base + "/pdfs/pembelian/{!! Session::get('print') !!}");
+		</script>	
+	@endif
 @stop

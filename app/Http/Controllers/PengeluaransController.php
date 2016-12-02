@@ -1131,8 +1131,9 @@ class PengeluaransController extends Controller
 		} else {
 			$pesan = Yoga::suksesFlash('Input Peralatan telah gagal');
 		}
-
-		return redirect('pengeluarans/peralatans')->withPesan($pesan);
+		return redirect('pengeluarans/peralatans')
+			->withPrint($fb->id)
+			->withPesan($pesan);
 	}
 	public function data(){
 
