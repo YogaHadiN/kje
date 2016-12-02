@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
 		 Commands\smsDonnaruko::class,
 		 Commands\smsIngatkanJanji::class,
 		 Commands\smsKontrol::class,
-
     ];
 
     /**
@@ -37,38 +36,40 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-		 $schedule->command('task:penyusutan')
-				  ->monthlyOn(date('t'), '15:00');
-		 $schedule->command('sms:angkakontak')
-					->dailyAt('15:30'); 
-		 $schedule->command('cron:test')
-				  ->hourly();
-		 $schedule->command('test:periksahilang')
-					->dailyAt('22:00'); 
-		 $schedule->command('sms:laporanharian')
-					->dailyAt('23:00'); 
-		 $schedule->command('sms:donnaruko')
-			 ->dailyAt('13:00')
-			 ->when(function(){
-				return date('Y-m-d')  == '2017-09-30';
+		 if (gethostname() != 'dell') {
+			 $schedule->command('task:penyusutan')
+					  ->monthlyOn(date('t'), '15:00');
+			 $schedule->command('sms:angkakontak')
+						->dailyAt('15:30'); 
+			 $schedule->command('cron:test')
+					  ->hourly();
+			 $schedule->command('test:periksahilang')
+						->dailyAt('22:00'); 
+			 $schedule->command('sms:laporanharian')
+						->dailyAt('23:00'); 
+			 $schedule->command('sms:donnaruko')
+				 ->dailyAt('13:00')
+				 ->when(function(){
+					return date('Y-m-d')  == '2017-09-30';
+				 }); 
+			 $schedule->command('sms:ingatkanJanji')
+				 ->dailyAt('13:00')
+				 ->when(function(){
+					$ap = new AntrianPoli;
+					$antrianpolis = $ap->besokKonsulGigi();
+					$count = $antrianpolis->count();
+					return $count > 0;
+
 			 }); 
-		 $schedule->command('sms:ingatkanJanji')
-			 ->dailyAt('13:00')
-			 ->when(function(){
-				$ap = new AntrianPoli;
-				$antrianpolis = $ap->besokKonsulGigi();
-				$count = $antrianpolis->count();
-				return $count > 0;
 
-		 }); 
-
-		 $schedule->command('sms:kontrol')
-			 ->dailyAt('13:00')
-			 ->when(function(){
-				$kontrol = new Kontrol;
-				$kontrols = $kontrol->besokKontrol();
-				$count = $kontrols->count();
-				return $count > 0;
-		 }); 
+			 $schedule->command('sms:kontrol')
+				 ->dailyAt('13:00')
+				 ->when(function(){
+					$kontrol = new Kontrol;
+					$kontrols = $kontrol->besokKontrol();
+					$count = $kontrols->count();
+					return $count > 0;
+			 }); 
+		}
     }
 }

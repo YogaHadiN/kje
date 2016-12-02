@@ -44,11 +44,9 @@ class smsKontrol extends Command
 		$kontrols = $ko->besokKontrol();
 		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok ingin mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' kami sarankan Bapak / Ibu untuk konsultasi kembali ke dokter. Terima Kasih';
 
-		if (gethostname() != 'dell') {
-			foreach ($kontrols as $ap) {
-				Sms::send($ap->periksa->pasien->no_telp,$pesan);
-				\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->pasien->nama);
-			}
+		foreach ($kontrols as $ap) {
+			Sms::send($ap->periksa->pasien->no_telp,$pesan);
+			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->pasien->nama);
 		}
     }
 }

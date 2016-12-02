@@ -59,15 +59,9 @@ class testPeriksahilang extends Command
 			foreach ($errors as $error) {
 				$pesan .= $error . ', ';
 			}
-
-			 if (gethostname() != 'dell') {
-				Sms::send('081381912803', $pesan);
-			 }
+			Sms::send('081381912803', $pesan);
 		} else{
-
-			 if (gethostname() != 'dell') {
-				Sms::send('081381912803', 'Tidak ada pemeriksaan yang hilang');
-			} 
+			Sms::send('081381912803', 'Tidak ada pemeriksaan yang hilang');
 		} 
 
 		

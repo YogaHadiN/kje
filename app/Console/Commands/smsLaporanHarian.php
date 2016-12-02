@@ -47,9 +47,7 @@ class smsLaporanHarian extends Command
 
 		$pesan = 'Jumlah pasien saat ini ' . $jumlahPasienTotal . ' pasien, pasien BPJS sebanyak ' . $jumlahPasienBPJS . ' pasien';
 
-		if (gethostname() != 'dell') {
-			Sms::send('081381912803', $pesan);
-			Sms::send('085721012351', $pesan);
-		}
+		Sms::send('081381912803', $pesan);
+		Sms::send('085721012351', $pesan);
     }
 }

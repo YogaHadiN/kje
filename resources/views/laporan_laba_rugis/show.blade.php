@@ -34,29 +34,29 @@ Klinik Jati Elok | Laporan Laba Rugi
 					  <tr>
 						<td colspan="5" class="light-bold">Pendapatan Usaha</td>
 					  </tr>
-					  @foreach($pendapatan_usahas as $pend)
-					  <tr>
-						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend['coa'] }}</a></td>
-						<td class="uang">{{ abs($pend['nilai']) }}</td>
-						<td></td>
-					  </tr>
+					  @foreach($pendapatan_usahas['akuns'] as $p)
+						  <tr>
+							<td></td>
+							<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $p->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $p->coa }}</a></td>
+							<td class="uang">{{ abs($p->nilai) }}</td>
+							<td></td>
+						  </tr>
 					  @endforeach
 					  <tr>
 						<td></td>
 						<td></td>
 						<td>Total Pendapatan Usaha</td>
 						<td></td>
-						<td class="uang">{{ App\Classes\Yoga::neracaLabaRugi($pendapatan_usahas)}}</td>
+						<td class="uang">{{ $pendapatan_usahas['total_nilai'] }}</td>
 					  </tr>
 					  <tr>
 						<td colspan="5" class="light-bold">Harga Pokok Penjualan</td>
 					  </tr>
-					  @foreach($hpps as $hpp)
+					  @foreach($hpps['akuns'] as $hpp)
 					  <tr>
 						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $hpp['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $hpp['coa'] }}</a></td>
-						<td class="uang">{{ abs($hpp['nilai']) }}</td>
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $hpp->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $hpp->coa }}</a></td>
+						<td class="uang">{{ abs($hpp->nilai) }}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -65,26 +65,25 @@ Klinik Jati Elok | Laporan Laba Rugi
 						<td></td>
 						<td>Total Harga Pokok Penjualan</td>
 						<td></td>
-						<td class="uang">({{ App\Classes\Yoga::neracaLabaRugi($hpps)}})</td>
+						<td class="uang">({{ $hpps['total_nilai']}})</td>
 					  </tr>
 					  <tr class="red light-bold">
-						<td></td>
-						<td></td>
+						<td colspan="2"></td>
 						<td>Laba Rugi Kotor</td>
 						<td></td>
 						<td class="uang">{{ 
-						  App\Classes\Yoga::neracaLabaRugi($pendapatan_usahas) - App\Classes\Yoga::neracaLabaRugi($hpps)
+							$pendapatan_usahas['total_nilai'] - $hpps['total_nilai']
 						}}</td>
 					  </tr>
 
 					  <tr>
 						<td colspan="5" class="light-bold">Biaya Operasional</td>
 					  </tr>
-					  @foreach($biayas as $biaya)
+					  @foreach($biayas['akuns'] as $biaya)
 					  <tr>
 						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya['coa'] }}</a></td>
-						<td class="uang">{{ abs($biaya['nilai']) }}</td>
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya->coa }}</a></td>
+						<td class="uang">{{ abs($biaya->nilai) }}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -93,7 +92,7 @@ Klinik Jati Elok | Laporan Laba Rugi
 						<td></td>
 						<td>Total Biaya Operasional</td>
 						<td></td>
-						<td class="uang">({{ App\Classes\Yoga::neracaLabaRugi($biayas)}})</td>
+						<td class="uang">({{ $biayas['total_nilai']}})</td>
 					  </tr>
 					  <tr class="red light-bold">
 						<td></td>
@@ -101,18 +100,18 @@ Klinik Jati Elok | Laporan Laba Rugi
 						<td>Laba Rugi Kotor</td>
 						<td></td>
 						<td class="uang">{{ 
-						  App\Classes\Yoga::neracaLabaRugi($pendapatan_usahas) - App\Classes\Yoga::neracaLabaRugi($hpps)
-						  -  App\Classes\Yoga::neracaLabaRugi($biayas)
+						  $pendapatan_usahas['total_nilai']- $hpps['total_nilai']
+						  -  $biayas['total_nilai']
 						}}</td>
 					  </tr>
 					  <tr>
 						<td colspan="5" class="light-bold">Pendapatan Lain</td>
 					  </tr>
-					  @foreach($pendapatan_lains as $pend)
+					  @foreach($pendapatan_lains['akuns'] as $pend)
 					  <tr>
 						<td></td>
-						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend['coa'] }}</a></td>
-						<td class="uang">{{ abs($pend['nilai']) }}</td>
+						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend->coa }}</a></td>
+						<td class="uang">{{ abs($pend->nilai) }}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -121,15 +120,14 @@ Klinik Jati Elok | Laporan Laba Rugi
 						<td></td>
 						<td>Total Pendapatan Lain</td>
 						<td></td>
-						<td class="uang">{{ App\Classes\Yoga::neracaLabaRugi($pendapatan_lains)}}</td>
+						<td class="uang">{{ $pendapatan_lains['total_nilai']}}</td>
 					  <tr class="red light-bold">
-						<td></td>
-						<td></td>
+						<td colspan="2"></td>
 						<td>Laba Rugi Bersih</td>
 						<td></td>
 						<td class="uang">{{ 
-						  App\Classes\Yoga::neracaLabaRugi($pendapatan_usahas) - App\Classes\Yoga::neracaLabaRugi($hpps)
-						  -  App\Classes\Yoga::neracaLabaRugi($biayas) +  App\Classes\Yoga::neracaLabaRugi($pendapatan_lains)
+						  $pendapatan_usahas['total_nilai'] - $hpps['total_nilai']
+						  -  $biayas['total_nilai'] +  $pendapatan_lains['total_nilai']
 						}}</td>
 					  </tr>
 					  </tr>
@@ -150,5 +148,4 @@ Klinik Jati Elok | Laporan Laba Rugi
     }
   }
 </script>
-
 @stop

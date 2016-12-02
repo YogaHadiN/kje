@@ -1127,6 +1127,12 @@ class Periksa extends Model{
 			//menyimpan estetika_image ke folder public/img
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/estetika';
 
+			//menyimpan estetika_image ke folder Dropbox
+			 if (gethostname() != 'kje') {
+				$dropbox_path = '/home/kje/Dropbox/backup11/img/estetika';
+				$file->move($dropbox_path, $filename);
+			}
+
 			// Mengambil file yang di upload
 			$file->move($destination_path, $filename);
 

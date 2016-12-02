@@ -44,8 +44,6 @@ class smsUndanganprolanis extends Command
 		$prolanis = Prolanis::all();
 		$tanggal_prolanis = Config::where('config_variable', 'tanggal_prolanis')->first()->value;
 
-		if (gethostname() != 'dell') {
-			Sms::send('085721012351', 'Undangan Prolanis BPJS untuk tanggal ' . $tanggal_prolanis);
-		}
+		Sms::send('085721012351', 'Undangan Prolanis BPJS untuk tanggal ' . $tanggal_prolanis);
     }
 }

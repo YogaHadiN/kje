@@ -319,12 +319,13 @@ class PendapatansController extends Controller
 		$staf_id = Input::get('staf_id');
 		$tanggal_pembayaran = Yoga::datePrep( Input::get('tanggal_pembayaran') );
 		$periode_bulan = Yoga::blnPrep( Input::get('periode_bulan') );
+		$hari_terakhir_bulan = date('Y-m-t 23:59:59', strtotime($periode_bulan . '-01'));
 
 		$bpjs = new PembayaranBpjs;
 		$bpjs->staf_id = Input::get('staf_id');
 		$bpjs->nilai = Input::get('nilai');
 		$bpjs->mulai_tanggal = $periode_bulan . '-01 00:00:00';
-		$bpjs->akhir_tanggal = date($periode_bulan . '-t 23:59:59');
+		$bpjs->akhir_tanggal = $hari_terakhir_bulan;
 		$bpjs->tanggal_pembayaran = $tanggal_pembayaran;
 		$confirm = $bpjs->save();
 
@@ -335,8 +336,8 @@ class PendapatansController extends Controller
 			$jurnal->jurnalable_type = 'App\PembayaranBpjs';
 			$jurnal->coa_id          = 110004;
 			$jurnal->debit           = 1;
-			$jurnal->created_at           = date($periode_bulan . '-t 23:59:59');
-			$jurnal->updated_at           = date($periode_bulan . '-t 23:59:59');
+			$jurnal->created_at      = $hari_terakhir_bulan;
+			$jurnal->updated_at      = $hari_terakhir_bulan;
 			$jurnal->nilai           = Input::get('nilai');
 			$jurnal->save();
 
@@ -345,8 +346,8 @@ class PendapatansController extends Controller
 			$jurnal->jurnalable_type = 'App\PembayaranBpjs';
 			$jurnal->coa_id          =  400045 ;// pendapatan kapitasi bpjs
 			$jurnal->debit           = 0;
-			$jurnal->created_at           = date($periode_bulan . '-t 23:59:59');
-			$jurnal->updated_at           = date($periode_bulan . '-t 23:59:59');
+			$jurnal->created_at      = $hari_terakhir_bulan;
+			$jurnal->updated_at      = $hari_terakhir_bulan;
 			$jurnal->nilai           = Input::get('nilai');
 			$jurnal->save();
 
