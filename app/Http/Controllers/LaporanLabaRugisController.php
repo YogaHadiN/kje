@@ -37,49 +37,29 @@ class LaporanLabaRugisController extends Controller
 		$query .= "group by coa_id ";
         $akuns = DB::select($query);
 
-		$pendapatan_usahas = [];
-		$hpps = [];
-		$pendapatan_usahas = [];
-		$hpps = [];
-		$biayas = [];
-		$pendapatan_lains = [];
-		$bebans = [];
+		$pendapatan_usahas['total_nilai'] = 0;
+		$hpps['total_nilai'] = 0;
+		$pendapatan_usahas['total_nilai'] = 0;
+		$hpps['total_nilai'] = 0;
+		$biayas['total_nilai'] = 0;
+		$pendapatan_lains['total_nilai'] = 0;
+		$bebans['total_nilai'] = 0;
 		foreach ($akuns as $a) {
 			if (substr($a->coa_id, 0, 1) === '4') {
 				$pendapatan_usahas['akuns'][] = $a;
-				if (!isset( $pendapatan_usahas['total_nilai'] )) {
-					$pendapatan_usahas['total_nilai'] = 0;
-				} else {
-					$pendapatan_usahas['total_nilai'] = $pendapatan_usahas['total_nilai']+$a->nilai;
-				}
+				$pendapatan_usahas['total_nilai'] += $a->nilai;
 			} else if( substr($a->coa_id, 0, 1) === '5' ){
 				$hpps['akuns'][] = $a;
-				if (!isset( $hpps['total_nilai'] )) {
-					$hpps['total_nilai'] = 0;
-				} else {
-					$hpps['total_nilai'] = $hpps['total_nilai']+$a->nilai;
-				}
+				$hpps['total_nilai'] += $a->nilai;
 			} else if( substr($a->coa_id, 0, 1) === '6' ){
 				$biayas['akuns'][] = $a;
-				if (!isset( $biayas['total_nilai'] )) {
-					$biayas['total_nilai'] = 0;
-				} else {
-					$biayas['total_nilai'] = $biayas['total_nilai']+$a->nilai;
-				}
+				$biayas['total_nilai'] += $a->nilai;
 			} else if( substr($a->coa_id, 0, 1) === '7' ){
 				$pendapatan_lains['akuns'][] = $a;
-				if (!isset( $pendapatan_lains['total_nilai'] )) {
-					$pendapatan_lains['total_nilai'] = 0;
-				} else {
-					$pendapatan_lains['total_nilai'] = $pendapatan_lains['total_nilai']+$a->nilai;
-				}
+				$pendapatan_lains['total_nilai'] += $a->nilai;
 			} else if( substr($a->coa_id, 0, 1) === '8' ){
 				$bebans['akuns'][] = $a;
-				if (!isset( $bebans['total_nilai'] )) {
-					$bebans['total_nilai'] = 0;
-				} else {
-					$bebans['total_nilai'] = $bebans['total_nilai']+$a->nilai;
-				}
+				$bebans['total_nilai'] += $a->nilai;
 			}
 		}
 		//return $pendapatan_usahas['akuns'];

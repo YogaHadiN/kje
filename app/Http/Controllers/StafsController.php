@@ -189,11 +189,6 @@ class StafsController extends Controller
 			//menyimpan bpjs_image ke folder public/img
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/staf';
 
-			if (gethostname() == 'kje') {
-				$dropbox_path = '/home/kje/Dropbox/backup11/img/staf';
-				$upload_cover->move($dropbox_path, $filename);
-			}
-
 			// Mengambil file yang di upload
 			$upload_cover->move($destination_path, $filename);
 			

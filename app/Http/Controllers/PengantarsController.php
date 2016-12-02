@@ -313,11 +313,6 @@ class PengantarsController extends Controller
 			// Mengambil file yang di upload
 			$upload_cover->move($destination_path, $filename);
 
-			if (gethostname() == 'kje') {
-				$dropbox_path = '/home/kje/Dropbox/backup11/img/pasien';
-				$upload_cover->move($dropbox_path, $filename);
-			}
-			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return 'img/pasien/'. $filename;
 			

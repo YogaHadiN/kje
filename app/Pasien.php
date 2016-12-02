@@ -158,10 +158,6 @@ class Pasien extends Model{
 			//menyimpan bpjs_image ke folder public/img
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/pasien';
 			// Mengambil file yang di upload
-			if (gethostname() == 'kje') {
-				$dropbox_path = '/home/kje/Dropbox/backup11/img/pasien';
-				$upload_cover->move($dropbox_path, $filename);
-			}
 			$upload_cover->move($destination_path, $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
