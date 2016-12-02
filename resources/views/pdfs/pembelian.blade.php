@@ -146,6 +146,15 @@ hr {
                                         <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->harga_beli * $pemb->jumlah ) }}</td>
                                     </tr>
                                 @endforeach
+                            @elseif ($fakturbelanja->belanja_id == 4)
+                                @foreach ($fakturbelanja->belanjaPeralatan as $pemb)
+                                    <tr>
+                                        <td>{{ $pemb->peralatan }}</td>
+                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp($pemb->harga_satuan) }}</td>
+                                        <td nowrap class="text-right">{{ $pemb->jumlah }}</td>
+                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->harga_satuan * $pemb->jumlah ) }}</td>
+                                    </tr>
+                                @endforeach
                             @elseif ($fakturbelanja->belanja_id == 3)
                                 @foreach ($fakturbelanja->pengeluaran as $pemb)
                                     <tr>

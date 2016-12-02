@@ -64,9 +64,7 @@ class FakturBelanja extends Model{
 		foreach ($this->pembelian as $pembelian) {
 			$harga += $pembelian->jumlah * $pembelian->harga_beli;
 		}
-
 		return $harga;
-
 	}
 
 	public function getJumlahPengeluaranAttribute(){
