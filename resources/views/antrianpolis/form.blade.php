@@ -51,7 +51,7 @@
 				<td class="displayNone nomor_asuransi">{!! $antrianpoli->pasien->nomor_asuransi!!}</td>
 				<td class="displayNone nama_asuransi">{!! $antrianpoli->asuransi->nama !!}</td>
 				<td nowrap>
-					@if($antrianpoli->tanggal <= date('Y-m-d'))
+					@if($antrianpoli->tanggal <= date('Y-m-d 00:00:00'))
 						@if($antrianpoli->self_register == '1' && $antrianpoli->asuransi_id != 0)
 							<a href=\"#\" class="btn btn-primary btn-xs btn-success" onclick="konfirmasiAsuransi(this);return false;" data-toggle="modal" data-target="#konfirmasiAsuransi">Konfirmasi</a>
 						@else
@@ -62,7 +62,7 @@
 						{!! Form::hidden('pasien_id', $antrianpoli->pasien_id, ['class' => 'form-control'])!!}
 						<button type="button" class="btn btn-danger btn-xs" onclick="alas(this);return false;">Delete</button>
 
-					@if($antrianpoli->tanggal <= date('Y-m-d'))
+					@if($antrianpoli->tanggal <= date('Y-m-d 00:00:00'))
 						@if($antrianpoli->antars->count() > 0 && $antrianpoli->asuransi_id == '32')
 						<a href="{{ url('antrianpolis/pengantar/' . $antrianpoli->id . '/edit') }}" class="btn btn-success btn-xs">{{ $antrianpoli->antars->count() }} pengantar</a>		
 						@elseif( $antrianpoli->asuransi_id == '32' )
