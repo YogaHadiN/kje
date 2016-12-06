@@ -31,19 +31,18 @@
 					  class="danger"
 				  @endif>
 				<td class="hide id">{!! $antrianpoli->id !!}</td>
-				<td>{!! $antrianpoli->antrian!!}</td>
-				<td>{!! $antrianpoli->asuransi->nama !!}</td>
+				<td class="antrian">{!! $antrianpoli->antrian!!}</td>
+				<td class="nama">{!! $antrianpoli->asuransi->nama !!}</td>
 				<td class="nama_pasien">{!! $antrianpoli->pasien->nama!!} </td>
-				<td>{!! $antrianpoli->poli!!}</td>
-				<td>{!! $antrianpoli->jam!!}</td>
-				<td>{!! $antrianpoli->tanggal->format('d-m-Y')!!}</td>
-				<td class="displayNone">{!! $antrianpoli->poli !!}</td>
+				<td class="poli">{!! $antrianpoli->poli!!}</td>
+				<td class="jam">{!! $antrianpoli->jam!!}</td>
+				<td class="tanggal">{!! $antrianpoli->tanggal->format('d-m-Y')!!}</td>
 				<td class="displayNone pasien_id">{!! $antrianpoli->pasien_id !!}</td>
-				<td class="displayNone">{!! $antrianpoli->staf_id !!}</td>
-				<td class="displayNone">{!! $antrianpoli->asuransi_id !!}</td>
-				<td class="hide">{!! $antrianpoli->pasien->image !!}?{{ time() }}</td>
-				<td class="displayNone">{!! $antrianpoli->pengantar !!}</td>
-				<td class="displayNone image">{!! $antrianpoli->pasien->image !!}</td>
+			 	<td class="displayNone staf_id">{!! $antrianpoli->staf_id !!}</td>
+				<td class="displayNone asuransi_id">{!! $antrianpoli->asuransi_id !!}</td>
+				<td class="hide image">{!! $antrianpoli->pasien->image !!}?{{ time() }}</td>
+				<td class="displayNone pengantar">{!! $antrianpoli->pengantar !!}</td>
+				<td class="displayNone image image">{!! $antrianpoli->pasien->image !!}</td>
 				<td class="displayNone ktp_image">{!! $antrianpoli->pasien->ktp_image !!}</td>
 				<td class="displayNone bpjs_image">{!! $antrianpoli->pasien->bpjs_image !!}</td>
 				<td class="displayNone alamat">{!! $antrianpoli->pasien->alamat !!}</td>
@@ -77,7 +76,7 @@
 						]) !!}
 					{!! Form::close() !!}
 				</td>
-				<td class="hide">
+				<td class="hide umur">
 					{!! App\Classes\Yoga::datediff($antrianpoli->pasien->tanggal_lahir, date('Y-m-d')) !!}
 				</td>
 			</tr>

@@ -360,18 +360,32 @@ Klinik Jati Elok | Nurse Station
         function rowEntry(control) {
 
             riwayat = [];
-            var ID_PASIEN = $(control).closest('tr').find('td:nth-child(8)').html();
-            var ID_POLI = $(control).closest('tr').find('td:nth-child(7)').html();
-            var ID_STAF = $(control).closest('tr').find('td:nth-child(9)').html();
-            var ID_ASURANSI = $(control).closest('tr').find('td:nth-child(10)').html();
-            var namaPasien = $(control).closest('tr').find('td:nth-child(4)').html();
-            var tanggal = $(control).closest('tr').find('td:nth-child(6)').html();
-            var jam = $(control).closest('tr').find('td:nth-child(5)').html();
-            var ID_ANTRIAN_POLI = $(control).closest('tr').find('td:first-child').html();
-            var antrian = $(control).closest('tr').find('td:nth-child(2)').html();
-            var image = $(control).closest('tr').find('td:nth-child(11)').html();
-            var pengantar = $(control).closest('tr').find('td:nth-child(12)').html();
-            var umur = $(control).closest('tr').find('td:last-child').html();
+            var ID_PASIEN = $(control).closest('tr').find('.pasien_id').html();
+            var ID_POLI = $(control).closest('tr').find('.poli').html();
+            var ID_STAF = $(control).closest('tr').find('.staf_id').html();
+            var ID_ASURANSI = $(control).closest('tr').find('.asuransi_id').html();
+            var namaPasien = $(control).closest('tr').find('.nama_pasien').html();
+            var tanggal = $(control).closest('tr').find('.tanggal').html();
+            var jam = $(control).closest('tr').find('.jam').html();
+            var ID_ANTRIAN_POLI = $(control).closest('tr').find('.id').html();
+            var antrian = $(control).closest('tr').find('.antrian').html();
+            var image = $(control).closest('tr').find('.image').html();
+            var pengantar = $(control).closest('tr').find('.pengantar').html();
+            var umur = $(control).closest('tr').find('.umur').html();
+            umur =umur.trim();
+
+            console.log("ID_PASIEN :" + ID_PASIEN );
+            console.log("ID_POLI :" + ID_POLI );
+            console.log("ID_STAF :" + ID_STAF );
+            console.log("ID_ASURANSI :" + ID_ASURANSI );
+            console.log("namaPasien :" + namaPasien );
+            console.log("tanggal :" + tanggal );
+            console.log("jam :" + jam );
+            console.log("ID_ANTRIAN_POLI :" + ID_ANTRIAN_POLI );
+            console.log("antrian :" + antrian );
+            console.log("image :" + image );
+            console.log("pengantar :" + pengantar );
+            console.log("umur :" + umur );
 
 			$.get('{{url('antrianpolis/ajax/getGolonganProlanis')}}',
 				{ 'pasien_id': ID_PASIEN },
