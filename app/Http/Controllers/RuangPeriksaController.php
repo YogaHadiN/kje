@@ -24,7 +24,6 @@ class RuangPeriksaController extends Controller
 			->orderBy('antrian', 'asc')
 			->get();
 
-		return dd( $antrianperiksa );
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and ( poli='umum' or poli='sks' or poli='luka' )")->orderBy('tanggal')->orderBy('antrian')->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)
