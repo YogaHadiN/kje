@@ -16,7 +16,7 @@ class AntrianPoli extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $dates = ['tanggal'];
 
 	public function staf(){
 

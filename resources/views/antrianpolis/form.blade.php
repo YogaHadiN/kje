@@ -5,6 +5,7 @@
 			<th>Antrian</th>
 			<th>Asuransi</th>
 			<th>Pasien</th>
+			<th>Poli</th>
 			<th>Jam</th>
 			<th>Tanggal</th>
 			<th class="displayNone">poli</th>
@@ -32,9 +33,10 @@
 				<td class="hide id">{!! $antrianpoli->id !!}</td>
 				<td>{!! $antrianpoli->antrian!!}</td>
 				<td>{!! $antrianpoli->asuransi->nama !!}</td>
-				<td class="nama">{!! $antrianpoli->pasien->nama!!} </td>
+				<td class="nama_pasien">{!! $antrianpoli->pasien->nama!!} </td>
+				<td>{!! $antrianpoli->poli!!}</td>
 				<td>{!! $antrianpoli->jam!!}</td>
-				<td>{!! $antrianpoli->tanggal!!}</td>
+				<td>{!! $antrianpoli->tanggal->format('d-m-Y')!!}</td>
 				<td class="displayNone">{!! $antrianpoli->poli !!}</td>
 				<td class="displayNone pasien_id">{!! $antrianpoli->pasien_id !!}</td>
 				<td class="displayNone">{!! $antrianpoli->staf_id !!}</td>

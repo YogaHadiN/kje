@@ -461,9 +461,14 @@ Klinik Jati Elok | Nurse Station
         function alas(control){
 			var id = $(control).closest('tr').find('.id').html();
 			var pasien_id = $(control).closest('tr').find('.pasien_id').html();
+			var nama_pasien = $(control).closest('tr').find('.nama_pasien').html()
+
 			$('#modal-alasan .id').val(id);
 			$('#modal-alasan .pasien_id').val(pasien_id);
 			$('#modal-alasan').modal('show');
+
+			var onclick = "modalAlasan(this" + ", '" + pasien_id + "', '" + nama_pasien + "'); return false;";
+			$('#modal-alasan .dummySubmit').attr('onclick', onclick);
         }
 
         function hapusSajalah(){
@@ -558,6 +563,8 @@ Klinik Jati Elok | Nurse Station
 			imgError();
 
 		}
+		
+		
 
 
     </script>

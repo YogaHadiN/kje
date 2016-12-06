@@ -82,7 +82,7 @@ Klinik Jati Elok | Home
                     </div>
                     <div class="col-xs-8 text-right">
                         <span> Poli Umum </span>
-                        <h2 class="font-bold">{!! $umum->count() !!}</h2>
+                        <h2 class="font-bold">{!! count($umum) !!}</h2>
                     </div>
                 </div>
         </div></a>
@@ -96,7 +96,7 @@ Klinik Jati Elok | Home
                 </div>
                 <div class="col-xs-8 text-right">
                     <span> Poli Kandungan </span>
-                    <h2 class="font-bold">{!! $kandungan->count() !!}</h2>
+                    <h2 class="font-bold">{!! count($kandungan) !!}</h2>
                 </div>
             </div>
         </div></a>
@@ -110,7 +110,7 @@ Klinik Jati Elok | Home
                 </div>
                 <div class="col-xs-8 text-right">
                     <span> Poli Gigi </span>
-                    <h2 class="font-bold">{!! $gigi->count() !!}</h2>
+                    <h2 class="font-bold">{!! count($gigi) !!}</h2>
                 </div>
             </div>
         </div></a>
@@ -124,7 +124,7 @@ Klinik Jati Elok | Home
                 </div>
                 <div class="col-xs-8 text-right">
                     <span> Gawat Darurat </span>
-                    <h2 class="font-bold">{!! $darurat->count() !!}</h2>
+                    <h2 class="font-bold">{!! count($darurat) !!}</h2>
                 </div>
             </div>
         </div></a>

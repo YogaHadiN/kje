@@ -43,7 +43,7 @@ class AntrianPolisController extends Controller
 		$antrianpolis  = AntrianPoli::where('tanggal', '<=', date('Y-m-d'))
 								->orderBy('antrian', 'asc')->get();
 		$perjanjian  = AntrianPoli::where('tanggal', '>', date('Y-m-d'))
-								->orderBy('antrian', 'asc')->get();
+								->orderBy('tanggal', 'asc')->get();
 
 		return view('antrianpolis.index')
 			->withAntrianpolis($antrianpolis)

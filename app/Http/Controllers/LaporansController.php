@@ -176,7 +176,6 @@ class LaporansController extends Controller
 
 	public function index()
 	{
-
 		$asuransis = ['%' => 'SEMUA PEMBAYARAN'] + Asuransi::lists('nama', 'id')->all();
 		$antrianperiksa = AntrianPeriksa::all();
 		$antriankasir = Periksa::where('lewat_kasir2', '0')->where('lewat_poli', '1')->get();
@@ -184,15 +183,103 @@ class LaporansController extends Controller
 		$nursestation = AntrianPoli::all();
 		$auth = Auth::user();
 		$raklist = Yoga::rakList();
-		$hariinis = DB::select("SELECT asu.nama , count(asuransi_id) as jumlah, asu.id as id FROM periksas as p left outer join asuransis as asu on p.asuransi_id = asu.id where p.tanggal = '" . date('Y-m-d') . "' group by asu.nama" );
-		$umum = AntrianPeriksa::where('poli', 'umum')->get();
-		$kandungan = AntrianPeriksa::where('poli', 'kandungan')->get();
-		$gigi = AntrianPeriksa::where('poli', 'gigi')->get();
-		$darurat = AntrianPeriksa::where('poli', 'darurat')->get();
+		$query  = "SELECT ";
+		$query .= "asu.nama ,";
+		$query .= "count(asuransi_id) as jumlah, ";
+		$query .= "asu.id as id ";
+		$query .= "FROM periksas as p left outer join ";
+		$query .= "asuransis as asu on p.asuransi_id = asu.id ";
+		$query .= "where p.tanggal = '" . date('Y-m-d') . "' ";
+		$query .= "group by asu.nama" ;
+		$hariinis = DB::select($query);
+		//$arr = [];
+		//foreach ($hariinis as $k => $hr) {
+			//$arr[$hr->id] = $hr;
+		//}
+		//return dd( $arr );
+		$umum = [];
+		$kandungan = [];
+		$gigi = [];
+		$darurat = [];
+		$aps = [];
+		foreach ($aps as $ap) {
+			if ($ap->poli == 'umum') {
+				$umum[] = $ap;	
+			} elseif( $ap->poli == 'kandungan'  ){
+				$kandungan[] = $ap;	
+			} elseif( $ap->poli == 'gigi'  ){
+				$gigi[] = $ap;	
+			} elseif( $ap->poli == 'darurat'  ){
+				$darurat[] = $ap;	
+			}
+		}
 		$staf = Yoga::stafList();
 		$poliIni = $this->poliIni(date('Y-m-d'), '%%');
 		$polis = $poliIni['polis'];
 		$periksas = $poliIni['periksas'];
+
+		//$query  = "SELECT ";
+		//$query .= "poli, ";
+		//$query .= "asuransi_id, ";
+		//$query .= "asu.nama, ";
+		//$query .= "count(px.id) as jumlah, ";
+		//$query .= "sum( if ( poli = 'anc', 1, 0 ) ) as poli_anc, ";
+		//$query .= "sum( if ( poli = 'darurat', 1, 0 ) ) as poli_darurat, ";
+		//$query .= "sum( if ( poli = 'estetika', 1, 0 ) ) as poli_estetika, ";
+		//$query .= "sum( if ( poli = 'gigi', 1, 0 ) ) as poli_gigi, ";
+		//$query .= "sum( if ( poli = 'kb', 1, 0 ) ) as poli_kb, ";
+		//$query .= "sum( if ( poli = 'kb', 1, 0 ) ) as poli_kb, ";
+		//$query .= "sum( if ( poli = 'luka', 1, 0 ) ) as poli_luka, ";
+		//$query .= "sum( if ( poli = 'sks', 1, 0 ) ) as poli_sks, ";
+		//$query .= "sum( if ( poli = 'umum', 1, 0 ) ) as poli_umum, ";
+		//$query .= "sum( if ( poli = 'usg', 1, 0 ) ) as poli_usg, ";
+		//$query .= "sum( if ( poli = 'usgabdomen', 1, 0 ) ) as poli_usgabdomen ";
+		//$query .= "FROM periksas as px join ";
+		//$query .= "asuransis as asu on asu.id = px.asuransi_id ";
+		//$query .= "WHERE px.created_at like '" . date('Y-m-d') . "%' ";
+		//$query .= "GROUP BY asuransi_id ";
+		//$query .= "ORDER BY poli";
+		//$periksas = DB::select($query);
+
+		//$poli_ada = [];
+		//foreach ($periksas as $px) {
+			//if( $px->poli_anc > 0 ) {
+				//$poli_ada[] = "poli_anc";
+			//}
+			//if( $px->poli_darurat > 0 ) {
+				//$poli_ada[] = "poli_darurat";
+			//}
+			//if( $px->poli_estetika > 0 ) {
+				//$poli_ada[] = "poli_estetika";
+			//}
+			//if( $px->poli_gigi > 0 ) {
+				//$poli_ada[] = "poli_gigi";
+			//}
+			//if( $px->poli_kb > 0 ) {
+				//$poli_ada[] = "poli_kb";
+			//}
+			//if( $px->poli_kb > 0 ) {
+				//$poli_ada[] = "poli_kb";
+			//}
+			//if( $px->poli_luka > 0 ) {
+				//$poli_ada[] = "poli_luka";
+			//}
+			//if( $px->poli_sks > 0 ) {
+				 //$poli_ada[] = "poli_sks";
+			//}
+			//if( $px->poli_umum > 0 ) {
+				//$poli_ada[] = "poli_umum";
+			//}
+			//if( $px->poli_usg > 0 ) {
+				 //$poli_ada[] = "poli_usg";
+			//}
+			//if( $px->poli_usgabdomen > 0 ) {
+				//$poli_ada[] = "poli_usgabdomen";
+			//}
+		//}	
+
+		//return dd( array_unique( $poli_ada ) );
+		//return dd( $periksas );
 		
 		$jumlah = 0;
 		$tanggal = date('Y-m-d');

@@ -141,12 +141,15 @@ class FasilitasController extends Controller
 		$kb->alasan   = Input::get('alasan_kabur');
 		$kb->save();
 
-		$confirm = AntrianPoli::destroy( Input::get('id') );
+		$ap = AntrianPoli::find( Input::get('id') );
+		$nama_pasien = $ap->pasien->nama;
+		$confirm = $ap->delete();
+
 
 		if ($confirm) {
-			$pesan = Yoga::suksesFlash('Antrian berhasil dihapus');
+			$pesan = Yoga::suksesFlash('<strong>' . $nama_pasien . '</strong> Berhasil dihapus dari Antrian');
 		} else {
-			$pesan = Yoga::gagalFlash('Antrian gagal dihapus');
+			$pesan = Yoga::gagalFlash('<strong>' . $nama_pasien . '</strong> Gagal dihapus dari Antrian');
 		}
 
 		return redirect()->back()->withPesan($pesan);

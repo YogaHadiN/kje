@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="modal-alasan">
 	@if(isset($antrianperiksa))
 		{!! Form::open(['url' => $antrianperiksa, 'method' => 'delete']) !!}
