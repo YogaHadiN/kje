@@ -17,11 +17,14 @@ class RuangPeriksaController extends Controller
 	}
 	public function umum(){
 
-		$antrianperiksa = AntrianPeriksa::with('pasien', 'staf', 'asuransi')->where('poli', '=', 'umum')
-		->orWhere('poli', 'luka')
-		->orWhere('poli', 'sks')
-		->orderBy('antrian', 'asc')->get();
+		$antrianperiksa = AntrianPeriksa::with('pasien', 'staf', 'asuransi')
+			->where('poli', '=', 'umum')
+			->orWhere('poli', 'luka')
+			->orWhere('poli', 'sks')
+			->orderBy('antrian', 'asc')
+			->get();
 
+		return dd( $antrianperiksa );
 		$postperiksa = Periksa::whereRaw("lewat_poli = 1 and lewat_kasir2 = 0 and ( poli='umum' or poli='sks' or poli='luka' )")->orderBy('tanggal')->orderBy('antrian')->get();
 		return view('antrianperiksas.index')
 			->withPostperiksa($postperiksa)

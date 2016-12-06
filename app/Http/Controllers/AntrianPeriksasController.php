@@ -122,7 +122,7 @@ class AntrianPeriksasController extends Controller
 		$ap->p                   = Yoga::returnNull(Input::get('P'));
 		$ap->a                   = Yoga::returnNull(Input::get('A'));
 		$ap->hpht                = Yoga::datePrep(Input::get('hpht'));
-		$ap->tanggal             = Input::get('tanggal');
+		$ap->tanggal             = Yoga::datePrep( Input::get('tanggal') );
 		$ap->kecelakaan_kerja    = $kecelakaan_kerja;
 		$ap->tekanan_darah       = $tekanan_darah;
 		$ap->tinggi_badan        = $tinggi_badan;
