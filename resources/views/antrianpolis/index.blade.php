@@ -308,10 +308,13 @@ Klinik Jati Elok | Nurse Station
 		</div><!-- /.modal -->
 @stop
 @section('footer') 
-<script src="{{ url('js/togglepanel.js') }}" type="text/javascript"></script>
+	{!! HTML::script('js/togglepanel.js')!!}
 	{!! HTML::script('js/cekbpjskontrol.js')!!}
     {!! HTML::script('js/uk.js') !!}   
     <script>
+		@if( Session::has('print') )
+			window.open("{{ url('pdfs/formulir/usg/' . Session::get('print')->pasien_id . '/' . Session::get('print')->asuransi_id) }}");
+		@endif
         var base = "{{ url('/') }}";
         $('#G').keyup(function(e) {
             riwObsG();
