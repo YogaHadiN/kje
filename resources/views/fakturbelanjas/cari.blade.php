@@ -26,7 +26,7 @@ Klinik Jati Elok | Antrian Beli Obat
       <div class="panel-heading">
             <div class="panel-title">
                 <div class="panelLeft">
-                    <h3>Total : {!! $fakturbelanjas->count() !!}</h3>
+                    <h3>Total : {!! count($fakturbelanjas) !!}</h3>
                 </div>
                 <div class="panelRight">
 					<a href="{{ url('suppliers/belanja_obat') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>	Belanja Obat Klik Disini</a>
@@ -48,33 +48,19 @@ Klinik Jati Elok | Antrian Beli Obat
                     </tr>
                 </thead>
                 <tbody>
-                  @if($fakturbelanjas->count())
+                  @if(count($fakturbelanjas))
                   	@foreach ($fakturbelanjas as $faktur_beli)
                 		<tr>
                         <td><div>{!!App\Classes\Yoga::updateDatePrep($faktur_beli->tanggal)!!}</div></td>
-                        <td><div>{!!$faktur_beli->supplier->nama!!}</div></td>
+                        <td><div>{!!$faktur_beli->nama_supplier !!}</div></td>
                         <td><div>{!!$faktur_beli->nomor_faktur!!}</div></td>
-						<td><div>
+						<td><div> {!!$faktur_beli->sumber_uang !!} </div></td>
+						<td><div> {!!$faktur_beli->nama_staf !!} </div></td>
 								
-								@if(isset($faktur_beli->sumberUang->coa))
-									{!!$faktur_beli->sumberUang->coa!!}
-								@endif
-							
-						</div></td>
-						<td><div>
-								
-								@if(isset($faktur_beli->petugas->nama))
-									{!!$faktur_beli->petugas->nama!!}
-								@endif
-							
-						</div></td>
-								
-                        <td><div class="uang">{!!$faktur_beli->totalbiaya!!}</div></td>
+                        <td><div class="uang">{!!$faktur_beli->total!!}</div></td>
                         <td nowrap>
-                            @if ($faktur_beli->belanja->belanja == 'Belanja Obat')
-                                <a href="{{ url('pembelians/show/' . $faktur_beli->id) }}" class="btn-sm btn btn-primary btn-xs">Detail / Edit</a>
-                            @endif
-                                <a class="btn btn-info btn-xs" href="{{ url('pdfs/pembelian/' . $faktur_beli->id) }}" target="_blank">Print Struk</a>
+							<a href="{{ url('pembelians/show/' . $faktur_beli->faktur_belanja_id) }}" class="btn-sm btn btn-primary btn-xs">Detail / Edit</a>
+							<a class="btn btn-info btn-xs" href="{{ url('pdfs/pembelian/' . $faktur_beli->faktur_belanja_id) }}" target="_blank">Print Struk</a>
                         </td>
                   	</tr>
                   	@endforeach

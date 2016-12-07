@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\FakturBelanja;
 use App\Pengeluaran;
 use App\User;
+use DB;
 use App\Supplier;
 use App\Dispensing;
 use App\Pembelian;
@@ -34,7 +35,25 @@ class FakturBelanjasController extends Controller
 		return view('fakturbelanjas.index', compact('fakturbelanjas', 'stafs', 'suppliers'));
 	}
 	public function obat(){
-		$fakturbelanjas = FakturBelanja::with('staf', 'supplier', 'belanja', 'pembelian')->where('belanja_id', 1)->latest()->get();
+		$query  = "SELECT pb.faktur_belanja_id as faktur_belanja_id, ";
+		$query .= "fb.nomor_faktur as nomor_faktur, ";
+		$query .= "fb.tanggal as tanggal, ";
+		$query .= "sp.nama as nama_supplier, ";
+		$query .= "co.coa as sumber_uang, ";
+		$query .= "st.nama as nama_staf, ";
+		$query .= "sum(pb.harga_beli * pb.jumlah) as total ";
+		$query .= "FROM pembelians as pb ";
+		$query .= "JOIN faktur_belanjas as fb on fb.id = pb.faktur_belanja_id ";
+		$query .= "JOIN stafs as st on st.id = fb.petugas_id ";
+		$query .= "JOIN suppliers as sp on sp.id = fb.supplier_id ";
+		$query .= "JOIN coas as co on co.id = fb.sumber_uang_id ";
+		$query .= "GROUP BY pb.faktur_belanja_id ";
+		$query .= "ORDER BY fb.tanggal desc;";
+		$fakturbelanjas = DB::select($query);
+		//$fakturbelanjas = FakturBelanja::with('staf', 'supplier', 'belanja', 'pembelian.coa')
+								//->where('belanja_id', 1)
+								//->orderBy('tanggal', 'desc')
+								//->get();
 		return view('fakturbelanjas.cari', compact('fakturbelanjas'));
 	}
 
