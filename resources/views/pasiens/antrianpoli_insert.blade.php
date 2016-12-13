@@ -55,15 +55,24 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group @if($errors->has('tanggal'))has-error @endif">
 						  {!! Form::label('tanggal', 'Tanggal Konsultasi', ['class' => 'control-label']) !!}
 						  {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal', 'id' => 'antrianpoli_tanggal']) !!}
 						  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 					</div>
 				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="antrian_terakhir">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 hide" id="bukan_peserta">
+					<div class="form-group @if($errors->has('bukan_peserta'))has-error @endif">
+					  {!! Form::label('bukan_peserta', 'Peserta Klinik', ['class' => 'control-label']) !!}
+					  {!! Form::select('bukan_peserta' , $peserta, '0', ['class' => 'form-control']) !!}
+					  @if($errors->has('bukan_peserta'))<code>{{ $errors->first('bukan_peserta') }}</code>@endif
+					</div>
+					
 				</div>	
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="antrian_terakhir">
+
+				</div>
 			</div>
 			<div class="row hide" id="pengantar_pasien">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

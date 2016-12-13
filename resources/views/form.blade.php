@@ -108,6 +108,7 @@
 									{!! Form::text('_token', Session::token(), ['class' => 'displayNone', 'id'=>'token']) !!}
 									{!! Form::text('jam_periksa', date('H:i:s'), ['class' => 'displayNone']) !!}
 									{!! Form::text('tanggal', $antrianperiksa->tanggal, ['class' => 'displayNone']) !!}
+									{!! Form::text('bukan_peserta', $antrianperiksa->bukan_peserta, ['class' => 'displayNone']) !!}
 									{!! Form::text('poli', $antrianperiksa->poli, ['class' => 'displayNone', 'id' => 'poli_id']) !!}
 									{!! Form::text('adatindakan', $adatindakan, ['class' => 'hide', 'id' => 'adatindakan']) !!}
 									{!! Form::text('asisten_id', $antrianperiksa->asisten_id, ['class' => 'hide']) !!}

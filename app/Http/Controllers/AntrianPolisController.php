@@ -38,6 +38,7 @@ class AntrianPolisController extends Controller
 			1    => 'USG'
 		);
 
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		$perujuks_list = [null => ' - pilih perujuk -'] + Perujuk::lists('nama', 'id')->all();
 		$staf          = Yoga::stafList();
 		$antrianpolis  = AntrianPoli::where('tanggal', '<=', date('Y-m-d'))
@@ -50,6 +51,7 @@ class AntrianPolisController extends Controller
 			->withPerujuks_list($perujuks_list)
 			->withUsg($usg)
 			->withAsu($asu)
+			->withPeserta($peserta)
 			->withPerjanjian($perjanjian)
 			->withStaf($staf);
 	}
@@ -98,6 +100,9 @@ class AntrianPolisController extends Controller
 		$ap->pasien_id   = Input::get('pasien_id');
 		$ap->poli        = Input::get('poli');
 		$ap->staf_id     = Input::get('staf_id');
+		if ( Input::get('poli') == '32' ) {
+			$ap->bukan_peserta  = Input::get('bukan_peserta');
+		}
 		$ap->jam         = date("H:i:s");
 		$ap->tanggal     = Yoga::datePrep( Input::get('tanggal') );
 		$ap->id          = $antrian_poli_id;
@@ -126,8 +131,13 @@ class AntrianPolisController extends Controller
 		if (Input::get('asuransi_id') == '32') {
 			return redirect('antrianpolis/pengantar/create/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat'));
 		}
+		if ( $ap->poli == 'usg' ) {
+			return redirect('antrianpolis')
+				->withPrint($ap)
+				->withPesan(Yoga::suksesFlash($pesan));
+		}
+
 		return redirect('antrianpolis')
-			->withPrint($ap)
 			->withPesan(Yoga::suksesFlash($pesan));
 	}
 

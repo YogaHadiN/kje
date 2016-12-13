@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use App\Classes\Yoga;
 use App\Perbaikantrx;
+use App\BukanPeserta;
 use App\Formula;
 use App\Merek;
 use App\Rak;
@@ -309,7 +310,6 @@ class CustomController extends Controller
 			$rujukan->save();
 		}
 		$periksa->lewat_kasir2    = '1';
-		$confirm             = $periksa->save();
 		$resep = $periksa->terapii;
 		$merek = Merek::all();
 		foreach ($resep as $key => $value) {
@@ -330,7 +330,18 @@ class CustomController extends Controller
 		}
 		$mess = '';
 
+		$confirm             = $periksa->save();
 		if ($confirm) {
+			$bp							= BukanPeserta::where('periksa_id',  Input::get('periksa_id') )->first();
+			if ( $bp != null ) {
+				$bp->antrian_periksa_id		= null;
+				$bp->save();
+			}
+			if ($confirm) {
+				$pesan = Yoga::suksesFlash(''  . $generik->id . ' - ' . $generik->generik . ' <strong>BERHASIL</strong> ');
+			} else {
+				$pesan = Yoga::gagalFlash(''  . $generik->id . ' - ' . $generik->generik . ' <strong>GAGAL</strong> ');
+			}
 			$terapis = $periksa->terapii;
 			$biayaProduksiObat = 0;
 			foreach ($terapis as $terapi) {

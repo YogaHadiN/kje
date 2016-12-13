@@ -1,0 +1,22 @@
+[Gammu            - 1.33.0 built 16:20:47 Aug  1 2013 using GCC 4.8]
+[Connection       - "at19200"]
+[Connection index - 0]
+[Model type       - ""]
+[Device           - "/dev/ttyUSB0"]
+[Running on       - Linux, kernel 3.19.0-25-generic (#26~14.04.1-Ubuntu SMP Fri Jul 24 21:16:20 UTC 2015)]
+Serial device: DTR is up, RTS is up, CAR is down, CTS is up
+Setting speed to 19200
+[Module           - "auto"]
+Escaping SMS mode
+SENDING frametype 0x00/length 0x02/2
+1B |0D                                                          ..              
+Sending simple AT command to wake up some devices
+SENDING frametype 0x00/length 0x03/3
+41A|54T|0D                                                      AT.             
+Enabling echo
+SENDING frametype 0x00/length 0x05/5
+41A|54T|45E|311|0D                                              ATE1.           
+Phone does not support enabled echo, it can not work with Gammu!
+Init:GSM_TryGetModel failed with error TIMEOUT[14]: No response in specified timeout. Probably phone not connected.
+[Terminating]
+[Closing]

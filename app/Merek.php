@@ -123,7 +123,6 @@ class Merek extends Model{
 
 	public function getPalingmurahAttribute(){
 		$pembelian = Pembelian::where('merek_id', $this->id)->orderBy('harga_beli', 'asc')->first();
-
 		if (count($pembelian) > 0) {
 			return $pembelian->fakturBelanja->supplier->nama . ' -Rp. ' . $pembelian->harga_beli;
 		}

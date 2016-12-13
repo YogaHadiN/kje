@@ -11,11 +11,11 @@ class Rak extends Model{
 
 	public static function boot(){
 		parent::boot();
-		self::deleting(function(){
-			if ($this->merek->count() > 0) {
+		self::deleting(function($rak){
+			if ($rak->merek->count() > 0) {
 				$pesan = 'Tidak bisa menghapus rak ini karena rak masih menaungi merek2 berikut ini : ';
 				$pesan .= '<ul>';
-				foreach ($this->merek as $merek) {
+				foreach ($rak->merek as $merek) {
 					$pesan .= '<li>' . $merek->merek . '</li>';
 				}
 				$pesan .= '</ul>';

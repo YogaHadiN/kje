@@ -5,22 +5,23 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Session;
 use App\Classes\Yoga;
+use DB;
 
 class Formula extends Model{
 	public static function boot(){
 		parent::boot();
-		self::deleting(function(){
-			if ($this->rak->count() > 0) {
+		self::deleting(function($formula){
+			if ($formula->rak->count() > 0) {
 				$text = 'Tidak bisa menghapus karena formula ini masih memiliki rak berikut di bawahnya : ';
-				$text = '<ul>';
-				foreach ($this->rak as $rak) {
+				$text .= '<ul>';
+				foreach ($formula->rak as $rak) {
 					$text .= '<li>' . $rak->id . ' dengan merek ';
 					foreach ($rak->merek as $merek) {
 						$text .= $merek->merek . ', ';
 					}
 					$text .= '</li>';
 				}
-				$text = '</ul>';
+				$text .= '</ul>';
 				Session::flash('pesan', Yoga::gagalFlash($text));
 				return false;
 			}
@@ -54,7 +55,6 @@ class Formula extends Model{
 	}
 
 	public function existing_komposisi($id){
-
 		return DB::select("select * from komposisis as k left outer join generiks as g on g.id = k.generik_id where formula_id = $id");
 	}
 

@@ -12,6 +12,22 @@
 			tanggalChange();
 		});
 
+		$('#ddlPembayaran').change(function(){
+			var val = $(this).val();
+			if (val == '32') {
+				$('#bukan_peserta select').val('');
+				$('#bukan_peserta')
+					.removeClass('hide')
+					.hide()
+					.fadeIn(500);
+				console.log($('#bukan_peserta select').val());
+			} else {
+				$('#bukan_peserta').fadeOut(500);
+				$('#bukan_peserta select').val('0');
+				console.log($('#bukan_peserta select').val());
+			}
+		});
+
        var request;
         $('#dummyButton').click(function(e) {
 			if ( $('#antrianpoli_poli').val() == 'usg' ) {
@@ -29,11 +45,15 @@
 			 if(
 				$('#antrianpoli_staf_id').val() == '' ||
 				$('select#ddlPembayaran').val() == '' ||
+				$('#bukan_peserta select').val() == '' ||
 				$('#antrianpoli_poli').val() == '' ||
 				$('#antrianpoli_tanggal').val() == '' ||
 				$('#antrianpoli_antrian').val() == '' ){
 				if($('#antrianpoli_staf_id').val() == '' ){
 					validasi('#antrianpoli_staf_id', 'Harus Diisi');
+				}
+				if($('#bukan_peserta select').val() == '' ){
+					validasi('#bukan_peserta select', 'Harus Diisi');
 				}
 				if($('#antrianpoli_poli').val() == '' ){
 					validasi('#antrianpoli_poli', 'Harus Diisi');

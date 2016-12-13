@@ -80,7 +80,7 @@
             <h3 class="panel-title">Info Rak</h3>
           </div>
           <div class="panel-body">
-              <table class="table table-bordered table-hover" id="tableAsuransi">
+              <table class="table table-bordered table-hover text-left" id="tableAsuransi">
                       <tbody>
                       <tr>
                         <th>Alternatif Fornas</th>
@@ -100,6 +100,10 @@
                     @endif
                   </td>
                 </tr> 
+				<tr>
+                  <th>Rak</th>
+                  <td>{!! $rak->id !!}</td>
+                </tr>
                 <tr>
                   <th>Harga Beli</th>
                   <td>Rp. {!! $rak->harga_beli !!},- </td>

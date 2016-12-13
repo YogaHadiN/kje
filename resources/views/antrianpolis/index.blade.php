@@ -89,18 +89,26 @@ Klinik Jati Elok | Nurse Station
                 <div class="modal-body">
                     <form action="antrianperiksas" method="post">
                         <input type="hidden" name="_token" id="token" value="{{ Session::token() }}">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<div class="form-group">
+									<label for="namaPasien" id="lblNamaPasien" >Nama Pasien</label>
+									<input type="text" class="form-control" id="namaPasien1" name="namaPasien">
+									<input type="text" class="displayNone" name="pasien_id" id="ID_PASIEN">
+									<input type="text" class="displayNone" name="tanggal" id="tanggal">
+									<input type="text" class="displayNone" name="antrian_id" id="ID_ANTRIAN_POLI">
+									<input type="text" class="displayNone" name="antrian" id="antrian">
+									<input type="text" class="displayNone" name="pengantar" id="pengantar">
+								</div>
+							</div>
+						</div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-6 col-md-6" id="divPembayaran">
                                         <div class="form-group">
-                                            <label for="namaPasien" id="lblNamaPasien" >Nama Pasien</label>
-                                            <input type="text" class="form-control" id="namaPasien1" name="namaPasien">
-                                            <input type="text" class="displayNone" name="pasien_id" id="ID_PASIEN">
-                                            <input type="text" class="displayNone" name="tanggal" id="tanggal">
-                                            <input type="text" class="displayNone" name="antrian_id" id="ID_ANTRIAN_POLI">
-                                            <input type="text" class="displayNone" name="antrian" id="antrian">
-                                            <input type="text" class="displayNone" name="pengantar" id="pengantar">
+                                            <label for="pembayaran" id="lblPembayaran">Pembayaran</label>
+											{!!Form::select('asuransi_id', $asu, null, ['class' => 'form-control rq selectpick', 'id' => 'pembayaran1', 'data-live-search' => 'true']) !!}
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3 hide">
@@ -110,10 +118,10 @@ Klinik Jati Elok | Nurse Station
                                             <input type="text" class="displayNone" id="jamDatang"  name="jam"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-6 col-md-6 hide" id="divBukanPeserta">
                                         <div class="form-group">
-                                            <label for="pembayaran" id="lblPembayaran">Pembayaran</label>
-											{!!Form::select('asuransi_id', $asu, null, ['class' => 'form-control rq selectpick', 'id' => 'pembayaran1', 'data-live-search' => 'true']) !!}
+                                            <label for="bukan_peserta" id="lblBukan_peserta">Peserta Klinik</label>
+											{!!Form::select('bukan_peserta', $peserta, '0', ['class' => 'form-control rq', 'id' => 'bukan_peserta']) !!}
                                         </div>
                                     </div>
                                 </div>
@@ -375,6 +383,7 @@ Klinik Jati Elok | Nurse Station
             var image = $(control).closest('tr').find('.image').html();
             var pengantar = $(control).closest('tr').find('.pengantar').html();
             var umur = $(control).closest('tr').find('.umur').html();
+            var bukan_peserta = $(control).closest('tr').find('.bukan_peserta').html();
             umur =umur.trim();
 
             console.log("ID_PASIEN :" + ID_PASIEN );
@@ -389,6 +398,9 @@ Klinik Jati Elok | Nurse Station
             console.log("image :" + image );
             console.log("pengantar :" + pengantar );
             console.log("umur :" + umur );
+            console.log("bukan_peserta :" + bukan_peserta );
+
+			$('#bukan_peserta').val(bukan_peserta);	
 
 			$.get('{{url('antrianpolis/ajax/getGolonganProlanis')}}',
 				{ 'pasien_id': ID_PASIEN },
@@ -407,10 +419,16 @@ Klinik Jati Elok | Nurse Station
                 $('#pastikan').show();
 				cekBPJSkontrol(ID_PASIEN, ID_ASURANSI);
                 $('#lblKecelakaanKerja').html('Kecelakaan Kerja / Kecelakaan Lalu Lintas')
+				$('#divBukanPeserta').removeClass('hide').hide().fadeIn(500);
+				$('#divPembayaran').removeAttr('class');
+				$('#divPembayaran').addClass('col-lg-6 col-md-6');
             } else {
                 $('#cekBPJSkontrol').hide();
                 $('#pastikan').hide();
                 $('#lblKecelakaanKerja').html('Kecelakaan Kerja')
+				$('#divBukanPeserta').fadeOut(500);
+				$('#divPembayaran').removeAttr('class');
+				$('#divPembayaran').addClass('col-lg-12 col-md-12');
             }
 
             $('#usia').html(umur);

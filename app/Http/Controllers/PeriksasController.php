@@ -12,6 +12,7 @@ use App\Classes\Yoga;
 use App\Merek;
 use App\Pasien;
 use App\RegisterHamil;
+use App\BukanPeserta;
 use App\AntrianPeriksa;
 use App\Asuransi;
 use App\Terapi;
@@ -168,6 +169,12 @@ class PeriksasController extends Controller
 		//
 		//
 
+		if ( Input::get('bukan_peserta') == '1' ) {
+			$bp							= new BukanPeserta;
+			$bp->periksa_id				= $periksa_id;
+			$bp->antrian_periksa_id		= Input::get('antrian_id');
+			$bp->save();
+		}
 
 
 		//JIKA ADA FOTO ESTETIKA MASUKKAN GAMBAR ESTETIKA

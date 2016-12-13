@@ -40,10 +40,12 @@ class PasiensController extends Controller
 		$jenis_peserta = $ps->jenisPeserta();
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		return view('pasiens.index')
 			->withAsuransi($asuransi)
 			->with('statusPernikahan', $statusPernikahan)
 			->with('panggilan', $panggilan)
+			->with('peserta', $peserta)
 			->withJenis_peserta($jenis_peserta)
 			->withStaf($staf)
 			->withPoli($poli);

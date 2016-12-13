@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use App\Asuransi;
 use App\Staf;
+use App\BukanPeserta;
 use App\Classes\Yoga;
 use App\AntrianPeriksa;
 use App\Pasien;
@@ -98,9 +99,6 @@ class AntrianPeriksasController extends Controller
 		$kecelakaan_kerja = Input::get('kecelakaan_kerja');
 		$asuransi_id      = Input::get('asuransi_id');
 
-
-
-
 		$ap->antrian             = Input::get('antrian');
 		$ap->berat_badan         = $berat_badan;
 		$ap->hamil               = Input::get('hamil');
@@ -116,6 +114,9 @@ class AntrianPeriksasController extends Controller
 		$ap->staf_id             = Input::get('staf_id');
 		$ap->jam                 = Input::get('jam');
 		$ap->menyusui            = Input::get('menyusui');
+		if ( $asuransi_id == '32' ) {
+			$ap->bukan_peserta            = Input::get('bukan_peserta');
+		}
 		$ap->riwayat_alergi_obat = Input::get('riwayat_alergi_obat');
 		$ap->suhu                = $suhu;
 		$ap->g                   = Yoga::returnNull(Input::get('G'));
@@ -127,10 +128,6 @@ class AntrianPeriksasController extends Controller
 		$ap->tekanan_darah       = $tekanan_darah;
 		$ap->tinggi_badan        = $tinggi_badan;
 		$ap->save();
-
-		//if ($ap->poli == 'estetika') {
-			//$this->periksaKosong($ap->pasien_id, $ap->staf_id, $ap->asisten_id, $ap->id, $ap->antrian, $ap->jam);
-		//}
 
 		$antrian_id              = Input::get('antrian_id');
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
@@ -168,6 +165,7 @@ class AntrianPeriksasController extends Controller
 		if(isset($periksa)){
 			TransaksiPeriksa::where('periksa_id', $periksa->id)->delete(); // Haput Transaksi bila ada periksa id
 			Terapi::where('periksa_id', $periksa->id)->delete(); // Haput Terapi bila ada periksa id
+			BukanPeserta::where('periksa_id', $periksa->id)->delete(); // Haput Terapi bila ada periksa id
 			$periksa->delete(); // hapus row di tabel periksa
 			Rujukan::where('periksa_id', $periksa->id)->delete(); //hapus rujukan yang memiliki id periksa ini
 			SuratSakit::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini

@@ -19,7 +19,8 @@
 			<th class="hide">bpjs_image</th>
 			<th class="hide">alamat</th>
 			<th class="hide">No Asuransi</th>
-			<th class="hide">Nama Asuransi</th>
+			<th>Nama Asuransi</th>
+			<th class="hide">Bukan Peserta</th>
 			<th class="">Action</th>
 		</tr>
 	</thead>
@@ -48,7 +49,8 @@
 				<td class="displayNone alamat">{!! $antrianpoli->pasien->alamat !!}</td>
 				<td class="displayNone tanggal_lahir">{!! $antrianpoli->pasien->tanggal_lahir !!}</td>
 				<td class="displayNone nomor_asuransi">{!! $antrianpoli->pasien->nomor_asuransi!!}</td>
-				<td class="displayNone nama_asuransi">{!! $antrianpoli->asuransi->nama !!}</td>
+				<td class="nama_asuransi">{!! $antrianpoli->asuransi->nama !!}</td>
+				<td class="displayNone bukan_peserta">{!! $antrianpoli->bukan_peserta !!}</td>
 				<td nowrap>
 					@if($antrianpoli->tanggal <= date('Y-m-d 00:00:00'))
 						@if($antrianpoli->self_register == '1' && $antrianpoli->asuransi_id != 0)

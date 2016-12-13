@@ -27,11 +27,6 @@
 						  		@endif
 						  	{!! $errors->first('image', '<p class="help-block">:message</p>') !!}
 						  </div>
-						  {{--@include('antrianpolis.webcamForm', [--}}
-						  {{--'image' => null,--}}
-						  {{--'ktp_image' => null,--}}
-						  {{--'subject'   => 'Pasien'--}}
-						  {{--])--}}
 					  </div>
 				  </div>
 				 <div class="row">

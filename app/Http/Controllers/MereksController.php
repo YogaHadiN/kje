@@ -149,17 +149,36 @@ class MereksController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$merek = Merek::findOrFail($id);
+		$merek = Merek::with('rak')->where('id', $id)->first();
 
 		$nama = $merek->merek;
+		$rak_id = $merek->rak_id;
+		$formula_id = $merek->rak->formula_id;
 
+		$nama = $merek->merek;
 		$conf = $merek->delete();
+
+
+		$rak_count = Merek::where('rak_id', $rak_id)->count();
+		if ($rak_count < 1) {
+			$confirm_rak_delete = Rak::destroy($rak_id);
+		}
+
+		$formula_count = Rak::where('formula_id', $formula_id)->count();
+		if ( $formula_count < 1 ) {
+			$confirm_formula_delete = Formula::destroy($formula_id);
+		}
 
 		if ($conf) {
 			$pesan = 'Obat dengan merek <strong>' . $id . ' - '  . $nama . '</strong> telah <strong>BERHASIL</strong> dihapus';
+			if ($confirm_rak_delete) {
+				$pesan .= '<br />Rak <strong>' . $rak_id . ' - '  . $nama . '</strong> telah <strong>BERHASIL</strong> dihapus';
+			}
+			if ($confirm_formula_delete) {
+				$pesan .= '<br />Formula <strong>' . $formula_id . ' - '  . $nama . '</strong> telah <strong>BERHASIL</strong> dihapus';
+			}
 		} else {
 			$pesan = 'Obat dengan merek <strong>' . $id . ' - '  . $nama . '</strong> telah <strong>GAGAL</strong> dihapus';
-
 		}
 
 		return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash($pesan));
