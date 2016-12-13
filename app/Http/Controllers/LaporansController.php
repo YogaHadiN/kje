@@ -1179,11 +1179,13 @@ class LaporansController extends Controller
 	public function smsBpjs(){
 		$tanggall       = Input::get('bulanTahun');
 		$tanggal		= Yoga::blnPrep($tanggall);
-		$sms_kontak		= SmsKontak::where('created_at', 'like', $tanggal. '%')
+		$sms_kontak		= SmsKontak::with('pasien')
+									->where('created_at', 'like', $tanggal. '%')
 									->whereRaw('pcare_submit = 0 or pcare_submit = 2')
 									->orderBy('pcare_submit')
 									->get();
-		$sms_masuk		= SmsKontak::where('created_at', 'like', $tanggal. '%')
+		$sms_masuk		= SmsKontak::with('pasien')
+									->where('created_at', 'like', $tanggal. '%')
 									->where('pcare_submit', '1')
 									->get();
 		$sms_gagal		= SmsGagal::where('created_at', 'like', $tanggal. '%')->get();

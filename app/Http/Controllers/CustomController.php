@@ -337,11 +337,6 @@ class CustomController extends Controller
 				$bp->antrian_periksa_id		= null;
 				$bp->save();
 			}
-			if ($confirm) {
-				$pesan = Yoga::suksesFlash(''  . $generik->id . ' - ' . $generik->generik . ' <strong>BERHASIL</strong> ');
-			} else {
-				$pesan = Yoga::gagalFlash(''  . $generik->id . ' - ' . $generik->generik . ' <strong>GAGAL</strong> ');
-			}
 			$terapis = $periksa->terapii;
 			$biayaProduksiObat = 0;
 			foreach ($terapis as $terapi) {
