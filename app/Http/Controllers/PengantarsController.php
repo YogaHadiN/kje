@@ -199,9 +199,11 @@ class PengantarsController extends Controller
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$ap = AntrianPoli::with('pasien','asuransi','staf')->where('id', $id)->first();
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		return view('antrianpolis.pengantar', compact(
 			'ap',
 			'panggilan',
+			'peserta',
 			'statusPernikahan',
 			'asuransi',
 			'jenis_peserta',
