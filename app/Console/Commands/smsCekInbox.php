@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Inbox;
+use App\Periksa;
+use App\PesanMasuk;
+use DB;
 
 class smsCekInbox extends Command
 {
@@ -38,32 +41,57 @@ class smsCekInbox extends Command
      */
     public function handle()
     {
-		$inbox = Inbox::where('processed', 'false')
-						->get();
+		$inbox = Inbox::all();
 		$countInbox = $inbox->count();
 		if ( $countInbox > 0 ) {
 			$nomors = [];
 			$deletes_ids = [];
+			$masuks = [];
 			foreach ($inbox as $i) {
+
 				$nomor = $i->SenderNumber;
 				$nomor = str_replace('+62', '0', $nomor);
-				$nomors[]= $nomor;
+
+				$TextDecoded = $i->TextDecoded;
+				$TextDecoded = trim(strtolower(  $TextDecoded  ));
+				if (substr($TextDecoded, 0, 1) === 't' || substr($TextDecoded, 0, 1) === 'n' || substr($TextDecoded, 0, 1) === 'g') {
+					$satisfaction_index = 1;
+				} else if(substr($TextDecoded, 0, 1) === 'p'){
+					$satisfaction_index = 3;
+				} else if(substr($TextDecoded, 0, 1) === 'k'){
+					$Keberatan       = new Keberatan;
+					$Keberatan->no_telp   = $nomor;
+					$Keberatan->save();
+				} else {
+					$satisfaction_index = 2;
+				}
+
+				if ( isset( $satisfaction_index ) ) {
+
+					$query  = "SELECT pk.periksa_id FROM pesan_keluars as pk ";
+					$query .= "join periksas as px on px.id = pk.periksa_id ";
+					$query .= "join pasiens as ps on ps.id = px.pasien_id ";
+					$query .= "where ps.no_telp ='" .$nomor. "' ";
+					$query .= "ORDER BY px.created_at desc ";
+					$query .= "LIMIT 1";
+					$periksa_id = DB::select($query)[0]->periksa_id;
+
+					$px						  = Periksa::find($periksa_id);
+					$px->satisfaction_index   = $satisfaction_index;
+					$px->save();
+				}
+				$masuks[] = [
+					'id' => $o->id,
+					'pesan' => $message,
+					'no_telp' => $nomor,
+					'periksa_id' => $periksa_id
+				];
 				$deletes_ids[] = $i->id;
 			}
-			return dd($nomors);
-			$query  = "SELECT * FROM ";
-			$query .= "periksas as px join ";
-			$query .= "pasiens as ps on px.pasien_id = px.id ";
-			$query .= "WHERE px.created_at between '" . date('Y-m-d',strtotime('-7 day',strtotime(date('Y-m-d')))) . " 00:00:00' and '" . date('Y-m-d H:i:s'). "'";
-			$query .= "AND ps.no_telp in ('" . $nomors[0] . "'";
-			foreach ($nomors as $k=>$n) {
-				if ($k > 0) {
-					$query .= ",'" . $n . "'";
-				}
+			$confirm = PesanMasuk::create($masuks);
+			if ($confirm) {
+				Inbox::destroy($deletes_ids);
 			}
-			$query .= ");";
-			return dd( $query );
-			$inbox = DB::select($query);
 		}
     }
 }

@@ -56,6 +56,7 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
+		//return dd( Input::all() );
 
 		$rules = [
 		  "kecelakaan_kerja" => "required",

@@ -722,16 +722,21 @@ class LaporansController extends Controller
 		$mulai = Yoga::nowIfEmptyMulai($mulai);
 		$akhir = Yoga::nowIfEmptyAkhir($akhir);
 
-		$query = "SELECT st.nama, count(pn.tekanan_darah) as tekanan_darah, count(pn.suhu) as suhu, count(pn.berat_badan) as berat_badan, count(pn.tinggi_badan) as tinggi_badan FROM points as pn join periksas as px on px.id = pn.periksa_id join stafs as st on st.id = px.asisten_id  where pn.created_at between '{$mulai}' and '{$akhir}' group by nama";
+		$query  = "SELECT st.nama, ";
+		$query .= "count(pn.tekanan_darah) as tekanan_darah, ";
+		$query .= "count(pn.suhu) as suhu, ";
+		$query .= "count(pn.berat_badan) as berat_badan, ";
+		$query .= "count(pn.tinggi_badan) as tinggi_badan ";
+		$query .= "FROM points as pn ";
+		$query .= "join periksas as px on px.id = pn.periksa_id ";
+		$query .= "join stafs as st on st.id = px.asisten_id ";
+		$query .= "where pn.created_at between '{$mulai}' and '{$akhir}' ";
+		$query .= "group by nama";
 
 
 		$points = DB::select($query);
 
-		// return $points;
-
 		return view('laporans.poin', compact('points'));
-
-
 
 	}
 	public function pendapatan()

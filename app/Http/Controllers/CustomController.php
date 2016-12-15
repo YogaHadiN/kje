@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use App\Classes\Yoga;
 use App\Perbaikantrx;
+use App\Keberatan;
 use App\BukanPeserta;
 use App\Formula;
 use App\Merek;
@@ -337,10 +338,10 @@ class CustomController extends Controller
 				$bp->save();
 			}
 
-			//if ( $periksa->poli == 'estetika' ) {
-				//$message = "Yth Pelanggan Klinik Jati Elok, untuk meningkatkan pelayanan kami, bagaimana pelayanan kami hari ini? Reply Puas / Tidak Puas & Saran. trims ";
-				//Sms::gammuSurvey($periksa->pasien->no_telp, $message, $periksa->id);
-			//}
+			if ( $periksa->poli == 'estetika' && Keberatan::where('no_telp', $periksa->pasien->no_telp)->first() == null) {
+				$message = "Yth Pelanggan Klinik Jati Elok, untuk meningkatkan pelayanan kami, bagaimana pelayanan kami hari ini? Reply Puas / Tidak Puas / Keberatan jika tidak ingin menerima sms tiap habis berobat";
+				Sms::gammuSurvey($periksa->pasien->no_telp, $message, $periksa->id);
+			}
 			
 
 			$terapis = $periksa->terapii;

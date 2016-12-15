@@ -2,7 +2,8 @@ create table `pesan_keluars` (
 	`id` int unsigned not null auto_increment primary key, 
 	`periksa_id` varchar(255) not null, 
 	`pesan` varchar(255) not null, 
-	`oubox_id` varchar(255) not null, 
+	`outbox_id` varchar(255) not null, 
+	`sudah_diproses` int(1) default 0, 
 	`created_at` timestamp default 0 not null, 
 	`updated_at` timestamp default 0 not null) 
 default character set utf8 collate utf8_unicode_ci;
@@ -11,6 +12,30 @@ create table `pesan_masuks` (
 	`id` int unsigned not null auto_increment primary key, 
 	`periksa_id` varchar(255) not null, 
 	`pesan` varchar(255) not null, 
+	`sudah_diproses` int(1) default 0, 
 	`created_at` timestamp default 0 not null, 
 	`updated_at` timestamp default 0 not null) 
 default character set utf8 collate utf8_unicode_ci;
+
+create table `keberatans` (
+	`id` int unsigned not null auto_increment primary key, 
+	`no_telp` varchar(255) not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+create table `satisfaction_index` (
+	`id` int unsigned not null auto_increment primary key, 
+	`satisfaction_index` varchar(255) not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+ALTER TABLE periksas CHANGE satisfaction_index `satisfaction_index` int(1) default 2;
+
+update periksas set satisfaction_index = 2 where satisfaction_index = 0;
+
+insert into `satisfaction_index` (satisfaction_index) values
+('tidak puas'),
+('biasa'),
+('puas');

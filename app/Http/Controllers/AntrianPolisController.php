@@ -41,9 +41,11 @@ class AntrianPolisController extends Controller
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		$perujuks_list = [null => ' - pilih perujuk -'] + Perujuk::lists('nama', 'id')->all();
 		$staf          = Yoga::stafList();
-		$antrianpolis  = AntrianPoli::where('tanggal', '<=', date('Y-m-d'))
+		$antrianpolis  = AntrianPoli::with('pasien', 'asuransi', 'antars')
+								->where('tanggal', '<=', date('Y-m-d'))
 								->orderBy('antrian', 'asc')->get();
-		$perjanjian  = AntrianPoli::where('tanggal', '>', date('Y-m-d'))
+		$perjanjian  = AntrianPoli::with('pasien', 'asuransi', 'antars')
+								->where('tanggal', '>', date('Y-m-d'))
 								->orderBy('tanggal', 'asc')->get();
 
 		return view('antrianpolis.index')

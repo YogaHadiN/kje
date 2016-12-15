@@ -17,7 +17,6 @@ class Icd10 extends Model{
 
 
 	public function diagnosa(){
-
 		return $this->hasMany('Diagnosa');
 	}
 

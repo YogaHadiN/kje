@@ -21,7 +21,6 @@ class Kernel extends ConsoleKernel
 		 Commands\smsAngkakontak::class,
 		 Commands\smsUndanganprolanis::class,
 		 Commands\cronTest::class,
-		 Commands\testPeriksahilang::class,
 		 Commands\smsLaporanHarian::class,
 		 Commands\smsDonnaruko::class,
 		 Commands\smsIngatkanJanji::class,
@@ -48,8 +47,6 @@ class Kernel extends ConsoleKernel
 						->dailyAt('15:30'); 
 			 $schedule->command('cron:test')
 					  ->hourly();
-			 //$schedule->command('test:periksahilang')
-						//->dailyAt('22:00'); 
 			 $schedule->command('sms:laporanharian')
 						->dailyAt('23:00'); 
 			 $schedule->command('sms:donnaruko')
