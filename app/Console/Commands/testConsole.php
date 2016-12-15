@@ -3,23 +3,22 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Outbox;
 
-class testcommand extends Command
+class testConsole extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:command';
+    protected $signature = 'test:console';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Perintah untuk test console shell script';
 
     /**
      * Create a new command instance.
@@ -38,11 +37,10 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$o       = new Outbox;
-		$o->DestinationNumber   = '081381912803';
-		$o->TextDecoded   = 'coba sms dari laravel yang kedua';
-		$o->CreatorID   = 'gammu';
-		$confirm =	$o->save();
-		return dd( $confirm );
+		if (gethostname() == 'kje') {
+			exec("mysqldump -u root -pYogaman89 jatielok | gzip > /home/kje/Dropbox/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
+		} else {
+			exec("mysqldump -u root -pYogaman89 jatielok | gzip > /home/dell/Documents/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
+		}
     }
 }

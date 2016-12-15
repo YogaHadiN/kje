@@ -28,7 +28,7 @@ class PengantarsController extends Controller
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$ap = AntrianPeriksa::find($id);
-
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		$pengantars = [];
 
 
@@ -41,6 +41,7 @@ class PengantarsController extends Controller
 			'ap',
 			'panggilan',
 			'pengantars',
+			'peserta',
 			'statusPernikahan',
 			'asuransi',
 			'jenis_peserta',
@@ -118,11 +119,12 @@ class PengantarsController extends Controller
 		$jenis_peserta = $ps->jenisPeserta();
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
-		
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		return view('antrianpolis.createPasien')
 			->withAsuransi($asuransi)
 			->with('statusPernikahan', $statusPernikahan)
 			->with('panggilan', $panggilan)
+			->with('peserta', $peserta)
 			->withJenis_peserta($jenis_peserta)
 			->withStaf($staf)
 			->withPoli($poli);
@@ -222,7 +224,7 @@ class PengantarsController extends Controller
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$ap = AntrianPoli::find($id);
-
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		$pengantars = [];
 
 
@@ -239,6 +241,7 @@ class PengantarsController extends Controller
 			'pengantars',
 			'statusPernikahan',
 			'asuransi',
+			'peserta',
 			'jenis_peserta',
 			'staf',
 			'poli'
@@ -386,6 +389,7 @@ class PengantarsController extends Controller
 		$poli = Yoga::poliList();
 		$ap = Periksa::find($id);
 
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		$pengantars = [];
 
 		foreach ($ap->antars as $v) {
@@ -400,6 +404,7 @@ class PengantarsController extends Controller
 			'statusPernikahan',
 			'asuransi',
 			'jenis_peserta',
+			'peserta',
 			'staf',
 			'poli'
 		));
@@ -530,7 +535,7 @@ class PengantarsController extends Controller
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$ap = Periksa::find($id);
-
+		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
 		$pengantars = [];
 
 		foreach ($ap->antars as $v) {
@@ -542,6 +547,7 @@ class PengantarsController extends Controller
 			'ap',
 			'panggilan',
 			'pengantars',
+			'peserta',
 			'statusPernikahan',
 			'asuransi',
 			'jenis_peserta',

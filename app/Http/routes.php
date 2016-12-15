@@ -146,6 +146,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::resource('antrianperiksas', 'AntrianPeriksasController');
 
 
+			Route::get('stafs/{id}/gaji', 'StafsCustomController@gaji');
 			Route::get('qrcode', 'QrCodeController@index');
 
 			Route::get('kontrols/create/{periksa_id}', 'KontrolsController@create');

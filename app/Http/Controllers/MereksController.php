@@ -125,8 +125,6 @@ class MereksController extends Controller
 	public function update($id)
 	{
 		$merek = Merek::findOrFail($id);
-
-
 		$validator = \Validator::make($data = Input::all(), Merek::$rules);
 
 		if ($validator->fails())

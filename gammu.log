@@ -1,22 +1,383 @@
-[Gammu            - 1.33.0 built 16:20:47 Aug  1 2013 using GCC 4.8]
-[Connection       - "at19200"]
+[Gammu            - 1.38.0]
+[Connection       - "at115200"]
 [Connection index - 0]
 [Model type       - ""]
 [Device           - "/dev/ttyUSB0"]
 [Running on       - Linux, kernel 3.19.0-25-generic (#26~14.04.1-Ubuntu SMP Fri Jul 24 21:16:20 UTC 2015)]
-Serial device: DTR is up, RTS is up, CAR is down, CTS is up
-Setting speed to 19200
+Serial device: DTR is up, RTS is up, CAR is down, CTS is down
+Setting speed to 115200
 [Module           - "auto"]
 Escaping SMS mode
-SENDING frametype 0x00/length 0x02/2
+SENDING frame type 0x00/length 0x02/2
 1B |0D                                                          ..              
 Sending simple AT command to wake up some devices
-SENDING frametype 0x00/length 0x03/3
+SENDING frame type 0x00/length 0x03/3
 41A|54T|0D                                                      AT.             
+1 "AT"
+2 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x09/9
+41A|54T|0D |0D |0A |4FO|4BK|0D |0A                              AT...OK..       
 Enabling echo
-SENDING frametype 0x00/length 0x05/5
+SENDING frame type 0x00/length 0x05/5
 41A|54T|45E|311|0D                                              ATE1.           
-Phone does not support enabled echo, it can not work with Gammu!
-Init:GSM_TryGetModel failed with error TIMEOUT[14]: No response in specified timeout. Probably phone not connected.
+1 "ATE1"
+2 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x0B/11
+41A|54T|45E|311|0D |0D |0A |4FO|4BK|0D |0A                      ATE1...OK..     
+Trying Motorola mode switch
+SENDING frame type 0x00/length 0x0A/10
+41A|54T|2B+|4DM|4FO|44D|45E|3D=|322|0D                          AT+MODE=2.      
+1 "AT+MODE=2"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x13/19
+41A|54T|2B+|4DM|4FO|44D|45E|3D=|322|0D |0D |0A |45E|52R|52R|4FO AT+MODE=2...ERRO
+52R|0D |0A                                                      R..             
+Seems not to be supported
+Enabling CME errors
+SENDING frame type 0x00/length 0x0A/10
+41A|54T|2B+|43C|4DM|45E|45E|3D=|311|0D                          AT+CMEE=1.      
+1 "AT+CMEE=1"
+2 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x10/16
+41A|54T|2B+|43C|4DM|45E|45E|3D=|311|0D |0D |0A |4FO|4BK|0D |0A  AT+CMEE=1...OK..
+SENDING frame type 0x00/length 0x09/9
+41A|54T|2B+|43C|53S|43C|53S|3F?|0D                              AT+CSCS?.       
+1 "AT+CSCS?"
+2 "+CSCS: "PCCP437""
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x23/35
+41A|54T|2B+|43C|53S|43C|53S|3F?|0D |0D |0A |2B+|43C|53S|43C|53S AT+CSCS?...+CSCS
+3A:|20 |22"|50P|43C|43C|50P|344|333|377|22"|0D |0A |0D |0A |4FO : "PCCP437"....O
+4BK|0D |0A                                                      K..             
+SENDING frame type 0x00/length 0x0A/10
+41A|54T|2B+|43C|53S|43C|53S|3D=|3F?|0D                          AT+CSCS=?.      
+1 "AT+CSCS=?"
+2 "+CSCS: ("GSM","PCCP437","CUSTOM","HEX")"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x3B/59
+41A|54T|2B+|43C|53S|43C|53S|3D=|3F?|0D |0D |0A |2B+|43C|53S|43C AT+CSCS=?...+CSC
+53S|3A:|20 |28(|22"|47G|53S|4DM|22"|2C,|22"|50P|43C|43C|50P|344 S: ("GSM","PCCP4
+333|377|22"|2C,|22"|43C|55U|53S|54T|4FO|4DM|22"|2C,|22"|48H|45E 37","CUSTOM","HE
+58X|22"|29)|0D |0A |0D |0A |4FO|4BK|0D |0A                      X")....OK..     
+Chosen HEX as normal charset
+SENDING frame type 0x00/length 0x0E/14
+41A|54T|2B+|43C|53S|43C|53S|3D=|22"|48H|45E|58X|22"|0D          AT+CSCS="HEX".  
+1 "AT+CSCS="HEX""
+2 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x14/20
+41A|54T|2B+|43C|53S|43C|53S|3D=|22"|48H|45E|58X|22"|0D |0D |0A  AT+CSCS="HEX"...
+4FO|4BK|0D |0A                                                  OK..            
+SENDING frame type 0x00/length 0x09/9
+41A|54T|2B+|43C|53S|43C|53S|3F?|0D                              AT+CSCS?.       
+1 "AT+CSCS?"
+2 "+CSCS: "HEX""
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x1F/31
+41A|54T|2B+|43C|53S|43C|53S|3F?|0D |0D |0A |2B+|43C|53S|43C|53S AT+CSCS?...+CSCS
+3A:|20 |22"|48H|45E|58X|22"|0D |0A |0D |0A |4FO|4BK|0D |0A      : "HEX"....OK.. 
+Getting model
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|4DM|4DM|0D                                  AT+CGMM.        
+1 "AT+CGMM"
+2 " MULTIBAND  900E  1800 "
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x29/41
+41A|54T|2B+|43C|47G|4DM|4DM|0D |0D |0A |20 |4DM|55U|4CL|54T|49I AT+CGMM... MULTI
+42B|41A|4EN|44D|20 |20 |399|300|300|45E|20 |20 |311|388|300|300 BAND  900E  1800
+20 |0D |0A |0D |0A |4FO|4BK|0D |0A                               ....OK..       
+[Model name: `MULTIBAND  900E  1800']
+[Model data: `MULTIBAND  900E  1800']
+[Model data: `MULTIBAND  900E  1800']
+[Connected model  - "MULTIBAND  900E  1800"]
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|4DM|49I|0D                                  AT+CGMI.        
+1 "AT+CGMI"
+2 " WAVECOM MODEM"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x20/32
+41A|54T|2B+|43C|47G|4DM|49I|0D |0D |0A |20 |57W|41A|56V|45E|43C AT+CGMI... WAVEC
+4FO|4DM|20 |4DM|4FO|44D|45E|4DM|0D |0A |0D |0A |4FO|4BK|0D |0A  OM MODEM....OK..
+Manufacturer info received
+[Manufacturer: Wavecom]
+Checking for OBEX support
+SENDING frame type 0x00/length 0x0B/11
+41A|54T|2B+|43C|50P|52R|4FO|54T|3D=|3F?|0D                      AT+CPROT=?.     
+1 "AT+CPROT=?"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x14/20
+41A|54T|2B+|43C|50P|52R|4FO|54T|3D=|3F?|0D |0D |0A |45E|52R|52R AT+CPROT=?...ERR
+4FO|52R|0D |0A                                                  OR..            
+Checking for SYNCML/OBEX support
+SENDING frame type 0x00/length 0x0C/12
+41A|54T|2B+|53S|59Y|4EN|43C|4DM|4CL|3D=|3F?|0D                  AT+SYNCML=?.    
+1 "AT+SYNCML=?"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x15/21
+41A|54T|2B+|53S|59Y|4EN|43C|4DM|4CL|3D=|3F?|0D |0D |0A |45E|52R AT+SYNCML=?...ER
+52R|4FO|52R|0D |0A                                              ROR..           
+SENDING frame type 0x00/length 0x0D/13
+41A|54T|24$|54T|53S|53S|50P|43C|53S|57W|3D=|3F?|0D              AT$TSSPCSW=?.   
+1 "AT$TSSPCSW=?"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x16/22
+41A|54T|24$|54T|53S|53S|50P|43C|53S|57W|3D=|3F?|0D |0D |0A |45E AT$TSSPCSW=?...E
+52R|52R|4FO|52R|0D |0A                                          RROR..          
+[Module           - "A2D|iPAQ|at|M20|S25|MC35|TC35|C35i|S65|S300|5110|5130|5190|5210|6110|6130|6150|6190|6210|6250|6310|6310i|6510|7110|8210|8250|8290|8310|8390|8850|8855|8890|8910|9110|9210"]
+Escaping SMS mode
+SENDING frame type 0x00/length 0x02/2
+1B |0D                                                          ..              
+Sending simple AT command to wake up some devices
+SENDING frame type 0x00/length 0x03/3
+41A|54T|0D                                                      AT.             
+1 "AT"
+2 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x09/9
+41A|54T|0D |0D |0A |4FO|4BK|0D |0A                              AT...OK..       
+Enabling echo
+SENDING frame type 0x00/length 0x05/5
+41A|54T|45E|311|0D                                              ATE1.           
+1 "ATE1"
+2 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x0B/11
+41A|54T|45E|311|0D |0D |0A |4FO|4BK|0D |0A                      ATE1...OK..     
+Trying Motorola mode switch
+SENDING frame type 0x00/length 0x0A/10
+41A|54T|2B+|4DM|4FO|44D|45E|3D=|322|0D                          AT+MODE=2.      
+1 "AT+MODE=2"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x13/19
+41A|54T|2B+|4DM|4FO|44D|45E|3D=|322|0D |0D |0A |45E|52R|52R|4FO AT+MODE=2...ERRO
+52R|0D |0A                                                      R..             
+Seems not to be supported
+Enabling CME errors
+SENDING frame type 0x00/length 0x0A/10
+41A|54T|2B+|43C|4DM|45E|45E|3D=|311|0D                          AT+CMEE=1.      
+1 "AT+CMEE=1"
+2 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x10/16
+41A|54T|2B+|43C|4DM|45E|45E|3D=|311|0D |0D |0A |4FO|4BK|0D |0A  AT+CMEE=1...OK..
+SENDING frame type 0x00/length 0x09/9
+41A|54T|2B+|43C|53S|43C|53S|3F?|0D                              AT+CSCS?.       
+1 "AT+CSCS?"
+2 "+CSCS: "HEX""
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x1F/31
+41A|54T|2B+|43C|53S|43C|53S|3F?|0D |0D |0A |2B+|43C|53S|43C|53S AT+CSCS?...+CSCS
+3A:|20 |22"|48H|45E|58X|22"|0D |0A |0D |0A |4FO|4BK|0D |0A      : "HEX"....OK.. 
+SENDING frame type 0x00/length 0x0A/10
+41A|54T|2B+|43C|53S|43C|53S|3D=|3F?|0D                          AT+CSCS=?.      
+1 "AT+CSCS=?"
+2 "+CSCS: ("GSM","PCCP437","CUSTOM","HEX")"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x3B/59
+41A|54T|2B+|43C|53S|43C|53S|3D=|3F?|0D |0D |0A |2B+|43C|53S|43C AT+CSCS=?...+CSC
+53S|3A:|20 |28(|22"|47G|53S|4DM|22"|2C,|22"|50P|43C|43C|50P|344 S: ("GSM","PCCP4
+333|377|22"|2C,|22"|43C|55U|53S|54T|4FO|4DM|22"|2C,|22"|48H|45E 37","CUSTOM","HE
+58X|22"|29)|0D |0A |0D |0A |4FO|4BK|0D |0A                      X")....OK..     
+Chosen HEX as normal charset
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|4DM|49I|0D                                  AT+CGMI.        
+1 "AT+CGMI"
+2 " WAVECOM MODEM"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x20/32
+41A|54T|2B+|43C|47G|4DM|49I|0D |0D |0A |20 |57W|41A|56V|45E|43C AT+CGMI... WAVEC
+4FO|4DM|20 |4DM|4FO|44D|45E|4DM|0D |0A |0D |0A |4FO|4BK|0D |0A  OM MODEM....OK..
+Manufacturer info received
+[Manufacturer: Wavecom]
+Checking for OBEX support
+SENDING frame type 0x00/length 0x0B/11
+41A|54T|2B+|43C|50P|52R|4FO|54T|3D=|3F?|0D                      AT+CPROT=?.     
+1 "AT+CPROT=?"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x14/20
+41A|54T|2B+|43C|50P|52R|4FO|54T|3D=|3F?|0D |0D |0A |45E|52R|52R AT+CPROT=?...ERR
+4FO|52R|0D |0A                                                  OR..            
+Checking for SYNCML/OBEX support
+SENDING frame type 0x00/length 0x0C/12
+41A|54T|2B+|53S|59Y|4EN|43C|4DM|4CL|3D=|3F?|0D                  AT+SYNCML=?.    
+1 "AT+SYNCML=?"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x15/21
+41A|54T|2B+|53S|59Y|4EN|43C|4DM|4CL|3D=|3F?|0D |0D |0A |45E|52R AT+SYNCML=?...ER
+52R|4FO|52R|0D |0A                                              ROR..           
+SENDING frame type 0x00/length 0x0D/13
+41A|54T|24$|54T|53S|53S|50P|43C|53S|57W|3D=|3F?|0D              AT$TSSPCSW=?.   
+1 "AT$TSSPCSW=?"
+2 "ERROR"
+Checking line: ERROR
+AT reply state: 3
+RECEIVED frame type 0x00/length 0x16/22
+41A|54T|24$|54T|53S|53S|50P|43C|53S|57W|3D=|3F?|0D |0D |0A |45E AT$TSSPCSW=?...E
+52R|52R|4FO|52R|0D |0A                                          RROR..          
+Setting date & time
+SENDING frame type 0x00/length 0x1F/31
+41A|54T|2B+|43C|43C|4CL|4BK|3D=|22"|311|366|2F/|311|322|2F/|311 AT+CCLK="16/12/1
+344|2C,|311|388|3A:|355|366|3A:|300|399|2B+|300|377|22"|0D      4,18:56:09+07". 
+1 "AT+CCLK="16/12/14,18:56:09+07""
+2 "+CME ERROR: 3"
+Checking line: +CME ERROR: 3
+AT reply state: 6
+RECEIVED frame type 0x00/length 0x30/48
+41A|54T|2B+|43C|43C|4CL|4BK|3D=|22"|311|366|2F/|311|322|2F/|311 AT+CCLK="16/12/1
+344|2C,|311|388|3A:|355|366|3A:|300|399|2B+|300|377|22"|0D |0D  4,18:56:09+07"..
+0A |2B+|43C|4DM|45E|20 |45E|52R|52R|4FO|52R|3A:|20 |333|0D |0A  .+CME ERROR: 3..
+CME Error 3: "operation not allowed"
+Getting firmware versions
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|4DM|52R|0D                                  AT+CGMR.        
+1 "AT+CGMR"
+2 "652a09gg.Q2406B 428 112614 13:53"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x32/50
+41A|54T|2B+|43C|47G|4DM|52R|0D |0D |0A |366|355|322|61a|300|399 AT+CGMR...652a09
+67g|67g|2E.|51Q|322|344|300|366|42B|20 |344|322|388|20 |311|311 gg.Q2406B 428 11
+322|366|311|344|20 |311|333|3A:|355|333|0D |0A |0D |0A |4FO|4BK 2614 13:53....OK
+0D |0A                                                          ..              
+Received firmware version: "652a09gg.Q2406B 428 112614 13:53"
+Number version is "65209,240643"
+[Firmware version - "652a09gg.Q2406B 428 112614 13:53"]
+[Connected]
+Entering GSM_GetManufacturer
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|4DM|49I|0D                                  AT+CGMI.        
+1 "AT+CGMI"
+2 " WAVECOM MODEM"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x20/32
+41A|54T|2B+|43C|47G|4DM|49I|0D |0D |0A |20 |57W|41A|56V|45E|43C AT+CGMI... WAVEC
+4FO|4DM|20 |4DM|4FO|44D|45E|4DM|0D |0A |0D |0A |4FO|4BK|0D |0A  OM MODEM....OK..
+Manufacturer info received
+[Manufacturer: Wavecom]
+Leaving GSM_GetManufacturer
+Entering GSM_GetModel
+Getting model
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|4DM|4DM|0D                                  AT+CGMM.        
+1 "AT+CGMM"
+2 " MULTIBAND  900E  1800 "
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x29/41
+41A|54T|2B+|43C|47G|4DM|4DM|0D |0D |0A |20 |4DM|55U|4CL|54T|49I AT+CGMM... MULTI
+42B|41A|4EN|44D|20 |20 |399|300|300|45E|20 |20 |311|388|300|300 BAND  900E  1800
+20 |0D |0A |0D |0A |4FO|4BK|0D |0A                               ....OK..       
+[Model name: `MULTIBAND  900E  1800']
+[Model data: `MULTIBAND  900E  1800']
+[Model data: `MULTIBAND  900E  1800']
+[Connected model  - "MULTIBAND  900E  1800"]
+Leaving GSM_GetModel
+Entering GSM_GetFirmware
+Getting firmware versions
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|4DM|52R|0D                                  AT+CGMR.        
+1 "AT+CGMR"
+2 "652a09gg.Q2406B 428 112614 13:53"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x32/50
+41A|54T|2B+|43C|47G|4DM|52R|0D |0D |0A |366|355|322|61a|300|399 AT+CGMR...652a09
+67g|67g|2E.|51Q|322|344|300|366|42B|20 |344|322|388|20 |311|311 gg.Q2406B 428 11
+322|366|311|344|20 |311|333|3A:|355|333|0D |0A |0D |0A |4FO|4BK 2614 13:53....OK
+0D |0A                                                          ..              
+Received firmware version: "652a09gg.Q2406B 428 112614 13:53"
+Number version is "65209,240643"
+[Firmware version - "652a09gg.Q2406B 428 112614 13:53"]
+Leaving GSM_GetFirmware
+Entering GSM_GetPPM
+GSM_GetPPM failed with error NOTSUPPORTED[21]: Function not supported by phone.
+Leaving GSM_GetPPM
+Entering GSM_GetHardware
+GSM_GetHardware failed with error NOTSUPPORTED[21]: Function not supported by phone.
+Leaving GSM_GetHardware
+Entering GSM_GetIMEI
+Getting IMEI
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|47G|53S|4EN|0D                                  AT+CGSN.        
+1 "AT+CGSN"
+2 "355211011016601"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x21/33
+41A|54T|2B+|43C|47G|53S|4EN|0D |0D |0A |333|355|355|322|311|311 AT+CGSN...355211
+300|311|311|300|311|366|366|300|311|0D |0A |0D |0A |4FO|4BK|0D  011016601....OK.
+0A                                                              .               
+Received IMEI 355211011016601
+Leaving GSM_GetIMEI
+Entering GSM_GetOriginalIMEI
+GSM_GetOriginalIMEI failed with error NOTSUPPORTED[21]: Function not supported by phone.
+Leaving GSM_GetOriginalIMEI
+Entering GSM_GetManufactureMonth
+GSM_GetManufactureMonth failed with error NOTSUPPORTED[21]: Function not supported by phone.
+Leaving GSM_GetManufactureMonth
+Entering GSM_GetProductCode
+GSM_GetProductCode failed with error NOTSUPPORTED[21]: Function not supported by phone.
+Leaving GSM_GetProductCode
+Entering GSM_GetSIMIMSI
+Getting SIM IMSI
+SENDING frame type 0x00/length 0x08/8
+41A|54T|2B+|43C|49I|4DM|49I|0D                                  AT+CIMI.        
+1 "AT+CIMI"
+2 "510101732446839"
+3 "OK"
+Checking line: OK
+AT reply state: 1
+RECEIVED frame type 0x00/length 0x21/33
+41A|54T|2B+|43C|49I|4DM|49I|0D |0D |0A |355|311|300|311|300|311 AT+CIMI...510101
+377|333|322|344|344|366|388|333|399|0D |0A |0D |0A |4FO|4BK|0D  732446839....OK.
+0A                                                              .               
+Received IMSI 510101732446839
+Leaving GSM_GetSIMIMSI
 [Terminating]
 [Closing]

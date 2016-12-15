@@ -1180,15 +1180,26 @@ class LaporansController extends Controller
 		$tanggall       = Input::get('bulanTahun');
 		$tanggal		= Yoga::blnPrep($tanggall);
 		$sms_kontak		= SmsKontak::with('pasien')
-									->where('created_at', 'like', $tanggal. '%')
-									->whereRaw('pcare_submit = 0 or pcare_submit = 2')
-									->orderBy('pcare_submit')
-									->get();
+							->where('created_at', 'like', $tanggal. '%')
+							->where('pcare_submit', '0')
+							->orderBy('pcare_submit')
+							->get();
+
+		//=======================================================
+		//$sms_test		= SmsKontak::with('pasien')
+									//->where('created_at', 'like', $tanggal. '%')
+									//->where('pcare_submit','2')
+									//->orderBy('pcare_submit')
+									//->get();
+		//return dd($sms_test);
+		//=======================================================
+		//return dd($sms_kontak);
 		$sms_masuk		= SmsKontak::with('pasien')
 									->where('created_at', 'like', $tanggal. '%')
 									->where('pcare_submit', '1')
 									->get();
 		$sms_gagal		= SmsGagal::where('created_at', 'like', $tanggal. '%')->get();
+		//return dd($sms_gagal->count());
 		$pcare_submits  = PcareSubmit::lists('pcare_submit', 'id');
 		return view('laporans.sms_bpjs', compact(
 			'sms_kontak',

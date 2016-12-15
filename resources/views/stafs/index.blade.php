@@ -57,8 +57,11 @@ Klinik Jati Elok | Staf
                                     <a href="{{ url('pengeluarans/bayardoker/'. $user->id) }}" class="btn btn-primary block btn-sm">Jasa Dokter</a>
                                 @endif
                             </td>
-                            <td>
-                                <a href="stafs/{!!$user->id!!}/edit" class="btn btn-success block btn-sm">Edit</a>
+                            <td nowrap>
+								@if( \Auth::id() == '28' )
+                                <a href="stafs/{!!$user->id!!}/gaji" class="btn btn-info btn-sm">Daftar Gaji</a>
+								@endif
+                                <a href="stafs/{!!$user->id!!}/edit" class="btn btn-success btn-sm">Edit</a>
                             </td>
                         </tr>
                    @endforeach

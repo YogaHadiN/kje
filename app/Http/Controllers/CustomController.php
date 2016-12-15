@@ -25,6 +25,7 @@ use App\Monitor;
 use App\Dispensing;
 use App\Point;
 use App\SmsJangan;
+use App\Sms;
 use App\TransaksiPeriksa;
 use App\JurnalUmum;
 use App\Fakturbeli;
@@ -193,7 +194,6 @@ class CustomController extends Controller
 	}
 
 	public function kembali3($id){
-
 		 $periksa = Periksa::find($id);
 		 $periksa->lewat_poli = '1';
 		 $periksa->lewat_kasir = '0';
@@ -329,7 +329,6 @@ class CustomController extends Controller
 			}
 		}
 		$mess = '';
-
 		$confirm             = $periksa->save();
 		if ($confirm) {
 			$bp							= BukanPeserta::where('periksa_id',  Input::get('periksa_id') )->first();
@@ -337,6 +336,13 @@ class CustomController extends Controller
 				$bp->antrian_periksa_id		= null;
 				$bp->save();
 			}
+
+			//if ( $periksa->poli == 'estetika' ) {
+				//$message = "Yth Pelanggan Klinik Jati Elok, untuk meningkatkan pelayanan kami, bagaimana pelayanan kami hari ini? Reply Puas / Tidak Puas & Saran. trims ";
+				//Sms::gammuSurvey($periksa->pasien->no_telp, $message, $periksa->id);
+			//}
+			
+
 			$terapis = $periksa->terapii;
 			$biayaProduksiObat = 0;
 			foreach ($terapis as $terapi) {

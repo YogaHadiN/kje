@@ -37,7 +37,7 @@ Klinik Jati Elok | Laporan SMS BPJS
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
 					<li role="presentation" class="active"><a href="#sms_kontak" aria-controls="sms_kontak" role="tab" data-toggle="tab">Sms Berhasil ({{ $sms_kontak->count() }})</a></li>
-					<li role="presentation"><a href="#sms_gagal" aria-controls="sms_gagal" role="tab" data-toggle="tab">Sms Gagal ({{ $sms_gagal->count() }})</a></li>
+					<li role="presentation"><a href="#sms_gagal" aria-controls="sms_gagal" role="tab" data-toggle="tab">Sms Gagals ({{ $sms_gagal->count() }})</a></li>
 					<li role="presentation"><a href="#sms_masuk" aria-controls="sms_masuk" role="tab" data-toggle="tab">Sms Masuk ({{ $sms_masuk->count() }})</a></li>
 				</ul>
 
@@ -63,9 +63,9 @@ Klinik Jati Elok | Laporan SMS BPJS
 											<tr @if( $sms->pcare_submit == '2' ) class="danger" @endif >
 												<td>
 												<strong>Tanggal :</strong><br /> {{ $sms->created_at->format('d-m-Y') }} <br /><br />
-													<strong>Nama :</strong><br /> {{ $sms->pasien->nama }} <br />
-													<strong>No BPJS :</strong><br />  {{ $sms->pasien->nomor_asuransi_bpjs }} <br />
-													<strong>No Telp :</strong><br />  {{ $sms->pasien->no_telp }}
+												<strong>Nama :</strong><br /> {{ $sms->pasien->nama }} <br />
+												<strong>No BPJS :</strong><br />  {{ $sms->pasien->nomor_asuransi_bpjs }} <br />
+												<strong>No Telp :</strong><br />  {{ $sms->pasien->no_telp }}
 												</td>
 												<td>{{ $sms->pesan }}</td>
 												<td>
@@ -101,7 +101,7 @@ Klinik Jati Elok | Laporan SMS BPJS
 										</tr>
 									</thead>
 									<tbody>
-										@foreach($sms_kontak as $sms)
+										@foreach($sms_gagal as $sms)
 											<tr>
 												<td>
 													<strong>Nama :</strong><br /> {{ $sms->pasien->nama }} <br />

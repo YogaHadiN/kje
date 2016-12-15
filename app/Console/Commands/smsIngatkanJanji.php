@@ -46,9 +46,12 @@ class smsIngatkanJanji extends Command
 		$antrianpolis	= $ap->besokKonsulGigi();
 		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok ingin mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' Bapak / Ibu ada janji konsultasi ke dokter gigi. Terima Kasih';
 
+		$text = "Terkirim sms mengingatkan janji konsultasi ke ";
 		foreach ($antrianpolis as $ap) {
 			Sms::send($ap->pasien->no_telp,$pesan);
+			$text .= $ap->pasien->nama . ', ';
 			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->pasien->nama);
 		}
+		Sms::send('081381912803',$text);
     }
 }

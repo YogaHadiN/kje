@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Twilio\Rest\Client;
 use Twilio\Exceptions\Twilioexception;
 use App\Classes\Yoga;
+use App\Outbox;
 
 class Sms extends Model
 {
@@ -148,6 +149,31 @@ class Sms extends Model
 		return $results;
 	}
 
-	
-	
+	public static function gammuSurvey($telepon, $message, $periksa_id){
+		$o						= new Outbox;
+		$o->DestinationNumber   = $telepon;
+		$o->TextDecoded			= $message;
+		$o->CreatorID			= 'gammu';
+		$confirm = $o->save();
+		if ($confirm) {
+			\Log::info('kirim '. $telepon . ' dengan pesan : ' . $message);
+
+			$pk					= new PesanKeluar;
+			$pk->periksa_id     = $periksa_id;
+			$pk->pesan			= $message;
+			$pk->outbox_id		= $o->id;
+			$pk->save();
+			
+			return $confirm;
+		}
+		return false;
+	}
+
+	public static function gammuSend($telepon, $message){
+		$o						= new Outbox;
+		$o->DestinationNumber   = $telepon;
+		$o->TextDecoded			= $message;
+		$o->CreatorID			= 'gammu';
+		return $o->save();
+	}
 }

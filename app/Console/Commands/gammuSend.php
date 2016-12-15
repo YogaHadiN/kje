@@ -3,23 +3,22 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Outbox;
 
-class testcommand extends Command
+class gammuSend extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:command';
+    protected $signature = 'gammu:send';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Test kirim sms menggunakan Gammu';
 
     /**
      * Create a new command instance.
@@ -38,11 +37,6 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$o       = new Outbox;
-		$o->DestinationNumber   = '081381912803';
-		$o->TextDecoded   = 'coba sms dari laravel yang kedua';
-		$o->CreatorID   = 'gammu';
-		$confirm =	$o->save();
-		return dd( $confirm );
+
     }
 }
