@@ -32,6 +32,7 @@ create table `satisfaction_index` (
 default character set utf8 collate utf8_unicode_ci;
 
 ALTER TABLE periksas CHANGE satisfaction_index `satisfaction_index` int(1) default 2;
+ALTER TABLE pasiens add column jangan_disms int(1) default 0;
 
 update periksas set satisfaction_index = 2 where satisfaction_index = 0;
 

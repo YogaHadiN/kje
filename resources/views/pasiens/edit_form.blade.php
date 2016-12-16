@@ -131,6 +131,15 @@
 							</div>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="form-group @if($errors->has('jangan_disms'))has-error @endif">
+							  {!! Form::label('jangan_disms', 'Status Survey SMS', ['class' => 'control-label']) !!}
+							  {!! Form::select('jangan_disms' , $pasienSurvey, 0, ['class' => 'form-control']) !!}
+							  @if($errors->has('jangan_disms'))<code>{{ $errors->first('jangan_disms') }}</code>@endif
+							</div>
+						</div>
+					</div>
 					@if($facebook)
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

@@ -244,7 +244,9 @@ class CustomController extends Controller
 	public function survey_post(){
 		$periksa_id = Input::get('periksa_id');	
 
-        $periksa = Periksa::find( Input::get('periksa_id') );
+		$periksa = Periksa::with('pasien')
+					->where('id', Input::get('periksa_id') )
+					->first();
         if ($periksa->lewat_kasir2 == '1') {
             return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien atas nama <strong>' . $periksa->pasien->nama . '</strong> sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>') );
         }
@@ -338,7 +340,11 @@ class CustomController extends Controller
 				$bp->save();
 			}
 
-			if ( $periksa->poli == 'estetika' && Keberatan::where('no_telp', $periksa->pasien->no_telp)->first() == null) {
+			if ( 
+				$periksa->poli == 'estetika' && 
+				Keberatan::where('no_telp', $periksa->pasien->no_telp)->first() == null &&
+				$periksa->pasien->jangan_disms == 0
+			) {
 				$message = "Yth Pelanggan Klinik Jati Elok, untuk meningkatkan pelayanan kami, bagaimana pelayanan kami hari ini? Reply Puas / Tidak Puas / Keberatan jika tidak ingin menerima sms tiap habis berobat";
 				Sms::gammuSurvey($periksa->pasien->no_telp, $message, $periksa->id);
 			}

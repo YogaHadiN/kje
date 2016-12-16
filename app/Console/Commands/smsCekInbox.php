@@ -59,9 +59,13 @@ class smsCekInbox extends Command
 				} else if(substr($TextDecoded, 0, 1) === 'p'){
 					$satisfaction_index = 3;
 				} else if(substr($TextDecoded, 0, 1) === 'k'){
-					$Keberatan       = new Keberatan;
-					$Keberatan->no_telp   = $nomor;
+					$Keberatan				= new Keberatan;
+					$Keberatan->no_telp		= $nomor;
 					$Keberatan->save();
+
+					$Pasien					= Pasien::find(Periksa::find($periksa_id)->pasien_id);
+					$Pasien->jangan_disms   = 1;
+					$Pasien->save();
 				} else {
 					$satisfaction_index = 2;
 				}

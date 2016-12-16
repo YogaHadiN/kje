@@ -65,10 +65,12 @@ class PasiensController extends Controller
 		$jenis_peserta = $ps->jenisPeserta();
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
+		$pasienSurvey = $this->pasienSurvey();
 		
 		return view('pasiens.create')
 			->withAsuransi($asuransi)
 			->with('statusPernikahan', $statusPernikahan)
+			->with('pasienSurvey', $pasienSurvey)
 			->with('panggilan', $panggilan)
 			->withJenis_peserta($jenis_peserta)
 			->withStaf($staf)
@@ -120,6 +122,7 @@ class PasiensController extends Controller
 		}
 		$pasien->no_telp        = Input::get('no_telp');
 		$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
+		$pasien->jangan_disms   = Input::get('jangan_disms');
 		$pasien->id             = $id;
 		$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
 		$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
@@ -202,13 +205,13 @@ class PasiensController extends Controller
 
 			);
 		$staf = array('0' => '- Pilih Staf -') + Staf::lists('nama', 'id')->all();
-
+		$pasienSurvey = $this->pasienSurvey();
 		$poli = Yoga::poliList();
-		// return dd($asuransi);
 		return view('pasiens.edit')
 			->withPasien($pasien)
 			->withAsuransi($asuransi)
 			->with('statusPernikahan', $statusPernikahan)
+			->with('pasienSurvey', $pasienSurvey)
 			->with('panggilan', $panggilan)
 			->withJenis_peserta($jenis_peserta)
 			->withStaf($staf)
@@ -245,6 +248,7 @@ class PasiensController extends Controller
 			$pasien->nama_ayah      = Input::get('nama_ayah');
 			$pasien->nama_ibu       = Input::get('nama_ibu');
 			$pasien->nama           = Input::get('nama');
+			$pasien->jangan_disms   = Input::get('jangan_disms');
 			$pasien->nama_peserta   = Input::get('nama_peserta');
 			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
 			$pasien->nomor_ktp = Input::get('no_ktp');
@@ -286,6 +290,12 @@ class PasiensController extends Controller
 		return \Redirect::route('pasiens.index')->withPesan($pesan);
 	}
 	
+	private function pasienSurvey(){
+		 return [ 
+			'0' => 'Pasien tidak keberatan menerima SMS survey',
+			'1' => 'Pasien keberatan menerima SMS survey'
+	   	];
+	}
 	
 	
 
