@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
 		 Commands\gammuSend::class,
 		 Commands\smsCekInbox::class,
 		 Commands\resetAntrian::class,
+		 Commands\testJurnal::class,
 		 Commands\dbBackup::class,
     ];
 
@@ -46,6 +47,8 @@ class Kernel extends ConsoleKernel
 					  ->monthlyOn(date('t'), '15:00');
 			 $schedule->command('sms:angkakontak')
 						->dailyAt('15:30'); 
+			 $schedule->command('test:jurnal')
+						->dailyAt('23.30'); 
 			 $schedule->command('cron:test')
 					  ->hourly();
 			 $schedule->command('sms:laporanharian')
