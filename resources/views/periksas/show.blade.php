@@ -174,6 +174,15 @@ Klinik Jati Elok | Pasien
             </table>
   </div>
 </div>
+<div class="panel panel-danger">
+	<div class="panel-heading">
+		<div class="panel-title">Jurnal Umum</div>
+	</div>
+	<div class="panel-body">
+		{{ $periksa->jurnals }}
+	</div>
+</div>
+
 
 @include('obat')
 @stop
