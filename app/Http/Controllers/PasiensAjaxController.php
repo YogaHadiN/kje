@@ -277,7 +277,7 @@ class PasiensAjaxController extends Controller
 	public function cekAntrianPerTanggal(){
 		$tanggal = Yoga::datePrep( Input::get('tanggal') );
 		$antrian = Input::get('antrian');
-		return App\Classes\Yoga::antrianTerakhir($tanggal);
+		return Yoga::antrianTerakhir($tanggal);
 	}
 	
 	private function countAntrian($antrian, $tanggal){
