@@ -2315,15 +2315,15 @@ class Yoga {
 		$periksa = Periksa::where('created_at', 'like', $tanggal. '%')
 			->orderBy('antrian', 'desc')
 			->first();
-		$periksa = isset($periksa->antrian)? $periksa : 0;
+		$periksa = isset($periksa->antrian)? $periksa->antrian : 0;
 		$antrianperiksa = AntrianPeriksa::where('created_at', 'like', $tanggal. '%')
 			->orderBy('antrian', 'desc')
 			->first();
-		$antrianperiksa = isset($antrianperiksa->antrian)? $antrianperiksa : 0;
+		$antrianperiksa = isset($antrianperiksa->antrian)? $antrianperiksa->antrian : 0;
 		$antrianpoli = AntrianPoli::where('created_at', 'like', $tanggal. '%')
 			->orderBy('antrian', 'desc')
 			->first();
-		$antrianpoli = isset($antrianpoli->antrian)? $antrianpoli : 0;
+		$antrianpoli = isset($antrianpoli->antrian)? $antrianpoli->antrian : 0;
 
 		return max( [
 			$periksa,
