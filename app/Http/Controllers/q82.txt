@@ -1,0 +1,18 @@
+drop table discounts;
+create table `discounts` (
+	`id` int unsigned not null auto_increment primary key, 
+	`jenis_tarif_id` int(11) not null, 
+	`diskon_persen` int(3) not null, 
+	`dimulai` date not null, 
+	`berakhir` date not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+create table `discount_asuransis` (
+	`id` int unsigned not null auto_increment primary key, 
+	`discount_id` int(11) not null, 
+	`asuransi_id` varchar(255) not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;

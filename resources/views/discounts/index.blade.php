@@ -1,4 +1,5 @@
 
+@extends('layout.master')
 @section('title') 
 Klinik Jati Elok | Diskon
 
@@ -60,7 +61,6 @@ Klinik Jati Elok | Diskon
 			
 		</div>
 	</div>
-	
 @stop
 @section('footer') 
 	

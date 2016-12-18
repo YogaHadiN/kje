@@ -80,7 +80,7 @@
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
                             <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
                             <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
-                            <li>{!! HTML::link('discounts/index', 'Discount')!!}</li>
+                            <li>{!! HTML::link('discounts', 'Discount')!!}</li>
                         </ul>
                     </li>
                     <li>

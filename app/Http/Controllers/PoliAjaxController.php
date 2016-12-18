@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
 use App\Merek;
 use App\Diagnosa;
@@ -33,7 +32,7 @@ class PoliAjaxController extends Controller
 		if (
 			($merek->rak->formula_id == '150802011' && $umur == '0') ||
 			($merek->rak->formula_id == '150802068' && $umur == '0')
-			) {
+		) {
 			return '1';
 		} else {
 			return '0';
@@ -56,7 +55,6 @@ class PoliAjaxController extends Controller
 				$komp->generik->peroral != 'b'
 				)
 			) {
-
 				foreach ($komposisis as $key => $komps) {
 					$result[] = [
 						'generik' => $komps->generik->generik,
@@ -64,11 +62,9 @@ class PoliAjaxController extends Controller
 						'pregnancy_safety_index' => $komps->generik->pregnancy_safety_index
 					];
 				}
-
 				return json_encode($result);
 			}
 		}
-
 	}
 
 	public function sopterapi(){
@@ -223,21 +219,16 @@ class PoliAjaxController extends Controller
 			$atu = new AturanMinum;
 			$atu->aturan_minum = Input::get('aturan');
 			$confirm = $atu->save();
-
 			if ($confirm) {
 				\Cache::forget('aturanList');
 			}
-
 			$id = $atu->id;
-
 		}
-
 		$data = [
 			'warning' 	=> $warningSama,
 			'id'		=> $id,
 			'temp'		=> AturanMinum::latest()->first()
 		];
-
 		return json_encode($data);
 	}
 

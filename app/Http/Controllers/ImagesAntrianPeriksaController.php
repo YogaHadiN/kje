@@ -14,12 +14,17 @@ use Input;
 class ImagesAntrianPeriksaController extends Controller
 {
 	public function create($id){
-
-		if ( AntrianPeriksa::find($id)->gambars->count() > 0 ) {
-			return redirect('antrianperiksa/' . $id . '/images/edit');
+		if ( AntrianPeriksa::find( $id ) != null ) {
+			if ( AntrianPeriksa::find($id)->gambars->count() > 0 ) {
+				return redirect('antrianperiksa/' . $id . '/images/edit');
+			}
+			$antrianperiksa = AntrianPeriksa::find($id);
+			return view('imagesAntrian.create', compact('antrianperiksa'));
+		} else {
+			$pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrian');
+			return redirect()->back()->withPesan($pesan);
 		}
-		$antrianperiksa = AntrianPeriksa::find($id);
-		return view('imagesAntrian.create', compact('antrianperiksa'));
+
 	}
 	public function store($id){
 		$periksa = AntrianPeriksa::find($id);

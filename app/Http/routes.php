@@ -566,6 +566,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('master/ajax/antrianTerakhir', 'MasterController@antrianTerakhir');
 
 			Route::get('discounts', 'DiscountsController@index');
+			Route::post('discounts', 'DiscountsController@store');
+			Route::get('discounts/create', 'DiscountsController@create');
   	});
 
 

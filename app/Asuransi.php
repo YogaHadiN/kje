@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 
 use App\Classes\Yoga;
+use App\Asuransi;
 use DB;
 
 
@@ -101,5 +102,9 @@ class Asuransi extends Model{
 		$query = "SELECT count(px.id) as jumlah from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$this->id}';";
 		return DB::select($query)[0]->jumlah;
 	}
+	public static function list(){
+		return  Asuransi::lists('nama', 'id')->all();
+	}
+	
 
 }
