@@ -48,7 +48,9 @@ Klinik Jati Elok | Pasien
                                 <strong>Pembayaran</strong> <br>
                                 {!! $periksa->asuransi->nama !!} <br><br>
                                 <strong>Jam Datang</strong> <br>
-                                {!! $periksa->jam !!}
+                                {!! $periksa->jam !!} <br><br>
+                                <strong>Periksa id</strong> <br>
+                                {!! $periksa->id !!}
                             </td>
                             <td>
                                 <strong>Anamnesa :</strong> <br>

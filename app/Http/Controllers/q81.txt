@@ -1,0 +1,20 @@
+create table `antrians` (
+	`id` int unsigned not null auto_increment primary key, 
+	`antrian_terakhir` int(11) not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+
+create table `discounts` (
+	`id` int unsigned not null auto_increment primary key, 
+	`tarif_id` int(11) not null, 
+	`diskon_persen` int(3) not null, 
+	`dimulai` date not null, 
+	`berakhir` date not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+insert into antrians (antrian_terakhir) values (0);
+update jurnal_umums set nilai = 872500 where jurnalable_type='App\\\Pengeluaran' and jurnalable_id=581;

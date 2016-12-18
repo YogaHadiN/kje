@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BelanjaPeralatan extends Model
 {
+	protected $guarded = ['id'];
 	public function staf(){
 		return $this->belongsTo('App\Staf');
 	}

@@ -17,6 +17,8 @@ use App\Merek;
 use App\Periksa;
 use App\JenisTarif;
 use App\Confirm;
+use App\AntrianPeriksa;
+use App\AntrianPoli;
 use App\RefleksPatela;
 use App\KepalaTerhadapPap;
 use App\Presentasi;
@@ -2309,6 +2311,27 @@ class Yoga {
 		}
 		return false;
 	}
+	public static function antrianTerakhir($tanggal){
+		$periksa = Periksa::where('created_at', 'like', $tanggal. '%')
+			->orderBy('antrian', 'desc')
+			->first();
+		$periksa = isset($periksa->antrian)? $periksa : 0;
+		$antrianperiksa = AntrianPeriksa::where('created_at', 'like', $tanggal. '%')
+			->orderBy('antrian', 'desc')
+			->first();
+		$antrianperiksa = isset($antrianperiksa->antrian)? $antrianperiksa : 0;
+		$antrianpoli = AntrianPoli::where('created_at', 'like', $tanggal. '%')
+			->orderBy('antrian', 'desc')
+			->first();
+		$antrianpoli = isset($antrianpoli->antrian)? $antrianpoli : 0;
+
+		return max( [
+			$periksa,
+			$antrianperiksa,
+			$antrianpoli
+		] );
+	}
+	
 	
 	
     

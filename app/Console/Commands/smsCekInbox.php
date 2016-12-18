@@ -41,6 +41,7 @@ class smsCekInbox extends Command
      */
     public function handle()
     {
+		$timestamp = date('Y-m-d H:i:s');
 		$inbox = Inbox::all();
 		$countInbox = $inbox->count();
 		if ( $countInbox > 0 ) {
@@ -62,7 +63,6 @@ class smsCekInbox extends Command
 					$Keberatan				= new Keberatan;
 					$Keberatan->no_telp		= $nomor;
 					$Keberatan->save();
-
 					$Pasien					= Pasien::find(Periksa::find($periksa_id)->pasien_id);
 					$Pasien->jangan_disms   = 1;
 					$Pasien->save();
@@ -85,14 +85,15 @@ class smsCekInbox extends Command
 					$px->save();
 				}
 				$masuks[] = [
-					'id' => $o->id,
 					'pesan' => $message,
 					'no_telp' => $nomor,
-					'periksa_id' => $periksa_id
+					'periksa_id' => $periksa_id,
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp,
 				];
 				$deletes_ids[] = $i->id;
 			}
-			$confirm = PesanMasuk::create($masuks);
+			$confirm = PesanMasuk::insert($masuks);
 			if ($confirm) {
 				Inbox::destroy($deletes_ids);
 			}

@@ -277,20 +277,7 @@ class PasiensAjaxController extends Controller
 	public function cekAntrianPerTanggal(){
 		$tanggal = Yoga::datePrep( Input::get('tanggal') );
 		$antrian = Input::get('antrian');
-
-		$antrianpoli = AntrianPoli::where('tanggal', $tanggal)->orderBy('antrian', 'desc')->first();
-		$antrianpoli_antrian = 0;
-		if ($antrianpoli != null) {
-			$antrianpoli_antrian = $antrianpoli->antrian;
-		}
-
-		$antrianperiksa = AntrianPeriksa::where('tanggal', $tanggal)->orderBy('antrian', 'desc')->first();
-		$antrianperiksa_antrian = 0;
-		if ($antrianperiksa != null) {
-			$antrianperiksa_antrian = $antrianperiksa->antrian;
-		}
-
-		return max([$antrianpoli_antrian, $antrianperiksa_antrian]);
+		return App\Classes\Yoga::antrianTerakhir($tanggal);
 	}
 	
 	private function countAntrian($antrian, $tanggal){

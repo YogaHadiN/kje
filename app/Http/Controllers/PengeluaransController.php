@@ -63,27 +63,27 @@ class PengeluaransController extends Controller
 	}
 
 	public function store() {
-		$messages = array(
-			'required' => ':attribute harus diisi terlebih dahulu',
+		$messages          = array(
+			'required'    => ':attribute harus diisi terlebih dahulu',
 		);
-		$rules = [
-			'staf_id'			=> 'required',
-			'supplier_id'			=> 'required',
-			'nilai'			=> 'required',
-			'tanggal'			=> 'required|date_format:d-m-Y',
-			'sumber_uang'			=> 'required',
-			'keterangan'			=> 'required'
+		$rules             = [
+			'staf_id'     => 'required',
+			'supplier_id' => 'required',
+			'nilai'       => 'required',
+			'tanggal'     => 'required|date_format:d-m-Y',
+			'sumber_uang' => 'required',
+			'keterangan'  => 'required'
 		];
-		$validator = \Validator::make($data = Input::all(), $rules, $messages);
+		$validator         = \Validator::make($data = Input::all(), $rules, $messages);
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator->messages());
 		}
-		$staf_id = Input::get('staf_id');
-		$supplier_id = Input::get('supplier_id');
-		$nilai		 = Input::get('nilai');
-		$tanggal		 = Input::get('tanggal');
-		$keterangan = Input::get('keterangan');
+		$staf_id           = Input::get('staf_id');
+		$supplier_id       = Input::get('supplier_id');
+		$nilai             = Input::get('nilai');
+		$tanggal           = Input::get('tanggal');
+		$keterangan        = Input::get('keterangan');
 
 		$peng = new Pengeluaran;
 		$peng->staf_id = $staf_id;
@@ -178,11 +178,11 @@ class PengeluaransController extends Controller
 
     public function dokterbayar(){
 		//return Input::all();
-		$rules = [
-			'staf_id' => 'required',
-			'mulai' => 'required',
+		$rules           = [
+			'staf_id'   => 'required',
+			'mulai'     => 'required',
 			'jam_mulai' => 'required',
-			'akhir' => 'required',
+			'akhir'     => 'required',
 			'jam_akhir' => 'required',
 		];
 
@@ -207,7 +207,7 @@ class PengeluaransController extends Controller
 		$akhir = $akhir . ' ' . $jam_akhir;
          
         $hutangs = $this->hutangs($id, $mulai, $akhir);
-        $total = $this->total($id, $mulai, $akhir);
+        $total   = $this->total($id, $mulai, $akhir);
 
         return view('dokterbayar', compact('hutangs', 'total', 'nama_staf', 'mulai', 'akhir', 'id'));
     }
@@ -215,26 +215,26 @@ class PengeluaransController extends Controller
     
     public function dokterdibayar(){
 
-        $staf_id = Input::get('staf_id');
-        $petugas_id = Input::get('petugas_id');
-        $mulai = Input::get('mulai');
-        $akhir = Input::get('akhir');
-        $total = $this->total($staf_id, $mulai, $akhir);
-        $hutang = Input::get('hutang');
-        $staf = Staf::find($staf_id);
-        $jasa_dokter = Input::get('jasa_dokter');        
-        $dibayar = Input::get('dibayar');
-        $sumber_uang_id = Input::get('sumber_uang_id');
+        $staf_id                       = Input::get('staf_id');
+        $petugas_id                    = Input::get('petugas_id');
+        $mulai                         = Input::get('mulai');
+        $akhir                         = Input::get('akhir');
+        $total                         = $this->total($staf_id, $mulai, $akhir);
+        $hutang                        = Input::get('hutang');
+        $staf                          = Staf::find($staf_id);
+        $jasa_dokter                   = Input::get('jasa_dokter');
+        $dibayar                       = Input::get('dibayar');
+        $sumber_uang_id                = Input::get('sumber_uang_id');
         if ($dibayar > 0) {
-                $bayar = new BayarDokter;
-                $bayar->staf_id = $staf_id;
-                $bayar->petugas_id = $petugas_id;
-                $bayar->bayar_dokter = $dibayar;
-                $bayar->hutang = $hutang;
-                $bayar->mulai =  $mulai ;
-                $bayar->akhir =  $akhir ;
-                $bayar->sumber_uang_id =  $sumber_uang_id ;
-                $confirm = $bayar->save();
+                $bayar                 = new BayarDokter;
+                $bayar->staf_id        = $staf_id;
+                $bayar->petugas_id     = $petugas_id;
+                $bayar->bayar_dokter   = $dibayar;
+                $bayar->hutang         = $hutang;
+                $bayar->mulai          = $mulai ;
+                $bayar->akhir          = $akhir ;
+                $bayar->sumber_uang_id = $sumber_uang_id ;
+                $confirm               = $bayar->save();
                 if ($confirm) {
 
                     if ($dibayar == $hutang) {
@@ -512,21 +512,25 @@ class PengeluaransController extends Controller
         } 
         $detail_pengeluarans = json_encode( $detail_pengeluarans );
         //pindahkan semua kas di kasir menjadi kas di tangan
-        $new_z = new CheckoutKasir;
-        $new_z->modal_awal = $modal_awal;
-        $new_z->uang_di_kasir = $uang_di_kasir;
+
+        $new_z                 = new CheckoutKasir;
+        $new_z->modal_awal     = $modal_awal;
+        $new_z->uang_di_kasir  = $uang_di_kasir;
         $new_z->uang_di_tangan = $uang_di_tangan + $uang_di_kasir;
-		$last_jurnal_id = JurnalUmum::orderBy('id', 'desc')->first()->id;
+		$last_jurnal_id        = JurnalUmum::orderBy('id', 'desc')->first()->id;
+
         if (isset($last_jurnal_id)) {
 			$new_z->jurnal_umum_id = $last_jurnal_id;
 		} else {
             $new_z->jurnal_umum_id = 1;
         }
-        $new_z->uang_masuk = $total_uang_masuk;
-        $new_z->uang_keluar = $total_uang_keluar;
-        $new_z->detil_pengeluarans = $detail_pengeluarans;
+
+        $new_z->uang_masuk               = $total_uang_masuk;
+        $new_z->uang_keluar              = $total_uang_keluar;
+        $new_z->detil_pengeluarans       = $detail_pengeluarans;
         $new_z->detil_pengeluaran_tangan = json_encode( $detail_pengeluarans_tangan );
-        $new_z->detil_modals = json_encode($modal_ids);
+        $new_z->detil_modals             = json_encode($modal_ids);
+
         $confirm = $new_z->save();
         if ($confirm) {
             $jurnal                  = new JurnalUmum;
@@ -712,13 +716,13 @@ class PengeluaransController extends Controller
     }
     
    public function bayar_gaji(){
-	   $rules = [
-		 "coa_id" => "required",
-		  "staf_id" => "required",
-		  "bulan" => "required",
+	   $rules                = [
+		 "coa_id"           => "required",
+		  "staf_id"         => "required",
+		  "bulan"           => "required",
 		  "tanggal_dibayar" => "required",
-		  "gaji_pokok" => "required",
-		  "bonus" => "required"
+		  "gaji_pokok"      => "required",
+		  "bonus"           => "required"
 	   ];
 	   
 	   $validator = \Validator::make(Input::all(), $rules);
@@ -1302,5 +1306,53 @@ class PengeluaransController extends Controller
 
 
 	}
+	public function getBelanjaPeralatanObject(){
+		$jurnal_umum_id = Input::get('jurnal_umum_id');
+		$JurnalUmum = JurnalUmum::find($jurnal_umum_id);
+		
+		$jurnalable_type = explode('\\', $JurnalUmum->jurnalable_type)[1];
+		$jurnalable_id = $JurnalUmum->jurnalable_id;
+
+		if ( $jurnalable_type == 'Pengeluaran' ) {
+			$object = Pengeluaran::find( $jurnalable_id );
+			return dd( $object );
+
+			//$fb = new FakturBelanja;
+			//$fb->tanggal = $object->tanggal;
+			//$fb->belanja_id = 4;
+			//$fb->supplier_id = $object->supplier_id;
+			//$fb->sumber_uang_id = $object->supplier_id;
+			//$fb->petugas_id = $object->staf_id;
+			//$fb->save();
+
+			//BelanjaPeralatan::create([
+				 //'faktur_belanja_id' => $fb->id,
+				 //'staf_id' => $staf_id,
+				 //'peralatan' => $t['peralatan'],
+				 //'harga_satuan' => $t['nilai'],
+				 //'jumlah' => $t['jumlah'],
+				 //'masa_pakai' => $t['masa_pakai']
+			//]);
+
+
+			//$path_before = public_path() . DIRECTORY_SEPARATOR . 'img/lain/' . $object->faktur_image;
+			//$ext = pathinfo($path_before, PATHINFO_EXTENSION);
+			//$filename = 'faktur' . $fb->id . '.' . $ext;
+			//$path_after = public_path() . DIRECTORY_SEPARATOR . 'img/alat/' . $filename;
+
+			//$confirm = rename( 
+				//$path_before,
+				//$path_after
+			//);
+
+			//if ($confirm) {
+				//$fb->faktur_image = $filename;
+			//}
+
+			//$fb->save();
+		}
+		return false;
+	}
+	
 	
 }

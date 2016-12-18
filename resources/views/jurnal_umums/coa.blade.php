@@ -13,6 +13,11 @@ Klinik Jati Elok | Coa belum di set
       </li>
 </ol>
 @stop
+@section('head') 
+	<style type="text/css" media="all">
+
+	</style>
+@stop
 @section('content')
 
 
@@ -89,7 +94,8 @@ Klinik Jati Elok | Coa belum di set
             <table class="table borderless table-condensed">
                 <thead>
                     <tr>
-                        <th class="hide">Id</th>
+                        <th class="key hide">Key</th>
+                        <th class="hide id">Id</th>
                         <th>Tanggal</th>
                         <th>Petugas</th>
                         <th>Akun </th>
@@ -98,12 +104,19 @@ Klinik Jati Elok | Coa belum di set
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pengeluarans as $ju)
+					@foreach($pengeluarans as $k=>$ju)
 						<tr>
 						  <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
-						  <td>{!! $ju->tanggal !!}</td>
+						  <td class="hide key">{!! $k !!}</td>
+						  <td>
+							  {!! $ju->tanggal !!} <br />
+							  Jurnalable type : <br />
+							  {!! $ju->jurnalable_type !!} <br />
+							  Jurnalable id : <br />
+							  {!! $ju->jurnalable_id !!}
+						  </td>
 						  <td>{!! $ju->nama_staf !!}</td>
-						  <td>{!! $ju->nama !!}</td>
+						  <td class="keterangan">{!! $ju->nama !!}</td>
 						  <td class="uang">{!! $ju->nilai !!}</td>
 						  <td>
 							  {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
@@ -171,6 +184,7 @@ Klinik Jati Elok | Coa belum di set
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
 {!! Form::text('route', $route, ['class' => 'form-control hide']) !!}
 {!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control hide', 'id' => 'temp']) !!}
+{!! Form::textarea('peralatanTemp', '[]', ['class' => 'form-control', 'id' => 'peralatanTemp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <button class="btn btn-success btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>
@@ -181,6 +195,24 @@ Klinik Jati Elok | Coa belum di set
     </div>
   </div>
 {!! Form::close() !!}
+<div id="formPeralatan" class="hide">
+	<div class="row border-bottom">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<div class="form-group @if($errors->has('nomor_faktur'))has-error @endif">
+			  {!! Form::label('nomor_faktur', 'Nomor Faktur', ['class' => 'control-label']) !!}
+			  {!! Form::text('nomor_faktur' , null, ['class' => 'form-control', 'onkeyup' => 'nomorFakturKeyup(this);return false;']) !!}
+			  @if($errors->has('nomor_faktur'))<code>{{ $errors->first('nomor_faktur') }}</code>@endif
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<div class="form-group @if($errors->has('masa_pakai'))has-error @endif">
+			  {!! Form::label('masa_pakai', 'Golongan Peralatan', ['class' => 'control-label']) !!}
+			  {!! Form::select('masa_pakai' , App\Classes\Yoga::masaPakai(), null, ['class' => 'form-control', 'onchange' => 'masaPakaiOnChange(this);return false;']) !!}
+			  @if($errors->has('masa_pakai'))<code>{{ $errors->first('masa_pakai') }}</code>@endif
+			</div>
+		</div>
+	</div>
+</div>
 @stop
 @section('footer') 
 
@@ -262,7 +294,6 @@ Klinik Jati Elok | Coa belum di set
     });
   function coaChange(control){
     var id = $(control).closest('tr').find('.field_id').html();
-    console.log('id = ' + id);
     var data = JSON.parse($('#temp').val());
     for (var i = 0; i < data.length; i++) {
       if (data[i].id == id) {
@@ -270,9 +301,42 @@ Klinik Jati Elok | Coa belum di set
         break;
       }
     }
-
     var string = JSON.stringify(data);
     $('#temp').val(string);
+	var key = $(control).closest('tr').find('.key').html();
+	if( $(control).val() == '120001' ){ // jika yang dipilih adalah biaya operasional peralatan
+
+		var html = '<tr class="form_tambahan_peralatan"><td colspan="5">';
+		html += $('#formPeralatan').html();	
+		html += '</tr></td>';
+
+
+		var peralatanTemp = $('#peralatanTemp').val();
+		peralatanTemp = $.parseJSON(peralatanTemp);
+		peralatanTemp[key] = { 
+			'nomor_faktur' : '',
+			'masa_pakai' : ''
+		};
+		updatePeralatanTemp(peralatanTemp);
+
+
+		$(control).closest('tr').after(html);
+		$(control).closest('tr').next().find('input[name="nomor_faktur"]').addClass('rq');
+		$(control).closest('tr').next().find('select[name="masa_pakai"]').addClass('rq');
+		$(control).closest('tr').next().hide().fadeIn(500);
+
+	} else{
+		var $next = $(control).closest('tr').next();
+		if($next.hasClass('form_tambahan_peralatan')){
+			$next.fadeOut(500, function (){
+				 $next.remove();
+				 var peralatanTemp = parsePeralatanTemp();
+				 peralatanTemp.splice(key, 1);
+				 updatePeralatanTemp(peralatanTemp);
+			});
+		}
+		 
+	}
   }
 
   function dummySubmit(){
@@ -332,8 +396,34 @@ Klinik Jati Elok | Coa belum di set
 		 $('#coa_baru').find('input,select,textarea').val('');
 	}
 	
+	function nomorFakturKeyup(control){
+		var key = $(control).closest('tr').prev().find('.key').html();
+		console.log('key');
+		console.log(key);
+		var value = $(control).val();
+		var peralatanTemp = parsePeralatanTemp();
+		peralatanTemp[ key ][ 'nomor_faktur' ] = value;
+		updatePeralatanTemp(peralatanTemp)
+	}
+	function masaPakaiOnChange(control){
+		var key = $(control).closest('tr').prev().find('.key').html();
+		var value = $(control).val();
+		var peralatanTemp = parsePeralatanTemp();
+		peralatanTemp[ key ][ 'masa_pakai' ] = value;
+		updatePeralatanTemp(peralatanTemp)
+	}
+	function updatePeralatanTemp(peralatanTemp){
+		peralatanTemp = JSON.stringify(peralatanTemp);
+		$('#peralatanTemp').val( peralatanTemp );
+	}
+
+	function parsePeralatanTemp(){
+		var peralatanTemp = $('#peralatanTemp').val();
+		return $.parseJSON(peralatanTemp);
+	}
+
 	
-    
+	
 </script>
 
 @stop

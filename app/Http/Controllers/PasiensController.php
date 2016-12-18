@@ -1,13 +1,8 @@
 <?php
-
-
-
 namespace App\Http\Controllers;
 
 use Input;
 use App\Http\Requests;
-
-
 use App\Classes\Yoga;
 use App\Periksa;
 use App\Pasien;

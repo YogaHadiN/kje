@@ -80,6 +80,7 @@
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
                             <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
                             <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
+                            <li>{!! HTML::link('discounts/index', 'Discount')!!}</li>
                         </ul>
                     </li>
                     <li>
@@ -171,6 +172,7 @@
                             <li>{!! HTML::link('fasilitas/antrian_pasien', 'Antrian Pasien')!!}</li>
                             <li>{!! HTML::link('fasilitas/survey', 'Survey Pasien')!!}</li>
                             <li>{!! HTML::link('facebook', 'Daftar dengan Facebook')!!}</li>
+                            <li>{!! HTML::link('antrians', 'Input Antrian')!!}</li>
                             <li>{!! HTML::link('sms', 'SMS')!!}</li>
 
                             {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
@@ -181,6 +183,19 @@
                         <a href="{{ url('configs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Pengaturan</span> </a>
                     </li>
 					@endif
+					<li>
+                        <a href="{{ url('gammu')}}"><i class="fa fa-flask"></i> <span class="nav-label">Gammu</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('gammu/inbox', 'Inbox')!!}</li>
+                            <li>{!! HTML::link('gammu/pesanMasuk', 'Pesan Masuk')!!}</li>
+                            <li>{!! HTML::link('gammu/outbox', 'Onbox')!!}</li>
+                            <li>{!! HTML::link('gammu/pesanKeluar', 'Pesan Keluar')!!}</li>
+                            <li>{!! HTML::link('gammu/sentitem', 'SentItem')!!}</li>
+                            <li>{!! HTML::link('gammu/create/sms', 'Kirim SMS dengan Gammu')!!}</li>
+
+                            {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
+                        </ul>
+                     </li>
                 </ul>
             </div>
         </nav>
@@ -188,23 +203,41 @@
         <div class="row border-bottom">
         <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-
+			<div class="panelLeft">
+				<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+			</div>
         </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <span class="m-r-sm text-muted welcome-message">Selamat Datang di Klinik Jati Elok</span>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-exclamation-circle"></i>  <span class="label label-warning">{!! App\AntrianPoli::count() + App\AntrianPeriksa::count() + App\Periksa::where('lewat_kasir', '0')->get()->count()!!}</span>
-                    </a>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-check-square-o"></i>  <span class="label label-primary">{!! App\Periksa::where('lewat_kasir2', '1')->where('tanggal', date('Y-m-d'))->get()->count() !!}</span>
-                    </a>
-                    </li>
+		<ul class="nav navbar-top-links navbar-right">
+			@if( gethostname() == 'dell' )
+			<div id="antrianPasien">
+
+				<div class="alert alert-info panelLeft">
+					<h3>Sudah Diperiksa No :</h3>
+					<h2 id="antrianMaster">{{ App\Antrian::find(1)->antrian_terakhir }}</h2>
+				</div>
+				<div class="alert alert-danger panelRight">
+					<h3>Antrian Terakhir No : </h3>
+					<h2 id="antrianMaster">{{ App\Classes\Yoga::antrianTerakhir( date('Y-m-d') ) }}</h2>
+				</div>
+				
+			</div>
+			@else
+				<li>
+					<span class="m-r-sm text-muted welcome-message">Selamat Datang di Klinik Jati Elok</span>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+						<i class="fa fa-exclamation-circle"></i>  <span class="label label-warning">{!! App\AntrianPoli::count() + App\AntrianPeriksa::count() + App\Periksa::where('lewat_kasir', '0')->get()->count()!!}</span>
+					</a>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+						<i class="fa fa-check-square-o"></i>  <span class="label label-primary">{!! App\Periksa::where('lewat_kasir2', '1')->where('tanggal', date('Y-m-d'))->get()->count() !!}</span>
+					</a>
+				</li>
+			@endif
+
+		</ul>
         </nav>
         </div>
             <div class="row border-bottom white-bg page-heading">
@@ -268,13 +301,25 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+		@if( gethostname() == 'dell' )
+			setInterval(function(){
+				$.get('{{ url("master/ajax/antrianTerakhir") }}', { 'tanggal' : '{{ date('Y-m-d') }}' }, function(data) {
+					var before = $('#antrianMaster').html();
+					data = $.trim(data)
+						if( before != data ){
+							if( parseInt(data) > 0 ){
+								$('#antrianPasien').hide().fadeIn(300);
+								$('#antrianMaster').html(data);
+							} else {
+								$('#antrianPasien').fadeOut(300);
+								$('#antrianMaster').html(data);
+							}
+						}
+				});
+			}, 5000);
+		@endif
 
         $(document).ready(function() {
-
-
-
-
-
 
             $('.uangInput').autoNumeric('init', {
                 aSep: '.',

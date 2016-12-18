@@ -20,6 +20,10 @@ Route::get('logout', 'AuthController@logout');
 Route::post('login', 'AuthController@login');
 Route::get('jangan', 'PolisController@jangan');
 
+
+Route::get('antrians', 'AntriansController@create');
+Route::post('antrians/print', 'AntriansController@store');
+
 Route::get('fasilitas/antrian_pasien', 'FasilitasController@antrian_pasien'); //antrian pasien
 Route::put('fasilitas/konfirmasi', 'FasilitasController@konfirmasi'); //antrian pasien
 Route::get('fasilitas/antrian_pasien/{poli}', 'FasilitasController@input_tgl_lahir'); //antrian pasien
@@ -220,6 +224,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
             Route::get('pengeluarans/rc', 'PengeluaransController@erce');
             Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
+			Route::get('pengeluarans/belanjaPeralatan/getObject/belanjaPeralatan', 'PengeluaransController@getBelanjaPeralatanObject');
+
 
 			Route::get('ajax/products', 'PengeluaransController@product');
 
@@ -544,6 +550,22 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('configs', 'ConfigsController@index');
 			Route::post('configs/update', 'ConfigsController@update');
 
+			Route::get('gammu/inbox', 'GammuController@inbox');
+			Route::get('gammu/outbox', 'GammuController@outbox');
+
+			Route::get('gammu/pesanMasuk', 'GammuController@pesanMasuk');
+			Route::get('gammu/pesanKeluar', 'GammuController@pesanKeluar');
+
+			Route::get('gammu/sentitems', 'GammuController@sentitems');
+
+			Route::get('gammu/create/sms', 'GammuController@createSms');
+			Route::post('gammu/send/sms', 'GammuController@sendSms');
+			Route::get('gammu/reply/{SenderNumber}', 'GammuController@reply');
+			Route::delete('gammu/{id}/delete', 'GammuController@destroy');
+
+			Route::get('master/ajax/antrianTerakhir', 'MasterController@antrianTerakhir');
+
+			Route::get('discounts', 'DiscountsController@index');
   	});
 
 

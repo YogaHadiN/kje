@@ -29,7 +29,8 @@ class Kernel extends ConsoleKernel
 		 Commands\testConsole::class,
 		 Commands\gammuSend::class,
 		 Commands\smsCekInbox::class,
-
+		 Commands\resetAntrian::class,
+		 Commands\dbBackup::class,
     ];
 
     /**
@@ -49,6 +50,8 @@ class Kernel extends ConsoleKernel
 					  ->hourly();
 			 $schedule->command('sms:laporanharian')
 						->dailyAt('23:00'); 
+			 $schedule->command('reset:antrian')
+						->dailyAt('00:00'); 
 			 $schedule->command('sms:donnaruko')
 				 ->dailyAt('13:00')
 				 ->when(function(){

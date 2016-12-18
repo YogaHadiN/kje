@@ -32,7 +32,6 @@ class CoasController extends Controller
 	{
 
 		$kelompokCoaList = $this->kelompokCoaList();
-
 		return view('coas.create', compact('kelompokCoaList'));
 	}
 

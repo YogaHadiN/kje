@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 
 use App\JurnalUmum;
+use App\FakturBelanja;
 use App\Pengeluaran;
 use App\Periksa;
 use App\KelompokCoa;
@@ -15,6 +16,7 @@ use App\BukanObat;
 use App\CheckoutKasir;
 use App\Classes\Yoga;
 use App\Coa;
+use App\BelanjaPeralatan;
 use DB;
 
 
@@ -50,17 +52,6 @@ class JurnalUmumsController extends Controller
             ->orderBy('created_at', 'desc')
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
             ->paginate(10);
-
-		//$errors = [];
-		//foreach ($jurnalumums as $ju) {
-			//try {
-				 //$ju->jurnalable_type::find($ju->jurnalable_id)->jurnals;
-			//} catch (\Exception $e) {
-				//$errors[] = $ju->id;
-			//}
-		//}
-		//return dd( $errors );
-        
 
 		return view('jurnal_umums.show', compact('jurnalumums'));
 	}
@@ -100,12 +91,12 @@ class JurnalUmumsController extends Controller
 		}
 
 		$data_ids .= $ids[ count($ids) - 1 ];
-		$query = "select ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal, pg.keterangan as nama, st.nama as nama_staf, pg.faktur_image from jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id join stafs as st on st.id=pg.staf_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\Pengeluaran' group by jurnal_umum_id";
+		$query = "select ju.jurnalable_id as jurnalable_id, ju.jurnalable_type as jurnalable_type, ju.id as jurnal_umum_id, ju.nilai as nilai, ju.coa_id as coa, ju.created_at as tanggal, pg.keterangan as nama, st.nama as nama_staf, pg.faktur_image from jurnal_umums as ju join pengeluarans as pg on pg.id = ju.jurnalable_id join stafs as st on st.id=pg.staf_id where ju.id in ({$data_ids}) and jurnalable_type='App\\\Pengeluaran' group by jurnal_umum_id";
 		$pengeluarans = DB::select($query);
 		$query = "SELECT *, ju.id as jurnal_umum_id, st.nama as nama_staf FROM jurnal_umums as ju join pendapatans as pd on pd.id = ju.jurnalable_id join stafs as st on st.id = pd.staf_id where jurnalable_type='App\\\Pendapatan' and ju.id in ({$data_ids})";
 		$pendapatans = DB::select($query);
-		$bebanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
-		$pendapatanCoaList = [null => '-pilih-'] + Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
+		$bebanCoaList = [null => '-pilih-'] + ['120001' => 'Belanja Peralatan'] + Coa::whereIn('kelompok_coa_id', [5,6,8])->lists('coa', 'id')->all();
+		$pendapatanCoaList = [null => '-pilih-']+ Coa::whereIn('kelompok_coa_id', [4,7])->lists('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::lists('kelompok_coa', 'id')->all();
 
 		return view('jurnal_umums.coa', compact(
@@ -129,11 +120,68 @@ class JurnalUmumsController extends Controller
 	{
         $temp = Input::get('temp');
         $temp = json_decode($temp, true);
+
+        $peralatanTemp = Input::get('peralatanTemp');
+        $peralatanTemp = json_decode($peralatanTemp, true);
 		//return var_dump($temp[0]['coa_id']);
-        foreach ($temp as $tp) {
-            $ju = JurnalUmum::find($tp['id']);
-            $ju->coa_id = $tp['coa_id'];
-            $ju->save();            
+        foreach ($temp as $k => $tp) {
+			if ( isset( $peralatanTemp[$k] ) ) {
+				$ju = JurnalUmum::find($tp['id']);
+				$ju->coa_id = $tp['coa_id'];
+
+				$jurnalable_type = $ju->jurnalable_type;
+				$jurnalable_id = $ju->jurnalable_id;
+
+				$jurnalable_type = explode("\\", $jurnalable_type)[1];
+				if ($jurnalable_type == 'Pengeluaran') {
+
+					$p = Pengeluaran::find($jurnalable_id);
+
+					$fb                 = new FakturBelanja;
+					$fb->tanggal        = $p->tanggal;
+					$fb->nomor_faktur   = $peralatanTemp[$k]['nomor_faktur'];
+					$fb->belanja_id     = 4;
+					$fb->supplier_id    = $p->supplier_id;
+					$fb->sumber_uang_id = $p->sumber_uang_id;
+					$fb->petugas_id     = $p->staf_id;
+					$fb->save();
+					$confirm            = $fb->save();
+
+					$ju->jurnalable_type = 'App\FakturBelanja';
+
+					$confirm = BelanjaPeralatan::create([
+						 'faktur_belanja_id'	=> $fb->id,
+						 'staf_id'				=> $p->staf_id,
+						 'peralatan'			=> $p->keterangan,
+						 'harga_satuan'			=> $ju->nilai,
+						 'jumlah'				=> 1,
+						 'masa_pakai'			=> $peralatanTemp[$k]['masa_pakai']
+					]);
+					if ($confirm) {
+						Pengeluaran::destroy( $jurnalable_id );
+					}
+					$path_before = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/lain/' . $p->faktur_image;
+					$ext = pathinfo($path_before, PATHINFO_EXTENSION);
+					$filename = 'faktur' . $fb->id . '.' . $ext;
+					$path_after = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/alat/' . $filename;
+
+					$confirm = rename( 
+						$path_before,
+						$path_after
+					);
+
+					if ($confirm) {
+						$fb->faktur_image = $filename;
+					}
+
+					$fb->save();
+				}
+				$ju->save();            
+			} else {
+				$ju = JurnalUmum::find($tp['id']);
+				$ju->coa_id = $tp['coa_id'];
+				$ju->save();            
+			}
         }
 		$pesan = Yoga::suksesFlash('Penyesuaian Chart Of Account (COA) sukses, silahkan coba lagi untuk melihat laporan');
 		if (!empty( Input::get('route') )) {
@@ -210,10 +258,10 @@ class JurnalUmumsController extends Controller
          $kelompok_coa_id = Input::get('kelompok_coa_id');
          $coa = Input::get('coa');
 
-         $c = new Coa;
-         $c->id = $coa_id;
+         $c                  = new Coa;
+         $c->id              = $coa_id;
          $c->kelompok_coa_id = $kelompok_coa_id;
-         $c->coa = $coa;
+         $c->coa             = $coa;
          $c->save();
 
          return json_encode( [ null => '- pilih -' ] + Coa::lists('coa', 'id')->all() );
