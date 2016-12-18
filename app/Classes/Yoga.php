@@ -2331,6 +2331,14 @@ class Yoga {
 			$antrianpoli
 		] );
 	}
+	public static function pasienSurvey(){
+		 return [ 
+			'0' => 'Pasien tidak keberatan menerima SMS survey',
+			'1' => 'Pasien keberatan menerima SMS survey'
+	   	];
+		
+	}
+	
 	
 	
 	

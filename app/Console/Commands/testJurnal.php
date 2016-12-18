@@ -42,8 +42,14 @@ class testJurnal extends Command
 		$query  = "SELECT id from periksas where id not in(select jurnalable_id from jurnal_umums where jurnalable_type='App\\\Periksa') and created_at like '" . date('Y-m-d'). "%';";
 		$data = DB::select($query);
 		$text = 'Periksa yang tidak masuk jurnal ';
-		foreach ($data as $d) {
-			$text .= $d . ', ';
+		if (count( $data )) {
+
+			foreach ($data as $d) {
+				$text .= $d . ', ';
+			}
+			
+		} else {
+			$text .= 'tidak ada' ;
 		}
 
 		Sms::send('081381912803', $text);

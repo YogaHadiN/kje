@@ -18,3 +18,4 @@ default character set utf8 collate utf8_unicode_ci;
 
 insert into antrians (antrian_terakhir) values (0);
 update jurnal_umums set nilai = 872500 where jurnalable_type='App\\\Pengeluaran' and jurnalable_id=581;
+update jurnal_umums set nilai=8000 where jurnalable_type='App\\\Pengeluaran' and jurnalable_id=586;
