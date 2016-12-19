@@ -86,8 +86,7 @@
 		@else 
 		<tr>
 			<td class="displayNone"></td>
-			<td colspan="6" class="text-center">Tidak ada data untuk ditampilkan :p</td>
-			<td class="displayNone" colspan="5"></td>
+			<td colspan="11" class="text-center">Tidak ada data untuk ditampilkan :p</td>
 		</tr>
 		@endif
 	</tbody>

@@ -67,8 +67,16 @@ class Kernel extends ConsoleKernel
 					$antrianpolis = $ap->besokKonsulGigi();
 					$count = $antrianpolis->count();
 					return $count > 0;
-
 			 }); 
+
+			 $schedule->command('sms:ingatkanHariIni')
+				 ->dailyAt('13:30')
+				 ->when(function(){
+					 $count = AntrianPoli::where('poli', 'gigi')
+						 ->where('tanggal', date('Y-m-d'))
+						 ->count();
+					return $count > 0;
+				 }); 
 
 			 $schedule->command('sms:kontrol')
 				 ->dailyAt('13:00')

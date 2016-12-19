@@ -44,10 +44,14 @@ class AntrianPolisController extends Controller
 		$antrianpolis  = AntrianPoli::with('pasien', 'asuransi', 'antars')
 								->where('tanggal', '<=', date('Y-m-d'))
 								->orderBy('antrian', 'asc')->get();
-		$perjanjian  = AntrianPoli::with('pasien', 'asuransi', 'antars')
+		$app  = AntrianPoli::with('pasien', 'asuransi', 'antars')
 								->where('tanggal', '>', date('Y-m-d'))
 								->orderBy('tanggal', 'asc')->get();
 
+		$perjanjian = [];
+		foreach ($app as $p) {
+			$perjanjian[$p->created_at->format('d-m-Y')][] = $p;
+		}
 		return view('antrianpolis.index')
 			->withAntrianpolis($antrianpolis)
 			->withPerujuks_list($perujuks_list)

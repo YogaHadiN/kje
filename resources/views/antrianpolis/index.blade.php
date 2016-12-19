@@ -60,22 +60,25 @@ Klinik Jati Elok | Nurse Station
 <div class="alert alert-danger">
 	Baris tabel dengan background merah adalah pasien yang melakukan Pendaftaran sendiri, harap cek dulu asuransi nya bisa dipakai atau tidak
 </div>
-<div class="panel panel-danger">
-	<div class="panel-heading">
-            <div class="panel-title">
-				<div class="panelLeft">
-					<h3>Schedulle Yang Akan Datang</h3>
-                </div>
-                <div class="panelRight">
-                    <h3>Total : {!! $perjanjian->count() !!}</h3>
-                </div>
-            </div>
-      </div>
-	<div class="panel-body">
-		  @include('antrianpolis.form', ['antrianpolis' => $perjanjian])
-	</div>
-</div>
 
+	 <div class="panel-group" id="accordion">
+		 @foreach($perjanjian as $k => $p)	
+		  <div class="panel panel-success">
+			<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $k }}">
+				<div class="panel-heading">
+				  <h4 class="panel-title">
+					   {{ $k }}, sudah ada {{ count($p) }} pasien
+				  </h4>
+				</div>
+			</a>
+			<div id="collapse{{ $k }}" class="panel-collapse collapse">
+			  <div class="panel-body">
+				  @include('antrianpolis.form', ['antrianpolis' => $p])
+			  </div>
+			</div>
+		  </div>
+		 @endforeach
+	</div> 	
 @include('antrianpolis.modalalasan')
 @include('antrianpolis.modalKonfirmasi')
 

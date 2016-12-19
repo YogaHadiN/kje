@@ -3,25 +3,24 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use DateTime;
-use App\AntrianPoli;
 use App\Sms;
+use App\AntrianPoli;
 
-class smsIngatkanJanji extends Command
+class smsIngatkanHariIni extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sms:ingatkanJanji';
+    protected $signature = 'sms:ingatkanHariIni';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Mengingatkan kepada pasien yang mau ke dokter gigi';
+    protected $description = 'Ingatkan kalo hari ini ada jadwal periksa ke dokter gigi';
 
     /**
      * Create a new command instance.
@@ -40,13 +39,12 @@ class smsIngatkanJanji extends Command
      */
     public function handle()
     {
-		$date			= new DateTime(date('Y-m-d'));
-		$date->modify('+1 day');
-		$ap				= new AntrianPoli;
-		$antrianpolis	= $ap->besokKonsulGigi();
-		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok ingin mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' Bapak / Ibu ada janji konsultasi ke dokter gigi. Terima Kasih';
+		AntrianPoli::where('poli', 'gigi')
+					->where('tanggal', date('Y-m-d'))
+					->get();
+		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok ingin hari ini Bapak / Ibu ada janji konsultasi ke dokter gigi jam 17.00. Terima Kasih';
 
-		$text = "Terkirim sms mengingatkan janji konsultasi ke ";
+		$text = "Terkirim sms mengingatkan janji konsultasi hari ini ";
 		foreach ($antrianpolis as $ap) {
 			Sms::send($ap->pasien->no_telp,$pesan);
 			$text .= $ap->pasien->nama . ', ';

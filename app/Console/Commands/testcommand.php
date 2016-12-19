@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Outbox;
+use DB;
 
 class testcommand extends Command
 {
@@ -38,11 +39,19 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$o       = new Outbox;
-		$o->DestinationNumber   = '081381912803';
-		$o->TextDecoded   = 'coba sms dari laravel yang kedua';
-		$o->CreatorID   = 'gammu';
-		$confirm =	$o->save();
-		return dd( $confirm );
+		$query  = "SELECT ge.generik, mr.id, mr.merek FROM mereks as mr ";
+		$query .= "JOIN raks as rk on rk.id = mr.rak_id ";
+		$query .= "JOIN formulas as fo on fo.id = rk.formula_id ";
+		$query .= "JOIN komposisis as ko on ko.formula_id = fo.id ";
+		$query .= "JOIN generiks as ge on ge.id = ko.generik_id ";
+		$query .= "WHERE mr.id = 161117004;";
+		$data = DB::select($query);
+
+		$query  = "SELECT * from komposisis ";
+		$query .= "WHERE generik_id = 1202 ";
+		$data = DB::select($query);
+		
+
+		return dd( $data );
     }
 }

@@ -7,15 +7,23 @@
 						<h2>Scan disini untuk input gambar</h2>
 						@if(isset($periksaex))
 							@if($periksaex->gambars->count() < 1)
-							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images' ) !!}" alt="">
+							<a href="{{ url('periksa/' . $periksaEx->id . '/images') }}">
+								<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images' ) !!}" alt="">
+							</a>
 							@else
-							<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images/edit' ) !!}" alt="">
+							<a href="{{ url('periksa/'.  $periksaEx->id . '/images/edit') }}">
+								<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images/edit' ) !!}" alt="">
+							</a>
 							@endif
 						@else
 							@if($antrianperiksa->gambars->count() < 1)
-							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' ) !!}" alt="">
+							<a href="{{ url('antrianperiksa/'.  $antrianperiksa->id . '/images') }}">
+								<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images' ) !!}" alt="">
+							</a>
 							@else
-							<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' ) !!}" alt="">
+							<a href="{{ url('antrianperiksa/'.  $antrianperiksa->id . '/images/edit') }}">
+								<img src="{!! url( 'qrcode?text=' . $url . '/antrianperiksa/' . $antrianperiksa->id . '/images/edit' ) !!}" alt="">
+							</a>
 							@endif
 						@endif
 					</div>
