@@ -26,7 +26,10 @@ class TarifsController extends Controller
 	 */
 	public function index()
 	{
-		$tarifs = Tarif::with('jenisTarif.bhp.merek')->where('asuransi_id', '0')->get();
+		$tarifs = Tarif::with(
+			'jenisTarif.bhp.merek',
+			'tipeTindakan'
+		)->where('asuransi_id', '0')->get();
 
 		$tipeTindakans = [
 			'1' => 'Non Paket',

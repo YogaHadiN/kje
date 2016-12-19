@@ -17,13 +17,13 @@ class BukuBesarsController extends Controller
     }
     public function show(){
 
-        // return Input::all();
         $coa_id = Input::get('coa_id');
         $bulan  = Input::get('bulan');
         $tahun  = Input::get('tahun');
 
-        $jurnalumums = JurnalUmum::where('coa_id', $coa_id)->where('created_at', 'like', $tahun . '-' . $bulan . '%')->get();
-        // return $jurnalumums;
+		$jurnalumums = JurnalUmum::where('coa_id', $coa_id)
+		->where('created_at', 'like', $tahun . '-' . $bulan . '%')
+		->get();
 
     	return view('buku_besars.show', compact('jurnalumums'));
     }
