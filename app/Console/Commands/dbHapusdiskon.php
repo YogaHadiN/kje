@@ -39,7 +39,6 @@ class dbHapusdiskon extends Command
      */
     public function handle()
     {
-		return dd( Carbon::now() );
-		Discount::where('berakhir' < Carbon::now())->delete();
+		Discount::where('berakhir', '<', Carbon::now())->delete();
     }
 }

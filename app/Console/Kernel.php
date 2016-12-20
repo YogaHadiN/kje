@@ -47,7 +47,7 @@ class Kernel extends ConsoleKernel
 		 if (gethostname() != 'dell') {
 			 $schedule->command('task:penyusutan')
 					  ->monthlyOn(date('t'), '15:00');
-			 $schedule->command('db:hapusdiskon')
+			 $schedule->command('db:dbHapusdiskon')
 					  ->dailyAt('23:50');
 			 $schedule->command('sms:angkakontak')
 						->dailyAt('15:30'); 
@@ -72,7 +72,6 @@ class Kernel extends ConsoleKernel
 					$count = $antrianpolis->count();
 					return $count > 0;
 			 }); 
-
 			 $schedule->command('sms:ingatkanHariIni')
 				 ->dailyAt('13:30')
 				 ->when(function(){
