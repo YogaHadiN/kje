@@ -50,7 +50,7 @@ class AntrianPolisController extends Controller
 
 		$perjanjian = [];
 		foreach ($app as $p) {
-			$perjanjian[$p->created_at->format('d-m-Y')][] = $p;
+			$perjanjian[$p->tanggal->format('d-m-Y')][] = $p;
 		}
 		return view('antrianpolis.index')
 			->withAntrianpolis($antrianpolis)
