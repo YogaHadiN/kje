@@ -162,7 +162,7 @@ Klinik Jati Elok | Asuransi
                             </div>
                       </div>
                       <div class="panel-body">
-                        <table class="tblTerapi" width="100%">
+                        <table class="tblTerapi table" width="100%">
                             <thead>
                                 <tr>
                                     <th>Jenis Tarif</th>
@@ -215,8 +215,8 @@ Klinik Jati Elok | Asuransi
                                 </tr> 
                             </tfoot>
                         </table>
-                        {!! Form::textarea('sebelum', $periksa->transaksi, ['class' => 'hide', 'id' => 'sebelum'])!!}
-                        {!! Form::textarea('tarif', $periksa->transaksi, ['class' => 'hide', 'id' => 'txtTarif'])!!}
+                        {!! Form::textarea('sebelum', $tindakanPeriksa, ['class' => 'hide', 'id' => 'sebelum'])!!}
+                        {!! Form::textarea('tarif', $tindakanPeriksa, ['class' => 'hide', 'id' => 'txtTarif'])!!}
                         {!! Form::text('periksa_id', $periksa->id, ['class' => 'displayNone', 'id' => 'periksa_id'])!!}
                       </div>
                 </div>
@@ -358,7 +358,11 @@ Klinik Jati Elok | Asuransi
         var total = 0;
 
         for (var i = 0; i < data.length; i++) {
-            temp += '<tr>';
+			if( parseInt( data[i].biaya ) < 0 ){
+				temp += '<tr class="danger">';
+			} else {
+				temp += '<tr>';
+			}
             temp += '<td><label>' + data[i].jenis_tarif + '</label></td>';
             temp += '<td><input class="form-control money" dir="rtl" autocomplete="off" value="' + data[i].biaya + '" id="txt' + data[i].jenis_tarif.replace(/ /g, '') + i + '" onkeyup="inputTarif(this);" /></td>';
             if(data[i].jenis_tarif == 'Biaya Obat'){
@@ -401,7 +405,7 @@ Klinik Jati Elok | Asuransi
             aSep: '.',
             aDec: ',', 
             aSign: 'Rp. ',
-            vMin: 0,
+            vMin: '-9999999999999.99' ,
             mDec: 0
         });
 

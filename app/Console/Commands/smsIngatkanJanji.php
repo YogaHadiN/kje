@@ -44,7 +44,7 @@ class smsIngatkanJanji extends Command
 		$date->modify('+1 day');
 		$ap				= new AntrianPoli;
 		$antrianpolis	= $ap->besokKonsulGigi();
-		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok ingin mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' Bapak / Ibu ada janji konsultasi ke dokter gigi. Terima Kasih';
+		$pesan			= 'Selamat Siang,Kami dari Klinik Jati Elok, mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' pasien a/n ' . $ap->pasien->nama . ' ada janji konsultasi ke dokter gigi';
 
 		$text = "Terkirim sms mengingatkan janji konsultasi ke ";
 		foreach ($antrianpolis as $ap) {

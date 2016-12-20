@@ -27,6 +27,59 @@ class DiscountsController extends Controller
 		$jenisTarifList = [ null => '-Pilih-' ] + JenisTarif::lists('jenis_tarif', 'id')->all();
 		return view('discounts.create', compact('jenisTarifList'));
 	}
+	public function delete($id){
+		$discount = Discount::with('jenisTarif')->where('id', $id)->first();
+		$jenisTarif = $discount->jenisTarif->jenis_tarif;
+		$diskon_persen = $discount->diskon_persen;
+		$confirm = Discount::destroy($id);
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Diskon '  . $jenisTarif . ' sebesar ' . $diskon_persen. ' <strong>BERHASIL</strong> Dihapus');
+		} else {
+			$pesan = Yoga::gagalFlash('Diskon '  . $jenisTarif . ' sebesar ' . $diskon_persen. ' <strong>GAGAL</strong> Dihapus ');
+		}
+		return redirect('discounts')->withPesan($pesan);
+	}
+
+	public function edit($id){
+		$jenisTarifList    = [ null => '-Pilih-' ] + JenisTarif::lists('jenis_tarif', 'id')->all();
+		$discount          = Discount::find($id);
+		$discAsuransis     = $discount->discountAsuransi;
+		$asuransis         = [];
+		foreach ($discAsuransis as $d) {
+			$asuransis[]   = $d->asuransi_id;
+		}
+		return view('discounts.edit', compact(
+			'jenisTarifList',
+			'asuransis',
+			'discount'
+		));
+	}
+	public function update($id){
+		$d                 = Discount::find($id);
+		$d->jenis_tarif_id = Input::get('jenis_tarif_id');
+		$d->diskon_persen  = Input::get('diskon_persen');
+		$d->dimulai        = Yoga::datePrep( Input::get('dimulai') );
+		$d->berakhir       = Yoga::datePrep( Input::get('berakhir'));
+		$d->save();
+
+		$da = DiscountAsuransi::where('discount_id', $id)->delete();
+		if ($da) {
+			$data = [];
+			$timestamp = date('Y-m-d H:i:s');
+			foreach ( Input::get('asuransi_id') as $v) {
+				$data[]            = [
+					'discount_id' => $d->id,
+					'asuransi_id' => $v,
+					'created_at'  => $timestamp,
+					'updated_at'  => $timestamp
+				];
+			}
+			DiscountAsuransi::insert($data);
+		}
+		$pesan = Yoga::suksesFlash('Update discount ' . $d->jenisTarif->jenis_tarif . ' telah berhasil');
+		return redirect('discounts')->withPesan($pesan);
+	}
+	
 	public function store(){
 
 

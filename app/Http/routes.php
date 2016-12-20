@@ -568,6 +568,9 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('discounts', 'DiscountsController@index');
 			Route::post('discounts', 'DiscountsController@store');
 			Route::get('discounts/create', 'DiscountsController@create');
+			Route::get('discounts/{id}/edit', 'DiscountsController@edit');
+			Route::get('discounts/{id}/delete', 'DiscountsController@delete');
+			Route::put('discounts/{id}', 'DiscountsController@update');
   	});
 
 

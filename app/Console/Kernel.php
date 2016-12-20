@@ -32,8 +32,10 @@ class Kernel extends ConsoleKernel
 		 Commands\resetAntrian::class,
 		 Commands\testJurnal::class,
 		 Commands\dbBackup::class,
-    ];
+		 Commands\dbHapusdiskon::class,
+		 Commands\dbInsertDiskon::class,
 
+    ];
     /**
      * Define the application's command schedule.
      *
@@ -45,6 +47,8 @@ class Kernel extends ConsoleKernel
 		 if (gethostname() != 'dell') {
 			 $schedule->command('task:penyusutan')
 					  ->monthlyOn(date('t'), '15:00');
+			 $schedule->command('db:hapusdiskon')
+					  ->dailyAt('23:50');
 			 $schedule->command('sms:angkakontak')
 						->dailyAt('15:30'); 
 			 $schedule->command('test:jurnal')

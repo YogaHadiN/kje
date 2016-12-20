@@ -29,7 +29,7 @@ elixir(function(mix) {
         'plugins/metisMenu/jquery.metisMenu.js',
         'plugins/slimscroll/jquery.slimscroll.min.js',
         'plugins/jeditable/jquery.jeditable.js',
-        'autoNumeric.js',
+        'autoNumeric.min.js',
         'bootstrap-select.min.js',
         'plugins/datepicker/bootstrap-datepicker.js',
         'plugins/dataTables/jquery.dataTables.min.js',

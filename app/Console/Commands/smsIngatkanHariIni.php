@@ -39,10 +39,10 @@ class smsIngatkanHariIni extends Command
      */
     public function handle()
     {
-		AntrianPoli::where('poli', 'gigi')
+		$antrianpolis = AntrianPoli::where('poli', 'gigi')
 					->where('tanggal', date('Y-m-d'))
 					->get();
-		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok ingin hari ini Bapak / Ibu ada janji konsultasi ke dokter gigi jam 17.00. Terima Kasih';
+		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok mengingatkan hari ini pasien a/n ' . $ap->pasien->nama . ' ada janji konsultasi ke dokter gigi jam 17.00.';
 
 		$text = "Terkirim sms mengingatkan janji konsultasi hari ini ";
 		foreach ($antrianpolis as $ap) {

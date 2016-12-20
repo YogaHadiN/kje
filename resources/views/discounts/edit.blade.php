@@ -1,17 +1,17 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Buat Diskon Baru
+Klinik Jati Elok | Edit Discount
 
 @stop
 @section('page-title') 
-<h2>Buat Diskon Baru</h2>
+<h2>Edit Discount</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Buat Diskon Baru</strong>
+		  <strong>Edit Discount</strong>
 	  </li>
 </ol>
 
@@ -24,8 +24,13 @@ Klinik Jati Elok | Buat Diskon Baru
 					<div class="panel-title">Buat Diskon Baru</div>
 				</div>
 				<div class="panel-body">
-					{!! Form::open(['url' => 'discounts', 'method' => 'post']) !!}
-					@include('discounts.form')
+				{!! Form::model($discount, ['url' => 'discounts/' . $discount->id, 'method' => 'put']) !!}
+						@include('discounts.form', [
+							'dimulai' => $discount->dimulai->format('d-m-Y'),
+							'edit' => true,
+							'berakhir' => $discount->berakhir->format('d-m-Y'),
+							'asuransis' => $asuransis
+						])
 					{!! Form::close() !!}
 				</div>
 			</div>

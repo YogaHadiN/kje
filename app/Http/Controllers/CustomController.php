@@ -223,25 +223,70 @@ class CustomController extends Controller
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
 
 		$monitor = Monitor::find(1);
-        //$monitor->periksa_id = $periksa->id;
-        //$monitor->save();
 
+		// cek apakah ada diskon untuk tindakan tertentu
+		$tindakanPeriksa = $periksa->transaksi;
+		$tindakanPeriksa = json_decode( $tindakanPeriksa, true ); 
+		$jenisTarifDiskon =[];
+		foreach ($tindakanPeriksa as $t) {
+			//return dd( $t );
+			$jenisTarifDiskon[] = $t['jenis_tarif_id'];
+		}
+
+		$query  = "SELECT dc.id as discount_id, ";
+		$query .= "dc.diskon_persen as persen, ";
+		$query .= "dc.jenis_tarif_id as jenis_tarif_id ";
+		$query .= "from discounts as dc ";
+		$query .= "JOIN discount_asuransis as da ";
+		$query .= "WHERE dc.jenis_tarif_id in (";
+		$query .= $jenisTarifDiskon[0];
+		foreach ($jenisTarifDiskon as $jt) {
+			$query .=  ', ' . $jt;
+		}
+		$query .= ") AND da.asuransi_id = '" . $periksa->asuransi_id . "' ";
+		$query .= "GROUP BY dc.id;";
+		$data = DB::select($query);
+		if ( count( $data )  > 0) {
+			$insterted = [];
+			foreach ($tindakanPeriksa as $k => $t) {
+				foreach ($data as $ky => $d) {
+					if ($d->jenis_tarif_id == $t['jenis_tarif_id']) {
+						$inserted[] = [
+
+							'jenis_tarif_id'        => '0',
+							'jenis_tarif'           => 'Diskon ' . $t['jenis_tarif'] . ' '. $d->persen . ' %',
+							'jenis_tarif_id_diskon' => $t['jenis_tarif_id'],
+							'keterangan'            => 'Diskon ' . $t['jenis_tarif'] . ' '. $d->persen . ' %',
+							'biaya'                 => -1 * abs( $d->persen * $t['biaya'] / 100 )
+
+						];
+					}
+				}
+			}
+			foreach ($inserted as $i) {
+				array_push($tindakanPeriksa, $i);
+			}
+		}
+		$tindakanPeriksa = json_encode( $tindakanPeriksa, true ); 
         $dibayar = null;
         if ( $periksa->asuransi->tipe_asuransi== '4') {
         	$jasa_dokter = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '1')->first()->biaya;
         	$obat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;
         	$dibayar = $jasa_dokter + $obat;
         }
-		return view('surveys.index')
-		->withReseps($reseps)
-		->withPeriksa($periksa)
-		->withSudah($sudah)
-		->withBiayatotal($biayatotal)
-		->withDibayar($dibayar)
-		->withMonitor($monitor)
-		->withTindakans($tindakans);
+		return view('surveys.index', compact(
+			'reseps',
+			'periksa',
+			'tindakanPeriksa',
+			'sudah',
+			'biayatotal',
+			'dibayar',
+			'monitor',
+			'tindakans'
+		));
 	}
 	public function survey_post(){
+		//return dd( Input::all() );
 		$periksa_id = Input::get('periksa_id');	
 
 		$periksa = Periksa::with('pasien')
@@ -390,6 +435,20 @@ class CustomController extends Controller
 			$feeDokter = 0;
 
             $hutang_asisten_tindakan = 0;
+
+
+			// cek dulu apakah ada diskon di transaksis
+			//
+
+			$diskonArray= [];
+			$nilaiDiskon= 0;
+			foreach ($transaksis as $t) {
+				if ( $t['jenis_tarif_id'] == '0' ) {
+					$diskonArray[] = $t;
+					$nilaiDiskon += abs( $t['biaya'] );
+				}
+			}
+
 			foreach ($transaksis as $k => $transaksi) {
                 $adaBiaya = false;
 
@@ -403,13 +462,22 @@ class CustomController extends Controller
                     $feeDokter += Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
                 }
 				if ($oke) {
-					if ($transaksi['biaya'] > 0) {
+					if ($transaksi['biaya'] > 0 && $transaksi['jenis_tarif_id'] != '0') { // jika biaya > 0 dan jenis_tarif_id bukan 0 (diskon)
 						$jurnal                  = new JurnalUmum;
 						$jurnal->jurnalable_id   = $periksa->id;
 						$jurnal->jurnalable_type = 'App\Periksa';
 						$jurnal->coa_id          = $trx->jenisTarif->coa_id;
 						$jurnal->debit           = 0;
-						$jurnal->nilai           = $trx->biaya;
+						//cek apakah jenis_tarif ini ada diskon;
+						$diskon = 0;
+						foreach ($diskonArray as $d) {
+							if ($d['jenis_tarif_id_diskon'] == $transaksi['jenis_tarif_id'] ) {
+								$diskon = $d['biaya'];
+								break;
+							}
+						}
+						// jika ada kurangi nilai di jurnal umum;
+						$jurnal->nilai           = $trx->biaya - abs( $diskon );
 						$jurnal->save();
 
 						$adaBiaya = true;

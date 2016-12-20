@@ -31,14 +31,15 @@ Klinik Jati Elok | Diskon
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table class="table table-hover table-bordered table-condensed">
+				<table class="table table-hover table-bordered table-condensed DT">
 					<thead>
 						<tr>
 							<th>ID</th>
 							<th>Jenis Tarif</th>
 							<th>Untuk Pembayaran</th>
-							<th colspan="2">Diskon</th>
-							<th colspan="2">Action</th>
+							<th>Berlaku</th>
+							<th>Diskon</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -58,17 +59,25 @@ Klinik Jati Elok | Diskon
 											@endforeach
 											</ul>
 										@endif
-										
 									</td>
-									<td class="text-right">{{ $d->diskon_persen }}</td>
-									<td class="text-left">%</td>
-									<td> <a class="btn btn-xs btn-warning btn-block" href="{{ url("") }}">Edit</a> </td>
-									<td> <a class="btn btn-xs btn-danger btn-block" href="{{ url("") }}">Delete</a> </td>
+									<td>
+										Berlaku <br />
+										<strong>{{ $d->dimulai->format('d M Y') }}</strong> <br />
+										s/d <br />
+										<strong>{{ $d->berakhir->format('d M Y') }}</strong> <br />
+
+									</td>
+									<td class="text-right">{{ $d->diskon_persen }} %</td>
+									<td> 
+												<a class="btn btn-xs btn-warning btn-block" href="{{ url("discounts/" . $d->id . '/edit') }}">Edit</a> 
+												<a class="btn btn-xs btn-danger btn-block" href="{{ url("discounts/" . $d->id . '/delete') }}" onclick="return confirm('Anda Yakin mau menghapus Diskon {{ $d->jenisTarif->jenis_tarif }} sebesar {{ $d->diskon_persen }} %?')">Delete</a> </td>
+										</div>
+										
 								</tr>
 							@endforeach
 						@else
 							<tr>
-								<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
+								<td class="text-center" colspan="7">Tidak Ada Data Untuk Ditampilkan :p</td>
 							</tr>
 						@endif
 					</tbody>
