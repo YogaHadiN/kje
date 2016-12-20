@@ -24,18 +24,20 @@ Klinik Jati Elok | Diskon
 					Daftar Diskon
 				</div>
 				<div class="panelRight">
-					<a class="btn btn-primary" href="{{ url("discounts/create") }}">Buat Diskon Baru</a>
+					<a class="btn btn-primary" href="{{ url("discounts/create") }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Buat Diskon Baru</a>
+
 				</div>
 			</div>
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table class="table table-hover table-condensed">
+				<table class="table table-hover table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th>Tarif Id</th>
+							<th>ID</th>
 							<th>Jenis Tarif</th>
-							<th>Diskon</th>
+							<th>Untuk Pembayaran</th>
+							<th colspan="2">Diskon</th>
 							<th colspan="2">Action</th>
 						</tr>
 					</thead>
@@ -43,11 +45,25 @@ Klinik Jati Elok | Diskon
 						@if($discounts->count() > 0)
 							@foreach($discounts as $d)
 								<tr>
-									<td>{{ $d->tarif_id }}</td>
-									<td>{{ $d->tarif->jenisTarif->jenis_tarif }}</td>
-									<td>{{ $d->diskon_persen }}</td>
-									<td> <a class="btn btn-xs btn-warning" href="{{ url("") }}">Edit</a> </td>
-									<td> <a class="btn btn-xs btn-danger" href="{{ url("") }}">Delete</a> </td>
+									<td>{{ $d->jenis_tarif_id }}</td>
+									<td nowrap>{{ $d->jenisTarif->jenis_tarif }}</td>
+									<td>
+										@if( $d->discountAsuransi->count() == $jumlahAsuransi )
+											Semua Asuransi
+										@else
+											{{ $d->discountAsuransi->count() }} asuransi
+											<ul>
+											@foreach($d->discountAsuransi as $di)	
+												<li>{{ $di->asuransi->nama }}</li>	
+											@endforeach
+											</ul>
+										@endif
+										
+									</td>
+									<td class="text-right">{{ $d->diskon_persen }}</td>
+									<td class="text-left">%</td>
+									<td> <a class="btn btn-xs btn-warning btn-block" href="{{ url("") }}">Edit</a> </td>
+									<td> <a class="btn btn-xs btn-danger btn-block" href="{{ url("") }}">Delete</a> </td>
 								</tr>
 							@endforeach
 						@else

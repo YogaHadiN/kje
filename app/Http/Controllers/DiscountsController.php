@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Discount;
+use App\Asuransi;
+use App\DiscountAsuransi;
 use App\Classes\Yoga;
 use App\Tarif;
 use Input;
@@ -14,8 +16,12 @@ use App\JenisTarif;
 class DiscountsController extends Controller
 {
 	public function index(){
-		$discounts = Discount::all();
-		return view('discounts.index', compact('discounts'));
+		$discounts = Discount::with('discountAsuransi')->get();
+		$jumlahAsuransi = Asuransi::count();
+		return view('discounts.index', compact(
+			'jumlahAsuransi',
+			'discounts'
+		));
 	}
 	public function create(){
 		$jenisTarifList = [ null => '-Pilih-' ] + JenisTarif::lists('jenis_tarif', 'id')->all();
@@ -23,7 +29,6 @@ class DiscountsController extends Controller
 	}
 	public function store(){
 
-		return Input::get('asuransi_id');
 
 		$rules = [
 			'jenis_tarif_id' => 'required',
@@ -52,7 +57,7 @@ class DiscountsController extends Controller
 			foreach ( Input::get('asuransi_id') as $v) {
 				$data[]            = [
 					'discount_id' => $d->id,
-					'asuransi_id' => $v;
+					'asuransi_id' => $v,
 					'created_at'  => $timestamp,
 					'updated_at'  => $timestamp
 				];
@@ -65,6 +70,6 @@ class DiscountsController extends Controller
 		} else {
 			$pesan = Yoga::gagalFlash('Input Data Diskon telah Gagal');
 		}
-		return redirect('dicounts')->withPesan($pesan);
+		return redirect('discounts')->withPesan($pesan);
 	}
 }

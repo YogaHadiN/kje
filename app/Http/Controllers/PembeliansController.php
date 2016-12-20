@@ -131,23 +131,22 @@ class PembeliansController extends Controller
 
 
 		$input = [
-			'data'          => $data;
+			'data'          => $data
 		];
 
 
 		$rules = [
 
-			'data.*.merek_id'          => 'required',
-			'data.*.jumlah'            => 'required|numeric',
-			'data.*.harga_beli'        => 'required|numeric',
-			'data.*.harga_jual'        => 'required|numeric',
-			'data.*.exp_date'          => 'required|date|date_format:d-m-Y',
-			'data.*.harga_berubah'        => 'required',
-			'data.*.staf_id'           => 'required',
+			'data.*.merek_id'      => 'required',
+			'data.*.jumlah'        => 'required|numeric',
+			'data.*.harga_beli'    => 'required|numeric',
+			'data.*.harga_jual'    => 'required|numeric',
+			'data.*.exp_date'      => 'required|date_format:d-m-Y',
+			'data.*.harga_berubah' => 'required',
 
 		];
 		
-		$validator = \Validator::make($input), $rules);
+		$validator = \Validator::make($input, $rules);
 		
 		if ($validator->fails())
 		{
