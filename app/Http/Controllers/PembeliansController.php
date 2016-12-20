@@ -107,46 +107,78 @@ class PembeliansController extends Controller
 	public function store()
 	{
 		$rules = [
-			'tanggal' => 'required',
+
+			'tanggal'      => 'required|date|date_format:d-m-Y',
 			'nomor_faktur' => 'required',
-			'belanja_id' => 'required',
-			'supplier_id' => 'required',
-			'sumber_uang' => 'required',
-			'tempBeli' => 'required',
+			'belanja_id'   => 'required',
+			'supplier_id'  => 'required',
+			'sumber_uang'  => 'required',
+			'tempBeli'     => 'json|required',
+
 		];
+
+
+
 		$validator = \Validator::make($data = Input::all(), $rules);
+
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$faktur = new FakturBelanja;
-		$faktur->tanggal = Yoga::datePrep(Input::get('tanggal'));
-		$faktur->nomor_faktur = Input::get('nomor_faktur');
-		$faktur->belanja_id = Input::get('belanja_id');
-		$faktur->supplier_id = Input::get('supplier_id');
+		$data = Input::get('tempBeli');
+		$data = json_decode( $data, true );
+
+
+		$input = [
+			'data'          => $data;
+		];
+
+
+		$rules = [
+
+			'data.*.merek_id'          => 'required',
+			'data.*.jumlah'            => 'required|numeric',
+			'data.*.harga_beli'        => 'required|numeric',
+			'data.*.harga_jual'        => 'required|numeric',
+			'data.*.exp_date'          => 'required|date|date_format:d-m-Y',
+			'data.*.harga_berubah'        => 'required',
+			'data.*.staf_id'           => 'required',
+
+		];
+		
+		$validator = \Validator::make($input), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$faktur                 = new FakturBelanja;
+		$faktur->tanggal        = Yoga::datePrep(Input::get('tanggal'));
+		$faktur->nomor_faktur   = Input::get('nomor_faktur');
+		$faktur->belanja_id     = Input::get('belanja_id');
+		$faktur->supplier_id    = Input::get('supplier_id');
 		$faktur->sumber_uang_id = Input::get('sumber_uang');
-		$faktur->petugas_id = Input::get('staf_id');
+		$faktur->petugas_id     = Input::get('staf_id');
 		$faktur->save();
-		$faktur->faktur_image = $this->imageUpload('faktur','faktur_image', $faktur->id);
-		$confirm = $faktur->save();
+		$faktur->faktur_image   = $this->imageUpload('faktur','faktur_image', $faktur->id);
+		$confirm                = $faktur->save();
 		if ($confirm) {
-			$data = Input::get('tempBeli');
-			$faktur_belanja_id = $faktur->id;
-			$data = json_decode($data, true);
-			$total_pembelian =0;
+			$faktur_belanja_id  = $faktur->id;
+			$total_pembelian    = 0;
 
 			foreach ($data as $dt) {
 
-				$pb = new Pembelian;
-				$pb->exp_date = Yoga::datePrep($dt['exp_date']);
-				$pb->harga_beli = $dt['harga_beli'];
-				$pb->harga_jual = $dt['harga_jual'];
-				$pb->staf_id = Input::get('staf_id');
+				$pb                    = new Pembelian;
+				$pb->exp_date          = Yoga::datePrep($dt['exp_date']);
+				$pb->harga_beli        = $dt['harga_beli'];
+				$pb->harga_jual        = $dt['harga_jual'];
+				$pb->staf_id           = Input::get('staf_id');
 				$pb->faktur_belanja_id = $faktur_belanja_id;
-				$pb->merek_id = $dt['merek_id'];
-				$pb->harga_naik = $dt['harga_berubah'];
-				$pb->jumlah = $dt['jumlah'];
+				$pb->merek_id          = $dt['merek_id'];
+				$pb->harga_naik        = $dt['harga_berubah'];
+				$pb->jumlah            = $dt['jumlah'];
 				$pb->save();
 
 				$total_pembelian += $pb->harga_beli * $pb->jumlah;

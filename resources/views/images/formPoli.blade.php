@@ -7,11 +7,11 @@
 						<h2>Scan disini untuk input gambar</h2>
 						@if(isset($periksaex))
 							@if($periksaex->gambars->count() < 1)
-							<a href="{{ url('periksa/' . $periksaEx->id . '/images') }}">
+							<a href="{{ url('periksa/' . $periksaex->id . '/images') }}">
 								<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images' ) !!}" alt="">
 							</a>
 							@else
-							<a href="{{ url('periksa/'.  $periksaEx->id . '/images/edit') }}">
+							<a href="{{ url('periksa/'.  $periksaex->id . '/images/edit') }}">
 								<img src="{!! url( 'qrcode?text=' . $url . '/periksa/' . $periksaex->id . '/images/edit' ) !!}" alt="">
 							</a>
 							@endif

@@ -164,7 +164,7 @@ Klinik Jati Elok | Tarif
                                           </tr>
                                       </tfoot>
                                   </table>
-                                    {!! Form::textarea('bhp_items', null, ['class' => 'form-control', 'id' => 'bahan_habis_pakai'])!!}
+                                    {!! Form::textarea('bhp_items', null, ['class' => 'form-control hide', 'id' => 'bahan_habis_pakai'])!!}
                             </div>
                           </div>                      
                   </div>
