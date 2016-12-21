@@ -81,6 +81,7 @@
                             <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>
                             <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
+                            <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
                         </ul>
                     </li>
                     <li>

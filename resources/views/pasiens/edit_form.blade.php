@@ -198,11 +198,6 @@
 								@endif
 							{!! $errors->first('image', '<p class="help-block">:message</p>') !!}
 						</div>
-						{{--@include('antrianpolis.webcamForm', [--}}
-							{{--'image' => $pasien->image, --}}
-							{{--'ktp_image'=> $pasien->ktp_image,--}}
-							{{--'subject'   => 'Pasien'--}}
-						{{--])    --}}
 					</div>
 					<div>
 						@if (Session::has('cek'))

@@ -580,4 +580,18 @@ class PengantarsController extends Controller
 		return redirect('antriankasirs')->withPesan( Yoga::suksesFlash($pesan) );
 	}
 	
+	public function postServiceAc(){
+		return dd( Input::all() );
+		$rules = [
+			'' => '',
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+	}
+	
 }

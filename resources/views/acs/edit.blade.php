@@ -1,0 +1,44 @@
+@extends('layout.master')
+
+@section('title') 
+Klinik Jati Elok | Edit Air Conditioner
+
+@stop
+@section('page-title') 
+<h2>Edit Air Conditioner</h2>
+<ol class="breadcrumb">
+	  <li>
+		  <a href="{{ url('laporans')}}">Home</a>
+	  </li>
+	  <li class="active">
+		  <strong>Edit Air Conditioner</strong>
+	  </li>
+</ol>
+
+@stop
+@section('content') 
+	{!! Form::model($ac,[
+		'url' => 'acs', 
+		'method' => 'put',
+		"class" => "m-t", 
+		"role"  => "form",
+		"files"=> true
+	]) !!}
+		
+	
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<div class="panel-title">Edit AC</div>
+		</div>
+		<div class="panel-body">
+			@include('acs.form')
+		</div>
+	</div>
+	
+	{!! Form::close() !!}
+
+@stop
+@section('footer') 
+	
+@stop
+

@@ -23,9 +23,9 @@
  @section('content') 
             {!! Form::model($pasien, array(
                 "url"   => "pasiens/". $pasien->id,
+                "method"=> "put",
                 "class" => "m-t", 
                 "role"  => "form",
-                "method"=> "put",
                 "files"=> true
             ))!!}
 				@include('pasiens.edit_form', ['facebook' =>false, 'pasien' => $pasien])

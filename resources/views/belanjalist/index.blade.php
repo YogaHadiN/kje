@@ -99,6 +99,34 @@ Klinik Jati Elok | Janis Belanja
 		</a>
 	</div>
 </div>
+<div class="row">
+	<div class="col-lg-4">
+		<a href="{{ url('pengeluarans/service_ac') }}">
+			<div class="widget-head-color-box blue-bg p-lg text-center">
+				<div class="m-b-md">
+					<h2 class="font-bold no-margins">
+						Service Air Conditioner
+					</h2>
+				</div>
+				<img src="{{ url('img/ac.png') }}" class="" alt="profile" width="80%" height="80%">
+				<div>
+					<h4>Pengeluaran untuk Service Pendingin Ruangan</h4>
+				</div>
+			</div>
+			<div class="widget-text-box">
+				<h4 class="media-heading">Contoh : </h4>
+				{{--<ul>--}}
+					{{--<li>Beli perangko</li>--}}
+					{{--<li>Belanja Sayur Bibi</li>--}}
+					{{--<li>Buat kirim ke JNE</li>--}}
+					{{--<li>Uang Kemanan dan Sampah</li>--}}
+					{{--<li>Beli Plastik</li>--}}
+				{{--</ul>--}}
+			</div>
+		</a>
+	</div>
+</div>
+
 	
 @stop
 @section('footer') 

@@ -225,6 +225,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
             Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 			Route::get('pengeluarans/belanjaPeralatan/getObject/belanjaPeralatan', 'PengeluaransController@getBelanjaPeralatanObject');
+			Route::get('pengeluarans/service_ac', 'PengeluaransController@getServiceAc');
+			Route::post('pengeluarans/service_ac', 'PengeluaransController@postServiceAc');
 
 
 			Route::get('ajax/products', 'PengeluaransController@product');
@@ -571,6 +573,11 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('discounts/{id}/edit', 'DiscountsController@edit');
 			Route::get('discounts/{id}/delete', 'DiscountsController@delete');
 			Route::put('discounts/{id}', 'DiscountsController@update');
+
+			Route::get('acs', 'AcsController@index');
+			Route::get('acs/create', 'AcsController@create');
+			Route::get('acs/{id}/edit', 'AcsController@edit');
+			Route::post('acs', 'AcsController@store');
   	});
 
 

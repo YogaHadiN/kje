@@ -25,6 +25,16 @@ class BukuBesarsController extends Controller
 		->where('created_at', 'like', $tahun . '-' . $bulan . '%')
 		->get();
 
+		$errors = [];
+		foreach ($jurnalumums as $v) {
+			try {
+				$test = $v->jurnalable->ketjurnal;
+			} catch (\Exception $e) {
+				$errors[] = $v;
+			}
+		}	
+		return dd( $errors );
+
     	return view('buku_besars.show', compact('jurnalumums'));
     }
 }
