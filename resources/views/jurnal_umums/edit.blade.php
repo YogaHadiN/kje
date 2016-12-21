@@ -69,7 +69,7 @@ Klinik Jati Elok | Edit Jurnal
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<div class="form-group">
-							<button class="btn btn-success btn-block btn-lg" type="button" onclick="dummySubmit();return false;">Submit</button>
+							<button class="btn btn-primary btn-block btn-lg" type="button" onclick="dummySubmit();return false;">Update</button>
 							{!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit']) !!}
 						</div> 
 					</div>

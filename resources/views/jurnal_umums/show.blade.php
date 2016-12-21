@@ -69,6 +69,7 @@ Klinik Jati Elok | Jurnal Umum
                               @elseif($ju->jurnalable_type == 'App\NotaJual'&& $ju->jurnalable_type::find($ju->jurnalable_id)->pembayaranAsuransi->count() > '0')
                                   <a href="{{ url('pendapatans/pembayaran/asuransi/show/' . $ju->jurnalable_id) }}" class="btn btn-primary btn-xs btn-block">Detail</a> 
                               @endif
+							  <a class="btn btn-xs btn-block btn-warning" href="{{ url('jurnal_umums/'. $ju->id . '/edit') }}">Edit</a>
                               </td>
                             </tr>
                              @elseif($jur->debit == '1' && $ky != 0)
