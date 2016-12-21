@@ -131,6 +131,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 
 			Route::get('periksas/{id}/edit/transaksiPeriksa', 'PeriksaCustomController@editTransaksiPeriksa');
 			Route::post('periksas/{id}/update/transaksiPeriksa', 'PeriksaCustomController@updateTransaksiPeriksa');
+			Route::post('periksas/{id}/update/tunai', 'PeriksaCustomController@updateTunai');
+			Route::post('periksas/{id}/update/piutang', 'PeriksaCustomController@updatePiutang');
 
 
 			// dari menu users

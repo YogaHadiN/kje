@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\TransaksiPeriksa;
+use App\Periksa;
 use Input;
 
 class PeriksaCustomController extends Controller
@@ -17,7 +18,12 @@ class PeriksaCustomController extends Controller
 	
 	public function editTransaksiPeriksa($id){
 		$tra = TransaksiPeriksa::where('periksa_id', $id)->get();
-		return view('periksas.editTransaksiPeriksa', compact('tra'));
+		$periksa = Periksa::find($id);
+		
+		return view('periksas.editTransaksiPeriksa', compact(
+			'tra',
+			'periksa'
+		));
 	}
 	public function updateTransaksiPeriksa(){
 		$id = Input::get('id');
@@ -28,6 +34,25 @@ class PeriksaCustomController extends Controller
 		$confirm = $t->save();
 
 		return $t->biaya;
+	}
+	public function updateTunai($id){
+		$nilai = Input::get('nilai');
+
+		$p       = Periksa::find($id);
+		$p->tunai   = Input::get('nilai');
+		$p->save();
+		
+		return $p->tunai;
+	}
+	
+	public function updatePiutang($id){
+		$nilai = Input::get('nilai');
+
+		$p       = Periksa::find($id);
+		$p->piutang   = Input::get('nilai');
+		$p->save();
+		
+		return $p->piutang;
 	}
 	
 }
