@@ -101,7 +101,7 @@ Klinik Jati Elok | Janis Belanja
 </div>
 <div class="row">
 	<div class="col-lg-4">
-		<a href="{{ url('pengeluarans/service_ac') }}">
+		<a href="{{ url('pengeluarans/service_acs') }}">
 			<div class="widget-head-color-box blue-bg p-lg text-center">
 				<div class="m-b-md">
 					<h2 class="font-bold no-margins">

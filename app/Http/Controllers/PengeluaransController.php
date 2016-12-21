@@ -1353,11 +1353,4 @@ class PengeluaransController extends Controller
 		}
 		return false;
 	}
-
-	public function getServiceAc(){
-		return view('pengeluarans.service_ac', compact(''));
-	}
-	
-	
-	
 }

@@ -18,7 +18,7 @@ Klinik Jati Elok | Edit Air Conditioner
 @stop
 @section('content') 
 	{!! Form::model($ac,[
-		'url' => 'acs', 
+			'url' => 'acs/' . $ac->id, 
 		'method' => 'put',
 		"class" => "m-t", 
 		"role"  => "form",
@@ -39,6 +39,12 @@ Klinik Jati Elok | Edit Air Conditioner
 
 @stop
 @section('footer') 
-	
+	<script type="text/javascript" charset="utf-8">
+		function dummySubmit(){
+			if(validatePass()){
+				$('#submit').click();
+			}
+		}
+	</script>
 @stop
 

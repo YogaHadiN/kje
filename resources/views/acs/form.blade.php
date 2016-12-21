@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group @if($errors->has('keterangan'))has-error @endif">
-				  {!! Form::label('keterangan', 'Keterangan', ['class' => 'control-label']) !!}
+				  {!! Form::label('keterangan', 'Keterangan Lokasi', ['class' => 'control-label']) !!}
 				  {!! Form::textarea('keterangan' , null, ['class' => 'form-control textareacustom rq']) !!}
 				  @if($errors->has('keterangan'))<code>{{ $errors->first('keterangan') }}</code>@endif
 				</div>

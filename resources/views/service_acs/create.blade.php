@@ -17,9 +17,12 @@ Klinik Jati Elok | Input Service AC
 
 @stop
 @section('content') 
-{!! Form::open(['url' => 'acs', 'method' => 'post']) !!}
+	{!! Form::open([
+		'url' => 'pengeluarans/service_acs', 
+		'method' => 'post',
+		'files' => 'true'
+	]) !!}
 <div class="row">
-
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<div class="panel-title">Input Service AC</div>
@@ -44,14 +47,14 @@ Klinik Jati Elok | Input Service AC
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<div class="form-group @if($errors->has('tanggal'))has-error @endif">
 							  {!! Form::label('tanggal', 'Tanggal Diservice', ['class' => 'control-label']) !!}
-							  {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal']) !!}
+							  {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal rq']) !!}
 							  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<div class="form-group @if($errors->has('biaya'))has-error @endif">
 							  {!! Form::label('biaya', 'Biaya', ['class' => 'control-label']) !!}
-							  {!! Form::text('biaya' , null, ['class' => 'form-control uangInput']) !!}
+							  {!! Form::text('biaya' , null, ['class' => 'form-control uangInput rq']) !!}
 							  @if($errors->has('biaya'))<code>{{ $errors->first('biaya') }}</code>@endif
 							</div>
 						</div>
@@ -60,7 +63,10 @@ Klinik Jati Elok | Input Service AC
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<div  class="form-group @if($errors->has('supplier_id'))has-error @endif">
 							  {!! Form::label('supplier_id', 'Nama Supplier', ['class' => 'control-label']) !!}
-							  {!! Form::select('supplier_id' , App\Supplier::list(), null, ['class' => 'form-control']) !!}
+							  {!! Form::select('supplier_id' , App\Supplier::list(), null, [
+								  'class' => 'form-control selectpick rq',
+								  'data-live-search' => 'true'
+							  ]) !!}
 							  @if($errors->has('supplier_id'))<code>{{ $errors->first('supplier_id') }}</code>@endif
 							</div>
 						</div>

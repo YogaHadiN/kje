@@ -34,9 +34,45 @@ class AcsController extends Controller
 	}
 	
 	public function edit($id){
-		$ac = Ac::find($id);
+		$ac             = Ac::find($id);
 		return view('acs.edit', compact('ac'));
 	}
+	public function update($id){
+		$ac             = Ac::find($id);
+		$ac->merek      = Input::get('merek');
+		$ac->keterangan = Input::get('keterangan');
+		if ( !empty( Input::get('image') ) ) {
+			$ac->image  = $this->imageUpload('ac','image', $ac->id);
+		}
+		$ac->keterangan = Input::get('keterangan');
+		$confirm        = $ac->save();
+
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Ac'  . $ac->id . ' - ' . $ac->merek . ' <strong>BERHASIL</strong> Diubah');
+		} else {
+			$pesan = Yoga::gagalFlash('Ac'  . $ac->id . ' - ' . $ac->merek . ' <strong>GAGAL</strong> Diubah');
+		}
+
+		return redirect('acs')->withPesan($pesan);
+	}
+
+	public function destroy($id){
+		$ac = Ac::find($id);
+		$merek = $ac->merek;
+		$keterangan = $ac->keterangan;
+
+		$confirm=$ac->delete();
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('AC'  . $ac->id . ' - ' . $ac->merek . ' <strong>BERHASIL</strong> Dihapus');
+		} else {
+			$pesan = Yoga::gagalFlash('AC'  . $ac->id . ' - ' . $ac->merek . ' <strong>GAGAL</strong> Dihapus');
+		}
+
+		return redirect('acs')->withPesan($pesan);
+
+	}
+	
+	
 	
 	private function imageUpload($pre, $fieldName, $id){
 		if(Input::hasFile($fieldName)) {

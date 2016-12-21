@@ -8,7 +8,7 @@ use App\Ac;
 class Ac extends Model
 {
 	public static function list(){
-		return [ null => '-Pilih-' ] + Ac::lists('id', 'keterangan')->all();
+		return  Ac::lists('keterangan', 'id')->all();
 	}
 	
 }

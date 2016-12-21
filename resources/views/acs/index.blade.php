@@ -49,10 +49,27 @@ Klinik Jati Elok | Daftar AC
 											<td>{{ $ac->merek }}</td>
 											<td>{{ $ac->keterangan }}</td>
 											<td>
+												<div class="row">
+													<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+														<a class="btn btn-warning btn-xs btn-block" href="{{ url('acs/'. $ac->id . '/edit') }}">Edit</a>
+													</div>
+													<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+														{!! Form::open(['url' => 'acs/' . $ac->id, 'method' => 'delete']) !!}
+															<div class="form-group">
+															  {!! Form::submit('Hapus', [
+																  'class' => 'btn btn-danger btn-block btn-xs',
+																  'onclick' => 'return confirm("Apa anda yakin mau menghapus '. $ac->id . ' - ' . $ac->merek . ' ?")'
+															  ]) !!}
+															</div> 
+														{!! Form::close() !!}
+													</div>
+												</div>
 											
-												<a class="btn btn-warning btn-xs" href="{{ url('acs/'. $ac->id . '/edit') }}">Edit</a>
-												<a class="btn btn-danger btn-xs" href="">Delete</a>
 											</td>
+										</tr>
+										<tr>
+											<td colspan="4"> <img src="{{ url('img/ac/'. $ac->image) }}" class="img-rounded" alt="Responsive image">
+											 </td>
 										</tr>
 									@endforeach
 								@else

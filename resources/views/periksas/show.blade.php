@@ -25,9 +25,7 @@ Klinik Jati Elok | Pasien
                 <div class="panelLeft">
                     <h3>Nama Pasien : {!!$periksa->pasien->id!!} - {!!$periksa->pasien->nama!!}</h3>
                 </div>
-                <div class="panelRight">
-                    <h3></h3>
-                </div>
+                <div class="panelRight"></div>
             </div>
       </div>
       <div class="panel-body">
@@ -111,7 +109,6 @@ Klinik Jati Elok | Pasien
                         </tr>
                 </tbody>
             </table>
-
       </div>
 </div>
 
@@ -121,65 +118,71 @@ Klinik Jati Elok | Pasien
   </div>
   <div class="panel-body">
      <table class="table table-striped table-bordered table-hover" id="tableAsuransi">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Merek Obat</th>
-                      <th>harga beli</th>
-                      <th>harga jual</th>
-                      <th>jumlah</th>
-                      <th>Modal</th>
-                      <th>Bruto</th>
-                      <th>Untung</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   @foreach ($periksa->terapii as $terapi)
-                     <tr>
-                        <td>
-                          {!! $terapi->id !!}
-                        </td>
-                        <td>
-                         {!! $terapi->merek_id !!} - {!! $terapi->merek->merek !!}
-                        </td>
-                        <td class="uang">
-                          {!! $terapi->harga_beli_satuan !!}
-                        </td>
-                        <td class="uang">
-                          {!! $terapi->harga_jual_satuan !!}
-                        </td>
-                        <td>
-                          {!! $terapi->jumlah !!}
-                        </td>
-                        <td class="uang">
-                          {!! $terapi->jumlah * $terapi->harga_beli_satuan !!}
-                        </td>
-                        <td class="uang">
-                          {!! $terapi->jumlah * $terapi->harga_jual_satuan !!}
-                        </td>
-                        <td class="uang">
-                          {!! $terapi->jumlah * $terapi->harga_jual_satuan - $terapi->jumlah * $terapi->harga_beli_satuan !!}
-                        </td>
-                     </tr>
-                   @endforeach
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="5">Total :</th>
-                    <td class="uang">{!! $periksa->terapi_modal !!}</td>
-                    <td class="uang">{!! $periksa->terapi_bruto !!}</td>
-                    <td class="uang">{!! $periksa->terapi_untung !!}</td>
-                  </tr>
-                </tfoot>
-            </table>
+		  <thead>
+			<tr>
+			  <th>ID</th>
+			  <th>Merek Obat</th>
+			  <th>harga beli</th>
+			  <th>harga jual</th>
+			  <th>jumlah</th>
+			  <th>Modal</th>
+			  <th>Bruto</th>
+			  <th>Untung</th>
+			</tr>
+		</thead>
+		<tbody>
+		   @foreach ($periksa->terapii as $terapi)
+			 <tr>
+				<td>
+				  {!! $terapi->id !!}
+				</td>
+				<td>
+				 {!! $terapi->merek_id !!} - {!! $terapi->merek->merek !!}
+				</td>
+				<td class="uang">
+				  {!! $terapi->harga_beli_satuan !!}
+				</td>
+				<td class="uang">
+				  {!! $terapi->harga_jual_satuan !!}
+				</td>
+				<td>
+				  {!! $terapi->jumlah !!}
+				</td>
+				<td class="uang">
+				  {!! $terapi->jumlah * $terapi->harga_beli_satuan !!}
+				</td>
+				<td class="uang">
+				  {!! $terapi->jumlah * $terapi->harga_jual_satuan !!}
+				</td>
+				<td class="uang">
+				  {!! $terapi->jumlah * $terapi->harga_jual_satuan - $terapi->jumlah * $terapi->harga_beli_satuan !!}
+				</td>
+			 </tr>
+		   @endforeach
+		</tbody>
+		<tfoot>
+		  <tr>
+			<th colspan="5">Total :</th>
+			<td class="uang">{!! $periksa->terapi_modal !!}</td>
+			<td class="uang">{!! $periksa->terapi_bruto !!}</td>
+			<td class="uang">{!! $periksa->terapi_untung !!}</td>
+		  </tr>
+		</tfoot>
+	</table>
   </div>
 </div>
 <div class="panel panel-danger">
 	<div class="panel-heading">
-		<div class="panel-title">Jurnal Umum</div>
+		<div class="panel-title">
+			<div class="panelLeft">
+				Jurnal Umum
+			</div>	
+			<div class="panelRight">
+			</div>
+		</div>
 	</div>
 	<div class="panel-body">
-		{{ $periksa->jurnals }}
+		@include('periksas.jurnals')
 	</div>
 </div>
 

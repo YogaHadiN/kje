@@ -12,6 +12,7 @@ create table `service_acs` (
 	`ac_id` varchar(255) not null, 
 	`supplier_id` varchar(255) not null, 
 	`biaya` int(11) not null, 
+	`tanggal` date not null, 
 	`image` varchar(255) not null, 
 	`created_at` timestamp default 0 not null, 
 	`updated_at` timestamp default 0 not null) 

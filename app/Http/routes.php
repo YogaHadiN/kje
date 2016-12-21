@@ -210,6 +210,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 
 			Route::get('ranaps', 'RanapsController@index');
 
+			Route::get('pengeluarans/service_acs', 'ServiceAcsController@create');
+			Route::post('pengeluarans/service_acs', 'ServiceAcsController@store');
 
 
 			Route::post('pengeluarans/list', 'PengeluaransController@lists');
@@ -225,8 +227,6 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
             Route::post('pengeluarans/rc', 'PengeluaransController@erce_post');
 			Route::post('pengeluarans/ketkeluar', 'PengeluaransController@ketkeluar');
 			Route::get('pengeluarans/belanjaPeralatan/getObject/belanjaPeralatan', 'PengeluaransController@getBelanjaPeralatanObject');
-			Route::get('pengeluarans/service_ac', 'PengeluaransController@getServiceAc');
-			Route::post('pengeluarans/service_ac', 'PengeluaransController@postServiceAc');
 
 
 			Route::get('ajax/products', 'PengeluaransController@product');
@@ -295,6 +295,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('jurnal_umums/coa_keterangan', 'JurnalUmumsController@coa_keterangan');
 			Route::post('jurnal_umums/coa_entry', 'JurnalUmumsController@coa_entry');
 			Route::get('jurnal_umums/hapus/jurnals', 'JurnalUmumsController@hapus_jurnals');
+			Route::get('jurnal_umums/{id}/edit', 'JurnalUmumsController@edit');
+			Route::put('jurnal_umums/{id}', 'JurnalUmumsController@update');
 
 
 			Route::get('buku_besars', 'BukuBesarsController@index');
@@ -577,7 +579,10 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('acs', 'AcsController@index');
 			Route::get('acs/create', 'AcsController@create');
 			Route::get('acs/{id}/edit', 'AcsController@edit');
+			Route::put('acs/{id}', 'AcsController@update');
+			Route::delete('acs/{id}', 'AcsController@destroy');
 			Route::post('acs', 'AcsController@store');
+
   	});
 
 

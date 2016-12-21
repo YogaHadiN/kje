@@ -23,6 +23,14 @@ use DB;
 class JurnalUmumsController extends Controller
 {
 
+
+	public function __construct()
+	 {
+		 $this->middleware('super', ['only' => [
+			 'edit',
+			 'update'
+		 ]]);
+	 }
 	/**
 	 * Display a listing of jurnalumums
 	 *
@@ -198,32 +206,10 @@ class JurnalUmumsController extends Controller
 	 */
 	public function edit($id)
 	{
-		$jurnalumum = Jurnalumum::find($id);
-
-		return view('jurnalumums.edit', compact('jurnalumum'));
+		$ju = Jurnalumum::find($id);
+		return view('jurnal_umums.edit', compact('ju'));
 	}
 
-	/**
-	 * Update the specified jurnalumum in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		$jurnalumum = Jurnalumum::findOrFail($id);
-
-		$validator = \Validator::make($data = Input::all(), Jurnalumum::$rules);
-
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		$jurnalumum->update($data);
-
-		return \Redirect::route('jurnalumums.index');
-	}
 
 	/**
 	 * Remove the specified jurnalumum from storage.
@@ -275,6 +261,30 @@ class JurnalUmumsController extends Controller
              return 'Jurnal Umum telah gagal dihapus';
         }
     }
+	
+	public function update($id){
+		$rules = [
+			'nilai' => 'required|numeric',
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$ju        = JurnalUmum::find($id);
+		$ju->nilai = Input::get('nilai');
+		$confirm   = $ju->save();
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Jurnal Umum'  . $ju->id .  ' <strong>BERHASIL</strong> diupdate');
+		} else {
+			$pesan = Yoga::gagalFlash('Jurnal Umum'  . $ju->id .  ' <strong>GAGAL</strong> diupdate');
+		}
+		return redirect()->back()->withPesan($pesan);
+	}
+	
     
     
 
