@@ -76,7 +76,14 @@ Klinik Jati Elok | Pasien
                         </tr>
                         <tr>
                             <td>
-                              <h2>Transaksi : </h2>
+								<a class="" href="{{ url('periksas/' .$periksa->id . '/edit/transaksiPeriksa') }}
+									
+									@if( \Auth::id() != '28' )
+										disabled
+									@endif
+									">
+								  <h2>Transaksi : </h2>
+								</a>
                               <table class="table table-condensed">
                                 <tbody>
                                   {!! $periksa->tindakan_html !!}

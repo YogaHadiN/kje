@@ -74,7 +74,6 @@ class TransaksiPeriksasController extends Controller
 	public function edit($id)
 	{
 		$transaksiperiksa = Transaksiperiksa::find($id);
-
 		return view('transaksiperiksas.edit', compact('transaksiperiksa'));
 	}
 
