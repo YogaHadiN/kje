@@ -263,25 +263,31 @@ class JurnalUmumsController extends Controller
     }
 	
 	public function update($id){
+
+		$data = Input::get('temp');
+		$data = json_decode( $data, true ); 
+
+		$input = [
+			 'data' => $data
+		];
 		$rules = [
-			'nilai' => 'required|numeric',
+			'data.*.nilai' => 'required|numeric',
 		];
 		
-		$validator = \Validator::make(Input::all(), $rules);
+		$validator = \Validator::make($input, $rules);
 		
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$ju        = JurnalUmum::find($id);
-		$ju->nilai = Input::get('nilai');
-		$confirm   = $ju->save();
-		if ($confirm) {
-			$pesan = Yoga::suksesFlash('Jurnal Umum'  . $ju->id .  ' <strong>BERHASIL</strong> diupdate');
-		} else {
-			$pesan = Yoga::gagalFlash('Jurnal Umum'  . $ju->id .  ' <strong>GAGAL</strong> diupdate');
+		foreach ($data as $d) {
+			$j        = JurnalUmum::find($d['id']);
+			$j->nilai = $d['nilai'];
+			$j->save();
 		}
+
+		$pesan = Yoga::suksesFlash('Jurnal Umum <strong>BERHASIL</strong> diupdate');
 		return redirect()->back()->withPesan($pesan);
 	}
 	

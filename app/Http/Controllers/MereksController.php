@@ -90,7 +90,6 @@ class MereksController extends Controller
 	public function show($id)
 	{
 		$merek = Merek::findOrFail($id);
-
 		return view('mereks.show', compact('merek'));
 	}
 
@@ -106,7 +105,26 @@ class MereksController extends Controller
 
 		$rak = Rak::find($merek->rak_id);
 		$formula = Formula::find($rak->formula_id);
-		$query = "SELECT mr.merek as merek, sp.nama as nama, sp.alamat as alamat, sp.no_telp as no_telp, sp.hp_pic as hp_pic, sp.pic as pic, fb.supplier_id as supplier_id, pb.harga_beli, max(fb.tanggal) as tanggal from pembelians as pb join faktur_belanjas as fb on fb.id = pb.faktur_belanja_id join suppliers as sp on sp.id = fb.supplier_id join mereks as mr on mr.id = pb.merek_id join raks as rk on rk.id = mr.rak_id  where mr.id ='{$id}' group by supplier_id order by harga_beli asc;";
+		$query = "SELECT mr.merek as merek, ";
+		$query .= "rk.id as rak_id, ";
+		$query .= "mr.id as merek_id, ";
+		$query .= "sp.nama as nama, ";
+		$query .= "pb.faktur_belanja_id as faktur_belanja_id, ";
+		$query .= "sp.alamat as alamat, ";
+		$query .= "sp.no_telp as no_telp, ";
+		$query .= "sp.hp_pic as hp_pic, ";
+		$query .= "sp.pic as pic, ";
+		$query .= "fb.supplier_id as supplier_id, ";
+		$query .= "pb.harga_beli, ";
+		$query .= "max(fb.tanggal) as tanggal ";
+		$query .= "from pembelians as pb ";
+		$query .= "join faktur_belanjas as fb on fb.id = pb.faktur_belanja_id ";
+		$query .= "join suppliers as sp on sp.id = fb.supplier_id ";
+		$query .= "join mereks as mr on mr.id = pb.merek_id ";
+		$query .= "join raks as rk on rk.id = mr.rak_id ";
+		$query .= "where mr.id ='{$id}' ";
+		$query .= "group by supplier_id ";
+		$query .= "order by harga_beli asc;";
 		$supplierprices = DB::select($query);
 
 		// return var_dump($supplierprices);

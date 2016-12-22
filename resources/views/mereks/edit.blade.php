@@ -207,42 +207,7 @@
       </div>
     </div>
 </div>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="panel panel-danger">
-          <div class="panel-heading">
-            <h3 class="panel-title">Supplier</h3>
-          </div>
-          <div class="panel-body">
-            
-              <table class="table table-condensed table-hover">
-                <thead>
-                  <tr>
-                    <th>Tanggal</th>
-                    <th>Supplier</th>
-                    <th>Harga Beli</th>
-                    <th>Alamat</th>
-                    <th>No Telp</th>
-                    <th>PIC</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($supplierprices as $pembelian)
-                    <tr>
-                      <td>{!! $pembelian->tanggal !!}</td>
-                      <td>{!! $pembelian->nama !!}</td>
-                      <td class="uang">{!! $pembelian->harga_beli !!}</td>
-                      <td>{!! $pembelian->alamat !!}</td>
-                      <td>{!! $pembelian->no_telp !!} / {!! $pembelian->hp_pic!!}</td>
-                      <td>{!! $pembelian->pic !!}</td>
-                    </tr>
-                  @endforeach
-                </tbody>
-              </table>
-          </div>
-      </div>
-  </div>
-</div>
+@include('formulas.temp')
     @stop
     @section('footer')
       {!! HTML::script('js/rak.js')!!} 

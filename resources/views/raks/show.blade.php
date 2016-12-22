@@ -156,45 +156,7 @@ rak
   </div>
 </div>
 
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">Supplier</h3>
-			</div>
-			<div class="panel-body">
-				<table class="table table-condensed table-hover">
-					 <thead>
-                    <tr>
-                       <th>No</th>
-                       <th>Merek</th>
-                       <th>Nama Apotek</th>
-                       <th>Harga Beli</th>
-                       <th>Alamat</th>
-                       <th>Telepon</th>
-                       <th>PIC</th>
-                       <th>Harga Tanggal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   @foreach($supplierprices as $k => $v)
-                        <tr>
-                          <td>{!! $k +1 !!}</td>
-                          <td>{!! $v->merek !!}</td>
-                          <td>{!! $v->nama !!}</td>
-                          <td class="uang">{!! $v->harga_beli!!}</td>
-                          <td>{!! $v->alamat !!}</td>
-                          <td>{!! $v->telepon !!} / {!! $v->hp !!}</td>
-                          <td>{!! $v->pic !!}</td>
-                          <td>{!! App\Classes\Yoga::updateDatePrep($v->tanggal) !!}</td>
-                        </tr>
-                   @endforeach
-                </tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
+@include('formulas.temp')
 @stop
 @section('footer') 
 	

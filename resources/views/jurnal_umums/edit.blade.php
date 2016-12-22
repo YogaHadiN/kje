@@ -14,93 +14,159 @@ Klinik Jati Elok | Edit Jurnal
 		  <strong>Edit Jurnal</strong>
 	  </li>
 </ol>
-
 @stop
 @section('content') 
 <div class="row">
 	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-		<div class="panel panel-info">
+		<div class="panel panel-success">
 			<div class="panel-heading">
 				<div class="panel-title">Edit Jurnal</div>
 			</div>
 			<div class="panel-body">
-				{!! Form::open(['url' => 'jurnal_umums/'.$ju->id, 'method' => 'put']) !!}
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group @if($errors->has('jurnalable_type'))has-error @endif">
-						  {!! Form::label('jurnalable_type', 'Jurnalable Type', ['class' => 'control-label']) !!}
-						  {!! Form::text('jurnalable_type' , $ju->jurnalable_type, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
-						  @if($errors->has('jurnalable_type'))<code>{{ $errors->first('jurnalable_type') }}</code>@endif
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group @if($errors->has('jurnalable_id'))has-error @endif">
-							{!! Form::label('jurnalable_id', 'Jurnalable Id', ['class' => 'control-label']) !!}
-						  {!! Form::text('jurnalable_id' , $ju->jurnalable_id, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
-						  @if($errors->has('jurnalable_id'))<code>{{ $errors->first('jurnalable_id') }}</code>@endif
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group @if($errors->has('coa'))has-error @endif">
-						  {!! Form::label('coa', 'Cos', ['class' => 'control-label']) !!}
-						  {!! Form::text('coa' , $ju->coa->coa, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
-						  @if($errors->has('coa'))<code>{{ $errors->first('coa') }}</code>@endif
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group @if($errors->has('debit'))has-error @endif">
-						  {!! Form::label('debit', 'Debit', ['class' => 'control-label']) !!}
-						  {!! Form::text('debit' , $ju->debit, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
-						  @if($errors->has('debit'))<code>{{ $errors->first('debit') }}</code>@endif
-						</div>
-					</div>
-				</div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<div class="form-group @if($errors->has('nilai'))has-error @endif">
-						  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
-						  {!! Form::text('nilai' , $ju->nilai, ['class' => 'form-control rq']) !!}
-						  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
-						</div>
+						<table class="table borderless table-condensed">
+							<thead>
+								<tr>
+									<th>Akun </th>
+									<th>Debet</th>
+									<th>Kredit</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								@if (count($ju->jurnalable_type::find($ju->jurnalable_id)->jurnals) > 0)
+									@foreach($ju->jurnalable_type::find($ju->jurnalable_id)->jurnals as $k=>$jur)
+										@if($jur->debit == 1)
+										   <tr>
+											   <td>{!! $jur->coa->coa !!}</td>
+											   <td>
+												   {!! Form::text('nilai', $jur->nilai, [
+													   'class' => 'form-control uangInput text-right',
+													   'title' => $k,
+													   'onkeyup' => 'nilaiKeyUp(this);return false;'
+												   ]) !!}
+												</td>
+											   <td></td>
+											   </td>
+										   </tr> 
+										   @else
+											<tr>
+											   <td class="text-right">{!! $jur->coa->coa !!}</td>
+											   <td></td>
+											   <td>
+												   {!! Form::text('nilai', $jur->nilai, [
+													   'class' => 'form-control uangInput text-right',
+													   'title' => $k,
+													   'onkeyup' => 'nilaiKeyUp(this);return false;'
+												   ]) !!}
+											   </td>
+											</tr>
+										@endif
+									@endforeach
+								  @else
+									<tr>
+									  <td colspan="
+									  @if( \Auth::id() == '28' )
+										  8
+									  @else
+										  7
+									  @endif
+										  " class="text-center">Tidak ada Data Untuk Ditampilkan :p</td>
+									</tr>
+								  @endif
+							</tbody>
+						</table>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="form-group">
-							<button class="btn btn-primary btn-block btn-lg" type="button" onclick="dummySubmit();return false;">Update</button>
-							{!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit']) !!}
-						</div> 
+					<div id="tidakSama" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="alert alert-danger">
+							Jumlah Seluruh Kolom Debet dan Seluruh Kolom Kredit harus sama
+						</div>
 					</div>
 				</div>
-				{!! Form::close() !!}
+				  <div class="row">
+					{!! Form::open(['url' => 'jurnal_umums/' .$ju->id, 'method' => 'put']) !!}
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<div class="form-group">
+								<button class="btn btn-success btn-block btn-lg" type="button" onclick="dummySubmit();return false;">Update</button>
+								{!! Form::submit('submit', ['class' => 'hide', 'id' => 'submit']) !!}
+							</div> 
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<a class="btn btn-danger btn-block btn-lg" href="{{ url('generiks') }}">Cancel</a>
+						</div>
+						{!! Form::textarea('temp', $ju->jurnalable_type::find($ju->jurnalable_id)->jurnals, [
+							'class' => 'hide',
+							'id' => 'temp',
+						]) !!}
+					{!! Form::close() !!}
+				  </div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="panel panel-info">
+	
+	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div class="panel panel-danger">
 			<div class="panel-heading">
-				<div class="panel-title">Jurnal Umum</div>
+				<div class="panel-title">PERINGATAN !!</div>
 			</div>
 			<div class="panel-body">
-				<div class="table-responsive">
-					@include('periksas.jurnals', ['periksa' => $ju->jurnalable_type::find($ju->jurnalable_id)])
-				</div>
+				<h2>Pastikan jumlah nilai di debet dan kredit sama</h2>
 			</div>
 		</div>
 	</div>
 </div>
+	
+
 @stop
 @section('footer') 
 	<script type="text/javascript" charset="utf-8">
+		$('#tidakSama').hide();
 		function dummySubmit(){
-			if(validatePass()){
-				$('#submit').click();
-			}
+
+			 var data = parse();
+			 var debit = 0;
+			 var kredit = 0;
+			 for (var i = 0; i < data.length; i++) {
+				 if(data[i].debit == '1'){
+					debit += parseInt( data[i].nilai );
+				 }else if( data[i].debit == '0' ) {
+					kredit += parseInt( data[i].nilai );
+				 }
+			 }
+
+			 if(debit == kredit){
+			 	$('#submit').click();
+				$('#tidakSama').hide();  
+			 } else {
+				$('#tidakSama').show();  
+			 }
+
 		}
+		function parse(){
+			 
+			 var data = $('#temp').val();
+			 return JSON.parse(data);
+		}
+		
+		
+		
+		function nilaiKeyUp(control){
+			 var nilai = $(control).closest('tr').find('input').val();
+			 var key = $(control).closest('tr').find('input').attr('title');
+			 nilai = cleanUang(nilai);
+
+			 var data = parse();
+			 data[key]['nilai'] = nilai;
+
+			 data = JSON.stringify(data);
+			 $('#temp').val(data);
+
+		}
+		
+		
 	</script>
 @stop
 
