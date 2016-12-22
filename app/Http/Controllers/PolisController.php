@@ -429,7 +429,7 @@ class PolisController extends Controller
 				'jenis_tarif_id'      => '265',
 				'jenis_tarif'         => 'kb 1 bulan',
 				'biaya'               => Tarif::where('asuransi_id', $antrianperiksa->asuransi_id)
-										->where('jenis_tarif_id', '70')->first()->biaya,
+										->where('jenis_tarif_id', '265')->first()->biaya,
 				'keterangan_tindakan' => ''
 			];
 			$penunjang = 'KB 1 Bulan : , ';
