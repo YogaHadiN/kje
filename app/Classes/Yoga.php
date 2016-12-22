@@ -2071,6 +2071,7 @@ class Yoga {
 		$masa_pakai['1'] = 'Alat medis non elektronik';
 		$masa_pakai['3'] = 'Alat elektronik';
 		$masa_pakai['5'] = 'Furnitur dan bahan bangunan';
+		$masa_pakai['3'] = 'AC / Pendingin Ruangan';
 		return $masa_pakai;
 	}
 	public static function golonganProlanis($pasien_id){

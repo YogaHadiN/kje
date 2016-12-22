@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Classes\Yoga;
+use App\JurnalUmum;
 use Input;
 
 class ServiceAcsController extends Controller
@@ -23,6 +24,34 @@ class ServiceAcsController extends Controller
 		$sa->tanggal     = Yoga::datePrep( Input::get('tanggal') );
 		$sa->image       = $this->imageUpload('sa','image', $sa->id);
 		$confirm         = $sa->save();
+
+		if ($confirm) {
+			$timestamp = date('Y-m-d H:i:s');
+			$data[] = [
+				'jurnalable_id'   => $sa->id,
+				'debit'           => 1,
+				'nilai'           => $sa->biaya,
+				'coa_id'          => '623433',
+				'keterangan'      => 'tidak ada keterangan',
+				'jurnalable_type' => 'App\ServiceAc',
+				'created_at'      => $timestamp,
+				'updated_at'      => $timestamp
+			];
+
+			$data[] = [
+				'jurnalable_id'   => $sa->id,
+				'debit'           => 0,
+				'nilai'           => $sa->biaya,
+				'coa_id'          => '623433',
+				'keterangan'      => 'tidak ada keterangan',
+				'jurnalable_type' => 'App\ServiceAc',
+				'created_at'      => $timestamp,
+				'updated_at'      => $timestamp
+			];
+
+			JurnalUmum::insert($data);
+
+		}
 
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Service AC'  . $sa->id . ' - ' . $sa->ac->merek . ' <strong>BERHASIL</strong> di lakukan ');

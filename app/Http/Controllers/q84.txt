@@ -1,0 +1,5 @@
+ insert into coas ( id, kelompok_coa_id, coa ) values (
+	'623433',
+	'6',
+	'Biaya Operasional Service Ac'
+ );
