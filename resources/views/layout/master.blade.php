@@ -275,7 +275,6 @@
 											</tbody>
 										</table>
 									</div>
-									
 								</div>
 							</div>
 							{{--<div class="row fixed full">--}}

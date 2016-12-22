@@ -426,7 +426,7 @@ class PolisController extends Controller
 			$penunjang = 'surat keterangan sehat : , ';
 		} else if($antrianperiksa->poli == 'kb 1 bulan'){
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => '70',
+				'jenis_tarif_id'      => '265',
 				'jenis_tarif'         => 'kb 1 bulan',
 				'biaya'               => Tarif::where('asuransi_id', $antrianperiksa->asuransi_id)
 										->where('jenis_tarif_id', '70')->first()->biaya,
