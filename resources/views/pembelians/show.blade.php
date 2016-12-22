@@ -99,8 +99,6 @@ Klinik Jati Elok | Entri Beli Obat
 						<img src="{{ url('img/belanja/obat/' . $fakturbelanja->faktur_image) }}" class="img-rounded upload" alt="Responsive image">
 					</div>
 				</div>
-				
-		  		
 		  	</div>
 		  </div>
             <div class="row">

@@ -272,12 +272,21 @@ function resetAll(){
 }
 
 function submitPage(){
+	var data = $('#pembayarans').val();
+	data = JSON.parse(data);
 
-	if(validatePass() && cleanUang( $('#piutang').val() ) > 0 && $('#staf_id').val() != '' ){
+	if(
+			validatePass() 
+			&& cleanUang( $('#piutang').val() ) > 0 
+			&& $('#staf_id').val() != '' 
+			&& data.length > 0
+	){
 		 $('#submit').click();
 	} else if(cleanUang( $('#piutang').val() ) < 1 ){
 		alert('Nilai yang dibayarkan harus lebih besar dari 0');
 		validasi('#piutang', 'nilai harus lebih dari Rp. 0 ');
+	} else {
+		alert('Harus ada pasien yang di ceklist');
 	}
 
      
