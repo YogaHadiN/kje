@@ -81,20 +81,21 @@ class PengeluaransController extends Controller
 		}
 		$staf_id           = Input::get('staf_id');
 		$supplier_id       = Input::get('supplier_id');
-		$nilai             = Input::get('nilai');
+		$nilai             = Yoga::clean( Input::get('nilai') );
 		$tanggal           = Input::get('tanggal');
 		$keterangan        = Input::get('keterangan');
 
-		$peng = new Pengeluaran;
-		$peng->staf_id = $staf_id;
-		$peng->supplier_id = $supplier_id;
-		$peng->nilai = $nilai;
-		$peng->tanggal = Yoga::datePrep( $tanggal );
+		$peng                 = new Pengeluaran;
+		$peng->staf_id        = $staf_id;
+		$peng->supplier_id    = $supplier_id;
+		$peng->nilai          = $nilai;
+		$peng->tanggal        = Yoga::datePrep( $tanggal );
 		$peng->sumber_uang_id = Input::get('sumber_uang');
-		$peng->keterangan = $keterangan;
+		$peng->keterangan     = $keterangan;
 		$peng->save();
-		$peng->faktur_image = $this->imageUpload('faktur', 'faktur_image', $peng->id);
-		$confirm = $peng->save();
+		$peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id);
+		$confirm              = $peng->save();
+
 		if ($confirm) {
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $peng->id;
@@ -223,7 +224,7 @@ class PengeluaransController extends Controller
         $hutang                        = Input::get('hutang');
         $staf                          = Staf::find($staf_id);
         $jasa_dokter                   = Input::get('jasa_dokter');
-        $dibayar                       = Input::get('dibayar');
+        $dibayar                       = Yoga::clean( Input::get('dibayar') );
         $sumber_uang_id                = Input::get('sumber_uang_id');
         if ($dibayar > 0) {
                 $bayar                 = new BayarDokter;
@@ -583,7 +584,7 @@ class PengeluaransController extends Controller
 		}
         $modal = new Modal;
         $modal->coa_kas_id = Input::get('sumber_uang');
-        $modal->modal = Input::get('kas_masuk');
+        $modal->modal = Yoga::clean( Input::get('kas_masuk') );
         $modal->staf_id = Input::get('staf_id');
         $modal->keterangan = Input::get('keterangan');
         $modal->save();
@@ -736,8 +737,8 @@ class PengeluaransController extends Controller
        $coa_id = Input::get('coa_id');
        $bulan = Input::get('bulan');
        $bulan = Yoga::blnPrep($bulan);
-       $gaji_pokok = Input::get('gaji_pokok');
-       $bonus = Input::get('bonus');
+       $gaji_pokok = Yoga::clean( Input::get('gaji_pokok') );
+       $bonus = Yoga::clean( Input::get('bonus'));
 	   $tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
 
            $jus = JurnalUmum::where('coa_id', '200002' )
@@ -1010,10 +1011,11 @@ class PengeluaransController extends Controller
 		}
 		$bulan =  Yoga::blnPrep( Input::get('bulan') );
 
+		$nilai = Yoga::clean( Input::get('nilai') );
 		$gaji = new GajiGigi;
 		$gaji->staf_id = Input::get('staf_id');
 		$gaji->petugas_id = Input::get('petugas_id');
-		$gaji->nilai = Input::get('nilai');
+		$gaji->nilai = $nilai;
 	    $gaji->tanggal_mulai = $bulan . '-01';
 	    $gaji->tanggal_akhir = date("Y-m-t", strtotime($bulan . '-01'));
 		$gaji->tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
@@ -1027,7 +1029,7 @@ class PengeluaransController extends Controller
 			$jurnal->jurnalable_type = 'App\GajiGigi';
 			$jurnal->coa_id          = 610000; // biaya operasional gaji dokter gigi
 			$jurnal->debit           = 1;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->created_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 			$jurnal->updated_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 			$jurnal->save();
@@ -1037,7 +1039,7 @@ class PengeluaransController extends Controller
 			$jurnal->jurnalable_type = 'App\GajiGigi';
 			$jurnal->coa_id          = Input::get('sumber_coa_id'); // Kas di tangan 110004, Kas di kasir 110000, 
 			$jurnal->debit           = 0;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->created_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 			$jurnal->updated_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
 			$jurnal->save();
@@ -1231,10 +1233,11 @@ class PengeluaransController extends Controller
 	   } else {
 			$timestamp = date('Y-m-d H:i:s');
 	   }
+	   $nilai = Yoga::clean( Input::get('nilai') );
 
 		$gaji       = new BagiGigi;
 		$gaji->petugas_id = Input::get('petugas_id');
-		$gaji->nilai = Input::get('nilai');
+		$gaji->nilai = $nilai;
 	    $gaji->tanggal_mulai = $bulan . '-01';
 	    $gaji->tanggal_akhir = date("Y-m-t", strtotime($bulan . '-01'));
 		$gaji->tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
@@ -1246,7 +1249,7 @@ class PengeluaransController extends Controller
 			$jurnal->jurnalable_type = 'App\BagiGigi';
 			$jurnal->coa_id          = 610001; // biaya operasional bagi hasil pelayanan dokter gigi
 			$jurnal->debit           = 1;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->created_at = $timestamp;
 			$jurnal->updated_at = $timestamp;
 			$jurnal->save();
@@ -1256,7 +1259,7 @@ class PengeluaransController extends Controller
 			$jurnal->jurnalable_type = 'App\BagiGigi';
 			$jurnal->coa_id          = Input::get('sumber_coa_id'); // Kas di tangan 110004, Kas di kasir 110000, 
 			$jurnal->debit           = 0;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->created_at = $timestamp;
 			$jurnal->updated_at = $timestamp;
 			$jurnal->save();

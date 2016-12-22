@@ -48,19 +48,13 @@ Klinik Jati Elok | Laporan Pembayaran Gaji Karyawan
 				  @if($errors->has('tanggal_dibayar'))<code>{{ $errors->first('tanggal_dibayar') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('gaji_pokok'))has-error @endif">
-				  {!! Form::label('gaji_pokok', 'Gaji Pokok', ['class' => 'control-label']) !!}
-                  <div class="input-group">
-                      <span class="input-group-addon">Rp. </span>
-                      {!! Form::text('gaji_pokok', null, ['class' => 'form-control rq']) !!}
-                  </div>
+					  {!! Form::label('gaji_pokok', 'Gaji Pokok', ['class' => 'control-label']) !!}
+					  {!! Form::text('gaji_pokok', null, ['class' => 'form-control rq uangInput']) !!}
 				  @if($errors->has('gaji_pokok'))<code>{{ $errors->first('gaji_pokok') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('bonus'))has-error @endif">
-				  {!! Form::label('bonus', 'Bonus', ['class' => 'control-label']) !!}
-                  <div class="input-group">
-                      <span class="input-group-addon">Rp. </span>
-                      {!! Form::text('bonus', null, ['class' => 'form-control rq']) !!}
-                  </div>
+					  {!! Form::label('bonus', 'Bonus', ['class' => 'control-label']) !!}
+					  {!! Form::text('bonus', null, ['class' => 'form-control rq uangInput']) !!}
 				  @if($errors->has('bonus'))<code>{{ $errors->first('bonus') }}</code>@endif
 				</div>
                 <div class="form-group">

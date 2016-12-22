@@ -40,11 +40,8 @@ Klinik Jati Elok | Pendapatan Kapitasi BPJS
 				</div>
 				
 				<div class="form-group @if($errors->has('nilai'))has-error @endif">
-				  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
-				 <div class="input-group">
-					  <div class="input-group-addon">Rp. </div>
-					  {!! Form::text('nilai' , null, ['class' => 'form-control rq']) !!}
-				 </div>
+					  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
+					  {!! Form::text('nilai' , null, ['class' => 'form-control rq uangInput']) !!}
 				  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
 				</div>
 				

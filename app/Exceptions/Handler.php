@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
 		 if (!empty( trim( $e->getMessage() ) )) {
 			// emails.exception is the template of your email
 			// it will have access to the $error that we are passing below
-			 Log::info('route yang error' . Input::path());
+			 Log::info('URL YANG error' . Input::url());
 			 Log::info('Method yang error' . Input::method());
 			 if (gethostname() != 'dell') {
 				 Sms::send('081381912803', $e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s'));

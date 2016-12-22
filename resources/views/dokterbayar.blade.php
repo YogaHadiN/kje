@@ -45,7 +45,7 @@ Klinik Jati Elok | Gaji Dokter
 				</div>
 				<div class="form-group @if($errors->has('dibayar'))has-error @endif">
 				  {!! Form::label('dibayar', 'Pembayaran', ['class' => 'control-label']) !!}
-                    {!! Form::text('dibayar', null, ['class' => 'form-control', 'id' => 'pembayaran']) !!}
+                    {!! Form::text('dibayar', null, ['class' => 'form-control uangInput', 'id' => 'pembayaran']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
 				</div>
 				<div class="form-group @if($errors->has('petugas_id'))has-error @endif">

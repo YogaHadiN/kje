@@ -35,7 +35,7 @@ Klinik Jati Elok | Bagi Hasil Pelayanan Gigi
 					</div>
 					<div class="form-group @if($errors->has('nilai'))has-error @endif">
 					  {!! Form::label('nilai', 'Nilai', ['class' => 'control-label']) !!}
-					  {!! Form::text('nilai' , null, ['class' => 'form-control angka']) !!}
+					  {!! Form::text('nilai' , null, ['class' => 'form-control uangInput']) !!}
 					  @if($errors->has('nilai'))<code>{{ $errors->first('nilai') }}</code>@endif
 					</div>
 					<div class="form-group @if($errors->has('bulan'))has-error @endif">

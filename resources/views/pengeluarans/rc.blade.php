@@ -30,11 +30,8 @@ Klinik Jati Elok | Tambah Modal
             <div class="panel-body">
                {!! Form::open(['url'=>'pengeluarans/rc', 'method'=> 'post']) !!} 
 			   <div class="form-group @if($errors->has('kas_masuk'))has-error @endif">
-			     {!! Form::label('kas_masuk', 'Kas Masuk', ['class' => 'control-label']) !!}
-                     <div class="input-group">
-                          <div class="input-group-addon">Rp. </div>
-                           {!! Form::text('kas_masuk' , null, ['class' => 'form-control rq']) !!}
-                     </div>
+					 {!! Form::label('kas_masuk', 'Kas Masuk', ['class' => 'control-label']) !!}
+					 {!! Form::text('kas_masuk' , null, ['class' => 'form-control rq uangInput']) !!}
 			     @if($errors->has('kas_masuk'))<code>{{ $errors->first('kas_masuk') }}</code>@endif
 			   </div>
                 @if (\Auth::id() == '28')

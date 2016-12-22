@@ -42,11 +42,6 @@ Klinik Jati Elok | Pasien
 @stop
 @section('footer') 
 <script>
-	
-	//var foo = 1
-	//var bar = 'a'
-	//var foo = foo + bar
-
 
   var base = "{{ url('/') }}";
   

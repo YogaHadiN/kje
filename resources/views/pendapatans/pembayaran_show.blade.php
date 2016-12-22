@@ -57,7 +57,7 @@ Klinik Jati Elok | Laporan Pembayaran
 				</div>
 				<div class="form-group @if($errors->has('dibayar'))has-error @endif">
 				  {!! Form::label('dibayar', 'Dibayar Sebesar', ['class' => 'control-label']) !!}
-                  {!! Form::text('dibayar' , null, ['class' => 'form-control rq', 'id'=>'piutang']) !!}
+                  {!! Form::text('dibayar' , null, ['class' => 'form-control rq uangInput', 'id'=>'piutang']) !!}
 				  @if($errors->has('dibayar'))<code>{{ $errors->first('dibayar') }}</code>@endif
 				</div>
                 <div class="form-group">
@@ -173,24 +173,28 @@ function cekAll(){
     var Array = $('#pembayarans').val();
     Array = $.parseJSON(Array);
     console.log(Array);
-    for (var i = 0; i < Array.length; i++) {
-        var piutang = Array[i].piutang;
-        var sudah_dibayar = Array[i].pembayaran;
-        var akan_dibayar = parseInt(piutang) - parseInt(sudah_dibayar);
+
+    for (var i                = 0; i < Array.length; i++) {
+        var piutang           = Array[i].piutang;
+        var sudah_dibayar     = Array[i].pembayaran;
+        var akan_dibayar      = parseInt(piutang) - parseInt(sudah_dibayar);
         Array[i].akan_dibayar = akan_dibayar;
     };
+	
     $('#pembayarans').val(JSON.stringify(Array));
     view();
 }
 function view(){
-    let MyArray = $('#pembayarans').val();
-    MyArray = $.parseJSON(MyArray);
-    var temp = '';
-    var temp2 = '';
-    var akan_dibayar = 0;
-    var piutang_total = 0;
+
+    let MyArray             = $('#pembayarans').val();
+    MyArray                 = $.parseJSON(MyArray);
+    var temp                = '';
+    var temp2               = '';
+    var akan_dibayar        = 0;
+    var piutang_total       = 0;
     var sudah_dibayar_total = 0;
     var belum_dibayar_total = 0;
+
     for (var i = 0; i < MyArray.length; i++) {
         if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
 
@@ -249,7 +253,7 @@ function view(){
     };
     $('#table_temp').html(temp);
     $('#table_temp2').html(temp2);
-    $('#piutang').val(akan_dibayar);
+    $('#piutang').val(uang2( akan_dibayar ));
     $('#piutang_total').html(piutang_total);
     $('#belum_dibayar_total').html(belum_dibayar_total);
     $('#sudah_dibayar_total').html(sudah_dibayar_total);
@@ -269,11 +273,12 @@ function resetAll(){
 
 function submitPage(){
 
-    if(validatePass() && $('#piutang').val() > 0 && $('#staf_id').val() != '' ){
          $('#submit').click();
-    } else if($('#piutang').val() < 1 ){
-        alert('Nilai yang dibayarkan harus lebih besar dari 0');
-    }
+    {{--if(validatePass() && cleanUang( $('#piutang').val() ) > 0 && $('#staf_id').val() != '' ){--}}
+         {{--$('#submit').click();--}}
+    {{--} else if(cleanUang( $('#piutang').val() ) < 1 ){--}}
+        {{--alert('Nilai yang dibayarkan harus lebih besar dari 0');--}}
+    {{--}--}}
 
      
 }

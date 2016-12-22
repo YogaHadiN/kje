@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Input;
 use App\Classes\Yoga;
-
 use App\Http\Requests;
-
 use App\Pendapatan;
 use App\PembayaranBpjs;
 use App\PembayaranAsuransi;
@@ -39,23 +37,23 @@ class PendapatansController extends Controller
 	 */
 	public function create()
 	{
-		$asuransis = '';
+		$asuransis          = '';
 		foreach(Asuransi::where('id', '>', 0)->get() as $ass){
 			if (count( explode(".", $ass->nama ) ) > 1) {
-				$text =  explode(".", $ass->nama )[1] ;
+				$text       = explode(".", $ass->nama )[1] ;
 			} else {
-				$text = $ass->nama;
+				$text       = $ass->nama;
 			}
-			$text = str_replace(")","",$text);
-			$text = str_replace("(","",$text);
-			$text = trim($text);
+			$text           = str_replace(")","",$text);
+			$text           = str_replace("(","",$text);
+			$text           = trim($text);
 			if ($text) {
 				$asuransis .= strtolower($text) . ' ';
 			}
 		}
-		$asuransis = explode(" ", $asuransis);
+		$asuransis          = explode(" ", $asuransis);
 		//$asuransis = json_encode($arrays);
-		$pendapatans = Pendapatan::with('staf')->latest()->paginate(10);
+		$pendapatans        = Pendapatan::with('staf')->latest()->paginate(10);
 		return view('pendapatans.create', compact('pendapatans','asuransis'));
 	}
 
@@ -80,9 +78,10 @@ class PendapatansController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		//return Input::all();
+		$nilai = Yoga::clean( Input::get('nilai') );
 		$pendapatan             = new Pendapatan;
 		$pendapatan->sumber_uang = Input::get('sumber_uang');
-		$pendapatan->nilai = Input::get('nilai');
+		$pendapatan->nilai = $nilai;
 		$pendapatan->keterangan = Input::get('keterangan');
 		$pendapatan->staf_id = Input::get('staf_id');
 		$confirm                = $pendapatan->save();
@@ -93,14 +92,14 @@ class PendapatansController extends Controller
 			$jurnal->jurnalable_type = 'App\Pendapatan';
 			$jurnal->coa_id          = 110000;
 			$jurnal->debit           = 1;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->save();
 
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $pendapatan->id;
 			$jurnal->jurnalable_type = 'App\Pendapatan';
 			$jurnal->debit           = 0;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->save();
 		}
 
@@ -234,7 +233,7 @@ class PendapatansController extends Controller
 		}
 
 
-        $dibayar = Input::get('dibayar');
+        $dibayar = Yoga::clean( Input::get('dibayar') );
         $mulai = Input::get('mulai');
         $staf_id = Input::get('staf_id');
         $akhir = Input::get('akhir');
@@ -315,7 +314,7 @@ class PendapatansController extends Controller
 		return view('pembayaran_bpjs.index', compact( 'bpjs' ));
 	}
 	public function pembayaran_bpjs_post(){
-		$nilai = Input::get('nilai');
+		$nilai = Yoga::clean( Input::get('nilai') );
 		$staf_id = Input::get('staf_id');
 		$tanggal_pembayaran = Yoga::datePrep( Input::get('tanggal_pembayaran') );
 		$periode_bulan = Yoga::blnPrep( Input::get('periode_bulan') );
@@ -323,7 +322,7 @@ class PendapatansController extends Controller
 
 		$bpjs = new PembayaranBpjs;
 		$bpjs->staf_id = Input::get('staf_id');
-		$bpjs->nilai = Input::get('nilai');
+		$bpjs->nilai = $nilai;
 		$bpjs->mulai_tanggal = $periode_bulan . '-01 00:00:00';
 		$bpjs->akhir_tanggal = $hari_terakhir_bulan;
 		$bpjs->tanggal_pembayaran = $tanggal_pembayaran;
@@ -338,7 +337,7 @@ class PendapatansController extends Controller
 			$jurnal->debit           = 1;
 			$jurnal->created_at      = $hari_terakhir_bulan;
 			$jurnal->updated_at      = $hari_terakhir_bulan;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->save();
 
 			$jurnal                  = new JurnalUmum;
@@ -348,7 +347,7 @@ class PendapatansController extends Controller
 			$jurnal->debit           = 0;
 			$jurnal->created_at      = $hari_terakhir_bulan;
 			$jurnal->updated_at      = $hari_terakhir_bulan;
-			$jurnal->nilai           = Input::get('nilai');
+			$jurnal->nilai           = $nilai;
 			$jurnal->save();
 
 		}

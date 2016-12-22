@@ -376,6 +376,12 @@ function uang(content){
     return 'Rp. ' + number + ',-';
 }
 
+function uang2(content){
+    var number = content;
+    number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
+    return 'Rp. ' + number;
+}
+
 function rupiahDibayarPasien(control) {
     var number = $(control).val();
     if (number.indexOf("Rp. ") >= 0){
