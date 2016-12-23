@@ -24,8 +24,9 @@
 	<style type="text/css" media="all">
 		.fixed {
 			position: fixed;
-			bottom: 0px;
+			bottom: -20px;
 			right: 0px;
+			z-index: 999;
 		}
 
 		.full {

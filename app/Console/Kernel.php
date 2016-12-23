@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
 		 Commands\dbBackup::class,
 		 Commands\dbHapusdiskon::class,
 		 Commands\dbInsertDiskon::class,
+		 Commands\dbOpen::class,
 
     ];
     /**
