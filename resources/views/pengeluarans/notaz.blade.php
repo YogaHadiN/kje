@@ -96,11 +96,7 @@ Klinik Jati Elok | Checkout Kasir
 									  @elseif ($plr->jurnalable_type == 'App\BayarDokter')
 										  {{ $plr->jurnalable->staf->nama }}
 									  @elseif ($plr->jurnalable_type == 'App\Pengeluaran')
-										  @if (isset($plr->jurnalable->supplier['nama']))
 										  {{ $plr->jurnalable->supplier['nama'] }}
-										 @else
-										  {{ $plr}}
-										 @endif
 									  @elseif ($plr->jurnalable_type == 'App\BayarGaji')
 										  {{ $plr->jurnalable->staf->nama }}
 									  @endif
