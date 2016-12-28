@@ -28,17 +28,18 @@ Klinik Jati Elok | Daftar Peralatan
 					  </div>
 				  </div>
 				  <div class="panel-body">
+					<?php echo $belanja_peralatans->appends(Input::except('page'))->links(); ?>
 						<div class="table-responsive">
 							<table class="table table-hover table-condensed">
 								<thead>
 									<tr>
 										<th>Tanggal</th>
+										<th>Created At</th>
 										<th>Petugas</th>
 										<th>Peralatan</th>
 										<th>Masa Pakai</th>
 										<th>Harga Satuan</th>
 										<th>Jumlah</th>
-										<th>Total Nilai</th>
 										<th>Penyusutan</th>
 									</tr>
 								</thead>
@@ -46,13 +47,13 @@ Klinik Jati Elok | Daftar Peralatan
 									@if($belanja_peralatans->count() > 0)
 										@foreach($belanja_peralatans as $fb)
 											<tr>
-											<td>{{ $fb->fakturBelanja->tanggal->format('d-m-Y') }}</td>
+												<td>{{ $fb->fakturBelanja->tanggal->format('d-m-Y') }}</td>
+												<td>{{ $fb->fakturBelanja->created_at->format('d-m-Y') }}</td>
 												<td>{{ $fb->staf->nama }}</td>
 												<td>{{ $fb->peralatan }}</td>
 												<td>{{ $fb->masa_pakai }} tahun</td>
 												<td class="uang">{{ $fb->harga_satuan }}</td>
 												<td>{{ $fb->jumlah }}</td>
-												<td class="uang">{{ $fb->harga_satuan *  $fb->jumlah  }}</td>
 												<td class="uang">{{ $fb->penyusutan }}</td>
 											</tr>
 										@endforeach
@@ -64,6 +65,7 @@ Klinik Jati Elok | Daftar Peralatan
 								</tbody>
 							</table>
 						</div>
+					<?php echo $belanja_peralatans->appends(Input::except('page'))->links(); ?>
 				  </div>
 			</div>
 		</div>

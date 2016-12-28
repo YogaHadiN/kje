@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
 		 Commands\dbHapusdiskon::class,
 		 Commands\dbInsertDiskon::class,
 		 Commands\dbOpen::class,
+		 Commands\imageResize::class,
 
     ];
     /**

@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "7.0.8",
+        "php": "7.0.14",
         "laravel/framework": "5.2.*",
          "laravelcollective/html": "5.2.*",
          "dog-ears/crud-d-scaffold": "1.*",
@@ -30,7 +30,9 @@
         "laravel/socialite": "^2.0",
         "nasution/zenziva-sms": "^1.3",
         "twilio/sdk": "^5.4",
-        "endroid/qrcode": "^1.7"
+        "endroid/qrcode": "^1.7",
+        "pda/pheanstalk": "~3.0",
+        "intervention/image": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

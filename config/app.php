@@ -154,6 +154,7 @@ return [
 		GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
 		Yajra\Datatables\DatatablesServiceProvider::class,
 	    Laravel\Socialite\SocialiteServiceProvider::class,
+		Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -215,7 +216,8 @@ return [
 		'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 		'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-		'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class
+		'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
+		'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

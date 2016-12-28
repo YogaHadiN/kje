@@ -1,4 +1,4 @@
-create table `acs` (
+	8create table `acs` (
 	`id` int unsigned not null auto_increment primary key, 
 	`merek` varchar(255) not null, 
 	`keterangan` varchar(255) not null, 

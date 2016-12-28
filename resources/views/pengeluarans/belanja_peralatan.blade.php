@@ -64,7 +64,7 @@ Klinik Jati Elok | Belanja Peralatan
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<table class="table table-bordered table-condensed">
+						<table class="table table-bordered table-condensed" id='formInput'>
 							<thead>
 								<th>Peralatan</th>
 								<th>Harga Satuan</th>
@@ -74,25 +74,27 @@ Klinik Jati Elok | Belanja Peralatan
 							</thead>
 							<tbody id="tbody_table"></tbody>
 							<tfoot>
-								<td>
-									<input class="form-control" type="text" name="" id="peralatan" value="" />	
-								</td>
-								<td>
-									<div class="input-group">
-										<span class="input-group-addon">Rp. </span>
-										<input type="text" class="form-control " id="nilai" placeholder="" autocomplete='off' value=""/>
-										<span class="input-group-addon">,00</span>
-									</div>
-								</td>
-								<td>
-									<input type="text" class="form-control " id="jumlah" placeholder="" autocomplete='off' value=""/>
-								</td>
-								<td>
-									{!! Form::select('masa_pakai', $masa_pakai, null, ['class' => 'form-control', 'id' => 'masa_pakai']) !!}
-								</td>
-								<td>
-									<button class="btn btn-primary btn-sm btn-block" type="button" onclick="dummyInsert(); return false" id="dInsert">insert</button>
-								</td>
+									<tr>
+										<td>
+											<input class="form-control" type="text" name="" id="peralatan" value="" />	
+										</td>
+										<td>
+											<input type="text" class="form-control uangInput" id="nilai" placeholder="" autocomplete='off' value=""/>
+										</td>
+										<td>
+											<input type="text" class="form-control " id="jumlah" placeholder="" autocomplete='off' value=""/>
+										</td>
+										<td>
+										{!! Form::select('masa_pakai', $masa_pakai, null, [
+											'onchange' => 'masaPakaiChange(this);return false;', 
+											'class' => 'form-control', 
+											'id' => 'masa_pakai'
+										]) !!}
+										</td>
+										<td class="action">
+											<button class="btn btn-primary btn-sm btn-block" type="button" onclick="dummyInsert(this); return false" id="dInsert">insert</button>
+										</td>
+									</tr>
 							</tfoot>
 						</table>
 						<div class="alert alert-danger" style="display:none;" id="peringatan_barang_kosong">
@@ -118,12 +120,40 @@ Klinik Jati Elok | Belanja Peralatan
 		</div>
 	</div>
 </div>
+<div id="tableAc" class="row" style="display:none">
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">Input Pendingin Ruangan / AC</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Merek AC</th>
+								<th>Keterangan Lokasi</th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+{!! Form::textarea('tempTr', null, ['class' => 'form-control hide', 'id' => 'tempTr']) !!}
+{!! Form::textarea('tempAc', '[]', ['class' => 'form-control hide', 'id' => 'tempAc']) !!}
 {!! Form::close() !!}
 @stop
 @section('footer') 
 	
 <script type="text/javascript" charset="utf-8">
 	$(function () {
+		$('#tempTr').val( $('#formInput').find('tfoot').html()  );
 		view();
 		$('#dInsert').keypress(function(e){
 			 var key = e.keyCode || e.which;
@@ -133,7 +163,7 @@ Klinik Jati Elok | Belanja Peralatan
 			 }
 		});
 	});
-	function dummyInsert(){
+	function dummyInsert(control){
 		var peralatan = $('#peralatan').val();
 		var nilai = $('#nilai').val();
 		var jumlah = $('#jumlah').val();
@@ -170,26 +200,42 @@ Klinik Jati Elok | Belanja Peralatan
 		var jumlah = $('#jumlah').val();
 		var masa_pakai = $('#masa_pakai').val();
 
+		// buat object baru
+
+		var ac = [];
+		// jika jenis peralatan adalah Pendingin Udara, maka buat array object baru ac
+		 if($('#masa_pakai option:selected').text() =='AC / Pendingin Ruangan' ){
+			$('.keterangan_lokasi').each(function(){
+				ac[ac.length] = {
+					'merek':             peralatan,
+					'keterangan_lokasi': $(this).val()
+				};
+			});
+		 }
+
+		 //buat object baru untuk dimasukkan ke data
 		var data = {
 			'peralatan' : peralatan,
-			'nilai' : nilai,
+			'nilai' : cleanUang( nilai ),
 			'jumlah' : jumlah,
-			'masa_pakai' : masa_pakai
+			'masa_pakai' : masa_pakai,
+			'ac' : ac,
 		};
+		// parse JSON temp yang sudah ada
 		var temp = $('#temp').val();
 		temp = $.parseJSON(temp);
+		var length = temp.length;
+		// masukkan object baru ke JSON temp yang sudah ada
 		temp.push(data);
 		$('#temp').val(JSON.stringify(temp));
 		view();
-
 	}
 
 	function view(){
 		 var temp = $('#temp').val();
 		 var MyArray = $.parseJSON(temp);
-		 console.log('MyArray');
-		 console.log(MyArray);
 		 var tabel = '';
+		 var tableAc = '';
 		 for (var i = 0; i < MyArray.length; i++) {
 			 var kategori = ''
 			 if(MyArray[i].masa_pakai == '1'){
@@ -206,7 +252,22 @@ Klinik Jati Elok | Belanja Peralatan
 			 tabel += '<td>' + kategori + '</td>';
 			 tabel += '<td> <button class="btn btn-danger btn-xs btn-block" type="button" onclick="rowDel(this);return false" value="' + i + '">delete</button> </td>';
 			 tabel += '</tr>'
+
+			 for (var n = 0; n < MyArray[i].ac.length; n++) {
+				 tableAc += '<tr>';
+				 tableAc += '<td>' + MyArray[i].ac[n].merek+ '</td>';
+				 tableAc += '<td>' + MyArray[i].ac[n].keterangan_lokasi + '</td>';
+				 tableAc += '</tr>';
+			 }
 		 }
+		 $('#tableAc').find('tbody').html(tableAc);
+
+		 if(  tableAc  != '' ){
+		 	$('#tableAc').show();
+		 } else {
+		 	$('#tableAc').hide();
+		 }
+		resetForm();
 		 $('#tbody_table').html(tabel);
 		 $('#peralatan').val('');
 		 $('#nilai').val('');
@@ -214,6 +275,14 @@ Klinik Jati Elok | Belanja Peralatan
 		 $('#masa_pakai').val('');
 		 formatUang();
 		 $('#peralatan').focus();
+
+		$('.uangInput').autoNumeric('init', {
+			aSep: '.',
+			aDec: ',', 
+			aSign: 'Rp. ',
+			vMin: '-9999999999999.99' ,
+			mDec: 0
+		});
 	}
 
 	function rowDel(control){
@@ -236,5 +305,59 @@ Klinik Jati Elok | Belanja Peralatan
 			 $('#submit').click();
 		 }
 	}
+
+	function resetForm(){
+		 
+			var tdTemp = $('#tempTr').val();
+			var temp = '<tr>';
+			temp += tdTemp ;
+			temp += '</tr>';
+			$('#masa_pakai').closest('tfoot').html(temp);
+	}
+
+
+	function masaPakaiChange(control){
+		 if( $('#masa_pakai option:selected').text() == 'AC / Pendingin Ruangan' ){
+			 var tempTr = $(control).closest('tr').html();
+			 $('#tempTr').val(tempTr);
+			 var $tdAction = $(control).closest('tr').find('.action');
+			 var action = $tdAction.html();
+			 $tdAction.html('');
+			 var temp = '';
+			 var jumlah = $('#jumlah').val();
+			 console.log('jumlah');
+			 console.log(jumlah);
+			 for (var i = 0; i < jumlah; i++) {
+
+				 temp += '<tr class="formPeralatan">';
+				temp +='<td></td>';
+				temp +='<td class="text-right">Keterangan Lokasi AC ke ' + ( parseInt(i) + 1 ) + ' :</td>';
+				temp +='<td colspan="2"><textarea placeholder="Keterangan Lokasi" id="" class="keterangan_lokasi form-control textareacustom" ></textarea></td>';
+				if(i == parseInt( jumlah ) -1){
+					temp +='<td class="actionNext">' + action + '</td>';
+				}else{
+					temp +='<td></td>';
+				}
+				temp += '</tr>';
+			 	
+			 }
+			 var length = $('.actionNext').length;
+			 console.log('length');
+			 console.log(length);
+			 $(control)
+				.closest('tfoot')
+				.append(temp)
+				.find('#keterangan')
+				.focus();
+		 } else {
+			  var actionTemp = $('.actionNext').html();
+			  $('.formPeralatan').remove();
+			  console.log('actionTemp');
+			  console.log(actionTemp);
+			  $('.action').html(actionTemp);
+		 }
+	}
+
+
 </script>
 @stop

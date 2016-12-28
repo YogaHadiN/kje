@@ -29,6 +29,7 @@ use App\CheckoutKasir;
 use App\BayarDokter;
 use App\Periksa;
 use App\JurnalUmum;
+use App\Ac;
 use App\Staf;
 use DB;
 use Hash;
@@ -1051,7 +1052,7 @@ class PengeluaransController extends Controller
 		return redirect('pengeluarans/gaji_dokter_gigi')->withPesan($pesan);
 	}
 	public function peralatans(){
-		$belanja_peralatans = BelanjaPeralatan::latest()->paginate(10);
+		$belanja_peralatans = BelanjaPeralatan::latest()->paginate(30);
 		return view('pengeluarans.peralatans', compact('belanja_peralatans'));
 	}
 	
@@ -1059,6 +1060,7 @@ class PengeluaransController extends Controller
 		$masa_pakai = Yoga::masaPakai();
 		return view('pengeluarans.belanja_peralatan', compact('masa_pakai'));
 	}
+
 	public function belanjaPeralatanBayar(){
 
 		$rules = [
@@ -1099,24 +1101,39 @@ class PengeluaransController extends Controller
 		$fb->faktur_image = $this->imageUploadAlat('faktur', 'faktur_image', $fb->id);
 		$confirm = $fb->save();
 
-		$timestamp = date('Y-m-d H:i:s');
+		$timestamp                    = date('Y-m-d H:i:s');
+		$acs                          = [];
 		foreach ($temp as $t) {
-			$data[] = [
+			$data[]                   = [
 				 'faktur_belanja_id' => $fb->id,
-				 'staf_id' => $staf_id,
-				 'peralatan' => $t['peralatan'],
-				 'harga_satuan' => $t['nilai'],
-				 'jumlah' => $t['jumlah'],
-				 'masa_pakai' => $t['masa_pakai'],
-				 'created_at' => $timestamp,
-				 'updated_at' => $timestamp
+				 'staf_id'           => $staf_id,
+				 'peralatan'         => $t['peralatan'],
+				 'harga_satuan'      => $t['nilai'],
+				 'jumlah'            => $t['jumlah'],
+				 'masa_pakai'        => $t['masa_pakai'],
+				 'created_at'        => $timestamp,
+				 'updated_at'        => $timestamp
 			];
+
+			foreach ($t['ac'] as $ac) {
+				$acs[]             = [
+
+					'merek'             => $ac['merek'],
+					'keterangan'        => $ac['keterangan_lokasi'],
+					'faktur_belanja_id' => $fb->id,
+					'created_at'        => $timestamp,
+					'updated_at'        => $timestamp
+
+				];
+			}
 			$total_nilai += $t['nilai'] * $t['jumlah'];
 		}
 
 		$confirm = BelanjaPeralatan::insert($data);
+		Ac::insert($acs);
 
 		if ($confirm) {
+
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $fb->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\FakturBelanja';

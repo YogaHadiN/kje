@@ -16,6 +16,7 @@ use App\BukanObat;
 use App\CheckoutKasir;
 use App\Classes\Yoga;
 use App\Coa;
+use App\Ac;
 use App\BelanjaPeralatan;
 use DB;
 
@@ -126,16 +127,31 @@ class JurnalUmumsController extends Controller
 	 */
 	public function coaPost()
 	{
+		$rules  = [
+			'temp'          => 'json|required',
+			'peralatanTemp' => 'json|required',
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		// parse Temp
         $temp = Input::get('temp');
         $temp = json_decode($temp, true);
 
+		// parse peralatanTemp
         $peralatanTemp = Input::get('peralatanTemp');
         $peralatanTemp = json_decode($peralatanTemp, true);
-		//return var_dump($temp[0]['coa_id']);
+
+		$timestamp = date('Y-m-d H:i:s');
+		$acs = [];
         foreach ($temp as $k => $tp) {
 			if ( isset( $peralatanTemp[$k] ) ) {
-				$ju = JurnalUmum::find($tp['id']);
-				$ju->coa_id = $tp['coa_id'];
+				$ju           = JurnalUmum::find($tp['id']);
+				$ju->coa_id   = $tp['coa_id'];
 
 				$jurnalable_type = $ju->jurnalable_type;
 				$jurnalable_id = $ju->jurnalable_id;
@@ -184,6 +200,17 @@ class JurnalUmumsController extends Controller
 
 					$fb->save();
 				}
+				if ( count( $peralatanTemp[$k]['ac']) > 0) {
+					foreach ($peralatanTemp[$k]['ac'] as $ac) {
+						$acs[]             = [
+							'merek'             => $ac['merek'],
+							'keterangan'        => $ac['keterangan'],
+							'faktur_belanja_id' => $fb->id,
+							'created_at'        => $timestamp,
+							'updated_at'        => $timestamp
+						];
+					}
+				}
 				$ju->save();            
 			} else {
 				$ju = JurnalUmum::find($tp['id']);
@@ -191,6 +218,7 @@ class JurnalUmumsController extends Controller
 				$ju->save();            
 			}
         }
+		Ac::insert($acs);
 		$pesan = Yoga::suksesFlash('Penyesuaian Chart Of Account (COA) sukses, silahkan coba lagi untuk melihat laporan');
 		if (!empty( Input::get('route') )) {
 			return redirect( Input::get('route') )->withPesan($pesan);

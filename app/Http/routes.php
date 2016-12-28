@@ -12,8 +12,11 @@
 
 
 
-// DISINI SESSION BISA JALAN
 
+
+Route::get('queue', function(){
+	dispatch(new \App\Jobs\compressImage );
+});
 Route::get('/', 'AuthController@index');
 Route::get('login', 'AuthController@index')->name('login');
 Route::get('logout', 'AuthController@logout');
