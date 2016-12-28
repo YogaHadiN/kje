@@ -117,10 +117,10 @@ class FakturBelanja extends Model{
     }
 
     public function getKetjurnalAttribute(){
-		if ( $this->belanja_id == 4 ) {
+		if ( $this->belanja_id == 4 ) { // belanja_id =4 =  belanja peralatan
 			$total = 0;
 			foreach ($this->belanjaPeralatan as $alat) {
-				$total += $alat->nilai;
+				$total += $alat->harga_satuan * $alat->jumlah;
 			}
 
 			$temp = 'Pembelian Peralatan di <br><strong>';

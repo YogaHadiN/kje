@@ -247,9 +247,10 @@ Klinik Jati Elok | Coa belum di set
 <script>
     $(function () {
 		$('#formAcInput').val( $('#formAc').html() );
-		$('#formAcInput2').val( $('#formAc2').html() );
-		$('#formInputPeralatan2').val( $('#formPeralatan2').html() );
 		$('#formAc').remove();
+		$('#formAcInput2').val( $('#formAc2').html() );
+		$('#formAc2').remove();
+		$('#formInputPeralatan2').val( $('#formPeralatan2').html() );
 		$('#coa_baru').on('show.bs.modal', function(){
 			resetModal();
 		});

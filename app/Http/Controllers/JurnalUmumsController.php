@@ -133,7 +133,6 @@ class JurnalUmumsController extends Controller
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);
-		
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
@@ -141,26 +140,29 @@ class JurnalUmumsController extends Controller
 		// parse Temp
         $temp = Input::get('temp');
         $temp = json_decode($temp, true);
-
 		// parse peralatanTemp
-        $peralatanTemp = Input::get('peralatanTemp');
-        $peralatanTemp = json_decode($peralatanTemp, true);
-
-		$timestamp = date('Y-m-d H:i:s');
-		$acs = [];
-        foreach ($temp as $k => $tp) {
+        $peralatanTemp                = Input::get('peralatanTemp');
+        $peralatanTemp                = json_decode($peralatanTemp, true);
+		$timestamp                    = date('Y-m-d H:i:s');
+		$confirmFbImage = '';
+		$confirmFb = '';
+		$confirmJurnalUmumUpdate = '';
+		$confirmPengeluaran = '';
+		$confirmBelanjaPeralatan = '';
+		$confirmAc = '';
+		$acs                          = [];
+		$totalNilai = 0;
+        foreach ($temp as $k         => $tp) {
+			//Jika terdapat input peralatan di Coa Array,
 			if ( isset( $peralatanTemp[$k] ) ) {
-				$ju           = JurnalUmum::find($tp['id']);
-				$ju->coa_id   = $tp['coa_id'];
-
-				$jurnalable_type = $ju->jurnalable_type;
-				$jurnalable_id = $ju->jurnalable_id;
-
-				$jurnalable_type = explode("\\", $jurnalable_type)[1];
-				if ($jurnalable_type == 'Pengeluaran') {
+				$ju                   = JurnalUmum::find($tp['id']);
+				// ganti coa id menjadi Belanja Peralatan
+				$ju->coa_id           = $tp['coa_id'];
+				$jurnalable_type      = $ju->jurnalable_type;
+				$jurnalable_id        = $ju->jurnalable_id;
+				if ($jurnalable_type == 'App\Pengeluaran') {
 
 					$p = Pengeluaran::find($jurnalable_id);
-
 					$fb                 = new FakturBelanja;
 					$fb->tanggal        = $p->tanggal;
 					$fb->nomor_faktur   = $peralatanTemp[$k]['nomor_faktur'];
@@ -168,57 +170,87 @@ class JurnalUmumsController extends Controller
 					$fb->supplier_id    = $p->supplier_id;
 					$fb->sumber_uang_id = $p->sumber_uang_id;
 					$fb->petugas_id     = $p->staf_id;
-					$fb->save();
 					$confirm            = $fb->save();
+					$confirmFb = $confirm;
 
-					$ju->jurnalable_type = 'App\FakturBelanja';
+					$timestamp = date('Y-m-d H:i:s');
+					$alats = [];
+					$acs = [];
+					$service_acs = [];
+					if (count(  $peralatanTemp[$k]['alat']  ) > 0) {
+						foreach ($peralatanTemp[$k]['alat'] as $alat) {
+							$totalNilai += $alat['harga_satuan'] * $alat['jumlah'];
+							$alats[] = [
+								 'faktur_belanja_id'	=> $fb->id,
+								 'staf_id'				=> $p->staf_id,
+								 'peralatan'			=> $alat['peralatan'],
+								 'harga_satuan'			=> $alat['harga_satuan'],
+								 'jumlah'				=> $alat['jumlah'],
+								 'masa_pakai'			=> $alat['masa_pakai'],
+								 'created_at'			=> $timestamp,
+								 'updated_at'			=> $timestamp
+							];
 
-					$confirm = BelanjaPeralatan::create([
-						 'faktur_belanja_id'	=> $fb->id,
-						 'staf_id'				=> $p->staf_id,
-						 'peralatan'			=> $p->keterangan,
-						 'harga_satuan'			=> $ju->nilai,
-						 'jumlah'				=> 1,
-						 'masa_pakai'			=> $peralatanTemp[$k]['masa_pakai']
-					]);
+							if (count(  $alat['ac']  ) > 0) {
+								foreach ($alat['ac'] as $ac) {
+									$acs[] = [
+										'merek'             => $ac['merek'],
+										'keterangan'        => $ac['keterangan'],
+										'faktur_belanja_id' => $fb->id,
+										'created_at'        => $timestamp,
+										'updated_at'        => $timestamp
+									];
+								}
+							}
+						}
+					}
+					// Masukkan AC
+					//
+					$confirmAc = Ac::insert($acs);
+					// Masukkan BelanjaPeralatan
+					$confirmBelanjaPeralatan     = BelanjaPeralatan::insert($alats);
 					if ($confirm) {
-						Pengeluaran::destroy( $jurnalable_id );
+						$confirmPengeluaran = Pengeluaran::destroy( $jurnalable_id );
 					}
 					$path_before = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/lain/' . $p->faktur_image;
-					$ext = pathinfo($path_before, PATHINFO_EXTENSION);
-					$filename = 'faktur' . $fb->id . '.' . $ext;
-					$path_after = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/alat/' . $filename;
+					$ext         = pathinfo($path_before, PATHINFO_EXTENSION);
+					$filename    = 'faktur' . $fb->id . '.' . $ext;
+					$path_after  = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/alat/' . $filename;
 
-					$confirm = rename( 
-						$path_before,
-						$path_after
-					);
+					$confirm = false;
 
+					if (file_exists($path_before)) {
+						$confirm = rename( 
+							$path_before,
+							$path_after
+						);
+					}
+					$confirmFbImage = '';
 					if ($confirm) {
 						$fb->faktur_image = $filename;
-					}
-
-					$fb->save();
-				}
-				if ( count( $peralatanTemp[$k]['ac']) > 0) {
-					foreach ($peralatanTemp[$k]['ac'] as $ac) {
-						$acs[]             = [
-							'merek'             => $ac['merek'],
-							'keterangan'        => $ac['keterangan'],
-							'faktur_belanja_id' => $fb->id,
-							'created_at'        => $timestamp,
-							'updated_at'        => $timestamp
-						];
+						$confirmFbImage = $fb->save();
 					}
 				}
-				$ju->save();            
+				$confirmJurnalUmumUpdate = JurnalUmum::where('jurnalable_id', $jurnalable_id)->where('jurnalable_type', $jurnalable_type)->update([
+					 'nilai' => $totalNilai,
+					 'coa_id' => $tp['coa_id'],
+					 'jurnalable_id' => $fb->id,
+					 'jurnalable_type' => 'App\FakturBelanja'
+				]);
 			} else {
 				$ju = JurnalUmum::find($tp['id']);
 				$ju->coa_id = $tp['coa_id'];
 				$ju->save();            
 			}
+			//return dd( [
+				//'confirmfb' => $confirmFb,
+				//'confirmfbImage' => $confirmFbImage,
+				//'confirmPengeluaranDelete' => $confirmPengeluaran,
+				//'confirmJurnalUmumUpdate' => $confirmJurnalUmumUpdate,
+				//'confirmBelanjaPeralatan' => $confirmBelanjaPeralatan,
+				//'confirmAc' => $confirmAc
+			//] ); 
         }
-		Ac::insert($acs);
 		$pesan = Yoga::suksesFlash('Penyesuaian Chart Of Account (COA) sukses, silahkan coba lagi untuk melihat laporan');
 		if (!empty( Input::get('route') )) {
 			return redirect( Input::get('route') )->withPesan($pesan);
