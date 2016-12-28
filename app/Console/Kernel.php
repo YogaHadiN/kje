@@ -35,6 +35,8 @@ class Kernel extends ConsoleKernel
 		 Commands\dbHapusdiskon::class,
 		 Commands\dbOpen::class,
 		 Commands\imageResize::class,
+		 Commands\sendMeLaravelLog::class,
+
 
     ];
     /**
@@ -60,6 +62,8 @@ class Kernel extends ConsoleKernel
 						->dailyAt('23:00'); 
 			 $schedule->command('reset:antrian')
 						->dailyAt('00:00'); 
+			 $schedule->command('send:melaravelLog')
+						->dailyAt('01:00'); 
 			 $schedule->command('sms:donnaruko')
 				 ->dailyAt('13:00')
 				 ->when(function(){
