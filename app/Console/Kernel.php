@@ -34,10 +34,14 @@ class Kernel extends ConsoleKernel
 		 Commands\dbBackup::class,
 		 Commands\dbHapusdiskon::class,
 		 Commands\dbOpen::class,
-		 Commands\imageResize::class,
 		 Commands\sendMeLaravelLog::class,
-
-
+		 Commands\imageResize::class,
+		 Commands\imageAlat::class,
+		 Commands\imageEstetika::class,
+		 Commands\imageObat::class,
+		 Commands\imageLain::class,
+		 Commands\imageFit::class,
+		 Commands\imagePasien::class,
     ];
     /**
      * Define the application's command schedule.

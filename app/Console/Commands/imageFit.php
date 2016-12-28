@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use Image;
 class imageFit extends Command
 {
     /**
