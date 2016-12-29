@@ -20,7 +20,7 @@ class imageResize extends Command
      *
      * @var string
      */
-    protected $description = 'Resize Image';
+    protected $description = 'Template Image Resize';
 
     /**
      * Create a new command instance.

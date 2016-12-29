@@ -42,6 +42,8 @@ class Kernel extends ConsoleKernel
 		 Commands\imageLain::class,
 		 Commands\imageFit::class,
 		 Commands\imagePasien::class,
+		 Commands\imageStaf::class,
+
     ];
     /**
      * Define the application's command schedule.

@@ -18,7 +18,7 @@ class imageAlat extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Resize Belanja Alat';
 
     /**
      * Create a new command instance.

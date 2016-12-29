@@ -41,6 +41,7 @@ Klinik Jati Elok | Daftar Peralatan
 										<th>Harga Satuan</th>
 										<th>Jumlah</th>
 										<th>Penyusutan</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -55,6 +56,7 @@ Klinik Jati Elok | Daftar Peralatan
 												<td class="uang">{{ $fb->harga_satuan }}</td>
 												<td>{{ $fb->jumlah }}</td>
 												<td class="uang">{{ $fb->penyusutan }}</td>
+												<td><a class="btn btn-info btn-xs" href="{{ url('pengeluarans/peralatans/detail/'. $fb->id) }}">detail</a> </td>
 											</tr>
 										@endforeach
 									@else

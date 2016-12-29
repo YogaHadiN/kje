@@ -3,23 +3,23 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
 use Image;
-class imageFit extends Command
+
+class imageStaf extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'image:fit';
+    protected $signature = 'image:staf';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Template Image Fit';
+    protected $description = 'Fit foto staf';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class imageFit extends Command
     {
 		$images = [];
 		$errors = [];
-		$output = shell_exec('ls /var/www/kje/public/img/pasien/img*');
+		$output = shell_exec('ls /var/www/kje/public/img/staf/*');
 		$array = explode("\n", trim( $output ));
 		foreach ($array as $ps) {
 			if (!empty( $ps )) {

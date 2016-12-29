@@ -19,7 +19,7 @@ class imageEstetika extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Resize Gambar Pemeriksaan ';
 
     /**
      * Create a new command instance.

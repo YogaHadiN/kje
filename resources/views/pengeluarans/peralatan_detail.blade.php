@@ -44,7 +44,7 @@ Klinik Jati Elok | Detail Pembelian Peralatan
 										<td>{{ $f->staf->nama }}</td>
 										<td class="uang">{{ $f->harga_satuan }}</td>
 										<td>{{ $f->jumlah }}</td>
-										<td>{{ $f->masa_pakai }}</td>
+										<td>{{ $f->masa_pakai }} tahun</td>
 										<td>{{ $f->penyusutan }}</td>
 									</tr>
 								@endforeach

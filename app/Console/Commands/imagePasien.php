@@ -20,7 +20,7 @@ class imagePasien extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Resize Foto Pasien';
 
     /**
      * Create a new command instance.

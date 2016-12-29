@@ -19,7 +19,7 @@ class imageObat extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Resize Belanja Lain;';
 
     /**
      * Create a new command instance.

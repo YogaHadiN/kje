@@ -79,7 +79,6 @@ class PasiensAjaxController extends Controller
 			$nama = $this->countAntrian($antrian, $tanggal)['nama'];
 			$pasien_pesan = $this->countPasien($pasien_id, $tanggal)['pasien_pesan'];
 
-
 			$data = [
 				'antrian' => $nama,
 				'pasien' => $pasien_pesan
@@ -282,29 +281,29 @@ class PasiensAjaxController extends Controller
 	
 	private function countAntrian($antrian, $tanggal){
 			$count_antrian_poli =  AntrianPoli::where('antrian', $antrian)
-									->where('tanggal', '<=', $tanggal)
+									->where('tanggal', $tanggal)
 									->count();
 			$count_antrian_periksa = AntrianPeriksa::where('antrian', $antrian)
-										->where('tanggal', '<=', $tanggal)
+										->where('tanggal', $tanggal)
 										->count();
 			$count = $count_antrian_poli + $count_antrian_periksa;
 			$nama = '';
 
 			if($count_antrian_poli > 0){
 				$nama = AntrianPoli::where('antrian', $antrian)
-						->where('tanggal', '<=', $tanggal)
+						->where('tanggal', $tanggal)
 						->first()->pasien->nama;
 				$antrian = AntrianPoli::where('antrian', $antrian)
-						->where('tanggal', '<=', $tanggal)
+						->where('tanggal', $tanggal)
 						->first()->antrian;
 				
 			} else if ($count_antrian_periksa > 0){
 				$nama = AntrianPeriksa::where('antrian', $antrian)
-						->where('tanggal', '<=', $tanggal)
+						->where('tanggal', $tanggal)
 						->first()->pasien->nama;
 
 				$antrian = AntrianPeriksa::where('antrian', $antrian)
-						->where('tanggal', '<=', $tanggal)
+						->where('tanggal', $tanggal)
 						->first()->antrian;
 			}
 
@@ -323,11 +322,11 @@ class PasiensAjaxController extends Controller
 
 	private function countPasien($pasien_id, $tanggal){
 		$count_pasien_poli = AntrianPoli::where('pasien_id', $pasien_id)
-								->where('tanggal', '<=', $tanggal)
+								->where('tanggal', $tanggal)
 								->count();
 
 		$count_pasien_poli = AntrianPeriksa::where('pasien_id', $pasien_id)
-								->where('tanggal', '<=', $tanggal)
+								->where('tanggal', $tanggal)
 								->count();
 		$count = $count_pasien_poli + $count_pasien_poli;
 
@@ -340,7 +339,5 @@ class PasiensAjaxController extends Controller
 			'pasien_pesan' => $pasien_pesan,
 			'count' => $count
 		];
-
 	}
-
 }
