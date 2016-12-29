@@ -47,7 +47,6 @@ class imageResize extends Command
 			if (!empty( $ps )) {
 				try {
 					$img = Image::make($ps);
-
 					$img->resize(1000, null, function ($constraint) {
 						$constraint->aspectRatio();
 						$constraint->upsize();

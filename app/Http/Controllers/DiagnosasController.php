@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use DB;
 use App\Diagnosa;
+use App\Icd10;
 use App\Merek;
 use App\AturanMinum;
 use App\Signa;
@@ -25,7 +26,7 @@ class DiagnosasController extends Controller
 	 */
 	public function index()
 	{
-		$diagnosas = Diagnosa::all();
+		$diagnosas = Diagnosa::with('icd10')->get();
 		$icds = DB::select('select max(id) as id, max(diagnosa) as diagnosa, icd10_id from diagnosas group by icd10_id');
 
 		return view('diagnosas.index', compact('diagnosas', 'icds'));

@@ -47,7 +47,8 @@ class imageStaf extends Command
 				try {
 					$img = Image::make($ps);
 
-					$img->fit(800, 600, function ($constraint) {
+					$img->resize(1000, null, function ($constraint) {
+						$constraint->aspectRatio();
 						$constraint->upsize();
 					})->save();
 

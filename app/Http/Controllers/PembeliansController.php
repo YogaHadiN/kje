@@ -486,6 +486,12 @@ class PembeliansController extends Controller
 		if(Input::hasFile($fieldName)) {
 
 			$upload_cover = Input::file($fieldName);
+
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
 			//mengambil extension
 			$extension = $upload_cover->getClientOriginalExtension();
 
@@ -496,7 +502,7 @@ class PembeliansController extends Controller
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/obat';
 
 			// Mengambil file yang di upload
-			$upload_cover->move($destination_path, $filename);
+			$upload_cover->save($destination_path . '/' . $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return $filename;

@@ -64,6 +64,10 @@ class ImagesAntrianPeriksaController extends Controller
 	}
 	public function edit($id){
 		$antrianperiksa = AntrianPeriksa::find($id);
+		if ($antrianperiksa == null) {
+			$pesan = Yoga::gagalFlash('Antrian Sudah tidak ada, mungkin sudah disubmit');
+			return redirect()->back()->withPesan($pesan);
+		}
 		return view('imagesAntrian.edit', compact(
 			'antrianperiksa',
 			'sisa'

@@ -45,7 +45,7 @@ class testJurnal extends Command
 		if (count( $data )) {
 
 			foreach ($data as $d) {
-				$text .= $d . ', ';
+				$text .= $d->id . ', ';
 			}
 			
 		} else {

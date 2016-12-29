@@ -9,6 +9,18 @@ Klinik Jati Elok | Janis Belanja
 	a{
 	color : #676A77;	
 	}
+	.belanja30 {
+		width : 30% !important;
+		height : 30% !important;
+	}
+	.belanja40 {
+		width : 40% !important;
+		height : 40% !important;
+	}
+	.belanja80 {
+		width : 80% !important;
+		height : 80% !important;
+	}
 </style>
 
 @stop
@@ -34,7 +46,7 @@ Klinik Jati Elok | Janis Belanja
 						Belanja<br />Persediaan Obat	
 					</h2>
 				</div>
-				<img src="{{ url('img/pill.png') }}" class="" alt="profile" width="30%" height="30%">
+				<img src="{{ url('img/pill.png') }}" class="belanja30" alt="profile">
 				<div>
 					<h4>Pengeluaran untuk membeli sesuatu yang akan mengurangi data stok saat transaksi customer</h4>
 				</div>
@@ -58,7 +70,7 @@ Klinik Jati Elok | Janis Belanja
 						Belanja Peralatan
 					</h2>
 				</div>
-				<img src="{{ url('img/tool.png') }}" class="" alt="profile" width="40%" height="40%">
+				<img src="{{ url('img/tool.png') }}" class="belanja40" alt="profile">
 				<div>
 					<h4>Pengeluaran untuk membeli sesuatu yang jumlahnya tidak berkurang dengan pemakaian</h4>
 				</div>
@@ -81,7 +93,7 @@ Klinik Jati Elok | Janis Belanja
 						Belanja Lain-lain
 					</h2>
 				</div>
-				<img src="{{ url('img/shop.png') }}" class="" alt="profile" width="40%" height="40%">
+				<img src="{{ url('img/shop.png') }}" class="belanja40" alt="profile">
 				<div>
 					<h4>Pengeluaran untuk membeli sesuatu yang tidak bisa masuk dalam kategori yang lain</h4>
 				</div>
@@ -108,7 +120,7 @@ Klinik Jati Elok | Janis Belanja
 						Service Air Conditioner
 					</h2>
 				</div>
-				<img src="{{ url('img/ac.png') }}" class="" alt="profile" width="80%" height="80%">
+				<img src="{{ url('img/ac.png') }}" class="belanja80" alt="profile">
 				<div>
 					<h4>Pengeluaran untuk Service Pendingin Ruangan</h4>
 				</div>

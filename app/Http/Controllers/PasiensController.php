@@ -75,14 +75,14 @@ class PasiensController extends Controller
 	public function store(){
 
 		$rules = [
-			"nama" => "required",
-			"sex" => "required",
+			"nama"      => "required",
+			"sex"       => "required",
 			"panggilan" => "required"
 		];
 
 		if ( Input::get('punya_asuransi') == '1' ) {
-			  $rules["asuransi_id"] = "required";
-			  $rules["jenis_peserta"] = "required";
+			  $rules["asuransi_id"]    = "required";
+			  $rules["jenis_peserta"]  = "required";
 			  $rules["nomor_asuransi"] = "required";
 		}
 		
@@ -121,7 +121,7 @@ class PasiensController extends Controller
 		$pasien->id             = $id;
 		$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
 		$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
-		$pasien->image          = $pasien->imageUpload('img', 'image', $id);
+		$pasien->image          = $pasien->imageUploadWajah('img', 'image', $id);
 		$pasien->save();
 	
 		$antrian_poli_id = Yoga::customId('App\AntrianPoli');
@@ -252,7 +252,7 @@ class PasiensController extends Controller
 			}
 			$pasien->no_telp        = Input::get('no_telp');
 			if (!empty(Input::hasFile('image'))) {
-				$pasien->image      	= $pn->imageUpload('img','image', $id);
+				$pasien->image      	= $pn->imageUploadWajah('img','image', $id);
 			}
 			if (Input::hasFile('bpjs_image')) {
 				$pasien->bpjs_image     = $pn->imageUpload('bpjs','bpjs_image', $id);

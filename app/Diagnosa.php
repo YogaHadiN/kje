@@ -4,7 +4,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Diagnosa extends Model{
-
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'
@@ -21,6 +20,7 @@ class Diagnosa extends Model{
 
 		return $this->belongsTo('App\Icd10');
 	}
+
 
 	public function getDiagnosaIcdAttribute()
 	{

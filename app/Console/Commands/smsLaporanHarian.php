@@ -41,13 +41,14 @@ class smsLaporanHarian extends Command
      */
     public function handle()
     {
-		$jumlahPasienTotal = Periksa::where('tanggal', 'like', date('Y-m-d'))->count();
+		$periksas = Periksa::where('tanggal', 'like', date('Y-m-d'))->get();
+		$jumlahPasienTotal = $periksas->count();
 		$jumlahPasienBPJS = Periksa::where('tanggal', 'like', date('Y-m-d'))
 							->where('asuransi_id', '32')
 							->count();
 		$tunai = 0;
 		$piutang = 0;
-		foreach ($jumlahPasienTotal as $v) {
+		foreach ($periksas as $v) {
 			$tunai += $v->tunai;
 			$piutang += $v->piutang;
 		}	

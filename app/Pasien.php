@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Session;
 use DB;
 use Input;
+use Image;
 use App\Classes\Yoga;
 
 class Pasien extends Model{
@@ -152,13 +153,20 @@ class Pasien extends Model{
 			//mengambil extension
 			$extension = $upload_cover->getClientOriginalExtension();
 
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
+
 			//membuat nama file random + extension
 			$filename =	 $pre . $id . '.' . $extension;
 
 			//menyimpan bpjs_image ke folder public/img
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/pasien';
 			// Mengambil file yang di upload
-			$upload_cover->move($destination_path, $filename);
+
+			$upload_cover->save($destination_path . '/' . $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return 'img/pasien/'. $filename;
@@ -166,7 +174,34 @@ class Pasien extends Model{
 		} else {
 			return null;
 		}
+	}
+	public function imageUploadWajah($pre, $fieldName, $id){
+		if(Input::hasFile($fieldName)) {
 
+			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->fit(800, 600, function ($constraint) {
+				$constraint->upsize();
+			});
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/pasien';
+			// Mengambil file yang di upload
+
+			$upload_cover->save($destination_path . '/' . $filename);
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return 'img/pasien/'. $filename;
+			
+		} else {
+			return null;
+		}
 	}
 
 	public function statusPernikahan(){

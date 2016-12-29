@@ -1064,12 +1064,12 @@ class PengeluaransController extends Controller
 	public function belanjaPeralatanBayar(){
 
 		$rules = [
-			'sumber_uang' => 'required',
-			'supplier_id' => 'required',
-			'nomor_faktur' => 'required',
+			'sumber_uang'       => 'required',
+			'supplier_id'       => 'required',
+			'nomor_faktur'      => 'required',
 			'tanggal_pembelian' => 'required',
-			'staf_id' => 'required',
-			'temp' => 'required'
+			'staf_id'           => 'required',
+			'temp'              => 'required'
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);
@@ -1080,25 +1080,25 @@ class PengeluaransController extends Controller
 		}
 		
 
-		$supplier_id = Input::get('supplier_id');
+		$supplier_id       = Input::get('supplier_id');
 		$tanggal_pembelian = Input::get('tanggal_pembelian');
-		$nomor_faktur = Input::get('nomor_faktur');
-		$staf_id = Input::get('staf_id');
-		$temp = Input::get('temp');
-		$temp = json_decode($temp, true);
+		$nomor_faktur      = Input::get('nomor_faktur');
+		$staf_id           = Input::get('staf_id');
+		$temp              = Input::get('temp');
+		$temp              = json_decode($temp, true);
 
 		$data = [];
 		$total_nilai = 0;
 
-		$fb = new FakturBelanja;
-		$fb->tanggal = Yoga::datePrep(Input::get('tanggal_pembelian'));
-		$fb->nomor_faktur = Input::get('nomor_faktur');
-		$fb->belanja_id = 4;
-		$fb->supplier_id = Input::get('supplier_id');
+		$fb                 = new FakturBelanja;
+		$fb->tanggal        = Yoga::datePrep(Input::get('tanggal_pembelian'));
+		$fb->nomor_faktur   = Input::get('nomor_faktur');
+		$fb->belanja_id     = 4;
+		$fb->supplier_id    = Input::get('supplier_id');
 		$fb->sumber_uang_id = Input::get('sumber_uang');
-		$fb->petugas_id = $staf_id;
+		$fb->petugas_id     = $staf_id;
 		$fb->save();
-		$fb->faktur_image = $this->imageUploadAlat('faktur', 'faktur_image', $fb->id);
+		$fb->faktur_image   = $this->imageUploadAlat('faktur', 'faktur_image', $fb->id);
 		$confirm = $fb->save();
 
 		$timestamp                    = date('Y-m-d H:i:s');
@@ -1170,6 +1170,13 @@ class PengeluaransController extends Controller
 
 			$upload_cover = Input::file($fieldName);
 			//mengambil extension
+
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
+
 			$extension = $upload_cover->getClientOriginalExtension();
 
 			//membuat nama file random + extension
@@ -1179,7 +1186,7 @@ class PengeluaransController extends Controller
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/lain';
 
 			// Mengambil file yang di upload
-			$upload_cover->move($destination_path, $filename);
+			$upload_cover->save($destination_path . '/' . $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return $filename;
@@ -1195,8 +1202,13 @@ class PengeluaransController extends Controller
 
 			$upload_cover = Input::file($fieldName);
 			//mengambil extension
-			$extension = $upload_cover->getClientOriginalExtension();
+			$extension    = $upload_cover->getClientOriginalExtension();
 
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
 			//membuat nama file random + extension
 			$filename =	 $pre . $id . '.' . $extension;
 
@@ -1204,7 +1216,7 @@ class PengeluaransController extends Controller
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/alat';
 
 			// Mengambil file yang di upload
-			$upload_cover->move($destination_path, $filename);
+			$upload_cover->save($destination_path . '/' . $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return $filename;

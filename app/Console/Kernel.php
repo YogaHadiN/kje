@@ -43,6 +43,8 @@ class Kernel extends ConsoleKernel
 		 Commands\imageFit::class,
 		 Commands\imagePasien::class,
 		 Commands\imageStaf::class,
+		 Commands\perbaikiJurnal::class,
+
 
     ];
     /**

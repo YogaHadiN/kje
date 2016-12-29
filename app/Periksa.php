@@ -4,6 +4,7 @@ namespace App;
 
 use App\Classes\Yoga;
 use DB;
+use Image;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -1121,15 +1122,16 @@ class Periksa extends Model{
 	public function imageUpload($file, $id, $k){
 			$extension = $file->getClientOriginalExtension();
 
+			$file = Image::make($file);
+			$file->fit(800, 600, function ($constraint) {
+				$constraint->upsize();
+			});
 			//membuat nama file 
 			$filename =	 $id . '-' . $k . '.' . $extension;
-
 			//menyimpan estetika_image ke folder public/img
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/estetika';
-
 			// Mengambil file yang di upload
-			$file->move($destination_path, $filename);
-
+			$file->save($destination_path . '/' . $filename);
 			return $filename;
 
 	}

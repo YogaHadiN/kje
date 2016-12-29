@@ -1,0 +1,19 @@
++-----------+---------------------+-------------+
+| id        | created_at          | asuransi_id |
++-----------+---------------------+-------------+
+| 161213120 | 2016-12-13 22:30:31 | 0           |
+| 161213121 | 2016-12-13 22:44:22 | 32          |
+| 161224041 | 2016-12-24 12:11:39 | 0           |
+| 161227071 | 2016-12-27 18:16:58 | 3           |
+
+JurnalUmum::create([
+	'jurnalable_id' => 'jurnalable_id',
+	'debit' => 'debit',
+	'nilai' => 'nilai',
+	'coa_id' => 'coa_id',
+	'keterangan' => 'keterangan',
+	'created_at' => 'created_at',
+	'updated_at' => 'updated_at',
+	'jurnalable_type' => 'jurnalable_type',
+])
+

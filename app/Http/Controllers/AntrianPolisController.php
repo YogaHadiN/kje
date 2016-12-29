@@ -24,6 +24,7 @@ class AntrianPolisController extends Controller
 	 */
 	public function index()
 	{
+		AntrianPoli::where('tanggal', '<' , date('Y-m-d'))->delete();
 		$asu = array(null => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
 		$jenis_peserta = array(
 			null => ' - pilih asuransi -',  
