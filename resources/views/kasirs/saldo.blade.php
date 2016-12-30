@@ -70,10 +70,8 @@ Klinik Jati Elok | Hitung Saldo
 										<th>Waktu</th>
 										<th>Saldo</th>
 										<th>Staf</th>
-										@if( \Auth::id() == '28' )
-											<th>Saldo Saat Ini</th>
-											<th>Selisih</th>
-										@endif
+										<th>Saldo Saat Ini</th>
+										<th>Selisih</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -83,19 +81,13 @@ Klinik Jati Elok | Hitung Saldo
 												<td>{{ $s->created_at->format('d M Y H:i:s') }}</td>
 												<td class='uang'>{{ $s->saldo }}</td>
 												<td class='uang'>{{ $s->staf->nama }}</td>
-												@if( \Auth::id() == '28' )
-													<td class='uang'>{{ $s->saldo_saat_ini }}</td>
-													<td class='uang'>{{ $s->selisih }}</td>
-												@endif
+												<td class='uang'>{{ $s->saldo_saat_ini }}</td>
+												<td class='uang'>{{ $s->selisih }}</td>
 											</tr>
 										@endforeach
 									@else
 										<tr>
-												@if( \Auth::id() == '28' )
-													<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
-												@else
-													<td class="text-center" colspan="3">Tidak Ada Data Untuk Ditampilkan :p</td>
-												@endif
+											<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
 										</tr>
 									@endif
 								</tbody>
