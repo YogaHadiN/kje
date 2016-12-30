@@ -123,4 +123,10 @@ class FakturBelanjasController extends Controller
 		return view('fakturbelanjas.alat', compact('fakturbelanjas'));
 	}
 	
+	public function serviceAc(){
+
+		$fakturbelanjas = FakturBelanja::where('belanja_id', 5)->paginate(10);
+		return view('fakturbelanjas.serviceAc', compact('fakturbelanjas'));
+		
+	}
 }

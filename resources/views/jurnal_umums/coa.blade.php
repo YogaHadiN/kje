@@ -19,6 +19,9 @@ Klinik Jati Elok | Coa belum di set
 
 			white-space : nowrap;
 		}
+		.padding {
+			padding-bottom : 14px;
+		}
 	</style>
 @stop
 @section('content')
@@ -125,7 +128,7 @@ Klinik Jati Elok | Coa belum di set
 							  {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
 						  </td> 
 						</tr>
-						<tr>
+						<tr class="kuitansi">
 							<td>Kuitans : </td>
 							<td colspan="3"> <img src="{{ url('img/belanja/lain/'. $ju->faktur_image) }}" class="img-rounded upload"> </td>
 							<td>{{ $ju->faktur_image }}</td>
@@ -213,10 +216,17 @@ Klinik Jati Elok | Coa belum di set
 		  </div>
 	</div>
 @endif
+<div id="serviceAc">
+	@include('jurnal_umums.serviceAc')
+</div>
+<div id="serviceAc2">
+	@include('jurnal_umums.serviceAc', ['kedua' => true])
+</div>
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
 {!! Form::text('route', $route, ['class' => 'form-control hide']) !!}
 {!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
 {!! Form::textarea('peralatanTemp', '[]', ['class' => 'form-control', 'id' => 'peralatanTemp']) !!}
+{!! Form::textarea('serviceAcTemp', '[]', ['class' => 'form-control', 'id' => 'serviceAcTemp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <button class="btn btn-success btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>
@@ -242,6 +252,8 @@ Klinik Jati Elok | Coa belum di set
 {!! Form::textarea('formAcInput', null, ['class' => 'form-control hide' , 'id' => 'formAcInput']) !!}	
 {!! Form::textarea('formAcInput2', null, ['class' => 'form-control hide' , 'id' => 'formAcInput2']) !!}	
 {!! Form::textarea('formPeralatan2', null, ['class' => 'form-control hide' , 'id' => 'formInputPeralatan2']) !!}	
+{!! Form::textarea('formServiceAcInput', null, ['class' => 'form-control hide' , 'id' => 'formServiceAcInput']) !!}	
+{!! Form::textarea('formServiceAcInput2', null, ['class' => 'form-control hide' , 'id' => 'formServiceAcInput2']) !!}	
 @stop
 @section('footer') 
 <script>
@@ -250,6 +262,11 @@ Klinik Jati Elok | Coa belum di set
 		$('#formAc').remove();
 		$('#formAcInput2').val( $('#formAc2').html() );
 		$('#formAc2').remove();
+
+		$('#formServiceAcInput').val( $('#serviceAc').html() );
+		$('#serviceAc').remove();
+		$('#formServiceAcInput2').val( $('#serviceAc2').html() );
+		$('#serviceAc2').remove();
 		$('#formInputPeralatan2').val( $('#formPeralatan2').html() );
 		$('#coa_baru').on('show.bs.modal', function(){
 			resetModal();
@@ -338,43 +355,12 @@ Klinik Jati Elok | Coa belum di set
 	var key = $(control).closest('tr').find('.key').html();
 	if( $(control).val() == '120001' ){ // jika yang dipilih adalah biaya operasional peralatan
 
-		var html = '<tr class="form_tambahan_peralatan"><td colspan="5">';
-		html += $('#formPeralatan').html();	
-		html += '</tr></td>';
+		clearFormCoa(key, control, 'formPeralatan');
 
-		var peralatanTemp = $('#peralatanTemp').val();
-		peralatanTemp = $.parseJSON(peralatanTemp);
-
-		peralatanTemp[key]= {
-			'nomor_faktur' : '',
-			'alat' : []
-		};
-		peralatanTemp[key].alat[0] = { 
-
-			'peralatan' : '',
-			'harga_satuan' : '',
-			'jumlah' : '',
-			'masa_pakai' : '',
-			'ac' :[]
-
-		};
-
-		updatePeralatanTemp(peralatanTemp);
-
-		$(control).closest('tr').after(html);
-		$(control).closest('tr').next().find('input[name="nomor_faktur"]').addClass('rq');
-		$(control).closest('tr').next().find('select[name="masa_pakai"]').addClass('rq');
-		$(control).closest('tr').next().hide().fadeIn('500', function(){
-			$(control).closest('tr').next().find('.nomor_faktur').focus();
-		});
-
+	} else if(  $(control).val() == '623433'  ) {
+		clearFormCoa(key, control, 'serviceAc');
 	} else {
-		$(control).closest('tr').nextUntil('.rowTr').fadeOut(500, function(){
-			$(this).remove();
-			var peralatanTemp = parsePeralatanTemp();
-			peralatanTemp.splice(key, 1);
-			updatePeralatanTemp(peralatanTemp);
-		});
+		clearFormCoa(key, control);
 	}
   }
   function dummySubmit(){
@@ -589,8 +575,6 @@ Klinik Jati Elok | Coa belum di set
 		decodePeralatan(alat);
 	}
 	function viewAc(temp){
-		console.log('temp');
-		console.log(temp);
 		var acs = [];
 		for (var i = 0; i < temp.length; i++) {
 			for (var o = 0; o < temp[i].alat.length; o++) {
@@ -606,10 +590,6 @@ Klinik Jati Elok | Coa belum di set
 				}
 			}
 		}
-		console.log('acs');
-		console.log(acs);
-		console.log(' acs.length > 0 ');
-		console.log( acs.length > 0 );
 		var table = '';
 		for (var i = 0; i < acs.length; i++) {
 			table += '<tr>'
@@ -652,6 +632,161 @@ Klinik Jati Elok | Coa belum di set
 	function coaKey(control){
 		 return $(control).closest('tr').prevAll('tr.rowTr:first').find('.key').html();
 	}
+	function serviceAc(control){
+		var key = $(control).closest('tr').find('.key').html();
+		var temp = $('#formServiceAcInput').val();
+		var html = '<tr class="form-tambahan-serviceAc"><td colspan="5">';
+		html += temp;
+		html += '</td></tr>';
+		$(control).closest('tr').after(html);
+		$(control).closest('tr').next().hide().fadeIn(500, function(){
+			$(control).closest('tr').next().find('.nomor_faktur_serviceAc').focus();
+		});
+		console.log('temp');
+		console.log(temp);
+		var array = parseServiceAc();
+		var coa_key = $(control).closest('tr').find('.key').html();
+		array[coa_key] = {
+			'nomor_faktur' : '',
+			'ac_id' : [],
+		};
+		encodeServiceAc(array);
+	}
+	function tambahServiceAc(control){
+		var temp = $('#formServiceAcInput2').val();
+		$(control).closest('.row').after(temp);
+		$(control).closest('.row').next().find('.btn-danger').removeClass('hide');
+		$(control).closest('.input-group').addClass('hide');
+		var ac_id = $(control).val();
+		var value = $(control).val();
+		$(control).closest('.row').next().find('.key').val( parseInt( value ) + 1 );
+		var coa_key = coaKey(control);
+		var service_key = $(control).closest('.row').next().find('.key').val();
+		var temp = parseServiceAc();
+		temp[coa_key].ac_id[service_key] = '';
+		encodeServiceAc(temp);
+
+	}
+
+	function kurangServiceAc(control){
+		$(control).closest('.row').prev().find('.input-group').removeClass('hide');
+		var coa_key = $(control).closest('tr').prevAll('tr.rowTr:first').find('.key').html();
+		var service_key = $(control).closest('.row').find('.key').val();
+		var temp = parseServiceAc();
+		console.log('coa_key');
+		console.log(coa_key);
+		console.log('service_key');
+		console.log(service_key);
+		console.log('temp');
+		console.log(temp);
+		temp[coa_key].ac_id.splice(service_key, 1);
+		encodeServiceAc( temp );
+		$(control).closest('.row').remove();
+	}
+	
+	function selectServiceAcChange(control){
+
+		var ac_id = $(control).val();
+		var coa_key = $(control).closest('tr').prevAll('tr.rowTr:first').find('.key').html();
+		var service_key = $(control).closest('.row').find('.key').val();
+		var temp = parseServiceAc();
+		console.log('coa_key');
+		console.log(coa_key);
+		console.log('service_key');
+		console.log(service_key);
+		console.log('temp');
+		console.log(temp);
+		temp[coa_key].ac_id[service_key] = ac_id;
+		encodeServiceAc(temp);
+		 
+	}
+	function parseServiceAc(){
+		 var json = $('#serviceAcTemp').val();
+		 return $.parseJSON(json);
+	}
+	
+	function encodeServiceAc(temp){
+		console.log('temp');
+		console.log(temp);
+		temp = JSON.stringify(temp);
+		$('#serviceAcTemp').val(temp);
+	}
+	function coaKey(control){
+		return $(control).closest('tr').prevAll('.rowTr:first').find('.key').html();
+	}
+function clearFormCoa(key, control, next = null){
+	if( $(control).closest('tr').nextUntil('.kuitansi').length > 0 ){
+
+		$(control).closest('tr').nextUntil('.kuitansi').fadeOut(500, function(){
+			$(this).remove();
+			var peralatanTemp = parsePeralatanTemp();
+			peralatanTemp.splice(key, 1);
+			updatePeralatanTemp(peralatanTemp);
+			var temp = parseServiceAc();
+			temp.splice(key, 1);
+			encodeServiceAc(temp);
+			if( next == 'serviceAc' ){
+				serviceAc(control);
+			} else if ( next == 'formPeralatan' ){
+				formPeralatan(key, control)
+			}
+		});
+		
+	} else {
+			if( next == 'serviceAc' ){
+				serviceAc(control);
+			} else if ( next == 'formPeralatan' ){
+				formPeralatan(key, control)
+			}
+	}
+}
+function formPeralatan(key, control){
+	 
+		var html = '<tr class="form_tambahan_peralatan"><td colspan="5">';
+		html += $('#formPeralatan').html();	
+		html += '</tr></td>';
+
+		var peralatanTemp = $('#peralatanTemp').val();
+		peralatanTemp = $.parseJSON(peralatanTemp);
+
+		peralatanTemp[key]= {
+			'nomor_faktur' : '',
+			'alat' : []
+		};
+		peralatanTemp[key].alat[0] = { 
+
+			'peralatan' : '',
+			'harga_satuan' : '',
+			'jumlah' : '',
+			'masa_pakai' : '',
+			'ac' :[]
+
+		};
+
+		updatePeralatanTemp(peralatanTemp);
+
+		$(control).closest('tr').after(html);
+		$(control).closest('tr').next().find('input[name="nomor_faktur"]').addClass('rq');
+		$(control).closest('tr').next().find('select[name="masa_pakai"]').addClass('rq');
+		$(control).closest('tr').next().hide().fadeIn('500', function(){
+			$(control).closest('tr').next().find('.nomor_faktur').focus();
+		});
+}
+function nomorFakturServiceAcKeyup(control){
+	var coa_key = $(control).closest('tr').prevAll('tr.rowTr:first').find('.key').html();
+	var service_key = $(control).closest('.row').next().find('.key').val();
+	var temp = parseServiceAc();
+	temp[coa_key].nomor_faktur = $(control).val();
+	encodeServiceAc(temp);
+}
+
+
+
+
+
+
+
+
 </script>
 
 @stop

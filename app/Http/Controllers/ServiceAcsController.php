@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Classes\Yoga;
 use App\JurnalUmum;
+use App\FakturBelanja;
 use Input;
 
 class ServiceAcsController extends Controller
@@ -86,5 +87,10 @@ class ServiceAcsController extends Controller
 			return null;
 		}
 	}
+	public function show($id){
+		$fakturbelanjas = FakturBelanja::find($id);
+		return view('pangeluarans.service_ac.show', compact('fakturbelanjas'));
+	}
+	
 	
 }

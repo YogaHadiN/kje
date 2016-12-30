@@ -122,8 +122,14 @@ class FakturBelanja extends Model{
 			foreach ($this->belanjaPeralatan as $alat) {
 				$total += $alat->harga_satuan * $alat->jumlah;
 			}
-
 			$temp = 'Pembelian Peralatan di <br><strong>';
+			$temp .= $this->supplier->nama;
+			$temp .= '<br></strong>sebesar <strong>';
+			$temp .= Yoga::buatrp( $total ) . '</strong>';
+			return $temp;
+		} else if ( $this->belanja_id == 5 ){
+			$total = $this->jurnals[0]->nilai;
+			$temp = 'Service Ac di <br><strong>';
 			$temp .= $this->supplier->nama;
 			$temp .= '<br></strong>sebesar <strong>';
 			$temp .= Yoga::buatrp( $total ) . '</strong>';
@@ -140,6 +146,10 @@ class FakturBelanja extends Model{
         return 'Pembelian Obat di <strong>' . $supplier . '</strong><br /> sebesar :<strong><span class="uang">' . $total_pembelian . '</span></strong><br /> tanggal <strong>: ' . $tanggal . '</strong>';
 
     }
+	public function serviceAc(){
+		return $this->hasMany('App\ServiceAc');
+	}
+	
     
 }
 

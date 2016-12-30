@@ -103,6 +103,7 @@
                             <li>{!! HTML::link('fakturbelanjas/obat', 'Faktur Belanja Obat')!!}</li>
                             <li>{!! HTML::link('fakturbelanjas/alat', 'Faktur Belanja Peralatan')!!}</li>
                             <li>{!! HTML::link('pengeluarans/data', 'Faktur Belanja Bukan Obat')!!}</li>
+                            <li>{!! HTML::link('fakturbelanjas/serviceAc', 'Faktur Service Ac')!!}</li>
                             <li>{!! HTML::link('nota_juals', 'Cari Nota Jual ')!!}</li>
                             <li>{!! HTML::link('bayardokters', 'Pembayaran Dokter')!!}</li>
                         </ul>

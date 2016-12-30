@@ -17,6 +17,7 @@ use App\CheckoutKasir;
 use App\Classes\Yoga;
 use App\Coa;
 use App\Ac;
+use App\ServiceAc;
 use App\BelanjaPeralatan;
 use DB;
 
@@ -127,9 +128,14 @@ class JurnalUmumsController extends Controller
 	 */
 	public function coaPost()
 	{
+		//$p =  json_decode( Input::get('serviceAcTemp'), true ); 
+		//return dd ( $p[0]['ac_id'] );
+
+		//return dd( Input::all() );
 		$rules  = [
 			'temp'          => 'json|required',
 			'peralatanTemp' => 'json|required',
+			'serviceAcTemp' => 'json|required',
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);
@@ -143,7 +149,13 @@ class JurnalUmumsController extends Controller
 		// parse peralatanTemp
         $peralatanTemp                = Input::get('peralatanTemp');
         $peralatanTemp                = json_decode($peralatanTemp, true);
+		//parse service Ac
+		$serviceAc = Input::get('serviceAcTemp');
+		$serviceAc = json_decode($serviceAc, true);
+
+
 		$timestamp                    = date('Y-m-d H:i:s');
+		$confirm = '';
 		$confirmFbImage = '';
 		$confirmFb = '';
 		$confirmJurnalUmumUpdate = '';
@@ -154,10 +166,8 @@ class JurnalUmumsController extends Controller
 		$totalNilai = 0;
         foreach ($temp as $k         => $tp) {
 			//Jika terdapat input peralatan di Coa Array,
-			if ( isset( $peralatanTemp[$k] ) ) {
+			if (  isset( $peralatanTemp[$k] )  || isset( $serviceAc[$k] ) ) {
 				$ju                   = JurnalUmum::find($tp['id']);
-				// ganti coa id menjadi Belanja Peralatan
-				$ju->coa_id           = $tp['coa_id'];
 				$jurnalable_type      = $ju->jurnalable_type;
 				$jurnalable_id        = $ju->jurnalable_id;
 				if ($jurnalable_type == 'App\Pengeluaran') {
@@ -165,8 +175,13 @@ class JurnalUmumsController extends Controller
 					$p = Pengeluaran::find($jurnalable_id);
 					$fb                 = new FakturBelanja;
 					$fb->tanggal        = $p->tanggal;
-					$fb->nomor_faktur   = $peralatanTemp[$k]['nomor_faktur'];
-					$fb->belanja_id     = 4;
+					if ( isset( $peralatanTemp[$k] ) ) {
+						$fb->nomor_faktur   = $peralatanTemp[$k]['nomor_faktur'];
+						$fb->belanja_id     = 4;
+					} else if ( isset( $serviceAc[$k] ) ){
+						$fb->nomor_faktur   = $serviceAc[$k]['nomor_faktur'];
+						$fb->belanja_id     = 5;
+					}
 					$fb->supplier_id    = $p->supplier_id;
 					$fb->sumber_uang_id = $p->sumber_uang_id;
 					$fb->petugas_id     = $p->staf_id;
@@ -177,49 +192,72 @@ class JurnalUmumsController extends Controller
 					$alats = [];
 					$acs = [];
 					$service_acs = [];
-					if (count(  $peralatanTemp[$k]['alat']  ) > 0) {
-						foreach ($peralatanTemp[$k]['alat'] as $alat) {
-							$totalNilai += $alat['harga_satuan'] * $alat['jumlah'];
-							$alats[] = [
-								 'faktur_belanja_id'	=> $fb->id,
-								 'staf_id'				=> $p->staf_id,
-								 'peralatan'			=> $alat['peralatan'],
-								 'harga_satuan'			=> $alat['harga_satuan'],
-								 'jumlah'				=> $alat['jumlah'],
-								 'masa_pakai'			=> $alat['masa_pakai'],
-								 'created_at'			=> $timestamp,
-								 'updated_at'			=> $timestamp
-							];
+					if ( isset( $peralatanTemp[$k] ) ) {
+						if (count(  $peralatanTemp[$k]['alat']  ) > 0) {
+							foreach ($peralatanTemp[$k]['alat'] as $alat) {
+								$totalNilai += $alat['harga_satuan'] * $alat['jumlah'];
+								$alats[] = [
+									 'faktur_belanja_id'	=> $fb->id,
+									 'staf_id'				=> $p->staf_id,
+									 'peralatan'			=> $alat['peralatan'],
+									 'harga_satuan'			=> $alat['harga_satuan'],
+									 'jumlah'				=> $alat['jumlah'],
+									 'masa_pakai'			=> $alat['masa_pakai'],
+									 'created_at'			=> $timestamp,
+									 'updated_at'			=> $timestamp
+								];
 
-							if (count(  $alat['ac']  ) > 0) {
-								foreach ($alat['ac'] as $ac) {
-									$acs[] = [
-										'merek'             => $ac['merek'],
-										'keterangan'        => $ac['keterangan'],
-										'faktur_belanja_id' => $fb->id,
-										'created_at'        => $timestamp,
-										'updated_at'        => $timestamp
-									];
+								if (count(  $alat['ac']  ) > 0) {
+									foreach ($alat['ac'] as $ac) {
+										$acs[] = [
+											'merek'             => $ac['merek'],
+											'keterangan'        => $ac['keterangan'],
+											'faktur_belanja_id' => $fb->id,
+											'created_at'        => $timestamp,
+											'updated_at'        => $timestamp
+										];
+									}
 								}
 							}
 						}
+						// Masukkan AC
+						//
+						$confirmAc = Ac::insert($acs);
+						// Masukkan BelanjaPeralatan
+						$confirm     = BelanjaPeralatan::insert($alats);
+					} else if ( isset( $serviceAc[$k] ) ){
+							 
+						if ( $serviceAc[$k]['ac_id'] > 0 ) {
+							foreach ($serviceAc[$k]['ac_id'] as $ac_id) {
+								$service_acs[] = [
+									'ac_id'             => $ac_id,
+									'tanggal'           => $p->tanggal,
+									'faktur_belanja_id' => $fb->id,
+									'created_at'        => $timestamp,
+									'updated_at'        => $timestamp
+								];
+							}
+							$totalNilai = $ju->nilai;
+							$confirm = ServiceAc::insert( $service_acs );
+						}
 					}
-					// Masukkan AC
-					//
-					$confirmAc = Ac::insert($acs);
-					// Masukkan BelanjaPeralatan
-					$confirmBelanjaPeralatan     = BelanjaPeralatan::insert($alats);
 					if ($confirm) {
 						$confirmPengeluaran = Pengeluaran::destroy( $jurnalable_id );
 					}
 					$path_before = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/lain/' . $p->faktur_image;
 					$ext         = pathinfo($path_before, PATHINFO_EXTENSION);
 					$filename    = 'faktur' . $fb->id . '.' . $ext;
-					$path_after  = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/alat/' . $filename;
+					if ( isset( $peralatanTemp[$k] ) ) {
+						$path_after  = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/alat/' . $filename;
+					} else if( isset( $serviceAc[$k] )   ){
+						$path_after  = public_path() . DIRECTORY_SEPARATOR . 'img/belanja/serviceAc/' . $filename;
+					}
 
 					$confirm = false;
+					//return dd( is_file($path_before) );
+					//return dd($path_before);
 
-					if (file_exists($path_before)) {
+					if (is_file($path_before)) {
 						$confirm = rename( 
 							$path_before,
 							$path_after
@@ -232,11 +270,18 @@ class JurnalUmumsController extends Controller
 					}
 				}
 				$confirmJurnalUmumUpdate = JurnalUmum::where('jurnalable_id', $jurnalable_id)->where('jurnalable_type', $jurnalable_type)->update([
-					 'nilai' => $totalNilai,
-					 'coa_id' => $tp['coa_id'],
-					 'jurnalable_id' => $fb->id,
+					 'nilai'           => $totalNilai,
+					 'jurnalable_id'   => $fb->id,
 					 'jurnalable_type' => 'App\FakturBelanja'
 				]);
+
+				JurnalUmum::where('jurnalable_id', $fb->id)
+					->where('jurnalable_type', 'App\FakturBelanja')
+					->where('debit', 1)
+					->update([
+						 'coa_id' => $tp['coa_id'],
+					 ]
+				);
 			} else {
 				$ju = JurnalUmum::find($tp['id']);
 				$ju->coa_id = $tp['coa_id'];

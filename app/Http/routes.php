@@ -217,6 +217,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('ranaps', 'RanapsController@index');
 
 			Route::get('pengeluarans/service_acs', 'ServiceAcsController@create');
+			Route::get('pengeluarans/service_acs/{id}', 'ServiceAcsController@show');
 			Route::post('pengeluarans/service_acs', 'ServiceAcsController@store');
 
 
@@ -276,8 +277,10 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('fakturbelanjas', 'FakturBelanjasController@index');
 			Route::get('fakturbelanjas/obat', 'FakturBelanjasController@obat');
 			Route::get('fakturbelanjas/alat', 'FakturBelanjasController@alat');
+			Route::get('fakturbelanjas/serviceAc', 'FakturBelanjasController@serviceAc');
 			Route::post('fakturbelanjas', 'FakturBelanjasController@store');
 			Route::get('fakturbelanjas/{id}', 'FakturBelanjasController@destroy');
+
 
 			Route::get('nota_juals', 'NotaJualsController@index');
 			Route::get('nota_juals/{id}', 'NotaJualsController@show');

@@ -81,6 +81,11 @@ class AcsController extends Controller
 			//mengambil extension
 			$extension = $upload_cover->getClientOriginalExtension();
 
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
 			//membuat nama file random + extension
 			$filename =	 $pre . $id . '.' . $extension;
 
@@ -88,7 +93,7 @@ class AcsController extends Controller
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/ac';
 
 			// Mengambil file yang di upload
-			$upload_cover->move($destination_path, $filename);
+			$upload_cover->save($destination_path . '/' . $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return $filename;
