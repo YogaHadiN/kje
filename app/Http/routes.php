@@ -461,7 +461,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::post('pasiens/ajax/cekantrian/tanggal', 'PasiensAjaxController@cekAntrianPerTanggal');
 
 			Route::get('survey', 'KasirsController@index');
-
+			Route::get('kasirs/saldo', 'KasirsController@saldo');
+			Route::post('kasirs/saldo', 'KasirsController@saldoPost');
 
 			Route::get('usgs/{id}', 'UsgsController@show');
 			Route::get('ancs/{id}', 'AncsController@show');

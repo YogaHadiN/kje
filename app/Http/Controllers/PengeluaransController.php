@@ -465,32 +465,13 @@ class PengeluaransController extends Controller
     }
     public function notaz_post(){
 
-        $last_chekcout = CheckoutKasir::latest()->first();
-        $uang_di_tangan = $last_chekcout->uang_di_tangan;
-        $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
-        $tanggal = $last_chekcout->created_at;
-        $jurnal_umums = JurnalUmum::whereRaw("id >= $jurnal_umum_id_last_cehckout and jurnalable_type = 'App\\\Modal' and debit = 0 and (coa_id = 301000 or coa_id=110004) ")
-									->get();
-        $modal_awal = 0;
-		$modal_ids = [];
-        foreach ($jurnal_umums as $ju) {
-		   $modal_awal +=  $ju->nilai;
-		   $modal_ids[] = $ju->id;
-        }
-        $total_uang_masuk = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
-                                ->where('coa_id', 110000) 
-                                ->where('jurnalable_type', '!=', 'App\Modal')
-                                ->where('debit', '1')
-                                ->sum('nilai');
-
-        $total_uang_keluar = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
-                                ->where('coa_id', 110000) 
-                                ->where('jurnalable_type', '!=', 'App\Modal')
-                                ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
-                                ->where('debit', '0')
-                                ->sum('nilai');
-
-        $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
+		$uang_di_kasir     = $this->parameterKasir()['uang_di_kasir'];
+		$total_uang_keluar = $this->parameterKasir()['total_uang_keluar'];
+		$uang_di_tangan    = $this->parameterKasir()['uang_di_tangan'];
+		$modal_awal        = $this->parameterKasir()['modal_awal'];
+		$modal_ids         = $this->parameterKasir()['modal_ids'];
+		$tanggal           = $this->parameterKasir()['tanggal'];
+		$total_uang_masuk  = $this->parameterKasir()['total_uang_masuk'];
         $query = "select min(jenis_tarif_id) as jenis_tarif_id, min( jt.jenis_tarif ) as jenis_tarif, count(tp.biaya) as jumlah  from transaksi_periksas as tp join periksas as px on px.id=tp.periksa_id join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' group by tp.jenis_tarif_id";
         $transaksis = DB::select($query);
         $pengeluarans = JurnalUmum::where('coa_id', 110000)
@@ -1385,4 +1366,44 @@ class PengeluaransController extends Controller
 		}
 		return false;
 	}
+	public function parameterKasir(){
+		
+        $last_chekcout = CheckoutKasir::latest()->first();
+        $uang_di_tangan = $last_chekcout->uang_di_tangan;
+        $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
+        $tanggal = $last_chekcout->created_at;
+        $jurnal_umums = JurnalUmum::whereRaw("id >= $jurnal_umum_id_last_cehckout and jurnalable_type = 'App\\\Modal' and debit = 0 and (coa_id = 301000 or coa_id=110004) ")
+									->get();
+        $modal_awal = 0;
+		$modal_ids = [];
+        foreach ($jurnal_umums as $ju) {
+		   $modal_awal +=  $ju->nilai;
+		   $modal_ids[] = $ju->id;
+        }
+        $total_uang_masuk = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
+                                ->where('coa_id', 110000) 
+                                ->where('jurnalable_type', '!=', 'App\Modal')
+                                ->where('debit', '1')
+                                ->sum('nilai');
+
+        $total_uang_keluar = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
+                                ->where('coa_id', 110000) 
+                                ->where('jurnalable_type', '!=', 'App\Modal')
+                                ->where('jurnalable_type', '!=', 'App\CheckoutKasir')
+                                ->where('debit', '0')
+                                ->sum('nilai');
+
+        $uang_di_kasir = $modal_awal + $total_uang_masuk - $total_uang_keluar;
+
+		return [
+			'uang_di_kasir' => $uang_di_kasir,
+			'total_uang_keluar' => $total_uang_keluar,
+			'total_uang_masuk' => $total_uang_masuk,
+			'modal_awal' => $modal_awal,
+			'uang_di_tangan' => $uang_di_tangan,
+			'tanggal' => $tanggal,
+			'modal_ids' => $modal_ids
+		];
+	}
+	
 }

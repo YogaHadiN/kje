@@ -1,0 +1,8 @@
+create table `saldos` (
+	 `id` int unsigned not null auto_increment primary key,
+	 `saldo` int(11) not null,
+	 `saldo_saat_ini` int(11) not null,
+	 `selisih` int(11) not null,
+	 `created_at` timestamp default 0 not null,
+	 `updated_at` timestamp default 0 not null
+) default character set utf8 collate utf8_unicode_ci;
