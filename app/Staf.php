@@ -41,5 +41,10 @@ class Staf extends Model{
     public function gaji(){
          return $this->hasMany('App\BayarGaji');
     }
+	public static function list(){
+		return [ null => 'pilih' ] + Staf::lists('nama', 'id')->all();
+		
+	}
+	
     
 }

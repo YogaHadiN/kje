@@ -40,6 +40,7 @@ class KasirsController extends Controller
 
 		$rules = [
 			'saldo' => 'required',
+			'staf_id' => 'required',
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);
@@ -63,7 +64,8 @@ class KasirsController extends Controller
 		$sl->saldo          = $saldo;
 		$sl->saldo_saat_ini = $saldo_saat_ini;
 		$sl->selisih        = $selisih;
-		$confirm = $sl->save();
+		$sl->staf_id           = Input::get('staf_id');
+		$confirm            = $sl->save();
 
 		if ($selisih > 0) {
 			Sms::send('081381912803', 'Ada selsih uang di kasir sebesar ' . Yoga::buatrp($selisih) . ' segera hitung dan cari dimana kesalahannya' );

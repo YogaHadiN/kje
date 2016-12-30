@@ -26,11 +26,18 @@ Klinik Jati Elok | Hitung Saldo
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<div class="form-group @if($errors->has('saldo'))has-error @endif">
 							  {!! Form::label('saldo', 'Saldo Saat Ini', ['class' => 'control-label']) !!}
 							  {!! Form::text('saldo' , null, ['class' => 'form-control uangInput rq']) !!}
 							  @if($errors->has('saldo'))<code>{{ $errors->first('saldo') }}</code>@endif
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+							  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
+							  {!! Form::select('staf_id' , App\Staf::list(), null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
+							  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 							</div>
 						</div>
 					</div>
@@ -62,6 +69,7 @@ Klinik Jati Elok | Hitung Saldo
 									<tr>
 										<th>Waktu</th>
 										<th>Saldo</th>
+										<th>Staf</th>
 										@if( \Auth::id() == '28' )
 											<th>Saldo Saat Ini</th>
 											<th>Selisih</th>
@@ -74,6 +82,7 @@ Klinik Jati Elok | Hitung Saldo
 											<tr>
 												<td>{{ $s->created_at->format('d M Y H:i:s') }}</td>
 												<td class='uang'>{{ $s->saldo }}</td>
+												<td class='uang'>{{ $s->staf->nama }}</td>
 												@if( \Auth::id() == '28' )
 													<td class='uang'>{{ $s->saldo_saat_ini }}</td>
 													<td class='uang'>{{ $s->selisih }}</td>
@@ -83,9 +92,9 @@ Klinik Jati Elok | Hitung Saldo
 									@else
 										<tr>
 												@if( \Auth::id() == '28' )
-													<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
+													<td class="text-center" colspan="5">Tidak Ada Data Untuk Ditampilkan :p</td>
 												@else
-													<td class="text-center" colspan="2">Tidak Ada Data Untuk Ditampilkan :p</td>
+													<td class="text-center" colspan="3">Tidak Ada Data Untuk Ditampilkan :p</td>
 												@endif
 										</tr>
 									@endif
