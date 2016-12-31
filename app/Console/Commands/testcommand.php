@@ -49,7 +49,7 @@ class testcommand extends Command
 		$query .= "jurnalable_id, ";
 		$query .= "jurnalable_type ";
 		$query .= "FROM jurnal_umums ";
-		$query .= "WHERE created_at like '2016-11%' ";
+		$query .= "WHERE created_at like '2016-10%' ";
 		$query .= "GROUP BY jurnalable_id, jurnalable_type";
 		$data = DB::select($query);
 		$errors = [];
@@ -58,8 +58,8 @@ class testcommand extends Command
 				$errors[] = $v;
 			}
 		}	
-		return Periksa::find($v->jurnalable_id)->pasien->id;
-		//return dd( $errors );
+		return dd( $errors );
+		//return Periksa::find($v->jurnalable_id)->pasien->id;
 		//return dd( $data );
 
 

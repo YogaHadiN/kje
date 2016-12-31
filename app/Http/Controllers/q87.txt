@@ -1,2 +1,26 @@
-alter table no_sales add column uang_masuk int(11) not null;
-alter table no_sales add column uang_keluar int(11) not null;
+update jurnal_umums set nilai = 100000 where id=104320;
+
+ 0 => {#1807
+    +"nilai_debit": "61522"
+    +"nilai_kredit": "26522"
+    +"jurnalable_id": "161008071"
+    +"jurnalable_type": "App\Periksa"
+  }
+  1 => {#1906
+    +"nilai_debit": "56530"
+    +"nilai_kredit": "21530"
+    +"jurnalable_id": "161010018"
+    +"jurnalable_type": "App\Periksa"
+  }
+  2 => {#2844
+    +"nilai_debit": "68224"
+    +"nilai_kredit": "38224"
+    +"jurnalable_id": "161021027"
+    +"jurnalable_type": "App\Periksa"
+  }
+  3 => {#3880
+    +"nilai_debit": "5014835"
+    +"nilai_kredit": "300000"
+    +"jurnalable_id": "43"
+    +"jurnalable_type": "App\BayarGaji"
+  }

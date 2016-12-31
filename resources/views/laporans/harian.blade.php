@@ -94,7 +94,7 @@ Klinik Jati Elok | Laporan Harian
 						  <thead>
 							  <tr>
 								  <th class="hide">ID PERIKSA</th>
-								  <th>No</th>
+								  <th>Periksa Id</th>
 								  <th>Nama Pasien</th>
 								  <th>Pembayaran</th>
 								  <th>Poli</th>
@@ -108,7 +108,7 @@ Klinik Jati Elok | Laporan Harian
 								  @foreach ($periksas as $key => $periksa)
 									  <tr>
 										  <td class="hide periksa_id">{!! $periksa->periksa_id !!}</td>
-										  <td>{!! $key + 1 !!}</td>
+										  <td>{!! $periksa->periksa_id !!}</td>
 										  <td>{!! $periksa->nama_pasien !!}</td>
 										  <td>{!! $periksa->nama_asuransi !!}</td>
 										  <td>{!! $periksa->poli !!}</td>
