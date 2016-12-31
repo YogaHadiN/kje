@@ -44,13 +44,16 @@ class smsIngatkanJanji extends Command
 		$date->modify('+1 day');
 		$ap				= new AntrianPoli;
 		$antrianpolis	= $ap->besokKonsulGigi();
-		$pesan			= 'Selamat Siang,Kami dari Klinik Jati Elok, mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' pasien a/n ' . $ap->pasien->nama . ' ada janji konsultasi ke dokter gigi';
 
 		$text = "Terkirim sms mengingatkan janji konsultasi ke ";
 		foreach ($antrianpolis as $ap) {
+			$pesan			= 'Selamat Siang,Kami dari Klinik Jati Elok, mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' pasien a/n ' . $ap->pasien->nama . ' ada janji konsultasi ke dokter gigi';
 			Sms::send($ap->pasien->no_telp,$pesan);
 			$text .= $ap->pasien->nama . ', ';
 			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->pasien->nama);
+		}
+		if (!isset($pesan)) {
+			$pesan			= 'Tidak ada mengingatkan janji dokter gigi besok';
 		}
 		Sms::send('081381912803',$pesan);
 		Sms::send('081381912803',$text);

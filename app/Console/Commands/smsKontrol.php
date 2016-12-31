@@ -42,10 +42,12 @@ class smsKontrol extends Command
     {
 		$ko = new Kontrol;
 		$kontrols = $ko->besokKontrol();
-		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok ingin mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' kami sarankan Bapak / Ibu untuk konsultasi kembali ke dokter. Terima Kasih';
+		$date			= new DateTime(date('Y-m-d'));
+		$date->modify('+1 day');
 
 		$text = 'Terkirim sms mengingatkan janji konsultasi ke ';
 		foreach ($kontrols as $ap) {
+			$pesan			= 'kami dari Klinik Jati Elok ingin mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' pasien a/n ' . $ap->periksa->pasien->nama. ' kami sarankan Bapak / Ibu untuk konsultasi kembali ke dokter. Terima Kasih';
 			Sms::send($ap->periksa->pasien->no_telp,$pesan);
 			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->pasien->nama);
 			$text .= $ap->periksa->pasien->nama . ', ';

@@ -17,13 +17,13 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
 		 Commands\JadwalPenyusutan::class,
-		 Commands\LogDemo::class,
 		 Commands\smsAngkakontak::class,
 		 Commands\smsUndanganprolanis::class,
 		 Commands\cronTest::class,
 		 Commands\smsLaporanHarian::class,
 		 Commands\smsDonnaruko::class,
 		 Commands\smsIngatkanJanji::class,
+		 Commands\smsIngatkanHariIni::class,
 		 Commands\smsKontrol::class,
 		 Commands\testcommand::class,
 		 Commands\testConsole::class,
@@ -33,7 +33,6 @@ class Kernel extends ConsoleKernel
 		 Commands\testJurnal::class,
 		 Commands\dbBackup::class,
 		 Commands\dbHapusdiskon::class,
-		 Commands\dbOpen::class,
 		 Commands\sendMeLaravelLog::class,
 		 Commands\imageResize::class,
 		 Commands\imageAlat::class,

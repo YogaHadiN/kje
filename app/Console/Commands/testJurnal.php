@@ -39,11 +39,10 @@ class testJurnal extends Command
      */
     public function handle()
     {
-		$query  = "SELECT id from periksas where id not in(select jurnalable_id from jurnal_umums where jurnalable_type='App\\\Periksa') and created_at like '" . date('Y-m-d'). "%';";
+		$query  = "SELECT id from periksas where id not in(select jurnalable_id from jurnal_umums where jurnalable_type='App\\\Periksa') and created_at like '" . date('Y-m-d'). "%' and lewat_kasir2 = 1;";
 		$data = DB::select($query);
 		$text = 'Periksa yang tidak masuk jurnal ';
 		if (count( $data )) {
-
 			foreach ($data as $d) {
 				$text .= $d->id . ', ';
 			}

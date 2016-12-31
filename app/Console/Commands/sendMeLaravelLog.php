@@ -37,6 +37,6 @@ class sendMeLaravelLog extends Command
      */
     public function handle()
     {
-		exec('cp /var/www/kje/storage/logs/laravel.log /home/kje/Dropbox/backup11/log/laravel' . date('Y-m-d H:i:s') . '.log');
+		exec('cp /var/www/kje/storage/logs/laravel.log /home/kje/Dropbox/backup11/log/laravel' . date('Y-m-d_H_i_s') . '.log');
     }
 }

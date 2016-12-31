@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Sms;
 use App\AntrianPoli;
+use App\Pasien;
+use App\AntrianPeriksa;
 
 class smsIngatkanHariIni extends Command
 {
@@ -39,16 +41,30 @@ class smsIngatkanHariIni extends Command
      */
     public function handle()
     {
+
 		$antrianpolis = AntrianPoli::where('poli', 'gigi')
 					->where('tanggal', date('Y-m-d'))
 					->get();
-		$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok mengingatkan hari ini pasien a/n ' . $ap->pasien->nama . ' ada janji konsultasi ke dokter gigi jam 17.00.';
-
-		$text = "Terkirim sms mengingatkan janji konsultasi hari ini ";
+		$antrianperiksas = AntrianPeriksa::where('poli', 'gigi')
+					->where('tanggal', date('Y-m-d'))
+					->get();
+		$pasiens = [];
 		foreach ($antrianpolis as $ap) {
-			Sms::send($ap->pasien->no_telp,$pesan);
-			$text .= $ap->pasien->nama . ', ';
-			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->pasien->nama);
+			$pasiens[] = $ap->pasien_id;
+		}
+
+		foreach ($antrianperiksas as $ap) {
+			$pasiens[] = $ap->pasien_id;
+		}
+
+		$ps = Pasien::whereIn('id', $pasiens)->get();
+		//return dd(array_unique(  $pasiens  ));
+		$text = "Terkirim sms mengingatkan janji konsultasi hari ini ke " . count($ps) . ' orang : ';
+		foreach ($ps as $ap) {
+			$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok mengingatkan hari ini pasien a/n ' . $ap->nama . ' ada janji konsultasi ke dokter gigi jam 17.00.';
+			Sms::send($ap->no_telp,$pesan);
+			$text .= $ap->nama . ', ';
+			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->nama);
 		}
 		Sms::send('081381912803',$pesan);
 		Sms::send('081381912803',$text);
