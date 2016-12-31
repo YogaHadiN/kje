@@ -14,6 +14,7 @@ use App\Formula;
 use App\JurnalUmum;
 use App\Classes\Yoga;
 use App\Generik;
+use App\Image;
 use DB;
 use App\Dispensing;
 

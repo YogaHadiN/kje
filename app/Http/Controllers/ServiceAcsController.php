@@ -9,6 +9,7 @@ use App\Classes\Yoga;
 use App\JurnalUmum;
 use App\FakturBelanja;
 use Input;
+use Image;
 
 class ServiceAcsController extends Controller
 {

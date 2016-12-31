@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use Input;
+use Image;
 use App\Http\Requests;
 use App\Staf;
 use App\Classes\Yoga;
@@ -183,6 +184,11 @@ class StafsController extends Controller
 			//mengambil extension
 			$extension = $upload_cover->getClientOriginalExtension();
 
+			$upload_cover = Image::make($upload_cover);
+			$upload_cover->resize(1000, null, function ($constraint) {
+				$constraint->aspectRatio();
+				$constraint->upsize();
+			});
 			//membuat nama file random + extension
 			$filename =	 $pre . $id . '.' . $extension;
 
@@ -190,7 +196,7 @@ class StafsController extends Controller
 			$destination_path = public_path() . DIRECTORY_SEPARATOR . 'img/staf';
 
 			// Mengambil file yang di upload
-			$upload_cover->move($destination_path, $filename);
+			$upload_cover->save($destination_path . '/' . $filename);
 			
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return 'img/staf/'. $filename;

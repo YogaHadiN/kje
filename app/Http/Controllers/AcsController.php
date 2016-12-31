@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Ac;
 use App\Classes\Yoga;
 use Input;
+use Image;
 
 class AcsController extends Controller
 {
