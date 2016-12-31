@@ -246,6 +246,30 @@ Klinik Jati Elok | Home
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-danger">
+					<table class="table table-condensed text-center">
+						<tbody>
+							<tr>
+								<td><h3>Obat Stok Minus</h3></td>
+								<td><h3>Stok Obat Kritis</h3></td>
+								<td><h3>Obat Hampir Kadaluarsa</h3></td>
+								<td><h3>Obat Kadaluarsa</h3></td>
+							</tr>
+							<tr>
+								<td><h1> {{ $obat_minus }} </h1></td>
+								<td><h1> <a class="" href="{{ url('laporans/pengantar?bulanTahun='. date('m-Y')) }}">{{ $obat_stok_kritis }}</a> </h1></td>
+								<td><h1> <a class="" href="{{ url('laporans/sms/bpjs?bulanTahun='. date('m-Y')) }}">{{ $obat_hampir_kadaluarsa }}</a> </h1></td>
+								<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $obat_kadaluarsa }}</a> </h1></td>
+								<td><h1></h1></td>
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+		</div>
 			<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					@if ($auth->role != '1')

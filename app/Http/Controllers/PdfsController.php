@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
+use App\Http\Controllers\LaporanLabaRugisController;
 use App\Classes\Yoga;
 use App\Periksa;
 use App\Modal;
@@ -342,6 +343,27 @@ class PdfsController extends Controller
         // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
         return $pdf->stream();
 	}
+	public function laporanLabaRugi($bulan, $tahun){
+		$lap = new LaporanLabaRugisController;
+		$pendapatan_usahas = $lap->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_usahas'];
+		$hpps              = $lap->tempLaporanLabaRugi($bulan, $tahun)['hpps'];
+		$biayas            = $lap->tempLaporanLabaRugi($bulan, $tahun)['biayas'];
+		$pendapatan_lains  = $lap->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_lains'];
+		$bulan             = $lap->tempLaporanLabaRugi($bulan, $tahun)['bulan'];
+		$tahun             = $lap->tempLaporanLabaRugi($bulan, $tahun)['tahun'];
+		$bebans            = $lap->tempLaporanLabaRugi($bulan, $tahun)['bebans'];
+		$pdf = PDF::loadView('pdfs.laporan_laba_rugi', compact(
+            'pendapatan_usahas',
+            'hpps',
+            'biayas',
+            'pendapatan_lains',
+            'bulan',
+            'tahun',
+            'bebans'
+		))->setPaper('a4')->setOrientation('potrait')->setWarnings(false);
+        return $pdf->stream();
+	}
+	
 	
 	
 	

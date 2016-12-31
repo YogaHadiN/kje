@@ -40,9 +40,9 @@ class smsKontrol extends Command
      */
     public function handle()
     {
-		$ko = new Kontrol;
+		$ko       = new Kontrol;
 		$kontrols = $ko->besokKontrol();
-		$date			= new DateTime(date('Y-m-d'));
+		$date     = new DateTime(date('Y-m-d'));
 		$date->modify('+1 day');
 
 		$text = 'Terkirim sms mengingatkan janji konsultasi ke ';

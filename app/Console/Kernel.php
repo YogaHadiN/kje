@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\AntrianPoli;
 use App\Kontrol;
+use App\Ac;
 use DateTime;
 
 class Kernel extends ConsoleKernel
@@ -43,6 +44,8 @@ class Kernel extends ConsoleKernel
 		 Commands\imagePasien::class,
 		 Commands\imageStaf::class,
 		 Commands\perbaikiJurnal::class,
+		 Commands\smsPanggilTukanAc::class,
+		 Commands\testNeraca::class,
 
 
     ];
@@ -59,6 +62,8 @@ class Kernel extends ConsoleKernel
 					  ->monthlyOn(date('t'), '15:00');
 			 $schedule->command('db:hapusDiskon')
 					  ->dailyAt('23:50');
+			 $schedule->command('test:neraca')
+					  ->dailyAt('01:00');
 			 $schedule->command('sms:angkakontak')
 						->dailyAt('15:30'); 
 			 $schedule->command('test:jurnal')
@@ -84,6 +89,33 @@ class Kernel extends ConsoleKernel
 					$count = $antrianpolis->count();
 					return $count > 0;
 			 }); 
+
+			 $schedule->command('sms:ingatkanJanji')
+				 ->dailyAt('13:30')
+				 ->when(function(){
+					$date			= new DateTime(date('Y-m-d'));
+					$date->modify('-90 day');
+					$query  = "SELECT max(created_at), ac_id ";
+					$query .= "FROM service_acs ";
+					$query .= "ORDER BY created_at desc ";
+					$query .= "GROUP BY pasien_id";
+					$data = DB::select($query);
+					
+					$ids = [];
+					foreach ($data as $d) {
+						if ($d->tanggal < $date->format('Y-m-d')) {
+							$ids[] = $d->ac_id;
+						}
+					}
+					$acs = Ac::all();
+					foreach ($acs as $ac) {
+						if ( $ac->serviceAc->count() == 0 && $ac->created_at < $date->format('Y-m-d H:i:s')) {
+							$ids[] = $ac->id;	
+						}
+					}
+					return count( $ids ) > 0;
+			 }); 
+
 			 $schedule->command('sms:ingatkanHariIni')
 				 ->dailyAt('13:30')
 				 ->when(function(){

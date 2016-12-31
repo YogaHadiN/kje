@@ -528,6 +528,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('pdfs/pengeluaran/{id}', 'PdfsController@pengeluaran');
 			Route::get('pdfs/formulir/usg/{id}/{asuransi_id}', 'PdfsController@formUsg');
 			Route::get('pdfs/merek', 'PdfsController@merek');
+			Route::get('pdfs/laporan_laba_rugi/{bulan}/{tahun}', 'PdfsController@laporanLabaRugi');
 
 
 

@@ -19,6 +19,26 @@ class LaporanLabaRugisController extends Controller
     public function show(){
     	$bulan = Input::get('bulan');
     	$tahun = Input::get('tahun');
+		$pendapatan_usahas = $this->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_usahas'];
+		$hpps              = $this->tempLaporanLabaRugi($bulan, $tahun)['hpps'];
+		$biayas            = $this->tempLaporanLabaRugi($bulan, $tahun)['biayas'];
+		$pendapatan_lains  = $this->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_lains'];
+		$bulan             = $this->tempLaporanLabaRugi($bulan, $tahun)['bulan'];
+		$tahun             = $this->tempLaporanLabaRugi($bulan, $tahun)['tahun'];
+		$bebans            = $this->tempLaporanLabaRugi($bulan, $tahun)['bebans'];
+		//return $pendapatan_usahas['akuns'];
+    	return view('laporan_laba_rugis.show', compact(
+            'pendapatan_usahas',
+            'hpps',
+            'biayas',
+            'pendapatan_lains',
+            'bulan',
+            'tahun',
+            'bebans'
+        ));
+    }
+	public function tempLaporanLabaRugi($bulan, $tahun){
+		
 		$jurnalumums = JurnalUmum::with('coa')->where('created_at', 'like', $tahun . '-'. $bulan . '%')
 											  ->whereNull('coa_id')
 											  ->get();
@@ -62,15 +82,15 @@ class LaporanLabaRugisController extends Controller
 				$bebans['total_nilai'] += $a->nilai;
 			}
 		}
-		//return $pendapatan_usahas['akuns'];
-    	return view('laporan_laba_rugis.show', compact(
-            'pendapatan_usahas',
-            'hpps',
-            'biayas',
-            'pendapatan_lains',
-            'bulan',
-            'tahun',
-            'bebans'
-        ));
-    }
+		return [
+            'pendapatan_usahas' => $pendapatan_usahas,
+            'hpps'              => $hpps,
+            'biayas'            => $biayas,
+            'pendapatan_lains'  => $pendapatan_lains,
+            'bulan'             => $bulan,
+            'tahun'             => $tahun,
+            'bebans'            => $bebans
+		];
+	}
+	
 }
