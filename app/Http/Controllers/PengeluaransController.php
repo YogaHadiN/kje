@@ -31,6 +31,7 @@ use App\Periksa;
 use App\JurnalUmum;
 use App\Ac;
 use App\Staf;
+use Image;
 use DB;
 use Hash;
 use App\Pengeluaran;

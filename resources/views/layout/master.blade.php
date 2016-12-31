@@ -166,7 +166,7 @@
                             <li>{!! HTML::link('pengeluarans/bayardoker', 'Bayar Dokter')!!}</li>
                             <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
                             <li>{!! HTML::link('pengeluarans/rc', 'RC')!!}</li>
-                            <li>{!! HTML::link('kasirs/saldo', 'Hitung Saldo')!!}</li>
+                            <li>{!! HTML::link('kasirs/saldo', 'Hitung Uang di Kasir')!!}</li>
 
                         </ul>
                     </li>

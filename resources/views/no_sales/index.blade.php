@@ -29,16 +29,39 @@ Klinik Jati Elok | No Sales
                 {!! Form::open(['url'=>'no_sales', 'method'=> 'post']) !!} 
                 
                 
-                <div class="form-group @if($errors->has('staf_id'))has-error @endif">
-                  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
-                  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'staf_id']) !!}
-                  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
-                </div>
-				
-				<div class="form-group @if($errors->has('tujuan'))has-error @endif">
-				  {!! Form::label('tujuan', 'Tujuan No Sales', ['class' => 'control-label']) !!}
-                  {!! Form::textarea('tujuan' , null, ['class' => 'form-control textareacustom']) !!}
-				  @if($errors->has('tujuan'))<code>{{ $errors->first('tujuan') }}</code>@endif
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-group @if($errors->has('staf_id'))has-error @endif">
+						  {!! Form::label('staf_id', 'Petugas', ['class' => 'control-label']) !!}
+						  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'staf_id']) !!}
+						  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-group @if($errors->has('tujuan'))has-error @endif">
+						  {!! Form::label('tujuan', 'Tujuan No Sales', ['class' => 'control-label']) !!}
+						  {!! Form::textarea('tujuan' , null, ['class' => 'form-control textareacustom']) !!}
+						  @if($errors->has('tujuan'))<code>{{ $errors->first('tujuan') }}</code>@endif
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="form-group @if($errors->has('uang_masuk'))has-error @endif">
+						  {!! Form::label('uang_masuk', '', ['class' => 'control-label']) !!}
+						  {!! Form::text('uang_masuk' , null, ['class' => 'form-control uangInput rq']) !!}
+						  @if($errors->has('uang_masuk'))<code>{{ $errors->first('uang_masuk') }}</code>@endif
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="form-group @if($errors->has('uang_keluar'))has-error @endif">
+						  {!! Form::label('uang_keluar', '', ['class' => 'control-label']) !!}
+						  {!! Form::text('uang_keluar' , null, ['class' => 'form-control uangInput rq']) !!}
+						  @if($errors->has('uang_keluar'))<code>{{ $errors->first('uang_keluar') }}</code>@endif
+						</div>
+					</div>
 				</div>
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -70,10 +93,11 @@ Klinik Jati Elok | No Sales
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th>Tanggal</th>
-                                <th>Jam</th>
+                                <th>Created At</th>
                                 <th>Petugas</th>
                                 <th>Tujuan</th>
+                                <th>Uang Masuk</th>
+                                <th>Uang Keluar</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -81,10 +105,11 @@ Klinik Jati Elok | No Sales
                             @if($no_sales->count() > 0)
                                 @foreach($no_sales as $ns)
                                 <tr>
-                                    <td>{{$ns->created_at->format('d-m-Y')}}</td>
-                                    <td>{{$ns->created_at->format('H:i:s')}}</td>
+                                    <td>{{$ns->created_at->format('d M Y H:i:s')}}</td>
                                     <td>{{$ns->staf->nama}}</td>
                                     <td>{{$ns->tujuan}}</td>
+                                    <td class='uang'>{{$ns->uang_masuk}}</td>
+                                    <td class='uang'>{{$ns->uang_keluar}}</td>
                                     <td> <a class="btn btn-info btn-xs" href="{{ url('pdfs/ns/' . $ns->id) }}" target="_blank">Print Struk</a> </td>
                                 </tr>
                                 @endforeach

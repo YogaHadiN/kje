@@ -1,17 +1,17 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Hitung Saldo
+Klinik Jati Elok | Hitung Uang di Kasir
 
 @stop
 @section('page-title') 
-<h2>Hitung Saldo</h2>
+<h2>Hitung Uang di Kasir</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Hitung Saldo</strong>
+		  <strong>Hitung Uang di Kasir</strong>
 	  </li>
 </ol>
 

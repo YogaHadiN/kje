@@ -13,7 +13,7 @@ class NoSalesController extends Controller
 {
     public function index(){
 	        $no_sales = NoSale::with('staf')->latest()->paginate(30);
-		      return view('no_sales.index', compact('no_sales'));
+		    return view('no_sales.index', compact('no_sales'));
     }
    public function store(){
         $tujuan = Input::get('tujuan');

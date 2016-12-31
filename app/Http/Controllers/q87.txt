@@ -1,0 +1,2 @@
+alter table no_sales add column uang_masuk int(11) not null;
+alter table no_sales add column uang_keluar int(11) not null;
