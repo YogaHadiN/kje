@@ -51,7 +51,6 @@ class testJurnal extends Command
 		} else {
 			$text .= 'tidak ada' ;
 		}
-
 		Sms::send('081381912803', $text);
     }
 }
