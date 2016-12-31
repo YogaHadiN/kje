@@ -1,4 +1,4 @@
-update jurnal_umums set nilai = 100000 where id=104320;
+	update jurnal_umums set nilai = 100000 where id=104320;
 
  0 => {#1807
     +"nilai_debit": "61522"

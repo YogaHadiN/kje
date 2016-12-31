@@ -38,5 +38,9 @@ class sendMeLaravelLog extends Command
     public function handle()
     {
 		exec('cp /var/www/kje/storage/logs/laravel.log /home/kje/Dropbox/backup11/log/laravel' . date('Y-m-d_H_i_s') . '.log');
+		exec('cp -r /var/www/kje/public/img/belanja /home/kje/Dropbox/backup11/img/belanja' . date('Y-m-d_H_i_s'));
+		exec('cp -r /var/www/kje/public/img/alat /home/kje/Dropbox/backup11/img/alat' . date('Y-m-d_H_i_s'));
+		exec('cp -r /var/www/kje/public/img/serviceAc /home/kje/Dropbox/backup11/img/serviceAc' . date('Y-m-d_H_i_s'));
+		exec('cp -r /var/www/kje/public/img/lain /home/kje/Dropbox/backup11/img/lain' . date('Y-m-d_H_i_s'));
     }
 }
