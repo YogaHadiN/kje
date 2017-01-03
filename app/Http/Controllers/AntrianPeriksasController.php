@@ -134,7 +134,7 @@ class AntrianPeriksasController extends Controller
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
 		$hapus                   = AntrianPoli::find($antrian_id);
 		$hapus->delete();
-		$promo = Promo::where('promoable_type' , 'App\AntrianPoli')->where('promoable_id', $antrian_id)->first() 
+		$promo = Promo::where('promoable_type' , 'App\AntrianPoli')->where('promoable_id', $antrian_id)->first() ;
 		if ( $promo ) {
 			$promo->promoable_type = 'App\AntrianPeriksa';
 			$promo->promoable_id = $ap->id;
