@@ -9,6 +9,9 @@
         padding-right: 2em;
     }
 
+	body{
+		font-size : 5px !important;
+	}
 .font-smaller {
   font-size: 9px;
 }
@@ -190,23 +193,28 @@ border-spacing: -1px;
 	.tabelTerapi td{
    white-space: nowrap;
 	}
+	.table-bordered td{
+		border-collapse : collapse;
+		border : 1px solid black;
+	}
 	table {
-		border-collapse : collapse;
+		 font-size:9px;
+		 border-collapse:collapse;
 	}
-	table td{
-		border-collapse : collapse;
-		border : 0.1px solid #2f4050;
+	table td {
+		border-left : 1px solid black;
+		border-right : 1px solid black;
 	}
-	table{
-		 font-size:9px !important;
+	.border-top td{
+		 border-top : 1px solid black;
 	}
-	.text-right{
-		text-align:right;
+	.border-bottom td{
+		 border-bottom : 1px solid black;
 	}
 
 </style>
 </head>
-<body style="font-size:11px; font-family:sans-serif">
-	@include('laporan_laba_rugis.form')
+<body>
+	@include('buku_besars.form')
 </body>
 </html>

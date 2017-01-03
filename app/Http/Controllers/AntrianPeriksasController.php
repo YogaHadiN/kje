@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use App\Asuransi;
 use App\Staf;
+use App\Promo;
 use App\BukanPeserta;
 use App\Classes\Yoga;
 use App\AntrianPeriksa;
@@ -66,13 +67,13 @@ class AntrianPeriksasController extends Controller
 
 		$rules = [
 
-			'staf_id' => 'required',
-			'hamil' => 'required',
+			'staf_id'          => 'required',
+			'hamil'            => 'required',
 			'kecelakaan_kerja' => 'required',
-			'pasien_id' => 'required',
-			'asuransi_id' => 'required',
-			'asisten_id' => 'required',
-			'poli' => 'required'
+			'pasien_id'        => 'required',
+			'asuransi_id'      => 'required',
+			'asisten_id'       => 'required',
+			'poli'             => 'required'
 
 		];
 
@@ -133,6 +134,12 @@ class AntrianPeriksasController extends Controller
 		$pasien                  = Pasien::find(Input::get('pasien_id'));
 		$hapus                   = AntrianPoli::find($antrian_id);
 		$hapus->delete();
+		$promo = Promo::where('promoable_type' , 'App\AntrianPoli')->where('promoable_id', $antrian_id)->first() 
+		if ( $promo ) {
+			$promo->promoable_type = 'App\AntrianPeriksa';
+			$promo->promoable_id = $ap->id;
+			$promo->save();
+		}
 
 		PengantarPasien::where('antarable_id', $antrian_id)
 			->where('antarable_type', 'App\AntrianPoli')
@@ -208,4 +215,9 @@ class AntrianPeriksasController extends Controller
 		  $p->transaksi = '[{"jenis_tarif_id":"1","jenis_tarif":"Jasa Dokter","biaya":0},{"jenis_tarif_id":"9","jenis_tarif":"Biaya Obat","biaya":0}]';
 		  $p->save();
 	}
+
+    protected $morphClass = 'App\AntrianPeriksa';
+    public function promos(){
+        return $this->morphMany('App\Promo', 'jurnalable');
+    }
 }

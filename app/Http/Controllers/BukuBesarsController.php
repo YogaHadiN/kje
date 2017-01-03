@@ -22,10 +22,14 @@ class BukuBesarsController extends Controller
         $tahun  = Input::get('tahun');
 
 		$jurnalumums = JurnalUmum::where('coa_id', $coa_id)
-		->where('created_at', 'like', $tahun . '-' . $bulan . '%')
-		->get();
+					->where('created_at', 'like', $tahun . '-' . $bulan . '%')
+					->get();
 
-
-    	return view('buku_besars.show', compact('jurnalumums'));
+		return view('buku_besars.show', compact(
+			'jurnalumums',
+			'bulan',
+			'tahun',
+			'coa_id'
+		));
     }
 }

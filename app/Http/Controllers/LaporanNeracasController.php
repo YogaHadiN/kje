@@ -14,6 +14,24 @@ class LaporanNeracasController extends Controller
 {
 
     public function index(){
+		$akunAktivaLancar      = $this->temp()['akunAktivaLancar'];
+		$total_harta           = $this->temp()['total_harta'];
+		$akunHutang            = $this->temp()['akunHutang'];
+		$akunModal             = $this->temp()['akunModal'];
+		$laba_tahun_berjalan   = $this->temp()['laba_tahun_berjalan'];
+		$akunAktivaTidakLancar = $this->temp()['akunAktivaTidakLancar'];
+
+    	return view('laporan_neracas.show', compact(
+            'akunAktivaLancar',
+            'total_harta',
+            'akunHutang',
+            'akunModal',
+            'laba_tahun_berjalan',
+            'akunAktivaTidakLancar'
+        ));
+	}
+	public function temp(){
+		
 		$akunAktivaLancar = Coa::where('kelompok_coa_id', 'like', '11')->get();
 		$akunAktivaTidakLancar = Coa::where('kelompok_coa_id', 'like', '12')->get();
 		$total_harta = 0;
@@ -31,15 +49,15 @@ class LaporanNeracasController extends Controller
 			$total_modal += $v->total;
 		}
 		$laba_tahun_berjalan = $total_harta - $total_hutang - $total_modal;
-
-    	return view('laporan_neracas.show', compact(
-            'akunAktivaLancar',
-            'total_harta',
-            'akunHutang',
-            'akunModal',
-            'laba_tahun_berjalan',
-            'akunAktivaTidakLancar'
-        ));
+		return [ 
+			'akunAktivaLancar'      => $akunAktivaLancar,
+			'total_harta'           => $total_harta,
+			'akunHutang'            => $akunHutang,
+			'akunModal'             => $akunModal,
+			'laba_tahun_berjalan'   => $laba_tahun_berjalan,
+			'akunAktivaTidakLancar' => $akunAktivaTidakLancar
+		];
 	}
+	
 
 }

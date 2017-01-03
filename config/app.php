@@ -155,6 +155,7 @@ return [
 		Yajra\Datatables\DatatablesServiceProvider::class,
 	    Laravel\Socialite\SocialiteServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
+		Barryvdh\Snappy\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -217,7 +218,9 @@ return [
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 		'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 		'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
-		'Image' => Intervention\Image\Facades\Image::class
+		'Image' => Intervention\Image\Facades\Image::class,
+		'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+		'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class
 
     ],
 

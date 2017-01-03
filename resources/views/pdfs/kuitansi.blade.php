@@ -2,91 +2,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Klinik Jati Elok | Kuitansi</title>
-<style>
-	@page 
-	{
-        margin: 2em;
-        padding-right: 2em;
-    }
-	
-	.b-top td{
-		border-top: 1px solid #000000;
-		font-weight: bold;
-		font-size: 15px;
-	}
+	<link rel="stylesheet" href="{{ url('css/struk.css') }}" title="" type="" />
 
-
-	.status
-	{
-		text-align:center;
-		font-size:15px;
-		font-weight:bold;
-		border: 2px solid black;
-	}
-
-	.content2 {
-		padding:10px;
-		border-collapse: collapse;
-		border: 1px solid black;
-		width: 50%;
-	}
-
-	table{
-border-spacing: -1px;
-	}
-	table td{
-		padding:2px;
-		vertical-align: text-top;
-	}
-
-	.gantung1 {
-		padding: 2px 2px 5px 4px;
-	}
-
-	.klinik {
-		font-size:16px;font-weight:bold;
-	}
-
-	.content1 {
-		margin:10px 0px;
-	}
-	
-	.text-left{
-		text-align: left;
-	}	
-	.text-right{
-		text-align: right;
-	}
-
-	.bottom{
-		margin-bottom: 10px
-	}
-
-	.bold{
-		font-weight: bold;
-		font-size: 15px;
-	}
-
-	.margin-top-bottom {
-		padding-top:10px;
-	}
-
-	.image {
-		height: 50px;
-		width: 50px;
-	}
-
-	#header td:first-child {
-		width:55px;
-	}
-
-	.uang {
-		text-align: right;
-	}
-	
-
-
-</style>
 </head>
 <body style="font-size:12px; font-family:sans-serif">
 	<div style="" class="bottom">
@@ -96,11 +13,11 @@ border-spacing: -1px;
 					<table id="header">
 						<tr>
 							<td>
-								<div>
-									<div class="klinik">KLINIK JATI ELOK </div>
-									Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, <br>
-									Malangnengah, Pagedangan, Tangerang, Banten 021 98496234
-								</div>
+
+								<div class="klinik">KLINIK JATI ELOK </div>
+								Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, <br>
+								Malangnengah, Pagedangan, Tangerang, Banten 021 98496234
+
 							</td>
 						</tr>
 					</table>
@@ -173,6 +90,5 @@ border-spacing: -1px;
 	</table>
 	<div class="margin-top-bottom">Terbilang : {!! $terbilang !!}</div>
 	<div class="text-right bold">Tangerang, {!! App\Classes\Yoga::updateDatePrep($periksa->tanggal) !!}</div>
-
 </body>
 </html>

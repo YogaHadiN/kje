@@ -763,6 +763,9 @@ class Periksa extends Model{
 
 
     protected $morphClass = 'App\Periksa';
+    public function promos(){
+        return $this->morphMany('App\Promo', 'jurnalable');
+    }
     public function jurnals(){
         return $this->morphMany('App\JurnalUmum', 'jurnalable');
     }

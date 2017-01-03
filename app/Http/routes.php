@@ -529,6 +529,10 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('pdfs/formulir/usg/{id}/{asuransi_id}', 'PdfsController@formUsg');
 			Route::get('pdfs/merek', 'PdfsController@merek');
 			Route::get('pdfs/laporan_laba_rugi/{bulan}/{tahun}', 'PdfsController@laporanLabaRugi');
+			Route::get('pdfs/laporan_neraca', 'PdfsController@laporanNeraca');
+			Route::get('pdfs/jurnal_umum/{bulan}/{tahun}', 'PdfsController@jurnalUmum');
+			Route::get('pdfs/buku_besar/{bulan}/{tahun}/{coa_id}', 'PdfsController@jurnalUmum');
+			Route::get('pdfs/this', 'PdfsController@this');
 
 
 
@@ -586,6 +590,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('discounts/{id}/edit', 'DiscountsController@edit');
 			Route::get('discounts/{id}/delete', 'DiscountsController@delete');
 			Route::put('discounts/{id}', 'DiscountsController@update');
+			Route::get('promo/kecantikan/ktp/pertahun', 'DiscountsController@promoKtpPertahun');
+			Route::post('promo/kecantikan/ktp/pertahun', 'DiscountsController@promoKtpPertahunPost');
 
 			Route::get('acs', 'AcsController@index');
 			Route::get('acs/create', 'AcsController@create');

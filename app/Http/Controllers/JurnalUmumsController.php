@@ -63,7 +63,11 @@ class JurnalUmumsController extends Controller
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
             ->paginate(10);
 
-		return view('jurnal_umums.show', compact('jurnalumums'));
+		return view('jurnal_umums.show', compact(
+			'bulan',
+			'tahun',
+			'jurnalumums'
+		));
 	}
 
 	/**

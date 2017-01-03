@@ -9,6 +9,9 @@
         padding-right: 2em;
     }
 
+	body{
+		font-size : 5px !important;
+	}
 .font-smaller {
   font-size: 9px;
 }
@@ -190,23 +193,79 @@ border-spacing: -1px;
 	.tabelTerapi td{
    white-space: nowrap;
 	}
+	.table-bordered td{
+		border-collapse : collapse;
+		border : 1px solid black;
+	}
 	table {
-		border-collapse : collapse;
+		 font-size:9px;
+		 border-collapse:collapse;
 	}
-	table td{
-		border-collapse : collapse;
-		border : 0.1px solid #2f4050;
+	table td {
+		border-left : 1px solid black;
+		border-right : 1px solid black;
 	}
-	table{
-		 font-size:9px !important;
+	.border-top td{
+		 border-top : 1px solid black;
 	}
-	.text-right{
-		text-align:right;
+	.border-bottom td{
+		 border-bottom : 1px solid black;
 	}
 
 </style>
 </head>
-<body style="font-size:11px; font-family:sans-serif">
-	@include('laporan_laba_rugis.form')
+<body>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Tanggal</th>
+				<th>Akun</th>
+				<th>Debet</th>
+				<th>Kredit</th>
+			</tr>
+			@foreach($jurnals as $ju)	
+				@foreach($ju as $k => $j)	
+					@if( $k == 0 )
+						<tr class="border-top">
+						<td> {{ $j->created_at->format('d M Y') }}</td>
+					@elseif( $k == count($ju) -1 )
+						<tr class="border-bottom">
+							<td></td>	
+					@else
+						<tr>
+							<td></td>	
+					@endif
+						@if( $j->debit == '1' )
+							<td class='text-left'> {{ $j->coa->coa }}</td>
+							<td class="text-right"> {{App\Classes\Yoga::buatrp(  $j->nilai  )}}</td>
+							<td></td>
+							@if( $k == count($ju) -1 )
+								<tr class="border-bottom">
+									<td></td>	
+							@else
+								<tr>
+									<td></td>	
+							@endif
+						@else
+							<td class='text-right'> {{ $j->coa->coa }}</td>
+							<td></td>
+							<td class="text-right"> {{App\Classes\Yoga::buatrp(  $j->nilai  )}}</td>
+							@if( $k == count($ju) -1 )
+								</tr>
+								@if( isset( $j->jurnalable->ketJurnal ) )
+								<tr>
+									<td></td>
+									<td>{{ $j->jurnalable->ketJurnal }}</td>
+									<td colspan="2"></td>
+								</tr>
+								@endif
+							@else
+								</tr>
+							@endif
+						@endif
+				@endforeach
+			@endforeach
+		</tbody>
+	</table>
 </body>
 </html>

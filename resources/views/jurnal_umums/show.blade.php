@@ -19,10 +19,10 @@ Klinik Jati Elok | Jurnal Umum
       <div class="panel-heading">
             <div class="panel-title">
                 <div class="panelLeft">
-                  <h3>Jurnal Umum</h3>
+                    <h3>Total : {!! $jurnalumums->count() !!}</h3>
                 </div>
                 <div class="panelRight">
-                    <h3>Total : {!! $jurnalumums->count() !!}</h3>
+					<a class="btn btn-info" target="_blank" href="{{ url('pdfs/jurnal_umum/' .$bulan . '/' . $tahun) }}">Bentuk PDF</a>
                 </div>
             </div>
       </div>

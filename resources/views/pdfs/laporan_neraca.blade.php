@@ -9,6 +9,9 @@
         padding-right: 2em;
     }
 
+	body{
+		font-size : 5px !important;
+	}
 .font-smaller {
   font-size: 9px;
 }
@@ -190,23 +193,17 @@ border-spacing: -1px;
 	.tabelTerapi td{
    white-space: nowrap;
 	}
+	.table-bordered td{
+		border-collapse : collapse;
+		border : 1px solid black;
+	}
 	table {
-		border-collapse : collapse;
-	}
-	table td{
-		border-collapse : collapse;
-		border : 0.1px solid #2f4050;
-	}
-	table{
-		 font-size:9px !important;
-	}
-	.text-right{
-		text-align:right;
+		 font-size:9px;
 	}
 
 </style>
 </head>
-<body style="font-size:11px; font-family:sans-serif">
-	@include('laporan_laba_rugis.form')
+<body>
+	@include('laporan_neracas.form')
 </body>
 </html>

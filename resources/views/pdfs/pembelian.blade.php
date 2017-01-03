@@ -8,75 +8,8 @@
         @elseif ($fakturbelanja->belanja_id == 3)
             <title>Struk Pengeluaran</title>
         @endif
-        
-        
-        <style type="text/css" media="all">
-        
-*{
-        padding:2px;
-        margin:2px;
-}
-.tanda-tangan td{
-    padding:23px
-}
-.font-small {
-    font-size:5;
-}
-table{
-    width:100%;
-}
+		<link rel="stylesheet" href="{{ url('css/struk.css') }}" title="" type="" />
 
-h1{
-    font-weight:normal;
-}
-h5{
-    font-weight:normal;
-}
-
-body{
-    font-family: Trebuchet, Arial, sans-serif;
-    font-size:7;
-}
-tfoot {
-     padding-top:4px;
-}
-.big{
-    font-size:7px;
-        font-weight:bold;
-}
-.text-right {
-    text-align:right;
-}
-
-.text-center {
-    text-align:center;
-}
-hr {
-    border: none;
-    height: 0.01mm;
-    /* Set the hr color */
-    color: #333; /* old IE */
-    background-color: #333; /* Modern Browsers */
-}
-                            .footer{
-                                padding:5px;
-                            }
-                            .border-bottom{
-                                border-bottom: 0.3px solid black;
-                            }
-                            .border-top{
-                                border-top: 0.3px solid black;
-                            }
-                            .small-padding{
-                                 padding:12px;
-                            }
-            
-                            .big{
-                                font-size:15;
-                                font-weight:bold;
-                            }
-        
-        </style>
     </head>
     <body>
         <div class="row" id="content-print">
@@ -128,48 +61,50 @@ hr {
                </div>
                 <div class="font-small border-bottom">
                     <table class="table table-condensed bordered">
-                        <thead>
-                            <tr>
-                                <th>Merek</th>
-                                <th>Rp</th>
-                                <th>Qty</th>
-                                <th>Harga</th>
-                            </tr>
-                        </thead>
                         <tbody id="daftarBelanja">
                             @if ($fakturbelanja->belanja_id == 1)
                                 @foreach ($fakturbelanja->pembelian as $pemb)
                                     <tr>
-                                        <td>{{ $pemb->merek->merek }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp($pemb->harga_beli) }}</td>
-                                        <td nowrap class="text-right">{{ $pemb->jumlah }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->harga_beli * $pemb->jumlah ) }}</td>
+                                        <td colspan="4">{{ $pemb->merek->merek }}</td>
                                     </tr>
+									<tr class="border-bottom-dash">
+                                        <td nowrap class="text-left" colspan="2">
+											@ {{ App\Classes\Yoga::buatrp($pemb->harga_beli) }} x {{ $pemb->jumlah }}
+										</td>
+                                        <td nowrap class="text-right" colspan="2">{{ App\Classes\Yoga::buatrp( $pemb->harga_beli * $pemb->jumlah ) }}</td>
+									</tr>
                                 @endforeach
                             @elseif ($fakturbelanja->belanja_id == 4)
                                 @foreach ($fakturbelanja->belanjaPeralatan as $pemb)
                                     <tr>
-                                        <td>{{ $pemb->peralatan }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp($pemb->harga_satuan) }}</td>
-                                        <td nowrap class="text-right">{{ $pemb->jumlah }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->harga_satuan * $pemb->jumlah ) }}</td>
+                                        <td	colspan="4">{{ $pemb->peralatan }}</td>
                                     </tr>
+									<tr class="border-bottom-dash">
+                                        <td nowrap class="text-left" colspan='2'>
+											@ {{ App\Classes\Yoga::buatrp($pemb->harga_satuan) }} x {{ $pemb->jumlah }}
+										</td>
+                                        <td nowrap class="text-right" colspan="2">{{ App\Classes\Yoga::buatrp( $pemb->harga_satuan * $pemb->jumlah ) }}</td>
+									</tr>
                                 @endforeach
                             @elseif ($fakturbelanja->belanja_id == 3)
                                 @foreach ($fakturbelanja->pengeluaran as $pemb)
                                     <tr>
-                                        <td>{{ $pemb->bukanObat->nama }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp($pemb->harga_satuan) }}</td>
-                                        <td nowrap class="text-right">{{ $pemb->jumlah }}</td>
-                                        <td nowrap class="text-right">{{ App\Classes\Yoga::buatrp( $pemb->harga_satuan * $pemb->jumlah ) }}</td>
+                                        <td colspan='4'>{{ $pemb->bukanObat->nama }}</td>
                                     </tr>
+									<tr class="border-bottom-dash">
+                                        <td nowrap class="text-left" colspan="2">
+											@ {{ App\Classes\Yoga::buatrp($pemb->harga_satuan) }} x {{ $pemb->jumlah }}
+										</td>
+                                        <td nowrap class="text-right" colspan="2">{{ App\Classes\Yoga::buatrp( $pemb->harga_satuan * $pemb->jumlah ) }}</td>
+									</tr>
                                 @endforeach
                             @endif
                         </tbody>
                         <tfoot class="big">
                             <tr>
-                                <td>Total</td>
-                                <td id="totalBiaya" class="text-right" nowrap colspan="3">{{ App\Classes\Yoga::buatrp( $total ) }}</td>
+								<td id="totalBiaya" class="strong uang text-right" nowrap colspan="4">
+									{{ App\Classes\Yoga::buatrp( $total ) }}
+								</td>
                             </tr>    
                         </tfoot>
                     </table>

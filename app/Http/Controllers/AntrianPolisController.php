@@ -7,6 +7,7 @@ use Input;
 
 use App\Http\Requests;
 use App\Asuransi;
+use App\Promo;
 use App\Perujuk;
 use App\Pasien;
 use App\AntrianPoli;
@@ -128,11 +129,29 @@ class AntrianPolisController extends Controller
 
 		}
 
+		if ( !empty(  Input::get('no_ktp')  )) {
+
+			$promo = Promo::where('no_ktp', Input::get('no_ktp'))->where('tahun', date('Y'))->get();
+
+			if ( $promo->count() > 0 ) {
+				$p                  = new Promo;
+				$p->no_ktp          = Input::get('no_ktp');
+				$p->tahun           = date('Y');
+				$p->promoable_id = $antrian_poli_id;
+				$p->promoable_type = 'App\AntrianPoli';
+				$p->save();
+			} else {
+				$conf = false;
+			}
+
+
+		}
+
 
 		if ($conf) {
-			$pesan = '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>';
+			$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
 		} else {
-			$pesan = '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station';
+			$pesan = Yoga::gagalFlash('<strong>Mohon Maag</strong> Promo sudah pernah digunakan sebelumnya untuk Tahun ini');
 		}
 
 		if (Input::get('asuransi_id') == '32') {
@@ -141,11 +160,11 @@ class AntrianPolisController extends Controller
 		if ( $ap->poli == 'usg' ) {
 			return redirect('antrianpolis')
 				->withPrint($ap)
-				->withPesan(Yoga::suksesFlash($pesan));
+				->withPesan($pesan);
 		}
 
 		return redirect('antrianpolis')
-			->withPesan(Yoga::suksesFlash($pesan));
+			->withPesan($pesan);
 	}
 
 	/**
@@ -216,5 +235,10 @@ class AntrianPolisController extends Controller
 
 		return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('pasien <strong>' .$pasien_id . ' -  ' . $nama .'</strong> berhasil dihapus dari Antrian'));
 	}
+
+    protected $morphClass = 'App\AntrianPoli';
+    public function promos(){
+        return $this->morphMany('App\Promo', 'jurnalable');
+    }
 
 }

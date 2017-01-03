@@ -106,6 +106,7 @@
                             <li>{!! HTML::link('fakturbelanjas/serviceAc', 'Faktur Service Ac')!!}</li>
                             <li>{!! HTML::link('nota_juals', 'Cari Nota Jual ')!!}</li>
                             <li>{!! HTML::link('bayardokters', 'Pembayaran Dokter')!!}</li>
+                            <li>{!! HTML::link('promo/kecantikan/ktp/pertahun', 'Promo KTP Per Tahun')!!}</li>
                         </ul>
                     </li>
 					<li>

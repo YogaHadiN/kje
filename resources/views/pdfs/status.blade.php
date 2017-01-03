@@ -12,7 +12,6 @@
 .font-smaller {
   font-size: 9px;
 }
-
 .border-all {
 	border:0.5px solid black;
 	padding:5px;
@@ -191,6 +190,10 @@ border-spacing: -1px;
    white-space: nowrap;
 
 	}
+	table{
+		font-size:10px;
+		border-collapse:collapse;
+	}
 
 </style>
 </head>
@@ -208,7 +211,7 @@ border-spacing: -1px;
 			</tr>
 		</table>
 	</div>
-	<table style="width:100%">
+	<table style="width:100%" class="status-pasien">
 		<tr>
 			<td nowrap>
 				<table style="width:100%" class="content1">
@@ -342,22 +345,18 @@ border-spacing: -1px;
 					@endif
 				</td>
 			</tr>
-			<tr>
-				<td colspan="2">
-					<table width="100%" id="qc" class="border">
-						<tbody>
-							<tr>
-								<td>Ttd Peracik</td>
-								@if($puyerAdd)
-								<td>Ttd Saksi Puyer/Add</td>
-								@endif
-								<td>Ttd Quality Control</td>
-								<td>Ttd Pemeriksa</td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
+			<table width="100%" id="qc" class="border">
+				<tbody>
+					<tr>
+						<td>Ttd Peracik</td>
+						@if($puyerAdd)
+						<td>Ttd Saksi Puyer/Add</td>
+						@endif
+						<td>Ttd Quality Control</td>
+						<td>Ttd Pemeriksa</td>
+					</tr>
+				</tbody>
+			</table>
 		@else
 			<tr>
 				<td colspan="2" class="content1">

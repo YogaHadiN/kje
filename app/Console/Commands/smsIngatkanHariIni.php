@@ -41,7 +41,6 @@ class smsIngatkanHariIni extends Command
      */
     public function handle()
     {
-
 		$antrianpolis = AntrianPoli::where('poli', 'gigi')
 					->where('tanggal', date('Y-m-d'))
 					->get();
@@ -57,8 +56,9 @@ class smsIngatkanHariIni extends Command
 			$pasiens[] = $ap->pasien_id;
 		}
 
+		$pasiens = array_unique( $pasiens );
+
 		$ps = Pasien::whereIn('id', $pasiens)->get();
-		//return dd(array_unique(  $pasiens  ));
 		$text = "Terkirim sms mengingatkan janji konsultasi hari ini ke " . count($ps) . ' orang : ';
 		foreach ($ps as $ap) {
 			$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok mengingatkan hari ini pasien a/n ' . $ap->nama . ' ada janji konsultasi ke dokter gigi jam 17.00.';

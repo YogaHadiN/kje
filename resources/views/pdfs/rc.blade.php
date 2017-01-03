@@ -4,70 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>Tambah Uang ke Kasir</title>
-        <style type="text/css" media="all">
-        
-*{
-        padding:2px;
-        margin:2px;
-}
-.tanda-tangan td{
-    padding:23px
-}
-table{
-    width:100%;
-}
+		<link rel="stylesheet" href="{{ url('css/struk.css') }}" title="" type="" />
 
-h1{
-    font-weight:normal;
-}
-h5{
-    font-weight:normal;
-}
-
-body{
-    font-family: Trebuchet, Arial, sans-serif;
-    font-size:7;
-}
-tfoot {
-     padding-top:4px;
-}
-.big{
-    font-size:7px;
-        font-weight:bold;
-}
-.text-right {
-    text-align:right;
-}
-
-.text-center {
-    text-align:center;
-}
-hr {
-    border: none;
-    height: 0.01mm;
-    /* Set the hr color */
-    color: #333; /* old IE */
-    background-color: #333; /* Modern Browsers */
-}
-                            .footer{
-                                padding:5px;
-                            }
-                            .border-bottom{
-                                border-bottom: 0.3px solid black;
-                            }
-                            .border-top{
-                                border-top: 0.3px solid black;
-                            }
-                            .small-padding{
-                                 padding:12px;
-                            }
-            
-                            .big{
-                                font-size:15;
-                                font-weight:bold;
-                            }
-        
-        </style>
     </head>
     <body>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

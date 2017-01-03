@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Discount;
+use App\Promo;
 use App\Asuransi;
 use App\DiscountAsuransi;
 use App\Classes\Yoga;
@@ -125,4 +126,38 @@ class DiscountsController extends Controller
 		}
 		return redirect('discounts')->withPesan($pesan);
 	}
+	public function promoKtpPertahun(){
+		$promos = Promo::all();
+		return view('discounts.promoKtpPerTahun', compact('promos'));
+	}
+	public function promoKtpPertahunPost(){
+		return dd( Input::all() );
+		$rules = [
+			'no_ktp' => 'required',
+			'poli'   => 'required',
+			'tahun'  => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$p         = new Promo;
+		$p->no_ktp = Input::get('no_ktp');
+		$p->poli   = Input::get('poli');
+		$p->tahun  = Input::get('tahun');
+		$confirm   = $p->save();
+
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('Promo telah <strong>BERHASIL</strong> Dimasukkan');
+		} else {
+			$pesan = Yoga::gagalFlash('Promo telah <strong>GAGAL</strong> Dimasukkan');
+		}
+		return redirect('redirectUrl')->back()->withPesan($pesan);
+	}
+	
+	
 }

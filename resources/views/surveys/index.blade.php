@@ -187,6 +187,11 @@ Klinik Jati Elok | Asuransi
                                         <td>Dibayar Asuransi</td>
                                         <td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(this)" value="0"></td>
                                     </tr>
+                                @elseif($periksa->asuransi_id == 32)
+									<tr>
+                                        <td>Dibayar Asuransi</td>
+                                        <td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(this)" value="0" readonly></td>
+                                    </tr>
                                 @else
                                     <tr>
                                         <td>Dibayar Asuransi</td>

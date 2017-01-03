@@ -41,21 +41,20 @@ Klinik Jati Elok | Nurse Station
 @stop
 @section('content') 
 <input type="hidden" name="_token" id="token" value="{{ Session::token() }}">
-
 <div class="panel panel-primary">
-      <div class="panel-heading">
-            <div class="panel-title">
-                <div class="panelLeft">
-					<h3>Schedulle Hari Ini</h3>
-                </div>
-				<div class="panelRight">
-                    <h3>Total : {!! $antrianpolis->count() !!}</h3>
-                </div>
-            </div>
-      </div>
-      <div class="panel-body">
-		  @include('antrianpolis.form', ['antrianpolis' => $antrianpolis])
-      </div>
+  <div class="panel-heading">
+	<div class="panel-title">
+		<div class="panelLeft">
+			<h3>Schedulle Hari Ini</h3>
+		</div>
+		<div class="panelRight">
+			<h3>Total : {!! $antrianpolis->count() !!}</h3>
+		</div>
+	</div>
+  </div>
+  <div class="panel-body">
+	  @include('antrianpolis.form', ['antrianpolis' => $antrianpolis])
+  </div>
 </div>
 <div class="alert alert-danger">
 	Baris tabel dengan background merah adalah pasien yang melakukan Pendaftaran sendiri, harap cek dulu asuransi nya bisa dipakai atau tidak

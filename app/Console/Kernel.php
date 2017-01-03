@@ -8,6 +8,7 @@ use App\AntrianPoli;
 use App\Kontrol;
 use App\Ac;
 use DateTime;
+use DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -46,6 +47,7 @@ class Kernel extends ConsoleKernel
 		 Commands\perbaikiJurnal::class,
 		 Commands\smsPanggilTukanAc::class,
 		 Commands\testNeraca::class,
+		 Commands\smsPromoUlangTahun::class,
 
 
     ];
@@ -60,6 +62,8 @@ class Kernel extends ConsoleKernel
 		 if (gethostname() != 'dell') {
 			 $schedule->command('task:penyusutan')
 					  ->monthlyOn(date('t'), '15:00');
+			 $schedule->command('sms:promoUlangTahun')
+					  ->monthlyOn('1', '14:00');
 			 $schedule->command('db:hapusDiskon')
 					  ->dailyAt('23:50');
 			 $schedule->command('test:neraca')
@@ -119,10 +123,13 @@ class Kernel extends ConsoleKernel
 			 $schedule->command('sms:ingatkanHariIni')
 				 ->dailyAt('13:30')
 				 ->when(function(){
-					 $count = AntrianPoli::where('poli', 'gigi')
+					 $countAntrianPoli = AntrianPoli::where('poli', 'gigi')
 						 ->where('tanggal', date('Y-m-d'))
 						 ->count();
-					return $count > 0;
+					 $countAntrianPeriksa = AntrianPeriksa::where('poli', 'gigi')
+						 ->where('tanggal', date('Y-m-d'))
+						 ->count();
+					return ( $countAntrianPoli + $countAntrianPeriksa ) > 0;
 				 }); 
 
 			 $schedule->command('sms:kontrol')

@@ -5,6 +5,7 @@ use Input;
 
 use App\Http\Requests;
 use App\Http\Controllers\LaporanLabaRugisController;
+use App\Http\Controllers\LaporanNeracasController;
 use App\Classes\Yoga;
 use App\Periksa;
 use App\Modal;
@@ -110,18 +111,39 @@ class PdfsController extends Controller
                 $trxa[$k]['jenis_tarif'] = $transaksis[$k]->jenisTarif->jenis_tarif;
             }
         }
-        $total_biaya = Yoga::buatrp( $total_biaya );
+        $total_biaya      = Yoga::buatrp( $total_biaya );
         $dibayar_asuransi = Yoga::buatrp( $dibayar_asuransi );
-        $dibayar_pasien = Yoga::buatrp( $dibayar_pasien );
-        $pembayaran = Yoga::buatrp( $pembayaran );
-        $kembalian = Yoga::buatrp( $kembalian );
+        $dibayar_pasien   = Yoga::buatrp( $dibayar_pasien );
+        $pembayaran       = Yoga::buatrp( $pembayaran );
+        $kembalian        = Yoga::buatrp( $kembalian );
         //return dd( $trxa );
-        $pdf = PDF::loadView('pdfs.struk', compact('trxa', 'periksa', 'total_biaya', 'dibayar_asuransi', 'dibayar_pasien', 'pembayaran', 'kembalian'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		$pdf = PDF::loadView('pdfs.struk', compact(
+			'trxa', 
+			'periksa', 
+			'total_biaya', 
+			'dibayar_asuransi', 
+			'dibayar_pasien', 
+			'pembayaran', 
+			'kembalian'
+		//))->setPaper(array(0, 0, 210, 810),'Potrait');
+		))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
 	}
     public function jasa_dokter($bayar_dokter_id){
         $bayar = BayarDokter::find($bayar_dokter_id);
-        $pdf = PDF::loadView('pdfs.jasa_dokter', compact('bayar'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		$pdf = PDF::loadView('pdfs.jasa_dokter', compact('bayar'))
+				->setOption('page-width', 80)
+				->setOption('page-height', 297)
+				->setOption('margin-top', 0)
+				->setOption('margin-bottom', 0)
+				->setOption('margin-right', 0)
+				->setOption('margin-left', 0);
         return $pdf->stream();
     }
     
@@ -146,7 +168,13 @@ class PdfsController extends Controller
 		$pdf = PDF::loadView('pdfs.pembelian', compact(
 			'fakturbelanja', 
 			'total'
-		))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
     }
     public function penjualan($nota_jual_id){
@@ -162,20 +190,40 @@ class PdfsController extends Controller
             }
         }
 
-        $pdf = PDF::loadView('pdfs.penjualan', compact('nota_jual', 'total'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		$pdf = PDF::loadView('pdfs.penjualan', compact('nota_jual', 'total'))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
 
 
     }
     public function pembayaran_asuransi($pembayaran_asuransi_id){
         $pembayaran = PembayaranAsuransi::find($pembayaran_asuransi_id);
-        $pdf = PDF::loadView('pdfs.pembayaran_asuransi', compact('pembayaran'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		$pdf = PDF::loadView('pdfs.pembayaran_asuransi', compact('pembayaran'))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
     }
     
     public function bayar_gaji_karyawan($bayar_gaji_id){
         $bayar = BayarGaji::find($bayar_gaji_id);
-        $pdf = PDF::loadView('pdfs.bayar_gaji_karyawan', compact('bayar'))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		$pdf = PDF::loadView('pdfs.bayar_gaji_karyawan', compact(
+			'bayar'
+		))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
     }
     public function notaz($checkout_kasir_id){
@@ -216,39 +264,75 @@ class PdfsController extends Controller
 			'total_pengeluaran',
 			'total_pengeluaran_tangan',
 			'total_pemasukan'
-		))->setPaper(array(0, 0, 210, 810),'potrait')->setWarnings(false);
+		))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
     }
     public function rc($modal_id){
          $modal = Modal::find($modal_id);
 
-        $pdf = pdf::loadview('pdfs.rc', compact('modal'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
+		 $pdf = pdf::loadview('pdfs.rc', compact('modal'))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
 
     }
     public function ns($no_sale_id){
         $nosale = NoSale::find($no_sale_id);
         
-        $pdf = pdf::loadview('pdfs.ns', compact('nosale'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
+		$pdf = pdf::loadview('pdfs.ns', compact('nosale'))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
     }
 
 	public function pengeluaran($id){
 		
         $pengeluaran = Pengeluaran::find($id);
-        $pdf = pdf::loadview('pdfs.pengeluaran', compact('pengeluaran'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
+		$pdf = pdf::loadview('pdfs.pengeluaran', compact('pengeluaran'))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
 	}
 	public function pendapatan($id){
 		
         $pendapatan = Pendapatan::find($id);
-        $pdf = pdf::loadview('pdfs.pendapatan', compact('pendapatan'))->setpaper(array(0, 0, 210, 810),'potrait')->setwarnings(false);
+		$pdf = pdf::loadview('pdfs.pendapatan', compact('pendapatan'))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
 	}
 	
     public function merek(){
         $mereks = Merek::all();
-        $pdf = pdf::loadview('pdfs.merek', compact('mereks'))->setpaper('A4','potrait')->setwarnings(false);
+		$pdf = pdf::loadview('pdfs.merek', compact('mereks'))
+		->setOption('page-width', 80)
+		->setOption('page-height', 297)
+		->setOption('margin-top', 0)
+		->setOption('margin-bottom', 0)
+		->setOption('margin-right', 0)
+		->setOption('margin-left', 0);
         return $pdf->stream();
     }
 	public function dispensing($rak_id, $mulai, $akhir){
@@ -352,17 +436,81 @@ class PdfsController extends Controller
 		$bulan             = $lap->tempLaporanLabaRugi($bulan, $tahun)['bulan'];
 		$tahun             = $lap->tempLaporanLabaRugi($bulan, $tahun)['tahun'];
 		$bebans            = $lap->tempLaporanLabaRugi($bulan, $tahun)['bebans'];
-		$pdf = PDF::loadView('pdfs.laporan_laba_rugi', compact(
-            'pendapatan_usahas',
-            'hpps',
-            'biayas',
-            'pendapatan_lains',
-            'bulan',
-            'tahun',
-            'bebans'
-		))->setPaper('a4')->setOrientation('potrait')->setWarnings(false);
+		$data = [
+            'pendapatan_usahas' => $pendapatan_usahas,
+            'hpps' => $hpps,
+            'biayas' => $biayas,
+            'pendapatan_lains' => $pendapatan_lains,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'bebans' => $bebans
+		];
+		$pdf = PDF::loadView('pdfs.laporan_laba_rugi', $data)->setPaper('a4');
         return $pdf->stream();
 	}
+	public function this(){
+		$data =  [
+			 'foo' => 'bar'
+		];
+		$pdf = PDF::loadView('pdfs.jurnal_umum', $data)
+			->setPaper('a5')
+			->setOrientation('landscape')
+			->setOption('margin-bottom', 0);
+		return $pdf->stream();
+	}
+	public function laporanNeraca(){
+
+		$th = new LaporanNeracasController;
+		
+		$akunAktivaLancar      = $th->temp()['akunAktivaLancar'];
+		$total_harta           = $th->temp()['total_harta'];
+		$akunHutang            = $th->temp()['akunHutang'];
+		$akunModal             = $th->temp()['akunModal'];
+		$laba_tahun_berjalan   = $th->temp()['laba_tahun_berjalan'];
+		$akunAktivaTidakLancar = $th->temp()['akunAktivaTidakLancar'];
+		$pdf = PDF::loadView('pdfs.laporan_neraca', compact(
+			'akunAktivaLancar',
+			'total_harta',
+			'akunHutang',
+			'akunModal',
+			'laba_tahun_berjalan',
+			'akunAktivaTidakLancar'
+		))
+			->setPaper('a4')
+			->setOrientation('landscape')
+			->setOption('margin-bottom', 0);
+		return $pdf->stream();
+	}
+	public function jurnalUmum($bulan, $tahun){
+		$ju = JurnalUmum::where('created_at', 'like', $tahun . '-' . $bulan . '%')
+			->get();
+		$jurnals = [];
+		foreach ($ju as $j) {
+			$jurnals[$j->jurnalable_id.$j->jurnalable_type][] = $j;
+		}
+
+		$pdf = PDF::loadView('pdfs.jurnal_umum', compact(
+			'jurnals'
+		))
+			->setPaper('a4')
+			->setOption('margin-bottom', 0);
+		return $pdf->stream();
+	}
+	
+	public function bukuBesar($bulan, $tahun, $coa_id){
+		$jurnalumums = JurnalUmum::where('coa_id', $coa_id)
+		->where('created_at', 'like', $tahun . '-' . $bulan . '%')
+		->get();
+
+		$pdf = PDF::loadView('pdfs.buku_besar', compact(
+			'jurnalumums'
+		))
+			->setPaper('a4')
+			->setOption('margin-bottom', 0);
+		return $pdf->stream();
+	}
+	
+	
 	
 	
 	

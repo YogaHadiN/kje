@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width">
         <title>Struk {{ $periksa->id }} | {{ $periksa->pasien->nama }}</title>
         <style type="text/css" media="all">
+				@page{
+					size:210pt 800pt;
+				}
                 *{
                         padding:2px;
                         margin:2px;
@@ -14,18 +17,22 @@
                 }
                 table{
                     width:100%;
+					font-size:10px;
+					border-collapse:collapse;
                 }
 
                 h1{
                     font-weight:normal;
+                    font-size:20px;
                 }
                 h5{
                     font-weight:normal;
+                    font-size:8px;
                 }
 
                 body{
                     font-family: Trebuchet, Arial, sans-serif;
-                    font-size:7;
+                    font-size:7px;
                 }
                 tfoot {
                      padding-top:4px;
@@ -48,35 +55,44 @@
                     color: #333; /* old IE */
                     background-color: #333; /* Modern Browsers */
                 }
-                            .footer{
-                                padding:5px;
-                            }
-                            .border-bottom{
-                                border-bottom: 0.3px solid black;
-                            }
-                            .border-top{
-                                border-top: 0.3px solid black;
-                            }
-                            .small-padding{
-                                 padding:12px;
-                            }
-            
-                            .big{
-                                font-size:15;
-                                font-weight:bold;
-                            }
+				.footer{
+					padding:5px;
+					font-size:11px;
+				}
+				.border-bottom{
+					border-bottom: 1px solid black;
+				}
+				.border-top{
+					border-top: 1px solid black;
+				}
+				.small-padding{
+					 padding:12px;
+				}
+
+				.big{
+					font-size:15;
+					font-weight:bold;
+				}
+				h2 {
+					font-size : 15px;
+
+				}
+				.strong {
+					font-weight:bold!important;
+					font-size: 25px;
+				}
         
         </style>
     </head>
     <body>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="box title-print text-center border-bottom">
+                <div class="box title-print text-center">
                     <h1>Klinik Jati Elok</h1>
                     <h5>
                         Komplek Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Banten <br>
                         Telp : 021 5977529  
                     </h5>
-                    <h2 class="text-center border-top">Pemeriksaan Dokter</h2>
+                    <h2 class="text-center border-top border-bottom">Pemeriksaan Dokter</h2>
                 </div>
             <div class="box border-bottom">
                 <table>
@@ -118,10 +134,8 @@
                         @endforeach
                     </tbody>
                     <tfoot>
-                        <tr class="border-top big">
-                            <td class="">Total</td>
-                            <td>:</td>
-                            <td class="uang text-right" id="biaya-print">{{ $total_biaya }}</td>
+                        <tr>
+                            <td colspan="3" class="strong uang text-right" id="biaya-print">{{ $total_biaya }}</td>
                         </tr>
                         @if($periksa->asuransi_id != 0)
                             <tr>
