@@ -59,6 +59,7 @@ class PeriksasController extends Controller
 	{
 		//return dd( Input::all() );
 
+		return dd( Input::get('perujuk_id') );
 		$rules = [
 		  "kecelakaan_kerja" => "required",
 		  "asuransi_id" => "required",

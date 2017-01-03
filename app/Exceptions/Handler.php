@@ -43,6 +43,11 @@ class Handler extends ExceptionHandler
 			 Log::info('URL YANG error' . Input::url());
 			 Log::info('Method yang error' . Input::method());
 			 if (gethostname() != 'dell') {
+				 Mail::send('email.error', [
+					 'url'    => Input::url(),
+					 'method' => Input::method(),
+					 'error'  => $e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s')
+				 ])
 				 Sms::send('081381912803', $e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s'));
 			 }
 		}

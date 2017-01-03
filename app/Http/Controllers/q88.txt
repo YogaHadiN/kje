@@ -1,4 +1,4 @@
-create table `promos` (
+zcreate table `promos` (
 	`id` int unsigned not null auto_increment primary key,
 	`no_ktp` varchar(255) not null,
 	`promoable_id` varchar(255) not null,
