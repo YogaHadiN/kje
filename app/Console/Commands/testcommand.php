@@ -8,6 +8,8 @@ use App\Pengeluaran;
 use App\FakturBelanja;
 use App\Periksa;
 use DB;
+use Mail;
+use Input;
 
 class testcommand extends Command
 {
@@ -42,26 +44,15 @@ class testcommand extends Command
      */
     public function handle()
     {
-
-		$query  = "SELECT ";
-		$query .= "SUM(case when debit = 1 then nilai else 0 end) as nilai_debit, ";
-		$query .= "SUM(case when debit = 0 then nilai else 0 end) as nilai_kredit, ";
-		$query .= "jurnalable_id, ";
-		$query .= "jurnalable_type ";
-		$query .= "FROM jurnal_umums ";
-		$query .= "WHERE created_at like '2016-10%' ";
-		$query .= "GROUP BY jurnalable_id, jurnalable_type";
-		$data = DB::select($query);
-		$errors = [];
-		foreach ($data as $v) {
-			if ($v->nilai_debit != $v->nilai_kredit) {
-				$errors[] = $v;
-			}
-		}	
-		return dd( $errors );
-		//return Periksa::find($v->jurnalable_id)->pasien->id;
-		//return dd( $data );
-
-
+		 $confirm = Mail::send('email.error', [
+			 'url'    => Input::url(),
+			 'method' => Input::method(),
+			 'error'  => 'dfasdfalkjhsadkfjhasdlkfdaslkjhfasljkflasjfhlajhsflkasjhfdljk'
+		 ], function($m){
+			  $m->from('admin@mailgun.org', 'Yoga Hadi Nugroho');
+			  $m->to('yoga_email@yahoo.com', 'Yoga Hadi Nugroho');
+			  $m->subject('Error from KJE');
+		 });
+		 return dd( $confirm );
 	}
 }
