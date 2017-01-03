@@ -167,7 +167,7 @@ class PeriksasController extends Controller
 		$periksa->transaksi 			= json_encode($transaksis);
 		$confirm = $periksa->save();
 
-		$promo = Promo::where('promoable_type' , 'App\AntrianPeriksa')->where('promoable_id', Input::get('antrian_id'))->first() 
+		$promo = Promo::where('promoable_type' , 'App\AntrianPeriksa')->where('promoable_id', Input::get('antrian_id'))->first() ;
 		if ( $promo ) {
 			$promo->promoable_type = 'App\Periksa';
 			$promo->promoable_id   = $periksa_id;
