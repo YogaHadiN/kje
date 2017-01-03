@@ -57,7 +57,6 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
-		ererrr
 		$rules = [
 		  "kecelakaan_kerja" => "required",
 		  "asuransi_id" => "required",
