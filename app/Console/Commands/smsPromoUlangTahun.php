@@ -47,6 +47,7 @@ class smsPromoUlangTahun extends Command
 							->where('tanggal_lahir', '<=', $tahunLahir . '-' . $bulan . '-' . date('t'))
 							->where('no_telp' , 'like', '08%')
 							->orderBy('tanggal_lahir')
+							->groupBy('no_telp')
 							->get();
 		$count = $pasiens->count();
 		$pesan = 'Diskon 30% Treatment Facial atau Microdermabrasi Diamond di Klinik Jati Elok khusus Anda yang berulang tahun bulan ini.Berlaku bulan ini.S&K berlaku';

@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\AntrianPoli;
+use App\AntrianPeriksa;
 use App\Kontrol;
 use App\Ac;
 use DateTime;
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
 		 Commands\smsDonnaruko::class,
 		 Commands\smsIngatkanJanji::class,
 		 Commands\smsIngatkanHariIni::class,
+
 		 Commands\smsKontrol::class,
 		 Commands\testcommand::class,
 		 Commands\testConsole::class,
@@ -121,7 +123,7 @@ class Kernel extends ConsoleKernel
 			 }); 
 
 			 $schedule->command('sms:ingatkanHariIni')
-				 ->dailyAt('13:30')
+				 ->dailyAt('12:30')
 				 ->when(function(){
 					 $countAntrianPoli = AntrianPoli::where('poli', 'gigi')
 						 ->where('tanggal', date('Y-m-d'))
@@ -129,7 +131,7 @@ class Kernel extends ConsoleKernel
 					 $countAntrianPeriksa = AntrianPeriksa::where('poli', 'gigi')
 						 ->where('tanggal', date('Y-m-d'))
 						 ->count();
-					return ( $countAntrianPoli + $countAntrianPeriksa ) > 0;
+					return ( (int)$countAntrianPoli + (int)$countAntrianPeriksa ) > 0;
 				 }); 
 
 			 $schedule->command('sms:kontrol')

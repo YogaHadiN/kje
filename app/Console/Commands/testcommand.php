@@ -5,6 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Outbox;
 use App\Pengeluaran;
+use App\AntrianPoli;
+use App\Pasien;
+use App\Sms;
+use App\AntrianPeriksa;
 use App\FakturBelanja;
 use App\JurnalUmum;
 use App\Periksa;
@@ -45,22 +49,13 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$ju = JurnalUmum::whereRaw('coa_id between 400051 and 400148')->get();
-		$jurnals = [];
-		$errors = [];
-		foreach ($ju as $j) {
-			$jurnals[] = [
-				'jurnalable_id' =>$j->jurnalable_id,
-				'jurnalable_type' => $j->jurnalable_type
-			];
-		}
-		$count = 0;
-		foreach ($jurnals as $ju) {
-			$confirm = JurnalUmum::where('jurnalable_id', $ju['jurnalable_id'])
-						->where('jurnalable_type', $ju['jurnalable_type'])
-						->delete();
-			$count = (int) $count + (int) $confirm;
-		}
-		return dd( $count );
+
+		 $countAntrianPoli = AntrianPoli::where('poli', 'gigi')
+			 ->where('tanggal', date('Y-m-d'))
+			 ->count();
+		 $countAntrianPeriksa = AntrianPeriksa::where('poli', 'gigi')
+			 ->where('tanggal', date('Y-m-d'))
+			 ->count();
+		return dd(( $countAntrianPoli + $countAntrianPeriksa ) > 0);
 	}
 }
