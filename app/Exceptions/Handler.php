@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
 			// it will have access to the $error that we are passing below
 			 Log::info('URL YANG error' . Input::url());
 			 Log::info('Method yang error' . Input::method());
-			 if (gethostname() == 'dell') {
+			 if (gethostname() != 'dell') {
 				 //Mail::send('email.error', [
 					 //'url'    => Input::url(),
 					 //'method' => Input::method(),
