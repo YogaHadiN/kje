@@ -487,14 +487,14 @@ class PembeliansController extends Controller
 		if(Input::hasFile($fieldName)) {
 
 			$upload_cover = Input::file($fieldName);
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
 
 			$upload_cover = Image::make($upload_cover);
 			$upload_cover->resize(1000, null, function ($constraint) {
 				$constraint->aspectRatio();
 				$constraint->upsize();
 			});
-			//mengambil extension
-			$extension = $upload_cover->getClientOriginalExtension();
 
 			//membuat nama file random + extension
 			$filename =	 $pre . $id . '.' . $extension;
