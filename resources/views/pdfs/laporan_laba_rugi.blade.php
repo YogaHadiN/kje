@@ -207,6 +207,6 @@ border-spacing: -1px;
 </style>
 </head>
 <body style="font-size:11px; font-family:sans-serif">
-	@include('laporan_laba_rugis.form')
+	@include('laporan_laba_rugis.form2')
 </body>
 </html>

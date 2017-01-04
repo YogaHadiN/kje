@@ -44,31 +44,24 @@ class smsPanggilTukanAc extends Command
     {
 		$date			= new DateTime(date('Y-m-d'));
 		$date->modify('-90 day');
-		
-
-
-		//$services = ServiceAc::where('tanggal', '<', $date->format('Y-m-d'))->get();
 		$query  = "SELECT max(tanggal) as tanggal, ";
 		$query .= "ac_id ";
 		$query .= "FROM service_acs ";
 		$query .= "GROUP BY ac_id ";
 		$query .= "ORDER BY tanggal desc ";
 		$data = DB::select($query);
-
 		$ids = [];
 		foreach ($data as $d) {
 			if ($d->tanggal < $date->format('Y-m-d')) {
 				$ids[] = $d->ac_id;
 			}
 		}
-
 		$acs = Ac::all();
 		foreach ($acs as $ac) {
 			if ($ac->serviceAc->count() == 0 && $ac->created_at < $date->format('Y-m-d H:i:s')) {
 				$ids[] = $ac->id;
 			}
 		}
-
 		$ids = array_unique($ids);
 
 		$pesan = "Mas tolong datang ke klinik jati elok besok ada yang mau diservis, jangan lupa bawa freon ";

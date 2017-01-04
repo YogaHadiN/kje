@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Outbox;
 use App\Pengeluaran;
 use App\FakturBelanja;
+use App\JurnalUmum;
 use App\Periksa;
 use DB;
 use Mail;
@@ -44,15 +45,22 @@ class testcommand extends Command
      */
     public function handle()
     {
-		 $confirm = Mail::send('email.error', [
-			 'url'    => Input::url(),
-			 'method' => Input::method(),
-			 'error'  => 'dfasdfalkjhsadkfjhasdlkfdaslkjhfasljkflasjfhlajhsflkasjhfdljk'
-		 ], function($m){
-			  $m->from('admin@mailgun.org', 'Yoga Hadi Nugroho');
-			  $m->to('yoga_email@yahoo.com', 'Yoga Hadi Nugroho');
-			  $m->subject('Error from KJE');
-		 });
-		 return dd( $confirm );
+		$ju = JurnalUmum::whereRaw('coa_id between 400051 and 400148')->get();
+		$jurnals = [];
+		$errors = [];
+		foreach ($ju as $j) {
+			$jurnals[] = [
+				'jurnalable_id' =>$j->jurnalable_id,
+				'jurnalable_type' => $j->jurnalable_type
+			];
+		}
+		$count = 0;
+		foreach ($jurnals as $ju) {
+			$confirm = JurnalUmum::where('jurnalable_id', $ju['jurnalable_id'])
+						->where('jurnalable_type', $ju['jurnalable_type'])
+						->delete();
+			$count = (int) $count + (int) $confirm;
+		}
+		return dd( $count );
 	}
 }
