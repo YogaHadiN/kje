@@ -57,6 +57,7 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
+		dfdf
 		$rules = [
 		  "kecelakaan_kerja" => "required",
 		  "asuransi_id" => "required",

@@ -43,17 +43,17 @@ class Handler extends ExceptionHandler
 			// it will have access to the $error that we are passing below
 			 Log::info('URL YANG error' . Input::url());
 			 Log::info('Method yang error' . Input::method());
-			 if (gethostname() != 'dell') {
-				 // Jika kompuuter adalah komputer server, jika ada error kirimkan ke email
-				 Mail::send('email.error', [
-					 'url'    => Input::url(),
-					 'method' => Input::method(),
-					 'error'  => $e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s')
-				 ], function($m){
-					  $m->from('admin@mailgun.org', 'Yoga Hadi Nugroho');
-					  $m->to('yoga_email@yahoo.com', 'Yoga Hadi Nugroho');
-					  $m->subject('Error from KJE');
-				 });
+			 if (gethostname() == 'dell') {
+				 //Mail::send('email.error', [
+					 //'url'    => Input::url(),
+					 //'method' => Input::method(),
+					 //'error'  => $e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s')
+				 //], function($m){
+					  //$m->from('admin@mailgun.org', 'Yoga Hadi Nugroho');
+					  //$m->to('yoga_email@yahoo.com', 'Yoga Hadi Nugroho');
+					  //$m->subject('Error from KJE');
+				 //});
+				 Sms::send('081381912803',$e->getMessage() . ' pada jam ' . date('Y-m-d H:i:s') );
 			 }
 		}
         parent::report($e);

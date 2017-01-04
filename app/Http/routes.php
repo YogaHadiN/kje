@@ -459,6 +459,8 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::post('pasiens/ajax/confirm_staf', 'PasiensAjaxController@confirm_staf');
 			Route::get('pasiens/ajax/cari', 'PasiensAjaxController@cariPasien');
 			Route::post('pasiens/ajax/cekantrian/tanggal', 'PasiensAjaxController@cekAntrianPerTanggal');
+			Route::get('pasiens/ajax/cekPromo', 'PasiensAjaxController@cekPromo');
+
 
 			Route::get('survey', 'KasirsController@index');
 			Route::get('kasirs/saldo', 'KasirsController@saldo');

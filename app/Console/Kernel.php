@@ -94,7 +94,7 @@ class Kernel extends ConsoleKernel
 					return $count > 0;
 			 }); 
 
-			 $schedule->command('sms:ingatkanJanji')
+			 $schedule->command('sms:panggilTukangAc')
 				 ->dailyAt('13:30')
 				 ->when(function(){
 					$date			= new DateTime(date('Y-m-d'));
@@ -102,7 +102,7 @@ class Kernel extends ConsoleKernel
 					$query  = "SELECT max(created_at), ac_id ";
 					$query .= "FROM service_acs ";
 					$query .= "ORDER BY created_at desc ";
-					$query .= "GROUP BY pasien_id";
+					$query .= "GROUP BY ac_id";
 					$data = DB::select($query);
 					
 					$ids = [];

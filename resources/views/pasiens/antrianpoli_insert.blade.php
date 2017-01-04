@@ -76,10 +76,12 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="form-group @if($errors->has('no_ktp'))has-error @endif">
-					  {!! Form::label('no_ktp', 'Nomo KTP', ['class' => 'control-label']) !!}
+					  {!! Form::label('no_ktp', 'Nomor KTP', ['class' => 'control-label']) !!}
 					  {!! Form::text('no_ktp' , null, [
 						  'class'       => 'form-control',
-						  'placeholder' => 'Hanya diisi untuk Klaim Promo Ulang Tahun Kecantikan'
+						  'maxlength' => '16',
+						  'placeholder' => 'Hanya diisi untuk Klaim Promo Ulang Tahun Kecantikan',
+						  'onkeyup'     => 'cekPromo(this);return false;'
 					  ]) !!}
 					  @if($errors->has('no_ktp'))<code>{{ $errors->first('no_ktp') }}</code>@endif
 					</div>

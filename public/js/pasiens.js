@@ -1,17 +1,13 @@
     $(document).ready(function() {
-
         $('#confirm_staf').on('show.bs.modal', function(){
             $('#confirm_staf input[type!="hidden"]').val('');
         });
-
         $('#confirm_staf').on('shown.bs.modal', function(){
             $('#email').focus();
         });
-
 		$('#antrianpoli_tanggal').datepicker().on('changeDate', function(e) {
 			tanggalChange();
 		});
-
 		$('#ddlPembayaran').change(function(){
 			var val = $(this).val();
 			if (val == '32') {
@@ -569,6 +565,32 @@ function tanggalChange(){
 			$('#antrianpoli_antrian').val(parseInt(data) + 1)	;
 		}
 	});
+}
+function cekPromo(control){
+
+	var no_ktp = $(control).val();
+	if (no_ktp.length == 16) {
+		$.get(base + '/pasiens/ajax/cekPromo',
+			{ 'no_ktp' : no_ktp  },
+			function (data, textStatus, jqXHR) {
+				data = $.trim(data);
+				if (parseInt( data ) > 0) {
+					$(control).closest('.form-group').find('code').remove();
+					$(control).closest('.form-group').removeAttr('class').addClass('form-group has-error');
+					$(control).closest('.form-group').append('<span class="help-block">No KTP sudah digunakan Tahun ini</span>')
+				} else {
+					$(control).closest('.form-group').find('span').remove();
+					$(control).closest('.form-group').removeAttr('class').addClass('form-group has-success');
+					$(control).closest('.form-group').append('<span class="help-block">Promo bisa digunakan untuk No KTP ini</span>')
+				}
+			}
+		);
+	} else {
+		$(control).closest('.form-group').find('span').remove();
+		$(control).closest('.form-group').removeAttr('class').addClass('form-group has-warning');
+		$(control).closest('.form-group').append('<span class="help-block">KTP harus 16 digit</span>')
+	}
+	 
 }
 
     

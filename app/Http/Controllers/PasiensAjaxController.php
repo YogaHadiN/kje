@@ -8,6 +8,7 @@ use DB;
 use Auth;
 use Hash;
 use App\AntrianPoli;
+use App\Promo;
 use App\User;
 use App\Periksa;
 use App\Staf;
@@ -340,4 +341,11 @@ class PasiensAjaxController extends Controller
 			'count' => $count
 		];
 	}
+	public function cekPromo(){
+		$no_ktp = Input::get('no_ktp');
+		$tahun = date('Y');
+		$count = Promo::where('tahun', $tahun)->where('no_ktp', $no_ktp)->count();
+		return $count;
+	}
+	
 }
