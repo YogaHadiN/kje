@@ -20,6 +20,7 @@ class LaporanLabaRugisController extends Controller
     	$bulan = Input::get('bulan');
     	$tahun = Input::get('tahun');
 		$pendapatan_usahas = $this->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_usahas'];
+		//return dd( $pendapatan_usahas );
 		$hpps              = $this->tempLaporanLabaRugi($bulan, $tahun)['hpps'];
 		$biayas            = $this->tempLaporanLabaRugi($bulan, $tahun)['biayas'];
 		$pendapatan_lains  = $this->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_lains'];

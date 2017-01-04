@@ -56,13 +56,11 @@ class JurnalUmumsController extends Controller
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
-
         $jurnalumums = JurnalUmum::with('coa')->groupBy('jurnalable_id')
             ->groupBy('jurnalable_type')
             ->orderBy('created_at', 'desc')
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
             ->paginate(10);
-
 		return view('jurnal_umums.show', compact(
 			'bulan',
 			'tahun',
