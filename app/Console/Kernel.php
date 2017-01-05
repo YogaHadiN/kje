@@ -73,8 +73,8 @@ class Kernel extends ConsoleKernel
 						->dailyAt('15:30'); 
 			 $schedule->command('test:jurnal')
 						->dailyAt('23.30'); 
-			 $schedule->command('cron:test')
-					  ->hourly();
+			 //$schedule->command('cron:test')
+					  //->hourly();
 			 $schedule->command('sms:laporanharian')
 						->dailyAt('23:00'); 
 			 $schedule->command('reset:antrian')
