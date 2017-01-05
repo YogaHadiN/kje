@@ -51,6 +51,7 @@ class smsPromoUlangTahun extends Command
 							->get();
 		$count = $pasiens->count();
 		$pesan = 'Diskon 30% Treatment Facial atau Microdermabrasi Diamond di Klinik Jati Elok khusus Anda yang berulang tahun bulan ini.Berlaku bulan ini.S&K berlaku';
+
 		foreach ($pasiens as $ps) {
 			Sms::send( $ps->no_telp, $pesan );
 		}

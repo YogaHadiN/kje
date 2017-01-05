@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use DB;
 use DateTime;
 use App\Sms;
+use App\Classes\Yoga;
 
 class testNeraca extends Command
 {
@@ -43,7 +44,7 @@ class testNeraca extends Command
 
 		$date			= new DateTime(date('Y-m-d'));
 		$date->modify('-1 day');
-		$query  = "SELECT sum(nilai) FROM jurnal_umums ";
+		$query  = "SELECT sum(nilai) as nilai FROM jurnal_umums ";
 		$query .= "WHERE created_at like '" .$date->format('Y-m-d'). "' ";
 		$query .= "AND debit = 1 ";
 		$data = DB::select($query);
@@ -51,7 +52,7 @@ class testNeraca extends Command
 		foreach ($data as $d) {
 			$debit += $d->nilai;
 		}
-		$query  = "SELECT sum(nilai) FROM jurnal_umums ";
+		$query  = "SELECT sum(nilai) as nilai FROM jurnal_umums ";
 		$query .= "WHERE created_at like '" .$date->format('Y-m-d'). "' ";
 		$query .= "AND debit = 0 ";
 		$data = DB::select($query);

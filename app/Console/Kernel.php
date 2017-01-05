@@ -27,7 +27,6 @@ class Kernel extends ConsoleKernel
 		 Commands\smsDonnaruko::class,
 		 Commands\smsIngatkanJanji::class,
 		 Commands\smsIngatkanHariIni::class,
-
 		 Commands\smsKontrol::class,
 		 Commands\testcommand::class,
 		 Commands\testConsole::class,
