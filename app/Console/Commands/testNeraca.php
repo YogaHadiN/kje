@@ -61,7 +61,7 @@ class testNeraca extends Command
 			$kredit += $d->nilai;
 		}
 
-		if ( $debit = $kredit ) {
+		if ( $debit == $kredit ) {
 			Sms::send('081381912803', 'Neraca Seimbang');
 		} else {
 			Sms::send('081381912803', 'Neraca TIDAK Seimbang debit = ' . Yoga::buatrp($debit) . ' kredit = ' . Yoga::buatrp($kredit));
