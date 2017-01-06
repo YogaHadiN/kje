@@ -104,7 +104,7 @@ Klinik Jati Elok | Entri Beli Obat
                   {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block hide', 'id' => 'submit'])!!} 
               </div>
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                  <a href="{{ url('fakturbelanjas/cari')}}" class="btn btn-danger btn-block">cancel</a>
+                  <a href="{{ url('laporans')}}" class="btn btn-danger btn-block">Cancel</a>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <h3 class='red'>Isi Dengan BENAR!! JANGAN NGARANG2</h3>

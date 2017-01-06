@@ -21,7 +21,7 @@ class SediaansController extends Controller
 	
 	public function store(){
 		$rules = [
-			'sediaan' => 'required|unique',
+			'sediaan' => 'required|unique:sediaans',
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);

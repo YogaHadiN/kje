@@ -49,11 +49,9 @@ class smsKontrol extends Command
 		foreach ($kontrols as $ap) {
 			$pesan			= 'kami dari Klinik Jati Elok ingin mengingatkan besok tanggal ' . $date->format('d-m-Y') . ' pasien a/n ' . $ap->periksa->pasien->nama. ' kami sarankan Bapak / Ibu untuk konsultasi kembali ke dokter. Terima Kasih';
 			Sms::send($ap->periksa->pasien->no_telp,$pesan);
-			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->pasien->nama);
+			\Log::info('Terkirim sms mengingatkan janji konsultasi ke ' . $ap->periksa->pasien->nama);
 			$text .= $ap->periksa->pasien->nama . ', ';
 		}
-
-
 		Sms::send('081381912803',$text);
     }
 }

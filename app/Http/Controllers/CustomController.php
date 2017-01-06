@@ -196,8 +196,12 @@ class CustomController extends Controller
 
 	public function kembali3($id){
 		 $periksa = Periksa::find($id);
-		 $periksa->lewat_poli = '1';
-		 $periksa->lewat_kasir = '0';
+		 if ($periksa->lewat_kasir2 == '1') {
+		 	$pesan = Yoga::gagalFlash('Tidak bisa dilakukan karena pasien sudah disubmit sebelumnya');
+			return redirect()->back()->withPesan($pesan);
+		 }
+		 $periksa->lewat_poli   = '1';
+		 $periksa->lewat_kasir  = '0';
 		 $periksa->lewat_kasir2 = '0';
 		 $periksa->save();
 
@@ -286,15 +290,18 @@ class CustomController extends Controller
 		));
 	}
 	public function survey_post(){
-		//return dd( Input::all() );
+
 		$periksa_id = Input::get('periksa_id');	
 
+		//get pasien dengan id tertentu
 		$periksa = Periksa::with('pasien')
 					->where('id', Input::get('periksa_id') )
 					->first();
         if ($periksa->lewat_kasir2 == '1') {
             return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien atas nama <strong>' . $periksa->pasien->nama . '</strong> sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>') );
         }
+		// Kita cek dulu apakah ada yang diedit dalam transaksi sebelum masuk kasir dan setelah masuk kasir
+		//JIKA ADA KOREKSI DALAM transaksi, maka masukkan ke dalam tabel perbaikantrxs
 		$tarif         = Input::get('tarif');
 		$sebelum       = Input::get('sebelum');
 		$sebelum_array = json_decode($sebelum, true);
@@ -324,16 +331,16 @@ class CustomController extends Controller
 
 		$dibayar_pasien   = Yoga::clean(Input::get('dibayar_pasien'));
 		$dibayar_asuransi = Yoga::clean(Input::get('dibayar_asuransi'));
-		$pembayaran = Yoga::clean(Input::get('pembayaran'));
-		$kembalian = Yoga::clean(Input::get('kembalian'));
+		$pembayaran       = Yoga::clean(Input::get('pembayaran'));
+		$kembalian        = Yoga::clean(Input::get('kembalian'));
 
-		$periksa->tunai           = $dibayar_pasien;
-		$periksa->piutang         = $dibayar_asuransi;
-		$periksa->pembayaran      = $pembayaran;
-		$periksa->kembalian       = $kembalian;
-		$periksa->antrian_periksa_id       = null;
-		$periksa->transaksi       = $tarif;
-		$periksa->nomor_asuransi  = $periksa->pasien->nomor_asuransi;
+		$periksa->tunai              = $dibayar_pasien;
+		$periksa->piutang            = $dibayar_asuransi;
+		$periksa->pembayaran         = $pembayaran;
+		$periksa->kembalian          = $kembalian;
+		$periksa->antrian_periksa_id = null;
+		$periksa->transaksi          = $tarif;
+		$periksa->nomor_asuransi     = $periksa->pasien->nomor_asuransi;
 
 		if ($periksa->asuransi_id == 32 && !empty($periksa->keterangan)) {
 			$periksa->keterangan = null;
@@ -357,9 +364,9 @@ class CustomController extends Controller
 			}
 			$rujukan->save();
 		}
-		$periksa->lewat_kasir2    = '1';
-		$resep = $periksa->terapii;
-		$merek = Merek::all();
+		$periksa->lewat_kasir2 = '1';
+		$resep                 = $periksa->terapii;
+		$merek                 = Merek::all();
 		foreach ($resep as $key => $value) {
 			$rak_id = $merek->find($resep[$key]['merek_id'])->rak_id;
 			$rak       = Rak::find($rak_id);
@@ -377,7 +384,7 @@ class CustomController extends Controller
 			}
 		}
 		$mess = '';
-		$confirm             = $periksa->save();
+		$confirm  = $periksa->save();
 		if ($confirm) {
 			$bp							= BukanPeserta::where('periksa_id',  Input::get('periksa_id') )->first();
 			if ( $bp != null ) {
@@ -394,7 +401,6 @@ class CustomController extends Controller
 				Sms::gammuSurvey($periksa->pasien->no_telp, $message, $periksa->id);
 			}
 			
-
 			$terapis = $periksa->terapii;
 			$biayaProduksiObat = 0;
 			foreach ($terapis as $terapi) {

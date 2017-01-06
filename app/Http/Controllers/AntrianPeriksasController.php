@@ -178,6 +178,9 @@ class AntrianPeriksasController extends Controller
 			SuratSakit::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
 			RegisterAnc::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
 			Usg::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini
+			JurnalUmum::where('jurnalable_id', $periksa->id)
+				->where('jurnalable_type', 'App\Periksa')
+				->delete(); // hapus jurnalumum yang dimiliki pasien ini
 		}
 		$ap->delete();
 

@@ -49,13 +49,9 @@ class testcommand extends Command
      */
     public function handle()
     {
-
-		 $countAntrianPoli = AntrianPoli::where('poli', 'gigi')
-			 ->where('tanggal', date('Y-m-d'))
-			 ->count();
-		 $countAntrianPeriksa = AntrianPeriksa::where('poli', 'gigi')
-			 ->where('tanggal', date('Y-m-d'))
-			 ->count();
-		return dd(( $countAntrianPoli + $countAntrianPeriksa ) > 0);
+		$query  = "SELECT * from tarifs ";
+		$query .= "WHERE jenis_tarif_id not in(Select id from jenis_tarifs) ";
+		$data = DB::select($query);
+		return dd( $data );
 	}
 }
