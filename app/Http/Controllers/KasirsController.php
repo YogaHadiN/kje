@@ -32,7 +32,7 @@ class KasirsController extends Controller
 	}
 
 	public function saldo(){
-		$saldos = Saldo::all();
+		$saldos = Saldo::latest()->paginate(20);
 		return view('kasirs.saldo', compact('saldos'));
 	}
 	

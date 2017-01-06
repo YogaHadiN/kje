@@ -64,6 +64,7 @@ Klinik Jati Elok | Hitung Uang di Kasir
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
+							<?php echo $saldos->appends(Input::except('page'))->links(); ?>
 							<table class="table table-hover table-condensed table-bordered">
 								<thead>
 									<tr>
@@ -80,7 +81,7 @@ Klinik Jati Elok | Hitung Uang di Kasir
 											<tr>
 												<td>{{ $s->created_at->format('d M Y H:i:s') }}</td>
 												<td class='uang'>{{ $s->saldo }}</td>
-												<td class='uang'>{{ $s->staf->nama }}</td>
+												<td>{{ $s->staf->nama }}</td>
 												<td class='uang'>{{ $s->saldo_saat_ini }}</td>
 												<td class='uang'>{{ $s->selisih }}</td>
 											</tr>
@@ -92,6 +93,7 @@ Klinik Jati Elok | Hitung Uang di Kasir
 									@endif
 								</tbody>
 							</table>
+							<?php echo $saldos->appends(Input::except('page'))->links(); ?>
 						</div>
 						
 					</div>
