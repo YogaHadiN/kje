@@ -16,6 +16,7 @@ use App\AntrianPoli;
 use App\Kabur;
 use App\Periksa;
 use App\Terapi;
+use App\JurnalUmum;
 use App\TransaksiPeriksa;
 use App\Rujukan;
 use App\PengantarPasien;
