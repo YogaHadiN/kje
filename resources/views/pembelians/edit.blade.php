@@ -22,7 +22,12 @@ Klinik Jati Elok | Entri Beli Obat
 @section('content') 
  <input type="hidden" name="_token" id="token" value="{{ Session::token() }}">
 
-{!! Form::open(['url' => 'pembelians/' . $fakturbelanja->id, 'method' =>'post', 'autocomplete' => 'on'])!!}
+ {!! Form::open([
+	 'url'          => 'pembelians/' . $fakturbelanja->id,
+	 'method'       => 'post',
+	 'autocomplete' => 'on',
+	 'files'        => 'true'
+ ])!!}
 
 <div class="row">
   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -66,7 +71,6 @@ Klinik Jati Elok | Entri Beli Obat
                     </tr>
                 </thead>
                 <tbody>
-                  
                 </tbody>
                   <tfoot>
                     <tr>
@@ -93,9 +97,10 @@ Klinik Jati Elok | Entri Beli Obat
             {!! Form::textarea('tempBefore', json_encode($exist), ['class' => 'form-control hide', 'id' => 'tempBefore', 'autocomplete' => 'on'])!!}
             <input type="text" class="displayNone" id="faktur_belanja_id" name="faktur_belanja_id" value="{!! $id !!}">
             <div id="pesan2"></div>
+			@include('suppliers.belanja_obat_upload_gambar', ['pembelian' => $fakturbelanja])
             <div class="row">
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                  <button type="button" class="btn btn-primary btn-block" onclick="dummySubmit();return false;">Submit</button>
+                  <button type="button" class="btn btn-primary btn-block" onclick="dummySubmit();return false;">Update</button>
                   {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block hide', 'id' => 'submit'])!!} 
               </div>
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -106,8 +111,6 @@ Klinik Jati Elok | Entri Beli Obat
               </div>
             </div>
           {!! Form::close()!!}
-
-
       </div>
 </div>
 <a href="#" onclick='buatObat();return false;'>Obat Tidak Ditemukan?</a>

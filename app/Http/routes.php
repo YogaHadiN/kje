@@ -460,6 +460,12 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('pasiens/ajax/cari', 'PasiensAjaxController@cariPasien');
 			Route::post('pasiens/ajax/cekantrian/tanggal', 'PasiensAjaxController@cekAntrianPerTanggal');
 			Route::get('pasiens/ajax/cekPromo', 'PasiensAjaxController@cekPromo');
+			Route::get('pasiens/ajax/cari/pasien', 'PasiensMergeController@cariPasien');
+			Route::post('pasiens/ajax/cari/pasien', 'PasiensMergeController@cariPasienPost');
+
+
+			Route::get('pasiens/gabungkan/pasien/ganda', 'PasiensMergeController@index');
+			Route::get('pasiens/gabungkan/pasien/ganda/select', 'PasiensMergeController@searchPasien');
 
 
 			Route::get('survey', 'KasirsController@index');

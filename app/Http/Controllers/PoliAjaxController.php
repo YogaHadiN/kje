@@ -311,9 +311,7 @@ class PoliAjaxController extends Controller
 			}
 
 		} else {
-
 			$query = "SELECT * FROM icd10s";
-
 		}
 
 		$query .= " LIMIT 10";

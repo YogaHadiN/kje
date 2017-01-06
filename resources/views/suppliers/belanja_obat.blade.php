@@ -86,20 +86,7 @@ Klinik Jati Elok | Belanja Obat
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<div class="panel panel-info">
-					<div class="panel-body">
-						<div class="form-group{{ $errors->has('faktur_image') ? ' has-error' : '' }}">
-							{!! Form::label('faktur_image', 'Upload Gambar Faktur') !!}
-							{!! Form::file('faktur_image') !!}
-								@if (isset($pembelian) && $pembelian->faktur_image)
-									<p> {!! HTML::image(asset('img/belanja/obat/'.$pembelian->faktur_image), null, ['class'=>'img-rounded upload']) !!} </p>
-								@else
-									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
-								@endif
-							{!! $errors->first('faktur_image', '<p class="help-block">:message</p>') !!}
-						</div>	
-					</div>
-				</div>
+				@include('suppliers.belanja_obat_upload_gambar')
 			</div>
 		</div>
     </div>

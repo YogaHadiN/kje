@@ -1,0 +1,13 @@
+| antrian_periksas | pasien_id   |
+| antrian_polis    | pasien_id   |
+| complains        | pasien_id   |
+| facebook_daftars | pasien_id   |
+| kaburs           | pasien_id   |
+| periksas         | pasien_id   |
+| prolanis         | pasien_id   |
+| register_hamils  | pasien_id   |
+| sms_bpjs         | pasien_id   |
+| sms_gagals       | pasien_id   |
+| sms_jangans      | pasien_id   |
+| sms_kontaks      | pasien_id   |
+

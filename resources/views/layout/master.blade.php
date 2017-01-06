@@ -94,6 +94,7 @@
                             <li>{!! HTML::link('prolanis/terdaftar', 'Prolanis Terdaftar')!!}</li>
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
                             <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
+                            <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
                         </ul>
                     </li>
                     <li>
@@ -323,21 +324,21 @@
             }
         });
 		@if( gethostname() == 'dell' )
-			setInterval(function(){
-				$.get('{{ url("master/ajax/antrianTerakhir") }}', { 'tanggal' : '{{ date('Y-m-d') }}' }, function(data) {
-					var before = $('#antrianMaster').html();
-					data = $.trim(data)
-						if( before != data ){
-							if( parseInt(data) > 0 ){
-								$('#antrianPasien').hide().fadeIn(300);
-								$('#antrianMaster').html(data);
-							} else {
-								$('#antrianPasien').fadeOut(300);
-								$('#antrianMaster').html(data);
-							}
-						}
-				});
-			}, 5000);
+			{{--setInterval(function(){--}}
+				{{--$.get('{{ url("master/ajax/antrianTerakhir") }}', { 'tanggal' : '{{ date('Y-m-d') }}' }, function(data) {--}}
+					{{--var before = $('#antrianMaster').html();--}}
+					{{--data = $.trim(data)--}}
+						{{--if( before != data ){--}}
+							{{--if( parseInt(data) > 0 ){--}}
+								{{--$('#antrianPasien').hide().fadeIn(300);--}}
+								{{--$('#antrianMaster').html(data);--}}
+							{{--} else {--}}
+								{{--$('#antrianPasien').fadeOut(300);--}}
+								{{--$('#antrianMaster').html(data);--}}
+							{{--}--}}
+						{{--}--}}
+				{{--});--}}
+			{{--}, 5000);--}}
 		@endif
 
         $(document).ready(function() {

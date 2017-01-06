@@ -347,5 +347,11 @@ class PasiensAjaxController extends Controller
 		$count = Promo::where('tahun', $tahun)->where('no_ktp', $no_ktp)->count();
 		return $count;
 	}
+	public function dataPasien(){
+		$pasien_id = Input::get('pasien_id');
+		$pasiens = Pasien::find($pasien_id);
+		return $pasiens;
+	}
+	
 	
 }

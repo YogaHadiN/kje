@@ -465,6 +465,9 @@ class PembeliansController extends Controller
 
 			$fb = FakturBelanja::find($faktur_belanja_id);
 			$fb->submit = '1';
+			if (!empty(Input::hasFile('faktur_image'))) {
+				$fb->faktur_image   = $this->imageUpload('faktur','faktur_image', $faktur_belanja_id);
+			}
 			$fb->save();
 
             $nilai_baru = 0;
