@@ -127,7 +127,7 @@ class PdfsController extends Controller
 			'kembalian'
 		//))->setPaper(array(0, 0, 210, 810),'Potrait');
 		))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -138,7 +138,7 @@ class PdfsController extends Controller
     public function jasa_dokter($bayar_dokter_id){
         $bayar = BayarDokter::find($bayar_dokter_id);
 		$pdf = PDF::loadView('pdfs.jasa_dokter', compact('bayar'))
-				->setOption('page-width', 75)
+				->setOption('page-width', 72)
 				->setOption('page-height', 297)
 				->setOption('margin-top', 0)
 				->setOption('margin-bottom', 0)
@@ -169,7 +169,7 @@ class PdfsController extends Controller
 			'fakturbelanja', 
 			'total'
 		))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -191,7 +191,7 @@ class PdfsController extends Controller
         }
 
 		$pdf = PDF::loadView('pdfs.penjualan', compact('nota_jual', 'total'))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -204,7 +204,7 @@ class PdfsController extends Controller
     public function pembayaran_asuransi($pembayaran_asuransi_id){
         $pembayaran = PembayaranAsuransi::find($pembayaran_asuransi_id);
 		$pdf = PDF::loadView('pdfs.pembayaran_asuransi', compact('pembayaran'))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -218,7 +218,7 @@ class PdfsController extends Controller
 		$pdf = PDF::loadView('pdfs.bayar_gaji_karyawan', compact(
 			'bayar'
 		))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -265,7 +265,7 @@ class PdfsController extends Controller
 			'total_pengeluaran_tangan',
 			'total_pemasukan'
 		))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -277,7 +277,7 @@ class PdfsController extends Controller
          $modal = Modal::find($modal_id);
 
 		 $pdf = pdf::loadview('pdfs.rc', compact('modal'))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -290,7 +290,7 @@ class PdfsController extends Controller
         $nosale = NoSale::find($no_sale_id);
         
 		$pdf = pdf::loadview('pdfs.ns', compact('nosale'))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -303,7 +303,7 @@ class PdfsController extends Controller
 		
         $pengeluaran = Pengeluaran::find($id);
 		$pdf = pdf::loadview('pdfs.pengeluaran', compact('pengeluaran'))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -315,7 +315,7 @@ class PdfsController extends Controller
 		
         $pendapatan = Pendapatan::find($id);
 		$pdf = pdf::loadview('pdfs.pendapatan', compact('pendapatan'))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
@@ -327,7 +327,7 @@ class PdfsController extends Controller
     public function merek(){
         $mereks = Merek::all();
 		$pdf = pdf::loadview('pdfs.merek', compact('mereks'))
-		->setOption('page-width', 75)
+		->setOption('page-width', 72)
 		->setOption('page-height', 297)
 		->setOption('margin-top', 0)
 		->setOption('margin-bottom', 0)
