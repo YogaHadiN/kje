@@ -7,6 +7,7 @@ use DB;
 use DateTime;
 use App\Sms;
 use App\Classes\Yoga;
+use Log;
 
 class testNeraca extends Command
 {
@@ -41,6 +42,9 @@ class testNeraca extends Command
      */
     public function handle()
     {
+		Log::info('testNeraca');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 01:00');
 
 		$date			= new DateTime(date('Y-m-d'));
 		$date->modify('-1 day');

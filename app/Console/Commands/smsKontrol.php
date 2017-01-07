@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use DateTime;
 use App\Kontrol;
 use App\Sms;
+use Log;
 
 class smsKontrol extends Command
 {
@@ -40,6 +41,12 @@ class smsKontrol extends Command
      */
     public function handle()
     {
+
+
+		Log::info('smsKontrol');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 13:01');
+
 		$ko       = new Kontrol;
 		$kontrols = $ko->besokKontrol();
 		$date     = new DateTime(date('Y-m-d'));

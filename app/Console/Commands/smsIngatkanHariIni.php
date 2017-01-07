@@ -7,6 +7,7 @@ use App\Sms;
 use App\AntrianPoli;
 use App\Pasien;
 use App\AntrianPeriksa;
+use Log;
 
 class smsIngatkanHariIni extends Command
 {
@@ -41,6 +42,9 @@ class smsIngatkanHariIni extends Command
      */
     public function handle()
     {
+		Log::info('smsIngatkanHariIni');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 12:30');
 		$antrianpolis = AntrianPoli::where('poli', 'gigi')
 					->where('tanggal', date('Y-m-d'))
 					->get();

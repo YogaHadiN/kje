@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Log;
 
 class sendMeLaravelLog extends Command
 {
@@ -37,6 +38,11 @@ class sendMeLaravelLog extends Command
      */
     public function handle()
     {
+
+		Log::info('sendMeLaravelLog');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 01:00');
+
 		exec('cp /var/www/kje/storage/logs/laravel.log /home/kje/Dropbox/backup11/log/laravel' . date('Y-m-d_H_i_s') . '.log');
 		exec('cp -r /var/www/kje/public/img/belanja /home/kje/Dropbox/backup11/img/belanja' . date('Y-m-d_H_i_s'));
 		exec('cp -r /var/www/kje/public/img/alat /home/kje/Dropbox/backup11/img/alat' . date('Y-m-d_H_i_s'));

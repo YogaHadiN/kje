@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use DateTime;
 use App\AntrianPoli;
 use App\Sms;
+use Log;
 
 class smsIngatkanJanji extends Command
 {
@@ -40,6 +41,10 @@ class smsIngatkanJanji extends Command
      */
     public function handle()
     {
+		Log::info('smsIngatkanJanji');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 13:00');
+
 		$date			= new DateTime(date('Y-m-d'));
 		$date->modify('+1 day');
 		$ap				= new AntrianPoli;

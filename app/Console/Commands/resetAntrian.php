@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Antrian;
+use Log;
 
 class resetAntrian extends Command
 {
@@ -38,6 +39,11 @@ class resetAntrian extends Command
      */
     public function handle()
     {
+
+		Log::info('resetAntrian');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 00:00');
+
 		$An						= Antrian::find(1);
 		$An->antrian_terakhir   = 0;
 		$An->save();

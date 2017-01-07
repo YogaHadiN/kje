@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Periksa;
 use App\Classes\Yoga;
 use App\Sms;
+use Log;
 
 
 class smsLaporanHarian extends Command
@@ -41,7 +42,13 @@ class smsLaporanHarian extends Command
      */
     public function handle()
     {
+
+		Log::info('smsLaporanHarian');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 23:00');
+
 		$periksas = Periksa::where('tanggal',date('Y-m-d'))->get();
+
 		$jumlahPasienTotal = $periksas->count();
 		$jumlahPasienBPJS = Periksa::where('tanggal', 'like', date('Y-m-d'))
 							->where('asuransi_id', '32')

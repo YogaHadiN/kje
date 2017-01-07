@@ -8,6 +8,7 @@ use App\Ac;
 use App\ServiceAc;
 use App\Sms;
 use DB;
+use Log;
 
 class smsPanggilTukanAc extends Command
 {
@@ -42,6 +43,11 @@ class smsPanggilTukanAc extends Command
      */
     public function handle()
     {
+
+		Log::info('smsPanggilTukanAc');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 13:30');
+
 		$date			= new DateTime(date('Y-m-d'));
 		$date->modify('-90 day');
 		$query  = "SELECT max(tanggal) as tanggal, ";

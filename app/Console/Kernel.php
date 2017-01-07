@@ -132,7 +132,7 @@ class Kernel extends ConsoleKernel
 				 }); 
 
 			 $schedule->command('sms:kontrol')
-				 ->dailyAt('13:00')
+				 ->dailyAt('13:01')
 				 ->when(function(){
 					$kontrol = new Kontrol;
 					$kontrols = $kontrol->besokKontrol();

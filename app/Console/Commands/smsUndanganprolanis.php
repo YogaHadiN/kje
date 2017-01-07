@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Prolanis;
 use App\Sms;
 use App\Config;
+use Log;
 
 class smsUndanganprolanis extends Command
 {
@@ -40,7 +41,9 @@ class smsUndanganprolanis extends Command
      */
     public function handle()
     {
-		\Log::info('SMS untuk mengundang peserta prolanis dilakukan setiap bulan');
+
+
+		Log::info('SMS untuk mengundang peserta prolanis dilakukan setiap bulan');
 		$prolanis = Prolanis::all();
 		$tanggal_prolanis = Config::where('config_variable', 'tanggal_prolanis')->first()->value;
 

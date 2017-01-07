@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\BelanjaPeralatan;
 use App\Penyusutan;
 use App\JurnalUmum;
+use Log;
 
 class JadwalPenyusutan extends Command
 {
@@ -40,6 +41,10 @@ class JadwalPenyusutan extends Command
      */
     public function handle()
     {
+		Log::info('JadwalPenyusutan');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap akhir bulan jam 15:00');
+
 		$alats = BelanjaPeralatan::whereRaw('(( harga_satuan * jumlah ) - penyusutan) > 1')->get();
 		$total_penyusutan = 0;
 		$bulan = date('Y-m');

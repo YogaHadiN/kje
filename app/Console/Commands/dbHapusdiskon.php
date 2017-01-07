@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Discount;
 use Carbon\Carbon;
+use Log;
 
 class dbHapusdiskon extends Command
 {
@@ -39,6 +40,9 @@ class dbHapusdiskon extends Command
      */
     public function handle()
     {
+		Log::info('dbHapusdiskon');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 23:50');
 		Discount::where('berakhir', '<', Carbon::now())->delete();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use DB;
 use App\Sms;
+use Log;
 
 class testJurnal extends Command
 {
@@ -39,6 +40,11 @@ class testJurnal extends Command
      */
     public function handle()
     {
+
+		Log::info('testJurnal');
+		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
+		Log::info('Seharusnya muncul tiap hari jam 23:30');
+
 		$query  = "SELECT id from periksas where id not in(select jurnalable_id from jurnal_umums where jurnalable_type='App\\\Periksa') and created_at like '" . date('Y-m-d'). "%' and lewat_kasir2 = 1;";
 		$data = DB::select($query);
 		$text = 'Periksa yang tidak masuk jurnal ';
