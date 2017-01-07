@@ -28,7 +28,6 @@ use App\Usg;
 
 class AntrianPeriksasController extends Controller
 {
-
 	/**
 	 * Display a listing of antrianperiksas
 	 *
