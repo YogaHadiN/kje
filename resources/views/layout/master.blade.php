@@ -95,6 +95,7 @@
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
                             <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
                             <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
+                            <li>{!! HTML::link('pelamars', 'Data Pelamar')!!}</li>
                         </ul>
                     </li>
                     <li>

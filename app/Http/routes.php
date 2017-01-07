@@ -140,6 +140,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 
 			// dari menu users
 			Route::resource('pasiens', 'PasiensController');
+			Route::resource('pelamars', 'PelamarsController');
 			Route::resource('asuransis', 'AsuransisController');
 			Route::resource('diagnosas', 'DiagnosasController');
 			Route::resource('suppliers', 'SuppliersController');
