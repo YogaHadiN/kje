@@ -297,6 +297,7 @@ class CustomController extends Controller
 		$periksa = Periksa::with('pasien')
 					->where('id', Input::get('periksa_id') )
 					->first();
+		// Kembalikan jika pasien sudah tidak diperiksa lagi
         if ($periksa->lewat_kasir2 == '1') {
             return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien atas nama <strong>' . $periksa->pasien->nama . '</strong> sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>') );
         }
@@ -329,6 +330,7 @@ class CustomController extends Controller
 			$perbaikan->save();
 		}
 
+		// Yoga::clean untuk menghilangkan Mata uang supaya bisa dalam bentuk integer
 		$dibayar_pasien   = Yoga::clean(Input::get('dibayar_pasien'));
 		$dibayar_asuransi = Yoga::clean(Input::get('dibayar_asuransi'));
 		$pembayaran       = Yoga::clean(Input::get('pembayaran'));
@@ -353,9 +355,9 @@ class CustomController extends Controller
 				$smsJangan->delete();
 			}
 		}
-
 		$periksa->terapi          = $this->terapisBaru($periksa->terapii);
 		$periksa->jam_terima_obat = date('H:i:s');
+		// Jika ada rujukan untuk pasien ini, masukkan dalam rujukan
 		if ($periksa->rujukan) {
 			$ps = new Pasien;
 			$rujukan = Rujukan::find($periksa->rujukan->id);
@@ -391,7 +393,6 @@ class CustomController extends Controller
 				$bp->antrian_periksa_id		= null;
 				$bp->save();
 			}
-
 			if ( 
 				$periksa->poli == 'estetika' && 
 				Keberatan::where('no_telp', $periksa->pasien->no_telp)->first() == null &&

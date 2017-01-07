@@ -49,6 +49,7 @@ class smsPanggilTukanAc extends Command
 		$query .= "FROM service_acs ";
 		$query .= "GROUP BY ac_id ";
 		$query .= "ORDER BY tanggal desc ";
+		return dd( $query );
 		$data = DB::select($query);
 		$ids = [];
 		foreach ($data as $d) {

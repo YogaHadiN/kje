@@ -64,10 +64,13 @@ class KasirsController extends Controller
 		$sl->saldo          = $saldo;
 		$sl->saldo_saat_ini = $saldo_saat_ini;
 		$sl->selisih        = $selisih;
-		$sl->staf_id           = Input::get('staf_id');
+		$sl->staf_id        = Input::get('staf_id');
 		$confirm            = $sl->save();
 
 		if ($selisih > 0) {
+			Sms::send('081381912803', 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih)  );
+			Sms::send('085721012351', 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih)  );
+		} else if( $selisih < 0 ){
 			Sms::send('081381912803', 'Ada selsih uang di kasir sebesar ' . Yoga::buatrp($selisih) . ' segera hitung dan cari dimana kesalahannya' );
 			Sms::send('085721012351', 'Ada selsih uang di kasir sebesar ' . Yoga::buatrp($selisih) . ' segera hitung dan cari dimana kesalahannya' );
 		}

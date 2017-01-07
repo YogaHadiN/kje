@@ -46,7 +46,16 @@ class testJurnal extends Command
 			foreach ($data as $d) {
 				$text .= $d->id . ', ';
 			}
-			
+		} else {
+			$text .= 'tidak ada' ;
+		}
+		$query  = "SELECT id from jurnal_umums where jurnalable_type='App\\\Periksa' and created_at like '" . date('Y-m-d') . "%' and jurnalable_id not in (select id from periksas where created_at like '". date('Y-m-d') . "%') ";
+		$data = DB::select($query);
+		$text .= '. Jurnal yang tidak masuk periksa ';
+		if (count($data)) {
+			foreach ($data as $d) {
+				$text .= $d->id . ', ';
+			}
 		} else {
 			$text .= 'tidak ada' ;
 		}
