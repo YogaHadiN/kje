@@ -10,6 +10,7 @@ use App\Kontrol;
 use App\Ac;
 use DateTime;
 use DB;
+use Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -98,13 +99,12 @@ class Kernel extends ConsoleKernel
 				 ->when(function(){
 					$date			= new DateTime(date('Y-m-d'));
 					$date->modify('-90 day');
-					$query  = "SELECT max(created_at), ac_id ";
+					$query  = "SELECT max(created_at) as tanggal, ac_id ";
 					$query .= "FROM service_acs ";
 					$query .= "GROUP BY ac_id ";
 					$query .= "ORDER BY created_at desc";
-					$data = DB::select($query);
-					
-					$ids = [];
+					$data   = DB::select($query);
+					$ids    = [];
 					foreach ($data as $d) {
 						if ($d->tanggal < $date->format('Y-m-d')) {
 							$ids[] = $d->ac_id;
