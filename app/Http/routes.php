@@ -64,8 +64,6 @@ Route::get('facebook/input_pasien_baru/{id}', 'FacebookController@inputPasienBar
 Route::post('facebook/input_pasien_baru/{id}', 'FacebookController@postPasienBaru');
 Route::delete('facebook/antrian_polis/{id}', 'FacebookController@destroyAntrianPoli');
 
-
-
 Route::get('phpinfo', 'PhpController@index');
 Route::get('periksa/{id}/images', 'ImagesController@create');
 Route::post('periksa/{id}/images', 'ImagesController@store');
@@ -77,20 +75,15 @@ Route::get('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@create'
 Route::post('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@store');
 Route::get('antrianperiksa/{id}/images/edit', 'ImagesAntrianPeriksaController@edit');
 Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update');
-
     Route::resource('users', 'UsersController');
-	Route::get('test/sms', function(){
-		App\Classes\Yoga::sms('085721012351', 'test aja disini');
-	});
 
 
   	Route::group(['middleware' => 'auth'], function(){
-
-
-
-		Route::get('testaja',function(){
-			return date('t');
-		});
+			Route::get('test/test', 'TestController@index');
+			Route::post('test/ajax', 'TestController@ajax');
+			Route::get('testaja',function(){
+				return date('t');
+			});
 
 			Route::get('diagnosa/tidakdirujuk', 'TidakdirujukController@index');
 			Route::get('memcached', 'MemcachedController@index');
@@ -101,11 +94,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 					'file2.jpg',
 					'file3.jpg',
 				];
-
-
-
 			});
-
 			Route::post('suppliers/ajax/ceknotalama', 'SuppliersAjaxController@ceknotalama');
 			Route::post('suppliers/ajax/create', 'SuppliersAjaxController@create');
 			Route::get('suppliers/belanja_obat', 'SupplierBelanjasController@belanja_obat');
@@ -131,14 +120,13 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('laporans/periksa/pengantar/{id}/edit', 'PengantarsController@editPengantarPeriksa');
 			Route::post('laporans/periksa/pengantar/{id}', 'PengantarsController@updatePengantarPeriksa');
 
-
 			Route::get('periksas/{id}/edit/transaksiPeriksa', 'PeriksaCustomController@editTransaksiPeriksa');
 			Route::post('periksas/{id}/update/transaksiPeriksa', 'PeriksaCustomController@updateTransaksiPeriksa');
 			Route::post('periksas/{id}/update/tunai', 'PeriksaCustomController@updateTunai');
 			Route::post('periksas/{id}/update/piutang', 'PeriksaCustomController@updatePiutang');
 
-
 			// dari menu users
+			Route::post('mereks/ajax/obat', 'MereksController@ajaxObat');
 			Route::resource('pasiens', 'PasiensController');
 			Route::resource('pelamars', 'PelamarsController');
 			Route::resource('asuransis', 'AsuransisController');
@@ -556,9 +544,6 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 
 
 			Route::get('terapis/{periksa_id}', 'TerapisController@index');
-			Route::post('test/test', 'CustomController@test_post');
-
-			Route::get('test/test', 'CustomController@test');
 			Route::post('test/getmereks', 'CustomController@getmereks');
 
 			Route::get('sms', 'SmsController@sms');

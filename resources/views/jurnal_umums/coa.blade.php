@@ -224,9 +224,9 @@ Klinik Jati Elok | Coa belum di set
 </div>
 {!! Form::open(['url' => 'jurnal_umums/coa']) !!}
 {!! Form::text('route', $route, ['class' => 'form-control hide']) !!}
-{!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'form-control', 'id' => 'temp']) !!}
-{!! Form::textarea('peralatanTemp', '[]', ['class' => 'form-control', 'id' => 'peralatanTemp']) !!}
-{!! Form::textarea('serviceAcTemp', '[]', ['class' => 'form-control', 'id' => 'serviceAcTemp']) !!}
+{!! Form::textarea('temp', json_encode($jurnalumums), ['class' => 'hide form-control', 'id' => 'temp']) !!}
+{!! Form::textarea('peralatanTemp', '[]', ['class' => 'hide form-control', 'id' => 'peralatanTemp']) !!}
+{!! Form::textarea('serviceAcTemp', '[]', ['class' => 'hide form-control', 'id' => 'serviceAcTemp']) !!}
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <button class="btn btn-success btn-lg btn-block" type="button" onclick="dummySubmit();return false;">Submit</button>
@@ -349,17 +349,14 @@ Klinik Jati Elok | Coa belum di set
         break;
       }
     }
-
     var string = JSON.stringify(data);
     $('#temp').val(string);
 	var key = $(control).closest('tr').find('.key').html();
 	if( $(control).val() == '120001' ){ // jika yang dipilih adalah biaya operasional peralatan
-
 		clearFormCoa(key, control, 'formPeralatan');
-
-	} else if(  $(control).val() == '623433'  ) {
+	} else if(  $(control).val() == '623433'  ) { // jika yang dipilih adalah biaya operasional serviceAc
 		clearFormCoa(key, control, 'serviceAc');
-	} else {
+	} else {// jika yang dipilih adalah biaya operasional serviceAc
 		clearFormCoa(key, control);
 	}
   }
@@ -715,8 +712,7 @@ Klinik Jati Elok | Coa belum di set
 		return $(control).closest('tr').prevAll('.rowTr:first').find('.key').html();
 	}
 function clearFormCoa(key, control, next = null){
-	if( $(control).closest('tr').nextUntil('.kuitansi').length > 0 ){
-
+	if( $(control).closest('tr').nextUntil('.kuitansi').length > 0 && next != null ){
 		$(control).closest('tr').nextUntil('.kuitansi').fadeOut(500, function(){
 			$(this).remove();
 			var peralatanTemp = parsePeralatanTemp();
@@ -731,13 +727,12 @@ function clearFormCoa(key, control, next = null){
 				formPeralatan(key, control)
 			}
 		});
-		
 	} else {
-			if( next == 'serviceAc' ){
-				serviceAc(control);
-			} else if ( next == 'formPeralatan' ){
-				formPeralatan(key, control)
-			}
+		if( next == 'serviceAc' ){
+			serviceAc(control);
+		} else if ( next == 'formPeralatan' ){
+			formPeralatan(key, control)
+		}
 	}
 }
 function formPeralatan(key, control){

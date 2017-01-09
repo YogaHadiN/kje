@@ -276,9 +276,9 @@
 													<td class="blue-bg">
 														<h3>Antrian Terakhir No : </h3>
 														<h2 id="antrianMaster">{{ App\Classes\Yoga::antrianTerakhir( date('Y-m-d') ) }}</h2>
-													</td>
 												</tr>
 											</tbody>
+													</td>
 										</table>
 									</div>
 								</div>

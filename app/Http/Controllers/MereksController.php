@@ -12,6 +12,7 @@ use App\Merek;
 use App\Classes\Yoga;
 use App\Rak;
 use App\Formula;
+use App\Komposisi;
 use DB;
 use App\Pembelian;
 
@@ -199,5 +200,49 @@ class MereksController extends Controller
 
 		return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash($pesan));
 	}
+	public function ajaxObat(){
+		$q = Input::get('q');
+
+		$words = str_split($q);
+		$param = '%';
+		foreach ($words as $w) {
+			$param .= $w. '%';
+		}
+
+		$query  = "SELECT ";
+		$query .= "mr.id as merek_id, ";
+		$query .= "fr.id as formula_id, ";
+		$query .= "mr.merek as merek ";
+		$query .= "FROM mereks as mr ";
+		$query .= "JOIN raks as rk on mr.rak_id = rk.id ";
+		$query .= "JOIN formulas as fr on fr.id = rk.formula_id ";
+		$query .= "JOIN komposisis as ko on ko.formula_id = fr.id ";
+		$query .= "JOIN generiks as gr on gr.id = ko.generik_id ";
+		$query .= "WHERE gr.generik  like '{$param}' ";
+		$query .= "OR mr.merek like '{$param}' ";
+		$query .= "GROUP BY mr.id limit 10";
+		$datas = DB::select($query);
+
+		$mereks = [];
+		$formula_ids = [];
+		foreach ($datas as $d) {
+			$formula_ids[] = $d->formula_id;
+			$mereks[] = [
+				'merek'      => $d->merek,
+				'formula_id' => $d->formula_id,
+				'merek_id'   => $d->merek_id
+			];
+		}
+		$komposisis = Komposisi::with('generik')->whereIn('formula_id', $formula_ids)->get();
+		foreach ($komposisis as $k) {
+			foreach ($mereks as $key => $m) {
+				if ($m['formula_id'] == $k->formula_id) {
+					$mereks[$key]['komposisi'][] = $k->generik->generik . ' ' . $k->bobot;
+				}
+			}
+		}
+		return json_encode($mereks);
+	}
+	
 
 }
