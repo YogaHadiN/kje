@@ -227,7 +227,7 @@ border-spacing: -1px;
 				@foreach($ju as $k => $j)	
 					@if( $k == 0 )
 						<tr class="border-top">
-						<td> {{ $j->created_at->format('d M Y') }}</td>
+						<td> {{ $j->created_at->format('d M Y H:i:s') }}</td>
 					@elseif( $k == count($ju) -1 )
 						<tr class="border-bottom">
 							<td></td>	
