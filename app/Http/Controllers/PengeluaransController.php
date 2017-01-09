@@ -466,6 +466,11 @@ class PengeluaransController extends Controller
     }
     public function notaz_post(){
 
+		if (gethostname() == 'kje') {
+			exec("mysqldump -u root -pYogaman89 jatielok | gzip > /home/kje/Dropbox/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
+		} else {
+			exec("mysqldump -u root -pYogaman89 jatielok | gzip > /home/dell/Documents/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
+		}
 		$uang_di_kasir     = $this->parameterKasir()['uang_di_kasir'];
 		$total_uang_keluar = $this->parameterKasir()['total_uang_keluar'];
 		$uang_di_tangan    = $this->parameterKasir()['uang_di_tangan'];

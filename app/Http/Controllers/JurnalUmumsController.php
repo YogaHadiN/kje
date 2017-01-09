@@ -48,14 +48,17 @@ class JurnalUmumsController extends Controller
         $bulan  = Input::get('bulan');
         $tahun  = Input::get('tahun');
 		$jurnalumums = JurnalUmum::with('coa')->where('created_at', 'like', $tahun . '-'. $bulan . '%')->get();
+		//$errors = [];
 		foreach ($jurnalumums as $k => $ju) {
 			try {
 				$ju->coa->coa;
 			} catch (\Exception $e) {
+				//$errors[] = $ju;
 				session([ 'route_coa' => 'jurnal_umums' ]);
 				return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
 			}
 		}
+		//return dd( $errors );
         $jurnalumums = JurnalUmum::with('coa')->groupBy('jurnalable_id')
             ->groupBy('jurnalable_type')
             ->orderBy('created_at', 'desc')

@@ -1,0 +1,1 @@
+alter table faktur_belanjas add column diskon int default 0 not null;

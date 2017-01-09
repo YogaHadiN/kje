@@ -143,7 +143,7 @@ class FakturBelanja extends Model{
             $total_pembelian += $pembelian->harga_beli * $pembelian->jumlah;
         }
         
-        return 'Pembelian Obat di <strong>' . $supplier . '</strong><br /> sebesar :<strong><span class="uang">' . $total_pembelian . '</span></strong><br /> tanggal <strong>: ' . $tanggal . '</strong>';
+        return 'Pembelian Obat di <strong>' . $supplier . '</strong><br /> sebesar :<strong><span class="uang">' . ( $total_pembelian - $this->diskon ) . '</span></strong><br /> tanggal <strong>: ' . $tanggal . '</strong>';
 
     }
 	public function serviceAc(){

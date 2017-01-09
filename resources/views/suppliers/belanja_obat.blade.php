@@ -59,6 +59,12 @@ Klinik Jati Elok | Belanja Obat
 				  {!! Form::select('staf_id', App\Classes\Yoga::stafList(), null, ['class'=>'form-control selectpick rq', 'id'=>'staf_id', 'data-live-search' => 'true'])!!}
 				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 				</div>
+				<div class="form-group @if($errors->has('diskon'))has-error @endif">
+				  {!! Form::label('diskon', 'Diskon Pembelian', ['class' => 'control-label']) !!}
+				  {!! Form::text('diskon' , null, ['class' => 'form-control uangInput rq']) !!}
+				  @if($errors->has('diskon'))<code>{{ $errors->first('diskon') }}</code>@endif
+				</div>
+				
             </div>
         </div>
     </div>

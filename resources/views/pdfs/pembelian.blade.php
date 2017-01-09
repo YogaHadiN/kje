@@ -100,10 +100,16 @@
                                 @endforeach
                             @endif
                         </tbody>
-                        <tfoot class="big">
-                            <tr>
+                        <tfoot>
+							<tr>
+								<td>Diskon</td>
+								<td id="diskonObat" class="uang text-right" nowrap colspan="3">
+									{{ App\Classes\Yoga::buatrp( $fakturbelanja->diskon ) }}
+								</td>
+                            </tr>
+                            <tr class="big">
 								<td id="totalBiaya" class="strong uang text-right" nowrap colspan="4">
-									{{ App\Classes\Yoga::buatrp( $total ) }}
+								{{ App\Classes\Yoga::buatrp( $total - $fakturbelanja->diskon ) }}
 								</td>
                             </tr>    
                         </tfoot>

@@ -103,6 +103,7 @@ class PembeliansController extends Controller
 			'nomor_faktur' => 'required',
 			'belanja_id'   => 'required',
 			'supplier_id'  => 'required',
+			'diskon'       => 'required',
 			'sumber_uang'  => 'required',
 			'tempBeli'     => 'json|required',
 
@@ -151,6 +152,7 @@ class PembeliansController extends Controller
 		$faktur->supplier_id    = Input::get('supplier_id');
 		$faktur->sumber_uang_id = Input::get('sumber_uang');
 		$faktur->petugas_id     = Input::get('staf_id');
+		$faktur->diskon         = Yoga::clean( Input::get('diskon') );
 		$faktur->save();
 		$faktur->faktur_image   = $this->imageUpload('faktur','faktur_image', $faktur->id);
 		$confirm                = $faktur->save();
@@ -227,10 +229,20 @@ class PembeliansController extends Controller
             $jurnal                  = new JurnalUmum;
             $jurnal->jurnalable_id   = $faktur_belanja_id;
             $jurnal->jurnalable_type = 'App\FakturBelanja';
-            $jurnal->coa_id          = Input::get('sumber_uang'); // Kas di tangan
+            $jurnal->coa_id          = Input::get('sumber_uang');
             $jurnal->debit           = 0;
-            $jurnal->nilai           = $total_pembelian;
+            $jurnal->nilai           = $total_pembelian - Yoga::clean( Input::get('diskon') ); // Kas di tangan;
             $jurnal->save();
+
+			if ( (int)Yoga::clean( Input::get('diskon') ) > 0 ) {
+				$jurnal                  = new JurnalUmum;
+				$jurnal->jurnalable_id   = $faktur_belanja_id;
+				$jurnal->jurnalable_type = 'App\FakturBelanja';
+				$jurnal->coa_id          = 50204; // Biaya Produksi Obat (berkurang)
+				$jurnal->debit           = 0;
+				$jurnal->nilai           = Yoga::clean( Input::get('diskon') ); // Kas di tangan
+				$jurnal->save();
+			}
 
             return redirect('fakturbelanjas/obat')
                 ->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $pb->fakturbelanjas . '</strong> di <strong>' . $supplier . '</strong> telah berhasil'))
