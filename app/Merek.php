@@ -80,17 +80,18 @@ class Merek extends Model{
 
 	}
 	public function getMerekJualAttribute(){
-		$merek_id = $this->id;
+		$merek_id   = $this->id;
 		$formula_id = $this->rak->formula_id;
-		$rak_id = $this->rak_id;
+		$rak_id     = $this->rak_id;
 		$harga_jual = $this->rak->harga_jual;
 
 		$data = [
-			'merek_id' => $merek_id,
-			'rak_id' => $rak_id,
-			'fornas' => Rak::find($rak_id)->fornas,
+			'merek_id'   => $merek_id,
+			'rak_id'     => $rak_id,
+			'fornas'     => Rak::find($rak_id)->fornas,
 			'formula_id' => $formula_id,
-			'harga_jual' => $harga_jual
+			'harga_jual' => $harga_jual,
+			'harga_beli' => $this->rak->harga_beli
 		];
 
 		return json_encode($data);

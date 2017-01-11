@@ -365,7 +365,7 @@ function formatUang(){
     $('.uang:not(:contains("Rp."))').each(function() {
         var number = $(this).html();
         number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-        $(this).html('Rp. ' + number + ',-');
+        $(this).html('Rp. ' + number.trim() + ',-');
     });
 }
 
@@ -373,13 +373,13 @@ function formatUang(){
 function uang(content){
     var number = content;
     number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-    return 'Rp. ' + number + ',-';
+    return 'Rp. ' + number.trim() + ',-';
 }
 
 function uang2(content){
     var number = content;
     number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-    return 'Rp. ' + number;
+    return 'Rp. ' + number.trim();
 }
 
 function rupiahDibayarPasien(control) {

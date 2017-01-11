@@ -125,6 +125,7 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::post('periksas/{id}/update/tunai', 'PeriksaCustomController@updateTunai');
 			Route::post('periksas/{id}/update/piutang', 'PeriksaCustomController@updatePiutang');
 
+			Route::get('backup', 'DatabaseController@index');
 			// dari menu users
 			Route::post('mereks/ajax/obat', 'MereksController@ajaxObat');
 			Route::resource('pasiens', 'PasiensController');

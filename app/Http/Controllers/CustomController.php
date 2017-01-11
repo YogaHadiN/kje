@@ -213,6 +213,7 @@ class CustomController extends Controller
 	}
 
 	public function survey($id){
+
         $periksa = Periksa::with('terapii.merek.rak')->where('id', $id)->first();
 		$sudah = false;
 		$periksaBulanIni = Periksa::where('pasien_id', $periksa->pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $id)->get();
@@ -223,7 +224,7 @@ class CustomController extends Controller
 			}
 		}
    		$tindakans = [null => '- Pilih -'] + Tarif::where('asuransi_id', $periksa->asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
-   		$reseps = Yoga::masukLagi($periksa->terapii);
+   		$reseps     = Yoga::masukLagi($periksa->terapii);
    		$biayatotal = Yoga::biayaObatTotal($periksa->transaksi);
 
 		$monitor = Monitor::find(1);

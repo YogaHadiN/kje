@@ -18,9 +18,7 @@ class KasirBaseController extends Controller
 {
 	public function kasir($id){
 
-
-
-        $periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
+		$periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
 		if ( $periksa->lewat_kasir == '1' ) {
 			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
 			return redirect()->back()->withPesan($pesan);
@@ -85,35 +83,69 @@ class KasirBaseController extends Controller
 
 
 	public function kasir_submit(){
-
+		//rubah status periksa menjadi lewat_kasir2
 		$periksa_id = Input::get('periksa_id');
-		$merek      = Merek::all();
-
 		$prx = Periksa::find($periksa_id);
-
 		if ( $prx->lewat_kasir == '1' ) {
 			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
 			return redirect('antriankasirs')->withPesan($pesan);
 		}
 
+		//rubah terapi sesuai yang sudah diubah
+		$terapi1 = Input::get('terapi1');
+		$terapi1 = json_decode($terapi1, true);
+		$array = [];
+		$hargaTotalObat = 0;
+		$arrays = [];
+		foreach ($terapi1 as $t) {
+			Terapi::where('id', $t['id'])->update([
+				'merek_id'          => $t['merek_id'],
+				'jumlah'            => $t['jumlah'],
+				'harga_beli_satuan' => $t['harga_beli_satuan'],
+				'harga_jual_satuan' => $t['harga_jual_satuan']
+			]);
+			$hargaTotalObat += $t['harga_jual_satuan'] * $t['jumlah'];
+			$arrays[] = [
+
+				'merek' => Merek::find($t['merek_id'])->merek,
+				'jumlah' => $t['jumlah'],
+				'harga_jual_satuan' => $t['harga_jual_satuan']
+			];
+		}
+		//return dd( $arrays );
+		//rubah harga obat sesuai dengan terapi yang sudah diubah
+		//
+		//
+
+		$hargaTotalObat = Yoga::rataAtas5000( $hargaTotalObat );
+
+		$transaksi = $prx->transaksi;
+		$transaksi = json_decode($transaksi, true);
+		foreach ($transaksi as $k=> $tr) {
+			if ($tr['jenis_tarif'] == 'Biaya Obat') {
+				$transaksi[$k]['biaya'] = $hargaTotalObat;
+			}
+		}
+
+		$prx->transaksi = json_encode( $transaksi ); 
 		$prx->lewat_kasir = '1';
 		$prx->save();
 
 		if ( ( Input::get('tacc') ) && Input::get('tacc') == '1' ) {
-			$rjk       = $prx->rujukan;
-			$rjk->time   = Input::get('time_tacc') ;
-			$rjk->age   = Input::get('age_tacc') ;
-			$rjk->complication   = Input::get('complication_tacc') ;
-			$rjk->comorbidity   = Input::get('comorbidity_tacc') ;
-			$rjk->tacc   = 1;
+			$rjk                    = $prx->rujukan;
+			$rjk->time              = Input::get('time_tacc') ;
+			$rjk->age               = Input::get('age_tacc') ;
+			$rjk->complication      = Input::get('complication_tacc') ;
+			$rjk->comorbidity       = Input::get('comorbidity_tacc') ;
+			$rjk->tacc              = 1;
 			$rjk->save();
 
-
-			$tidakdirujuk             = Tidakdirujuk::firstOrNew(['icd10_id' => $prx->diagnosa->icd10_id]);
-			$tidakdirujuk->diagnosa   = $prx->diagnosa->diagnosa ;
+			$tidakdirujuk           = Tidakdirujuk::firstOrNew(['icd10_id' => $prx->diagnosa->icd10_id]);
+			$tidakdirujuk->diagnosa = $prx->diagnosa->diagnosa ;
 			$tidakdirujuk->save();
 		}
 
+		//jika ada perbaikan terapi di apotek, masukkam ke dalam database
 
         if (!empty(Input::get('terapi2'))) {
             $perbaikan = new Perbaikanresep;
@@ -122,7 +154,9 @@ class KasirBaseController extends Controller
             $perbaikan->save();
         }
 
-		return redirect('antriankasirs')->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'));
+		return redirect('antriankasirs')
+			->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'))
+			->with('kasir_submit', $periksa_id);
 
 	}
 

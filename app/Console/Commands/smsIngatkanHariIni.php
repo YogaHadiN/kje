@@ -65,7 +65,7 @@ class smsIngatkanHariIni extends Command
 		$ps = Pasien::whereIn('id', $pasiens)->get();
 		$text = "Terkirim sms mengingatkan janji konsultasi HARI INI ke " . count($ps) . ' orang : ';
 		foreach ($ps as $ap) {
-			$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok mengingatkan hari ini pasien a/n ' . $ap->nama . ' ada janji konsultasi ke dokter gigi jam 17.00.';
+			$pesan			= 'Selamat Siang, kami dari Klinik Jati Elok mengingatkan pasien a/n ' . $ap->nama . ' ada janji konsultasi ke dokter gigi hari ini jam 17.00.';
 			Sms::send($ap->no_telp,$pesan);
 			$text .= $ap->nama . ', ';
 			\Log::info('Terkirim sms mengingatkan janji konsultasi HARI INI ke ' . $ap->nama);

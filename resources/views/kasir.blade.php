@@ -114,9 +114,6 @@ Klinik Jati Elok | Kasir
                            <div class="panelLeft">
                                 <h3>Edit Resep</h3>
                           </div>
-                           <div class="panelRight">
-                                <a href="{!! url('pdfs/status/' . $periksa->id ) !!}" class="btn btn-success" target="_blank" >Lihat Resep</a>
-                          </div>
                       </div>
                           <div class="panel-body">
                             <table class="table table-condensed table-hover" id="antrian_apotek">
@@ -135,7 +132,7 @@ Klinik Jati Elok | Kasir
                                 <tbody id="tblResep">
                                     @foreach ($terapis as $key => $terapi)
                                         <tr>
-                                            <td class="hide">{!! $key !!}</td>
+                                            <td class="hide key">{!! $key !!}</td>
                                             <td>
                                                 <select name="" id="ddlMerekChange" class="form-control" onchange="ddlOnChange(this);return false;">
                                                     @foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
@@ -151,9 +148,9 @@ Klinik Jati Elok | Kasir
                                                {!! $terapi->signa !!} 
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control angka jumlah" value="{!! $terapi->jumlah !!}">
+                                                <input type="text" class="form-control angka" onkeyup="jumalhEdit(this);return false;" value="{!! $terapi->jumlah !!}">
                                             </td>
-                                            <td class='uang'>
+                                            <td class='uang harga_satuan'>
                                                 @if($periksa->asuransi_id == '32')
                                                     @if($terapi->merek->rak->fornas == '0')
                                                         {!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
@@ -164,7 +161,7 @@ Klinik Jati Elok | Kasir
                                                     {!! App\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
                                                 @endif
                                             </td>
-                                            <td class='uang totalItem'>
+                                            <td class='uang totalItem total_satuan'>
                                                 @if($periksa->asuransi->tipe_asuransi == 5)
                                                     @if($terapi->merek->rak->fornas == '0')
                                                     {!! App\Classes\Yoga::kasirHargaJualItem($terapi, $periksa)!!}
@@ -175,8 +172,8 @@ Klinik Jati Elok | Kasir
                                                     {!! App\Classes\Yoga::kasirHargaJualItem($terapi, $periksa)!!}
                                                 @endif      
                                             </td>
-                                            <td class="hide">{!! $terapi->jumlah !!}</td>
-                                            <td class="hide">{!! $terapi->id !!}</td>
+                                            <td class="hide jumlah">{!! $terapi->jumlah !!}</td>
+                                            <td class="hide terapi_id">{!! $terapi->id !!}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -194,10 +191,6 @@ Klinik Jati Elok | Kasir
                                         @endif
                                     </tr>
                                 </tfoot>
-
-
-
-
                             </table>
                                 @if (!empty($periksa->resepluar))
                                 <hr>
@@ -208,10 +201,10 @@ Klinik Jati Elok | Kasir
                     </div>
                    <div class="row">
                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                           {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control hide']) !!}
+						   {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control', 'id' => 'terapi1']) !!}
                        </div>
                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                           {!! Form::textarea('terapi2', null, ['class' => 'form-control hide', 'id' => 'terapi2'])!!} 
+                           {!! Form::textarea('terapi2', null, ['class' => 'form-control', 'id' => 'terapi2'])!!} 
                        </div>
                    </div>
 
@@ -349,30 +342,32 @@ Klinik Jati Elok | Kasir
         var asuransi_id = $('#asuransi_id').val();
         var formula_id = MyArray.formula_id;
         var harga_jual = MyArray.harga_jual;
+        var harga_beli = MyArray.harga_beli;
         var fornas = MyArray.fornas;
-        var id = $(control).closest('tr').find("td:last-child").html();
-        var i = $(control).closest('tr').find('td:first-child').html();
-        var param = {
-            'merek_id' : merek_id,
-            'asuransi_id' : asuransi_id,
-            'id' : id
-        };
+        var id = $(control).closest('tr').find(".terapi_id").html();
+        var i = $(control).closest('tr').find('.key').html();
+		var data = parseTerapi();
 
-        $.post(base + '/kasir/changemerek', param, function(data, textStatus, xhr) {
-            updateTerapi(data);
-            if ({!! $periksa->asuransi_id !!} == '32') {
-                if (fornas == 0) {
-                    $(control).closest('tr').find('td:nth-child(5)').html(harga_jual *{!! $periksa->asuransi->kali_obat  !!});
-                } else {
-                    $(control).closest('tr').find('td:nth-child(5)').html('0');
-                }
-            } else {
-                $(control).closest('tr').find('td:nth-child(5)').html(harga_jual *{!! $periksa->asuransi->kali_obat  !!});
-                $(control).closest('tr').find('td:nth-child(6)').html(harga_jual *{!! $periksa->asuransi->kali_obat  !!} * jumlah);
-            }
-            hitungTotal();
-            rupiah();
-        });
+
+        console.log(jumlah);
+        console.log(js);
+        console.log(MyArray);
+        console.log(merek_id);
+        console.log(rak_id);
+        console.log(asuransi_id);
+        console.log(formula_id);
+        console.log(harga_jual);
+        console.log(harga_beli);
+        console.log(fornas);
+        console.log(id);
+        console.log(i);
+		console.log(data);
+
+		data[i].merek_id = merek_id;
+		data[i].harga_beli_satuan = harga_beli;
+		data[i].harga_jual_satuan = harga_jual * {{ $periksa->asuransi->kali_obat }};
+		encodeTerapi(data,harga_jual,control,jumlah);
+		console.log('ddlOnChange');
     }
 
     function tambah(control){
@@ -398,7 +393,7 @@ Klinik Jati Elok | Kasir
             updateTerapi(data);
             var harga = $(control).closest('tr').find('td:nth-child(5)').html();
             harga = Number(harga.replace(/[^0-9]+/g,""))
-            $(control).closest('tr').find('td:nth-child(6)').html(parseInt(n) * parseInt(harga));
+            $(control).closest('tr').find('.total_satuan').html(parseInt(n) * parseInt(harga));
             hitungTotal();
             rupiah();
         });
@@ -417,7 +412,7 @@ Klinik Jati Elok | Kasir
         $('.uang:not(:contains("Rp"))').each(function() {
             var number = $(this).html();
             number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-            $(this).html('Rp. ' + number + ' ,-');
+            $(this).html('Rp. ' + number + ',-');
         });
     }
 
@@ -427,10 +422,10 @@ Klinik Jati Elok | Kasir
 			validasi('#tacc_muncul', 'Harus diisi!');
 
 		} else if( $('#inputTacc').length > 0 && $('#tacc_muncul').val() == '1' && ( 
-						( $('#time_tacc').val() == '' || $('#time_tacc').val() == null   ) &&
-						( $('#age_tacc').val() == '' || $('#age_tacc').val() == null   ) &&
-						( $('#complication_tacc').val() == '' || $('#complication_tacc').val() == null   ) &&
-						( $('#comorbidity_tacc').val() == '' || $('#comorbidity_tacc').val() == null   )
+			( $('#time_tacc').val() == '' || $('#time_tacc').val() == null   ) &&
+			( $('#age_tacc').val() == '' || $('#age_tacc').val() == null   ) &&
+			( $('#complication_tacc').val() == '' || $('#complication_tacc').val() == null   ) &&
+			( $('#comorbidity_tacc').val() == '' || $('#comorbidity_tacc').val() == null   )
 						
 		) ){
 			validateWarning( '#time_tacc' );
@@ -438,7 +433,6 @@ Klinik Jati Elok | Kasir
 			validateWarning( '#complication_tacc' );
 			validateWarning( '#comorbidity_tacc' );
 		} else {
-			window.open("{!! url('pdfs/status/' . $periksa->id ) !!}");
 			$('input[type="submit"]').click();
 		}
     }
@@ -470,6 +464,64 @@ Klinik Jati Elok | Kasir
 		if( $(selector).val() == '' || $(selector).val() == null   ){
 			validasi(selector, 'Harus Diisi');
 		}
+	}
+	function parseTerapi(){
+		var temp = $('#terapi1').val();
+		return $.parseJSON(temp);
+	}
+	function encodeTerapi(temp, harga_jual, control, jumlah){
+		var temp = JSON.stringify(temp);
+		$('#terapi1').val(temp);
+		$('#terapi2').val(temp);
+		if ({!! $periksa->asuransi_id !!} == '32') {
+			if (fornas == 0) {
+				$(control).closest('tr').find('.harga_satuan').html(harga_jual *{!! $periksa->asuransi->kali_obat  !!});
+			} else {
+				$(control).closest('tr').find('.harga_satuan').html('0');
+			}
+		} else {
+			$(control).closest('tr').find('.harga_satuan').html(harga_jual *{!! $periksa->asuransi->kali_obat  !!});
+			$(control).closest('tr').find('.total_satuan').html(harga_jual *{!! $periksa->asuransi->kali_obat  !!} * jumlah);
+		}
+		hitungTotal();
+		rupiah();
+	}
+
+	function jumalhEdit(control){
+		var i = $(control).closest('tr').find('.key').html();
+		var harga_jual = hargaJual(control);
+		var awal = $(control).closest('tr').find('.jumlah').html();
+		var id = $(control).closest('tr').find('.terapi_id').html();
+
+		if (parseInt($(control).val()) > awal) {
+			var jumlah = awal;
+		} else if($(control).val() < 0){
+			var jumlah = 0;
+		} else {
+			var jumlah = $(control).val();
+		}
+		$(control).val(jumlah);
+		
+
+		console.log('i');
+		console.log(i);
+		console.log('harga_jual');
+		console.log(harga_jual);
+		console.log('jumlah');
+		console.log(jumlah);
+		console.log('awal');
+		console.log(awal);
+		console.log('id');
+		console.log(id);
+
+		var data = parseTerapi();
+		data[i].jumlah = jumlah;
+		encodeTerapi(data, harga_jual, control, jumlah);
+	}
+	function hargaJual(control){
+		var MyArray = $(control).closest('tr').find('select').val();
+		MyArray = $.parseJSON(MyArray);
+		return MyArray.harga_jual;
 	}
 	
 	

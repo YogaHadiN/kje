@@ -215,18 +215,23 @@ class PeriksasController extends Controller
 		//INPUT DATA UNTUK TERAPI
 		//
 		// return $terapis;
+		$terapiInserts = [];
+		$timestamp = date('Y-m-d H:i:s');
 		foreach (json_decode($terapis, true) as $k => $t) {
-			$terapi                    = new Terapi;
-			$terapi->merek_id          = $t['merek_id'];
-			$terapi->signa             = $t['signa'];
-			$terapi->aturan_minum      = $t['aturan_minum'];
-			$terapi->jumlah            = $t['jumlah'];
-			$terapi->periksa_id        = $t['jumlah'];
-			$terapi->periksa_id        = $periksa_id;
-			$terapi->harga_beli_satuan = Merek::find($t['merek_id'])->rak->harga_beli;
-			$terapi->harga_jual_satuan = Yoga::hargaJualSatuan($asuransi, $t['merek_id']);
-			$terapi->save();
+			$terapiInserts[] = [
+				'merek_id'          => $t['merek_id'],
+				'signa'             => $t['signa'],
+				'aturan_minum'      => $t['aturan_minum'],
+				'jumlah'            => $t['jumlah'],
+				'periksa_id'        => $t['jumlah'],
+				'periksa_id'        => $periksa_id,
+				'harga_beli_satuan' => Merek::find($t['merek_id'])->rak->harga_beli,
+				'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
+				'created_at'        => $timestamp,
+				'updated_at'        => $timestamp,
+			];
 		}
+		Terapi::insert($terapiInserts);
 
 	if(Input::get('poli') == 'usg'){
 		$usg_id = Yoga::customId('App\Usg');

@@ -214,6 +214,7 @@
                             {{--<li>{!! HTML::link('sms/angkakontak', 'SMS Angka Kontak')!!}</li>--}}
                         </ul>
                      </li>
+					 <li>{!! HTML::link('backup', 'Backup Database', ['onclick' => 'return confirm("Anda yakin mau backup database saat ini?")'])!!}</li>
                 </ul>
             </div>
         </nav>
