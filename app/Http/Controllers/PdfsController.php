@@ -68,6 +68,7 @@ class PdfsController extends Controller
 	}
 	public function struk($periksa_id)
 	{
+
 		$periksa = Periksa::find($periksa_id);
         $transaksis = $periksa->transaksii;
         $total_biaya = 0;

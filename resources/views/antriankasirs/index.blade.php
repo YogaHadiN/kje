@@ -88,10 +88,10 @@ Klinik Jati Elok | Antrian Kasir
 @stop
 @section('footer') 
 	<script>
-	   @if(Session::has('kasir_submit'))
-		   window.open("{!! url('pdfs/status/' . Session::get('kasir_submit') ) !!}", '_blank');
-	   @endif
        $(function () {
+		   @if(Session::has('kasir_submit'))
+			   window.open("{!! url('pdfs/status/' . Session::get('kasir_submit') ) !!}", '_blank');
+		   @endif
             if( $('#print-struk').length > 0 ){
                 window.open("{{ url('pdfs/struk/' . Session::get('print')) }}", '_blank');
             }
