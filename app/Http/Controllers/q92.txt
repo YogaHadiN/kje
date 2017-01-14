@@ -1,0 +1,8 @@
+alter table formulas add column golongan_obat varchar(255);
+update formulas set golongan_obat = indikasi where id between 161116002 and 161116047;
+update formulas set golongan_obat = indikasi where id between 161117006 and 161119002;
+update formulas set golongan_obat = indikasi where id between 161121001 and 161126001;
+update formulas set golongan_obat = indikasi where id between 161228001 and 161228003;
+update formulas set golongan_obat = indikasi where id between 170104001 and 170104001;
+update formulas set golongan_obat = indikasi where id = 170105001;
+

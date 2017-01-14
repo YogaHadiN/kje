@@ -221,6 +221,7 @@ class FormulasController extends Controller
 		$formula->dijual_bebas    = Input::get('dijual_bebas'); 
 		$formula->efek_samping    = Input::get('efek_samping'); 
 		$formula->aturan_minum_id = Input::get('aturan_minum_id'); 
+		$formula->golongan_obat = Input::get('golongan_obat'); 
 		$formula->sediaan         = Input::get('sediaan'); 
 		$formula->indikasi        = Input::get('indikasi'); 
 		$formula->kontraindikasi  = Input::get('kontraindikasi'); 
@@ -572,6 +573,7 @@ class FormulasController extends Controller
 		$formula->efek_samping = Input::get('efek_samping'); 
 		$formula->aturan_minum_id = Input::get('aturan_minum_id'); 
 		$formula->sediaan = Input::get('sediaan'); 
+		$formula->golongan_obat = Input::get('golongan_obat'); 
 		$formula->indikasi = Input::get('indikasi'); 
 		$formula->kontraindikasi = Input::get('kontraindikasi'); 
 		$formula->save();

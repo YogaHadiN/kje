@@ -39,6 +39,16 @@
 						   @if($errors->has('kontraindikasi'))<code>{{ $errors->first('kontraindikasi') }}</code>@endif
 						 </div>
                     </div>
+					<div class="col-lg-12 col-md-12">
+						 <div class="form-group @if($errors->has('golongan_obat'))has-error @endif">
+						   {!! Form::label('golongan_obat', 'Golongan Obat', ['class' => 'control-label']) !!}
+                            {!!Form::text('golongan_obat', null, array(
+                                'class'         => 'form-control',
+                                'placeholder'   => 'golongan_obat'
+                            ))!!}
+						   @if($errors->has('golongan_obat'))<code>{{ $errors->first('golongan_obat') }}</code>@endif
+						 </div>
+                    </div>
                 </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
