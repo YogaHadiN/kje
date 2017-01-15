@@ -167,7 +167,6 @@
                                 {{App\Classes\Yoga::buatrp(  $periksa->kembalian  )}}
                             </td>
                         </tr>
-
                     </tfoot>
                 </table>
 				<br />
@@ -190,9 +189,8 @@
 						</tbody>
 					</table>
 				@endif
-				
                 <div class="text-center footer box border-top">
-                    Semoga Lekas Sembuh
+					@include('pdfs.promo')
                 </div>
                 .
             </div>

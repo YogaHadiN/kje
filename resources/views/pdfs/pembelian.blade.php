@@ -133,9 +133,8 @@
                         <td>( ................. )</td>
                     </tr>
                 </table>
-               <div class="small-padding">
-                   
-
+               <div class="small-padding text-center">
+                   @include('pdfs.promo')
                </div> 
                .
             </div>
