@@ -68,11 +68,13 @@ class KasirsController extends Controller
 		$confirm            = $sl->save();
 
 		if ($selisih > 0) {
-			Sms::send('081381912803', 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih)  );
-			Sms::send('085721012351', 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih)  );
+			$pesanSms = 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih). 'saldo di kasir sebesar ' . Yoga::buatrp($saldo_saat_ini);
+			Sms::send('081381912803',  $pesanSms );
+			Sms::send('085721012351', $pesanSms  );
 		} else if( $selisih < 0 ){
-			Sms::send('081381912803', 'Ada selsih uang di kasir sebesar ' . Yoga::buatrp($selisih) . ' segera hitung dan cari dimana kesalahannya' );
-			Sms::send('085721012351', 'Ada selsih uang di kasir sebesar ' . Yoga::buatrp($selisih) . ' segera hitung dan cari dimana kesalahannya' );
+			$pesanSms = 'Ada selsih uang di kasir sebesar ' . Yoga::buatrp($selisih). 'saldo di kasir sebesar ' . Yoga::buatrp($saldo_saat_ini);
+			Sms::send('081381912803', $pesanSms );
+			Sms::send('085721012351', $pesanSms);
 		}
 
 		if ($confirm) {
