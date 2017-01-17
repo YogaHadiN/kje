@@ -861,8 +861,7 @@ class Yoga {
 	   		}
 		}
 
-		public static function kaliObat($transaksis, $terapi, $asuransi, $plafon){
-
+		public static function kaliObat($transaksis, $terapi, $asuransi, $plafon, $poli){
 			$transaksi_array = $transaksis;
 			$non_paket = true;
 			foreach ($transaksi_array as $k => $v) {
@@ -901,7 +900,9 @@ class Yoga {
                     if ($biaya < 30000 && ( $asuransi->id == '151222001' || $asuransi->id == '10' )) {
                         $biaya = 30000;
                     } else {
-                        $biaya = Yoga::rataAtas5000($biaya);
+						if ($poli != 'estetika') {
+							$biaya = Yoga::rataAtas5000($biaya);
+						}
                     }
 					$plus = [
 						'jenis_tarif_id' => $tarif->jenis_tarif_id,
@@ -972,6 +973,7 @@ class Yoga {
 							$biaya = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya - $selisihPlafon;
 						}
 					}
+
 					$biaya = Yoga::rataAtas5000($biaya);
 
 

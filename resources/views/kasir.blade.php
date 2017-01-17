@@ -444,7 +444,11 @@ Klinik Jati Elok | Kasir
             string = parseInt(Number(string.replace(/[^0-9]+/g,"")));
             total += parseInt(string);
         });
-        $('#biaya').html(rataAtas5000(total));
+		@if($periksa->poli != 'estetika')
+			$('#biaya').html(rataAtas5000(total));
+		@else
+			$('#biaya').html(total);
+		@endif
     }
 
 	function inputTaccChange(){

@@ -181,9 +181,9 @@
 								</tr>
 								<tr class="border-bottom-dash">
 									<td nowrap class="text-left" colspan="2">
-										@ {{ App\Classes\Yoga::buatrp($t->harga_beli_satuan) }} x {{ $t->jumlah }}
+										@ {{ App\Classes\Yoga::buatrp($t->harga_jual_satuan) }} x {{ $t->jumlah }}
 									</td>
-									<td nowrap class="text-right" colspan="2">{{ App\Classes\Yoga::buatrp( $t->harga_beli_satuan * $t->jumlah ) }}</td>
+									<td nowrap class="text-right" colspan="2">{{ App\Classes\Yoga::buatrp( $t->harga_jual_satuan * $t->jumlah ) }}</td>
 								</tr>
 							@endforeach
 						</tbody>

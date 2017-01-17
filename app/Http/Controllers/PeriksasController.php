@@ -121,7 +121,7 @@ class PeriksasController extends Controller
 
 
 		//sesuaikan Transaksi
-		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis);
+		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
 
 		//INPUT TRANSAKSI JAM MALAM
 		//JIKA PASIEN DATANG > JAM 10 MALAM, untuk pasien umum dan admedika, maka ditambah 10 ribu untuk jam malam
@@ -438,7 +438,7 @@ class PeriksasController extends Controller
 		$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
 
 		//sesuaikan Transaksi
-		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis);
+		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
 	
 		// INPUT DATA PERIKSA FINAL!!!!!
         
@@ -755,7 +755,7 @@ class PeriksasController extends Controller
 		return $transaksis;
 	}
 
-	public function sesuaikanTransaksi($transaksi, $asuransi, $terapis){
+	public function sesuaikanTransaksi($transaksi, $asuransi, $terapis, $poli){
 		// INPUT TRANSAKSI BHP
 		// Jika input transaksi tidak kosong DAN input transaksi tidak sama dengan json kosng,
 		// maka buat transaksi BHP dengan nilai 0 yang akan dimasukkan belakangan
@@ -765,7 +765,7 @@ class PeriksasController extends Controller
 		$plafonFlat = Yoga::dispensingObatBulanIni($asuransi)['plafon'];
 		// return $plafonFlat;
 		// return $plafon;
-		$transaksis = Yoga::kaliObat($transaksis, $terapis, $asuransi, $plafonFlat);
+		$transaksis = Yoga::kaliObat($transaksis, $terapis, $asuransi, $plafonFlat, $poli);
 		//INPUT TRANSAKSI JASA DOKTER
 		//jenis tarif id = 1 adalah jasa dokter
 		//jika ada tindakan surat keterangan sehat, maka jasa dokter adalah 0

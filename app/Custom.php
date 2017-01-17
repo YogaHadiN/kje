@@ -885,7 +885,7 @@ class Custom extends Model
 			}
 			return $transaksis;
 		}
-		public static function kaliObat2($transaksis, $terapis, $asuransi, $plafon){
+		public static function kaliObat2($transaksis, $terapis, $asuransi, $plafon, $poli){
 
 			$transaksi_array = $transaksis;
 			$non_paket = true;
@@ -930,7 +930,9 @@ class Custom extends Model
 							$biaya = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya - $selisihPlafon;
 						}
 					}
-					$biaya = Yoga::rataAtas5000($biaya);
+					if ($poli != 'estetika') {
+						$biaya = Yoga::rataAtas5000($biaya);
+					}
 
 
 					$plus = [

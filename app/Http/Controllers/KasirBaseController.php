@@ -43,7 +43,9 @@ class KasirBaseController extends Controller
 				$biayatotal += Yoga::kasirHargaJualItem($terapi, $periksa, false);
 			}
    		}
-		$biayatotal  = Yoga::rataAtas5000($biayatotal);
+		if ($periksa->poli != 'estetika') {
+			$biayatotal  = Yoga::rataAtas5000($biayatotal);
+		}
 		$asuransi_id = $periksa->asuransi_id;
 		$pasien      = $periksa->pasien;
 		$tindakans   = [ null => '- Pilih -' ] + Tarif::where('asuransi_id', $asuransi_id)->with('jenisTarif')->get()->lists('jenis_tarif_list', 'tarif_jual')->all();
@@ -117,7 +119,9 @@ class KasirBaseController extends Controller
 		//
 		//
 
-		$hargaTotalObat = Yoga::rataAtas5000( $hargaTotalObat );
+		if ($prx->poli != 'estetika') {
+			$hargaTotalObat = Yoga::rataAtas5000( $hargaTotalObat );
+		}
 
 		$transaksi = $prx->transaksi;
 		$transaksi = json_decode($transaksi, true);
@@ -235,7 +239,9 @@ class KasirBaseController extends Controller
 				$harga_obat += $this->hargaHitung($terapi, $periksa);
 			}
 		}
-		$harga_obat = Yoga::rataAtas5000($harga_obat);
+		if ($periksa->poli != 'estetika') {
+			$harga_obat = Yoga::rataAtas5000($harga_obat);
+		}
 		// return $harga_obat;
 		$transaksis = json_decode($periksa->transaksi, true);
 
