@@ -986,7 +986,7 @@ class PengeluaransController extends Controller
 		$rules = [
 			'staf_id' => 'required',
 			'petugas_id' => 'required',
-			'nilai' => 'required|numeric',
+			'nilai' => 'required',
 			'bulan' => 'required',
 			'tanggal_dibayar' => 'required'
 		];
