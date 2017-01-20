@@ -984,10 +984,10 @@ class PengeluaransController extends Controller
 	public function gajiDokterGigiBayar(){
 
 		$rules = [
-			'staf_id' => 'required',
-			'petugas_id' => 'required',
-			'nilai' => 'required',
-			'bulan' => 'required',
+			'staf_id'         => 'required',
+			'petugas_id'      => 'required',
+			'nilai'           => 'required',
+			'bulan'           => 'required',
 			'tanggal_dibayar' => 'required'
 		];
 		
@@ -999,17 +999,17 @@ class PengeluaransController extends Controller
 		}
 		$bulan =  Yoga::blnPrep( Input::get('bulan') );
 
-		$nilai = Yoga::clean( Input::get('nilai') );
-		$gaji = new GajiGigi;
-		$gaji->staf_id = Input::get('staf_id');
-		$gaji->petugas_id = Input::get('petugas_id');
-		$gaji->nilai = $nilai;
-	    $gaji->tanggal_mulai = $bulan . '-01';
-	    $gaji->tanggal_akhir = date("Y-m-t", strtotime($bulan . '-01'));
+		$nilai                 = Yoga::clean( Input::get('nilai') );
+		$gaji                  = new GajiGigi;
+		$gaji->staf_id         = Input::get('staf_id');
+		$gaji->petugas_id      = Input::get('petugas_id');
+		$gaji->nilai           = $nilai;
+	    $gaji->tanggal_mulai   = $bulan . '-01';
+	    $gaji->tanggal_akhir   = date("Y-m-t", strtotime($bulan . '-01'));
 		$gaji->tanggal_dibayar = Yoga::datePrep( Input::get('tanggal_dibayar') );
-		$gaji->created_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
-		$gaji->updated_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
-		$confirm = $gaji->save();
+		$gaji->created_at      = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
+		$gaji->updated_at      = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
+		$confirm               = $gaji->save();
 
 		if ($confirm) {
 			$jurnal                  = new JurnalUmum;

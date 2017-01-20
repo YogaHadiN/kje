@@ -19,14 +19,22 @@ class LaporanLabaRugisController extends Controller
     public function show(){
     	$bulan = Input::get('bulan');
     	$tahun = Input::get('tahun');
-		$pendapatan_usahas = $this->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_usahas'];
+		$jurnalumums = JurnalUmum::with('coa')->where('created_at', 'like', $tahun . '-'. $bulan . '%')
+											  ->whereNull('coa_id')
+											  ->get();
+		if ( $jurnalumums->count() > 0 ) {
+			session([ 'route_coa' => 'laporan_laba_rugis' ]);
+			return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
+		}
+		$tempLaporanLabaRugi = $this->tempLaporanLabaRugi($bulan, $tahun);
+		$pendapatan_usahas = $tempLaporanLabaRugi['pendapatan_usahas'];
 		//return dd( $pendapatan_usahas );
-		$hpps              = $this->tempLaporanLabaRugi($bulan, $tahun)['hpps'];
-		$biayas            = $this->tempLaporanLabaRugi($bulan, $tahun)['biayas'];
-		$pendapatan_lains  = $this->tempLaporanLabaRugi($bulan, $tahun)['pendapatan_lains'];
-		$bulan             = $this->tempLaporanLabaRugi($bulan, $tahun)['bulan'];
-		$tahun             = $this->tempLaporanLabaRugi($bulan, $tahun)['tahun'];
-		$bebans            = $this->tempLaporanLabaRugi($bulan, $tahun)['bebans'];
+		$hpps              = $tempLaporanLabaRugi['hpps'];
+		$biayas            = $tempLaporanLabaRugi['biayas'];
+		$pendapatan_lains  = $tempLaporanLabaRugi['pendapatan_lains'];
+		$bulan             = $tempLaporanLabaRugi['bulan'];
+		$tahun             = $tempLaporanLabaRugi['tahun'];
+		$bebans            = $tempLaporanLabaRugi['bebans'];
 		//return $pendapatan_usahas['akuns'];
     	return view('laporan_laba_rugis.show', compact(
             'pendapatan_usahas',
@@ -40,13 +48,6 @@ class LaporanLabaRugisController extends Controller
     }
 	public function tempLaporanLabaRugi($bulan, $tahun){
 		
-		$jurnalumums = JurnalUmum::with('coa')->where('created_at', 'like', $tahun . '-'. $bulan . '%')
-											  ->whereNull('coa_id')
-											  ->get();
-		if ( $jurnalumums->count() > 0 ) {
-			session([ 'route_coa' => 'laporan_laba_rugis' ]);
-			return redirect('jurnal_umums/coa')->withPesan(Yoga::gagalFlash('Ada beberapa Chart Of Account yang harus disesuaikan dulu'));
-		}
 
 		$query  = "SELECT ";
 		$query .= "coa_id as coa_id, ";
