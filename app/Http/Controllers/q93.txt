@@ -1,0 +1,6 @@
+alter table periksas add column sistolik int(3);
+alter table periksas add column diastolik int(3);
+alter table antrian_periksas add column sistolik int(3);
+alter table antrian_periksas add column diastolik int(3);
+alter table antrian_periksas add column berat_badan int(3);
+alter table periksas add column berat_badan int(3);

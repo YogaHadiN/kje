@@ -157,6 +157,8 @@ class PeriksasController extends Controller
 		$periksa->pemeriksaan_fisik 	= Input::get('pemeriksaan_fisik');
 		$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
 		$periksa->tanggal 				= Input::get('tanggal');
+		$periksa->sistolik 				= Input::get('sistolik');
+		$periksa->diastolik 				= Input::get('diastolik');
 		$periksa->terapi 				= $this->terapisBaru($terapis);
 		$periksa->antrian 				= Input::get('antrian');
 		$periksa->jam_periksa 			= Input::get('jam_periksa');
@@ -452,6 +454,8 @@ class PeriksasController extends Controller
 		$periksa->lewat_poli 			= '1';
 		$periksa->antrian_periksa_id	= Input::get('antrian_id');
 		$periksa->lewat_kasir 			= '0';
+		$periksa->sistolik 			    = Input::get('sistolik');
+		$periksa->diastolik 			= Input::get('diastolik');
 		$periksa->lewat_kasir2 			= '0';
 		$periksa->resepluar 			= Input::get('resepluar');
 		$periksa->pemeriksaan_fisik 	= Input::get('pemeriksaan_fisik');

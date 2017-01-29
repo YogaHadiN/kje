@@ -93,7 +93,12 @@ class AntrianPeriksasController extends Controller
 		$berat_badan 			= Input::get('berat_badan');
 		$suhu 					= Input::get('suhu');
 		$tinggi_badan 			= Input::get('tinggi_badan');
-		$periksa_awal 			= Yoga::periksaAwal($tekanan_darah, $berat_badan, $suhu, $tinggi_badan);
+		$periksa_awal 			= Yoga::periksaAwal( 
+														Input::get('sistolik') . '/' . Input::get('diastolik') . ' mmHg', 
+														$berat_badan, 
+														$suhu, 
+														$tinggi_badan
+													);
 
 		$ap = new AntrianPeriksa;
 		
@@ -126,7 +131,8 @@ class AntrianPeriksasController extends Controller
 		$ap->hpht                = Yoga::datePrep(Input::get('hpht'));
 		$ap->tanggal             = Yoga::datePrep( Input::get('tanggal') );
 		$ap->kecelakaan_kerja    = $kecelakaan_kerja;
-		$ap->tekanan_darah       = $tekanan_darah;
+		$ap->sistolik            = Input::get('sistolik');
+		$ap->diastolik           = Input::get('diastolik');
 		$ap->tinggi_badan        = $tinggi_badan;
 		$ap->save();
 

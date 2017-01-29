@@ -41,6 +41,8 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!}
           'transaksi'                    => $transaksiusg, 
           'berat_badan'                  => $antrianperiksa->berat_badan, 
           'sudah'                        => $sudah, 
+		  'sistolik'                        => $antrianperiksa->sistolik, 
+		  'diastolik'                        => $antrianperiksa->diastolik, 
           'adatindakan'                  => $adatindakan, 
           'penunjang'                    => $penunjang, 
           'terapiArray'                  => '[]',

@@ -129,6 +129,30 @@
 										</div>
 									</div>
 									<div class="row">
+										<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+											<div class="form-group @if($errors->has('sistolik'))has-error @endif">
+											  {!! Form::label('sistolik', 'Sistolik', ['class' => 'control-label']) !!}
+											  {!! Form::text('sistolik' , $sistolik, ['class' => 'form-control angka']) !!}
+											  @if($errors->has('sistolik'))<code>{{ $errors->first('sistolik') }}</code>@endif
+											</div>
+										</div>
+										<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+											<div class="form-group @if($errors->has('diastolik'))has-error @endif">
+											  {!! Form::label('diastolik', 'Diastolik', ['class' => 'control-label']) !!}
+											  {!! Form::text('diastolik' , $diastolik, ['class' => 'form-control angka']) !!}
+											  @if($errors->has('diastolik'))<code>{{ $errors->first('diastolik') }}</code>@endif
+											</div>
+										</div>
+										<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+											<div class="form-group @if($errors->has('mmHg'))has-error @endif">
+												<br />
+												<br />
+											  {!! Form::label('mmHg', 'mmHg', ['class' => 'control-label']) !!}
+											  @if($errors->has('mmHg'))<code>{{ $errors->first('mmHg') }}</code>@endif
+											</div>
+										</div>
+									</div>
+									<div class="row">
 										<div class="col-lg-12 col-md-12">
 											<div class="form-group @if($errors->has('pemeriksaanFisik'))has-error @endif">
 											  {!! Form::label('pemeriksaanFisik', 'Pemeriksaan Fisik', ['class' => 'control-label']) !!}

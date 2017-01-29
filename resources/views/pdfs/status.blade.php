@@ -269,6 +269,10 @@ border-spacing: -1px;
 					{!! $periksa->anamnesa !!}<br>
 					<strong>Pemeriksaan Fisik :</strong><br>
 					{!! $periksa->pemeriksaan_fisik !!}<br>
+					@if( !empty($periksa->sistolik) || !empty($periksa->sistolik) )
+						<strong>Tekanan Darah</strong><br>
+						{!! $periksa->sistolik !!} / {!! $periksa->diastolik !!} mmHg<br>
+					@endif
 					@if($periksa->pemeriksaan_penunjang != '')
 						<strong>Pemeriksaan Penunjang dan Tindakan</strong><br>
 						{!! $periksa->pemeriksaan_penunjang !!} <br>

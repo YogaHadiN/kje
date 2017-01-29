@@ -56,6 +56,10 @@ Klinik Jati Elok | Pasien
                                 <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
                                 {!! $periksa->pemeriksaan_fisik !!} <br>
                                 {!! $periksa->pemeriksaan_penunjang !!}<br>
+								@if( !empty($periksa->sistolik) || !empty($periksa->sistolik))
+									<strong>Tekanan Darah</strong> <br>
+									{!! $periksa->sistolik !!}/{!! $periksa->diastolik !!} mmHg  <br>
+								@endif
                                 <strong>Diagnosa :</strong> <br>
                                 {!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10->diagnosaICD !!}
                                 <br> <br>

@@ -70,6 +70,8 @@ Klinik Jati Elok | Poli {!! ucfirst($antrianperiksa->poli)!!} (Edit)
           'total_afi'                    => $ica,
           'kesimpulan'                   => $kesimpulan,
           'saran'                        => $saran,
+		  'sistolik'                     => $periksaex->sistolik,
+		  'diastolik'                     => $periksaex->diastolik,
           'uk'                           => $uk,
           'tb'                           => $tb,
           'jumlah_janin'                 => $jumlah_janin,

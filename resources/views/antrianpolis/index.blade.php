@@ -144,14 +144,21 @@ Klinik Jati Elok | Nurse Station
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6">
+									<div class="col-lg-2 col-md-2">
                                         <div class="form-group">
-                                            <label for="tekananDarah" id="lblTekananDarah">Tekanan Darah</label><br />
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control " dir="rtl"  id="tekananDarah" placeholder="" name="tekanan_darah" aria-describedby="addonTekananDarah"/>
-                                                    <span class="input-group-addon" id="addonTekananDarah">mmHg</span>
-                                                </div>
+                                            <label for="sistolik" id="lblSistolik">Sistolik</label><br />
+											<input type="text" class="form-control angka" dir="rtl"  id="sistolik" placeholder="" name="sistolik" aria-describedby="addonTekananDarah"/>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <div class="form-group">
+                                            <label for="diastolik" id="lblDiastolik">Diastolik</label><br />
+											<input type="text" class="form-control angka" dir="rtl"  id="diastolik" placeholder="" name="diastolik" aria-describedby="addonTekananDarah"/>
+                                        </div>
+                                    </div>
+									<div class="col-lg-2 col-md-2">
+										<label for="diastolik" id="lblDiastolik"></label><br />
+										<label for="diastolik" id="lblDiastolik">mmHg</label><br />
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
