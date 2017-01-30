@@ -103,9 +103,26 @@ class PoliAjaxController extends Controller
            $parameter_berat_badan = "(p.berat_badan > 40 or p.berat_badan is null or p.berat_badan = 0)";
         }
 
-        $query = "select p.id as periksa_id, replace(p.terapi ,' ', '') as terapih, count(p.id) as jumlah from `periksas` as p join diagnosas as d on d.id = p.diagnosa_id join asuransis as asu on asu.id = p.asuransi_id where (staf_id='{$staf_id}' or staf_id='16' ) and {$parameter_asuransi} and p.id in (select periksa_id from terapis) and d.icd10_id = '{$icd10}' and {$parameter_berat_badan}  and p.created_at > '0000-00-00 00:00:00' group by terapih order by jumlah desc limit 10";
+		$queryRaw = "select p.id as periksa_id, ";
+		$queryRaw .= "replace(p.terapi ,' ', '') as terapih, ";
+		$queryRaw .= "count(p.id) as jumlah ";
+		$queryRaw .= "from `periksas` as p ";
+		$queryRaw .= "join diagnosas as d on d.id = p.diagnosa_id ";
+		$queryRaw .= "join asuransis as asu on asu.id = p.asuransi_id ";
+		$queryRaw .= "where (staf_id=? or staf_id='16' ) ";
+		$queryRaw .= "and {$parameter_asuransi} ";
+		$queryRaw .= "and p.id in (select periksa_id from terapis) ";
+		$queryRaw .= "and d.icd10_id = '{$icd10}' ";
+		$queryRaw .= "and {$parameter_berat_badan} ";
+		$queryRaw .= "and p.created_at > '0000-00-00 00:00:00' ";
+		$queryRaw .= "group by terapih ";
+		$queryRaw .= "order by jumlah ";
+		$queryRaw .= "desc limit 10";
 
-		$query = DB::select($query);
+		$query = DB::select($queryRaw, [
+			$staf_id 
+		]);
+
         $asuransi = Asuransi::find($asuransi_id);
 		foreach ($query as $key => $q) {
 			$periksa_id = $q->periksa_id;
