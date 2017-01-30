@@ -16,9 +16,11 @@ class TestController extends Controller
 {
 
 	public function index(){
-		return view('test.index', compact(''));
-		
+		$name = 'yoga';
+		$query = "SELECT * FROM users WHERE username like :id and id = :no";
+		return DB::select($query, ['id' => 'yoga%', 'no' => 28]);
 	}
+
 	public function ajax(){
 		$q     = Input::get('q');
 		$words = str_split($q);

@@ -51,22 +51,59 @@ class PasiensAjaxController extends Controller
 		    $namaAsuransi = Input::get('nama_asuransi');
 		    $nomorAsuransi = Input::get('nomorAsuransi');
 
-		    $query  = "SELECT p.asuransi_id, p.id as ID_PASIEN, p.nama as namaPasien, p.alamat, p.tanggal_lahir as tanggalLahir, p.no_telp as noTelp, asu.nama as namaAsuransi, p.nomor_asuransi as nomorAsuransi, p.nama_peserta as namaPeserta, p.nama_ibu as namaIbu, p.nama_ayah as namaAyah, p.image as image ";
-		    $query .= "FROM pasiens as p left outer join asuransis as asu on p.asuransi_id = asu.id ";
-		    $query .= "WHERE ";
-		    $query .= "(p.id like '%{$ID_PASIEN}%' or '{$ID_PASIEN}' = '') ";
-		    $query .= "AND (p.nama like '%{$namaPasien}' or '{$namaPasien}' = '') ";
-		    $query .= "AND (p.alamat like '%{$alamat}' or '{$alamat}' = '') ";
-		    $query .= "AND (p.tanggal_lahir like '%{$tanggalLahir}%' or '{$tanggalLahir}' = '') ";
-		    $query .= "AND (p.no_telp like '%{$noTelp}%' or '{$noTelp}' = '') ";
-		    $query .= "AND (asu.nama like '%{$namaAsuransi}%' or '{$namaAsuransi}' = '') ";
-		    $query .= "AND (p.nomor_asuransi like '%{$nomorAsuransi}%' or '{$nomorAsuransi}' = '') ";
-		    $query .= "AND (p.nama_peserta like '%{$namaPeserta}%' or '{$namaPeserta}' = '') ";
-		    $query .= "AND (p.nama_ibu like '%{$namaIbu}%' or '{$namaIbu}' = '') ";
-		    $query .= "AND (p.nama_ayah like '%{$namaAyah}%' or '{$namaAyah}' = '') ORDER BY p.id DESC LIMIT 15 ";
+			//$query  = "SELECT p.asuransi_id, p.id as ID_PASIEN, p.nama as namaPasien, p.alamat, p.tanggal_lahir as tanggalLahir, p.no_telp as noTelp, asu.nama as namaAsuransi, p.nomor_asuransi as nomorAsuransi, p.nama_peserta as namaPeserta, p.nama_ibu as namaIbu, p.nama_ayah as namaAyah, p.image as image ";
+			//$query  = "SELECT p.asuransi_id, p.id as ID_PASIEN, p.nama as namaPasien, p.alamat, p.tanggal_lahir as tanggalLahir, p.no_telp as noTelp, asu.nama as namaAsuransi, p.nomor_asuransi as nomorAsuransi, p.nama_peserta as namaPeserta, p.nama_ibu as namaIbu, p.nama_ayah as namaAyah, p.image as image ";
+			//$query .= "FROM pasiens as p left outer join asuransis as asu on p.asuransi_id = asu.id ";
+			//$query .= "WHERE ";
+			//$query .= "(p.id like '%{$ID_PASIEN}%' or '{$ID_PASIEN}' = '') ";
+			//$query .= "AND (p.nama like '%{$namaPasien}' or '{$namaPasien}' = '') ";
+			//$query .= "AND (p.alamat like '%{$alamat}' or '{$alamat}' = '') ";
+			//$query .= "AND (p.tanggal_lahir like '%{$tanggalLahir}%' or '{$tanggalLahir}' = '') ";
+			//$query .= "AND (p.no_telp like '%{$noTelp}%' or '{$noTelp}' = '') ";
+			//$query .= "AND (asu.nama like '%{$namaAsuransi}%' or '{$namaAsuransi}' = '') ";
+			//$query .= "AND (p.nomor_asuransi like '%{$nomorAsuransi}%' or '{$nomorAsuransi}' = '') ";
+			//$query .= "AND (p.nama_peserta like '%{$namaPeserta}%' or '{$namaPeserta}' = '') ";
+			//$query .= "AND (p.nama_ibu like '%{$namaIbu}%' or '{$namaIbu}' = '') ";
+			//$query .= "AND (p.nama_ayah like '%{$namaAyah}%' or '{$namaAyah}' = '') ORDER BY p.id DESC LIMIT 15 ";
 
-		    return json_encode(DB::select($query));
 
+			//return json_encode(DB::select($query));
+
+			$query  = "SELECT p.asuransi_id, p.id as ID_PASIEN, p.nama as namaPasien, p.alamat, p.tanggal_lahir as tanggalLahir, p.no_telp as noTelp, asu.nama as namaAsuransi, p.nomor_asuransi as nomorAsuransi, p.nama_peserta as namaPeserta, p.nama_ibu as namaIbu, p.nama_ayah as namaAyah, p.image as image ";
+			$query .= "FROM pasiens as p left outer join asuransis as asu on p.asuransi_id = asu.id ";
+			$query .= "WHERE ";
+			$query .= "(p.id like ? or ? = '') ";
+			$query .= "AND (p.nama like ? or ? = '') ";
+			$query .= "AND (p.alamat like ? or ? = '') ";
+			$query .= "AND (p.tanggal_lahir like ? or ? = '') ";
+			$query .= "AND (p.no_telp like ? or ? = '') ";
+			$query .= "AND (asu.nama like ? or ? = '') ";
+			$query .= "AND (p.nomor_asuransi like ? or ? = '') ";
+			$query .= "AND (p.nama_peserta like ? or ? = '') ";
+			$query .= "AND (p.nama_ibu like ? or ? = '') ";
+			$query .= "AND (p.nama_ayah like ? or ? = '') ORDER BY p.id DESC LIMIT 15 ";
+			return json_encode( DB::select($query, [
+				'%' . $ID_PASIEN . '%',
+				$ID_PASIEN ,
+				'%' . $namaPasien . '%',
+				$namaPasien ,
+				'%' . $alamat . '%',
+				$alamat ,
+				'%' . $tanggalLahir . '%',
+				$tanggalLahir ,
+				'%' . $noTelp . '%',
+				$noTelp ,
+				'%' . $namaAsuransi . '%',
+				$namaAsuransi ,
+				'%' . $nomorAsuransi . '%',
+				$nomorAsuransi ,
+				'%' . $namaPeserta . '%',
+				$namaPeserta ,
+				'%' . $namaIbu . '%',
+				$namaIbu ,
+				'%' . $namaAyah . '%',
+				$namaAyah ,
+			]) );
 		}
 	}
 

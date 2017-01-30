@@ -1,5 +1,4 @@
 @extends('layout.master')
-
 @section('title') 
 Klinik Jati Elok | Pasien
 
@@ -15,7 +14,6 @@ Klinik Jati Elok | Pasien
           <strong>Semua Pemeriksaan</strong>
       </li>
 </ol>
-
 @stop
 @section('content') 
 
