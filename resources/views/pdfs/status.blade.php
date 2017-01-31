@@ -280,9 +280,11 @@ border-spacing: -1px;
 					<strong>Diagnosis Kerja</strong><br>
 					{!! $periksa->diagnosa->diagnosa !!} ({!! $periksa->diagnosa->icd10_id!!} - 
 					{!! $periksa->diagnosa->icd10->diagnosaICD !!})
-					<strong>Diagnosis Merujuk</strong><br>
-					{!! $periksa->rujukan->diagnosa->diagnosa !!} ({!! $periksa->rujukan->diagnosa->icd10_id!!} - 
-					{!! $periksa->rujukan->diagnosa->icd10->diagnosaICD !!})
+					@if(isset( $periksa->rujukan ))
+						<strong>Diagnosis Merujuk</strong><br>
+						{!! $periksa->rujukan->diagnosa->diagnosa !!} ({!! $periksa->rujukan->diagnosa->icd10_id!!} - 
+						{!! $periksa->rujukan->diagnosa->icd10->diagnosaICD !!})
+					@endif
 					@if( isset( $perika->rujukan ) && $periksa->rujukan->tacc )
 						<strong>TACC</strong>
 					@endif
