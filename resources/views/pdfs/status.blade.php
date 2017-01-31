@@ -277,9 +277,12 @@ border-spacing: -1px;
 						<strong>Pemeriksaan Penunjang dan Tindakan</strong><br>
 						{!! $periksa->pemeriksaan_penunjang !!} <br>
 					@endif
-					<strong>Diagnosa</strong><br>
+					<strong>Diagnosis Kerja</strong><br>
 					{!! $periksa->diagnosa->diagnosa !!} ({!! $periksa->diagnosa->icd10_id!!} - 
 					{!! $periksa->diagnosa->icd10->diagnosaICD !!})
+					<strong>Diagnosis Merujuk</strong><br>
+					{!! $periksa->rujukan->diagnosa->diagnosa !!} ({!! $periksa->rujukan->diagnosa->icd10_id!!} - 
+					{!! $periksa->rujukan->diagnosa->icd10->diagnosaICD !!})
 					@if( isset( $perika->rujukan ) && $periksa->rujukan->tacc )
 						<strong>TACC</strong>
 					@endif
@@ -324,12 +327,6 @@ border-spacing: -1px;
 					@if($bayarGDS)
 						@include('warninggds2', ['pasien_id' => $periksa->pasien_id, 'periksa' => $periksa ])
 					@endif
-					{{--@if( $periksa->asuransi_id == '32' &&  strpos($periksa->rujukan->tujuanRujuk->tujuan_rujuk, 'UGD') !== false   )--}}
-						{{--<div class="alert alert-danger">--}}
-							{{--Rujukan ke UGD pasien BPJS, tidak perlu diberikan Rujukan BPJS, cukup Surat Rujukan sama seperti Pasien Umum--}}
-							{{--, lalu Pasien diproses seperti Pasien BPJS biasa tanpa rujukan--}}
-						{{--</div>--}}
-					{{--@endif--}}
 					@if($periksa->asuransi_id == 0 && !empty($periksa->keterangan))
 						<div class="alert alert-danger">
 							{{ $periksa->keterangan }}

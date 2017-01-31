@@ -21,6 +21,10 @@ class Rujukan extends Model{
 
 		return $this->belongsTo('App\Periksa');
 	}
+   	public function diagnosa(){
+
+		return $this->belongsTo('App\Diagnosa');
+	}
    	public function rumahSakit(){
 
 		return $this->belongsTo('App\RumahSakit');

@@ -1,0 +1,1 @@
+alter table rujukans add column diagnosa_id int(11);

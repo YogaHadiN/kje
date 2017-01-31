@@ -353,7 +353,7 @@ class CustomController extends Controller
 		if ($periksa->asuransi_id == 32) {
 			 $smsJangan = SmsJangan::where('pasien_id', $periksa->pasien_id)->get();
 			if ($smsJangan->count() > 0) {
-				$smsJangan->delete();
+				SmsJangan::where('pasien_id', $periksa->pasien_id)->delete();
 			}
 		}
 		$periksa->terapi          = $this->terapisBaru($periksa->terapii);

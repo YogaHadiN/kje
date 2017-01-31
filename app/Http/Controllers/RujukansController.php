@@ -78,7 +78,8 @@ class RujukansController extends Controller
 		$rules =[
 			'tujuan_rujuk' => 'required',
 			'rumah_sakit'  => 'required',
-			'periksa_id'   => 'required'
+			'periksa_id'   => 'required',
+			'diagnosa_id'   => 'required'
 		];
 
 		if (
@@ -176,6 +177,7 @@ class RujukansController extends Controller
 			$rujuk->register_hamil_id = $id;
 		}
 
+		$rujuk->diagnosa_id = Input::get('diagnosa_id');
 		$confirm = $rujuk->save();
 		if ($confirm) {
 			$this->updateInfoRS(Input::get('rumah_sakit_telepon'), Input::get('rumah_sakit_alamat'), Input::get('rumah_sakit_ugd'), $rujuk->rumah_sakit_id);
