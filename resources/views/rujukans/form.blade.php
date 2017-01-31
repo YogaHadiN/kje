@@ -62,15 +62,27 @@
 				  	</div>
 				 </div>
 				 <div class="row">
-				 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				 		<div class="form-group @if($errors->has('diagnosa'))has-error @endif">
-				 		  {!! Form::label('diagnosa', 'Diagnosa', ['class' => 'control-label']) !!}
-						  {{ Form::text('diagnosa' , $periksa->diagnosahtml, ['class' => 'form-control', 'disabled' => 'disabled']) }}
-				 		  @if($errors->has('diagnosa'))<code>{{ $errors->first('diagnosa') }}</code>@endif
-				 		</div>
-				 		
-				 	</div>
-				 </div>
+					<div class="col-lg-12 col-md-12">
+						<div class="form-group @if($errors->has('diagnosa_id'))has-error @endif">
+							<label for="diagnosa_id" id="lblDiagnosa" class="control-label" data-placement="left"  data-toggle="popover" title="Popover title" data-content="Jika ASMA BERAT, berikan bersama dexa inj IV 2 ampul, dan prednison dosis tinggi, Decafil 20 tablet, termasuk untuk pasien BPJS">Diagnosa</label><br />
+								<div class="input-group">
+								{!! Form::select('diagnosa_id', $diagnosa, $periksa->diagnosa_id, [
+										'class'             => 'selectpick form-control',
+										'data-live-search'  => 'true',
+										'aria-describedby'  => 'showModal1',
+										'title'             => 'Perhatikan ICD 10',
+										'onchange'          => 'diagnosaChange();return false;',
+										'id'                => 'ddlDiagnosa'
+									]) !!}
+									<span class="input-group-addon anchor" id="showModal1" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+								</div>
+							  @if($errors->has('diagnosa_id'))<code>{{ $errors->first('diagnosa_id') }}</code>@endif
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="keterangan_boleh_dirujuk">
+
+					</div>
+				</div>
 				 @if( $periksa->asuransi_id == '32' )
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
