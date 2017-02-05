@@ -2,7 +2,6 @@
 
 @section('title') 
 Klinik Jati Elok | Pasien
-
 @stop
 
 @section('head') 
@@ -25,6 +24,10 @@ Klinik Jati Elok | Pasien
 
 @stop
 @section('page-title') 
+	
+		
+	
+
 
  <h2>Pasien</h2>
  <ol class="breadcrumb">

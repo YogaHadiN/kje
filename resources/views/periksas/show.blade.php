@@ -83,12 +83,11 @@ Klinik Jati Elok | Pasien
 										  <h2>Transaksi : </h2>
 									</div>
 									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<a class="btn btn-warning " href="{{ url('periksas/' .$periksa->id . '/edit/transaksiPeriksa') }}
-											
+										<a class="btn btn-warning " href="{{ url('periksas/' .$periksa->id . '/edit/transaksiPeriksa') }}"
 											@if( \Auth::id() != '28' )
 												disabled
 											@endif
-											">
+										>
 											Edit
 										</a>
 									</div>
@@ -120,7 +119,6 @@ Klinik Jati Elok | Pasien
                                     </tr>
                                   </tbody>
                                 </table>
-
                             </td>
                         </tr>
                 </tbody>
