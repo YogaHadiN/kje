@@ -32,6 +32,20 @@
 		.full {
 			width:100% !important;
 		}
+		
+
+		@media (max-width: 767px) {
+		  .table-responsive .dropdown-menu,
+		  .table-responsive .dropdown-toggle {
+				position: static !important;
+		  }
+		}
+
+		@media (min-width: 768px) {
+			.table-responsive {
+				overflow: visible;
+			}
+		}
 	</style>
 
     @yield('head')
@@ -345,6 +359,7 @@
 
         $(document).ready(function() {
 
+
             $('.uangInput').autoNumeric('init', {
                 aSep: '.',
                 aDec: ',', 
@@ -432,9 +447,7 @@
                 "New row",
                 "New row" ] );
         }
-
-
-
+		{{--$('.table-responsive tbody tr').slice(-2).find('.dropdown').addClass('dropup');--}}
 
     </script>
 <style>
