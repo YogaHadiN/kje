@@ -111,6 +111,11 @@ Klinik Jati Elok | Coa belum di set
                 </thead>
                 <tbody>
 					@foreach($pengeluarans as $k=>$ju)
+						<tr class="kuitansi">
+							<td>Kuitans : </td>
+							<td colspan="3"> <img src="{{ url('img/belanja/lain/'. $ju->faktur_image) }}" class="img-rounded upload"> </td>
+							<td>{{ $ju->faktur_image }}</td>
+						</tr>
 						<tr class="rowTr">
 						  <td class="hide field_id">{!! $ju->jurnal_umum_id !!}</td>
 						  <td class="hide key">{!! $k !!}</td>
@@ -127,11 +132,6 @@ Klinik Jati Elok | Coa belum di set
 						  <td>
 							  {!! Form::select('coa', $bebanCoaList, null, ['class' => 'form-control rq selectpick kode_coa', 'onchange' => 'coaChange(this); return false;', 'data-live-search' => 'true']) !!}
 						  </td> 
-						</tr>
-						<tr class="kuitansi">
-							<td>Kuitans : </td>
-							<td colspan="3"> <img src="{{ url('img/belanja/lain/'. $ju->faktur_image) }}" class="img-rounded upload"> </td>
-							<td>{{ $ju->faktur_image }}</td>
 						</tr>
                     @endforeach
                 </tbody>
