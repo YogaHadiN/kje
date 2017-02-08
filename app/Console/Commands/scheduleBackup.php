@@ -18,7 +18,7 @@ class scheduleBackup extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Perintah untuk backup database jatielok';
 
     /**
      * Create a new command instance.
@@ -37,6 +37,6 @@ class scheduleBackup extends Command
      */
     public function handle()
     {
-		exec('mysqldump --user=root --password=Yogaman89 jatielok | gzip > ~/Dropbox/backup11/jatielok_`date +"%Y-%m-%d_%H:%M:%S"`.sql.gz');
+		exec('mysqldump --user=root --password=Yogaman89 jatielok | gzip > /home/kje/Dropbox/backup11/jatielok_`date +"%Y-%m-%d_%H:%M:%S"`.sql.gz');
     }
 }

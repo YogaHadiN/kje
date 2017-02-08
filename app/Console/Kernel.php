@@ -79,6 +79,8 @@ class Kernel extends ConsoleKernel
 						->dailyAt('00:00'); 
 			 $schedule->command('send:melaravelLog')
 						->dailyAt('01:00'); 
+			 $schedule->command('db:scheduleBackup')
+						->dailyAt('02:15'); 
 			 $schedule->command('sms:donnaruko')
 				 ->dailyAt('13:00')
 				 ->when(function(){
