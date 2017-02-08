@@ -58,7 +58,7 @@ Klinik Jati Elok | Poli {!! ucfirst($poli) !!}
                                 <td>{!! $periksa->asuransi->nama !!}</td>
                                 <td class="nama_pasien">{!! $periksa->pasien->nama !!}</td>
 								<td>
-									{!! Form::select('staf_id', App\Staf::list(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'onchange' => 'changeStaf();return false;']) !!}
+								{!! Form::select('staf_id', App\Staf::list(), $periksa->staf_id, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'onchange' => 'changeStaf();return false;']) !!}
 								
 								</td>
                                 {{--<td>{!! $periksa->staf->nama !!}</td>--}}
