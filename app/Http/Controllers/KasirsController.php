@@ -37,7 +37,6 @@ class KasirsController extends Controller
 	}
 	
 	public function saldoPost(){
-
 		$rules = [
 			'saldo' => 'required',
 			'staf_id' => 'required',
@@ -49,8 +48,6 @@ class KasirsController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-
-
 		$saldo = Yoga::clean( Input::get('saldo') );
 		$saldo_saat_ini = 0;
 		$selisih = 0;
@@ -66,6 +63,8 @@ class KasirsController extends Controller
 		$sl->selisih        = $selisih;
 		$sl->staf_id        = Input::get('staf_id');
 		$confirm            = $sl->save();
+
+
 
 		if ($selisih > 0) {
 			$pesanSms = 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih). 'saldo di kasir sebesar ' . Yoga::buatrp($saldo_saat_ini);

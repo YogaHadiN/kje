@@ -50,8 +50,6 @@ class Kernel extends ConsoleKernel
 		 Commands\smsPanggilTukanAc::class,
 		 Commands\testNeraca::class,
 		 Commands\smsPromoUlangTahun::class,
-
-
     ];
     /**
      * Define the application's command schedule.
