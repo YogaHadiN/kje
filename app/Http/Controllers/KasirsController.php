@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Input;
 use App\Saldo;
 use App\Classes\Yoga;
+use App\Console\Commands\scheduleBackup;
 use App\Sms;
 use App\Http\Controllers\PengeluaransController;
 
@@ -64,7 +65,9 @@ class KasirsController extends Controller
 		$sl->staf_id        = Input::get('staf_id');
 		$confirm            = $sl->save();
 
-
+		//backup database
+		$kernel = new scheduleBackup;
+		$kernel->handle();
 
 		if ($selisih > 0) {
 			$pesanSms = 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih). 'saldo di kasir sebesar ' . Yoga::buatrp($saldo_saat_ini);
