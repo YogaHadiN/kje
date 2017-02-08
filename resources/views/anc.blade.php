@@ -166,16 +166,15 @@
 </div>
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h4>Pemeriksaan Umum</h4>
+	<h4>Pemeriksaan Umum </h4>
 	</div>
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-				
 				<div class="form-group @if($errors->has('td'))has-error @endif">
 				  {!! Form::label('td', 'Tekanan Darah', ['class' => 'control-label']) !!}
 					 <div class="input-group">
-						{!! Form::text('td', $td, ['class' => 'form-control', 'aria-describedby' => 'addonTekananDarah', 'dir' => 'rtl'])!!}
+					 {!! Form::text('td', $antrianperiksa->sistolik . '/' . $antrianperiksa->diastolik , ['class' => 'form-control', 'aria-describedby' => 'addonTekananDarah', 'dir' => 'rtl'])!!}
 	                    <span class="input-group-addon" id="addonTekananDarah">mmHg</span>
 				 	</div>
 				  @if($errors->has('td'))<code>{{ $errors->first('td') }}</code>@endif

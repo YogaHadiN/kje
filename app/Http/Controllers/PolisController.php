@@ -59,7 +59,7 @@ class PolisController extends Controller
 		$rencana_pendamping            = null;    
 		$rencana_transportasi          = null;  
 		$rencana_pendonor              = null;      
-		$td                            = null;                    
+		$td                            = null;
 		$bb                            = null;                    
 		$tfu                           = null;                   
 		$lila                          = null;                  
@@ -455,6 +455,7 @@ class PolisController extends Controller
 		$url = url('/');
 		//return dd( $antrianperiksa->gambars );
 		//return dd( $periksa->gambars );
+		//return dd($td);
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
