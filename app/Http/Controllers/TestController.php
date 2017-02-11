@@ -17,7 +17,7 @@ class TestController extends Controller
 {
 
 	public function index(){
-		$query = "SELECT * FROM jurnal_umums";
+		$query = "SELECT * FROM jurnal_umums where jurnalable_type='App\\\Periksa'";
 		$jurnals = DB::select($query);
 		//$jurnals = JurnalUmum::all();
 		$arr = [];

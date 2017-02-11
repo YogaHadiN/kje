@@ -1,0 +1,9 @@
+insert into jurnal_umums ( jurnalable_id, debit, nilai, coa_id, keterangan, created_at, updated_at, jurnalable_type) values ( 
+'160810012', 
+1, 
+60000, 
+111010,
+NULL, 
+'2016-08-10 08:52:44', 
+'2016-08-10 08:52:44', 
+'App\\\Periksa');
