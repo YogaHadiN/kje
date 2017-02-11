@@ -17,7 +17,7 @@ class TestController extends Controller
 {
 
 	public function index(){
-		$query = "SELECT * FROM jurnal_umums where jurnalable_type='App\\\Periksa'";
+		$query = "SELECT * FROM jurnal_umums";
 		$jurnals = DB::select($query);
 		//$jurnals = JurnalUmum::all();
 		$arr = [];
@@ -38,8 +38,10 @@ class TestController extends Controller
 			}
 			if ($debit != $kredit) {
 				$errors[] = [
-					'periksa_id' => $ar[0]->jurnalable_id,
+					'type' => $ar[0]->jurnalable_type,
+					'id' => $ar[0]->jurnalable_id,
 					'created_at' => $ar[0]->created_at
+					'data' => $ar
 				];
 			}
 		}
