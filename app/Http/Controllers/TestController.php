@@ -40,7 +40,7 @@ class TestController extends Controller
 				$errors[] = [
 					'type' => $ar[0]->jurnalable_type,
 					'id' => $ar[0]->jurnalable_id,
-					'created_at' => $ar[0]->created_at
+					'created_at' => $ar[0]->created_at,
 					'data' => $ar
 				];
 			}
