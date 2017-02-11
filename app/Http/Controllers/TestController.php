@@ -37,15 +37,12 @@ class TestController extends Controller
 				}
 			}
 			if ($debit != $kredit) {
-				$errors[] = [
-					'type' => $ar[0]->jurnalable_type,
-					'id' => $ar[0]->jurnalable_id,
-					'created_at' => $ar[0]->created_at,
-					'data' => $ar
-				];
+				foreach ($ar as $a) {
+					$errors[] = $a->id;
+				}
 			}
 		}
-		return dd($errors);
+		return dd( JurnalUmum::destroy($errors) );
 		
 	}
 
