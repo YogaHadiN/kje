@@ -46,7 +46,7 @@ class TestController extends Controller
 				];
 			}
 		}
-		var_dump($errors);
+		return dd($errors);
 	}
 
 	public function ajax(){
