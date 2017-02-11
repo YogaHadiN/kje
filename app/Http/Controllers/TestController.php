@@ -10,6 +10,7 @@ use App\Http\Requests;
 
 use DB;
 use App\Asuransi;
+use App\Periksa;
 use App\JurnalUmum;
 
 
