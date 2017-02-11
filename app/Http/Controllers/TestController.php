@@ -38,15 +38,27 @@ class TestController extends Controller
 			}
 			if ($debit != $kredit) {
 				$errors[] = [
-					'type' =>  $ar[0]->jurnalable_type,
-					'id' =>  $ar[0]->jurnalable_id,
-					'created_at' =>  $ar[0]->created_at,
-					'updated_at' =>  $ar[0]->updated_at,
-					'jurnals' => $ar
+					'periksa_id' => $ar[0]->jurnalable_id,
+					'created_at' => $ar[0]->created_at
 				];
 			}
 		}
-		return dd($errors);
+		$datas = [];
+		foreach ($errors as $er) {
+			$periksa = Periksa::find($er['periksa_id']);
+			if ($periksa->asuransi->nama = 'PT SEJIN') {
+				$datas[] = [
+					'jurnalable_type' => 'App\Periksa',
+					'jurnalable_id' => $er['periksa_id'],
+					'nilai' => $periksa->piutang,
+					'created_at' => $er['created_at'],
+					'updated_at' => $er['created_at'],
+					'debit' => 1,
+					'coa_id' =>111010
+				];
+			}
+		}
+		return JurnalUmum::insert($datas);
 	}
 
 	public function ajax(){
