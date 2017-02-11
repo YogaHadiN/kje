@@ -250,6 +250,9 @@ Route::put('antrianperiksa/{id}/images', 'ImagesAntrianPeriksaController@update'
 			Route::get('pengeluarans/gaji_dokter_gigi', 'PengeluaransController@gajiDokterGigi');
 			Route::post('pengeluarans/gaji_dokter_gigi/bayar', 'PengeluaransController@gajiDokterGigiBayar');
 			Route::get('pengeluarans/peralatans', 'PengeluaransController@peralatans');
+			Route::get('pengeluarans/peralatans/golongan_peralatans/create', 'PengeluaransController@GolonganPeralatanCreate');
+			Route::post('pengeluarans/peralatans/golongan_peralatans/store', 'PengeluaransController@GolonganPeralatanPost');
+
 			Route::get('pengeluarans/peralatans/detail/{id}', 'PengeluaransController@peralatan_detail');
 			Route::get('pengeluarans/belanja/peralatan', 'PengeluaransController@belanjaPeralatan');
 			Route::post('pengeluarans/belanja/peralatan/bayar', 'PengeluaransController@belanjaPeralatanBayar');

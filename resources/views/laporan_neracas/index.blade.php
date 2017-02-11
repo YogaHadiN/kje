@@ -23,11 +23,6 @@ Klinik Jati Elok | Laporan Neraca
     <hr>
     <div class="row">
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		  <div class="form-group @if($errors->has('bulan'))has-error @endif">
-		    {!! Form::label('bulan', 'Bulan', ['class' => 'control-label']) !!}
-            {!! Form::select('bulan', App\Classes\Yoga::bulanList(), date('m'), ['class' => 'form-control rq']) !!}
-		    @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
-		  </div>
 		  <div class="form-group @if($errors->has('tahun'))has-error @endif">
 		    {!! Form::label('tahun', 'Tahun', ['class' => 'control-label']) !!}
             {!! Form::text('tahun', date('Y'), ['class' => 'form-control rq']) !!}

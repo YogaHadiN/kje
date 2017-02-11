@@ -6,9 +6,11 @@ use Input;
 use App\Http\Requests;
 
 use App\FakturBelanja;
+use App\GolonganPeralatan;
 use App\JenisPengeluaran;
 use App\Classes\Yoga;
 use App\BukanObat;
+use App\Http\Controllers\PengeluaransController;
 use App\BagiGigi;
 use App\CheckoutDetail;
 use App\Pembelian;
@@ -467,7 +469,8 @@ class PengeluaransController extends Controller
     public function notaz_post(){
 
 		if (gethostname() == 'kje') {
-			exec("mysqldump -u root -pYogaman89 jatielok | gzip > /home/kje/Dropbox/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
+			$checkout = new PengeluaransController;
+			$saldo_saat_ini = $checkout->parameterKasir()['uang_di_kasir'];
 		} else {
 			exec("mysqldump -u root -pYogaman89 jatielok | gzip > /home/dell/Documents/backup11/database_`date '+%m-%d-%Y_%H:%M:%S'`.sql.gz");
 		}
@@ -1040,7 +1043,11 @@ class PengeluaransController extends Controller
 	}
 	public function peralatans(){
 		$belanja_peralatans = BelanjaPeralatan::latest()->paginate(30);
-		return view('pengeluarans.peralatans', compact('belanja_peralatans'));
+		$golongan_peralatans = GolonganPeralatan::all();
+		return view('pengeluarans.peralatans', compact(
+			'belanja_peralatans',
+			'golongan_peralatans'
+		));
 	}
 	
 	public function belanjaPeralatan(){
@@ -1412,4 +1419,20 @@ class PengeluaransController extends Controller
 		];
 	}
 	
+	public function GolonganPeralatanCreate(){
+		$gols = GolonganPeralatan::all();
+		return view('pengeluarans.golsPeralatansCreate', compact('gols'));
+	}
+	public function GolonganPeralatanPost(){
+		$gol = new GolonganPeralatan;
+		$gol->golongan_peralatan	= Input::get('golongan_peralatan');
+		$gol->masa_pakai	= Input::get('masa_pakai');
+		$confirm = $gol->save();
+		if ($confirm) {
+			$pesan = Yoga::suksesFlash('golongan peralatan baru berhasil dibuat');
+		} else {
+			$pesan = Yoga::gagalFlash('golongan peralatan baru gagal dibuat');
+		}
+		return redirect('pengeluarans/peralatans')->withPesan($pesan);
+	}
 }

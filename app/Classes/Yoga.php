@@ -13,6 +13,7 @@ use App\Perujuk;
 use App\AturanMinum;
 use App\Supplier;
 use App\Tarif;
+use App\GolonganPeralatan;
 use App\Merek;
 use App\Periksa;
 use App\JenisTarif;
@@ -2069,12 +2070,7 @@ class Yoga {
 	}
 	
 	public static function masaPakai(){
-		$masa_pakai[null] = '-Pilih-';
-		$masa_pakai['1'] = 'Alat medis non elektronik';
-		$masa_pakai['3'] = 'Alat elektronik';
-		$masa_pakai['5'] = 'Furnitur dan bahan bangunan';
-		$masa_pakai['3'] = 'AC / Pendingin Ruangan';
-		return $masa_pakai;
+		return [ null => '-pilih-' ] + GolonganPeralatan::lists('golongan_peralatan', 'id')->all();
 	}
 	public static function golonganProlanis($pasien_id){
 		$pasien_ids = Yoga::prolanis();

@@ -139,7 +139,6 @@ Klinik Jati Elok | Coa belum di set
 		  </div>
       </div>
 </div>
-
 <div class="row">
 	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 		<div class="panel panel-info hide">
@@ -160,7 +159,6 @@ Klinik Jati Elok | Coa belum di set
 						</tbody>
 					</table>
 				</div>
-				
 			</div>
 		</div>
 	</div>

@@ -17,7 +17,7 @@ Klinik Jati Elok | Laporan Laba Rugi
 @stop
 @section('content') 
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
   <div class="panel panel-primary">
 	  <div class="panel-heading">
 		  <div class="panelLeft">

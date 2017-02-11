@@ -1,0 +1,4 @@
+delete from jurnal_umums where coa_id=111001;
+delete from jurnal_umums where created_at < '2016-01-01 00:00:00';
+update jurnal_umums set nilai = 110000 where id=45663;
+insert into jurnal_umums ( jurnalable_id, debit, nilai, coa_id, keterangan, created_at, updated_at, jurnalable_type) values ( '160821043', 0, 35000, 50204, NULL, '2016-08-21 15:33:46', '2016-08-21 15:33:46')

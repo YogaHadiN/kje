@@ -16,10 +16,65 @@ Klinik Jati Elok | Laporan Neraca
 </ol>
 @stop
 @section('content') 
+
+	{{--<div class="panel panel-info">--}}
+		{{--<div class="panel-heading">--}}
+			{{--<div class="panel-title">Variable</div>--}}
+		{{--</div>--}}
+		{{--<div class="panel-body">--}}
+			{{--<div class="table-responsive">--}}
+				{{--<table class="table table-hover table-condensed">--}}
+					{{--<tbody>--}}
+						{{--<tr>--}}
+							{{--<td>$akunAktivaLancar</td>--}}
+							{{--<td>{{ json_encode( $akunAktivaLancar ) }}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$akunHutang</td>--}}
+							{{--<td>{{ json_encode( $akunHutang ) }}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$akunModal</td>--}}
+							{{--<td>{{ json_encode( $akunModal ) }}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$laba_tahun_berjalan</td>--}}
+							{{--<td>{{ $laba_tahun_berjalan }}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$akunAktivaTidakLancar</td>--}}
+							{{--<td>{{ json_encode( $akunAktivaTidakLancar ) }}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$labaSebelumnya</td>--}}
+							{{--<td>{{ App\Classes\Yoga::buatrp( $labaSebelumnya )}}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$total_modal</td>--}}
+							{{--<td>{{ App\Classes\Yoga::buatrp( $total_modal ) }}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$total_hutang</td>--}}
+							{{--<td>{{App\Classes\Yoga::buatrp( $total_hutang ) }}</td>--}}
+						{{--</tr>--}}
+						{{--<tr>--}}
+							{{--<td>$total_harta</td>--}}
+							{{--<td>{{ App\Classes\Yoga::buatrp( $total_harta ) }}</td>--}}
+						{{--</tr>--}}
+					{{--</tbody>--}}
+				{{--</table>--}}
+			{{--</div>--}}
+		{{--</div>--}}
+	{{--</div>--}}
+	
+
+
+
+
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<h1>
-			Laporan Neraca Tahun 2016
+			Laporan Neraca Tahun {{ $tahun }}
 		</h1>
 		<div class="panelRight">
 			<a class="btn btn-warning" href="{{ url('pdfs/laporan_neraca') }}"> Bentuk PDF</a>
@@ -41,11 +96,11 @@ Klinik Jati Elok | Laporan Neraca
                   <td colspan="3"><h3>Lancar</h3></td>
                 </tr>
 				 @foreach($akunAktivaLancar as $ju) 
-					 @if($ju->total != 0)
+					 @if($ju->debit - $ju->kredit != 0)
 						<tr>
 							<td></td>
-							<td>{{ $ju->id }} - {{ $ju->coa }}</td>
-							<td class="uang">{{ $ju->total }}</td>
+							<td>{{ $ju->coa_id }} - {{ $ju->coa }}</td>
+							<td class="uang">{{ $ju->debit - $ju->kredit }}</td>
 						</tr>
 					@endif
 				 @endforeach 
@@ -53,11 +108,11 @@ Klinik Jati Elok | Laporan Neraca
                   <td colspan="3"><h3>Tidak Lancar</h3></td>
                 </tr>
 				 @foreach($akunAktivaTidakLancar as $ju) 
-					 @if($ju->total != 0)
+					 @if($ju->debit - $ju->kredit != 0)
 						<tr>
 							<td></td>
-							<td>{{ $ju->id }} - {{ $ju->coa }}</td>
-							<td class="uang">{{ $ju->total }}</td>
+							<td>{{ $ju->coa_id }} - {{ $ju->coa }}</td>
+							<td class="uang">{{ $ju->debit - $ju->kredit }}</td>
 						</tr>
 					@endif
 				 @endforeach 
@@ -71,21 +126,27 @@ Klinik Jati Elok | Laporan Neraca
                   <td colspan="3"><h3>Hutang</h3></td>
                 </tr>
 				 @foreach($akunHutang as $v) 
-					<tr>
-					  <td></td>
-					  <td>{{ $v->id }} - {{ $v->coa }}</td>
-					  <td class="uang">{{ $v->total }}</td>
-					</tr>
+					 @if($ju->kredit - $ju->debit != 0)
+						<tr>
+						  <td></td>
+						  <td>{{ $v->coa_id }} - {{ $v->coa }}</td>
+						  <td class="uang">{{ $v->kredit - $v->debit }}</td>
+						</tr>
+					@endif
 				 @endforeach 
                 <tr>
                   <td colspan="3"><h3>Modal / Ekuitas</h3></td>
                 </tr>
 				 @foreach($akunModal as $v) 
-					<tr>
-					  <td></td>
-					  <td>{{ $v->id }} - {{ $v->coa }}</td>
-					  <td class="uang">{{ $v->total }}</td>
-					</tr>
+						<tr>
+						  <td></td>
+						  <td>{{ $v->coa_id }} - {{ $v->coa }}</td>
+							@if( $v->coa_id == 301000 )
+							  <td class="uang">{{ $v->kredit - $v->debit + $labaSebelumnya }}</td>
+							@else
+							  <td class="uang">{{ $v->kredit - $v->debit }}</td>
+							@endif
+						</tr>
 				 @endforeach 
 					<tr>
 					  <td></td>
@@ -98,7 +159,7 @@ Klinik Jati Elok | Laporan Neraca
         </tr>
 		<tr>
 			<td><h1 class="uang">{{ $total_harta }}</h1></td>
-          <td><h1 class="uang">{{ $total_harta }}</h1></td>
+          <td><h1 class="uang">{{ $total_liabilitas + $laba_tahun_berjalan}}</h1></td>
 		</tr>
       </tbody>
     </table>

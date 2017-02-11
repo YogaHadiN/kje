@@ -10,15 +10,43 @@ use App\Http\Requests;
 
 use DB;
 use App\Asuransi;
+use App\JurnalUmum;
 
 
 class TestController extends Controller
 {
 
 	public function index(){
-		$name = 'yoga';
-		$query = "SELECT * FROM users WHERE username like :id and id = :no";
-		return DB::select($query, ['id' => 'yoga%', 'no' => 28]);
+		$query = "SELECT * FROM jurnal_umums";
+		$jurnals = DB::select($query);
+		//$jurnals = JurnalUmum::all();
+		$arr = [];
+		foreach ($jurnals as $ju) {
+			$arr[$ju->jurnalable_type . $ju->jurnalable_id][] = $ju;
+		}
+		$errors = [];
+		foreach ($arr as $ar) {
+			$debit = 0;
+			$kredit = 0;
+			foreach ($ar as $array) {
+				if ($array->debit == 1) {
+					$debit += $array->nilai;
+				}
+				if ($array->debit == 0) {
+					$kredit += $array->nilai;
+				}
+			}
+			if ($debit != $kredit) {
+				$errors[] = [
+					'type' =>  $ar[0]->jurnalable_type,
+					'id' =>  $ar[0]->jurnalable_id,
+					'created_at' =>  $ar[0]->created_at,
+					'updated_at' =>  $ar[0]->updated_at,
+					'jurnals' => $ar
+				];
+			}
+		}
+		var_dump($errors);
 	}
 
 	public function ajax(){

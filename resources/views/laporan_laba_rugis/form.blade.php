@@ -16,7 +16,7 @@
 						  <tr>
 							<td></td>
 							<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $p->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $p->coa }}</a></td>
-							<td class="text-right">{{App\Classes\Yoga::buatrp(  abs($p->nilai)  )}}</td>
+							<td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  abs($p->nilai)  )}}</td>
 							<td></td>
 						  </tr>
 					  @endforeach
@@ -25,7 +25,7 @@
 						<td></td>
 						<td>Total Pendapatan Usaha</td>
 						<td></td>
-						<td class="text-right">{{App\Classes\Yoga::buatrp(  $pendapatan_usahas['total_nilai']  )}}</td>
+						<td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  $pendapatan_usahas['total_nilai']  )}}</td>
 					  </tr>
 					  <tr>
 						<td colspan="5" class="light-bold">Harga Pokok Penjualan</td>
@@ -43,7 +43,7 @@
 						<td></td>
 						<td>Total Harga Pokok Penjualan</td>
 						<td></td>
-						<td class="text-right">({{App\Classes\Yoga::buatrp(  $hpps['total_nilai'] )}})</td>
+						<td class="text-right" nowrap>({{App\Classes\Yoga::buatrp(  $hpps['total_nilai'] )}})</td>
 					  </tr>
 					  <tr class="red light-bold">
 						<td colspan="2"></td>
@@ -61,7 +61,7 @@
 					  <tr>
 						<td></td>
 						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $biaya->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya->coa }}</a></td>
-						<td class="text-right">{{App\Classes\Yoga::buatrp(  abs($biaya->nilai)  )}}</td>
+						<td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  abs($biaya->nilai)  )}}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -70,14 +70,14 @@
 						<td></td>
 						<td>Total Biaya Operasional</td>
 						<td></td>
-						<td class="text-right">({{App\Classes\Yoga::buatrp(  $biayas['total_nilai'] )}})</td>
+						<td class="text-right" nowrap>({{App\Classes\Yoga::buatrp(  $biayas['total_nilai'] )}})</td>
 					  </tr>
 					  <tr class="red light-bold">
 						<td></td>
 						<td></td>
 						<td>Laba Rugi Kotor</td>
 						<td></td>
-						<td class="text-right">{{App\Classes\Yoga::buatrp(  $pendapatan_usahas['total_nilai']- $hpps['total_nilai'] -  $biayas['total_nilai']  )}}</td>
+						<td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  $pendapatan_usahas['total_nilai']- $hpps['total_nilai'] -  $biayas['total_nilai']  )}}</td>
 					  </tr>
 					  <tr>
 						<td colspan="5" class="light-bold">Pendapatan Lain</td>
@@ -86,7 +86,7 @@
 					  <tr>
 						<td></td>
 						<td colspan="2"><a href="{{ url('buku_besars/show?coa_id='. $pend->coa_id . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend->coa }}</a></td>
-						<td class="text-right">{{App\Classes\Yoga::buatrp(  abs($pend->nilai)  )}}</td>
+						<td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  abs($pend->nilai)  )}}</td>
 						<td></td>
 					  </tr>
 					  @endforeach
@@ -95,12 +95,12 @@
 						<td></td>
 						<td>Total Pendapatan Lain</td>
 						<td></td>
-						<td class="text-right">{{App\Classes\Yoga::buatrp(  $pendapatan_lains['total_nilai'] )}}</td>
+						<td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  $pendapatan_lains['total_nilai'] )}}</td>
 					  <tr class="red light-bold">
 						<td colspan="2"></td>
 						<td>Laba Rugi Bersih</td>
 						<td></td>
-						<td class="text-right">{{App\Classes\Yoga::buatrp(  $pendapatan_usahas['total_nilai'] - $hpps['total_nilai'] -  $biayas['total_nilai'] +  $pendapatan_lains['total_nilai']  )}}</td>
+						<td class="text-right" nowrap>{{App\Classes\Yoga::buatrp(  $pendapatan_usahas['total_nilai'] - $hpps['total_nilai'] -  $biayas['total_nilai'] +  $pendapatan_lains['total_nilai']  )}}</td>
 					  </tr>
 					  </tr>
 					</tbody>

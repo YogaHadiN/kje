@@ -17,6 +17,40 @@ Klinik Jati Elok | Daftar Peralatan
 @stop
 @section('content') 
 	<div class="row">
+		<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panelLeft">
+						<div class="panel-title">Golongan Peralatan</div>
+					</div>
+					<div class="panelRight">
+						<a class="btn btn-primary" href="{{ url('pengeluarans/peralatans/golongan_peralatans/create') }}"> Golongan Peralatan Baru</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover table-condensed">
+							<thead>
+								<tr>
+									<th>Golongan Peralatan</th>
+									<th>Masa Pakai</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach( $golongan_peralatans as $gol )
+									<tr>
+										<td>{{ $gol->golongan_peralatan }}</td>
+										<td>{{ $gol->masa_pakai }} tahun</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="panel panel-info">
 				  <div class="panel-heading">
