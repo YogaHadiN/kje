@@ -10,7 +10,6 @@ use App\Http\Requests;
 
 use DB;
 use App\Asuransi;
-use App\Periksa;
 use App\JurnalUmum;
 
 
@@ -44,22 +43,8 @@ class TestController extends Controller
 				];
 			}
 		}
-		$datas = [];
-		foreach ($errors as $er) {
-			$periksa = Periksa::find($er['periksa_id']);
-			if ($periksa->asuransi->nama = 'PT SEJIN') {
-				$datas[] = [
-					'jurnalable_type' => 'App\Periksa',
-					'jurnalable_id' => $er['periksa_id'],
-					'nilai' => $periksa->piutang,
-					'created_at' => $er['created_at'],
-					'updated_at' => $er['created_at'],
-					'debit' => 1,
-					'coa_id' =>111010
-				];
-			}
-		}
-		return JurnalUmum::insert($datas);
+		return dd($errors);
+		
 	}
 
 	public function ajax(){
