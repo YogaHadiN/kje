@@ -1,0 +1,78 @@
+@page  
+{ 
+    size: auto;   /* auto is the initial value */ 
+    /* this affects the margin in the printer settings */ 
+    margin: 0mm 2mm 10mm 5mm;  
+    padding:0mm 0mm 0mm 0mm;
+    font-size : 12px;
+
+} 
+  body * {
+    visibility: hidden;
+  }
+  #content-print, #content-print * {
+    visibility: visible;
+  }
+  #content-print {  
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  tbody {
+      padding:10px 0px;
+  }
+body  
+{ 
+    font-size : 53px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    visibility: hidden;
+}
+hr {
+    padding : 0;
+    margin : 0;
+}
+table{
+    width: 100%;
+    border-collapse : collapse;
+}
+table td {
+    padding:10px;
+}
+h5{
+    font-weight:normal;
+    margin:0mm;
+    padding:0mm;
+}
+h1{
+    font-weight:normal;
+    margin:0mm;
+    padding:0mm;
+}
+h4{
+    font-weight:normal;
+}
+
+.text-center {
+    text-align : center;
+}
+.text-right {
+    text-align : right;
+}
+.footer {
+    margin-bottom:10mm;
+}
+.hide {
+    display : none;
+}
+#biaya-print {
+     font-size : 85px;
+     font-weight : bold;
+}
+
+.border-top td {
+     border-top : 0.5px solid black !important;
+}
+.box {
+     padding: 20px 0px;
+}

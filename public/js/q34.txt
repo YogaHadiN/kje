@@ -1,0 +1,46 @@
+delete from jurnal_umums;
+update raks set fornas=1 where id='B2';
+
+
+update tarifs set biaya=0 where id=4933;
+
+update tarifs set biaya=0 where id=5011;
+
+update tarifs set biaya=0 where id=5050;
+
+update tarifs set biaya=0 where id=5089;
+
+update tarifs set biaya=0 where id=5128;
+
+update tarifs set biaya=0 where id=5586;
+
+update tarifs set biaya=0 where id=5623;
+
+update tarifs set biaya=0 where id=5660;
+
+update tarifs set biaya=0 where id=5734;
+
+update tarifs set biaya=0 where id=6006;
+
+update tarifs set biaya=0 where id=6082;
+
+update tarifs set biaya=0 where id=7002;
+
+update tarifs set biaya=0 where id=7044;
+
+update tarifs set biaya=0 where id=7086;
+
+update tarifs set biaya=0 where id=7128;
+
+update tarifs set biaya=0 where id=7170;
+
+update tarifs set biaya=0 where id=7212;
+
+update tarifs set biaya=0 where id=7254;
+
+update tarifs set biaya=15000 where id=5549;
+
+update asuransis set umum = '["<strong>Obat dibatasi hanya untuk 2 hari, kecuali untuk obat yang harus dihabiskan bisa untuk 3 hari, termasuk obat typhoid fever","Tinea cruris bisa untuk 10 hari","obat untuk asma bisa untuk 3 hari</strong>","Obat dibatasi 30 ribu rupiah setiap kali berobat","Diusahakan untuk membuat resep kurang dari 30 ribu rupiah, karena sisanya bisa digunakan untuk pasien lain yang membutuhkan.","Sekiranya hanya terpakai 10 ribu rupiah, 20 ribu rupiah bisa digunakan untuk pasien lain untuk perusahaan yang sama","Penanganan dan perhitungan biaya untuk kecelakaan kerja sama seperti pasien umum, tidak dibatasi"]' where tipe_asuransi=4;
+
+update asuransis set umum='[]' where tipe_asuransi= 3;
+update raks set kelas_obat_id=1 where id='Z2';

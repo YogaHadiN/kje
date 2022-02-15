@@ -1,0 +1,15 @@
+
+        if ($('#dibayar_pasien').val() > 0) {
+            $('#pembayaran_pasien').removeAttr('readonly');
+        } elseif ( $('#dibayar_pasien').val() == '0' ) {
+            $('#pembayaran_pasien')
+            .val(0)
+            .attr('readonly', 'readonly');
+            rupiahDibayarPasien('#pembayaran_pasien');
+            $('#kembalian_pasien').val(0).attr('readonly', 'readonly');;
+            rupiahDibayarPasien('#kembalian_pasien');
+        } else {
+            $('#pembayaran_pasien')
+            .val('')
+            .attr('readonly', 'readonly');
+        }

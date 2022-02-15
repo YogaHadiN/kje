@@ -1,0 +1,3 @@
+SELECT `tujuan_rujuk_id` 
+tujuan_rujukFROM `INFORMATION_SCHEMA`.`COLUMNS` 
+WHERE `TABLE_SCHEMA`='jatielok';

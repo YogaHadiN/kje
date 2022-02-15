@@ -1,0 +1,835 @@
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=20;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=21;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=22;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=34;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=35;
+update tarifs set biaya=125000, jasa_dokter=62500 where jenis_tarif_id=36;
+update tarifs set biaya=125000, jasa_dokter=62500 where jenis_tarif_id=37;
+update tarifs set biaya=125000, jasa_dokter=62500 where jenis_tarif_id=38;
+update tarifs set biaya=125000, jasa_dokter=62500 where jenis_tarif_id=39;
+update tarifs set biaya=125000, jasa_dokter=62500 where jenis_tarif_id=40;
+update tarifs set biaya=150000, jasa_dokter=75000 where jenis_tarif_id=41;
+update tarifs set biaya=150000, jasa_dokter=75000 where jenis_tarif_id=42;
+update tarifs set biaya=150000, jasa_dokter=75000 where jenis_tarif_id=43;
+update tarifs set biaya=150000, jasa_dokter=75000 where jenis_tarif_id=44;
+update tarifs set biaya=150000, jasa_dokter=75000 where jenis_tarif_id=45;
+update tarifs set biaya=175000, jasa_dokter=87500 where jenis_tarif_id=46;
+update tarifs set biaya=175000, jasa_dokter=87500 where jenis_tarif_id=47;
+update tarifs set biaya=175000, jasa_dokter=87500 where jenis_tarif_id=48;
+update tarifs set biaya=175000, jasa_dokter=87500 where jenis_tarif_id=49;
+update tarifs set biaya=175000, jasa_dokter=87500 where jenis_tarif_id=50;
+update tarifs set biaya=200000, jasa_dokter=100000 where jenis_tarif_id=51;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=52;
+update tarifs set biaya=15000, jasa_dokter=1500 where jenis_tarif_id=53;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=54;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=55;
+update tarifs set biaya=15000, jasa_dokter=1500 where jenis_tarif_id=56;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=57;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=58;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=59;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=60;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=61;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=62;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=63;
+update tarifs set biaya=35000, jasa_dokter=3500 where jenis_tarif_id=64;
+update tarifs set biaya=15000, jasa_dokter=1500 where jenis_tarif_id=65;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=66;
+update tarifs set biaya=30000, jasa_dokter=3000 where jenis_tarif_id=67;
+update tarifs set biaya=10000, jasa_dokter=1000 where jenis_tarif_id=68;
+update tarifs set biaya=10000, jasa_dokter=1000 where jenis_tarif_id=69;
+update tarifs set biaya=25000, jasa_dokter=5000 where jenis_tarif_id=70;
+update tarifs set biaya=25000, jasa_dokter=5000 where jenis_tarif_id=72;
+update tarifs set biaya=70000, jasa_dokter=20000 where jenis_tarif_id=73;
+update tarifs set biaya=150000, jasa_dokter=30000 where jenis_tarif_id=75;
+update tarifs set biaya=100000, jasa_dokter=20000 where jenis_tarif_id=76;
+update tarifs set biaya=500000, jasa_dokter=100000 where jenis_tarif_id=77;
+update tarifs set biaya=20000, jasa_dokter=5000 where jenis_tarif_id=78;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=80;
+update tarifs set biaya=50000, jasa_dokter=5000 where jenis_tarif_id=82;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=83;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=84;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=85;
+update tarifs set biaya=15000, jasa_dokter=7500 where jenis_tarif_id=86;
+update tarifs set biaya=25000, jasa_dokter=12500 where jenis_tarif_id=87;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=88;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=89;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=90;
+update tarifs set biaya=60000, jasa_dokter=30000 where jenis_tarif_id=91;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=92;
+update tarifs set biaya=130000, jasa_dokter=65000 where jenis_tarif_id=93;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=94;
+update tarifs set biaya=130000, jasa_dokter=65000 where jenis_tarif_id=95;
+update tarifs set biaya=150000, jasa_dokter=75000 where jenis_tarif_id=96;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=98;
+update tarifs set biaya=200000, jasa_dokter=100000 where jenis_tarif_id=99;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=100;
+update tarifs set biaya=60000, jasa_dokter=30000 where jenis_tarif_id=101;
+update tarifs set biaya=45000, jasa_dokter=3000 where jenis_tarif_id=102;
+update tarifs set biaya=40000, jasa_dokter=3000 where jenis_tarif_id=103;
+update tarifs set biaya=300000, jasa_dokter=150000 where jenis_tarif_id=104;
+update tarifs set biaya=450000, jasa_dokter=225000 where jenis_tarif_id=105;
+update tarifs set biaya=450000, jasa_dokter=225000 where jenis_tarif_id=106;
+update tarifs set biaya=100000, jasa_dokter=20000 where jenis_tarif_id=111;
+update tarifs set biaya=15000, jasa_dokter=1500 where jenis_tarif_id=116;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=117;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=118;
+update tarifs set biaya=75000, jasa_dokter=37500 where jenis_tarif_id=119;
+update tarifs set biaya=10000, jasa_dokter=0 where jenis_tarif_id=120;
+update tarifs set biaya=20000, jasa_dokter=5000 where jenis_tarif_id=121;
+update tarifs set biaya=50000, jasa_dokter=0 where jenis_tarif_id=122;
+update tarifs set biaya=5000, jasa_dokter=0 where jenis_tarif_id=123;
+update tarifs set biaya=200000, jasa_dokter=0 where jenis_tarif_id=124;
+update tarifs set biaya=15000, jasa_dokter=15000 where jenis_tarif_id=126;
+
+
+
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=20 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=21 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=22 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=34 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=35 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=36 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=37 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=38 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=39 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=40 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=41 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=42 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=43 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=44 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=45 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=46 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=47 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=48 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=49 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=50 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=51 and asuransi_id=32;
+update tarifs set biaya=20000,jasa_dokter=2000 where jenis_tarif_id=52 and asuransi_id=32;
+update tarifs set biaya=15000,jasa_dokter=1500 where jenis_tarif_id=53 and asuransi_id=32;
+update tarifs set biaya=20000,jasa_dokter=2000 where jenis_tarif_id=54 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=2500 where jenis_tarif_id=55 and asuransi_id=32;
+update tarifs set biaya=15000,jasa_dokter=1500 where jenis_tarif_id=56 and asuransi_id=32;
+update tarifs set biaya=20000,jasa_dokter=2000 where jenis_tarif_id=57 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=2500 where jenis_tarif_id=58 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=2500 where jenis_tarif_id=59 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=2500 where jenis_tarif_id=60 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=2500 where jenis_tarif_id=61 and asuransi_id=32;
+update tarifs set biaya=20000,jasa_dokter=2000 where jenis_tarif_id=62 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=2500 where jenis_tarif_id=63 and asuransi_id=32;
+update tarifs set biaya=35000,jasa_dokter=3500 where jenis_tarif_id=64 and asuransi_id=32;
+update tarifs set biaya=15000,jasa_dokter=1500 where jenis_tarif_id=65 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=2500 where jenis_tarif_id=66 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=15000 where jenis_tarif_id=67 and asuransi_id=32;
+update tarifs set biaya=10000,jasa_dokter=1000 where jenis_tarif_id=68 and asuransi_id=32;
+update tarifs set biaya=10000,jasa_dokter=1000 where jenis_tarif_id=69 and asuransi_id=32;
+update tarifs set biaya=25000,jasa_dokter=5000 where jenis_tarif_id=70 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=15000 where jenis_tarif_id=72 and asuransi_id=32;
+update tarifs set biaya=70000,jasa_dokter=20000 where jenis_tarif_id=73 and asuransi_id=32;
+update tarifs set biaya=150000,jasa_dokter=30000 where jenis_tarif_id=75 and asuransi_id=32;
+update tarifs set biaya=100000,jasa_dokter=20000 where jenis_tarif_id=76 and asuransi_id=32;
+update tarifs set biaya=500000,jasa_dokter=100000 where jenis_tarif_id=77 and asuransi_id=32;
+update tarifs set biaya=20000,jasa_dokter=5000 where jenis_tarif_id=78 and asuransi_id=32;
+update tarifs set biaya=20000,jasa_dokter=2000 where jenis_tarif_id=80 and asuransi_id=32;
+update tarifs set biaya=50000,jasa_dokter=5000 where jenis_tarif_id=82 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=20000 where jenis_tarif_id=83 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=20000 where jenis_tarif_id=84 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=20000 where jenis_tarif_id=85 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=15000 where jenis_tarif_id=86 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=15000 where jenis_tarif_id=87 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=15000 where jenis_tarif_id=88 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=20000 where jenis_tarif_id=89 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=20000 where jenis_tarif_id=90 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=91 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=92 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=40000 where jenis_tarif_id=93 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=100000 where jenis_tarif_id=94 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=100000 where jenis_tarif_id=95 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=100000 where jenis_tarif_id=96 and asuransi_id=32;
+update tarifs set biaya=100000,jasa_dokter=50000 where jenis_tarif_id=98 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=50000 where jenis_tarif_id=99 and asuransi_id=32;
+update tarifs set biaya=30000,jasa_dokter=15000 where jenis_tarif_id=100 and asuransi_id=32;
+update tarifs set biaya=60000,jasa_dokter=30000 where jenis_tarif_id=101 and asuransi_id=32;
+update tarifs set biaya=45000,jasa_dokter=3000 where jenis_tarif_id=102 and asuransi_id=32;
+update tarifs set biaya=40000,jasa_dokter=3000 where jenis_tarif_id=103 and asuransi_id=32;
+update tarifs set biaya=100000,jasa_dokter=50000 where jenis_tarif_id=104 and asuransi_id=32;
+update tarifs set biaya=100000,jasa_dokter=50000 where jenis_tarif_id=105 and asuransi_id=32;
+update tarifs set biaya=100000,jasa_dokter=50000 where jenis_tarif_id=106 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=0 where jenis_tarif_id=111 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=15000 where jenis_tarif_id=116 and asuransi_id=32;
+update tarifs set biaya=30000,jasa_dokter=15000 where jenis_tarif_id=117 and asuransi_id=32;
+update tarifs set biaya=50000,jasa_dokter=25000 where jenis_tarif_id=118 and asuransi_id=32;
+update tarifs set biaya=75000,jasa_dokter=37500 where jenis_tarif_id=119 and asuransi_id=32;
+update tarifs set biaya=0,jasa_dokter=0 where jenis_tarif_id=120 and asuransi_id=32;
+update tarifs set biaya=20000,jasa_dokter=5000 where jenis_tarif_id=121 and asuransi_id=32;
+update tarifs set biaya=0, jasa_dokter=20000 where jenis_tarif_id=122 and asuransi_id=32;
+update tarifs set biaya=0, jasa_dokter=0 where jenis_tarif_id=123 and asuransi_id=32;
+update tarifs set biaya=0, jasa_dokter=40000 where jenis_tarif_id=124 and asuransi_id=32;
+update tarifs set biaya=20000, jasa_dokter=0 where jenis_tarif_id=126 and asuransi_id=32;
+update tarifs set biaya=30000, jasa_dokter=3000 where jenis_tarif_id=127 and asuransi_id=32;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=128 and asuransi_id=32;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=129 and asuransi_id=32;
+update tarifs set biaya=0, jasa_dokter=5000 where jenis_tarif_id=130 and asuransi_id=32;
+update tarifs set biaya=0, jasa_dokter=50000 where jenis_tarif_id=131 and asuransi_id=32;
+update tarifs set biaya=0, jasa_dokter=50000 where jenis_tarif_id=132 and asuransi_id=32;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=133 and asuransi_id=32;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=134 and asuransi_id=32;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=135 and asuransi_id=32;
+update tarifs set biaya=10000, jasa_dokter=5000 where jenis_tarif_id=136 and asuransi_id=32;
+update tarifs set biaya=60000, jasa_dokter=30000 where jenis_tarif_id=137 and asuransi_id=32;
+update tarifs set biaya=120000, jasa_dokter=60000 where jenis_tarif_id=138 and asuransi_id=32;
+update tarifs set biaya=180000, jasa_dokter=90000 where jenis_tarif_id=139 and asuransi_id=32;
+update tarifs set biaya=20000, jasa_dokter=0 where jenis_tarif_id=141 and asuransi_id=32;
+update tarifs set biaya=0, jasa_dokter=40000 where jenis_tarif_id=142 and asuransi_id=32;
+
+
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=20 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=21 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=22 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=34 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=35 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=36 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=37 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=38 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=39 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=40 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=41 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=42 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=43 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=44 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=45 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=46 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=47 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=48 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=49 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=50 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=100000 where jenis_tarif_id=51 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=52 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=1500 where jenis_tarif_id=53 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=54 and asuransi_id=3;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=55 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=1500 where jenis_tarif_id=56 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=57 and asuransi_id=3;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=58 and asuransi_id=3;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=59 and asuransi_id=3;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=60 and asuransi_id=3;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=61 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=62 and asuransi_id=3;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=63 and asuransi_id=3;
+update tarifs set biaya=35000, jasa_dokter=3500 where jenis_tarif_id=64 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=1500 where jenis_tarif_id=65 and asuransi_id=3;
+update tarifs set biaya=25000, jasa_dokter=2500 where jenis_tarif_id=66 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=3000 where jenis_tarif_id=67 and asuransi_id=3;
+update tarifs set biaya=10000, jasa_dokter=1000 where jenis_tarif_id=68 and asuransi_id=3;
+update tarifs set biaya=10000, jasa_dokter=1000 where jenis_tarif_id=69 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=5000 where jenis_tarif_id=70 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=5000 where jenis_tarif_id=72 and asuransi_id=3;
+update tarifs set biaya=70000, jasa_dokter=20000 where jenis_tarif_id=73 and asuransi_id=3;
+update tarifs set biaya=150000, jasa_dokter=30000 where jenis_tarif_id=75 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=20000 where jenis_tarif_id=76 and asuransi_id=3;
+update tarifs set biaya=500000, jasa_dokter=100000 where jenis_tarif_id=77 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=5000 where jenis_tarif_id=78 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=80 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=5000 where jenis_tarif_id=82 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=83 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=84 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=85 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=7500 where jenis_tarif_id=86 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=7500 where jenis_tarif_id=87 and asuransi_id=3;
+update tarifs set biaya=15000, jasa_dokter=7500 where jenis_tarif_id=88 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=89 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=90 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=91 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=92 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=20000 where jenis_tarif_id=93 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=94 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=95 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=96 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=98 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=99 and asuransi_id=3;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=100 and asuransi_id=3;
+update tarifs set biaya=60000, jasa_dokter=30000 where jenis_tarif_id=101 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=3000 where jenis_tarif_id=102 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=3000 where jenis_tarif_id=103 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=104 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=105 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=50000 where jenis_tarif_id=106 and asuransi_id=3;
+update tarifs set biaya=100000, jasa_dokter=0 where jenis_tarif_id=111 and asuransi_id=3;
+update tarifs set biaya=1500, jasa_dokter=1500 where jenis_tarif_id=116 and asuransi_id=3;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=117 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=118 and asuransi_id=3;
+update tarifs set biaya=75000, jasa_dokter=37500 where jenis_tarif_id=119 and asuransi_id=3;
+update tarifs set biaya=0, jasa_dokter=0 where jenis_tarif_id=120 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=5000 where jenis_tarif_id=121 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=0 where jenis_tarif_id=122 and asuransi_id=3;
+update tarifs set biaya=0, jasa_dokter=0 where jenis_tarif_id=123 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=0 where jenis_tarif_id=124 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=0 where jenis_tarif_id=126 and asuransi_id=3;
+update tarifs set biaya=30000, jasa_dokter=3000 where jenis_tarif_id=127 and asuransi_id=3;
+update tarifs set biaya=30000, jasa_dokter=15000 where jenis_tarif_id=128 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=2000 where jenis_tarif_id=129 and asuransi_id=3;
+update tarifs set biaya=30000, jasa_dokter=5000 where jenis_tarif_id=130 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=131 and asuransi_id=3;
+update tarifs set biaya=50000, jasa_dokter=25000 where jenis_tarif_id=132 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=133 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=134 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=10000 where jenis_tarif_id=135 and asuransi_id=3;
+update tarifs set biaya=10000, jasa_dokter=5000 where jenis_tarif_id=136 and asuransi_id=3;
+update tarifs set biaya=60000, jasa_dokter=30000 where jenis_tarif_id=137 and asuransi_id=3;
+update tarifs set biaya=120000, jasa_dokter=60000 where jenis_tarif_id=138 and asuransi_id=3;
+update tarifs set biaya=180000, jasa_dokter=90000 where jenis_tarif_id=139 and asuransi_id=3;
+update tarifs set biaya=20000, jasa_dokter=0 where jenis_tarif_id=141 and asuransi_id=3;
+update tarifs set biaya=40000, jasa_dokter=0 where jenis_tarif_id=142 and asuransi_id=3;
+
+delete from sediaans where id=12;
+
+alter table raks change `harga_beli` harga_beli int(11) default 0;
+
+update tarifs set biaya = 15000 where id=5549;
+
+alter table bahan_habis_pakais change `id` id int(11) not null auto_increment;
+
+
+insert into bahan_habis_pakais (jenis_tarif_id, merek_id, jumlah) values 
+(73, 160422014,1),(73, 150811028, 1 ), (73,160301008, 1),
+(75, 160422013, 1),(75, 160422014,1), (75, 150811026, 1) , (75, 160301008, 1),
+(76, 160422013, 1),(76, 150811028, 1) , (76, 160301008, 1),
+(78, 160422002, 1),
+(80, 160422009,1),
+(82, 160422009,1),(82, 160422008, 1), (82,160422010, 1),
+(89, 160422007, 1),
+(90, 160422007, 1),
+(116, 160422008, 1),
+(127, 160422010, 1),
+(129, 160422005, 1),(129, 150811028, 1) , (129, 160301006, 1),
+(135, 160301016, 1),(135, 160422011,1) , (135, 150811029, 1);
+
+update raks set fornas = 1 where id='C6';
+
+create table `haris` (`id` int unsigned not null auto_increment primary key, `hari` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into haris (hari) values 
+	('senin'),
+	('selasa'),
+	('rabu'),
+	('kamis'),
+	('jumat'),
+	('sabtu'),
+	('minggu');
+
+create table `rayons` (`id` int unsigned not null auto_increment primary key, `rayon` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into rayons (rayon) values 
+	('KABUPATEN TANGERANG'),
+	('KOTA TANGERANG'),
+	('KOTA TANGERANG SELATAN');
+
+
+create table `fasilitas` (
+	`id` int unsigned not null auto_increment primary key, 
+	`rumah_sakit_id` varchar(255) not null, 
+	`tujuan_rujuk_id` varchar(255) not null, 
+	`created_at` timestamp default 0 not null, 
+	`updated_at` timestamp default 0 not null) 
+default character set utf8 collate utf8_unicode_ci;
+
+
+update rujukans set rumah_sakit_id=33 where rumah_sakit_id=32;
+delete from rumah_sakits where id=32;
+
+update rujukans set rumah_sakit_id=23 where rumah_sakit_id=26;
+delete from rumah_sakits where id=26;
+
+update rujukans set rumah_sakit_id=30 where rumah_sakit_id=27;
+delete from rumah_sakits where id=27;
+
+update rujukans set rumah_sakit_id=24 where rumah_sakit_id=29;
+delete from rumah_sakits where id=29;
+
+update rujukans set rumah_sakit_id=34 where rumah_sakit_id=44;
+delete from rumah_sakits where id=44;
+
+update rujukans set tujuan_rujuk_id=40 where tujuan_rujuk_id in (48,49,58);
+delete from rumah_sakits where id in (48,49,58);
+
+alter table rumah_sakits add column rayon_id int(11) default 0;
+
+
+INSERT INTO rumah_sakits (rayon_id,nama,jenis_rumah_sakit, tipe_rumah_sakit, alamat, telepon) VALUES 
+('1',	'RSUD KABUPATEN TANGERANG',	'4',	'B',	'JL. AHMAD YANI NO.09 TANGERANG',	'021-5523507 / 021-5512948'),
+('1',	'RS SILOAM',	'4',	'B',	'Jl. Siloam No.6 Lippo Karawaci 1600, Tangerang',	'021- 5420775'),
+('1',	'RSUD BALARAJA',	'4',	'C',	'Jl. Rumah Sakit No. 88, Desa Tobat, Kec. Balaraja, Tangerang',	'021 - 29508388'),
+('1',	'RS SELARAS',	'4',	'D',	'Jl. Raya Lapan Rumpin, Kelurahan Suradita, Kecamatan Cisauk, Tangerang',	'021- 75791849 / 021-75791852'),
+('1',	'RS MULIA INSANI',	'4',	'C',	'Jl. Raya Serang Km. 16,8 Desa Sukamulya Kecamatan Cikupa, Tangerang',	'021-5962790'),
+('1',	'RSAB PERMATA HATI',	'3',	'D',	'Jl. Raya Serang Km. 12,5 Kampung Cirewed,  Sukadamai, Cikupa, Tangerang',	'021 - 59401437'),
+('1',	'RSIA KELUARGA KITA',	'2',	'C',	'Jl. Raya Plp No.8 Km. 4 Curug, Tangerang',	'021-59491011 / 021-5986572'),
+('1',	'RSIA MURNI ASIH',	'2',	'C',	'Jl. Raya Bojong Nangka, No.86, Medang, Pagedangan, Tangerang',	'021-5470263 / 021-54218311'),
+('1',	'RSIA HARAPAN MULIA',	'2',	'C',	'Jl. Raya Pemda Tigaraksa Tangerang',	'021-5991785 / 021-5991786'),
+('1',	'RS MITRA HUSADA',	'4',	'D',	'Jl. Kampung Melayu Barat No. 11 A Teluk Naga, Tangerang',	'(021) 55932610 '),
+('1',	'RS QADR',	'4',	'C',	'Komplek Islamic Village, Kelapa Dua, Kab. Tangerang',	'021-5464466'),
+('2',	'RSK SITANALA',	'4',	'A',	'Jl. Dr. Sitanala No. 99 Tangerang',	'(021) 5523059'),
+('2',	'RSUD KOTA TANGERANG',	'4',	'C',	'JL. PULAU PUTRI RAYA PERUM MODERN LAND, KEL. KELAPA INDAH, KEC. TANGERANG, 2, BANTEN',	'(021) 29720200 '),
+('2',	'RS AWAL BROS TANGERANG',	'4',	'B',	'JL. M.H. THAMRIN NO.3 KEBON NANAS, CIKOKOL, TANGERANG 15117',	'021-55758888 '),
+('2',	'RSU MELATI',	'4',	'C',	'Jl.Merdeka No.92 Tangerang',	'021-5523945/021-55776739'),
+('2',	'RS SARI ASIH AR-RAHMAH',	'4',	'D',	'Jl. KS Tubun No. 44 RT 03/04 Kelurahan Koang Jaya, Tangerang',	'(021) 55736677'),
+('2',	'RS SARI ASIH SANGIANG',	'4',	'C',	'JL. MOCH TOHA KM 3,5 (SIMPANG TIGA SANGIANG) 2',	'021- 5582732'),
+('2',	'RS AN-NISA',	'4',	'C',	'JL.GATOT SUBROTO KM.3 NO 96 CIBODAS TANGERANG',	'021-5525564'),
+('2',	'RS ARYA MEDIKA',	'4',	'C',	'Jl. Industri Raya I Blok A No.1-6 Jatake, Tangerang',	'021-5902229/ 021- 5902226'),
+('2',	'RS TK IV DAAN MOGOT ( KESDAM)',	'4',	'D',	'Jl. Daan Mogot No. 59 Tangerang',	'021- 5523551'),
+('2',	'RS SARI ASIH CILEDUG',	'4',	'B',	'Jl. HOS Cokroaminoto No.38 Kelurahan Sudimara Timur, Kecamatan Ciledug, Tangerang',	'(021) 7333440'),
+('2',	'RSU BHAKTI ASIH',	'4',	'C',	'Jl. Raden Saleh no 10 Karang Tengak 2',	'(021)7305662'),
+('2',	'RS SARI ASIH KARAWACI',	'4',	'B',	'Jl. Imam Bonjol No.38 Karawaci 2',	'021 - 5522794 / 021-5523239'),
+('2',	'RS HERMINA',	'4',	'C',	'Jl KS Tubun No.10 Kelurahan Pasar Baru, Kecamatan Karawaci, Tangerang ',	'(021) 55772525'),
+('2',	'RS DINDA',	'4',	'C',	'JL. Galuh No. 2 Jatiuwung Tangerang',	'021-55650577 '),
+('2',	'RS.USADA INSANI',	'4',	'B',	'JLN.K.H.HASYIM ASYARI,NO.24 CIPONDOH (TANGERANG)',	'021-55752575'),
+('3',	'RS OMNI ALAM SUTERA',	'4',	'B',	'JL. Alam Sutera Bouelvard Kav.25 Serpong',	'(021) 2977 9999'),
+('3',	'RS ISLAM ASSHOBIRIN',	'4',	'D',	'JL. RAYA SERPONG KM.11 PONDOK JAGUNG,TANGERANG,15326',	'021-5384314 '),
+('3',	'RS BHINEKA BAKTI HUSADA',	'4',	'C',	'JL. CABE RAYA NO 17 PAMULANG TANGERANG ',	'0217490018'),
+('3',	'RS SARI ASIH CIPUTAT',	'4',	'B',	'Jl. Otto Iskandardinata No. 3 Kelurahan Ciputat, Tangerang',	'021- 7410808'),
+('3',	'RSDU TANGSEL',	'4',	'C',	'Jl. Raya Pajajaran No. 101 Pamulang Barat, Tangerang',	' 021- 7492398'),
+('3',	'RS IMC BINTARO',	'4',	'C',	'Jl. Jombang Raya No. 56 Bintaro Sektor IX',	'021 - 7456379     '),
+('3',	'RS BUNDA DALIMA',	'4',	'C',	'NUSA LOKA SEKTOR XIV BLOK J11 NO. 1 RAWA MEKAR JAYA BSD SERPONG',	'021 - 5315447'),
+('3',	'RS MEDIKA BSD',	'4',	'B',	'Jl. Letnan Soetopo Kav. Kom IIIA No. 7 BSD City, Tangerang',	'021-5372296'),
+('3',	'RSIA CINTA KASIH',	'2',	'C',	'JL. CIPUTAT BARU RAYA NO.10, CIPUTAT-TANGERANG SELATAN, 15413',	'021-74706020/021-7424639');
+
+delete from rumah_sakits where id=37;
+update rumah_sakits set id=37 where nama='RSUD KABUPATEN TANGERANG';
+delete from rumah_sakits where id=33;
+update rumah_sakits set id=33 where nama='RS SILOAM';
+delete from rumah_sakits where id=25;
+update rumah_sakits set id=25 where nama='RS SELARAS';
+delete from rumah_sakits where id=31;
+update rumah_sakits set id=31 where nama='RS MULIA INSANI';
+delete from rumah_sakits where id=30;
+update rumah_sakits set id=30 where nama='RSIA KELUARGA KITA';
+delete from rumah_sakits where id=23;
+update rumah_sakits set id=23 where nama='RSIA MURNI ASIH';
+delete from rumah_sakits where id=24;
+update rumah_sakits set id=24 where nama='RS QADR';
+delete from rumah_sakits where id=43;
+update rumah_sakits set id=43 where nama='RS AWAL BROS TANGERANG';
+
+
+update rujukans set rumah_sakit_id=28 where rumah_sakit_id=35;
+delete from rumah_sakits where id=35;
+update rumah_sakits set nama='RS pilihan pasien (belum ditentukan)' where id=28;
+delete from rumah_sakits where id=39;
+update rumah_sakits set id=39 where id=63;
+delete from rumah_sakits where id=40;
+update rumah_sakits set id=40 where id=71;
+delete from rumah_sakits where id=34;
+update rumah_sakits set id=34 where id=67;
+delete from tujuan_rujuks where id=50;
+update rujukans set id=32 where id=50;
+update rumah_sakits set nama='RSUD TANGSEL' where id=75;
+
+
+
+delete from tujuan_rujuks where id=44;
+update rujukans set tujuan_rujuk_id=24 where id=44;
+delete from tujuan_rujuks where id=45;
+update rujukans set tujuan_rujuk_id=19 where id=45;
+delete from tujuan_rujuks where id=46;
+update rujukans set tujuan_rujuk_id=1 where id=46;
+delete from tujuan_rujuks where id=53;
+update rujukans set tujuan_rujuk_id=1 where id=53;
+delete from tujuan_rujuks where id=43;
+update rujukans set tujuan_rujuk_id=1 where id=43;
+delete from tujuan_rujuks where id=47;
+update rujukans set tujuan_rujuk_id=32 where id=47;
+delete from tujuan_rujuks where id=48;
+update rujukans set tujuan_rujuk_id=40 where id=48;
+delete from tujuan_rujuks where id=49;
+update rujukans set tujuan_rujuk_id=32 where id=49;
+delete from tujuan_rujuks where id=52;
+update rujukans set tujuan_rujuk_id=18 where id=52;
+delete from tujuan_rujuks where id=54;
+update rujukans set tujuan_rujuk_id=5 where id=54;
+delete from tujuan_rujuks where id=55;
+update rujukans set tujuan_rujuk_id=29 where id=55;
+delete from tujuan_rujuks where id=58;
+update rujukans set tujuan_rujuk_id=40 where id=58;
+delete from tujuan_rujuks where id=59;
+update rujukans set tujuan_rujuk_id=32 where id=59;
+
+
+insert into fasilitas (rumah_sakit_id, tujuan_rujuk_id) values
+(37,2),
+(37,32),
+(37,5),
+(37,24),
+(37,22),
+(37,40),
+(37,39),
+(37,55),
+(37,18),
+(37,19),
+(37,14),
+(37,10),
+(37,28),
+(37,41),
+(37,9),
+(37,37),
+(37,7),
+(33, 2),
+(33, 32),
+(33, 5),
+(33, 24),
+(33, 22),
+(33, 40),
+(33, 39),
+(33, 55),
+(33, 18),
+(33, 19),
+(33, 14),
+(33, 10),
+(33, 28),
+(33, 41),
+(33, 9),
+(33, 37),
+(47, 2),
+(47, 32),
+(47, 5),
+(47, 24),
+(47, 22),
+(47, 40),
+(47, 39),
+(47, 55),
+(47, 19),
+(47, 10),
+(47, 28),
+(47, 7),
+(25, 2),
+(25, 32),
+(25, 5),
+(25, 24),
+(25, 22),
+(25, 39),
+(25, 14),
+(31, 2),
+(31, 32),
+(31, 5),
+(31, 24),
+(31, 22),
+(31, 40),
+(31, 39),
+(31, 55),
+(31, 19),
+(31, 10),
+(31, 28),
+(31, 41),
+(50, 2),
+(50, 32),
+(50, 5),
+(50, 24),
+(50, 22),
+(50, 40),
+(30, 2),
+(30, 32),
+(30, 5),
+(30, 24),
+(30, 40),
+(30, 39),
+(30, 28),
+(30, 7),
+(23, 2),
+(23, 32),
+(23, 5),
+(23, 24),
+(23, 40),
+(53, 2),
+(53, 32),
+(53, 5),
+(53, 24),
+(54, 2),
+(54, 32),
+(54, 5),
+(54, 24),
+(54, 22),
+(54, 40),
+(54, 55),
+(24, 2),
+(24, 32),
+(24, 5),
+(24, 24),
+(24, 22),
+(24, 40),
+(24, 39),
+(24, 55),
+(24, 18),
+(24, 19),
+(24, 14),
+(24, 28),
+(24, 41),
+(24, 7),
+(56, 2),
+(56, 32),
+(56, 5),
+(56, 24),
+(56, 22),
+(56, 39),
+(56, 55),
+(56, 19),
+(56, 9),
+(57, 2),
+(57, 32),
+(57, 5),
+(57, 24),
+(57, 22),
+(57, 40),
+(57, 39),
+(57, 55),
+(57, 18),
+(57, 19),
+(57, 14),
+(57, 10),
+(57, 28),
+(57, 41),
+(57, 37),
+(57, 7),
+(43, 2),
+(43, 32),
+(43, 5),
+(43, 24),
+(43, 22),
+(43, 40),
+(43, 39),
+(43, 55),
+(43, 18),
+(43, 19),
+(43, 14),
+(43, 10),
+(43, 28),
+(43, 41),
+(43, 9),
+(43, 37),
+(43, 7),
+(59, 2),
+(59, 32),
+(59, 5),
+(59, 24),
+(59, 22),
+(59, 40),
+(59, 39),
+(59, 19),
+(59, 28),
+(59, 37),
+(59, 2),
+(59, 32),
+(59, 5),
+(59, 24),
+(59, 55),
+(61, 2),
+(61, 32),
+(61, 5),
+(61, 24),
+(61, 40),
+(61, 39),
+(61, 55),
+(61, 19),
+(61, 28),
+(61, 41),
+(61, 2),
+(61, 32),
+(61, 5),
+(61, 24),
+(61, 22),
+(61, 40),
+(61, 39),
+(61, 55),
+(61, 19),
+(61, 28),
+(61, 41),
+(61, 37),
+(39, 2),
+(39, 32),
+(39, 5),
+(39, 24),
+(39, 40),
+(39, 39),
+(39, 55),
+(64, 2),
+(64, 32),
+(64, 5),
+(64, 24),
+(64, 22),
+(64, 39),
+(65, 2),
+(65, 32),
+(65, 5),
+(65, 24),
+(65, 22),
+(65, 40),
+(65, 39),
+(65, 55),
+(65, 18),
+(65, 19),
+(65, 14),
+(65, 28),
+(65, 37),
+(66, 2),
+(66, 32),
+(66, 5),
+(66, 24),
+(66, 22),
+(66, 40),
+(66, 39),
+(66, 55),
+(66, 19),
+(66, 14),
+(66, 28),
+(66, 37),
+(34, 2),
+(34, 32),
+(34, 5),
+(34, 24),
+(34, 22),
+(34, 40),
+(34, 39),
+(34, 55),
+(34, 19),
+(34, 14),
+(34, 10),
+(34, 28),
+(34, 41),
+(34, 9),
+(34, 37),
+(68, 2),
+(68, 32),
+(68, 5),
+(68, 24),
+(68, 22),
+(68, 40),
+(68, 39),
+(68, 55),
+(68, 19),
+(68, 41),
+(68, 9),
+(68, 37),
+(68, 7),
+(69, 2),
+(69, 32),
+(69, 5),
+(69, 24),
+(69, 22),
+(69, 19),
+(69, 41),
+(69, 9),
+(70 ,2),
+(70 ,32),
+(70 ,5),
+(70 ,24),
+(70 ,22),
+(70 ,40),
+(70 ,39),
+(70 ,55),
+(70 ,18),
+(70 ,19),
+(70 ,14),
+(70 ,10),
+(70 ,28),
+(70 ,41),
+(70 ,9),
+(70 ,37),
+(70 ,7),
+(40, 2),
+(40, 32),
+(40, 5),
+(40, 24),
+(40, 22),
+(40, 40),
+(40, 39),
+(40, 55),
+(40, 18),
+(40, 19),
+(40, 14),
+(40, 28),
+(40, 41),
+(40, 37),
+(72, 2),
+(72, 32),
+(72, 5),
+(72, 24),
+(72, 22),
+(72, 40),
+(72, 39),
+(72, 55),
+(72, 19),
+(72, 14),
+(72, 28),
+(73, 2),
+(73, 32),
+(73, 5),
+(73, 24),
+(73, 22),
+(73, 40),
+(73, 39),
+(73, 55),
+(73, 18),
+(73, 19),
+(73, 14),
+(73, 28),
+(73, 41),
+(74, 2),
+(74, 32),
+(74, 5),
+(74, 24),
+(74, 22),
+(74, 40),
+(74, 39),
+(74, 55),
+(74, 18),
+(74, 19),
+(74, 14),
+(74, 10),
+(74, 28),
+(74, 41),
+(74, 7),
+(75, 2),
+(75, 32),
+(75, 5),
+(75, 24),
+(75, 22),
+(75, 39),
+(75, 55),
+(75, 18),
+(75, 19),
+(75, 28),
+(75, 41),
+(76, 2),
+(76, 32),
+(76, 5),
+(76, 24),
+(76, 22),
+(76, 40),
+(76, 39),
+(76, 55),
+(76, 18),
+(76, 19),
+(76, 14),
+(76, 28),
+(76, 41),
+(77, 2),
+(77, 32),
+(77, 5),
+(77, 24),
+(77, 22),
+(77, 39),
+(77, 14),
+(78, 2),
+(78, 32),
+(78, 5),
+(78, 24),
+(78, 22),
+(78, 40),
+(78, 39),
+(78, 55),
+(78, 18),
+(78, 19),
+(78, 14),
+(78, 10),
+(78, 28),
+(78, 41),
+(79, 2),
+(79, 32),
+(79, 5),
+(79, 24);

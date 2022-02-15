@@ -1,0 +1,81 @@
+yang gak ditambah 10 %
+jsa, cibadak, sejin, inhealth, spbu
+
+yang paket
+
+9 spbu 20 30
+10, 
+151222001 cibadak 30 70
+15 jsa 30 20
+151117001 sejin 30 30
+3 inhealth 15 35
+
+
+jasa dokter beda
+20
+16 ya farm,
+17 la farm,
+18 hj farm,
+150922001 wieny,
+9 spbu,
+11 dkbi,
+8 ctc,
+13 ostec
+
+15
+inhealth
+
+///////////////////////////////
+
+
+///////////////////////////////////
+
+
+
+//////////////////////////////////////////////////
+
+update asuransis set tipe_asuransi = '4' where
+id='9' or
+id='10' or
+id='151222001' or
+id='15' or
+id='151117001' or
+id='3';
+
+UPDATE mereks SET rak_id = UPPER(rak_id);
+
+
+update tarifs set biaya='0', dibayar_asuransi='0' where jenis_tarif_id='1' and asuransi_id='32';
+update raks set harga_jual=300 where id='Z8';
+
+update raks set formula_id='150805009' where id='C10';
+
+update asuransis set tipe_asuransi=5 where id='32';
+update asuransis set kali_obat=1 where id='32';
+
+update asuransis set kali_obat='1.1' where
+id='9' or
+id='10' or
+id='15' or
+id='151117001' or
+id='3' or
+id='151222001';
+
+update tarifs set biaya = 20000 where
+(jenis_tarif_id=1 and asuransi_id='16') or
+(jenis_tarif_id=1 and asuransi_id='17') or
+(jenis_tarif_id=1 and asuransi_id='18') or
+(jenis_tarif_id=1 and asuransi_id='150922001') or
+(jenis_tarif_id=1 and asuransi_id='9') or
+(jenis_tarif_id=1 and asuransi_id='11') or
+(jenis_tarif_id=1 and asuransi_id='8') or
+(jenis_tarif_id=1 and asuransi_id='13');
+
+update tarifs set biaya='0' where jenis_tarif_id='9';
+
+update tarifs set biaya='30000' where jenis_tarif_id='9' and asuransi_id='9';
+update tarifs set biaya='30000' where jenis_tarif_id='9' and asuransi_id='10';
+update tarifs set biaya='20000' where jenis_tarif_id='9' and asuransi_id='15';
+update tarifs set biaya='30000' where jenis_tarif_id='9' and asuransi_id='151117001';
+update tarifs set biaya='35000' where jenis_tarif_id='9' and asuransi_id='3';
+

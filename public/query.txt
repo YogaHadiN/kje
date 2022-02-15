@@ -1,0 +1,2007 @@
+RENAME TABLE antriankasir TO antrian_kasirs;
+RENAME TABLE antrianperiksa TO antrian_periksas;
+RENAME TABLE antrianpoli TO antrian_polis;
+RENAME TABLE asuransi TO asuransis;
+RENAME TABLE aturanminum TO aturan_minums;
+RENAME TABLE bahanhabispakai TO bahan_habis_pakais;
+RENAME TABLE beratbadan TO berat_badans;
+RENAME TABLE diagnosa TO diagnosas;
+RENAME TABLE dosis TO doses;
+RENAME TABLE fakturbeli TO faktur_belanjas;
+RENAME TABLE formula TO formulas;
+RENAME TABLE generik TO generiks;
+RENAME TABLE golonganobat TO golongan_obats;
+RENAME TABLE icd10 TO icd10s;
+RENAME TABLE jenistarif TO jenis_tarifs;
+RENAME TABLE komposisi TO komposisis;
+RENAME TABLE merek TO mereks;
+RENAME TABLE pasien TO pasiens;
+RENAME TABLE pembelian TO pembelians;
+RENAME TABLE periksa TO periksas;
+RENAME TABLE poli TO polis;
+RENAME TABLE rak TO raks;
+RENAME TABLE sediaan TO sediaans;
+RENAME TABLE signa TO signas;
+RENAME TABLE staf TO stafs;
+RENAME TABLE supplier TO suppliers;
+RENAME TABLE tarif TO tarifs;
+
+DROP TABLE jeniskelamin;
+DROP TABLE jenispeserta;
+DROP TABLE namapanggilan;
+DROP TABLE role;
+DROP TABLE statuspernikahan;
+DROP TABLE tindakan;
+DROP TABLE tipeasuransi;
+DROP TABLE id_antrian_periksa_generator;
+DROP TABLE id_antrian_poli_generator;
+DROP TABLE id_asuransi_generator;
+DROP TABLE id_formula_generator;
+DROP TABLE id_merek_generator;
+DROP TABLE id_pasien_generator;
+DROP TABLE id_periksa_generator;
+DROP TABLE id_rak_generator;
+DROP TABLE id_staf_generator;
+DROP TABLE id_terapi_generator;
+DROP TABLE id_transaksi_beli_generator;
+DROP TABLE id_transaksi_generator;
+DROP TABLE pasien2;
+DROP TABLE periksa2;
+DROP TABLE staf2;
+DROP TABLE antrian_kasirs;
+DROP TABLE golongan_obats;
+DROP TABLE polis;
+DROP TABLE sediaans;
+DROP TABLE tipetindakan;
+DROP TABLE titel;
+DROP TABLE transaksi;
+
+create table `dispensings` (`id` varchar(255) not null primary key, `tanggal` date not null, `rak_id` varchar(255) not null, `keluar` int not null default '0', `masuk` int not null default '0', `ref_id` varchar(255) null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+create table `pengeluarans` (`id` varchar(255) not null primary key, `faktur_belanja_id` varchar(255) not null , `keterangan` varchar(255) not null, `jenis_pengeluaran_id` int not null, `harga_satuan` int not null, `jumlah` int not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+create table `penjualans` (`id` varchar(255) not null primary key, `merek_id` varchar(255) not null, `nota_jual_id` varchar(255) not null, `harga_jual` int not null, `jumlah` int not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+
+create table `nota_juals` (
+ `id` varchar(255) not null primary key,
+ `tanggal` date not null,
+ `staf_id` varchar(255) not null,
+ `created_at` timestamp default 0 not null,
+ `updated_at` timestamp default 0 not null)
+  default character set utf8 collate utf8_unicode_ci;
+
+create table `nota_belis` (`id` varchar(255) not null primary key, `nomor_faktur` varchar(255) null, `tanggal` date not null, `staf_id` varchar(255) not null, `supplier_id` varchar(255) not null, `jumlah` int not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+create table `monitors` (`id` int unsigned not null auto_increment primary key, `periksa_id` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+create table `jenis_pengeluarans` (`id` int unsigned not null auto_increment primary key, `nama` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+ALTER TABLE antrian_periksas CHANGE beratBadan `berat_badan` VARCHAR(255);
+ALTER TABLE antrian_periksas CHANGE ID_ANTRIAN_PERIKSA `id` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_periksas CHANGE ID_ASURANSI `asuransi_id` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_periksas CHANGE ID_PASIEN `pasien_id` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_periksas CHANGE ID_STAF `staf_id` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_periksas CHANGE ID_POLI `poli` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_periksas CHANGE riwayatAlergiObat `riwayat_alergi_obat` VARCHAR(255);
+ALTER TABLE antrian_periksas CHANGE suhuTubuh `suhu` VARCHAR(255);
+ALTER TABLE antrian_periksas CHANGE menyusui `menyusui` INT(11);
+ALTER TABLE antrian_periksas CHANGE tekananDarah `tekanan_darah` VARCHAR(255);
+ALTER TABLE antrian_periksas CHANGE tinggiBadan `tinggi_badan` VARCHAR(255);
+ALTER TABLE antrian_periksas CHANGE hamil `hamil` VARCHAR(255);
+
+ALTER TABLE antrian_polis CHANGE ID_ANTRIAN_POLI `id` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_polis CHANGE ID_ASURANSI `asuransi_id` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_polis CHANGE ID_PASIEN `pasien_id` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_polis CHANGE ID_POLI `poli` VARCHAR(255) NOT NULL;
+ALTER TABLE antrian_polis CHANGE ID_STAF `staf_id` VARCHAR(255) NOT NULL;
+
+ALTER TABLE asuransis CHANGE ID_ASURANSI `id` VARCHAR(255) NOT NULL;
+ALTER TABLE asuransis CHANGE ID_TIPE_ASURANSI `tipe_asuransi` VARCHAR(255) NOT NULL;
+ALTER TABLE asuransis CHANGE namaAsuransi `nama` VARCHAR(255) NOT NULL;
+ALTER TABLE asuransis ADD COLUMN email VARCHAR(255);
+ALTER TABLE asuransis ADD COLUMN umum TEXT;
+ALTER TABLE asuransis DROP COLUMN obat;
+ALTER TABLE asuransis DROP COLUMN laboratorium;
+ALTER TABLE asuransis DROP COLUMN tindakan;
+ALTER TABLE asuransis CHANGE alamat `alamat` TEXT;
+ALTER TABLE asuransis CHANGE rujukan `rujukan` TEXT;
+ALTER TABLE asuransis CHANGE gigi `gigi` TEXT;
+ALTER TABLE asuransis CHANGE noHpPIC `hp_pic` VARCHAR(255);
+ALTER TABLE asuransis CHANGE noTelp `no_telp` VARCHAR(255) NOT NULL;
+ALTER TABLE asuransis CHANGE tanggalBerakhir `tanggal_berakhir` date;
+
+ALTER TABLE aturan_minums CHANGE ID_ATURAN_MINUM `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE aturan_minums CHANGE aturanMinum `aturan_minum` VARCHAR(255) NOT NULL;
+
+ALTER TABLE bahan_habis_pakais CHANGE ID_BAHAN_HABIS_PAKAI `id` INT(11);
+ALTER TABLE bahan_habis_pakais CHANGE ID_JENIS_TARIF `jenis_tarif_id` VARCHAR(255) NOT NULL;
+ALTER TABLE bahan_habis_pakais CHANGE ID_MEREK `merek_id` VARCHAR(255) NOT NULL;
+
+ALTER TABLE berat_badans CHANGE ID_BERAT_BADAN `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE berat_badans CHANGE beratBadan `berat_badan` VARCHAR(255) NOT NULL;
+
+ALTER TABLE diagnosas CHANGE ID_DIAGNOSA `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE diagnosas CHANGE icd10 `icd10_id` VARCHAR(255) NOT NULL;
+
+ALTER TABLE doses CHANGE ID_DOSIS `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE doses CHANGE ID_BERAT_BADAN `berat_badan_id` VARCHAR(255) NOT NULL;
+ALTER TABLE doses CHANGE ID_FORMULA `formula_id` VARCHAR(255) NOT NULL;
+ALTER TABLE doses CHANGE dosis `signa_id` INT(11);
+ALTER TABLE doses ADD COLUMN `jumlah` INT(11);
+ALTER TABLE doses ADD COLUMN `jumlah_bpjs` INT(11);
+ALTER TABLE doses ADD COLUMN `jumlah_puyer_add` INT(11);
+ALTER TABLE doses ADD COLUMN `aturan_minum_id` INT(11);
+ALTER TABLE doses DROP COLUMN `aturan_minum_id`;
+
+
+ALTER TABLE faktur_belanjas CHANGE ID_FAKTUR_BELI `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE faktur_belanjas CHANGE ID_SUPPLIER `supplier_id` VARCHAR(255) NOT NULL;
+ALTER TABLE faktur_belanjas ADD COLUMN nomor_faktur VARCHAR(255) NOT NULL;
+ALTER TABLE faktur_belanjas ADD COLUMN belanja_id INT(1) NOT NULL;
+ALTER TABLE faktur_belanjas ADD COLUMN staf_id VARCHAR(255) NOT NULL;
+
+ALTER TABLE formulas CHANGE ID_FORMULA `id` VARCHAR(255) NOT NULL;
+ALTER TABLE formulas DROP COLUMN contohMerek;
+ALTER TABLE formulas ADD COLUMN aturan_minum_id INT(11) NOT NULL;
+ALTER TABLE formulas ADD COLUMN peringatan TEXT;
+ALTER TABLE formulas CHANGE kontraIndikasi `kontraindikasi` VARCHAR(255) NOT NULL;
+ALTER TABLE formulas CHANGE dijualBebas `dijual_bebas` VARCHAR(255) NOT NULL;
+ALTER TABLE formulas CHANGE efekSamping `efek_samping` VARCHAR(255) NOT NULL;
+ALTER TABLE formulas CHANGE ID_GOLONGAN_OBAT `golongan_obat` VARCHAR(255) NOT NULL;
+ALTER TABLE formulas DROP COLUMN golongan_obat;
+ALTER TABLE formulas CHANGE ID_SEDIAAN `sediaan` VARCHAR(255) NOT NULL;
+
+ALTER TABLE generiks CHANGE ID_GENERIK `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE generiks CHANGE pregnancySafetyIndex `pregnancy_safety_index` VARCHAR(255);
+
+ALTER TABLE jenis_tarifs CHANGE ID_JENIS_TARIF `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE jenis_tarifs CHANGE jenisTarif `jenis_tarif` VARCHAR(255) NOT NULL;
+
+ALTER TABLE komposisis CHANGE ID_KOMPOSISI `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE komposisis CHANGE ID_FORMULA `formula_id` VARCHAR(255) NOT NULL;
+ALTER TABLE komposisis CHANGE ID_GENERIK `generik_id` VARCHAR(255) NOT NULL;
+
+ALTER TABLE mereks CHANGE ID_MEREK `id` VARCHAR(255);
+ALTER TABLE mereks CHANGE ID_RAK `rak_id` VARCHAR(255) NOT NULL;
+ALTER TABLE mereks CHANGE merekObat `merek` VARCHAR(255) NOT NULL;
+
+ALTER TABLE pasiens CHANGE ID_PASIEN `id` VARCHAR(255) NOT NULL;
+ALTER TABLE pasiens CHANGE ID_ASURANSI `asuransi_id` VARCHAR(255) NOT NULL;
+ALTER TABLE pasiens CHANGE ID_JENIS_KELAMIN `sex` VARCHAR(255) NOT NULL;
+ALTER TABLE pasiens CHANGE ID_JENIS_PESERTA `jenis_peserta` VARCHAR(255);
+ALTER TABLE pasiens CHANGE ID_PANGGILAN `panggilan` VARCHAR(255) NOT NULL;
+ALTER TABLE pasiens DROP COLUMN ID_STATUS_PERNIKAHAN;
+ALTER TABLE pasiens CHANGE namaAyah `nama_ayah` VARCHAR(255);
+ALTER TABLE pasiens CHANGE namaIbu `nama_ibu` VARCHAR(255);
+ALTER TABLE pasiens CHANGE alamat `alamat` TEXT;
+ALTER TABLE pasiens DROP COLUMN panggilan;
+ALTER TABLE pasiens CHANGE namaPasien `nama` VARCHAR(255) NOT NULL;
+ALTER TABLE pasiens CHANGE namaPeserta `nama_peserta` VARCHAR(255);
+ALTER TABLE pasiens CHANGE nomorAsuransi `nomor_asuransi` VARCHAR(255);
+ALTER TABLE pasiens CHANGE noTelp `no_telp` VARCHAR(255);
+ALTER TABLE pasiens CHANGE riwayatAlergiObat `riwayat_alergi_obat` TEXT;
+ALTER TABLE pasiens CHANGE riwayatPenyakitDahulu `riwayat_penyakit_dahulu` TEXT;
+ALTER TABLE pasiens CHANGE tanggalLahir `tanggal_lahir` DATE;
+
+ALTER TABLE pembelians CHANGE ID_TRANSAKSI_BELI `id` VARCHAR(255) NOT NULL;
+ALTER TABLE pembelians CHANGE expDate `exp_date` DATE NOT NULL;
+ALTER TABLE pembelians CHANGE hargaBeli `harga_beli` INT(11) NOT NULL;
+ALTER TABLE pembelians CHANGE submit `harga_naik` INT(11) DEFAULT 0;
+ALTER TABLE pembelians CHANGE hargaJual `harga_jual` INT(11) NOT NULL;
+ALTER TABLE pembelians CHANGE ID_FAKTUR_BELI `faktur_belanja_id` VARCHAR(255) NOT NULL;
+ALTER TABLE pembelians CHANGE ID_MEREK `merek_id` VARCHAR(255) NOT NULL;
+
+ALTER TABLE periksas CHANGE ID_PERIKSA `id` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE ID_ASURANSI `asuransi_id` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE ID_DIAGNOSA `diagnosa_id` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE ID_PASIEN `pasien_id` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE ID_POLI `poli` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas DROP COLUMN modalObat;
+ALTER TABLE periksas CHANGE ID_STAF `staf_id` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE keteranganDiagnosa `keterangan_diagnosa` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE lewatKasir `lewat_kasir` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE pemeriksaanFisik `pemeriksaan_fisik` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas CHANGE pemeriksaanPenunjang `pemeriksaan_penunjang` VARCHAR(255) NOT NULL;
+ALTER TABLE periksas ADD COLUMN antrian	int(11) NOT NULL;
+ALTER TABLE periksas ADD COLUMN jam_resep	time NOT NULL;
+ALTER TABLE periksas ADD COLUMN lewat_poli	varchar(255) NOT NULL;
+ALTER TABLE periksas ADD COLUMN lewat_kasir2	int(11) NOT NULL;
+ALTER TABLE periksas ADD COLUMN transaksi	text;
+ALTER TABLE periksas ADD COLUMN berat_badan	INT(11);
+ALTER TABLE periksas ADD COLUMN approve_id	INT(11) not null DEFAULT 0;
+ALTER TABLE periksas ADD COLUMN satisfaction_index	int(11) DEFAULT 0;
+
+ALTER TABLE raks CHANGE ID_RAK `id` VARCHAR(255) NOT NULL;
+ALTER TABLE raks CHANGE alternatifFornas `alternatif_fornas` VARCHAR(255);
+ALTER TABLE raks DROP COLUMN contohMerek;
+ALTER TABLE raks CHANGE expDate `exp_date` DATE ;
+ALTER TABLE raks CHANGE hargaBeli `harga_beli` INT(11);
+ALTER TABLE raks CHANGE hargaJual `harga_jual` INT(11);
+ALTER TABLE raks CHANGE ID_FORMULA `formula_id` VARCHAR(255) NOT NULL;
+ALTER TABLE raks CHANGE stokMinimal `stok_minimal` INT(11);
+ALTER TABLE raks CHANGE stok `stok` INT(11);
+ALTER TABLE raks CHANGE fornas `fornas` INT(11) NOT NULL;
+
+ALTER TABLE icd10s CHANGE icd10 `id` VARCHAR(255) NOT NULL;
+
+ALTER TABLE signas CHANGE ID_SIGNA `id` INT(11) AUTO_INCREMENT;
+
+ALTER TABLE stafs CHANGE ID_STAF `id` VARCHAR(11);
+
+ALTER TABLE stafs CHANGE alamatKTP `alamat_ktp` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE ID_TITEL `titel` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE KTP `ktp` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE namaStaf `nama` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE noHP `no_hp` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE noTelp `no_telp` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE str `str` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE alamat `alamat_domisili` VARCHAR(255) NOT NULL;
+ALTER TABLE stafs CHANGE tanggalLahir `tanggal_lahir` DATE;
+ALTER TABLE stafs CHANGE tanggalLulus `tanggal_lulus` DATE;
+ALTER TABLE stafs CHANGE tanggalMulai `tanggal_mulai` DATE;
+ALTER TABLE stafs CHANGE universitasAsal `universitas_asal` VARCHAR(255) NOT NULL;
+
+ALTER TABLE suppliers CHANGE ID_SUPPLIER `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE suppliers CHANGE namaSupplier `nama` VARCHAR(255) NOT NULL;
+ALTER TABLE suppliers CHANGE noHpPIC `hp_pic` VARCHAR(255) NOT NULL;
+ALTER TABLE suppliers CHANGE noTelp `no_telp` VARCHAR(255) NOT NULL;
+
+ALTER TABLE tarifs CHANGE ID_TARIF `id` INT(11) AUTO_INCREMENT;
+ALTER TABLE tarifs CHANGE bahanHabisPakai `bahan_habis_pakai` INT(11);
+ALTER TABLE tarifs ADD COLUMN bhp_items TEXT;
+ALTER TABLE tarifs CHANGE dibayarAsuransi `dibayar_asuransi` int(11) NOT NULL;
+ALTER TABLE tarifs CHANGE ID_ASURANSI `asuransi_id` VARCHAR(255) NOT NULL;
+ALTER TABLE tarifs CHANGE ID_JENIS_TARIF `jenis_tarif_id` VARCHAR(255) NOT NULL;
+ALTER TABLE tarifs CHANGE ID_TIPE_TINDAKAN `tipe_tindakan_id` VARCHAR(255) NOT NULL;
+ALTER TABLE tarifs CHANGE jasaDokter `jasa_dokter` INT(11) NOT NULL;
+
+ALTER TABLE users ADD COLUMN remember_token VARCHAR(100) NOT NULL;
+ALTER TABLE users CHANGE ID_ADMIN `id` INT(11) AUTO_INCREMENT NOT NULL;
+ALTER TABLE users CHANGE userName `username` VARCHAR(255) NOT NULL;
+ALTER TABLE users CHANGE hashedPassword `password` VARCHAR(255) NOT NULL;
+ALTER TABLE users CHANGE ID_ROLE `role` VARCHAR(255) NOT NULL;
+ALTER TABLE users ADD COLUMN aktif INT(11) DEFAULT 0;
+
+ALTER TABLE antrian_periksas ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE antrian_polis ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE asuransis ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE aturan_minums ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE bahan_habis_pakais ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE berat_badans ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE diagnosas ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE doses ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE faktur_belanjas ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE formulas ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE generiks ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE icd10s ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE jenis_tarifs ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE komposisis ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE mereks ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE pasiens ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE pembelians ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE periksas ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE raks ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE signas ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE stafs ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE suppliers ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE tarifs ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE users ADD COLUMN created_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+
+ALTER TABLE antrian_periksas ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE antrian_polis ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE asuransis ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE aturan_minums ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE bahan_habis_pakais ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE berat_badans ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE diagnosas ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE doses ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE faktur_belanjas ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE formulas ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE generiks ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE icd10s ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE jenis_tarifs ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE komposisis ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE mereks ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE pasiens ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE pembelians ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE periksas ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE raks ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE signas ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE stafs ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE suppliers ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE tarifs ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+ALTER TABLE users ADD COLUMN updated_at TIMESTAMP DEFAULT '0000-00-00 00:00:00';
+
+
+ALTER TABLE antrian_periksas convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE antrian_polis convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE asuransis convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE aturan_minums convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE bahan_habis_pakais convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE berat_badans convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE diagnosas convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE doses convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE faktur_belanjas convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE formulas convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE generiks convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE icd10s convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE jenis_tarifs convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE komposisis convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE mereks convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE pasiens convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE pembelians convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE periksas convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE raks convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE signas convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE stafs convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE suppliers convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE tarifs convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE users convert to character set utf8 collate utf8_unicode_ci;
+ALTER TABLE dispensings convert to character set utf8 collate utf8_unicode_ci;
+
+update periksas set lewat_kasir = '1';
+update periksas set lewat_kasir2 = '1';
+
+update periksas set poli = 'umum' where poli ='1';
+update periksas set poli = 'gigi' where poli ='2';
+update periksas set poli = 'kandungan' where poli ='3';
+update periksas set poli = 'darurat' where poli ='4';
+
+delete from antrian_periksas;
+delete from antrian_polis;
+
+update users set role = '6' where role = '1';
+update users set role = '1' where role = '2';
+update users set role = '2' where role = '3';
+update users set role = '5' where role = '4';
+update users set role = '3' where role = '5';
+
+update users set aktif = '1';
+
+INSERT INTO `asuransis` (`id`, `nama`, `alamat`, `no_telp`, `pic`, `hp_pic`, `tanggal_berakhir`, `umum`, `penagihan`, `gigi`, `rujukan`, `tipe_asuransi`, `email`, `created_at`, `updated_at`) VALUES ('0', 'Biaya Pribadi', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+INSERT INTO `monitors` (`id`, `periksa_id`, `created_at`, `updated_at`) VALUES (NULL, '0', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+UPDATE formulas set sediaan = 'tablet' where sediaan = '1';
+UPDATE formulas set sediaan = 'capsul' where sediaan = '2';
+UPDATE formulas set sediaan = 'syrup' where sediaan = '3';
+UPDATE formulas set sediaan = 'drop' where sediaan = '4';
+UPDATE formulas set sediaan = 'ampul' where sediaan = '5';
+UPDATE formulas set sediaan = 'vial' where sediaan = '6';
+UPDATE formulas set sediaan = 'eye drop' where sediaan = '7';
+UPDATE formulas set sediaan = 'ear drop' where sediaan = '8';
+UPDATE formulas set sediaan = 'salep' where sediaan = '9';
+UPDATE formulas set sediaan = 'obat luar' where sediaan = '10';
+UPDATE formulas set sediaan = 'obat kumur' where sediaan = '11';
+
+delete from faktur_belanjas;
+
+drop database jatielok;
+
+INSERT INTO `jenis_pengeluarans` (`id`, `nama`, `created_at`, `updated_at`) VALUES 
+(NULL, 'Konsumsi', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000'), 
+(NULL, 'Listrik', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000'),
+(NULL, 'Renovasi', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000'),
+(NULL, 'Pemeliharaan', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000'),
+(NULL, 'Gaji Karyawan', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000'),
+(NULL, 'Administrasi', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000'),
+(NULL, 'Lain-lain', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000')
+;
+
+update doses set signa_id = null where berat_badan_id < 12;
+update doses set jumlah = 10 where berat_badan_id = 12;
+update doses set jumlah_puyer_add = 12 where berat_badan_id = 12;
+update doses set jumlah_bpjs = 6 where berat_badan_id = 12;
+
+update formulas set aturan_minum_id = 1 where sediaan = 'tablet';
+update formulas set aturan_minum_id = 1 where sediaan = 'syrup';
+update formulas set aturan_minum_id = 1 where sediaan = 'drop';
+update formulas set aturan_minum_id = 1 where sediaan = 'capsul';
+update formulas set aturan_minum_id = 30 where sediaan = 'tube';
+update formulas set aturan_minum_id = 30 where sediaan = 'salep';
+update formulas set aturan_minum_id = 30 where sediaan = 'gel';
+update formulas set aturan_minum_id = 12391 where sediaan = 'tetes mata';
+update formulas set aturan_minum_id = 12366 where sediaan = 'tetes telinga';
+
+update doses as d join formulas as f set d.signa_id = 2 where f.id = d.formula_id and f.sediaan = 'salep';
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'salep';
+update doses as d join formulas as f set d.jumlah_bpjs = 1 where f.id = d.formula_id and f.sediaan = 'salep';
+update doses as d join formulas as f set d.jumlah_puyer_add = 1 where f.id = d.formula_id and f.sediaan = 'salep';
+
+update doses as d join formulas as f set d.signa_id = 2 where f.id = d.formula_id and f.sediaan = 'obat kumur';
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'obat kumur';
+update doses as d join formulas as f set d.jumlah_bpjs = 1 where f.id = d.formula_id and f.sediaan = 'obat kumur';
+update doses as d join formulas as f set d.jumlah_puyer_add = 1 where f.id = d.formula_id and f.sediaan = 'obat kumur';
+
+update doses as d join formulas as f set d.signa_id = 2 where f.id = d.formula_id and f.sediaan = 'gel';
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'gel';
+update doses as d join formulas as f set d.jumlah_bpjs = 1 where f.id = d.formula_id and f.sediaan = 'gel';
+update doses as d join formulas as f set d.jumlah_puyer_add = 1 where f.id = d.formula_id and f.sediaan = 'gel';
+
+update doses as d join formulas as f set d.signa_id = 2 where f.id = d.formula_id and f.sediaan = 'tube';
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'tube';
+update doses as d join formulas as f set d.jumlah_bpjs = 1 where f.id = d.formula_id and f.sediaan = 'tube';
+update doses as d join formulas as f set d.jumlah_puyer_add = 1 where f.id = d.formula_id and f.sediaan = 'tube';
+
+update doses as d join formulas as f set d.signa_id = null where f.id = d.formula_id and f.sediaan = 'ampul';
+update doses as d join formulas as f set d.jumlah = null where f.id = d.formula_id and f.sediaan = 'ampul';
+update doses as d join formulas as f set d.jumlah_bpjs = null where f.id = d.formula_id and f.sediaan = 'ampul';
+update doses as d join formulas as f set d.jumlah_puyer_add = null where f.id = d.formula_id and f.sediaan = 'ampul';
+
+update doses as d join formulas as f set d.signa_id = null where f.id = d.formula_id and f.sediaan = 'vial';
+update doses as d join formulas as f set d.jumlah = null where f.id = d.formula_id and f.sediaan = 'vial';
+update doses as d join formulas as f set d.jumlah_bpjs = null where f.id = d.formula_id and f.sediaan = 'vial';
+update doses as d join formulas as f set d.jumlah_puyer_add = null where f.id = d.formula_id and f.sediaan = 'vial';
+
+update doses as d join formulas as f set d.signa_id = 12371 where f.id = d.formula_id and f.sediaan = 'tetes mata';
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'tetes mata';
+update doses as d join formulas as f set d.jumlah_bpjs = 1 where f.id = d.formula_id and f.sediaan = 'tetes mata';
+update doses as d join formulas as f set d.jumlah_puyer_add = 1 where f.id = d.formula_id and f.sediaan = 'tetes mata';
+
+update doses as d join formulas as f set d.signa_id = 12371 where f.id = d.formula_id and f.sediaan = 'tetes telinga';
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'tetes telinga';
+update doses as d join formulas as f set d.jumlah_bpjs = 1 where f.id = d.formula_id and f.sediaan = 'tetes telinga';
+update doses as d join formulas as f set d.jumlah_puyer_add = 1 where f.id = d.formula_id and f.sediaan = 'tetes telinga';
+
+
+update doses as d join formulas as f set d.signa_id = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '1';
+update doses as d join formulas as f set d.jumlah = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '1';
+update doses as d join formulas as f set d.jumlah_bpjs = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '1';
+update doses as d join formulas as f set d.jumlah_puyer_add = 3 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '1';
+
+update doses as d join formulas as f set d.signa_id = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '2';
+update doses as d join formulas as f set d.jumlah = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '2';
+update doses as d join formulas as f set d.jumlah_bpjs = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '2';
+update doses as d join formulas as f set d.jumlah_puyer_add = 3 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '2';
+
+
+update doses as d join formulas as f set d.signa_id = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '3';
+update doses as d join formulas as f set d.jumlah = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '3';
+update doses as d join formulas as f set d.jumlah_bpjs = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '3';
+update doses as d join formulas as f set d.jumlah_puyer_add = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '3';
+
+
+update doses as d join formulas as f set d.signa_id = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '4';
+update doses as d join formulas as f set d.jumlah = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '4';
+update doses as d join formulas as f set d.jumlah_bpjs = null where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '4';
+update doses as d join formulas as f set d.jumlah_puyer_add = 5 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '4';
+
+update doses as d join formulas as f set d.signa_id = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '5';
+update doses as d join formulas as f set d.jumlah = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '5';
+update doses as d join formulas as f set d.jumlah_bpjs = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '5';
+update doses as d join formulas as f set d.jumlah_puyer_add = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '5';
+
+update doses as d join formulas as f set d.signa_id = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '6';
+update doses as d join formulas as f set d.jumlah = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '6';
+update doses as d join formulas as f set d.jumlah_bpjs = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '6';
+update doses as d join formulas as f set d.jumlah_puyer_add = 7 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '6';
+
+update doses as d join formulas as f set d.signa_id = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '7';
+update doses as d join formulas as f set d.jumlah = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '7';
+update doses as d join formulas as f set d.jumlah_bpjs = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '7';
+update doses as d join formulas as f set d.jumlah_puyer_add = 8 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '7';
+
+update doses as d join formulas as f set d.signa_id = 13432 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '8';
+update doses as d join formulas as f set d.jumlah = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '8';
+update doses as d join formulas as f set d.jumlah_bpjs = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '8';
+update doses as d join formulas as f set d.jumlah_puyer_add = 9 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '8';
+
+update doses as d join formulas as f set d.signa_id = 13432 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '9';
+update doses as d join formulas as f set d.jumlah = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '9';
+update doses as d join formulas as f set d.jumlah_bpjs = 4 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '9';
+update doses as d join formulas as f set d.jumlah_puyer_add = 10 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '9';
+
+update doses as d join formulas as f set d.signa_id = 1 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '10';
+update doses as d join formulas as f set d.jumlah = 10 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '10';
+update doses as d join formulas as f set d.jumlah_bpjs = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '10';
+update doses as d join formulas as f set d.jumlah_puyer_add = 11 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '10';
+
+update doses as d join formulas as f set d.signa_id = 1 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '11';
+update doses as d join formulas as f set d.jumlah = 10 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '11';
+update doses as d join formulas as f set d.jumlah_bpjs = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '11';
+update doses as d join formulas as f set d.jumlah_puyer_add = 12 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '11';
+
+update doses as d join formulas as f set d.signa_id = 1 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '12';
+update doses as d join formulas as f set d.jumlah = 10 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '12';
+update doses as d join formulas as f set d.jumlah_bpjs = 6 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '12';
+update doses as d join formulas as f set d.jumlah_puyer_add = 12 where f.id = d.formula_id and f.sediaan = 'tablet' AND d.berat_badan_id = '12';
+
+
+
+ 	update doses set signa_id=NULL, jumlah=	 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add = 	1 where berat_badan_id = '1' and formula_id = '150801003';
+ 	update doses set signa_id=NULL, jumlah=	 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add = 	2 where berat_badan_id = '2' and formula_id = '150801003';
+ 	update doses set signa_id=NULL, jumlah=	 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add = 	2 where berat_badan_id = '3' and formula_id = '150801003';
+ 	update doses set signa_id=NULL, jumlah=	 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add = 	3 where berat_badan_id = '4' and formula_id = '150801003';
+ 	update doses set signa_id=31, jumlah= 	 	4, jumlah_bpjs= 	2, jumlah_puyer_add =  	3 where berat_badan_id = '5' and formula_id = '150801003';
+ 	update doses set signa_id=31, jumlah= 	 	4, jumlah_bpjs= 	2, jumlah_puyer_add =  	4 where berat_badan_id = '6' and formula_id = '150801003';
+ 	update doses set signa_id=31, jumlah= 	 	4, jumlah_bpjs= 	2, jumlah_puyer_add =  	4 where berat_badan_id = '7' and formula_id = '150801003';
+ 	update doses set signa_id=4, jumlah= 	 	4, jumlah_bpjs= 	2, jumlah_puyer_add =  	5 where berat_badan_id = '8' and formula_id = '150801003';
+ 	update doses set signa_id=4, jumlah= 	 	6, jumlah_bpjs= 	4, jumlah_puyer_add =  	5 where berat_badan_id = '9' and formula_id = '150801003';
+ 	update doses set signa_id=4, jumlah= 	 	6, jumlah_bpjs= 	4, jumlah_puyer_add =  	6 where berat_badan_id = '10' and formula_id = '150801003';
+ 	update doses set signa_id=4, jumlah= 	 	6, jumlah_bpjs= 	4, jumlah_puyer_add =  	6 where berat_badan_id = '11' and formula_id = '150801003';
+ 	update doses set signa_id=4, jumlah= 	 	6, jumlah_bpjs= 	4, jumlah_puyer_add =  	6 where berat_badan_id = '12' and formula_id = '150801003';
+
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '1' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '2' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '3' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '4' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=6, jumlah= 	 	5, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '5' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=6, jumlah= 	 	5, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '6' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=6, jumlah= 	 	5, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '7' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '8' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '9' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '10' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '11' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '12' and (formula_id='150801009' or formula_id='150805007' or formula_id='150811010');
+
+
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '1' and formula_id='150801010';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '2' and formula_id='150801010';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '3' and formula_id='150801010';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '4' and formula_id='150801010';
+update doses set signa_id=NULL, jumlah= 	 NULL, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '5' and formula_id='150801010';
+update doses set signa_id=NULL, jumlah= 	 NULL, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '6' and formula_id='150801010';
+update doses set signa_id=NULL, jumlah= 	 NULL, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '7' and formula_id='150801010';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '8' and formula_id='150801010';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '9' and formula_id='150801010';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '10' and formula_id='150801010';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '11' and formula_id='150801010';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '12' and formula_id='150801010';
+
+
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '1' and formula_id='150801011';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '2' and formula_id='150801011';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '3' and formula_id='150801011';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_puyer_add=	NULL, jumlah_bpjs=	NULL	where berat_badan_id = '4' and formula_id='150801011';
+update doses set signa_id=NULL, jumlah= 	 NULL, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '5' and formula_id='150801011';
+update doses set signa_id=NULL, jumlah= 	 NULL, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '6' and formula_id='150801011';
+update doses set signa_id=NULL, jumlah= 	 NULL, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '7' and formula_id='150801011';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '8' and formula_id='150801011';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '9' and formula_id='150801011';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '10' and formula_id='150801011';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '11' and formula_id='150801011';
+update doses set signa_id=3, jumlah= 	 	10, jumlah_puyer_add= 		NULL, jumlah_bpjs=	NULL	where berat_badan_id = '12' and formula_id='150801011';
+
+ 
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '1';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '1';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '1';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '2';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '2';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '2';
+
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '3';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '3';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '3';
+
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '4';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '4';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '4';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '5';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '5';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '5';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '6';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '6';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '6';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '7';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '7';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '7';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '8';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '8';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '8';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '9';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '9';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '9';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '10';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '10';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '10';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '11';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '11';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '11';
+
+update doses as d join formulas as f set d.jumlah = 1 where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '12';
+update doses as d join formulas as f set d.jumlah_bpjs = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '12';
+update doses as d join formulas as f set d.jumlah_puyer_add = NULL where f.id = d.formula_id and f.sediaan = 'syrup' AND d.berat_badan_id = '12';
+
+
+
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='1' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='2' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='3' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='4' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='5' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='6' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='7' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='8' and formula_id='150801018';
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='9' and formula_id='150801018';
+ 	update doses set signa_id=4, jumlah=6, jumlah_bpjs= 		4, jumlah_puyer_add= 		NULL where berat_badan_id='10' and formula_id='150801018';
+ 	update doses set signa_id=4, jumlah=6, jumlah_bpjs= 		4, jumlah_puyer_add= 		NULL where berat_badan_id='11' and formula_id='150801018';
+ 	update doses set signa_id=1, jumlah=10, jumlah_bpjs= 		6, jumlah_puyer_add= 		NULL where berat_badan_id='12' and formula_id='150801018';
+
+
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	 where berat_badan_id = '1' and formula_id='150802003';
+	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	 where berat_badan_id = '2' and formula_id='150802003';
+	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	 where berat_badan_id = '3' and formula_id='150802003';
+	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	 where berat_badan_id = '4' and formula_id='150802003';
+	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	 where berat_badan_id = '5' and formula_id='150802003';
+	update doses set signa_id=3, jumlah=4, jumlah_bpjs= 2, jumlah_puyer_add=NULL	 where berat_badan_id = '6' and formula_id='150802003';
+	update doses set signa_id=3, jumlah=4, jumlah_bpjs= 2, jumlah_puyer_add=NULL	 where berat_badan_id = '7' and formula_id='150802003';
+	update doses set signa_id=3, jumlah=4, jumlah_bpjs= 2, jumlah_puyer_add=NULL	 where berat_badan_id = '8' and formula_id='150802003';
+	update doses set signa_id=3, jumlah=4, jumlah_bpjs= 2, jumlah_puyer_add=NULL	 where berat_badan_id = '9' and formula_id='150802003';
+	update doses set signa_id=95, jumlah=10, jumlah_bpjs= 4, jumlah_puyer_add=NULL	 where berat_badan_id = '10' and formula_id='150802003';
+	update doses set signa_id=95, jumlah=10, jumlah_bpjs= 4, jumlah_puyer_add=NULL	 where berat_badan_id = '11' and formula_id='150802003';
+	update doses set signa_id=95, jumlah=10, jumlah_bpjs= 4, jumlah_puyer_add=NULL	where berat_badan_id = '12' and formula_id='150802003';
+
+
+
+	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL where formula_id='150802006';
+
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	where berat_badan_id='1' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	where berat_badan_id='2' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	where berat_badan_id='3' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL	where berat_badan_id='4' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=5, jumlah=4, jumlah_bpjs=3, jumlah_puyer_add=NULL	where berat_badan_id='5' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=5, jumlah=4, jumlah_bpjs=3, jumlah_puyer_add=NULL	where berat_badan_id='6' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=5, jumlah=4, jumlah_bpjs=3, jumlah_puyer_add=NULL	where berat_badan_id='7' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=3, jumlah=4, jumlah_bpjs=3, jumlah_puyer_add=NULL	where berat_badan_id='8' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=3, jumlah=4, jumlah_bpjs=3, jumlah_puyer_add=NULL	where berat_badan_id='9' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=2, jumlah=10, jumlah_bpjs=4, jumlah_puyer_add=NULL	where berat_badan_id='10' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=2, jumlah=10, jumlah_bpjs=4, jumlah_puyer_add=NULL	where berat_badan_id='11' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+ 	update doses set signa_id=2, jumlah=10, jumlah_bpjs=4, jumlah_puyer_add=NULL	where berat_badan_id='12' and (formula_id='150802007' or formula_id='150802008' or formula_id='150802009');
+
+
+
+
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '1' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '2' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '3' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '4' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '5' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '6' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '7' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '8' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	 where berat_badan_id = '9' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=2, jumlah=10, jumlah_bpjs= 		6, jumlah_puyer_add= 	NULL	 where berat_badan_id = '10' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=2, jumlah=10, jumlah_bpjs= 		6, jumlah_puyer_add= 	NULL	 where berat_badan_id = '11' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+update doses set signa_id=2, jumlah=10, jumlah_bpjs= 		6, jumlah_puyer_add= 	NULL where berat_badan_id = '12' and (formula_id='150802025' or formula_id='150802026' or formula_id='150803037' or formula_id='150807017');
+
+
+update doses set signa_id=NULL, jumlah=NULL, jumlah_bpjs=NULL, jumlah_puyer_add=NULL where formula_id='150802027' or formula_id='150802028'or formula_id='150802029'or formula_id='150802030'or formula_id='150802031'or formula_id='150802032'or formula_id='150802033'or formula_id='150802034' or formula_id='150802046' or formula_id='150802072' or formula_id='150802073' or formula_id='150802074' or formula_id='150804003' or formula_id='150804006' or formula_id='150804007' or formula_id='150806008' or formula_id='150811001' or formula_id='150811002' or formula_id='150811003' or formula_id='150811004' or formula_id='150811005' or formula_id='150811014' or formula_id='150811015' or formula_id='150811020' or formula_id='150811022' or formula_id='150811025' or formula_id='150811027' or formula_id='150811032' or formula_id='150811033' or formula_id='150811035'  or formula_id='150811036' or formula_id='150811037' or formula_id='150811040' or formula_id='150929001' or formula_id='151122001';
+
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='1' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='2' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='3' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='4' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='5' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='6' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='7' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='8' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=NULL, jumlah=	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='9' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=3, jumlah=	6, jumlah_bpjs=	4, jumlah_puyer_add=	NULL where berat_badan_id='10' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=3, jumlah=	6, jumlah_bpjs=	4, jumlah_puyer_add=	NULL where berat_badan_id='11' and (formula_id='150802036' or formula_id='150807003');
+	update doses set signa_id=3, jumlah=	6, jumlah_bpjs=	4, jumlah_puyer_add=	NULL where berat_badan_id='12' and (formula_id='150802036' or formula_id='150807003');
+
+
+  	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='1' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='2' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='3' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='4' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='5' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='6' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='7' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='8' and formula_id='150802038';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL where berat_badan_id='9' and formula_id='150802038';
+	 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	10  where berat_badan_id='10' and formula_id='150802038';
+	 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	10  where berat_badan_id='11' and formula_id='150802038';
+	 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	12  where berat_badan_id='12' and formula_id='150802038';
+
+
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	2 	where berat_badan_id='1' and formula_id='150802040';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	3 	where berat_badan_id='2' and formula_id='150802040';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	4 	where berat_badan_id='3' and formula_id='150802040';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	4 	where berat_badan_id='4' and formula_id='150802040';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	5 	where berat_badan_id='5' and formula_id='150802040';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	6 	where berat_badan_id='6' and formula_id='150802040';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	7 	where berat_badan_id='7' and formula_id='150802040';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	8 	where berat_badan_id='8' and formula_id='150802040';
+	 	update doses set signa_id=2, jumlah=  	8, jumlah_bpjs= 	NULL, jumlah_puyer_add=	8 	where berat_badan_id='9' and formula_id='150802040';
+	 	update doses set signa_id=2, jumlah=  	8, jumlah_bpjs= 	NULL, jumlah_puyer_add=	9 	where berat_badan_id='10' and formula_id='150802040';
+	 	update doses set signa_id=1, jumlah=  	12, jumlah_bpjs= 	NULL, jumlah_puyer_add=	10 	where berat_badan_id='11' and formula_id='150802040';
+	 	update doses set signa_id=1, jumlah=  	12, jumlah_bpjs= 	NULL, jumlah_puyer_add=	12 	where berat_badan_id='12' and formula_id='150802040';
+
+
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=2, jumlah=  	8, jumlah_bpjs=	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=2, jumlah=  	8, jumlah_bpjs=	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150802042' or formula_id='150802043');
+update doses set signa_id=2, jumlah=  	8, jumlah_bpjs=	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150802042' or formula_id='150802043');
+
+
+ update doses set signa_id=41, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='1' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=44, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='2' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=45, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='3' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=55, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='4' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=55, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='5' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=12370, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='6' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=85, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='7' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=12354, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='8' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=100, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='9' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=1, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='10' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=1, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='11' and (formula_id='150802044' or formula_id='150802065 ');
+ update doses set signa_id=1, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add=NULL where berat_badan_id='12' and (formula_id='150802044' or formula_id='150802065 ');
+
+update formulas set aturan_minum_id = '1' where aturan_minum_id is null;
+
+
+
+ 	update doses set signa_id = NULL, jumlah = 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '1' and formula_id='150802045';
+ 	update doses set signa_id = NULL, jumlah = 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '2' and formula_id='150802045';
+ 	update doses set signa_id = NULL, jumlah = 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '3' and formula_id='150802045';
+ 	update doses set signa_id = NULL, jumlah = 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '4' and formula_id='150802045';
+ 	update doses set signa_id = NULL, jumlah = 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '5' and formula_id='150802045';
+ 	update doses set signa_id = NULL, jumlah = 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '6' and formula_id='150802045';
+ 	update doses set signa_id = 3, jumlah = 	 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '7' and formula_id='150802045';
+ 	update doses set signa_id = 3, jumlah = 	 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '8' and formula_id='150802045';
+ 	update doses set signa_id = 3, jumlah = 	 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '9' and formula_id='150802045';
+ 	update doses set signa_id = 95, jumlah = 	 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '10' and formula_id='150802045';
+ 	update doses set signa_id = 95, jumlah = 	 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	 where berat_badan_id = '11' and formula_id='150802045';
+ 	update doses set signa_id = 95, jumlah = 	 	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL where berat_badan_id = '12' and formula_id='150802045';
+
+  	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150802046';
+ 	update doses set signa_id= NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150802046';
+ 	update doses set signa_id= 3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150802046';
+ 	update doses set signa_id= 3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150802046';
+ 	update doses set signa_id= 3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150802046';
+
+ 	update doses set signa_id=13431, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='1' and formula_id='150802048';
+ 	update doses set signa_id=13431, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='2' and formula_id='150802048';
+ 	update doses set signa_id=13431, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='3' and formula_id='150802048';
+ 	update doses set signa_id=13431, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='4' and formula_id='150802048';
+ 	update doses set signa_id=13431, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='5' and formula_id='150802048';
+ 	update doses set signa_id=13431, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='6' and formula_id='150802048';
+ 	update doses set signa_id=13431, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and formula_id='150802048';
+ 	update doses set signa_id=12409, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and formula_id='150802048';
+ 	update doses set signa_id=12409, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='150802048';
+ 	update doses set signa_id=12409, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150802048';
+ 	update doses set signa_id=12409, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150802048';
+ 	update doses set signa_id=12409, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150802048';
+
+ 	update doses set signa_id=72, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='1' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=72, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='2' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=72, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='3' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=72, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='4' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=72, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='5' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=72, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='6' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=72, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=46, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=46, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=46, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=46, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150802049' or formula_id='150802051');
+ 	update doses set signa_id=46, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150802049' or formula_id='150802051');
+
+
+
+
+  	update doses set signa_id=13430, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='1' and formula_id='150802062';
+ 	update doses set signa_id=12369, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='2' and formula_id='150802062';
+ 	update doses set signa_id=12380, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='3' and formula_id='150802062';
+ 	update doses set signa_id=13395, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='4' and formula_id='150802062';
+ 	update doses set signa_id=12346, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='5' and formula_id='150802062';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='6' and formula_id='150802062';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and formula_id='150802062';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and formula_id='150802062';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='150802062';
+ 	update doses set signa_id=59, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150802062';
+ 	update doses set signa_id=12387, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150802062';
+ 	update doses set signa_id=12387, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150802062';
+
+
+
+ 	 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150802063';
+	 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150802063';
+	 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150802063';
+	 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150802063';
+	 	update doses set signa_id=53, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150802063';
+	 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150802063';
+	 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150802063';
+	 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150802063';
+	 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150802063';
+	 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150802063';
+	 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150802063';
+	 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150802063';
+
+  	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150802064';
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150802064';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150802064';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150802064';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150802064';
+
+
+  	update doses set signa_id=100, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=1, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=37, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=37, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=32, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=32, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=64, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=84, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=84, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=61, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=61, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+ 	update doses set signa_id=61, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and (formula_id='150802066' or formula_id='150802068' or formula_id='150802069' or formula_id='150803005' or formula_id='150803004');
+
+
+
+ 	update doses set signa_id=31, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='1' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='2' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='3' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='4' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='5' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='6' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='7' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='8' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='9' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='10' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='11' and (formula_id='150802070' or formula_id='150803001');
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	 where berat_badan_id='12' and (formula_id='150802070' or formula_id='150803001');
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150802072';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150802072';
+ 	update doses set signa_id=2, jumlah=  	15, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150802072';
+ 	update doses set signa_id=2, jumlah=  	15, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150802072';
+ 	update doses set signa_id=2, jumlah=  	15, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150802072';
+
+
+
+ 	update doses set signa_id=NULL, jumlah=	 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150802073';
+ 	update doses set signa_id=6, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150802073';
+ 	update doses set signa_id=6, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150802073';
+ 	update doses set signa_id=6, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150802073';
+ 	update doses set signa_id=3, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150802073';
+ 	update doses set signa_id=3, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150802073';
+ 	update doses set signa_id=3, jumlah= 	 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150802073';
+ 	update doses set signa_id=13439, jumlah= 	 	2, jumlah_bpjs=2, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150802073';
+ 	update doses set signa_id=13439, jumlah= 	 	2, jumlah_bpjs=2, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150802073';
+ 	update doses set signa_id=95, jumlah= 	 	2, jumlah_bpjs=2, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150802073';
+ 	update doses set signa_id=95, jumlah= 	 	2, jumlah_bpjs=2, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150802073';
+ 	update doses set signa_id=95, jumlah= 	 	2, jumlah_bpjs=2, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150802073';
+
+
+   	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150802074';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150802074';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150802074';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150802074';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150802074';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150802074';
+ 	update doses set signa_id=98, jumlah=  	20, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and formula_id='150802074';
+ 	update doses set signa_id=98, jumlah=  	20, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and formula_id='150802074';
+ 	update doses set signa_id=98, jumlah=  	20, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='150802074';
+ 	update doses set signa_id=98, jumlah=  	20, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150802074';
+ 	update doses set signa_id=98, jumlah=  	20, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150802074';
+ 	update doses set signa_id=98, jumlah=  	20, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150802074';
+
+
+ 	update doses set signa_id=1, jumlah=1, jumlah_bpjs=1 where (formula_id='150803003' or formula_id='150803006' or formula_id='150803008') ;
+ 	update doses set signa_id=2, jumlah=1, jumlah_bpjs=1 where (formula_id='150803003' or formula_id='150803006' or formula_id='150803008')  and berat_badan_id='1';
+
+
+
+   	update doses set signa_id=12410, jumlah=  	4, jumlah_bpjs= 	2, jumlah_puyer_add= 	NULL	where berat_badan_id='1' and formula_id='150803037';
+ 	update doses set signa_id=12410, jumlah=  	4, jumlah_bpjs= 	2, jumlah_puyer_add= 	NULL	where berat_badan_id='2' and formula_id='150803037';
+ 	update doses set signa_id=30, jumlah=  	4, jumlah_bpjs= 	2, jumlah_puyer_add= 	NULL	where berat_badan_id='3' and formula_id='150803037';
+ 	update doses set signa_id=30, jumlah=  	4, jumlah_bpjs= 	2, jumlah_puyer_add= 	NULL	where berat_badan_id='4' and formula_id='150803037';
+ 	update doses set signa_id=6, jumlah=  	6, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='5' and formula_id='150803037';
+ 	update doses set signa_id=6, jumlah=  	6, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='6' and formula_id='150803037';
+ 	update doses set signa_id=6, jumlah=  	6, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and formula_id='150803037';
+ 	update doses set signa_id=5, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and formula_id='150803037';
+ 	update doses set signa_id=5, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='150803037';
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150803037';
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150803037';
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150803037';
+
+
+
+ 	  	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+ 	 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150803041' or formula_id='150804007' or formula_id='150806014');
+
+
+   	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=3, jumlah=  	15, jumlah_bpjs= 	15, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=3, jumlah=  	15, jumlah_bpjs= 	15, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+ 	update doses set signa_id=3, jumlah=  	15, jumlah_bpjs= 	15, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150803055' or formula_id='150803056' or formula_id='150803057');
+
+
+	 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=1, jumlah=  	15, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=1, jumlah=  	15, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=9, jumlah=  	20, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='10' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=9, jumlah=  	20, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='11' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+		 	update doses set signa_id=9, jumlah=  	20, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='12' and (formula_id='150806005' or formula_id='150806009' or formula_id='150806011');
+
+
+
+
+
+
+  	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150806008';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150806008';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150806008';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150806008';
+ 	update doses set signa_id=5, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='5' and formula_id='150806008';
+ 	update doses set signa_id=5, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='6' and formula_id='150806008';
+ 	update doses set signa_id=5, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and formula_id='150806008';
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and formula_id='150806008';
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='150806008';
+ 	update doses set signa_id=2, jumlah=  	8, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150806008';
+ 	update doses set signa_id=2, jumlah=  	8, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150806008';
+ 	update doses set signa_id=2, jumlah=  	8, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150806008';
+
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150806010';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150806010';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150806010';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150806010';
+	 	update doses set signa_id=1, jumlah=  	15, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='5' and formula_id='150806010';
+	 	update doses set signa_id=8, jumlah=  	20, jumlah_bpjs= 	12, jumlah_puyer_add= 	NULL	where berat_badan_id='6' and formula_id='150806010';
+	 	update doses set signa_id=8, jumlah=  	20, jumlah_bpjs= 	12, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and formula_id='150806010';
+	 	update doses set signa_id=32, jumlah=  	30, jumlah_bpjs= 	15, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and formula_id='150806010';
+	 	update doses set signa_id=32, jumlah=  	30, jumlah_bpjs= 	15, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='150806010';
+	 	update doses set signa_id=12357, jumlah=  	40, jumlah_bpjs= 	20, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150806010';
+	 	update doses set signa_id=12357, jumlah=  	40, jumlah_bpjs= 	20, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150806010';
+	 	update doses set signa_id=12357, jumlah=  	40, jumlah_bpjs= 	20, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150806010';
+
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=31, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='5' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=31, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='6' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=31, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='7' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=31, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=4, jumlah=  	4, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150807001' or formula_id='150811028');
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150807001' or formula_id='150811028');
+
+
+
+
+ 	 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150806011';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150806011';
+	 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs=10, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150806011';
+	 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs=10, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150806011';
+	 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs=10, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150806011';
+
+update berat_badans set berat_badan ='26 - 33 kg' where id='8';
+update berat_badans set berat_badan ='33 - 37 kg' where id='9';
+
+update doses set signa_id=1 where berat_badan_id='9' and signa_id='13432';
+
+
+
+
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '1', NULL, NULL, NULL, NULL),
+(2, '1', NULL, NULL, NULL, NULL),
+(3, '1', NULL, NULL, NULL, NULL),
+(4, '1', NULL, NULL, NULL, NULL),
+(5, '1', NULL, NULL, NULL, NULL),
+(6, '1', NULL, NULL, NULL, NULL),
+(7, '1', NULL, NULL, NULL, NULL),
+(8, '1', NULL, NULL, NULL, NULL),
+(9, '1', NULL, NULL, NULL, NULL),
+(10, '1', NULL, NULL, NULL, NULL),
+(11, '1', NULL, NULL, NULL, NULL),
+(12, '1', NULL, NULL, NULL, NULL);
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '150806014', NULL, NULL, NULL, NULL),
+(2, '150806014', NULL, NULL, NULL, NULL),
+(3, '150806014', NULL, NULL, NULL, NULL),
+(4, '150806014', NULL, NULL, NULL, NULL),
+(5, '150806014', NULL, NULL, NULL, NULL),
+(6, '150806014', NULL, NULL, NULL, NULL),
+(7, '150806014', NULL, NULL, NULL, NULL),
+(8, '150806014', NULL, NULL, NULL, NULL),
+(9, '150806014', NULL, NULL, NULL, NULL),
+(10, '150806014', NULL, NULL, NULL, NULL),
+(11, '150806014', NULL, NULL, NULL, NULL),
+(12, '150806014', NULL, NULL, NULL, NULL);
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '150807015', NULL, NULL, NULL, NULL),
+(2, '150807015', NULL, NULL, NULL, NULL),
+(3, '150807015', NULL, NULL, NULL, NULL),
+(4, '150807015', NULL, NULL, NULL, NULL),
+(5, '150807015', NULL, NULL, NULL, NULL),
+(6, '150807015', NULL, NULL, NULL, NULL),
+(7, '150807015', NULL, NULL, NULL, NULL),
+(8, '150807015', NULL, NULL, NULL, NULL),
+(9, '150807015', NULL, NULL, NULL, NULL),
+(10, '150807015', NULL, NULL, NULL, NULL),
+(11, '150807015', NULL, NULL, NULL, NULL),
+(12, '150807015', NULL, NULL, NULL, NULL)
+;
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '150807016', NULL, NULL, NULL, NULL),
+(2, '150807016', NULL, NULL, NULL, NULL),
+(3, '150807016', NULL, NULL, NULL, NULL),
+(4, '150807016', NULL, NULL, NULL, NULL),
+(5, '150807016', NULL, NULL, NULL, NULL),
+(6, '150807016', NULL, NULL, NULL, NULL),
+(7, '150807016', NULL, NULL, NULL, NULL),
+(8, '150807016', NULL, NULL, NULL, NULL),
+(9, '150807016', NULL, NULL, NULL, NULL),
+(10, '150807016', NULL, NULL, NULL, NULL),
+(11, '150807016', NULL, NULL, NULL, NULL),
+(12, '150807016', NULL, NULL, NULL, NULL);
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '150807017', NULL, NULL, NULL, NULL),
+(2, '150807017', NULL, NULL, NULL, NULL),
+(3, '150807017', NULL, NULL, NULL, NULL),
+(4, '150807017', NULL, NULL, NULL, NULL),
+(5, '150807017', NULL, NULL, NULL, NULL),
+(6, '150807017', NULL, NULL, NULL, NULL),
+(7, '150807017', NULL, NULL, NULL, NULL),
+(8, '150807017', NULL, NULL, NULL, NULL),
+(9, '150807017', NULL, NULL, NULL, NULL),
+(10, '150807017', NULL, NULL, NULL, NULL),
+(11, '150807017', NULL, NULL, NULL, NULL),
+(12, '150807017', NULL, NULL, NULL, NULL);
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '150808004', NULL, NULL, NULL, NULL),
+(2, '150808004', NULL, NULL, NULL, NULL),
+(3, '150808004', NULL, NULL, NULL, NULL),
+(4, '150808004', NULL, NULL, NULL, NULL),
+(5, '150808004', NULL, NULL, NULL, NULL),
+(6, '150808004', NULL, NULL, NULL, NULL),
+(7, '150808004', NULL, NULL, NULL, NULL),
+(8, '150808004', NULL, NULL, NULL, NULL),
+(9, '150808004', NULL, NULL, NULL, NULL),
+(10, '150808004', NULL, NULL, NULL, NULL),
+(11, '150808004', NULL, NULL, NULL, NULL),
+(12, '150808004', NULL, NULL, NULL, NULL);
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '150808013', NULL, NULL, NULL, NULL),
+(2, '150808013', NULL, NULL, NULL, NULL),
+(3, '150808013', NULL, NULL, NULL, NULL),
+(4, '150808013', NULL, NULL, NULL, NULL),
+(5, '150808013', NULL, NULL, NULL, NULL),
+(6, '150808013', NULL, NULL, NULL, NULL),
+(7, '150808013', NULL, NULL, NULL, NULL),
+(8, '150808013', NULL, NULL, NULL, NULL),
+(9, '150808013', NULL, NULL, NULL, NULL),
+(10, '150808013', NULL, NULL, NULL, NULL),
+(11, '150808013', NULL, NULL, NULL, NULL),
+(12, '150808013', NULL, NULL, NULL, NULL);
+insert into doses (berat_badan_id, formula_id, jumlah, jumlah_bpjs, jumlah_puyer_add, signa_id) VALUES 
+(1, '150808014', NULL, NULL, NULL, NULL),
+(2, '150808014', NULL, NULL, NULL, NULL),
+(3, '150808014', NULL, NULL, NULL, NULL),
+(4, '150808014', NULL, NULL, NULL, NULL),
+(5, '150808014', NULL, NULL, NULL, NULL),
+(6, '150808014', NULL, NULL, NULL, NULL),
+(7, '150808014', NULL, NULL, NULL, NULL),
+(8, '150808014', NULL, NULL, NULL, NULL),
+(9, '150808014', NULL, NULL, NULL, NULL),
+(10, '150808014', NULL, NULL, NULL, NULL),
+(11, '150808014', NULL, NULL, NULL, NULL),
+(12, '150808014', NULL, NULL, NULL, NULL);
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+ 	update doses set signa_id=2, jumlah=  	10, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150807015' or formula_id='150811029' or formula_id='150811030' or formula_id='150811031' or formula_id='150811041');
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=2, jumlah=  	20, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=2, jumlah=  	20, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150807016' or formula_id='150811018');
+ 	update doses set signa_id=2, jumlah=  	20, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150807016' or formula_id='150811018');
+
+
+ 	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150808004';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150808004';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150808004';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150808004';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150808004';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150808004';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150808004';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150808004';
+	 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150808004';
+	 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150808004';
+	 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150808004';
+	 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150808004';
+
+
+ 	 	update doses set signa_id=43, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='1' and formula_id='150808013';
+	 	update doses set signa_id=44, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='2' and formula_id='150808013';
+	 	update doses set signa_id=45, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='3' and formula_id='150808013';
+	 	update doses set signa_id=55, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where berat_badan_id='4' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150808013';
+	 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150808013';
+
+
+INSERT INTO `signas` (`id`, `signa`, `created_at`, `updated_at`) VALUES (13437, '3 x sehari kompres 20 menit', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+INSERT INTO `signas` (`id`, `signa`, `created_at`, `updated_at`) VALUES (13438, '2 x 0,5 cc', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+INSERT INTO `signas` (`id`, `signa`, `created_at`, `updated_at`) VALUES (13439, '1 x 1 1/2', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+
+
+insert into signas (id, signa) VALUES 
+(13430, 	'2 x 1,5 cc'),
+(13431, 	'1 tetes tiap 4 jam'),
+(13432, 	'3 x 3/4'),
+(13434, 	'2 x 3 cth'),
+(13435,		'3 x 3 -4 tetes tunggu 2 menit, keluarkan'),
+(13436,		'2 x 4 cth');
+
+
+
+	 	update doses set signa_id=2, jumlah= 	1, jumlah_bpjs=	1, jumlah_puyer_add=	NULL	where formula_id='150808014';
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	2 	where berat_badan_id='1' and formula_id='150803047';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	3 	where berat_badan_id='2' and formula_id='150803047';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	4 	where berat_badan_id='3' and formula_id='150803047';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	5 	where berat_badan_id='4' and formula_id='150803047';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	6 	where berat_badan_id='5' and formula_id='150803047';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	7 	where berat_badan_id='6' and formula_id='150803047';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	8 	where berat_badan_id='7' and formula_id='150803047';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	9 	where berat_badan_id='8' and formula_id='150803047';
+ 	update doses set signa_id=1, jumlah=  	15, jumlah_bpjs= 	10, jumlah_puyer_add= 	10 	where berat_badan_id='9' and formula_id='150803047';
+ 	update doses set signa_id=1, jumlah=  	15, jumlah_bpjs= 	10, jumlah_puyer_add= 	11 	where berat_badan_id='10' and formula_id='150803047';
+ 	update doses set signa_id=1, jumlah=  	15, jumlah_bpjs= 	10, jumlah_puyer_add= 	12 	where berat_badan_id='11' and formula_id='150803047';
+ 	update doses set signa_id=8, jumlah=  	20, jumlah_bpjs= 	12, jumlah_puyer_add= 	12 	where berat_badan_id='12' and formula_id='150803047';
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150811014' or formula_id='150811015');
+ 	update doses set signa_id=3, jumlah=  	10, jumlah_bpjs= 	3, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150811014' or formula_id='150811015');
+
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150811017';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150811017';
+ 	update doses set signa_id=1, jumlah=  	20, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150811017';
+ 	update doses set signa_id=1, jumlah=  	20, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150811017';
+ 	update doses set signa_id=1, jumlah=  	20, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150811017';
+
+
+ 	update doses set signa_id=3, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150811023';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150811023';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150811023';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150811023';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150811023';
+ 	update doses set signa_id=9, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150811023';
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150811023';
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150811023';
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150811023';
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150811023';
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150811023';
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150811023';
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=2, jumlah=  	30, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=2, jumlah=  	30, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=2, jumlah=  	30, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150811025' or formula_id='150811026');
+ 	update doses set signa_id=36, jumlah=  	30, jumlah_bpjs= 	10, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150811025' or formula_id='150811026');
+
+
+
+
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150811027';
+update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150811027';
+update doses set signa_id=5, jumlah=  	10, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150811027';
+update doses set signa_id=5, jumlah=  	10, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150811027';
+update doses set signa_id=5, jumlah=  	10, jumlah_bpjs= 	4, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150811027';
+
+
+
+
+
+update doses set signa_id=13437, jumlah=  	1, jumlah_bpjs= 	1, jumlah_puyer_add= 	NULL	where formula_id='150811040';
+
+
+update formulas set aturan_minum_id=30 where id='150811040' or id='150811003' or id='150811004' or id='150811005' or id='150811022' or id='150811005' or id='150908005';
+
+
+
+update doses set signa_id=2, jumlah=1, jumlah_bpjs=1 where formula_id='150811043';
+
+update doses set signa_id=46, jumlah=1, jumlah_bpjs=1, jumlah_puyer_add=null where formula_id='150811045';
+
+
+ 	update doses set signa_id=5, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150811047';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150811047';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150811047';
+ 	update doses set signa_id=65, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150811047';
+ 	update doses set signa_id=9, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150811047';
+ 	update doses set signa_id=12422, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150811047';
+ 	update doses set signa_id=13434, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150811047';
+ 	update doses set signa_id=13434, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150811047';
+ 	update doses set signa_id=13434, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150811047';
+ 	update doses set signa_id=13436, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150811047';
+ 	update doses set signa_id=13436, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150811047';
+ 	update doses set signa_id=13436, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150811047';
+
+ update formulas set aturan_minum_id='1' where aturan_minum_id='0';
+
+update doses set signa_id=13435, jumlah=1, jumlah_bpjs=1, jumlah_puyer_add=null where formula_id='150811050';
+update doses set signa_id=3, jumlah=5, jumlah_bpjs=3, jumlah_puyer_add=null where formula_id='150818003';
+update formulas set aturan_minum_id=27 where id='150818003';
+
+
+ 	update doses set signa_id=31, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150903001';
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150903001';
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150903001';
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150903001';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150903001';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150903001';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150903001';
+ 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150903001';
+ 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150903001';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150903001';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150903001';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150903001';
+
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150908004';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150908004';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150908004';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150908004';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150908004';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150908004';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150908004';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150908004';
+ 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='150908004';
+ 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='150908004';
+ 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='150908004';
+ 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='150908004';
+ 
+
+ update doses set signa_id=2, jumlah = 1, jumlah_bpjs=1, jumlah_puyer_add=null where formula_id='150908005';
+
+
+
+ 	update doses set signa_id=5, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150802047';
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150802047';
+
+
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150802047';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150802047';
+ 	update doses set signa_id=1, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150802047';
+ 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150802047';
+ 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150802047';
+ 	update doses set signa_id=37, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150802047';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150802047';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150802047';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150802047';
+ 	update doses set signa_id=32, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150802047';
+
+
+
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='150921001';
+ 	update doses set signa_id=3, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='150921001';
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='150921001';
+ 	update doses set signa_id=4, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='150921001';
+ 	update doses set signa_id=NULL, jumlah= 	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='150921001';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='150921001';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='150921001';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='150921001';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='9' and formula_id='150921001';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='10' and formula_id='150921001';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='11' and formula_id='150921001';
+ 	update doses set signa_id=2, jumlah=  	1, jumlah_bpjs=1, jumlah_puyer_add=	NULL	where berat_badan_id='12' and formula_id='150921001';
+
+
+
+ 	
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	3 	where berat_badan_id='1' and formula_id='150921002';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	3 	where berat_badan_id='2' and formula_id='150921002';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	4 	where berat_badan_id='3' and formula_id='150921002';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	5 	where berat_badan_id='4' and formula_id='150921002';
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	6 	where berat_badan_id='5' and formula_id='150921002';
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	7 	where berat_badan_id='6' and formula_id='150921002';
+ 	update doses set signa_id=4, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	8 	where berat_badan_id='7' and formula_id='150921002';
+ 	update doses set signa_id=13432, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	9 	where berat_badan_id='8' and formula_id='150921002';
+ 	update doses set signa_id=13432, jumlah=  	6, jumlah_bpjs= 	4, jumlah_puyer_add= 	10 	where berat_badan_id='9' and formula_id='150921002';
+ 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	11 	where berat_badan_id='10' and formula_id='150921002';
+ 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	12 	where berat_badan_id='11' and formula_id='150921002';
+ 	update doses set signa_id=1, jumlah=  	10, jumlah_bpjs= 	6, jumlah_puyer_add= 	12 	where berat_badan_id='12' and formula_id='150921002';
+
+
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=3, jumlah=  	30, jumlah_bpjs= 	30, jumlah_puyer_add= 	NULL	where berat_badan_id='8' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=3, jumlah=  	30, jumlah_bpjs= 	30, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=3, jumlah=  	30, jumlah_bpjs= 	30, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=3, jumlah=  	30, jumlah_bpjs= 	30, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and (formula_id='150929001' or formula_id='150805007');
+ 	update doses set signa_id=3, jumlah=  	30, jumlah_bpjs= 	30, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and (formula_id='150929001' or formula_id='150805007');
+
+
+
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='1' and formula_id='151122001';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='2' and formula_id='151122001';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='3' and formula_id='151122001';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='4' and formula_id='151122001';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='5' and formula_id='151122001';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='6' and formula_id='151122001';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='7' and formula_id='151122001';
+ 	update doses set signa_id=NULL, jumlah= 	NULL, jumlah_bpjs=	NULL, jumlah_puyer_add=	NULL	where berat_badan_id='8' and formula_id='151122001';
+ 	update doses set signa_id=1, jumlah=  	20, jumlah_bpjs= 	20, jumlah_puyer_add= 	NULL	where berat_badan_id='9' and formula_id='151122001';
+ 	update doses set signa_id=1, jumlah=  	20, jumlah_bpjs= 	20, jumlah_puyer_add= 	NULL	where berat_badan_id='10' and formula_id='151122001';
+ 	update doses set signa_id=1, jumlah=  	20, jumlah_bpjs= 	20, jumlah_puyer_add= 	NULL	where berat_badan_id='11' and formula_id='151122001';
+ 	update doses set signa_id=1, jumlah=  	20, jumlah_bpjs= 	20, jumlah_puyer_add= 	NULL	where berat_badan_id='12' and formula_id='151122001';
+
+update berat_badans set berat_badan='26 - 33 kg' where id='8';
+update berat_badans set berat_badan='33 - 37 kg' where id='9';
+
+update doses set signa_id=1 where berat_badan_id=9 and signa_id=13432;
+
+update formulas set aturan_minum_id=40 where id='150801001' or id='150801002' or id='150801003' or id='150801004' or id='150803031' or id='150801003' or id='150803001';
+
+update formulas set aturan_minum_id=12372 where id='150801013' or id='150801012' or id='150801014';
+
+insert into aturan_minums (id, aturan_minum) values (13391, 'perdarahan');
+
+update formulas set aturan_minum_id=13391 where id='150811021' or id='150801015';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13392, 'obat lambung', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+
+update formulas set aturan_minum_id=13392 where id='150801016' or id='150807015' or id='150808004' or id='150802064';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13393, 'lambung, dikunyah', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13393 where id='150801017' or id='150805001';
+
+update formulas set aturan_minum_id=47 where id='150801018' or id='150801019' or id='150903001' or id='150802065';
+
+update formulas set aturan_minum_id=12358 where id='150801023' or id='150801024' or id='150811046';
+
+
+update formulas set aturan_minum_id=24 where id='150803003' or id='150804007' or id='150921002' or id='150802040' or id='150803008' or id='150803004' or id='150806010' or id='150802042' or id='150802043' or id='150802046' or id='150803006' or id='150803047' or id='150806011' or id='150806008' or id='150806008' or id='150811047' or id='150803005' or id='150806004' or id='150803037' or id='150802002' or id='150803041' or id='150806014' or id='150806003' or id='150803056' or id='150803055' or id='150803057' or id='150811026' or id='150811025' or id='150804007' or id='150806005' or id='150921001' or id='150802006' or id='150802072' or id='150802074' or id='150805007' or id='150811017' or id='150811027' or id='150811028' or id='150811029' or id='150811030' or id='150811031' or id='150929001' or id='150805007' or id='151122001' or id='150806007' or id='150806009';
+
+
+
+update formulas set aturan_minum_id=29 where id='150802003' or id='150802073';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13394, 'Bila Mencret', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id='13394' where id='150802004' or id='150802005' or id='150803034' or id='150802063'; 
+
+update formulas set aturan_minum_id=12349 where id='150802007' or id='150802008' or id='150802009' or id='150802010' or id='150802012' or id='150802013' or id='150802052';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13395, 'Bila Demam / Nyeri', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+
+update formulas set aturan_minum_id=13395 where id='150802011' or id='150802014' or id='150802015' or id='150802069' or id='150808013' or id='150802068';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13396, 'Batuk pilek demam', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id='13396' where id='150802016' or id='150802017' or id='150802018' or id='150802066' or id='150805009';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13397, 'Bila gatal / radang / bengkak', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+
+update formulas set aturan_minum_id=13397 where id='150802020' or id='150802021' or id='150802023' or id='150803035' or id='150802070';
+
+update formulas set aturan_minum_id=12375 where id='150802025' or id='150802026' or id='150802027' or id='150802029' or id='150811014' or id='150811015';
+
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13398, 'Pelancar kencing, pagi', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13398 where id='150802028';
+
+update aturan_minums set aturan_minum='Obat gula, diantara makan' where id=3;
+
+update formulas set aturan_minum_id=3 where id='150802030' or id='150802031' or id='150807016';
+
+update formulas set aturan_minum_id=50 where id='150802033';
+
+update formulas set aturan_minum_id=12346 where id='150802035' or id='150802047' or id='150811007';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13399, 'Batuk pilek', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13399 where id='150802038' or id='150802039';
+
+update raks set exp_date = null where exp_date = '0000-00-00';
+
+update formulas set aturan_minum_id=12369 where id='150802041' or id='150802044';
+
+update formulas set aturan_minum_id=12360 where id='150802048' or id='150802049' or id='150802050' or id='150802051';
+
+update formulas set aturan_minum_id=12373 where id='150802053' or id='150802055';
+
+update formulas set aturan_minum_id=30 where id='150802054' or id='150802056' or id='150802060' or id='150804002' or id='150811022';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13400, 'memar', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13400 where id='150802058';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13401, 'Obat luar, luka bakar', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13401 where id='150802061';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13402, 'Anti alergi', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13402 where id='150802062' or id='150802071' or id='150802036' or id='150807003' or id='150807001';
+
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13403, 'Anti jamur', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13403 where id='150804001';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13404, 'Pil KB', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13404 where id='150804003';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13405, 'Setiap hari', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13405 where id='150804006';
+
+update formulas set aturan_minum_id=12367 where id='150808014' or id='150811043';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13406, 'Vitamin', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13406 where id='150811010' or id='150801009' or id='150801011' or id='150811023' or id='150811041' or id='150811018' or id='150801010';
+
+update aturan_minums set aturan_minum = 'tiap mencret / muntah' where id=12361;
+
+update formulas set aturan_minum_id=12361 where id='150811020';
+
+INSERT INTO `aturan_minums` (`id`, `aturan_minum`, `created_at`, `updated_at`) VALUES (13407, 'Sariawan', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+
+update formulas set aturan_minum_id=13407 where id='150811045';
+
+update formulas set aturan_minum_id=12366 where id='150811050';
+
+update aturan_minums set aturan_minum = 'Bila mual' where aturan_minum= 'Bila mual2';
+
+
+update doses set jumlah=10 where signa_id=1;
+
+update raks set stok = 0, stok_minimal = 0;
+ 
+ALTER TABLE raks MODIFY COLUMN stok INT(11) NOT NULL DEFAULT 0;
+ALTER TABLE raks MODIFY COLUMN stok_minimal INT(11) NOT NULL DEFAULT 0;
+
+update users set role=6 where id=28;
+
+create table `belanjas` (`id` int unsigned not null auto_increment primary key, `belanja` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+create table `bukan_obats` (`id` int unsigned not null auto_increment primary key, `nama` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into bukan_obats (nama) VALUES ('Aqua galon'), ('Gas 3 kg'), ('Listrik A8 1.000.000'), ('Listrik A7 1 juta'), ('Tinta Printer');
+
+insert into belanjas (belanja) VALUES ('Belanja Bukan Obat'), ('Belanja Obat'), ('Pemeliharaan Alat');
+
+update belanjas set id=0 where id=1;
+update belanjas set id=1 where id=2;
+update belanjas set id=2 where id=3;
+
+
+create table `sops` (`id` int unsigned not null auto_increment primary key, `icd10_id` varchar(255) not null, `berat_badan` int(11) not null default 50, `staf_id` varchar(255) not null, `terapi` text not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+ALTER TABLE pengeluarans CHANGE keterangan `bukan_obat_id` VARCHAR(255);
+ALTER TABLE icd10s ADD COLUMN terapis text;
+
+create table `tujuan_rujuks` (`id` int unsigned not null auto_increment primary key, `tujuan_rujuk` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+
+
+insert into tujuan_rujuks (tujuan_rujuk) values 
+('UGD – UNIT GAWAT DARURAT'), 
+('Sp.A – Spesialis Anak'), 
+('Sp.An – Spesialis Anestesiologi dan Reanimasi'), 
+('Sp.And – Spesialis Andrologi'), 
+('Sp.B – Spesialis Bedah'), 
+('Sp.BA – Spesialis Bedah Anak'), 
+('Sp.BM – Spesialis Bedah Mulut dan Maksilofasial'), 
+('Sp.BTKV – Spesialis Bedah Toraks Kardiovaskuler'), 
+('Sp.BP – Spesialis Bedah Plastik'), 
+('Sp.BS – Spesialis Bedah Saraf'), 
+('Sp.EM – Spesialis Kedaruratan Medik'), 
+('Sp.F – Spesialis Kedokteran Forensik'), 
+('Sp.FK – Spesialis Farmakologi Klinik'), 
+('Sp.JP – Spesialis Jantung dan Pembuluh Darah'), 
+('Sp.KFR – Spesialis Kedokteran Fisik dan Rehabilitasi'), 
+('Sp.KG – Spesialis Konservasi Gigi'), 
+('Sp.KGA – Spesialis Kedokteran Gigi Anak'), 
+('Sp.KJ – Spesialis Kedokteran Jiwa atau Psikiatri'), 
+('Sp.KK – Spesialis Penyakit Kulit dan Kelamin'), 
+('Sp.KN – Spesialis Kedokteran Nuklir'), 
+('Sp.KO – Spesialis Kedokteran Olahraga'), 
+('Sp.M – Spesialis Mata'), 
+('Sp.MK – Spesialis Mikrobiologi Klinik'), 
+('Sp.OG – Spesialis Obstetri & Ginekologi'), 
+('Sp.Ok – Spesialis Kedokteran Okupasi'), 
+('Sp.Onk.Rad – Spesialis Onkologi Radiasi'), 
+('Sp.Ort – Spesialis Ortodonsia'), 
+('Sp.OT – Spesialis Bedah Orthopaedi dan Traumatologi'), 
+('Sp.P – Spesialis Paru'), 
+('Sp.Perio – Spesialis Periodonsia'), 
+('Sp.PA – Spesialis Patologi Anatomi'), 
+('Sp.PD – Spesialis Penyakit Dalam'), 
+('Sp.PK – Spesialis Patologi Klinik'), 
+('Sp.PM – Spesialis Penyakit Mulut'), 
+('Sp.Pros – Spesialis Prostodonsia'), 
+('Sp.Rad – Spesialis Radiologi'), 
+('Sp.RM – Spesialis Rehabilitasi Medik'), 
+('Sp.RKG – Spesialis Radiologi Kedokteran Gigi'), 
+('Sp.S – Spesialis Saraf'), 
+('Sp.THT-KL – Spesialis Telinga Hidung Tenggorok-Bedah Kepala Leher'), 
+('Sp.U – Spesialis Urologi'), 
+('Sp.Ger – Spesialis Geriatri');
+
+create table `rumah_sakits` (`id` int unsigned not null auto_increment primary key, `rumah_sakit` varchar(255) not null, `fkt` int(1) not null default 2, `bpjs` int(1) not null default 0, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into rumah_sakits (rumah_sakit) values ('- Pasien Cari Sendiri -');
+
+create table `rujukans` (`id` int unsigned not null auto_increment primary key, `periksa_id` varchar(255) not null, `tujuan_rujuk_id` int(11) not null, rumah_sakit_id int(11), alasan_rujuk varchar(255), `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+create table `approves` (`id` int unsigned not null auto_increment primary key, `approve` varchar(255) not null, `created_at` timestamp default 0 not null, `updated_at` timestamp default 0 not null) default character set utf8 collate utf8_unicode_ci;
+
+insert into approves (approve) values 
+('Belum di cek'),
+('Tidak Disetujui'),
+('Disetujui');
+
+update approves set id = 0 where id = 1;
+update approves set id = 1 where id = 2;
+update approves set id = 2 where id = 3;
+
+
+create table `points` (
+
+`id` int unsigned not null auto_increment primary key, 
+`staf_id` varchar(255) not null, 
+`suhu` varchar(255), 
+`tinggi_badan` int(11), 
+`berat_badan` int(11), 
+`tekanan_darah` varchar(255),
+`pasien_id` varchar(255) not null, 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+create table `kaburs` (
+
+`id` int unsigned not null auto_increment primary key, 
+`pasien_id` varchar(255) not null, 
+`tanggal` DATE not null, 	
+`jam` TIME not null, 
+`alasan` varchar(255) not null, 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+create table `complains` (
+`id` int unsigned not null auto_increment primary key, 
+`pasien_id` varchar(255) not null, 
+`tanggal` DATE not null, 
+`staf_id`  varchar(255) not null, 
+`complain` varchar(255) not null, 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+) default character set utf8 collate utf8_unicode_ci;
+
+create table `surat_sakits` (
+`id` int unsigned not null auto_increment primary key, 
+`periksa_id` varchar(255) not null, 
+`tanggal_mulai` DATE not null, 
+`hari`  int(11) not null, 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+) default character set utf8 collate utf8_unicode_ci;
+
+update asuransis set umum = '["Obat dibatasi 30 ribu rupiah setiap kali berobat","Diusahakan untuk membuat resep kurang dari 30 ribu rupiah, karena sisanya bisa digunakan untuk pasien lain yang membutuhkan.","Sekiranya hanya terpakai 10 ribu rupiah, 20 ribu rupiah bisa digunakan untuk pasien lain untuk perusahaan yang sama","Penanganan dan perhitungan biaya untuk kecelakaan kerja sama seperti pasien umum, tidak dibatasi"]' where id ='12' or id ='15' or id ='151117001' or id ='3' or id ='9';
+
+update asuransis set umum = '["Obat boleh sampai 70 ribu, kalau lebih dari bisa diakali pakai 2 kuitansi, tindakan kecelakaan kerja diperlakukan seperti pasien umum"]' where id= '151222001' or id= '10';
+
+update asuransis set umum = '["Hanya untuk kecelakaan kerja saja"]' where id='13';
+
+update asuransis set umum = '["Antibiotik maksimal 3 hari","Simtomatik maksimal 2 hari, termasuk darah tinggi dan kencing manis","Obat yang tidak masuk dalam FORNAS, pasien bayar atau dokter bisa kasih obat alternatif yang lain yang ditanggung BPJS","Dalam keadaan mendesak, obat yang diberikan boleh bebas, selama masih dalam FORNAS (Formularium Nasional)","Semua tindakan ditanggung atas indikasi medis, bukan atas indikasi kosmetis, kecuali KECELAKAAN KERJA (Ditanggung BPJS Ketenagakerjaan Bukan BPJS Kesehatan) dan KECELAKAAN LALU LINTAS (Ditanggung Jasa Marga) tidak ditanggung BPJS Kesehatan","Pemeriksaan GDS atas indikasi medis dilakukan maksimal 1 kali sebulan, indikasi screening boleh dilakukan untuk manula maksimal 1 bulan sekali","Penunjang lain untuk screening tidak diperkenankan","Diagnosis yang masuk ke dalam 144 Penyakit tidak boleh dirujuk, bila memang tidak memungkinkan, dokter bisa pilih diagnosis lain yang mirip yang tidak masuk ke dalam 144 penyakit tersebut","Nebulizer pasien bayar obatnya saja 20 ribu, tidak ada jasa tambahan untuk dokter","Penyakit Darah Tinggi, Kencing Manis, Jantung, Skizophrenia, Gagal Ginjal, Asma Persisten (lebih dari 1 minggu sekali kambuh) harus dirujuk ke rumah sakit untuk mendapatkan pengobatan 1 bulan","Tindakan sunat atas indikasi fimosis janjian dengan dr. Yoga"]' where id= '32';
+
+
+update formulas set peringatan = 'Glibenclamide - Obat ini beresiko mengakibatkan hipoglikemia, awali terapi DM dengan Metformin, atau glibenclamide dapat dimulai dari dosis 2 x 1/2 lalu naikkan perlahan, Peringatkan tentang bahaya hipoglikemia yang mungkin terjadi dan bagaimana mengatasinya, bila timbul keringat dingin, berdebar, lemas, segera minum teh manis pakai gula pasir sampai enakan untuk meningkatkan gula darah yang ngedrop, alternatif lebih aman : metformin' where id='150802031';
+
+update formulas set peringatan = 'Metoclopramide - Perhatikan dosisnya, karena sering efek samping extrapiramidal, dosis 1 ml - 1,3 ml / 10 kg tiap kali minum 3 x sehari, untuk dewasa < 50 kg dimulai dari 3 x 1/2 tablet dulu, diatas itu bisa pakai 3 x 1 tablet' where id='150802065' or id='150801018' or id='150803024';
+
+update formulas set peringatan = 'Obat ini agak keras, Makan dulu yang kenyang baru diminum obatnya, bila bukan pasien BPJS, berikan ranitidine tiap kali pemberian obat ini, untuk mengurangi efek sampingnya. Jangan diberikan untuk diagnosis Tifoid, dan jangan diberikan bila terdapat gastritis aktif/dispepsia' where id='150802043';
+
+update formulas set peringatan = 'Mulai dari dosis 2 x 1/2 tablet, dilarang memberikan secara sublingual karena resiko turun tekanan darah yang terlalu cepat' where id='150802027';
+
+update formulas set peringatan = 'Obat ini memiliki efek samping banyak kencing, jangan diberikan malam hari, minum pagi hari dengan peringatan kencingnya bisa 7 - 10 kali' where id='	150802028';
+
+update formulas set peringatan = 'Salbutamol 4 mg- Efek samping berdebar2, mulai dari dosis 3 x 1/2 dulu, kecuali memang pasien biasa minum dalam dosis 4 mg' where id='150801003';
+
+update formulas set peringatan = 'Loperamid - Jangan diberikan bila mencret disertai nyeri melilit, jangan diberikan untuk pasien Disentri atau mencret berlendir' where id='150802005';
+
+update formulas set peringatan = 'Sering Alergi, tanyakan apa pasien ada alergi obat sebelum meresepkan obat ini' where id='150802013' or id='150802012' or id='150806008' or id='150806009' or id='150811047';
+
+update formulas set peringatan = 'Tidak boleh diberikan untuk bayi dibawah 1 tahun, bila memang penting, berikan secara rektal. Sering Alergi, tanyakan apa pasien ada alergi obat sebelum meresepkan obat ini' where id='150802068' or id='150802011';
+
+update formulas set peringatan = 'Efek samping sangat mengantuk, mulai dari dosis 3 x 1/2, kalau kurang bisa diminum 1 tablet' where id='150802041';
+
+update formulas set peringatan = 'Obat agak keras buat lambung, makan dulu yang kenyang sebelum minum obat, bila bukan pasien BPJS, diminum bersama ranitidin untuk mengurangi efek samping' where id='150802007' or id='150802009' or id='150802008';
+
+update formulas set peringatan = 'Chloramphenicol- tidak ada sediaan 500 mg, berikan minimal 3 x 2 tablet untuk dewasa' where id='150806010';
+
+update formulas set peringatan = 'Cefixime - sering salah dosis, berikan 2 x 2 tablet untuk pasien dewasa' where id='150806005';
+
+update formulas set peringatan = 'Beritahu pasien obat ini memiliki efek samping kencing banyak, harus diminum pagi hari, tidak boleh diminum malam hari, Tiap kali minum obat ini 1 tablet makan pisang ambon 1 buah, atau jika timbul berdebar2 makan pisang untuk mengatasinya ' where id='150802028';
+	
+create table `perbaikantrxs` (
+
+`id` int unsigned not null auto_increment primary key, 
+`periksa_id` varchar(255) not null, 
+`sebelum` TEXT,
+`alasan` varchar(255), 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+update raks set fornas='0' where
+id='A1' or
+id='A2' or
+id='A8' or
+id='A9' or
+id='A10' or
+id='A12' or
+id='A14' or
+id='A15' or
+id='B2' or
+id='B5' or
+id='B9' or
+id='B10' or
+id='B13' or
+id='B14' or
+id='C1' or
+id='C6' or
+id='C9' or
+id='C11' or
+id='C12' or
+id='C13' or
+id='C14' or
+id='C15' or
+id='D1' or
+id='D3' or
+id='D4' or
+id='D5' or
+id='D6' or
+id='D13' or
+id='D14' or
+id='E1' or
+id='E2' or
+id='E4' or
+id='E6' or
+id='E10' or
+id='F8' or
+id='F9' or
+id='F10' or
+id='F13' or
+id='F15' or
+id='G1' or
+id='G2' or
+id='G4' or
+id='G5' or
+id='I5' or
+id='I8' or
+id='G9' or
+id='G10' or
+id='G12' or
+id='G13' or
+id='G14' or
+id='h7' or
+id='H9' or
+id='H10' or
+id='H14' or
+id='I1' or
+id='I6' or
+id='I8' or
+id='I13' or
+id='I14' or
+id='J14' or
+id='J12' or
+id='J15' or
+id='K8' or
+id='M10' or
+id='M11' or
+id='M12' or
+id='M13' or
+id='M15' or
+id='M18' or
+id='O10' or
+id='O9';
+
+
+create table `tidakdirujuks` (
+
+`id` int unsigned not null auto_increment primary key, 
+`icd10_id` varchar(255) not null, 
+`diagnosa` varchar(255) not null, 
+`created_at` timestamp default 0 not null, 
+`updated_at` timestamp default 0 not null
+
+) default character set utf8 collate utf8_unicode_ci;
+
+
+
+insert into tidakdirujuks (diagnosa, icd10_id) values 
+('Kejang demam',	'R560'),
+('Tension headache',	'G442'),
+('Migren',	'G43'),
+('Vertigo (Benign paroxysmal positional vertigo)',	'H81'),
+('Insomnia',	'G470'),
+('Benda asing di konjungtiva',	'T151'),
+('Konjungtivitis',	'H10'),
+('Perdarahan subkonjungtiva',	'H113'),
+('Mata kering / Keratoconjungtivitis',	'H162'),
+('Blefaritis',	'H010'),
+('Hordeolum',	'H000'),
+('Trikiasis',	'H020'),
+('Episkleritis',	'H151'),
+('Buta senja',	'H531'),
+('Otitis eksterna',	'H60'),
+('Otitis media akut',	'H669'),
+('Serumen prop',	'H612'),
+('Mabuk perjalanan / Motion Sickness',	'T753'),
+('Furunkel pada hidung',	'J340'),
+('Rhinitis akut',	'J00'),
+('Rhinitis vasomotor',	'J300'),
+('Rhinitis alergika',	'J304'),
+('Benda asing Pada Hidung',	'T171'),
+('Epistaksis',	'R040'),
+('Influenza',	'J10'),
+('Pertusis',	'A37'),
+('Faringitis',	'J02'),
+('Tonsilitis',	'J03'),
+('Laringitis',	'J040'),
+('Asma bronkial',	'J459'),
+('Bronkitis akut',	'J40'),
+('Pneumonia, bronkopneumonia',	'J12'),
+('Tuberkulosis paru tanpa komplikasi',	'A150'),
+('Hipertensi esensial',	'I10'),
+('Kandidiasis mulut',	'B37'),
+('Ulkus mulut (aptosa, herpes)',	'B001'),
+('Parotitis',	'B26'),
+('Gastritis',	'K291'),
+('Gastroenteritis (termasuk kolera, giardiasis)',	'K529'),
+('Demam tifoid',	'A010'),
+('Intoleransi makanan',	'E74'),
+('Intoleransi makanan',	'A05'),
+('Alergi makanan',	'L272'),
+('Keracunan makanan',	'A059'),
+('Penyakit cacing tambang',	'B76'),
+('Strongiloidiasis',	'B78'),
+('Askariasis',	'B77'),
+('Skistosomiasis',	'B65'),
+('Taeniasis',	'B68'),
+('Hepatitis Akut Virus A',	'B15'),
+('Hepatitis Akut Virus B',	'B16'),
+('Hepatitis Virus B Carrier Infeksius',	'B170'),
+('Hepatitis Akut Virus C',	'B171'),
+('Hepatitis Akut Virus E',	'B172'),
+('Disentri basiler, disentri amuba',	'A060'),
+('Hemoroid grade 1/2',	'I84'),
+('Infeksi saluran kemih',	'N39'),
+('Gonore',	'A540'),
+('Sindrom duh (discharge) genital (gonore dan nongonore)    ', 	'N508'),
+('Infeksi saluran kemih bagian bawah',	'N390'),
+('Vulvitis',	'N762'),
+('Vaginitis',	'N760'),
+('Vaginosis bakterialis',	'N768'),
+('Kehamilan normal',	'O000'),
+('Aborsi spontan komplit',	'O03'),
+('Anemia defisiensi besi pada kehamilan',	'D649'),
+('Anemia defisiensi besi pada kehamilan',	'O25'),
+('Abses folikel rambut atau kelenjar sebasea',	'L028'),
+('Mastitis',	'N61'),
+('Cracked nipple',	'O921'),
+('Inverted nipple',	'N645'),
+('Diabetes melitus tipe 2',	'E11'),
+('Hipoglikemia ringan',	'E162'),
+('Malnutrisi energi-protein',	'E46'),
+('Defisiensi vitamin',	'E569'),
+('Defisiensi mineral',	'E61'),
+('Dislipidemia',	'E785'),
+('Hiperurisemia',	'E790'),
+('Obesitas',	'E66'),
+('Anemia defisiensi besi',	'D50'),
+('Limfadenitis',	'I88'),
+('Demam dengue, DHF',	'A91'),
+('Demam dengue Classic',	'A90'),
+('Demam Cikungunya',	'A920'),
+('Reaksi anafilaktik',	'T782'),
+('Ulkus pada tungkai',	'I839'),
+('Lipoma',	'D179'),
+('Veruka vulgaris',	'B07'),
+('Moluskum kontagiosum',	'B081'),
+('Herpes zoster tanpa komplikasi',	'B029'),
+('Morbili tanpa komplikasi',	'B059'),
+('Varisela tanpa komplikasi',	'B019'),
+('Herpes simpleks tanpa komplikasi',	'B009'),
+('Impetigo',	'L01'),
+('Impetigo ulseratif (ektima)',	'L08'),
+('Folikulitis superfisialis',	'L089'),
+('Furunkel, karbunkel',	'L02'),
+('Eritrasma',	'L081'),
+('Erisipelas',	'A46'),
+('Skrofuloderma',	'A184'),
+('Lepra',	'A30'),
+('Tinea kapitis',	'B350'),
+('Tinea barbe',	'B350'),
+('Tinea fasialis',	'B359'),
+('Tinea korporis',	'B354'),
+('Tinea manus',	'B352'),
+('Tinea unguium',	'B351'),
+('Tinea kruris',	'B356'),
+('Tinea pedis',	'B353'),
+('Pitiriasis vesikolor',	'B360'),
+('Cutaneus larva migran',	'B769'),
+('Filariasis',	'B74'),
+('Pedikulosis kapitis',	'B850'),
+('Pedikulosis pubis',	'B853'),
+('Skabies',	'B86'),
+('Reaksi gigitan serangga',	'W57'),
+('Dermatitis kontak iritan',	'L24'),
+('Dermatitis atopik (kecuali recalcitrant)',	'L20'),
+('Dermatitis numularis',	'L300'),
+('Napkin eczema',	'L309'),
+('Dermatitis seboroik',	'L21'),
+('Pitiriasis rosea',	'L42'),
+('Akne vulgaris ringan',	'L700'),
+('Hidradenitis supuratif',	'L732'),
+('Dermatitis perioral',	'L710'),
+('Miliaria',	'L743'),
+('Urtikaria akut',	'L50'),
+('Exanthematous drug eruption, fixed drug eruption',	'L27'),
+('Exanthematous drug eruption, fixed drug eruption',	'L270'),
+('Exanthematous drug eruption, fixed drug eruption',	'L271'),
+('Vulnus laseratum, punctum',	'T812'),
+('Luka bakar derajat  1', 	'T301'),
+('Luka bakar derajat  2',	'T302'),
+('Kekerasan tumpul',	'S30'),
+('Kekerasan tajam',	'S303');
+

@@ -1,0 +1,23 @@
+.kolom_1{
+	width: 10% !important;
+}
+.kolom_2{
+	width: 10% !important;
+}
+.kolom_3{
+	width: 50% !important;
+}
+.kolom_4{
+	width: 10% !important;
+}
+.kolom_5{
+	width: 10% !important;
+}
+.fit-column{
+	width:1% !important;
+	white-space:nowrap;
+}
+.form-method {
+	padding:0px;
+}
+

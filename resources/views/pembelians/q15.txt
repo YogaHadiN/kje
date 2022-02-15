@@ -1,0 +1,6 @@
+delete from pembelians where
+id='150705007' or
+id='150706001' or
+id='150706002' or
+id='150706003' or
+id='150706004';

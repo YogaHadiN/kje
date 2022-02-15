@@ -1,0 +1,1 @@
+/home/vagrant/Code/jatielok/app/views/status_gizis/show.blade.php

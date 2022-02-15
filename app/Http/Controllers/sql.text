@@ -1,0 +1,2 @@
+ALTER TABLE pasiens ADD kepala_keluarga_id VARCHAR( 255 );
+ALTER TABLE pasiens ADD sudah_kontak_bulan_ini VARCHAR( 255 );

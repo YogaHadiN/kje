@@ -1,0 +1,16 @@
+/node_modules
+/public/hot
+/public/img
+/public/berkas
+/public/peserta_bpjs
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.keep
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log

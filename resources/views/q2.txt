@@ -1,0 +1,3 @@
+update raks set formula_id='150803003' where id='I8';
+update raks set formula_id='150806007' where id='l8';
+UPDATE raks SET id = UPPER(id);

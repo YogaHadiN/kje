@@ -1,0 +1,297 @@
+<form method="POST" action="http://klinik.test/pasiens" accept-charset="UTF-8" class="m-t" role="form" enctype="multipart/form-data" autocomplete="off"><input name="_token" type="hidden" value="X05K7ogagYRqaZr5FIsuzLOVm7p61j5CzXWT24Pz">
+	<div class="row">
+	<div class="panel panel-info">
+		<div class="panel-body">
+			 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				 <div class="row">
+				 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+													<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<input name="_token" type="hidden" value="X05K7ogagYRqaZr5FIsuzLOVm7p61j5CzXWT24Pz">
+			  <h2>Pasien Baru</h2>
+			  <hr>
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="form-group ">
+				  <label for="nama" class="control-label">Nama Pasien</label>
+					<input class="form-control hh required 
+						<?php if($rq): ?>
+							rq
+						<?php endif; ?>
+						" placeholder="Masukkan nama tanpa gelar, tanpa nama panggilan" name="nama" type="text" id="nama">
+				  				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6">
+				<div class="form-group ">
+				  <label for="sex" class="control-label">Jenis Kelamin</label>
+				<select class="form-control required 
+					<?php if($rq): ?>
+						rq
+					<?php endif; ?>
+				" id="sex" name="sex"><option value="" selected="selected">- jenis kelamin -</option><option value="L">Laki-laki</option><option value="P">Perempuan</option></select>
+				  				</div>
+			</div>
+			<div class="col-lg-6 col-md-6">
+
+				<div class="form-group ">
+				  <label for="tanggal_lahir" class="control-label">Tanggal Lahir</label>
+					<input class="form-control tanggal" name="tanggal_lahir" type="text" id="tanggal_lahir">
+				  				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6">
+				<div class="form-group ">
+				  <label for="nama_ibu" class="control-label">Nama Ibu</label>
+					<input class="form-control hh" name="nama_ibu" type="text" id="nama_ibu">
+				  				</div>
+			</div>
+			<div class="col-lg-6 col-md-6">
+				<div class="form-group ">
+				  <label for="nama_ayah" class="control-label">Nama Ayah</label>
+					<input class="form-control hh" name="nama_ayah" type="text" id="nama_ayah">
+				  				</div>
+			</div>
+		</div>
+		 <div class="row">
+			<div class="col-lg-6 col-md-6">
+
+				<div class="form-group ">
+				  <label for="no_telp" class="control-label">Nomor Telepon</label>
+					<input class="form-control hh phone" name="no_telp" type="text" id="no_telp">
+				  				</div>
+			</div>
+			<div class="col-lg-6 col-md-6">
+
+
+				<div class="form-group ">
+				  <label for="panggilan" class="control-label">Panggilan</label>
+					<select class="form-control hh required 
+						<?php if($rq): ?>
+							rq
+						<?php endif; ?>
+					" id="panggilan" name="panggilan"><option value="" selected="selected">-Panggilan-</option><option value="Tn">Tn (Laki dewasa)</option><option value="Ny">Ny (Wanita Dewasa Menikah)</option><option value="Nn">Nn (Wanita Dewasa Belum Menikah)</option><option value="An">An (Anak-anak diatas 3 tahun)</option><option value="By">By (Anak2 dibawah 3 tahun)</option></select>
+				  				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group ">
+				  <label for="no_ktp" class="control-label">Nomor KTP</label>
+				  <input class="form-control" name="no_ktp" type="text" id="no_ktp">
+				  				</div>
+			</div>
+			<div class="col-lg-6 col-md-6">
+				<div class="form-group ">
+				  <label for="punya_asuransi" class="control-label">Punya Asuransi</label>
+					<input id="CheckBox1" name="punya_asuransi" type="checkbox" value="0">
+				  				</div>
+			</div>
+		</div>
+		 <div class="displayNone transition" id="xx">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group ">
+					  <label for="asuransi_id" class="control-label">Asuransi</label>
+					  <select class="form-control selectpick bs-select-hidden" data-live-search="true" id="asuransi_id" name="asuransi_id"><option value="" selected="selected">- Pilih Asuransi -</option><option value="0">Biaya Pribadi</option><option value="1">Asuransi Pan Pasific</option><option value="10">Pt. Cibadak Feed Mill</option><option value="11">Pt. Dkbi</option><option value="12">Pt. Kurnia Insurance</option><option value="13">Pt. Ostec</option><option value="15">Pt. Jsa</option><option value="150821001">Tugu Mandiri Non Gesek</option><option value="150922001">Pt.wieny Graha Mulia</option><option value="151020001">Hanwha Life</option><option value="151117001">Pt Sejin</option><option value="151222001">Pt Cibadak Broiler</option><option value="16">Pt. La Farm</option><option value="160207001">Karyawan Dan Keluarga Admedika (admedika Pry)</option><option value="160207002">Asuransi Axa (admedika Pyr)</option><option value="160207003">Asuransi Tokio Marine Life (admedika Pyr)</option><option value="160207004">Sun Life Financial (admedika Pyr)</option><option value="160207005">Financial Wiramitra Danadyaksa (admedika Pyr)</option><option value="160207006">Icon Plus (admedika Pyr)</option><option value="160207007">Pt Job Pertamina Talisman (admedika Pyr)</option><option value="160207008">Aia Financial Individu (admedika Pyr)</option><option value="160207009">Indosurya Life (admedika Pyr)</option><option value="160207010">Asuransi Mega Life Individu (admedika Pyr)</option><option value="160207011">Pt Nusantara Regas (admedika Pyr)</option><option value="160207012">Inhealth Mandiri (admedika Pyr)</option><option value="160207013">Pt Tugu Mandiri (admedika Pyr)</option><option value="160207014">Pensiunan Prum Bulog (admedika Pyr)</option><option value="160207015">Infomedia Solusi Humanika (admedika Pyr)</option><option value="160207016">Pt Patra (admedika Pyr)</option><option value="160207017">Hdi Family Of Companies Ind (admedika Pyr)</option><option value="160207018">Asuransi Bumi Putera Muda (admedika Pyr)</option><option value="160207019">Pertamina Internasional (admedika Pyr)</option><option value="160207020">Asuransi Sompo Japan Nipponkoa (admedika Pyr)</option><option value="160207021">Yankes Pertamina (admedika Pyr)</option><option value="160207022">Siloam Care (admedika Pyr)</option><option value="160207023">Pt Pelita Air (admedika Pyr)</option><option value="160221001">Tms Healthcare</option><option value="160406001">Asuransi Samsung Tugu</option><option value="161102001">Smart Care</option><option value="161123001">Aca</option><option value="17">PT. YA FARM</option><option value="170115001">Garda Medika</option><option value="170208001">Askrida</option><option value="170208002">Maxime Mm Store</option><option value="170219001">Telkomedika</option><option value="170309001">Bni Life (show Card)</option><option value="170309002">Bni Life ( Managed Care)</option><option value="170318001">Cigna Eazicare Platinum B</option><option value="170519001">Keamanan</option><option value="170722001">Fwd - Pt Fwd Life Indonesia</option><option value="171227001">Jasindo Health Care</option><option value="18">PT. HJ FARM</option><option value="180317001">Ntt Data</option><option value="180417001">Bina Nusantara</option><option value="180708001">Inhealth Owlexa</option><option value="180718001">Axa Financial</option><option value="181015001">Bca Life</option><option value="181221001">Asuransi Mag (multi Artha Guna)</option><option value="181231001">Angkasa Pura 2</option><option value="19">Equity Life</option><option value="190227001">Sequislife</option><option value="191203001">Asuransi Inhealth Mandiri Idemnity</option><option value="2">PT AJ CENTRAL ASIA RAYA</option><option value="20">BRInginlife</option><option value="200131001">Sompo Insurance</option><option value="200216001">Pt Pacific Cross Etiqa</option><option value="200312001">Pacific Cross Harta Aman</option><option value="200312002">Pacific Cross Intl</option><option value="200603001">Cigna Active Pro Health</option><option value="21">Car</option><option value="22">Pt. Mnc</option><option value="23">Bnilife</option><option value="24">RASAPALA</option><option value="25">PT ASURANSI RMAYANA tbk</option><option value="26">Great Eastern Life</option><option value="27">BINTANG</option><option value="28">ADONAI Insurance</option><option value="29">RAMAYANA Insurance</option><option value="3">Inhealth</option><option value="30">Mandiri </option><option value="31">PT.ADIRA </option><option value="32">BPJS</option><option value="34">Pt Asuransi Umum Mega</option><option value="37">Pt Pacific Cross</option><option value="39">pemasaran</option><option value="4">PT SYNTECH MITRA INTEGRAS</option><option value="5">Reliance</option><option value="6">MEDICILIN</option><option value="8">PT. CTC</option><option value="9">PT. SPBU</option><option value="90">Asuransi Wanaartha</option></select><div class="btn-group bootstrap-select form-control selectpick"><button type="button" class="btn dropdown-toggle btn-white" data-toggle="dropdown" data-id="asuransi_id" title="- Pilih Asuransi -"><span class="filter-option pull-left">- Pilih Asuransi -</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off"></div><ul class="dropdown-menu inner" role="menu"><li data-original-index="0" class="selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">- Pilih Asuransi -</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Biaya Pribadi</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Pan Pasific</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="3"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt. Cibadak Feed Mill</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="4"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt. Dkbi</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="5"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt. Kurnia Insurance</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="6"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt. Ostec</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="7"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt. Jsa</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="8"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Tugu Mandiri Non Gesek</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="9"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt.wieny Graha Mulia</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="10"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Hanwha Life</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="11"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Sejin</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="12"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Cibadak Broiler</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="13"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt. La Farm</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="14"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Karyawan Dan Keluarga Admedika (admedika Pry)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="15"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Axa (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="16"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Tokio Marine Life (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="17"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Sun Life Financial (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="18"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Financial Wiramitra Danadyaksa (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="19"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Icon Plus (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="20"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Job Pertamina Talisman (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="21"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Aia Financial Individu (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="22"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Indosurya Life (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="23"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Mega Life Individu (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="24"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Nusantara Regas (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="25"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Inhealth Mandiri (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="26"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Tugu Mandiri (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="27"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pensiunan Prum Bulog (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="28"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Infomedia Solusi Humanika (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="29"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Patra (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="30"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Hdi Family Of Companies Ind (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="31"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Bumi Putera Muda (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="32"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pertamina Internasional (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="33"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Sompo Japan Nipponkoa (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="34"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Yankes Pertamina (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="35"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Siloam Care (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="36"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Pelita Air (admedika Pyr)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="37"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Tms Healthcare</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="38"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Samsung Tugu</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="39"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Smart Care</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="40"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Aca</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="41"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT. YA FARM</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="42"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Garda Medika</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="43"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Askrida</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="44"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Maxime Mm Store</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="45"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Telkomedika</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="46"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bni Life (show Card)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="47"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bni Life ( Managed Care)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="48"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Cigna Eazicare Platinum B</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="49"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Keamanan</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="50"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Fwd - Pt Fwd Life Indonesia</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="51"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Jasindo Health Care</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="52"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT. HJ FARM</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="53"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ntt Data</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="54"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bina Nusantara</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="55"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Inhealth Owlexa</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="56"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Axa Financial</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="57"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bca Life</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="58"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Mag (multi Artha Guna)</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="59"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Angkasa Pura 2</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="60"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Equity Life</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="61"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Sequislife</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="62"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Inhealth Mandiri Idemnity</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="63"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT AJ CENTRAL ASIA RAYA</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="64"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">BRInginlife</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="65"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Sompo Insurance</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="66"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Pacific Cross Etiqa</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="67"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pacific Cross Harta Aman</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="68"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pacific Cross Intl</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="69"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Cigna Active Pro Health</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="70"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Car</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="71"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt. Mnc</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="72"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bnilife</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="73"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">RASAPALA</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="74"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT ASURANSI RMAYANA tbk</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="75"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Great Eastern Life</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="76"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">BINTANG</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="77"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">ADONAI Insurance</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="78"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">RAMAYANA Insurance</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="79"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Inhealth</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="80"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Mandiri </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="81"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT.ADIRA </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="82"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">BPJS</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="83"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Asuransi Umum Mega</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="84"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Pt Pacific Cross</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="85"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">pemasaran</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="86"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT SYNTECH MITRA INTEGRAS</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="87"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Reliance</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="88"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">MEDICILIN</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="89"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT. CTC</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="90"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">PT. SPBU</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="91"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Asuransi Wanaartha</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div></div>
+					  					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group ">
+					  <label for="jenis_peserta" class="control-label">Jenis Peserta</label>
+						<select class="form-control tog hh" id="jenis_peserta" name="jenis_peserta"><option value="" selected="selected"> - pilih asuransi -</option><option value="P">Peserta</option><option value="S">Suami</option><option value="I">Istri</option><option value="A">Anak</option></select>
+					  					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group ">
+					  <label for="nomor_asuransi" class="control-label">Nomor Asuransi</label>
+						<input class="form-control tog hh" name="nomor_asuransi" type="text" id="nomor_asuransi">
+					  					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+					<div class="form-group ">
+					  <label for="nama_peserta" class="control-label">Nama Peserta</label>
+						<input class="form-control tog hh" name="nama_peserta" type="text" id="nama_peserta">
+					  					</div>
+				</div>
+			</div>	
+		  </div>
+		  <div class="row">
+			  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<div class="form-group ">
+				    <label for="alamat" class="control-label">Alamat</label>
+											<textarea class="form-control textareacustom" name="alamat" cols="50" rows="10" id="alamat"></textarea>
+									    				  </div>
+			  </div>
+		  </div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group ">
+				  <label for="jangan_disms" class="control-label">Status Survey SMS</label>
+				  <select class="form-control" id="jangan_disms" name="jangan_disms"><option value="0" selected="selected">Pasien tidak keberatan menerima SMS survey</option><option value="1">Pasien keberatan menerima SMS survey</option></select>
+				  				</div>
+			</div>
+		</div>
+		  
+		
+			
+				
+				
+				  
+				  
+					
+					
+				  
+				  
+				  
+					
+						
+						  
+						  
+ 
+						  
+						  
+						
+					
+					
+						
+							
+								
+								  
+								  
+								  
+								
+							
+						
+						
+							
+								
+								  
+								  
+								  
+								
+							
+							
+								
+								  
+								  
+								  
+								
+							
+						
+						
+							
+								
+									
+									
+										
+									
+								
+							
+						
+					
+				  
+				
+			
+		
+		  			
+		  
+		  			  <h2>Antrian Poli</h2>
+			  <hr>
+		 <div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group ">
+				  <label for="staf_id" class="control-label">Nama Dokter</label>
+				  <select class="form-control selectpick bs-select-hidden" data-live-search="true" id="staf_id" name="staf_id"><option value="" selected="selected">- Pilih Staf -</option><option value="10">Eka Purwanti, Bd, Bd, bd</option><option value="11">DRG WIDYA</option><option value="12">Chandri Amelia Hidayat</option><option value="13">Drg.Bella Novalina</option><option value="15">Nenden Firmandari</option><option value="151006002">Shanti Gustiani Patimah </option><option value="151006003">Eti Sumihati, Bd</option><option value="151007004">Sherly Matondang</option><option value="151009001">Lilin Fathah</option><option value="151116001">Fitroh</option><option value="16">Yoga Hadi Nugroho</option><option value="160111002">San Maria Sitompul</option><option value="160120001">Ragam Pesona Simangunsong</option><option value="160301001">Elis Sri Mulyani, </option><option value="160416001">Rahmat Saputra, </option><option value="160419001">Ika Setyaningsih, drg</option><option value="160521001">Dr.roino Simbolon , dr</option><option value="160625001">Levi Verawati, </option><option value="160628001">Saripah, </option><option value="160719001">Vitaria Sidabutar , dr</option><option value="160802001">Tjhin Tjung Fi, dr</option><option value="160808001">Hamnah (bibi), </option><option value="160808002">Subih, </option><option value="160815001">Ahmed Setiabakti, drg</option><option value="160912001">Muhammad Rizal, ns</option><option value="160914001">Mega Gustiani Utami, </option><option value="160916001">Khusnul Amaliyah, </option><option value="161021001">Dewi Sugiharti, </option><option value="161021002">Vera Alvionita, </option><option value="161021003">Sania Vratiwi,, </option><option value="161105001">Alif Hirmayati, bd</option><option value="161105002">Esa Soya, </option><option value="161119001">Khusnul Amaliyah, , bd</option><option value="161215001">Atika Caesar Pamungkas, drg</option><option value="161228001">Purwanto, </option><option value="161231001">Hanina Yuti Mauliani, dr</option><option value="17">Puri Widiyani Martiadewi</option><option value="170109001">Dasyu Sundari, bd</option><option value="170216001">Nadia, bd</option><option value="170303001">Harmawan Meryanto, dr</option><option value="170321001">Ina Ratu Bulkis E.yalla, bd</option><option value="170324001">Japorman Nurdiansyah Simanjuntak, dr</option><option value="170407001">Vachroul Rauzi, dr</option><option value="170529001">Early Nurhana Kusumaningtyas, dr</option><option value="170706001">Herna, </option><option value="170715001">Rini Gusmayanti, dr</option><option value="170812001">Lisa Iryani, dr</option><option value="170824001">Supri Tukang, </option><option value="170824002">Faiz Tukang, </option><option value="170905001">Ilah, </option><option value="170906001">Ari Dewi Shinta, bd</option><option value="171002001">Elfira Fiki Agustiana, Bd, bd</option><option value="171007001">Arman Rangkuti, dr</option><option value="171024001">Riska Putri Septianti, </option><option value="171106001">Wahyu Listyorini, </option><option value="171130001">Davidtuan Andartua Sihombing, </option><option value="171201001">Widya Yuzelly, Bd, bd</option><option value="171228001">Tio Prima Simangunsong, dr</option><option value="18">Dr. Awi Muliadi Wijaya</option><option value="180313001">Bane Uras Sagala, dr</option><option value="180316001">Nirmala Lestari Dalimunthe, drg</option><option value="180404001">Findriani Eka Saputri, dr</option><option value="180411001">Halida Gustina, Bd, bd</option><option value="180417001">Tulus Adi Putra, dr</option><option value="180418001">Awardia Lydia Uli Djaya, dr</option><option value="180607001">Hamidi Alim, dr</option><option value="180720001">Rahmawati, </option><option value="180814001">Siti Nurkhasanah Fitriana, </option><option value="190207001">Fahrizal Al Fahrisi, </option><option value="190224001">dr. Mulya Suwanda, </option><option value="191201001">Sastia Winda Astuti, </option><option value="191226001">Maharani Wisnu Cahyaningtyas,, </option><option value="200107001">Yolla Apriana, dr</option><option value="200113001">Erliana, ns</option><option value="200123001">Ariafisika Soeria Atmaja, dr</option><option value="200204001">Siti Najiyah,, </option><option value="200204002">Jumrotul Khoiroh,, </option><option value="200204003">Devi Fitriyani, </option><option value="200206001">Dr Fatma Sari, </option><option value="200227001">Drg.nadia Soraya, drg</option><option value="200307001">Wahyuni Dwi Anggraini, dr</option><option value="200409001">Nurdaili, dr</option><option value="200426001">Dr.zulfikar</option><option value="3">Rizki Kaharwati</option><option value="5">siti oktafiani</option><option value="7">Dadali Jarwaly</option><option value="8">Suryawati</option><option value="D11">Bd. Desi Aryati</option><option value="D13">Bd. Marlia</option><option value="D14">drg. Eka Yesaya</option><option value="D17">Dr.Rizky baihaqi</option><option value="D19">Dr.ratih</option><option value="D20">Dr. anna meisiana</option><option value="D21">dr.Fajar Rizkiansah</option><option value="D26">Dr. anggoro karlani nurca</option><option value="D30">Drg.nuri pratama megasari</option><option value="D32">Drg.Sukma Wahyu Wijayanti</option><option value="D33">Drg.Arif WIBOWO</option><option value="D36">Bd.Winda Dwi Astuti</option><option value="D37">Bd. Sri Umayah</option><option value="D40">dr. Andi Rismunandar</option><option value="D44">Bd. Rini Fuji Astuti</option><option value="D45">drg anita</option></select><div class="btn-group bootstrap-select form-control selectpick"><button type="button" class="btn dropdown-toggle btn-white" data-toggle="dropdown" data-id="staf_id" title="- Pilih Staf -"><span class="filter-option pull-left">- Pilih Staf -</span>&nbsp;<span class="caret"></span></button><div class="dropdown-menu open"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off"></div><ul class="dropdown-menu inner" role="menu"><li data-original-index="0" class="selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">- Pilih Staf -</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Eka Purwanti, Bd, Bd, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">DRG WIDYA</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="3"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Chandri Amelia Hidayat</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="4"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Drg.Bella Novalina</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="5"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Nenden Firmandari</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="6"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Shanti Gustiani Patimah </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="7"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Eti Sumihati, Bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="8"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Sherly Matondang</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="9"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Lilin Fathah</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="10"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Fitroh</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="11"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Yoga Hadi Nugroho</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="12"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">San Maria Sitompul</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="13"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ragam Pesona Simangunsong</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="14"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Elis Sri Mulyani, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="15"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Rahmat Saputra, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="16"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ika Setyaningsih, drg</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="17"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr.roino Simbolon , dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="18"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Levi Verawati, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="19"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Saripah, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="20"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Vitaria Sidabutar , dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="21"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Tjhin Tjung Fi, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="22"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Hamnah (bibi), </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="23"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Subih, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="24"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ahmed Setiabakti, drg</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="25"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Muhammad Rizal, ns</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="26"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Mega Gustiani Utami, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="27"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Khusnul Amaliyah, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="28"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dewi Sugiharti, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="29"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Vera Alvionita, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="30"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Sania Vratiwi,, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="31"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Alif Hirmayati, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="32"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Esa Soya, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="33"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Khusnul Amaliyah, , bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="34"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Atika Caesar Pamungkas, drg</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="35"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Purwanto, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="36"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Hanina Yuti Mauliani, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="37"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Puri Widiyani Martiadewi</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="38"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dasyu Sundari, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="39"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Nadia, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="40"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Harmawan Meryanto, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="41"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ina Ratu Bulkis E.yalla, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="42"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Japorman Nurdiansyah Simanjuntak, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="43"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Vachroul Rauzi, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="44"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Early Nurhana Kusumaningtyas, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="45"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Herna, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="46"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Rini Gusmayanti, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="47"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Lisa Iryani, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="48"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Supri Tukang, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="49"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Faiz Tukang, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="50"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ilah, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="51"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ari Dewi Shinta, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="52"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Elfira Fiki Agustiana, Bd, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="53"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Arman Rangkuti, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="54"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Riska Putri Septianti, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="55"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Wahyu Listyorini, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="56"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Davidtuan Andartua Sihombing, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="57"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Widya Yuzelly, Bd, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="58"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Tio Prima Simangunsong, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="59"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr. Awi Muliadi Wijaya</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="60"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bane Uras Sagala, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="61"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Nirmala Lestari Dalimunthe, drg</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="62"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Findriani Eka Saputri, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="63"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Halida Gustina, Bd, bd</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="64"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Tulus Adi Putra, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="65"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Awardia Lydia Uli Djaya, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="66"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Hamidi Alim, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="67"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Rahmawati, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="68"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Siti Nurkhasanah Fitriana, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="69"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Fahrizal Al Fahrisi, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="70"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">dr. Mulya Suwanda, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="71"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Sastia Winda Astuti, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="72"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Maharani Wisnu Cahyaningtyas,, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="73"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Yolla Apriana, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="74"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Erliana, ns</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="75"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Ariafisika Soeria Atmaja, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="76"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Siti Najiyah,, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="77"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Jumrotul Khoiroh,, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="78"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Devi Fitriyani, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="79"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr Fatma Sari, </span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="80"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Drg.nadia Soraya, drg</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="81"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Wahyuni Dwi Anggraini, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="82"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Nurdaili, dr</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="83"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr.zulfikar</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="84"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Rizki Kaharwati</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="85"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">siti oktafiani</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="86"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dadali Jarwaly</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="87"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Suryawati</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="88"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bd. Desi Aryati</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="89"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bd. Marlia</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="90"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">drg. Eka Yesaya</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="91"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr.Rizky baihaqi</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="92"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr.ratih</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="93"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr. anna meisiana</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="94"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">dr.Fajar Rizkiansah</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="95"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Dr. anggoro karlani nurca</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="96"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Drg.nuri pratama megasari</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="97"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Drg.Sukma Wahyu Wijayanti</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="98"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Drg.Arif WIBOWO</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="99"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bd.Winda Dwi Astuti</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="100"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bd. Sri Umayah</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="101"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">dr. Andi Rismunandar</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="102"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">Bd. Rini Fuji Astuti</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="103"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">drg anita</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div></div>
+				  				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group ">
+				  <label for="poli" class="control-label">Poli</label>
+				  <select class="form-control" onchange="pilihPoli(this);return false;" id="poli" name="poli"><option value="" selected="selected">- Pilih Poli -</option><option value="darurat">Poli Gawat Darurat</option></select>
+				  				</div>
+			</div>
+		 </div>
+		<div class="row hide" id="peringatan_trimester_pertama_usg">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-danger">
+					Jika Umur Kehamilan kurang dari 12 minggu, harus menahan kencing karena baru bisa diperiksa dalam keadaan ingin kencing
+				</div>
+			</div>
+		</div>
+		<div class="row hide" id="peringatan_usg_abdomen">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-danger">
+					Pada Pasien dengan USG Abdomen harus menahan kencing karena baru bisa diperiksa dalam keadaan ingin kencing
+				</div>
+			</div>
+		</div>
+		  	  </div>
+  </div>
+    
+										 	</div>
+				 </div>
+			</div>
+						 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+				  <div class="row">
+					  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						  <div class="form-group">
+						  	<label for="image">Foto Wajah Pasien</label>
+						  	<input name="image" type="file" id="image">
+						  								  			<p> <img src="http://klinik.test/img/photo_not_available.png" class="img-rounded upload"> </p>
+						  								  	
+						  </div>
+					  </div>
+				  </div>
+				 <div class="row">
+					 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						 <div class="form-group">
+							 <label for="ktp_image">Upload Gambar KTP</label>
+							 <input name="ktp_image" type="file" id="ktp_image">
+							 								 <p> <img src="http://klinik.test/img/photo_not_available.png" class="img-rounded upload"> </p>
+							 							 
+						 </div>
+					 </div>
+				 </div>
+				 <div class="row">
+					 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						 <div class="form-group">
+							 <label for="bpjs_image">Upload Kartu BPJS</label>
+							 <input name="bpjs_image" type="file" id="bpjs_image">
+							 								 <p> <img src="http://klinik.test/img/photo_not_available.png" class="img-rounded upload"> </p>
+							 							 
+						 </div>
+					 </div>
+				 </div>
+			</div>
+				 </div>
+		 <div class="panel-footer">
+			 <div class="row">
+			 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<button class="btn btn-success btn-block" type="button" onclick="dummySubmit(this);return false;">
+															Submit
+														</button>
+							<input class="btn btn-success hide" id="submit" type="submit" value="Submit">
+						  
+			 	</div>
+			 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			 		<a class="btn btn-danger btn-block" href="http://klinik.test/pasiens">Cancel</a>
+			 	</div>
+			 </div>
+		 </div>
+	 </div>
+ </div>
+ <script type="text/javascript" charset="utf-8">
+	function dummySubmit(control){
+		if(validatePass2(control)){
+			$('#submit').click();
+		}
+	}
+ </script>
+</form>

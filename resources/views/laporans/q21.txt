@@ -1,0 +1,1 @@
+update asuransis set tipe_asuransi=1 where id=0;

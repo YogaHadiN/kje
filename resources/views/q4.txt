@@ -1,0 +1,124 @@
+//buat pregnancy safety index untuk generik
+
+alter table generiks add column peroral varchar(255);
+
+update generiks set peroral = 'c' where pregnancy_safety_index like '%peroral : c%';
+update generiks set peroral = 'b' where pregnancy_safety_index like '%peroral : b%';
+update generiks set peroral = 'a' where pregnancy_safety_index like '%peroral : a%';
+update generiks set peroral = 'd' where pregnancy_safety_index like '%peroral : d%';
+update generiks set peroral = 'x' where pregnancy_safety_index like '%peroral : x%';
+update generiks set peroral = 'c' where pregnancy_safety_index like '%per oral : c%';
+update generiks set peroral = 'b' where pregnancy_safety_index like '%per oral : b%';
+update generiks set peroral = 'a' where pregnancy_safety_index like '%per oral : a%';
+update generiks set peroral = 'd' where pregnancy_safety_index like '%per oral : d%';
+update generiks set peroral = 'x' where pregnancy_safety_index like '%per oral : x%';
+update generiks set peroral = 'not known' where pregnancy_safety_index like '%per oral : not known%';
+update generiks set peroral = 'n' where pregnancy_safety_index like '%per oral : n';
+
+
+alter table generiks add column parenteral varchar(255);
+
+update generiks set parenteral = 'a' where pregnancy_safety_index like '%parenteral : a%';
+update generiks set parenteral = 'b' where pregnancy_safety_index like '%parenteral : b%';
+update generiks set parenteral = 'c' where pregnancy_safety_index like '%parenteral : c%';
+update generiks set parenteral = 'd' where pregnancy_safety_index like '%parenteral : d%';
+update generiks set parenteral = 'x' where pregnancy_safety_index like '%parenteral : x%';
+update generiks set parenteral = 'a' where pregnancy_safety_index like '%patenteral : a%';
+update generiks set parenteral = 'b' where pregnancy_safety_index like '%patenteral : b%';
+update generiks set parenteral = 'c' where pregnancy_safety_index like '%patenteral : c%';
+update generiks set parenteral = 'd' where pregnancy_safety_index like '%patenteral : d%';
+update generiks set parenteral = 'x' where pregnancy_safety_index like '%patenteral : x%';
+
+
+update generiks set parenteral = 'a' where pregnancy_safety_index like '%parentera : a%';
+update generiks set parenteral = 'b' where pregnancy_safety_index like '%parentera : b%';
+update generiks set parenteral = 'c' where pregnancy_safety_index like '%parentera : c%';
+update generiks set parenteral = 'd' where pregnancy_safety_index like '%parentera : d%';
+update generiks set parenteral = 'x' where pregnancy_safety_index like '%parentera : x%';
+update generiks set parenteral = 'a' where pregnancy_safety_index like '%patentera : a%';
+update generiks set parenteral = 'b' where pregnancy_safety_index like '%patentera : b%';
+update generiks set parenteral = 'c' where pregnancy_safety_index like '%patentera : c%';
+update generiks set parenteral = 'd' where pregnancy_safety_index like '%patentera : d%';
+update generiks set parenteral = 'x' where pregnancy_safety_index like '%patentera : x%';
+update generiks set parenteral = 'a' where pregnancy_safety_index like '%pareteral : a%';
+update generiks set parenteral = 'b' where pregnancy_safety_index like '%pareteral : b%';
+update generiks set parenteral = 'c' where pregnancy_safety_index like '%pareteral : c%';
+update generiks set parenteral = 'd' where pregnancy_safety_index like '%pareteral : d%';
+update generiks set parenteral = 'x' where pregnancy_safety_index like '%pareteral : x%';
+
+
+alter table generiks add column topical varchar(255);
+
+update generiks set topical = 'a' where pregnancy_safety_index like '%topical : a%';
+update generiks set topical = 'b' where pregnancy_safety_index like '%topical : b%';
+update generiks set topical = 'c' where pregnancy_safety_index like '%topical : c%';
+update generiks set topical = 'd' where pregnancy_safety_index like '%topical : d%';
+update generiks set topical = 'x' where pregnancy_safety_index like '%topical : x%';
+
+update generiks set peroral = 'a' where pregnancy_safety_index = 'a';
+update generiks set peroral = 'b' where pregnancy_safety_index = 'b';
+update generiks set peroral = 'c' where pregnancy_safety_index = 'c';
+update generiks set peroral = 'd' where pregnancy_safety_index = 'd';
+update generiks set peroral = 'x' where pregnancy_safety_index = 'x';
+
+alter table generiks add column opthalmic varchar(255);
+
+update generiks set opthalmic = 'a' where pregnancy_safety_index like '%opth : a%';
+update generiks set opthalmic = 'b' where pregnancy_safety_index like '%opth : b%';
+update generiks set opthalmic = 'c' where pregnancy_safety_index like '%opth : c%';
+update generiks set opthalmic = 'd' where pregnancy_safety_index like '%opth : d%';
+update generiks set opthalmic = 'x' where pregnancy_safety_index like '%opth : x%';
+update generiks set opthalmic = 'a' where pregnancy_safety_index like '%ophth : a%';
+update generiks set opthalmic = 'b' where pregnancy_safety_index like '%ophth : b%';
+update generiks set opthalmic = 'c' where pregnancy_safety_index like '%ophth : c%';
+update generiks set opthalmic = 'd' where pregnancy_safety_index like '%ophth : d%';
+update generiks set opthalmic = 'x' where pregnancy_safety_index like '%ophth : x%';
+
+alter table generiks add column vaginal varchar(255);
+
+update generiks set vaginal = 'a' where pregnancy_safety_index like '%vag : a%';
+update generiks set vaginal = 'b' where pregnancy_safety_index like '%vag : b%';
+update generiks set vaginal = 'c' where pregnancy_safety_index like '%vag : c%';
+update generiks set vaginal = 'd' where pregnancy_safety_index like '%vag : d%';
+update generiks set vaginal = 'x' where pregnancy_safety_index like '%vag : x%';
+
+
+alter table generiks add column inhalation varchar(255);
+
+update generiks set inhalation = 'a' where pregnancy_safety_index like '%inhalation : a%';
+update generiks set inhalation = 'b' where pregnancy_safety_index like '%inhalation : b%';
+update generiks set inhalation = 'c' where pregnancy_safety_index like '%inhalation : c%';
+update generiks set inhalation = 'd' where pregnancy_safety_index like '%inhalation : d%';
+update generiks set inhalation = 'x' where pregnancy_safety_index like '%inhalation : x%';
+
+
+alter table generiks add column lingual varchar(255);
+
+update generiks set lingual = 'a' where pregnancy_safety_index like '%lingual : a%';
+update generiks set lingual = 'b' where pregnancy_safety_index like '%lingual : b%';
+update generiks set lingual = 'c' where pregnancy_safety_index like '%lingual : c%';
+update generiks set lingual = 'd' where pregnancy_safety_index like '%lingual : d%';
+update generiks set lingual = 'x' where pregnancy_safety_index like '%lingual : x%';
+
+
+alter table generiks add column transdermal varchar(255);
+
+update generiks set transdermal = 'a' where pregnancy_safety_index like '%transdermal : a%';
+update generiks set transdermal = 'b' where pregnancy_safety_index like '%transdermal : b%';
+update generiks set transdermal = 'c' where pregnancy_safety_index like '%transdermal : c%';
+update generiks set transdermal = 'd' where pregnancy_safety_index like '%transdermal : d%';
+update generiks set transdermal = 'x' where pregnancy_safety_index like '%transdermal : x%';
+
+alter table generiks add column nasal varchar(255);
+
+update generiks set nasal = 'a' where pregnancy_safety_index like '%nasal : a%';
+update generiks set nasal = 'b' where pregnancy_safety_index like '%nasal : b%';
+update generiks set nasal = 'c' where pregnancy_safety_index like '%nasal : c%';
+update generiks set nasal = 'd' where pregnancy_safety_index like '%nasal : d%';
+update generiks set nasal = 'x' where pregnancy_safety_index like '%nasal : x%';
+
+
+select * from generiks where pregnancy_safety_index not like '%parenteral%' and peroral is null and pregnancy_safety_index is null and topical is null and opthalmic is null
+
+select * from generiks where pregnancy_safety_index not like '%parenteral%' and pregnancy_safety_index not like '%oral%' and pregnancy_safety_index not like '%topical%' and pregnancy_safety_index not like '%op%' and pregnancy_safety_index not like 'a' and pregnancy_safety_index not like 'b' and pregnancy_safety_index not like 'c' and pregnancy_safety_index not like 'd' and pregnancy_safety_index not like 'x' and pregnancy_safety_index not like '%parentera %' and pregnancy_safety_index not like '%patentera %' and pregnancy_safety_index not like '%patenteral%' and pregnancy_safety_index not like '%vag :%' and pregnancy_safety_index not like '%inhalation :%' and pregnancy_safety_index not like '%lingual :%' and pregnancy_safety_index not like '%transdermal :%' and pregnancy_safety_index not like '%pareteral :%' and pregnancy_safety_index not like '%nasal :%';
+
