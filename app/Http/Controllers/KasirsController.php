@@ -187,8 +187,8 @@ class KasirsController extends Controller
 		$confirm            = $sl->save();
 
 		//backup database
-		$kernel = new scheduleBackup;
-		$kernel->handle();
+		/* $kernel = new scheduleBackup; */
+		/* $kernel->handle(); */
 
 		if ($selisih > 0) {
 			$pesanSms = 'Ada kelebihan uang di kasir sebesar ' . Yoga::buatrp($selisih). 'saldo di kasir sebesar ' . Yoga::buatrp($saldo_saat_ini);
