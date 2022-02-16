@@ -8,6 +8,7 @@ use Log;
 use DB;
 use Moota;
 use App\Models\Asuransi;
+use App\Models\Antrian;
 use App\Models\Telpon;
 use App\Models\CheckoutKasir;
 use App\Models\BayarGaji;
