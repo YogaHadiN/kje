@@ -18,8 +18,6 @@ use App\Models\AntrianFarmasi;
 use App\Models\PesertaBpjsPerbulan;
 use App\Models\Berkas;
 use App\Models\Periksa;
-use App\Models\Http\Controllers\CustomController;
-use App\Models\Http\Controllers\AntrianPeriksasController;
 use App\Models\Classes\Yoga;
 use App\Models\Merek;
 use App\Models\Pasien;
@@ -34,6 +32,8 @@ use App\Models\RegisterAnc;
 use App\Models\GambarPeriksa;
 use App\Models\PengantarPasien;
 use App\Models\Tarif;
+use App\Http\Controllers\CustomController;
+use App\Http\Controllers\AntrianPeriksasController;
 use Storage;
 
 class PeriksasController extends Controller
