@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Input;
-use App\Models\Http\Requests;
+use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
 use App\Models\PengantarPasien;
@@ -11,7 +11,7 @@ use App\Models\JurnalUmum;
 use App\Models\Signa;
 use App\Models\Terapi;
 use App\Models\Tarif;
-use App\Models\Http\Controllers\AntrianPolisController;
+use App\Http\Controllers\AntrianPolisController;
 use App\Models\Pasien;
 use App\Models\Perbaikanresep;
 use App\Models\Tidakdirujuk;

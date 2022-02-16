@@ -12,7 +12,7 @@ use App\Models\Manual;
 use App\Models\FakturBelanja;
 use App\Models\Penyusutan;
 use App\Models\BahanBangunan;
-use App\Models\Console\Command\JadwalPenyusutan;
+use App\Console\Command\JadwalPenyusutan;
 use App\Models\GolonganPeralatan;
 use App\Models\GoPay;
 use App\Models\Pengeluaran;
@@ -28,7 +28,7 @@ use App\Models\Coa;
 use Session;
 use App\Models\Ac;
 use App\Models\ServiceAc;
-use App\BelanjaPeralatan;
+use App\Models\BelanjaPeralatan;
 use DB;
 
 

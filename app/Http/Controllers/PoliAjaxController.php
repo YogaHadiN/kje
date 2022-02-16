@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Input;
 use DB;
-use App\Models\Http\Requests;
+use App\Http\Requests;
 use App\Models\Merek;
 use App\Models\Pasien;
 use App\Models\Diagnosa;

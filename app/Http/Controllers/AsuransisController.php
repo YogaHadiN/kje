@@ -13,7 +13,7 @@ use App\Models\Email;
 use App\Models\Telpon;
 use App\Models\Pic;
 use App\Models\PembayaranAsuransi;
-use App\Models\Http\Controllers\CustomController;
+use App\Http\Controllers\CustomController;
 use App\Models\Coa;
 use App\Models\CatatanAsuransi;
 use App\Models\TipeTindakan;

@@ -34,7 +34,7 @@ use App\Models\Asuransi;
 use App\Models\JenisRumahSakit;
 use App\Models\RegisterHamil;
 use App\Models\JenisPengeluaran;
-use App\Models\Http\Controllers\PdfsController;
+use App\Http\Controllers\PdfsController;
 use App\Models\Terapi;
 use App\Models\TujuanRujuk;
 

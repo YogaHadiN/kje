@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Http\Requests;
+use App\Http\Requests;
 use App\Models\Periksa;
 use App\Models\Kontrol;
 use App\Models\Classes\Yoga;

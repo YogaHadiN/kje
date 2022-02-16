@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Http\Requests;
-use App\Models\Http\Controllers\JurnalUmumsController;
+use App\Http\Requests;
+use App\Http\Controllers\JurnalUmumsController;
 use App\Models\JurnalUmum;
 use App\Models\Coa;
 use Input;
