@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Classes\Yoga;
-use App\Rekening;
+use App\Models\Classes\Yoga;
+use App\Models\Rekening;
 
 class pembayaranAsuransiHarusSama implements Rule
 {

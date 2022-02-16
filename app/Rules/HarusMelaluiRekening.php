@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Asuransi;
-use App\Rekening;
+use App\Models\Asuransi;
+use App\Models\Rekening;
 
 class HarusMelaluiRekening implements Rule
 {

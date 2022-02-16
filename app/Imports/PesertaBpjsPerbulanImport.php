@@ -7,8 +7,8 @@ use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use App\Pasien;
-use App\Periksa;
+use App\Models\Pasien;
+use App\Models\Periksa;
 use DB;
 use Carbon\Carbon;
 
