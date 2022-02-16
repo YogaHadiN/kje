@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Antrian;
-use App\Classes\Yoga;
+use App\Models\Antrian;
+use App\Models\Classes\Yoga;
 
 class redirectBackIfIdAntrianNotFound
 {

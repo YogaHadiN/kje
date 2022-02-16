@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Carbon\Carbon;
-use App\Periksa;
-use App\Classes\Yoga;
-use App\PesertaBpjsPerbulan;
+use App\Models\Periksa;
+use App\Models\Classes\Yoga;
+use App\Models\PesertaBpjsPerbulan;
 use App\Http\Controllers\LaporansController;
 use App\Http\Controllers\PdfsController;
 use App\Http\Controllers\PeriksasController;

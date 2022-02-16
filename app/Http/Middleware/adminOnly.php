@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
-use App\Classes\Yoga;
+use App\Models\Classes\Yoga;
 
 class adminOnly
 {

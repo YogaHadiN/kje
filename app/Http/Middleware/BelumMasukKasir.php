@@ -3,9 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Periksa;
-use App\AntrianPeriksa;
-use App\Classes\Yoga;
+use App\Models\Periksa;
+use App\Models\AntrianPeriksa;
+use App\Models\Classes\Yoga;
 
 class BelumMasukKasir
 {

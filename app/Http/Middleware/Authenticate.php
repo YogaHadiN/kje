@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use App\Classes\Yoga;
+use App\Models\Classes\Yoga;
 
 class Authenticate extends Middleware
 {

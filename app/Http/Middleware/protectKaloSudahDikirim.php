@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\KirimBerkas;
-use App\Classes\Yoga;
+use App\Models\KirimBerkas;
+use App\Models\Classes\Yoga;
 use App\Http\Controllers\KirimBerkasController;
 
 

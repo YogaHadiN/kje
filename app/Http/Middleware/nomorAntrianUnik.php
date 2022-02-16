@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Carbon\Carbon;
-use App\AntrianPoli;
-use App\AntrianPeriksa;
-use App\Periksa;
-use App\Classes\Yoga;
+use App\Models\AntrianPoli;
+use App\Models\AntrianPeriksa;
+use App\Models\Periksa;
+use App\Models\Classes\Yoga;
 
 class nomorAntrianUnik
 {

@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Http\Controllers\AntrianPolisController;
-use App\Periksa;
-use App\Classes\Yoga;
-use App\AntrianPeriksa;
+use App\Models\Periksa;
+use App\Models\Classes\Yoga;
+use App\Models\AntrianPeriksa;
 
 class harusUrutDiPoliUmum
 {

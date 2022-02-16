@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\JurnalUmum;
-use App\KeteranganPenyusutan;
+use App\Models\JurnalUmum;
+use App\Models\KeteranganPenyusutan;
 use App\Http\Controllers\JurnalUmumsController;
-use App\Classes\Yoga;
+use App\Models\Classes\Yoga;
 use DB;
 
 class NotReady

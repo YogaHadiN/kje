@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Input;
-use App\Periksa;
-use App\Rujukan;
-use App\Classes\Yoga;
+use App\Models\Periksa;
+use App\Models\Rujukan;
+use App\Models\Classes\Yoga;
 
 class inhealthTidakBisaDirujukKalauAdaObat
 {

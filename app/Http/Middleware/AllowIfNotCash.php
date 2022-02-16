@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Periksa;
-use App\CheckoutKasir;
-use App\JurnalUmum;
-use App\Classes\Yoga;
+use App\Models\Periksa;
+use App\Models\CheckoutKasir;
+use App\Models\JurnalUmum;
+use App\Models\Classes\Yoga;
 use Auth;
 
 class AllowIfNotCash
