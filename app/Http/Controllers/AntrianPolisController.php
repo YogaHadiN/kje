@@ -9,7 +9,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use Bitly;
 use App\Http\Controllers\AntrianPeriksasController;
-use App\Models\Events\FormSubmitted;
+use App\Events\FormSubmitted;
 use App\Models\Antrian;
 use App\Models\JenisAntrian;
 use App\Models\Sms;
