@@ -4,7 +4,7 @@ namespace App\Models;
 use DB;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Coa;
+use App\Models\Coa;
 
 class Coa extends Model{
 	public $incrementing = false; 
