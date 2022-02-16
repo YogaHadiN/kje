@@ -84,7 +84,7 @@ class TestController extends Controller
 	}
 	public function test(){
 
-		return view('test.index');
+		dd( Antrian::orderBy('id', 'desc')->first() );
 		
 	}
 	public function testQueue(){
