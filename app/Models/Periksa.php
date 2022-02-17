@@ -818,7 +818,7 @@ class Periksa extends Model{
 	}
 
     public function jurnals(){
-        return $this->morphMany('App\Models\JurnalUmum', 'jurnalable');
+        return $this->morphMany(Jurnal::class, 'jurnalable');
     }
     public function getKetjurnalAttribute(){
         $pasien = $this->pasien->nama;

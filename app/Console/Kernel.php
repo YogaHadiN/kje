@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
 		 Commands\smsCekInbox::class,
 		 Commands\piutangAsuransiBelumDibayar3Bulan::class,
 		 Commands\testJurnal::class,
-		 Commands\dbBackup::class,
+		 /* Commands\dbBackup::class, */
 		 Commands\refreshKunjunganPasien::class,
 		 Commands\dbHapusdiskon::class,
 		 Commands\sendMeLaravelLog::class,
