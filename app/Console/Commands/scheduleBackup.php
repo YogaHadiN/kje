@@ -39,6 +39,6 @@ class scheduleBackup extends Command
     public function handle()
     {
 		Log::info('dibackup ' . date('Y-m-d H:i:s'));
-		exec('mysqldump --user=kurus --password=gnduT! jatielok | gzip > /var/database/jatielok_`date +"%Y-%m-%d_%H:%M:%S"`.sql.gz');
+		exec('mysqldump --user=root --password=Yogaman89 jatielok | gzip > /var/database/jatielok_`date +"%Y-%m-%d_%H:%M:%S"`.sql.gz');
     }
 }
