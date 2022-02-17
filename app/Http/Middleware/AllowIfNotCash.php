@@ -25,7 +25,7 @@ class AllowIfNotCash
 
 
         $checkout = CheckoutKasir::latest()->first();
-        $jurnal_id = JurnalUmum::where('jurnalable_type', 'App\Periksa')
+        $jurnal_id = JurnalUmum::where('jurnalable_type', 'App\Models\Periksa')
                                 ->where('jurnalable_id', $periksa->id)
                                 ->latest()
                                 ->first()
