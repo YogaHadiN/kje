@@ -6,7 +6,7 @@ use Input;
 
 use App\Http\Requests;
 
-use App\JurnalUmum;
+use App\Models\JurnalUmum;
 use Carbon\Carbon;
 use App\Models\Manual;
 use App\Models\FakturBelanja;
