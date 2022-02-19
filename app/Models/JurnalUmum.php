@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Classes\Yoga;
+use App\Models\Classes\Yoga;
 
 class JurnalUmum extends Model{
 
