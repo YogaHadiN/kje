@@ -47,7 +47,7 @@
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<div class="form-group @if($errors->has('debit'))has-error @endif">
 					{!! Form::label('debit', 'Debit/Kredit', ['class' => 'control-label']) !!}
-					{!! Form::select('debit', App\JurnalUmum::debitKredit(), null, array(
+					{!! Form::select('debit', App\Models\JurnalUmum::debitKredit(), null, array(
 						'class' => 'form-control rq',
 						'onchange' => 'validateView();return false;',
 						'id'    => 'debit'
