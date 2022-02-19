@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\AntrianPolisController;
 
 class AntrianPeriksa extends Model{
 	// Add your validation rules here
@@ -43,5 +44,14 @@ class AntrianPeriksa extends Model{
     public function gambars(){
         return $this->morphMany('App\Models\GambarPeriksa', 'gambarable');
     }
+	public static function boot(){
+		parent::boot();
+		self::deleting(function($antrianperiksa){
+			$antrianperiksa->antrian()->delete();
+			$apc                     = new AntrianPolisController;
+			$apc->updateJumlahAntrian(false);
+		});
+	}
+	
 
 }

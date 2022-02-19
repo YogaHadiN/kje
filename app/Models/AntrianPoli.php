@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AntrianPoli;
+use App\Http\Controllers\AntrianPolisController;
 use DateTime;
 
 class AntrianPoli extends Model{
@@ -49,6 +50,15 @@ class AntrianPoli extends Model{
 						->where('tanggal', $besok)
 						->where('poli', 'gigi')
 						->get();
+	}
+
+	public static function boot(){
+		parent::boot();
+		self::deleting(function($antrianpoli){
+			$antrianpoli->antrian()->delete();
+			$apc                     = new AntrianPolisController;
+			$apc->updateJumlahAntrian(false);
+		});
 	}
 	
 }

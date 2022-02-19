@@ -34,6 +34,7 @@
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
+						<th>id</th>
 						<th>Antrian</th>
                         <th>Tanggal</th>
                         <th>Poli</th>
@@ -49,6 +50,7 @@
                     @if ($antrian_periksas->count() > 0)
                         @foreach ($antrian_periksas as $periksa)
                             <tr>
+                              <td>{{ $periksa->antrian->id }}</td>
 								@if($periksa->poli == 'estetika' && $periksa->periksaEx != null)
 								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksaEx->id . '/images') }}">Gambar</a> </td>
 								@else
