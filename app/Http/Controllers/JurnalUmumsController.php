@@ -102,7 +102,10 @@ class JurnalUmumsController extends Controller
 			$route = 'laporans';
 		}
 
-		$jurnalumums = JurnalUmum::with('jurnalable')->whereNull('coa_id')->get();
+		$jurnalumums = JurnalUmum::with(
+			'jurnalable.supplier',
+			'jurnalable.staf'
+		)->whereNull('coa_id')->get();
 
 		$pengeluarans = [];
 		$pendapatans = [];

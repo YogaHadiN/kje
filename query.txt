@@ -1,2 +1,5 @@
 CREATE INDEX jurnal_index ON jurnal_umums (jurnalable_id, jurnalable_type);
 CREATE INDEX idx_coa_id ON jurnal_umums (coa_id);
+
+
+sudo apt install php php-cli php-common php-mbstring php-gd php-intl php-xml php-mysql php-zip php-xsl php-curl

@@ -30,8 +30,8 @@ class Pengeluaran extends Model{
 
     public function getKetjurnalAttribute(){
 		$supplier = $this->supplier->nama;
-        $barang = $this->keterangan;
-		$nilai = $this->nilai;
+        $barang   = $this->keterangan;
+		$nilai    = $this->nilai;
 			return 'Pembelanjaan <strong>' . $barang . '<br /></strong> di  :  <strong>' . $supplier . '</strong><br />sebesar <strong><span class="uang">' . $nilai . '</span><strong>';
 
     }

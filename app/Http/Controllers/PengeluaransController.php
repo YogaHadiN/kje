@@ -368,8 +368,8 @@ class PengeluaransController extends Controller
 			$parameterKasir = $this->parameterKasir();
 			//
 			//backup database
-			$kernel = new scheduleBackup;
-			$kernel->handle();
+			/* $kernel = new scheduleBackup; */
+			/* $kernel->handle(); */
 
 			$uang_di_kasir     = $parameterKasir['uang_di_kasir'];
 			$total_uang_keluar = $parameterKasir['total_uang_keluar'];
