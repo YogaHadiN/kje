@@ -515,7 +515,6 @@ class PolisController extends Controller
 		}
 		$penunjang = $penunjang_result;
 
-		dd( $generik_list );
 		/* return $pasien->alergies[0]->generik; */
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
