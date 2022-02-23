@@ -12,7 +12,7 @@
 							<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
 							  {!! Form::label('asuransi_id', 'Untuk Asuransi', ['class' => 'control-label']) !!}
 								@if( isset($asuransis) ) 
-								  {!! Form::select('asuransi_id[]', App\Models\Asuransi::list(), $asuransis, [ // $asuransis = [202];
+								  {!! Form::select('asuransi_id[]', $asuransi_list, $asuransis, [ // $asuransis = [202];
 
 										  'class'            => 'form-control selectpick rq',
 										  'multiple'         => 'multiple',
@@ -21,7 +21,7 @@
 
 								  ]) !!}
 							  @else
-								  {!! Form::select('asuransi_id[]' , App\Models\Asuransi::list(), null, [
+								  {!! Form::select('asuransi_id[]' , $asuransi_list, null, [
 
 										  'class'            => 'form-control selectpick rq',
 										  'multiple'         => 'multiple',

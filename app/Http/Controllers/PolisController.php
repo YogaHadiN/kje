@@ -34,6 +34,7 @@ class PolisController extends Controller
     }
 	public function poli($id, Request $request){
 		$generik_list = Generik::list();
+		$asuransi_list = Asuransi::list();
 		$antrianperiksa = AntrianPeriksa::with('gambars',
 												'pasien.alergies', 
 												'antrian.jenis_antrian', 
@@ -334,7 +335,8 @@ class PolisController extends Controller
 			->withBase64($base64)
 			->withPasien($pasien)
 			->withSignas($signas)
-			->withGenerikList($generik_list)
+			->with('generik_list',$generik_list)
+			->with('asuransi_list',$asuransi_list)
 			->withBukus($bukus)
 			->withConfirms($confirms)
 			->with('refleks_patelas', $refleks_patelas)
@@ -496,7 +498,6 @@ class PolisController extends Controller
 
 		$url = url('/');
 
-		$generik_lists = Generik::list();
 		if ( !empty( $antrianperiksa->gds ) ) {
 			$transaksiusg[] = [
 				"jenis_tarif_id"      => "116",
@@ -513,6 +514,8 @@ class PolisController extends Controller
 			$penunjang_result .= $p;
 		}
 		$penunjang = $penunjang_result;
+
+		dd( $generik_list );
 		/* return $pasien->alergies[0]->generik; */
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
@@ -521,7 +524,7 @@ class PolisController extends Controller
 			->withIcd10s($icd10s)
 			->withBase64($base64)
 			->withPasien($pasien)
-			->withGenerikList($generik_list)
+			->with('generik_list',$generik_list)
 			->with('pakai_bayar_pribadi', $pakai_bayar_pribadi)
 			->with('antrian_id', $antrian_id)
 			->with('kepala_terhadap_paps', $kepala_terhadap_paps)
@@ -533,7 +536,8 @@ class PolisController extends Controller
 			->with('tujuan_rujuk', $tujuan_rujuk)
 			->withSigna($signa)
 			->withStafs($stafs)
-			->with('generik_lists', $generik_lists)
+			->with('generik_list', $generik_list)
+			->with('asuransi_list', $asuransi_list)
 			->withAturans($aturans)
 			->withAturanlist($aturanlist)
 			->withTindakans($tindakans)
