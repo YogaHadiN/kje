@@ -648,7 +648,7 @@
       <div class="modal-body">
 		  <div class="form-group @if($errors->has('gener')) has-error @endif">
 		    {!! Form::label('generik_id', 'Nama Generik', ['class' => 'control-label']) !!}
-			{!! Form::select('generik_id' , App\Models\Generik::list(), null, [ 'data-live-search' => 'true', 'class' => 'form-control selectpick', 'onchange' => 'generik_list_change();return false;', 'id' => 'generik_list_alergi']) !!}
+			{!! Form::select('generik_id' , $generik_list, null, [ 'data-live-search' => 'true', 'class' => 'form-control selectpick', 'onchange' => 'generik_list_change();return false;', 'id' => 'generik_list_alergi']) !!}
 		    @if($errors->has('generik_id'))<code>{{ $errors->first('generik_id') }}</code>@endif
 		  </div>
 		  {{-- {!! Form::text('id_poli', $antrianperiksa->id, ['class' => 'form-control hide', 'id' => ]) !!} --}}

@@ -33,6 +33,7 @@ class PolisController extends Controller
         /* $this->middleware('harusUrut', ['only' => ['poli']]); */
     }
 	public function poli($id, Request $request){
+		$generik_list = Generik::list();
 		$antrianperiksa = AntrianPeriksa::with('gambars',
 												'pasien.alergies', 
 												'antrian.jenis_antrian', 
@@ -333,6 +334,7 @@ class PolisController extends Controller
 			->withBase64($base64)
 			->withPasien($pasien)
 			->withSignas($signas)
+			->withGenerikList($generik_list)
 			->withBukus($bukus)
 			->withConfirms($confirms)
 			->with('refleks_patelas', $refleks_patelas)
@@ -519,6 +521,7 @@ class PolisController extends Controller
 			->withIcd10s($icd10s)
 			->withBase64($base64)
 			->withPasien($pasien)
+			->withGenerikList($generik_list)
 			->with('pakai_bayar_pribadi', $pakai_bayar_pribadi)
 			->with('antrian_id', $antrian_id)
 			->with('kepala_terhadap_paps', $kepala_terhadap_paps)

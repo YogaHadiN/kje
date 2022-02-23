@@ -27,7 +27,7 @@ Klinik Jati Elok | Alergi Obat
 			{!! Form::open(['url' => 'pasiens/' . $pasien->id . '/alergi', 'method' => 'post']) !!}
 				<div class="form-group @if($errors->has('generik_id')) has-error @endif">
 				  {!! Form::label('generik_id', 'Nama Generik', ['class' => 'control-label']) !!}
-				  {!! Form::select('generik_id' , App\Models\Generik::list(), null, ['class' => 'form-control selectpick']) !!}
+				  {!! Form::select('generik_id' , $generik_list, null, ['class' => 'form-control selectpick']) !!}
 				  @if($errors->has('generik_id'))<code>{{ $errors->first('generik_id') }}</code>@endif
 				</div>
 				<div class="row">
