@@ -88,6 +88,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('cek_list_harian/listrik', [\App\Http\Controllers\CekListHariansController::class, 'listrikPost']);
 	Route::post('test', [\App\Http\Controllers\TestController::class, 'post']);
 	Route::get('test', [\App\Http\Controllers\TestController::class, 'index']);
+	Route::get('test/pusher', [\App\Http\Controllers\TestController::class, 'pusher']);
 	Route::post('test/ajax', [\App\Http\Controllers\TestController::class, 'ajax']);
 	Route::get('test/test', [\App\Http\Controllers\TestController::class, 'test']);
 	Route::get('diagnosa/tidakdirujuk', [\App\Http\Controllers\TidakdirujukController::class, 'index']);
@@ -525,6 +526,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 	//membuat merek baru berdasarkan merek_id
 	Route::post('kasir/submit', [\App\Http\Controllers\KasirBaseController::class, 'kasir_submit']);
+	Route::get('kasir/keluar_masuk_kasir', [\App\Http\Controllers\KasirsController::class, 'keluar_masuk_kasir']);
 
 	//update tarif berdasarkan tarif_id
 	Route::post('update/tarifs/', [\App\Http\Controllers\CustomController::class, 'updtrf']);

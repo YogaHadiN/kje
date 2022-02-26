@@ -98,5 +98,9 @@ class TestController extends Controller
 		}
 		return 'sukses!!';
 	}
+	public function pusher(){
+		return view('pusher');
+	}
+	
 	
 }

@@ -13,6 +13,8 @@ use App\Console\Commands\scheduleBackup;
 use Moota;
 use DB;
 use App\Models\Saldo;
+use App\Models\CheckoutKasir;
+use App\Models\JurnalUmum;
 use App\Models\PesertaBpjsPerbulan;
 use App\Models\Classes\Yoga;
 use App\Models\Sms;
@@ -255,7 +257,15 @@ class KasirsController extends Controller
 		$datediff = $now - $your_date;
 		return round($datediff / (60 * 60 * 24));
 	}
-	
-
-
+	public function keluar_masuk_kasir(){
+		$jurnal_umum_id = CheckoutKasir::latest()->first()->jurnal_umum_id;
+		$jurnal_umums   = JurnalUmum::with('jurnalable')
+								  ->where('coa_id', '110000')
+								  ->where('id', '>', $jurnal_umum_id)
+								  ->orderBy('id', 'desc')
+								  ->get();
+		return view('kasirs.keluar_masuk_kasir', compact(
+			'jurnal_umums'
+		));
+	}
 }

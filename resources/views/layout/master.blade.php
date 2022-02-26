@@ -268,6 +268,7 @@
                             <li>{!! HTML::link('pengeluarans/nota_z', 'Nota Z')!!}</li>
                             <li>{!! HTML::link('pengeluarans/rc', 'RC')!!}</li>
                             <li>{!! HTML::link('kasirs/saldo', 'Hitung Uang di Kasir')!!}</li>
+                            <li>{!! HTML::link('kasir/keluar_masuk_kasir', 'Keluar Masuk Kasir')!!}</li>
                             <li>{!! HTML::link('jurnal_umums/normalisasi', 'Normalisasi Jurnal')!!}</li>
                         </ul>
                     </li>

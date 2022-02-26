@@ -112,3 +112,9 @@ if (!function_exists('get_string_between')) {
         return trim(substr($string, $ini, $len));
     }
 }
+
+if (!function_exists('buatrp')) {
+    function buatrp($angka){
+        return "Rp. " . number_format($angka,0,',','.') . ',-';
+    }
+}

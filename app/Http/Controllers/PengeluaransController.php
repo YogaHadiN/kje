@@ -244,7 +244,6 @@ class PengeluaransController extends Controller
 									->where('coa_id', 110000)
                                     ->where('debit', '0')
                                     ->where('id', '>=', $checkout->jurnal_umum_id)
-                                    ->where('created_at', '>=', $checkout->created_at)
                                     ->where('jurnalable_type', 'not like', 'App\\\Models\\\CheckoutKasir')
                                     ->get();
 
@@ -260,21 +259,18 @@ class PengeluaransController extends Controller
 									->where('coa_id', 110000)
 									->where('jurnalable_type', '!=', 'App\Models\Modal')
 									->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
-                                    ->where('created_at', '>=', $checkout->created_at)
 									->where('debit', '1')
 									->get();
 
         $modal_awals = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
                                     ->where('coa_id', 110000)
                                     ->where('jurnalable_type', 'App\Models\Modal')
-                                    ->where('created_at', '>=', $checkout->created_at)
                                     ->where('debit', '1')
                                     ->get();
 
         $uang_keluar = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
                                     ->where('coa_id', 110000)
                                     ->where('jurnalable_type', '!=', 'App\Models\Modal')
-                                    ->where('created_at', '>=', $checkout->created_at)
                                     ->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
                                     ->where('debit', '0')
                                     ->get();
