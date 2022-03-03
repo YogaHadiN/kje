@@ -16,4 +16,15 @@ class BagiGigi extends Model
     public function pph21s(){
         return $this->morphOne('App\Models\Pph21', 'pph21able');
     }
+    public function jurnals(){
+        return $this->morphMany(JurnalUmum::class, 'jurnalable');
+    }
+	public static function boot(){
+		parent::boot();
+		self::deleting(function($model){
+			$model->pph21s()->delete();
+			$model->jurnals()->delete();
+		});
+	}
+	
 }

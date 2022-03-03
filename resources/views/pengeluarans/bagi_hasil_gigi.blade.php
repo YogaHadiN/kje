@@ -171,6 +171,7 @@
 			</div>
 		</div>
 	</div>
+	{!! Form::close() !!}
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<div class="panel-title">Daftar Pembayaran Bagi Hasil</div>
@@ -197,7 +198,18 @@
 								<td class="uang">{{ $gaji->pph21 }}</td>
 								<td class="text-center">{{ $gaji->mulai->format('M Y') }}</td>
 								<td class="text-center">{{ $gaji->tanggal_dibayar->format('d-m-Y') }}</td>
-								<td> <a class="btn btn-info btn-xs btn-block" href="{{ url('pdfs/bagi_hasil_gigi/' . $gaji->id) }}" >struk</a> </td>
+								<td>
+									<div class="row">
+										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+											 <a class="btn btn-info btn-block" href="{{ url('pdfs/bagi_hasil_gigi/' . $gaji->id) }}" >Struk</a> 
+										</div>
+										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+											{!! Form::open(['url' => 'pengeluarans/bagi_hasil_gigi/' . $gaji->id, 'method' => 'delete']) !!}
+												<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus bagi hasil gigi ini?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+											{!! Form::close() !!}
+										</div>
+									</div>
+								</td>
 							</tr>
 						@endforeach
 					</tbody>
@@ -206,7 +218,6 @@
 			<?php echo $bagi_gigi->appends(Input::except('page'))->links(); ?>
 		</div>
 	</div>
-	{!! Form::close() !!}
 @stop
 @section('footer') 
 	{!! HTML::script('js/bagi_gigi.js')!!}

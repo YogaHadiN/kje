@@ -379,6 +379,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('pengeluarans/bagi_hasil_gigi', [\App\Http\Controllers\PengeluaransController::class, 'bagiHasilGigi']);
 		Route::post('pengeluarans/bagi_hasil_gigi', [\App\Http\Controllers\PengeluaransController::class, 'bagiHasilGigiPost']);
+		Route::delete('pengeluarans/bagi_hasil_gigi/{id}', [\App\Http\Controllers\PengeluaransController::class, 'bagiHasilGigiDelete']);
 
 		Route::get('pengeluarans/gaji_dokter_gigi', [\App\Http\Controllers\BayarGajiController::class, 'gajiDokterGigi']);
 

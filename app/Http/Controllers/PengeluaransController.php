@@ -255,7 +255,8 @@ class PengeluaransController extends Controller
 
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
 
-		$uang_masuks = JurnalUmum::with('jurnalable')->where('id', '>=', $checkout->jurnal_umum_id)
+		$uang_masuks = JurnalUmum::with('jurnalable')
+									->where('id', '>=', $checkout->jurnal_umum_id)
 									->where('coa_id', 110000)
 									->where('jurnalable_type', '!=', 'App\Models\Modal')
 									->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
@@ -709,9 +710,9 @@ class PengeluaransController extends Controller
 	}
 
 	public function peralatans(){
-		$peralatans = $this->queryPeralatan('App\\\Models\\\BelanjaPeralatan');
+		$peralatans      = $this->queryPeralatan('App\\\Models\\\BelanjaPeralatan');
 		$bahan_bangunans = $this->queryPeralatan('App\\\Models\\\BahanBangunan');
-		$data = compact( 'peralatans', 'bahan_bangunans');
+		$data            = compact( 'peralatans', 'bahan_bangunans');
 		return view('pengeluarans.peralatans', $data);
 	}
 	
@@ -1891,4 +1892,12 @@ class PengeluaransController extends Controller
 		);
 		return redirect('suppliers/belanja_bukan_obat')->withPesan($pesan);
 	}
+	public function bagiHasilGigiDelete($id){
+		$bagi_gigi = BagiGigi::destroy($id) ;
+		$pesan     = Yoga::suksesFlash('Bagi Hasil Gigi Berhasil dihapus');
+		return redirect()->back()->withPesan($pesan);
+
+
+	}
+	
 }

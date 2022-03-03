@@ -67,13 +67,13 @@ class cekMutasi19Terakhir extends Command
 		$insertMutasi         = [];
 		foreach ($banks['data'] as $bank) {
 			$bank_id = $bank->bank_id;
-			$newBank = AkunBank::findOrNew($bank_id);
-			if ( !$newBank->id ) {
-				$newBank->id             = $bank_id;
-				$newBank->nomor_rekening = $bank->account_number;
-				$newBank->akun           = $bank->bank_type;
-				$newBank->save();
-			}
+			$newBank = AkunBank::firstOrCreate([
+				'id' => $bank_id
+			],[
+				'id'             => $bank_id,
+				'nomor_rekening' => $bank->account_number,
+				'akun'           => $bank->bank_type
+			]);
 			$mutasis = Moota::mutation( $newBank->id )->latest(19)->toArray();
 			$insertKredit = [];
 			foreach ($mutasis as $mutasi) {
