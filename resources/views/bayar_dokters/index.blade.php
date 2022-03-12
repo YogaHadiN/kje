@@ -32,33 +32,38 @@
       </div>
       <div class="panel-body">
 		  <div class="table-responsive">
-            <?php echo $bayardokters->appends(Input::except('page'))->links(); ?>
             <table class="table table-striped table-bordered table-hover " id="tableAsuransi">
                   <thead>
                     <tr>
                     	<th>ID</th>
-                    	<th>Tanggal</th>
-                    	<th>Nama Dokter</th>
-                    	<th>Pembayaran</th>
+                    	<th>
+                            Tanggal
+                            {!! Form::text('id', null, ['class' => 'ajaxChange form-control', 'id' => 'id']) !!}
+                        </th>
+                    	<th>
+                            Nama Dokter
+                            {!! Form::text('nama_dokter', null, ['class' => 'ajaxChange form-control', 'id' => 'nama_dokter']) !!}
+                        </th>
+                    	<th>
+                            Pembayaran
+                            {!! Form::text('pembayaran', null, ['class' => 'ajaxChange form-control', 'id' => 'pembayaran']) !!}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($bayardokters as $bayar)
                         <tr>
                             <td>{!! $bayar->id !!}</td>
-                            <td>{!! $bayar->created_at->format('d-m-Y') !!}</td>
-                            <td>{!! $bayar->staf->nama !!}</td>
-                            <td class="uang">{!! $bayar->bayar_dokter !!}</td>
+                            <td>{!! $bayar->created_at !!}</td>
+                            <td>{!! $bayar->nama !!}</td>
+                            <td class="uang">{!! $bayar->nilai !!}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <?php echo $bayardokters->appends(Input::except('page'))->links(); ?>
 		  </div>
       </div>
 </div>
-
-
 @stop
 @section('footer') 
 	
