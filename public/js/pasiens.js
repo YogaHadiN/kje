@@ -420,7 +420,7 @@ function selectPasien(key = 0){
 			temp += "<td nowrap class='displayNone prolanis_dm'><div>" + MyArray[i].prolanis_dm + "</div></td>";
 			temp += "<td nowrap class='displayNone prolanis_ht'><div>" + MyArray[i].prolanis_ht + "</div></td>";
 			temp += "<td nowrap class='displayNone asuransi_id'><div>" + MyArray[i].asuransi_id + "</div></td>";
-			temp += "<td nowrap class='displayNone'><div>" + MyArray[i].image + "</div></td>";
+			temp += "<td nowrap class='displayNone pasien_image'><div>" + MyArray[i].image + "</div></td>";
 			temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
 
 			if ( lewat_antrian ) {

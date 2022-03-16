@@ -5,13 +5,14 @@
 				'name' : 'key',
 				'value' : key
 			};
-			var displayed_rows = $('#displayed_rows').val();
-            var DDID_PASIEN = $('#id').closest('th').hasClass('displayNone');
-            var DDID_ASURANSI = $('#nama_asuransi').closest('th').hasClass('displayNone');
+
+			var displayed_rows  = $('#displayed_rows').val();
+            var DDID_PASIEN     = $('#id').closest('th').hasClass('displayNone');
+            var DDID_ASURANSI   = $('#nama_asuransi').closest('th').hasClass('displayNone');
             var DDnomorAsuransi = $('#nomor_asuransi').closest('th').hasClass('displayNone');
-            var DDnamaPeserta = $('#nama_peserta').closest('th').hasClass('displayNone');
-            var DDnamaIbu = $('#nama_ibu').closest('th').hasClass('displayNone');
-            var DDnamaAyah = $('#nama_ayah_Input').closest('th').hasClass('displayNone');
+            var DDnamaPeserta   = $('#nama_peserta').closest('th').hasClass('displayNone');
+            var DDnamaIbu       = $('#nama_ibu').closest('th').hasClass('displayNone');
+            var DDnamaAyah      = $('#nama_ayah_Input').closest('th').hasClass('displayNone');
 
             $.get(url, data, function(hasil) {
 				alert('asu');

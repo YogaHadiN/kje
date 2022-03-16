@@ -10,7 +10,7 @@ var input_prolanis_ht     = '';
 function rowEntry(control) {
     resetEntry();
     input_nama             = $(control).closest('tr').find('td:nth-child(2) div').html();
-    input_image            = base_s3 + '/' + $(control).closest('tr').find('td:nth-child(12) div').html();
+    input_image            = base_s3 + '/' + $(control).closest('tr').find('.pasien_image div').html();
     input_nama_asuransi    = $(control).closest('tr').find('.nama_asuransi div').html();
 
     input_ID               = $(control).closest('tr').find('td:first-child div').html();
