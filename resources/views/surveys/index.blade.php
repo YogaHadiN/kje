@@ -19,13 +19,6 @@
   .affix + .container-fluid {
     padding-top: 70px;
   }
-		{{-- .sticky{ --}}
-		{{--   position: -webkit-sticky; /* Safari */ --}}
-		{{--   position: sticky; --}}
-		{{--   top: 0; --}}
-		{{--   background-color: green; --}}
-		{{--   border: 2px solid #4CAF50; --}}
-		{{-- } --}}
 	</style>
 @stop
 @section('page-title') 
@@ -54,7 +47,7 @@
 	<div class="row">
 		<div class="col-lg-4">
 			@include('surveys.komponen_pasien')
-			{{-- @include('surveys.komponen_kelengkapan_dokumen') --}}
+			@include('surveys.komponen_kelengkapan_dokumen')
 		</div>
 		<div class="col-lg-8">
 			<div class="panel panel-default full-height totalthis" data-spy="affix" data-offset-top="197">
@@ -364,5 +357,6 @@
     {!! HTML::script('js/plugins/webcam/photo.js')!!}
 @endif
 	{!! HTML::script('js/kasir_index.js') !!}
+	{!! HTML::script('js/show_periksa.js') !!}
 	{!! HTML::script('js/submit_page_kasir.js') !!}
 @stop
