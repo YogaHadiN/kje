@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\Http\Controllers\AsuransisController;
 use DB;
 use Carbon\Carbon;
-use App\Classes\Yoga;
+use App\Models\Classes\Yoga;
 use App\Models\Sms;
 
 class piutangAsuransiBelumDibayar3Bulan extends Command

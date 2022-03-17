@@ -68,8 +68,8 @@ class Kernel extends ConsoleKernel
 				  ->hourly();
 		 $schedule->command('cek:mutasi')
 				  ->dailyAt('23:50');
-		 $schedule->command('cron:test')
-				  ->everyMinute();
+		 /* $schedule->command('cron:test') */
+				  /* ->everyMinute(); */
 		 $schedule->command('task:penyusutan')
 				  ->monthlyOn(date('t'), '15:00');
 		 $schedule->command('db:refreshKunjunganPasien')
