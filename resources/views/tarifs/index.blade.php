@@ -123,7 +123,7 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<div class="form-group @if($errors->has('tipe_laporan_admedika_id'))has-error @endif">
 					  {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika', ['class' => 'control-label']) !!}
-					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::pluck('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id'])!!}
+					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\Models\TipeLaporanAdmedika::pluck('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id'])!!}
 					  @if($errors->has('tipe_laporan_admedika_id'))<code>{{ $errors->first('tipe_laporan_admedika_id') }}</code>@endif
 					</div>
                 </div>
@@ -252,7 +252,7 @@
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<div class="form-group @if($errors->has('tipe_laporan_admedika_id'))has-error @endif">
 					  {!! Form::label('tipe_laporan_admedika_id', 'Tipe Laporan Admedika', ['class' => 'control-label']) !!}
-					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\TipeLaporanAdmedika::pluck('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id_update'])!!}
+					  {!! Form::select('tipe_laporan_admedika_id', [ null => '-Pilih-' ] + App\Models\TipeLaporanAdmedika::pluck('tipe_laporan_admedika', 'id')->all(),null, ['class' => 'form-control', 'id' => 'tipe_laporan_admedika_id_update'])!!}
 					  @if($errors->has('tipe_laporan_admedika_id'))<code>{{ $errors->first('tipe_laporan_admedika_id') }}</code>@endif
 					</div>
                 </div>
