@@ -727,33 +727,18 @@ class CustomController extends Controller
 				$periksa->terapi !== '' &&
 				$periksa->terapi !== '[]'
 		   	) {
-				$antrianfarmasi             = new AntrianFarmasi;
-				$antrianfarmasi->periksa_id = $periksa->id;
-				$antrianfarmasi->jam        = date('H:i:s');
-				$antrianfarmasi->tanggal    = date('Y-m-d');
-				$antrianfarmasi->save();
-
 				PengantarPasien::where('antarable_type', 'App\Models\AntrianKasir')
 					->where('antarable_id', $antriankasir->id)
 					->update([
 						'antarable_type' => 'App\Models\Periksa',
 						'antarable_id'   => $antriankasir->periksa_id
 					]);
-
-				if (isset($antriankasir->antrian)) {
-					$antrian                 = Antrian::find($antriankasir->antrian->id);
-					$antrian->antriable_type = 'App\Models\AntrianFarmasi' ;
-					$antrian->antriable_id   = $antrianfarmasi->id;
-					$antrian->save();
-
-				}
-			} else {
-				if (isset( $antriankasir->antrian)) {
-					$antrian                 = Antrian::find($antriankasir->antrian->id);
-					$antrian->antriable_type = 'App\Models\Periksa' ;
-					$antrian->antriable_id   = $periksa->id;
-					$antrian->save();
-				}
+			}
+			if (isset( $antriankasir->antrian)) {
+				$antrian                 = $antriankasir->antrian;
+				$antrian->antriable_type = 'App\Models\Periksa' ;
+				$antrian->antriable_id   = $periksa->id;
+				$antrian->save();
 			}
 
 			$apc = new AntrianPolisController;

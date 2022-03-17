@@ -83,9 +83,8 @@
 								@endforeach
 					  @else
 					  <tr>
-						<td colspan="5" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
+						<td colspan="8" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>
 					  </tr>
-						{{-- false expr --}}
 					  @endif
 
 						

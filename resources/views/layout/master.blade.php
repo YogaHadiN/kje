@@ -207,12 +207,6 @@
                     <li>
                         <a href="{{ url('antriankasirs') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Kasir</span></a>
                     </li>
-                    <li>
-                        <a href="{{ url('antrianfarmasis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Farmasi</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ url('antrian_kelengkapan_dokumens') }}"><i class="fa fa-flask"></i> <span class="nav-label">Antrian Kelengkapan Dokumen</span></a>
-                    </li>
                      <li>
                         <a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Obat</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
