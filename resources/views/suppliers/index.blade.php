@@ -19,7 +19,7 @@
       <div class="panel-heading">
             <div class="panel-title">
                 <div class="panelLeft">
-                    <h3>Total : {!! App\Supplier::all()->count() !!}</h3>
+                    <h3>Total : {!! App\Models\Supplier::all()->count() !!}</h3>
                 </div>
                 <div class="panelRight">
                     <a href="{{ url('suppliers/create') }}" class="btn btn-success"><span><i class="fa fa-plus"></i></span> Supplier Baru</a>

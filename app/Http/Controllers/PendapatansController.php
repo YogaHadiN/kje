@@ -20,7 +20,7 @@ use App\Models\Rekening;
 use App\Models\PembayaranAsuransi;
 use App\Models\PiutangDibayar;
 use App\Models\NotaJual;
-use App\Models\Imports\PembayaranImport;
+use App\Imports\PembayaranImport;
 use App\Rules\HarusMelaluiRekening;
 use App\Rules\pembayaranAsuransiHarusSama;
 use App\Models\Coa;
