@@ -113,19 +113,20 @@ class testcommand extends Command
      */
     public function handle()
     {
-		$antrians = Antrian::where('created_at', 'like', '2022-02-14%')
-							->where('antriable_type', 'App\\Models\\Periksa')
-							->get();
-		$errors = [];
-		foreach ($antrians as $antrian) {
-			try {
-				$asuransi_id = $antrian->antriable->asuransi_id;
-			} catch (\Exception $e) {
-				$errors[] = $antrian->id;
-			}
-		}
+		/* $antrians = Antrian::where('created_at', 'like', '2022-02-14%') */
+		/* 					->where('antriable_type', 'App\\Models\\Periksa') */
+		/* 					->get(); */
+		/* $errors = []; */
+		/* foreach ($antrians as $antrian) { */
+		/* 	try { */
+		/* 		$asuransi_id = $antrian->antriable->asuransi_id; */
+		/* 	} catch (\Exception $e) { */
+		/* 		$errors[] = $antrian->id; */
+		/* 	} */
+		/* } */
 
-		dd( $errors );
+		/* dd( $errors ); */
+		$this->testSolo();
 		/* $this->removeBpjsFromAntrianKelengkapan(); */
 		/* $this->tuningPiutangdibayarSudahdibayar(); */
 		/* $this->cariTransaksi(); */
@@ -1540,4 +1541,46 @@ class testcommand extends Command
 			}
 		}
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testSolo()
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'https://solo.wablas.com/api/v2/send-message',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS =>'{
+			 "data": [
+				{
+					"phone": "628111842351",
+					"message": "hello there dear Wifey" ,
+					"secret": false,
+					"retry": false,
+					"isGroup": false
+				}
+			]
+		}',
+		  CURLOPT_HTTPHEADER => array(
+			'Authorization: GyIsVhNjg1ZrgEve3aA8oeVjZPv3qAYCU4R6wn7uezspNpaTqj22yFpZKY4b6zH6',
+			'Content-Type: application/json'
+		  ),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		echo $response;
+	}
+	
+	
 }
