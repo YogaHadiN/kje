@@ -46,6 +46,9 @@ class WablasController extends Controller
 	}
 	
 	public function webhook(){
+		Log::info('===================================================');
+		Log::info('This is webhook');
+		Log::info('===================================================');
 		// rapihkan input tidak tepat
 		// kasih tau kalau pasien harus sudah ada di klinik pada pemberitahuan antrian
 		// enable daftar lagi dengan nomor yang sama apabila sudah dapat nomor antrian
