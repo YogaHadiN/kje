@@ -1899,5 +1899,23 @@ class PengeluaransController extends Controller
 
 
 	}
+	public function nota_z_keluar_masuk($id){
+		$checkout_before = CheckoutKasir::where( 'id' ,'<', $id)->latest()->first();
+		$checkout_after = CheckoutKasir::find($id);
+		$jurnal_umum_id_before = $checkout_before->jurnal_umum_id;
+		$jurnal_umum_id_after = $checkout_after->jurnal_umum_id;
+
+		/* $jurnal_umum_id = CheckoutKasir::latest()->limit(2)->first()->jurnal_umum_id; */
+		$jurnal_umums   = JurnalUmum::with('jurnalable')
+								  ->where('coa_id', '110000')
+								  ->where('id', '>', $jurnal_umum_id_before)
+								  ->where('id', '<=', $jurnal_umum_id_after)
+								  ->orderBy('id', 'desc')
+								  ->get();
+		return view('kasirs.keluar_masuk_kasir', compact(
+			'jurnal_umums'
+		));
+	}
+	
 	
 }

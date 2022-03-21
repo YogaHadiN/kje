@@ -309,6 +309,7 @@
                                     <td> 
                                         <a href="{{ url('pengeluarans/checkout/' . $checkout->id) }}" class="btn btn-primary btn-xs">details</a> 
                                         <a href='{!! url("pdfs/notaz/" . $checkout->id )!!}' class="btn btn-info btn-xs">Struk</a> 
+                                        <a href='{!! url("pdfs/notaz/keluar_masuk/" . $checkout->id )!!}' class="btn btn-success btn-xs">Keluar Masuk</a> 
                                     </td>
                                 </tr>
                                 @endforeach

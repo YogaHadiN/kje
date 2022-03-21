@@ -259,6 +259,7 @@ class KasirsController extends Controller
 	}
 	public function keluar_masuk_kasir(){
 		$jurnal_umum_id = CheckoutKasir::latest()->first()->jurnal_umum_id;
+		/* $jurnal_umum_id = CheckoutKasir::latest()->limit(2)->first()->jurnal_umum_id; */
 		$jurnal_umums   = JurnalUmum::with('jurnalable')
 								  ->where('coa_id', '110000')
 								  ->where('id', '>', $jurnal_umum_id)

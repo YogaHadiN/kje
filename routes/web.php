@@ -345,6 +345,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pengeluarans/show/{id}', [\App\Http\Controllers\PengeluaransController::class, 'show']);
 		Route::post('pengeluarans', [\App\Http\Controllers\PengeluaransController::class, 'store']);
 		Route::get('pengeluarans/nota_z', [\App\Http\Controllers\PengeluaransController::class, 'nota_z']);
+		Route::get('pdfs/notaz/keluar_masuk/{id}', [\App\Http\Controllers\PengeluaransController::class, 'nota_z_keluar_masuk']);
+
 		Route::get('pengeluarans/nota_z/detail/{id}', [\App\Http\Controllers\PengeluaransController::class, 'notaz_detail']);
 		route::post('pengeluarans/nota_z', [\App\Http\Controllers\PengeluaransController::class, 'notaz_post']);
 		Route::get('pengeluarans/rc', [\App\Http\Controllers\PengeluaransController::class, 'erce']);
