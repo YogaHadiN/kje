@@ -45,7 +45,9 @@ class WablasController extends Controller
 		}
 	}
 	
-	public function webhook(){
+	public function webhook(){}
+
+	public function webhooks(){
 
 		Log::info('===================================================');
 		Log::info('This is webhook');

@@ -127,7 +127,7 @@ class testcommand extends Command
 
 		/* dd( $errors ); */
 
-		$this->testIncoming();
+		$this->testSendWablas();
 		/* $this->testLog(); */
 		/* $this->testAudio(); */
 		/* $this->testButton(); */
@@ -1551,6 +1551,43 @@ class testcommand extends Command
 	*
 	* @return void
 	*/
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testSendWablas()
+	{
+		$curl = curl_init();
+		/* $token = "ZL4P4xoFBwhvKMPieXqoqHmO1NTkRJgBNtqOLSeWdpy7tqUXqA1hAzsiwXWNGKoI"; */
+		$payload = [
+			"data" => [
+				[
+					'phone' => '081381912803',
+					'message' => 'try message 1',
+					'secret' => false, // or true
+					'priority' => false, // or true
+				],
+			]
+		];
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,
+			array(
+				"Authorization: ZL4P4xoFBwhvKMPieXqoqHmO1NTkRJgBNtqOLSeWdpy7tqUXqA1hAzsiwXWNGKoI",
+				"Content-Type: application/json"
+			)
+		);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
+		curl_setopt($curl, CURLOPT_URL, "https://wablas.com/api/v2/send-bulk/text");
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		$result = curl_exec($curl);
+		curl_close($curl);
+		dd($result);
+	}
+	
 	private function testSolo()
 	{
 		$curl = curl_init();
