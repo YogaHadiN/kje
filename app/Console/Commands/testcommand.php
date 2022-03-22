@@ -126,7 +126,8 @@ class testcommand extends Command
 		/* } */
 
 		/* dd( $errors ); */
-		$this->integration();
+
+		$this->testLog();
 		/* $this->testAudio(); */
 		/* $this->testButton(); */
 		/* $this->testSolo(); */
@@ -1692,9 +1693,52 @@ class testcommand extends Command
 		curl_close($curl);
 		echo $response;
 	}
-	
-	
-	
-	
-	
+	private function testIncoming(){
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'http://3.1.25.111/webhook',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS =>'{
+		  "id": "8622E087B3D0D99205B87928846D4156",
+		  "pushName": "muhamad yanun",
+		  "isGroup": true,
+		  "group": {
+			"subject": "test md group",
+			"owner": "6281218966914@s.whatsapp.net",
+			"desc": null,
+			"participants": [
+				{ "id": "6281218966914@s.whatsapp.net", "admin": "superadmin" },
+				{ "id": "6281223641600@s.whatsapp.net", "admin": "admin" },
+				{ "id": "6281223922667@s.whatsapp.net", "admin": "admin" }
+			]
+		  },
+		  "message": "hallloo",
+		  "phone": "120363038560265485",
+		  "messageType": "conversation",
+		  "file": null,
+		  "mimeType": null
+		}',
+		  CURLOPT_HTTPHEADER => array(
+			'SENDER: IA093U',
+			'Content-Type: application/json'
+		  ),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		echo $response;
+	}
+	public function testLog(){
+		Log::info('===================================================');
+		Log::info('This is log');
+		Log::info('===================================================');
+	}
 }
