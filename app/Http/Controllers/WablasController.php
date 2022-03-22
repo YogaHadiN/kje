@@ -52,7 +52,7 @@ class WablasController extends Controller
 		if($_POST['message'] == 'hello') {
 			echo "Hello too.";
 		} else {
-			echo null;
+			echo 'tidak ada pesan';
 		}
 	}
 	public function webhooks(){
