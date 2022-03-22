@@ -1567,7 +1567,7 @@ class testcommand extends Command
 					'message' => 'try message 1',
 					'secret' => false, // or true
 					'priority' => false, // or true
-				],
+				]
 			]
 		];
 
@@ -1580,7 +1580,7 @@ class testcommand extends Command
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
-		curl_setopt($curl, CURLOPT_URL, "https://wablas.com/api/v2/send-bulk/text");
+		curl_setopt($curl, CURLOPT_URL, "https://console.wablas.com/api/v2/send-bulk/text");
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		$result = curl_exec($curl);

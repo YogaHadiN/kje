@@ -45,12 +45,14 @@ class WablasController extends Controller
 		}
 	}
 	
-	public function webhook(){}
-
-	public function webhooks(){
-
+	public function webhook(){
 		Log::info('===================================================');
-		Log::info('This is webhook');
+		Log::info('This is webhook 3234234');
+		Log::info('===================================================');
+	}
+	public function webhooks(){
+		Log::info('===================================================');
+		Log::info('This is webhook 111111111111111111111');
 		Log::info('===================================================');
 
 		// rapihkan input tidak tepat
