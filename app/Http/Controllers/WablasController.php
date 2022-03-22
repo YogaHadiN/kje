@@ -47,13 +47,8 @@ class WablasController extends Controller
 	
 	public function webhook(){
 		Log::info('===================================================');
-		Log::info('This is webhook 3234234');
+		Log::info('This is webhook 3234234xxxx');
 		Log::info('===================================================');
-		if($_POST['message'] == 'hello') {
-			echo "Hello too.";
-		} else {
-			echo 'tidak ada pesan';
-		}
 	}
 	public function webhooks(){
 		Log::info('===================================================');
