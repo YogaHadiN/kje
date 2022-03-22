@@ -127,7 +127,8 @@ class testcommand extends Command
 
 		/* dd( $errors ); */
 
-		$this->testLog();
+		$this->testIncoming();
+		/* $this->testLog(); */
 		/* $this->testAudio(); */
 		/* $this->testButton(); */
 		/* $this->testSolo(); */
