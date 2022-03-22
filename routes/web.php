@@ -14,6 +14,7 @@ Route::get('rekening/mandiri', [\App\Http\Controllers\MutasiBankController::clas
 Route::post('moota/callback', [\App\Http\Controllers\MutasiBankController::class, 'mootaCallback']);
 Route::post('woowa/webhook', [\App\Http\Controllers\WoowaController::class, 'webhook']);
 Route::post('wablas/webhook', [\App\Http\Controllers\WablasController::class, 'webhook']);
+Route::post('webhook', [\App\Http\Controllers\WablasController::class, 'webhook']);
 
 Route::resource('antrians', \App\Http\Controllers\AntriansController::class);
 

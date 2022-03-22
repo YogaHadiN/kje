@@ -41,10 +41,8 @@ class PembeliansController extends Controller
 
 	public function create($id)
 	{
-
 		$fakturbelanja = FakturBelanja::find($id);
 		if ($fakturbelanja->pembelian->count() > 0) {
-
 			return redirect('pembelians/' . $id . '/edit');
 		}
 
@@ -81,8 +79,6 @@ class PembeliansController extends Controller
 
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
-
-
 		return view('pembelians.create', compact(
 			'mereks'
 			, 'id' 
@@ -101,7 +97,6 @@ class PembeliansController extends Controller
 
 	public function store()
 	{
-
 		$messages          = array(
 			'required'    => ':attribute harus diisi terlebih dahulu',
 		);

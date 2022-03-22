@@ -126,7 +126,10 @@ class testcommand extends Command
 		/* } */
 
 		/* dd( $errors ); */
-		$this->testSolo();
+		$this->integration();
+		/* $this->testAudio(); */
+		/* $this->testButton(); */
+		/* $this->testSolo(); */
 		/* $this->removeBpjsFromAntrianKelengkapan(); */
 		/* $this->tuningPiutangdibayarSudahdibayar(); */
 		/* $this->cariTransaksi(); */
@@ -1581,6 +1584,117 @@ class testcommand extends Command
 		curl_close($curl);
 		echo $response;
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testButton()
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'https://solo.wablas.com/api/v2/send-button',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS =>'{
+			"data": [
+				{
+					"phone": "628111842351",
+					"message": {
+						"buttons": ["button 1", "button 2", "button 3"],
+						"content": "sending button message.",
+						"footer": "footer here"
+					},
+					"secret": false,
+					"retry": false,
+					"isGroup": false
+				}
+			]
+		}',
+		  CURLOPT_HTTPHEADER => array(
+			'Authorization: GyIsVhNjg1ZrgEve3aA8oeVjZPv3qAYCU4R6wn7uezspNpaTqj22yFpZKY4b6zH6',
+			'Content-Type: application/json'
+		  ),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		echo $response;
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testAudio()
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'https://solo.wablas.com/api/v2/send-audio',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS =>'{
+			 "data": [
+				{
+					"phone": "6281218966914",
+					"audio": "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3" ,
+					"secret": false,
+					"retry": false,
+					"isGroup": false
+				}
+			]
+		}',
+		  CURLOPT_HTTPHEADER => array(
+			'Authorization: GyIsVhNjg1ZrgEve3aA8oeVjZPv3qAYCU4R6wn7uezspNpaTqj22yFpZKY4b6zH6',
+			'Content-Type: application/json'
+		  ),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		echo $response;
+	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function integration()
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'https://solo.wablas.com/webhook/v1/wablas/GyIsVhNjg1ZrgEve3aA8oeVjZPv3qAYCU4R6wn7uezspNpaTqj22yFpZKY4b6zH6',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'POST',
+		  CURLOPT_POSTFIELDS => 'phone=6281223644679&message=hello&pushName=alex&timestamp=1636498800&category=image&url=https%3A%2F%2Fsawit.wablas.com%2Fassets%2Fimg%2Fwablas.png',
+		));
+		$response = curl_exec($curl);
+		curl_close($curl);
+		echo $response;
+	}
+	
+	
+	
 	
 	
 }
