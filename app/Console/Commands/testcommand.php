@@ -1644,7 +1644,7 @@ class testcommand extends Command
 		  CURLOPT_POSTFIELDS =>'{
 			"data": [
 				{
-					"phone": "628111842351",
+					"phone": "6281282562213",
 					"message": {
 						"buttons": ["button 1", "button 2", "button 3"],
 						"content": "sending button message.",
