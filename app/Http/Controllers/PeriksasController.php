@@ -446,7 +446,11 @@ p */
 			$cs->massUpdate($promo_updates);
 			$cs->massUpdate($pasien_updates);
 			$periksa->save();
-			$this->updateTemplate( Input::get('antrian_periksa_id'), $periksa_id, $periksa);
+			$this->updateTemplate(
+				Input::get('antrian_periksa_id'), 
+				$periksa_id, 
+				$periksa
+			);
 
 			if ( Input::get('asuransi_id') == '32' ) { // jika asuransi BPJS
 				$pasien                          = $periksa->pasien;
@@ -879,6 +883,7 @@ p */
 					]);
 
 			} else {
+
 				$antriankasir             = new AntrianKasir;
 				$antriankasir->periksa_id = $periksa_id;
 				$antriankasir->jam        = date('H:i:s');
@@ -899,7 +904,6 @@ p */
 						'antriable_type' => 'App\Models\AntrianKasir'
 					]);
 			}
-
 			$antrianperiksa->delete();
 		}
 		$apc = new AntrianPolisController;

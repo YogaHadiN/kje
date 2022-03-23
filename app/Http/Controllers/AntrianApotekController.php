@@ -125,12 +125,14 @@ class AntrianApotekController extends Controller
 					'antriable_id'   => $antrian->id,
 					'antriable_type' => 'App\Models\AntrianPeriksa'
 				]);
+
 			PengantarPasien::where('antarable_id', $antrianapotek->id)
 				->where('antarable_type', 'App\ModelsModels\\AntrianApotek')
 				->update([
 					'antarable_id'   => $antrian->id,
 					'antarable_type' => 'App\Models\AntrianPeriksa'
 				]);
+
 			$nama = $antrianapotek->periksa->pasien_id . '-' . $antrianapotek->periksa->pasien->nama;
 			$antrianapotek->delete();
 			$pesan = Yoga::suksesFlash('Pasien <strong>' . $nama . '</strong> Berhasil dikembalikan ke antrian apotek');

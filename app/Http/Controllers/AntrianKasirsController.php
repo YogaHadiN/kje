@@ -49,7 +49,8 @@ class AntrianKasirsController extends Controller
 					'antarable_id'   => $antrianapotek->id,
 					'antarable_type' => 'App\Models\AntrianApotek'
 				]);
-			$nama = $antriankasir->periksa->pasien_id . '-' . $antriankasir->periksa->pasien->nama;
+
+			$nama  = $antriankasir->periksa->pasien_id . '-' . $antriankasir->periksa->pasien->nama;
 			$antriankasir->delete();
 			$pesan = Yoga::suksesFlash('Pasien <strong>' . $nama . '</strong> Berhasil dikembalikan ke antrian apotek');
 			return redirect()->back()->withPesan($pesan);

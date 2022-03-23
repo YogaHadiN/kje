@@ -101,9 +101,12 @@ class KasirBaseController extends Controller
 
 
 	public function kasir_submit(){
-		$periksa_id = Input::get('periksa_id');
-		$prx        = Periksa::find($periksa_id);
-		if ( !AntrianKasir::where('periksa_id', $periksa_id)->exists() ) {
+		$periksa_id    = Input::get('periksa_id');
+		$prx           = Periksa::find($periksa_id);
+		$antrianapotek = AntrianApotek::where('periksa_id', $periksa_id)->first();
+		if ( 
+			!is_null($antrianapotek)
+		) {
 
 			/* if ( */ 
 			/* 	JurnalUmum::where('jurnalable_type', 'App\Periksa') */
@@ -121,11 +124,11 @@ class KasirBaseController extends Controller
 
 
 			//rubah terapi sesuai yang sudah diubah
-			$terapi1 = Input::get('terapi1');
-			$terapi1 = json_decode($terapi1, true);
-			$array = [];
+			$terapi1        = Input::get('terapi1');
+			$terapi1        = json_decode($terapi1, true);
+			$array          = [];
 			$hargaTotalObat = 0;
-			$arrays = [];
+			$arrays         = [];
 			foreach ($terapi1 as $t) {
 				Terapi::where('id', $t['id'])->update([
 					'merek_id'          => $t['merek_id'],
@@ -176,15 +179,13 @@ class KasirBaseController extends Controller
 			}
 
 			//jika ada perbaikan terapi di apotek, masukkam ke dalam database
-
 			if (!empty(Input::get('terapi2'))) {
-				$perbaikan = new Perbaikanresep;
+				$perbaikan             = new Perbaikanresep;
 				$perbaikan->periksa_id = $periksa_id;
-				$perbaikan->terapi = Input::get('terapi1');
+				$perbaikan->terapi     = Input::get('terapi1');
 				$perbaikan->save();
 			}
 
-			$antrianapotek = AntrianApotek::where('periksa_id', $periksa_id)->first();
 
 			$antriankasir             = new AntrianKasir;
 			$antriankasir->periksa_id = $periksa_id;
@@ -215,9 +216,7 @@ class KasirBaseController extends Controller
 				->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'))
 				->with('kasir_submit', $periksa_id);
 		} else {
-			AntrianApotek::where('periksa_id', $periksa_id)->delete();
-			$pesan = Yoga::gagalFlash('Antrian Apotek Sudah ada');
-
+			$pesan = Yoga::gagalFlash('Status sudah dicetak');
 			return redirect()->back()->withPesan($pesan);
 		}
 	}
