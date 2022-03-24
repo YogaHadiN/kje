@@ -13,16 +13,10 @@ use App\Models\Dose;
 use App\Models\BeratBadan;
 use DB;
 
-
-
 class DdlMerekController extends Controller
 {
-
-	
 	public function alloption(){
-
 		$asuransi_id = Input::get('asuransi_id');
-
 		$query = 'SELECT f.tidak_dipuyer as tidak_dipuyer, ';
 		$query .= 'm.id as merek_id, ';
 		$query .= 'f.sediaan as sediaan, ';
@@ -41,6 +35,7 @@ class DdlMerekController extends Controller
 		$query .= 'JOIN formulas as f on f.id = r.formula_id ';
 		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
+		$query .= "WHERE m.discontinue = 0 ";
 		$query .= 'ORDER BY m.id ASC';
 		$data =  DB::select($query);
 		

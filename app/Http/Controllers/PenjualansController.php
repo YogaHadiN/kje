@@ -29,7 +29,7 @@ class PenjualansController extends Controller
 	 */
 	public function index()
 	{
-		$mereks     = [null => '--pilih--'] + Merek::with('rak.formula')->get()->pluck('merek', 'custid')->all();
+		$mereks     = [null => '--pilih--'] + Merek::with('rak.formula')->where('discontinue', 0)->get()->pluck('merek', 'custid')->all();
 		$stafs      = [null => '- pilih -'] + Staf::pluck('nama', 'id')->all();
 		$nota_juals = NotaJual::with('penjualan.merek', 'staf', 'tipeJual')->latest()->paginate(10);
 

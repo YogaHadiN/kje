@@ -94,7 +94,9 @@
 					</tbody>
 					  <tfoot>
 						<tr>
-						  <td colspan="2">{!! Form::select('merek_id', $mereks, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'ddl_merek_id', 'onchange' => 'ddlChange(this)'])!!}</td>
+						  <td colspan="2">
+							  {!! Form::select('merek_id', $mereks, null, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'id' => 'ddl_merek_id', 'onchange' => 'ddlChange(this)'])!!}
+						  </td>
 						   <td class="displayNone"><input type="text" id="txt_harga_beli" class="form-control" placeholder="harga beli"/></td>
 						   <td><input type="text" id="txt_harga_jual" class="form-control" placeholder="harga jual" disabled/></td>
 						   <td><input type="text" id="txt_exp_date" class="form-control tanggal" placeholder="exp date" disabled/></td>
