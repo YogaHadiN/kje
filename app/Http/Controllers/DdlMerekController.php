@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
-
 use App\Models\Asuransi;
 use App\Models\Rak;
 use App\Models\Yoga;
@@ -38,9 +36,7 @@ class DdlMerekController extends Controller
 		$query .= "WHERE m.discontinue = 0 ";
 		$query .= 'ORDER BY m.id ASC';
 		$data =  DB::select($query);
-		
 		return $this->formatDdlNamaObat($data);
-
 	}
 	public function alloption2(){
 

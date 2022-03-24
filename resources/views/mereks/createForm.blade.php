@@ -8,15 +8,35 @@
            <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group @if($errors->has('merek'))has-error @endif">
-				  {!! Form::label('merek', 'Merek Baru', ['class' => 'control-label']) !!}
-                  <div class="input-group">
-                      {!! Form::text('merek', null, ['class' => 'form-control', 'aria-describedby'=> "addonMerek", 'dir' => 'rtl', 'id' => 'merekOnMerek'])!!}
-                      <span class="input-group-addon" id="addonMerek">{!! $rak->formula->endfix !!}</span>
-                  </div>
+				  {!! Form::label('merek', isset($merek)? 'Edit Merek' : 'Merek Baru', ['class' => 'control-label']) !!}
+				  @if (!isset($merek))
+					  <div class="input-group">
+				  @endif
+					  {!! Form::text('merek', isset($merek)? $merek->merek : null, ['class' => 'form-control', 'aria-describedby'=> "addonMerek", 'dir' => 'rtl', 'id' => 'merekOnMerek'])!!}
+				  @if (!isset($merek))
+						  <span class="input-group-addon" id="addonMerek">{!! $rak->formula->endfix !!}</span>
+					  </div>
+				  @endif
 				  @if($errors->has('merek'))<code>{{ $errors->first('merek') }}</code>@endif
 				</div>
               </div>
               </div>
+			  @if (isset($merek))
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-group @if($errors->has('merek'))has-error @endif">
+						  {!! Form::label('discontinue', 'Discontinue', ['class' => 'control-label']) !!}
+						  {!! Form::select('discontinue',
+							  [
+								  0 => 'Tidak',
+								  1 => 'Ya'
+							  ],
+						  isset($merek)? $merek->discontinue : 0, ['class' => 'form-control']) !!}
+						  @if($errors->has('merek'))<code>{{ $errors->first('merek') }}</code>@endif
+						</div>
+				  </div>
+			  </div>
+			  @endif
            <div class="row HIDE">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('rak_id'))has-error @endif">

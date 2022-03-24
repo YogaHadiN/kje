@@ -30,12 +30,8 @@
         "role"  => "form",
         "method"=> "post"
 ])!!}
-
-
 @include('mereks.createForm', ['rak' => $rak, 'modal' => false])
-
 {!! Form::close() !!}
-
     @stop
     @section('footer')
       {!! HTML::script('js/rak.js')!!} 

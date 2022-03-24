@@ -162,8 +162,9 @@ class MereksController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$merek = Merek::find($id);
-		$merek->merek = ucwords(strtolower(Input::get('merek')));
+		$merek              = Merek::find($id);
+		$merek->merek       = ucwords(strtolower(Input::get('merek')));
+		$merek->discontinue = Input::get('discontinue');
 		$merek->save();
 
 		return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('merek <strong>' . $id . ' - ' . $merek->merek . '</strong> berhasil Diubah'));
