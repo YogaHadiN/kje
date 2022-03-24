@@ -1,4 +1,2 @@
-ALTER TABLE mereks ADD discontinue int(1) default 0;
-update mereks set discontinue = 1 where id = '150811036';
-update mereks set discontinue = 1 where id = '181205002';
-
+ALTER TABLE whatsapp_registrations DROP COLUMN nomor_bpjs;
+ALTER TABLE whatsapp_registrations ADD nomor_asuransi varchar(255);

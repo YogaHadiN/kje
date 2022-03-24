@@ -511,226 +511,231 @@ p */
 	{
 		DB::beginTransaction();
 		try {
-			$periksa = Periksa::find($id);
-			//Buat collection tabel asuransi
-			//
-			$asuransi =Asuransi::find(Input::get('asuransi_id'));
-			//UBAH RESEP MENURUT JENIS ASURANSI
-			//sebelum terapi dimasukkan ke dalam periksa, obat harus disesuaikan dahulu, menurut asuransi nya.
-			// untuk asuransi BPJS, obat akan dikonversi ke dalam merek yang paling murah yang memiliki formula yang sama
-			// untuk asuransi admedika, obat akan dikonversi ke dalam merek paling mahal dalam formula yang sama
-			$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
-
-
-			//sesuaikan Transaksi
-			$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
-		
-
-			// INPUT DATA PERIKSA FINAL!!!!!
-			//
-
-			$pasien = Pasien::find(Input::get('pasien_id'));
-			$this->input_pasien = $pasien;
-			$this->cekSudahAdaYangTerkontrolBulanIni($id);
-			$this->hitungPersentaseRppt();
-			
-			$periksa->anamnesa              = Input::get('anamnesa');
-			$periksa->asuransi_id           = $asuransi->id;
-			$periksa->diagnosa_id           = Input::get('diagnosa_id');
-			$periksa->berat_badan           = Input::get('berat_badan');
-			$periksa->staf_id               = Input::get('staf_id');
-			$periksa->jam_resep             = date('H:i:s');
-			$periksa->keterangan_diagnosa   = Input::get('keterangan_diagnosa');
-			$periksa->antrian_periksa_id    = Input::get('antrian_periksa_id');
-			$periksa->sistolik              = Yoga::returnNull( $this->sesuaikanSistolikBPJS() );
-			$periksa->diastolik             = Yoga::returnNull( $this->sesuaikanDiastolikBPJS() );
-			$periksa->resepluar             = Input::get('resepluar');
-			$periksa->pemeriksaan_fisik     = Input::get('pemeriksaan_fisik');
-			$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
-			$periksa->terapi                = $this->terapisBaru($terapis);
-			$periksa->transaksi             = json_encode($transaksis);
-			$periksa->jam_selesai_periksa   = date('H:i:s');
-			$periksa->antrian_id            = Input::get('antrian_id');
-			$confirm = $periksa->save();
-
-
-			Terapi::where('periksa_id', $id)->delete();
-
-			$timestamp = date('Y-m-d H:i:s');
-			$terapis   = json_decode($terapis, true);
-			$merek_ids = [];
-
-			foreach ($terapis as $k => $t) {
-				$merek_ids[] = $t['merek_id'];
-			}
-
-			$merekArray = Merek::with('rak')->whereIn('id', $merek_ids)->get();
-			$array      = [];
-
-			foreach ($merekArray as $v) {
-				$array[$v->id] = $v;
-			}
-
-			$terapiInserts = [];
-
-			foreach ($terapis as $k => $t) {
-				$terapiInserts[] = [
-					'merek_id'          => $t['merek_id'],
-					'signa'             => $t['signa'],
-					'aturan_minum'      => $t['aturan_minum'],
-					'jumlah'            => $t['jumlah'],
-					'periksa_id'        => $t['jumlah'],
-					'periksa_id'        => $id,
-					'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,
-					'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
-					'created_at'        => $timestamp,
-					'updated_at'        => $timestamp,
-				];
-			}
-
-		if(Input::get('poli') == 'usg'){
-			
-			$usg                 = Usg::where('periksa_id', $id)->first();
-			$usg->perujuk_id     = Input::get('perujuk_id');
-			$usg->hpht           = Yoga::datePrep(Input::get('hpht'));
-			$usg->umur_kehamilan = Input::get('umur_kehamilan');
-			$usg->gpa            = Input::get('gpa');
-			$usg->bpd            = Input::get('BPD_w') . 'w ' . Input::get('BPD_d') . 'd';
-			$usg->ltp            = Input::get('LTP');
-			$usg->djj            = Input::get('FHR');
-			$usg->ac             = Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd';
-			$usg->hc             = Input::get('HC_w') . 'w ' . Input::get('HC_d') . 'd';
-			$usg->efw            = Input::get('EFW') . ' gr';
-			$usg->bpd_mm         = Input::get('BPD_mm');
-			$usg->ac_mm          = Input::get('AC_mm');
-			$usg->hc_mm          = Input::get('HC_mm');
-			$usg->FL_mm          = Input::get('FL_mm');
-			$usg->fl             = Input::get('FL_w') . 'w ' . Input::get('FL_d') . 'd';
-			$usg->sex            = Input::get('Sex');
-			$usg->ica            = Input::get('total_afi');
-			$usg->plasenta       = Input::get('Plasenta');
-			$usg->presentasi     = Input::get('presentasi');
-			$usg->kesimpulan     = Input::get('kesimpulan');
-			$usg->saran          = Input::get('saran');
-			$usg->save();
-
-			$pasien->riwayat_kehamilan_sebelumnya = Input::get('riwayat_kehamilan_sebelumnya');
-			$pasien->save();
-
-		}
-
-		if (Input::get('poli') == 'anc' || Input::get('poli') == 'usg') {
-
-			if (RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->count() < 1) {
-				
-				$hamil                                = new RegisterHamil;
-				$hamil->pasien_id                     = Input::get('pasien_id');
-				$hamil->nama_suami                    = Input::get('nama_suami');
-				$hamil->tb                            = Input::get('tb');
-				$hamil->buku_id                       = Input::get('buku');
-				$hamil->golongan_darah                = Input::get('golongan_darah');
-				$hamil->tinggi_badan                  = Input::get('tb');
-				$hamil->bb_sebelum_hamil              = Input::get('bb_sebelum_hamil');
-				$hamil->g                             = Input::get('G');
-				$hamil->p                             = Input::get('P');
-				$hamil->a                             = Input::get('A');
-				$hamil->riwayat_persalinan_sebelumnya = Input::get('riwayat_kehamilan');
-				$hamil->hpht                          = Yoga::datePrep(Input::get('hpht'));
-				$hamil->status_imunisasi_tt_id        = Input::get('status_imunisasi_tt_id');
-				$hamil->rencana_penolong              = Input::get('rencana_penolong');
-				$hamil->jumlah_janin                  = Input::get('jumlah_janin');
-				$hamil->rencana_tempat                = Input::get('rencana_tempat');
-				$hamil->rencana_pendamping            = Input::get('rencana_pendamping');
-				$hamil->rencana_transportasi          = Input::get('rencana_transportasi');
-				$hamil->rencana_pendonor              = Input::get('rencana_pendonor');
-				$hamil->tanggal_lahir_anak_terakhir   = Yoga::datePrep(Input::get('tanggal_lahir_anak_terakhir'));
-				$hamil->save();
-			} else {
-
-				$hamil                                = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
-				$hamil->pasien_id                     = Input::get('pasien_id');
-				$hamil->nama_suami                    = Input::get('nama_suami');
-				$hamil->tb                            = Input::get('tb');
-				$hamil->buku_id                       = Input::get('buku');
-				$hamil->golongan_darah                = Input::get('golongan_darah');
-				$hamil->tinggi_badan                  = Input::get('tb');
-				$hamil->bb_sebelum_hamil              = Input::get('bb_sebelum_hamil');
-				$hamil->g                             = Input::get('G');
-				$hamil->p                             = Input::get('P');
-				$hamil->a                             = Input::get('A');
-				$hamil->riwayat_persalinan_sebelumnya = Input::get('riwayat_kehamilan');
-				$hamil->jumlah_janin                  = Input::get('jumlah_janin');
-				$hamil->status_imunisasi_tt_id        = Input::get('status_imunisasi_tt_id');
-				$hamil->hpht                          = Yoga::datePrep(Input::get('hpht'));
-				$hamil->rencana_penolong              = Input::get('rencana_penolong');
-				$hamil->rencana_tempat                = Input::get('rencana_tempat');
-				$hamil->rencana_pendamping            = Input::get('rencana_pendamping');
-				$hamil->rencana_transportasi          = Input::get('rencana_transportasi');
-				$hamil->tanggal_lahir_anak_terakhir   = Yoga::datePrep(Input::get('tanggal_lahir_anak_terakhir'));
-				$hamil->rencana_pendonor              = Input::get('rencana_pendonor');
-				$hamil->save();
-			}
-
-			$anc                           = RegisterAnc::where('periksa_id', $id)->first();
-			$anc->register_hamil_id        = $hamil->id;
-			$anc->td                       = Input::get('td');
-			$anc->tfu                      = Input::get('tfu');
-			$anc->lila                     = Input::get('lila');
-			$anc->bb                       = Input::get('bb');
-			$anc->refleks_patela_id        = Input::get('refleks_patela');
-			$anc->djj                      = Input::get('djj');
-			$anc->kepala_terhadap_pap_id   = Input::get('kepala_terhadap_pap_id');
-			$anc->presentasi_id            = Input::get('presentasi_id');
-			$anc->catat_di_kia             = Input::get('catat_di_kia');
-			$anc->inj_tt                   = Input::get('inj_tt');
-			$anc->fe_tablet                = Input::get('fe_tablet');
-			$anc->periksa_hb               = Input::get('periksa_hb');
-			$anc->protein_urin             = Input::get('protein_urin');
-			$anc->gula_darah               = Input::get('gula_darah');
-			$anc->thalasemia               = Input::get('thalasemia');
-			$anc->sifilis                  = Input::get('sifilis');
-			$anc->hbsag                    = Input::get('hbsag');
-			$anc->pmtct_konseling          = Input::get('pmtct_konseling');
-			$anc->pmtct_periksa_darah      = Input::get('pmtct_periksa_darah');
-			$anc->pmtct_serologi           = Input::get('pmtct_serologi');
-			$anc->pmtct_arv                = Input::get('pmtct_arv');
-			$anc->malaria_periksa_darah    = Input::get('malaria_periksa_darah');
-			$anc->malaria_positif          = Input::get('malaria_positif');
-			$anc->malaria_dikasih_obat     = Input::get('malaria_dikasih_obat');
-			$anc->malaria_dikasih_kelambu  = Input::get('malaria_dikasih_kelambu');
-			$anc->tbc_periksa_dahak        = Input::get('tbc_periksa_dahak');
-			$anc->tbc_positif              = Input::get('tbc_positif');
-			$anc->tbc_dikasih_obat         = Input::get('tbc_dikasih_obat');
-			$anc->komplikasi_hdk           = Input::get('komplikasi_hdk');
-			$anc->komplikasi_abortus       = Input::get('komplikasi_abortus');
-			$anc->komplikasi_perdarahan    = Input::get('komplikasi_perdarahan');
-			$anc->komplikasi_infeksi       = Input::get('komplikasi_infeksi');
-			$anc->komplikasi_kpd           = Input::get('komplikasi_kpd');
-			$anc->komplikasi_lain_lain     = Input::get('komplikasi_lain_lain');
-			$anc->rujukan_tiba_masih_hidup = Input::get('rujukan_tiba_masih_hidup');
-			$anc->rujukan_tiba_meninggal   = Input::get('rujukan_tiba_meninggal');
-			$anc->rujukan_puskesmas        = '2';
-			$anc->rujukan_RB               = '2';
-			$anc->rujukan_RSIA_RSB         = '2';
-			$anc->rujukan_RS               = '2';
-			$anc->rujukan_lain             = '2';
-			$anc->rujukan_tiba_masih_hidup = '1';
-			$anc->rujukan_tiba_meninggal   = '1';
-			$anc->save();
-		}
 			$antrian_periksa_id = Input::get('antrian_periksa_id');
-			$antrianperiksa = AntrianPeriksa::find($antrian_periksa_id);
-			$antrian = $antrianperiksa->antrian;
-			$this->updateTemplate( $antrian_periksa_id, $id, $periksa);
-			Terapi::insert($terapiInserts);
-			$pasien = $periksa->pasien;
-			DB::commit();
+			$antrianperiksa     = AntrianPeriksa::find($antrian_periksa_id);
+			if (!is_null($antrianperiksa)) {
+				$periksa = Periksa::find($id);
+				//Buat collection tabel asuransi
+				//
+				$asuransi =Asuransi::find(Input::get('asuransi_id'));
+				//UBAH RESEP MENURUT JENIS ASURANSI
+				//sebelum terapi dimasukkan ke dalam periksa, obat harus disesuaikan dahulu, menurut asuransi nya.
+				// untuk asuransi BPJS, obat akan dikonversi ke dalam merek yang paling murah yang memiliki formula yang sama
+				// untuk asuransi admedika, obat akan dikonversi ke dalam merek paling mahal dalam formula yang sama
+				$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
 
-			$jenis_antrian_id = '5';
-			if (!is_null($antrian)) {
-				$jenis_antrian_id = $antrian->jenis_antrian_id;
+
+				//sesuaikan Transaksi
+				$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
+			
+
+				// INPUT DATA PERIKSA FINAL!!!!!
+				//
+
+				$pasien = Pasien::find(Input::get('pasien_id'));
+				$this->input_pasien = $pasien;
+				$this->cekSudahAdaYangTerkontrolBulanIni($id);
+				$this->hitungPersentaseRppt();
+				
+				$periksa->anamnesa              = Input::get('anamnesa');
+				$periksa->asuransi_id           = $asuransi->id;
+				$periksa->diagnosa_id           = Input::get('diagnosa_id');
+				$periksa->berat_badan           = Input::get('berat_badan');
+				$periksa->staf_id               = Input::get('staf_id');
+				$periksa->jam_resep             = date('H:i:s');
+				$periksa->keterangan_diagnosa   = Input::get('keterangan_diagnosa');
+				$periksa->antrian_periksa_id    = Input::get('antrian_periksa_id');
+				$periksa->sistolik              = Yoga::returnNull( $this->sesuaikanSistolikBPJS() );
+				$periksa->diastolik             = Yoga::returnNull( $this->sesuaikanDiastolikBPJS() );
+				$periksa->resepluar             = Input::get('resepluar');
+				$periksa->pemeriksaan_fisik     = Input::get('pemeriksaan_fisik');
+				$periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
+				$periksa->terapi                = $this->terapisBaru($terapis);
+				$periksa->transaksi             = json_encode($transaksis);
+				$periksa->jam_selesai_periksa   = date('H:i:s');
+				$periksa->antrian_id            = Input::get('antrian_id');
+				$confirm = $periksa->save();
+
+
+				Terapi::where('periksa_id', $id)->delete();
+
+				$timestamp = date('Y-m-d H:i:s');
+				$terapis   = json_decode($terapis, true);
+				$merek_ids = [];
+
+				foreach ($terapis as $k => $t) {
+					$merek_ids[] = $t['merek_id'];
+				}
+
+				$merekArray = Merek::with('rak')->whereIn('id', $merek_ids)->get();
+				$array      = [];
+
+				foreach ($merekArray as $v) {
+					$array[$v->id] = $v;
+				}
+
+				$terapiInserts = [];
+
+				foreach ($terapis as $k => $t) {
+					$terapiInserts[] = [
+						'merek_id'          => $t['merek_id'],
+						'signa'             => $t['signa'],
+						'aturan_minum'      => $t['aturan_minum'],
+						'jumlah'            => $t['jumlah'],
+						'periksa_id'        => $t['jumlah'],
+						'periksa_id'        => $id,
+						'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,
+						'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
+						'created_at'        => $timestamp,
+						'updated_at'        => $timestamp,
+					];
+				}
+
+				if(Input::get('poli') == 'usg'){
+					
+					$usg                 = Usg::where('periksa_id', $id)->first();
+					$usg->perujuk_id     = Input::get('perujuk_id');
+					$usg->hpht           = Yoga::datePrep(Input::get('hpht'));
+					$usg->umur_kehamilan = Input::get('umur_kehamilan');
+					$usg->gpa            = Input::get('gpa');
+					$usg->bpd            = Input::get('BPD_w') . 'w ' . Input::get('BPD_d') . 'd';
+					$usg->ltp            = Input::get('LTP');
+					$usg->djj            = Input::get('FHR');
+					$usg->ac             = Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd';
+					$usg->hc             = Input::get('HC_w') . 'w ' . Input::get('HC_d') . 'd';
+					$usg->efw            = Input::get('EFW') . ' gr';
+					$usg->bpd_mm         = Input::get('BPD_mm');
+					$usg->ac_mm          = Input::get('AC_mm');
+					$usg->hc_mm          = Input::get('HC_mm');
+					$usg->FL_mm          = Input::get('FL_mm');
+					$usg->fl             = Input::get('FL_w') . 'w ' . Input::get('FL_d') . 'd';
+					$usg->sex            = Input::get('Sex');
+					$usg->ica            = Input::get('total_afi');
+					$usg->plasenta       = Input::get('Plasenta');
+					$usg->presentasi     = Input::get('presentasi');
+					$usg->kesimpulan     = Input::get('kesimpulan');
+					$usg->saran          = Input::get('saran');
+					$usg->save();
+
+					$pasien->riwayat_kehamilan_sebelumnya = Input::get('riwayat_kehamilan_sebelumnya');
+					$pasien->save();
+
+				}
+
+				if (Input::get('poli') == 'anc' || Input::get('poli') == 'usg') {
+
+					if (RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->count() < 1) {
+						
+						$hamil                                = new RegisterHamil;
+						$hamil->pasien_id                     = Input::get('pasien_id');
+						$hamil->nama_suami                    = Input::get('nama_suami');
+						$hamil->tb                            = Input::get('tb');
+						$hamil->buku_id                       = Input::get('buku');
+						$hamil->golongan_darah                = Input::get('golongan_darah');
+						$hamil->tinggi_badan                  = Input::get('tb');
+						$hamil->bb_sebelum_hamil              = Input::get('bb_sebelum_hamil');
+						$hamil->g                             = Input::get('G');
+						$hamil->p                             = Input::get('P');
+						$hamil->a                             = Input::get('A');
+						$hamil->riwayat_persalinan_sebelumnya = Input::get('riwayat_kehamilan');
+						$hamil->hpht                          = Yoga::datePrep(Input::get('hpht'));
+						$hamil->status_imunisasi_tt_id        = Input::get('status_imunisasi_tt_id');
+						$hamil->rencana_penolong              = Input::get('rencana_penolong');
+						$hamil->jumlah_janin                  = Input::get('jumlah_janin');
+						$hamil->rencana_tempat                = Input::get('rencana_tempat');
+						$hamil->rencana_pendamping            = Input::get('rencana_pendamping');
+						$hamil->rencana_transportasi          = Input::get('rencana_transportasi');
+						$hamil->rencana_pendonor              = Input::get('rencana_pendonor');
+						$hamil->tanggal_lahir_anak_terakhir   = Yoga::datePrep(Input::get('tanggal_lahir_anak_terakhir'));
+						$hamil->save();
+					} else {
+
+						$hamil                                = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
+						$hamil->pasien_id                     = Input::get('pasien_id');
+						$hamil->nama_suami                    = Input::get('nama_suami');
+						$hamil->tb                            = Input::get('tb');
+						$hamil->buku_id                       = Input::get('buku');
+						$hamil->golongan_darah                = Input::get('golongan_darah');
+						$hamil->tinggi_badan                  = Input::get('tb');
+						$hamil->bb_sebelum_hamil              = Input::get('bb_sebelum_hamil');
+						$hamil->g                             = Input::get('G');
+						$hamil->p                             = Input::get('P');
+						$hamil->a                             = Input::get('A');
+						$hamil->riwayat_persalinan_sebelumnya = Input::get('riwayat_kehamilan');
+						$hamil->jumlah_janin                  = Input::get('jumlah_janin');
+						$hamil->status_imunisasi_tt_id        = Input::get('status_imunisasi_tt_id');
+						$hamil->hpht                          = Yoga::datePrep(Input::get('hpht'));
+						$hamil->rencana_penolong              = Input::get('rencana_penolong');
+						$hamil->rencana_tempat                = Input::get('rencana_tempat');
+						$hamil->rencana_pendamping            = Input::get('rencana_pendamping');
+						$hamil->rencana_transportasi          = Input::get('rencana_transportasi');
+						$hamil->tanggal_lahir_anak_terakhir   = Yoga::datePrep(Input::get('tanggal_lahir_anak_terakhir'));
+						$hamil->rencana_pendonor              = Input::get('rencana_pendonor');
+						$hamil->save();
+					}
+
+					$anc                           = RegisterAnc::where('periksa_id', $id)->first();
+					$anc->register_hamil_id        = $hamil->id;
+					$anc->td                       = Input::get('td');
+					$anc->tfu                      = Input::get('tfu');
+					$anc->lila                     = Input::get('lila');
+					$anc->bb                       = Input::get('bb');
+					$anc->refleks_patela_id        = Input::get('refleks_patela');
+					$anc->djj                      = Input::get('djj');
+					$anc->kepala_terhadap_pap_id   = Input::get('kepala_terhadap_pap_id');
+					$anc->presentasi_id            = Input::get('presentasi_id');
+					$anc->catat_di_kia             = Input::get('catat_di_kia');
+					$anc->inj_tt                   = Input::get('inj_tt');
+					$anc->fe_tablet                = Input::get('fe_tablet');
+					$anc->periksa_hb               = Input::get('periksa_hb');
+					$anc->protein_urin             = Input::get('protein_urin');
+					$anc->gula_darah               = Input::get('gula_darah');
+					$anc->thalasemia               = Input::get('thalasemia');
+					$anc->sifilis                  = Input::get('sifilis');
+					$anc->hbsag                    = Input::get('hbsag');
+					$anc->pmtct_konseling          = Input::get('pmtct_konseling');
+					$anc->pmtct_periksa_darah      = Input::get('pmtct_periksa_darah');
+					$anc->pmtct_serologi           = Input::get('pmtct_serologi');
+					$anc->pmtct_arv                = Input::get('pmtct_arv');
+					$anc->malaria_periksa_darah    = Input::get('malaria_periksa_darah');
+					$anc->malaria_positif          = Input::get('malaria_positif');
+					$anc->malaria_dikasih_obat     = Input::get('malaria_dikasih_obat');
+					$anc->malaria_dikasih_kelambu  = Input::get('malaria_dikasih_kelambu');
+					$anc->tbc_periksa_dahak        = Input::get('tbc_periksa_dahak');
+					$anc->tbc_positif              = Input::get('tbc_positif');
+					$anc->tbc_dikasih_obat         = Input::get('tbc_dikasih_obat');
+					$anc->komplikasi_hdk           = Input::get('komplikasi_hdk');
+					$anc->komplikasi_abortus       = Input::get('komplikasi_abortus');
+					$anc->komplikasi_perdarahan    = Input::get('komplikasi_perdarahan');
+					$anc->komplikasi_infeksi       = Input::get('komplikasi_infeksi');
+					$anc->komplikasi_kpd           = Input::get('komplikasi_kpd');
+					$anc->komplikasi_lain_lain     = Input::get('komplikasi_lain_lain');
+					$anc->rujukan_tiba_masih_hidup = Input::get('rujukan_tiba_masih_hidup');
+					$anc->rujukan_tiba_meninggal   = Input::get('rujukan_tiba_meninggal');
+					$anc->rujukan_puskesmas        = '2';
+					$anc->rujukan_RB               = '2';
+					$anc->rujukan_RSIA_RSB         = '2';
+					$anc->rujukan_RS               = '2';
+					$anc->rujukan_lain             = '2';
+					$anc->rujukan_tiba_masih_hidup = '1';
+					$anc->rujukan_tiba_meninggal   = '1';
+					$anc->save();
+				}
+				$antrian = $antrianperiksa->antrian;
+				$this->updateTemplate( $antrian_periksa_id, $id, $periksa);
+				Terapi::insert($terapiInserts);
+				$pasien = $periksa->pasien;
+				DB::commit();
+
+				$jenis_antrian_id = '5';
+				if (!is_null($antrian)) {
+					$jenis_antrian_id = $antrian->jenis_antrian_id;
+				}
+				return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+			} else {
+				$pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrian');
+				return redirect()->back()->withPesan($pesan);
 			}
-		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
