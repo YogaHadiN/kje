@@ -647,7 +647,6 @@ class PembeliansController extends Controller
 
 		$pecah = new PasiensAjaxController;
 
-		$tanggal       = $pecah->pecah($tanggal);
 		$nama_supplier = $pecah->pecah($nama_supplier);
 		$nomor_faktur  = $pecah->pecah($nomor_faktur);
 		$petugas       = $pecah->pecah($petugas);
@@ -729,7 +728,6 @@ class PembeliansController extends Controller
 		$nama_supplier = $psn->pecah($nama_supplier);
 		$harga_beli    = $psn->pecah($harga_beli);
 		$harga_jual    = $psn->pecah($harga_jual);
-		$tanggal       = $psn->pecah($tanggal);
 
 		$pass = $key * $displayed_rows;
 
@@ -790,7 +788,7 @@ class PembeliansController extends Controller
 			$harga_beli ,
 			'%' . $harga_jual . '%',
 			$harga_jual,
-			'%' . $tanggal . '%',
+			 $tanggal . '%',
 			$tanggal 
 		]);
 		return $data;

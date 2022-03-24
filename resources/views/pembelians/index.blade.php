@@ -42,14 +42,13 @@
 		  <div class="table-responsive">
 			  <div class="row">
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					
 					Menampilkan <span id="rows"></span> data
 				</div>
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
 					{!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
-						'class' => 'form-control ', 
-						'onchange' => 'clearAndView();return false;', 
-						'id' => 'displayed_rows'
+						'class'    => 'form-control ',
+						'onchange' => 'clearAndView();return false;',
+						'id'       => 'displayed_rows'
 					]) !!}
 				</div>
 			  </div>
@@ -87,12 +86,8 @@
 									   'id'      => 'merek'
 								   ]) !!}
 							   </th>
-							   <th>Harga Beli
-							   </th>
-							   <th>Harga Jual
-							   </th>
-							   
-							   </th>
+							   <th>Harga Beli </th>
+							   <th>Harga Jual </th>
 							   <th>Jumlah</th>
 							</tr>
 						</thead>
@@ -146,7 +141,7 @@
 
 			 for (var i = 0; i < data.length; i++) {
 				 temp += '<tr>';
-				 temp += '<td>' + data[i].tanggal +  '</td>';
+				 temp += '<td nowrap>' + data[i].tanggal +  '</td>';
 				 temp += '<td>' + data[i].nomor_faktur +  '</td>';
 				 temp += '<td>' + data[i].nama_supplier +  '</td>';
 				 temp += '<td>' + data[i].merek +  '</td>';

@@ -215,8 +215,9 @@ class KasirBaseController extends Controller
 			return redirect('antrianapoteks')
 				->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'))
 				->with('kasir_submit', $periksa_id);
+
 		} else {
-			$pesan = Yoga::gagalFlash('Status sudah dicetak');
+			$pesan = Yoga::gagalFlash('Antrian apotek sudah diproses sebelumnya');
 			return redirect()->back()->withPesan($pesan);
 		}
 	}

@@ -61,7 +61,6 @@ class FakturBelanjasController extends Controller
 		$query .= "ORDER BY fb.tanggal";
 		$akumulasi = DB::select($query);
 
-		
 		return view('fakturbelanjas.cari', compact(
 			'fakturbelanjas',
 			'akumulasi'
