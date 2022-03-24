@@ -1,3 +1,4 @@
-Drop table antrian_farmasis;
-Drop table antrian_kelengkapan_dokumen;
+ALTER TABLE mereks ADD discontinue int(1) default 0;
+update mereks set discontinue = 1 where id = '150811036';
+update mereks set discontinue = 1 where id = '181205002';
 

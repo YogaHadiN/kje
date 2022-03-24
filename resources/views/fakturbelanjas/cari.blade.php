@@ -133,7 +133,6 @@
 				</tbody>
 			</table>
 		</div>
-		
 	</div>
 </div>
 @stop
@@ -194,7 +193,6 @@
 				}
 			});
 		});
-
 	}
 function clearAndView(key = 0){
 	if($('#paging').data("twbs-pagination")){
@@ -202,7 +200,5 @@ function clearAndView(key = 0){
 	}
 	view(key);
 }
-
 </script>
-
 @stop

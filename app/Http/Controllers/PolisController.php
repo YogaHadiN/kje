@@ -33,8 +33,8 @@ class PolisController extends Controller
         /* $this->middleware('harusUrut', ['only' => ['poli']]); */
     }
 	public function poli($id, Request $request){
-		$generik_list = Generik::list();
-		$asuransi_list = Asuransi::list();
+		$generik_list   = Generik::list();
+		$asuransi_list  = Asuransi::list();
 		$antrianperiksa = AntrianPeriksa::with('gambars',
 												'pasien.alergies', 
 												'antrian.jenis_antrian', 
