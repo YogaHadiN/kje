@@ -1,19 +1,19 @@
-window.Echo.join('survey')
-    .listen('CustomerSatisfactionSurveyPressence', (e) => {
-        console.log(e);
-    })
-    .here((users) => {
-        console.log('here');
-        console.log(users);
-    })
-    .joining((user) => {
-        console.log('joining');
-        console.log(user);
-    })
-    .leaving((user) => {
-        console.log('leaving');
-        console.log(user);
-    });
+// window.Echo.join('survey')
+//     .listen('CustomerSatisfactionSurveyPressence', (e) => {
+//         console.log(e);
+//     })
+//     .here((users) => {
+//         console.log('here');
+//         console.log(users);
+//     })
+//     .joining((user) => {
+//         console.log('joining');
+//         console.log(user);
+//     })
+//     .leaving((user) => {
+//         console.log('leaving');
+//         console.log(user);
+//     });
 
 var totalBiaya = 0;
 var totalAwal = 0;
