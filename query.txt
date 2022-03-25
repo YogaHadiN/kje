@@ -1,3 +1,4 @@
 ALTER TABLE whatsapp_registrations DROP COLUMN nomor_bpjs;
 ALTER TABLE whatsapp_registrations ADD nomor_asuransi varchar(255);
 ALTER TABLE whatsapp_registrations ADD pasien_id varchar(255);
+ALTER TABLE whatsapp_registrations ADD konfirmasi_nomor_antrian int(1);
