@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Input;
+use DB;
 use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
