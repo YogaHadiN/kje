@@ -271,458 +271,459 @@ class CustomController extends Controller
 		));
 	}
 	public function survey_post(){
-		$periksa_id               = Input::get('periksa_id');
-		$nama_file_klaim_gdp_bpjs = $this->uploadKlaimGDP(  'klaim_gdp' , $periksa_id,'klaim_gdp_bpjs') ;
 
-		if ( !is_null($nama_file_klaim_gdp_bpjs) ) {
-			$Klaim             = new KlaimGdpBpjs;
-			$Klaim->nama_file  = $nama_file_klaim_gdp_bpjs;
-			$Klaim->periksa_id = $periksa_id;
-			$Klaim->save();
-		}
+		DB::beginTransaction();
+		try {
+			$periksa_id               = Input::get('periksa_id');
+			$nama_file_klaim_gdp_bpjs = $this->uploadKlaimGDP(  'klaim_gdp' , $periksa_id,'klaim_gdp_bpjs') ;
 
-		if ( 
-			JurnalUmum::where('jurnalable_type', 'App\Models\Periksa')
-						->where('jurnalable_id', $periksa_id)
-						->count() > 0
-	   	) {
-			AntrianKasir::where('periksa_id', $periksa_id)->delete();
-            return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien sudah selesai masuk kasir sebelumnya. Tidak perlu diinput ulang') );
-			Sms::send(env("NO_HP_OWNER"),'Kejadian LAGI!!! Kasir input 2 kali!!! Tanyakan!!!' );
-		}
-
-		//get pasien dengan id tertentu
-		$periksa = Periksa::with(
-						'pasien', 
-						'staf', 
-						'asuransi', 
-						'rujukan', 
-						'terapii.merek.rak'
-					)
-					->where('id', Input::get('periksa_id') )
-					->first();
-
-		
-		// Kembalikan jika pasien sudah tidak diperiksa lagi
-		$antriankasir = AntrianKasir::where('periksa_id', $periksa->id)->first();
-        if ( !isset($antriankasir) ) {
-			$pesan =  Yoga::gagalFlash('Pasien atas nama <strong>' . $periksa->pasien->nama . '</strong> sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>');
-            return redirect('antriankasirs')->withPesan($pesan);
-        }
-		// Kita cek dulu apakah ada yang diedit dalam transaksi sebelum masuk kasir dan setelah masuk kasir
-		//JIKA ADA KOREKSI DALAM transaksi, maka masukkan ke dalam tabel perbaikantrxs
-		$tarif         = Input::get('tarif');
-		$sebelum       = Input::get('sebelum');
-		$sebelum_array = json_decode($sebelum, true);
-		$tarif_array   = json_decode($tarif, true);
-		//HILANGKAN elemen BHP dari tarif
-		foreach ($sebelum_array as $key => $value) {
-			if ($value['jenis_tarif'] == 'BHP') {
-				array_splice($sebelum_array, $key, 1);
-			}
-		}
-
-		$rak_updates               = [];
-		$bukan_peserta_updates     = [];
-		$rujukan_updates           = [];
-		$perbaikans                = [];
-		$points                    = [];
-		$jurnals                   = [];
-		$dispensings               = [];
-		$transaksi_periksas        = [];
-		$tindakan_periksas         = [];
-		$receipts                  = [];
-		$kunjungan_sakits          = [];
-		$timestamp                 = $periksa->tanggal . ' 23:59:59';
-		$last_dispensing_id        = Dispensing::orderBy('id', 'desc')->first()->id;
-		$last_transaksi_periksa_id = TransaksiPeriksa::orderBy('id', 'desc')->first()->id;
-
-		//HILANGKAN elemen BHP dari sebelum
-		foreach ($tarif_array as $key => $value) {
-			if ($value['jenis_tarif'] == 'BHP') {
-				array_splice($tarif_array, $key, 1);
-			}
-		}
-		$fix = false;
-		//JIKA ADA KOREKSI DALAM transaksi, maka masukkan ke dalam tabel perbaikantrxs
-		if (json_encode($sebelum_array) == json_encode($tarif_array)) {
-		} else {
-			$fix                   = true;
-			$perbaikans[] = [
-				'periksa_id' => Input::get('periksa_id'),
-				'sebelum'    => Input::get('sebelum'),
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			];
-		}
-
-		// Yoga::clean untuk menghilangkan Mata uang supaya bisa dalam bentuk integer
-		$dibayar_pasien   = Yoga::clean(Input::get('dibayar_pasien'));
-		$dibayar_asuransi = Yoga::clean(Input::get('dibayar_asuransi'));
-		$pembayaran       = Yoga::clean(Input::get('pembayaran'));
-		$kembalian        = Yoga::clean(Input::get('kembalian'));
-
-		$periksa->tunai              = $dibayar_pasien;
-		$periksa->piutang            = $dibayar_asuransi;
-		$periksa->pembayaran         = $pembayaran;
-		$periksa->kembalian          = $kembalian;
-		$periksa->antrian_periksa_id = null;
-		$periksa->transaksi          = $tarif;
-		$periksa->nomor_asuransi     = $periksa->pasien->nomor_asuransi;
-
-		if ($periksa->asuransi_id == 32 && !empty($periksa->keterangan)) {
-			$periksa->keterangan = null;
-		}
-		//Jika pembayaran yang digunakan saat ini adalah bpjs dan pasien berada dalam list jangan sms, maka hapus list tersebut, karena
-		//ternyata pasien tersebut sekarang aktif
-		if ($periksa->asuransi_id == 32) {
-			 $smsJangan = SmsJangan::where('pasien_id', $periksa->pasien_id)->get();
-			if ($smsJangan->count() > 0) {
-				SmsJangan::where('pasien_id', $periksa->pasien_id)->delete();
-			}
-		}
-		$periksa->terapi          = $this->terapisBaru($periksa->terapii);
-		$periksa->jam_terima_obat = date('H:i:s');
-		// Jika ada rujukan untuk pasien ini, masukkan dalam rujukan
-		if ($periksa->rujukan && Input::hasFile('image')) {
-			$ps = new Pasien;
-			$image = $ps->imageUpload('rjk', 'image', Input::get('periksa_id') );
-
-			$rujukan_updates[] = [
-				'collection'    => $periksa->rujukan,
-				'updates' => [
-					'image' => $image
-				]
-			];
-		}
-
-		$resep                 = $periksa->terapii;
-
-		foreach ($resep as $key => $value) {
-			$rak  = $value->merek->rak;
-			$stok = $rak->stok - $value->jumlah;
-			$rak_id = $rak->id;
-
-			$rak_updates[] = [
-				'collection' => $rak,
-				'updates'    => [
-					'stok'   => $stok
-				]
-			];
-			$last_dispensing_id++; 
-			$dispensings[] = [
-				'id'               => $last_dispensing_id,
-				'merek_id'         => $value->merek_id,
-				'keluar'           => $value->jumlah,
-				'dispensable_id'   => $value->id,
-				'dispensable_type' => 'App\Models\Terapi',
-				'tanggal'          => $periksa->tanggal,
-				'created_at'       => $timestamp,
-				'updated_at'       => $timestamp
-			];
-		}
-
-		$mess                        = '';
-		$bp                          = BukanPeserta::where('periksa_id',  Input::get('periksa_id') )->first();
-		if ( $bp                    != null ) {
-			$bukan_peserta_updates[] = [
-				'collection'                 => $bp,
-				'updates' => [
-					'antrian_periksa_id' => null
-				]
-			];
-		}
-		$gammu_survey = false;
-		if ( 
-			$periksa->poli                                                  == 'estetika' &&
-			Keberatan::where('no_telp', $periksa->pasien->no_telp)->first() == null &&
-			$periksa->pasien->jangan_disms                                  == 0
-		) {
-			$gammu_survey = true;
-		}
-		
-		$terapis           = $periksa->terapii;
-		$biayaProduksiObat = 0;
-		foreach ($terapis as $terapi) {
-			$biayaProduksiObat += $terapi->harga_beli_satuan * $terapi->jumlah;
-		}
-		// Input jurnal umum kas di tangan bila tunai > 0
-		if ($periksa->tunai>0) {
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 110000, // Kas di tangan
-				'debit'           => 1,
-				'nilai'           => $periksa->tunai,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-		}
-		// Input jurnal umum kas di tangan bila piutang > 0
-		if ($periksa->piutang>0) {
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'debit'           => 1,
-				'coa_id'          => $periksa->asuransi->coa_id, // Piutang berdasarkan masing2 asuransi
-				'nilai'           => $periksa->piutang,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-		}
-
-		$transaksis    = $periksa->transaksi;
-		$transaksis    = json_decode($transaksis, true);
-		$adaJasaDokter = false;
-		$feeDokter     = 0;
-
-		$hutang_asisten_tindakan = 0;
-		// cek dulu apakah ada diskon di transaksis
-		//
-		$diskonArray= [];
-		$nilaiDiskon= 0;
-		foreach ($transaksis as $t) {
-			if ( $t['jenis_tarif_id'] == '0' ) {
-				$diskonArray[] = $t;
-				$nilaiDiskon += abs( $t['biaya'] );
-			}
-		}
-
-		foreach ($transaksis as $k => $transaksi) {
-			$adaBiaya = false;
-
-			$last_transaksi_periksa_id++;
-			$transaksi_periksas[] = [
-				'id'             => $last_transaksi_periksa_id,
-				'periksa_id'     => $periksa_id,
-				'jenis_tarif_id' => $transaksi['jenis_tarif_id'],
-				'biaya'          => $transaksi['biaya'],
-				'keterangan_pemeriksaan'          => null,
-				'created_at'     => $timestamp,
-				'updated_at'     => $timestamp
-			];
-			if (isset( $transaksi['keterangan_tindakan'] )) {
-				$transaksi_periksas[ count( $transaksi_periksas ) -1 ]['keterangan_pemeriksaan'] = $transaksi['keterangan_tindakan'];
+			if ( !is_null($nama_file_klaim_gdp_bpjs) ) {
+				$Klaim             = new KlaimGdpBpjs;
+				$Klaim->nama_file  = $nama_file_klaim_gdp_bpjs;
+				$Klaim->periksa_id = $periksa_id;
+				$Klaim->save();
 			}
 
-			if ( !($transaksi['jenis_tarif_id'] == '116' && $transaksi['biaya'] == 0) ) {
-				$feeDokter += Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
+			if ( 
+				JurnalUmum::where('jurnalable_type', 'App\Models\Periksa')
+							->where('jurnalable_id', $periksa_id)
+							->count() > 0
+			) {
+				AntrianKasir::where('periksa_id', $periksa_id)->delete();
+				return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien sudah selesai masuk kasir sebelumnya. Tidak perlu diinput ulang') );
+				Sms::send(env("NO_HP_OWNER"),'Kejadian LAGI!!! Kasir input 2 kali!!! Tanyakan!!!' );
 			}
 
-			$jenis_tarif = JenisTarif::with('bahanHabisPakai.merek.rak')->where('id', $transaksi['jenis_tarif_id'])->first();
+			//get pasien dengan id tertentu
+			$periksa = Periksa::with(
+							'pasien', 
+							'staf', 
+							'asuransi', 
+							'rujukan', 
+							'terapii.merek.rak'
+						)
+						->where('id', Input::get('periksa_id') )
+						->first();
 
-			if ($transaksi['biaya'] > 0 && $transaksi['jenis_tarif_id'] != '0') { // jika biaya > 0 dan jenis_tarif_id bukan 0 (diskon)
-				//cek apakah jenis_tarif ini ada diskon;
-				// jika ada kurangi nilai di jurnal umum;
-				$diskon = 0;
-				foreach ($diskonArray as $d) {
-					if ($d['jenis_tarif_id_diskon'] == $transaksi['jenis_tarif_id'] ) {
-						$diskon = $d['biaya'];
-						break;
-					}
+			
+			// Kembalikan jika pasien sudah tidak diperiksa lagi
+			$antriankasir = AntrianKasir::where('periksa_id', $periksa->id)->first();
+			if ( !isset($antriankasir) ) {
+				$pesan =  Yoga::gagalFlash('Pasien atas nama <strong>' . $periksa->pasien->nama . '</strong> sudah pernah diinput sebelumnya <strong>TIDAK PERLU DIULANGI LAGI</strong>');
+				return redirect('antriankasirs')->withPesan($pesan);
+			}
+			// Kita cek dulu apakah ada yang diedit dalam transaksi sebelum masuk kasir dan setelah masuk kasir
+			//JIKA ADA KOREKSI DALAM transaksi, maka masukkan ke dalam tabel perbaikantrxs
+			$tarif         = Input::get('tarif');
+			$sebelum       = Input::get('sebelum');
+			$sebelum_array = json_decode($sebelum, true);
+			$tarif_array   = json_decode($tarif, true);
+			//HILANGKAN elemen BHP dari tarif
+			foreach ($sebelum_array as $key => $value) {
+				if ($value['jenis_tarif'] == 'BHP') {
+					array_splice($sebelum_array, $key, 1);
 				}
+			}
 
-				$jurnals[] = [
-					'jurnalable_id'   => $periksa->id,
-					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => $jenis_tarif->coa_id,
-					'debit'           => 0,
-					'nilai'           => $transaksi['biaya'] - abs( $diskon ),
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp,
+			$rak_updates               = [];
+			$bukan_peserta_updates     = [];
+			$rujukan_updates           = [];
+			$perbaikans                = [];
+			$points                    = [];
+			$jurnals                   = [];
+			$dispensings               = [];
+			$transaksi_periksas        = [];
+			$tindakan_periksas         = [];
+			$receipts                  = [];
+			$kunjungan_sakits          = [];
+			$timestamp                 = $periksa->tanggal . ' 23:59:59';
+			$last_dispensing_id        = Dispensing::orderBy('id', 'desc')->first()->id;
+			$last_transaksi_periksa_id = TransaksiPeriksa::orderBy('id', 'desc')->first()->id;
+
+			//HILANGKAN elemen BHP dari sebelum
+			foreach ($tarif_array as $key => $value) {
+				if ($value['jenis_tarif'] == 'BHP') {
+					array_splice($tarif_array, $key, 1);
+				}
+			}
+			$fix = false;
+			//JIKA ADA KOREKSI DALAM transaksi, maka masukkan ke dalam tabel perbaikantrxs
+			if (json_encode($sebelum_array) == json_encode($tarif_array)) {
+			} else {
+				$fix                   = true;
+				$perbaikans[] = [
+					'periksa_id' => Input::get('periksa_id'),
+					'sebelum'    => Input::get('sebelum'),
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp
 				];
-
-				$adaBiaya = true;
 			}
 
-			if ($jenis_tarif->dengan_asisten == '1') {
-				$hutang_asisten_tindakan += $this->biayaJasa($transaksi['jenis_tarif_id'], $transaksi['biaya']);
+			// Yoga::clean untuk menghilangkan Mata uang supaya bisa dalam bentuk integer
+			$dibayar_pasien   = Yoga::clean(Input::get('dibayar_pasien'));
+			$dibayar_asuransi = Yoga::clean(Input::get('dibayar_asuransi'));
+			$pembayaran       = Yoga::clean(Input::get('pembayaran'));
+			$kembalian        = Yoga::clean(Input::get('kembalian'));
+
+			$periksa->tunai              = $dibayar_pasien;
+			$periksa->piutang            = $dibayar_asuransi;
+			$periksa->pembayaran         = $pembayaran;
+			$periksa->kembalian          = $kembalian;
+			$periksa->antrian_periksa_id = null;
+			$periksa->transaksi          = $tarif;
+			$periksa->nomor_asuransi     = $periksa->pasien->nomor_asuransi;
+
+			if ($periksa->asuransi_id == 32 && !empty($periksa->keterangan)) {
+				$periksa->keterangan = null;
 			}
+			//Jika pembayaran yang digunakan saat ini adalah bpjs dan pasien berada dalam list jangan sms, maka hapus list tersebut, karena
+			//ternyata pasien tersebut sekarang aktif
+			if ($periksa->asuransi_id == 32) {
+				 $smsJangan = SmsJangan::where('pasien_id', $periksa->pasien_id)->get();
+				if ($smsJangan->count() > 0) {
+					SmsJangan::where('pasien_id', $periksa->pasien_id)->delete();
+				}
+			}
+			$periksa->terapi          = $this->terapisBaru($periksa->terapii);
+			$periksa->jam_terima_obat = date('H:i:s');
+			// Jika ada rujukan untuk pasien ini, masukkan dalam rujukan
+			if ($periksa->rujukan && Input::hasFile('image')) {
+				$ps = new Pasien;
+				$image = $ps->imageUpload('rjk', 'image', Input::get('periksa_id') );
 
-			foreach ($jenis_tarif->bahanHabisPakai as $key => $bhp) {
-
-				$rak  = $bhp->merek->rak;
-				$stok = $rak->stok - $bhp->jumlah;
-
-				$rak_updates[] = [
-					'collection'   => $rak,
+				$rujukan_updates[] = [
+					'collection'    => $periksa->rujukan,
 					'updates' => [
-						'stok' => $stok
+						'image' => $image
 					]
 				];
+			}
 
-				$last_dispensing_id++;
+			$resep                 = $periksa->terapii;
+
+			foreach ($resep as $key => $value) {
+				$rak  = $value->merek->rak;
+				$stok = $rak->stok - $value->jumlah;
+				$rak_id = $rak->id;
+
+				$rak_updates[] = [
+					'collection' => $rak,
+					'updates'    => [
+						'stok'   => $stok
+					]
+				];
+				$last_dispensing_id++; 
 				$dispensings[] = [
 					'id'               => $last_dispensing_id,
-					'merek_id'         => $bhp->merek_id,
-					'keluar'           => $bhp->jumlah,
-					'dispensable_id'   => $last_transaksi_periksa_id,
-					'dispensable_type' => 'App\Models\TransaksiPeriksa',
+					'merek_id'         => $value->merek_id,
+					'keluar'           => $value->jumlah,
+					'dispensable_id'   => $value->id,
+					'dispensable_type' => 'App\Models\Terapi',
 					'tanggal'          => $periksa->tanggal,
 					'created_at'       => $timestamp,
 					'updated_at'       => $timestamp
 				];
 			}
-			
-			//Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
-			if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {
-				$feeDokter += 3000;
-			}
-		}
 
-		//Masukkan pembayaran ke dalam Transaksi
-		if ($hutang_asisten_tindakan > 0) {
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 50205, // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
-				'debit'           => 1,
-				'nilai'           => $hutang_asisten_tindakan,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
-				'debit'           => 0,
-				'nilai'           => $hutang_asisten_tindakan,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-		}
-		//
-		// Input hutang kepada dokter
-		// 
-		if ($feeDokter > 0 && $periksa->staf->gaji_tetap == 0 ) {
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 50201, //Beban Jasa Dokter
-				'debit'           => 1,
-				'nilai'           => $feeDokter,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 200001, // Hutang Kepada dokter
-				'debit'           => 0,
-				'nilai'           => $feeDokter,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-		}
-		//
-		// Input Transaksi ini untuk pengurangan persediaan obat tiap transaksi pasien
-		//
-		if ($biayaProduksiObat > 0) {
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 50204, // Biaya Produksi : Obat
-				'debit'           => 1,
-				'nilai'           => $biayaProduksiObat,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 112000, // Persediaan Obat
-				'debit'           => 0,
-				'nilai'           => $biayaProduksiObat,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-		}
-		//INPUT points untuk tim bidan
-		//jika tidak ada tekanan_dara, berat_badan, suhu, dan tingggi badan yang diisi, tidak ada point\
-		if ($periksa->periksa_awal != '[]') {
-			$arr = $periksa->periksa_awal;
-			$arr = json_decode($arr, true);
-
-			$tekanan_darah = $arr['tekanan_darah'];
-			$berat_badan   = $arr['berat_badan'];
-			$suhu          = $arr['suhu'];
-			$tinggi_badan  = $arr['tinggi_badan'];
-			$periksa_id    = $periksa->id;
-
-
-			$points[]            = [
-				'periksa_id'    => Yoga::returnNull($periksa_id),
-				'tekanan_darah' => Yoga::returnNull($tekanan_darah),
-				'berat_badan'   => Yoga::returnNull($berat_badan),
-				'suhu'          => Yoga::returnNull($suhu),
-				'tinggi_badan'  => Yoga::returnNull($tinggi_badan),
-				'created_at'    => $timestamp,
-				'updated_at'    => $timestamp,
-			];
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 50202, // Biaya Produksi : Bonus per pasien
-				'debit'           => 1,
-				'nilai'           => 1530,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-				
-			$jurnals[] = [
-				'jurnalable_id'   => $periksa->id,
-				'jurnalable_type' => 'App\Models\Periksa',
-				'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
-				'debit'           => 0,
-				'nilai'           => 1530,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp,
-			];
-		}
-        if ( Input::get('dibayar_pasien') > 0 ) {
-            $data = [
-                'pembayaran' => Input::get('pembayaran'),
-                'kembalian' => Input::get('kembalian')
-            ];
-			$receipts[] = [
-				'periksa_id' => $periksa_id,
-				'receipt' => json_encode($data),
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp,
-			];
-        }
-
-		if ($fix) {
-			$mess =  '<strong> dan Perbaikan Sudah Didokumentasi </strong>';
-		}
-
-		if ( $periksa->asuransi_id != '32' && !empty(trim(  $periksa->pasien->nomor_asuransi_bpjs  )) ) {
-			$countPeriksaPakaiBpjs = Periksa::where('pasien_id', $periksa->pasien_id)
-				->where('asuransi_id', '32')
-				->where('tanggal', 'like', date('Y-m') . '%')
-				->count();
-			$countAntarPakaiBpjs = PengantarPasien::where('pengantar_id', $periksa->pasien_id)
-				->where('created_at', 'like', date('Y-m') . '%')
-				->where('pcare_submit',1)
-				->count();
-
-			$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
-			$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
-			$query .= "AND ks.pcare_submit = 1 ";
-			$query .= "AND px.pasien_id = '" . $periksa->pasien_id . "';";
-
-			$countKunjunganSakit = DB::select($query)[0]->jumlah;
-			$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;
-			if ($hitung < 1) {
-				$kunjungan_sakits[] = [
-					'periksa_id'   => $periksa_id,
-					'created_at'   => $timestamp,
-					'updated_at'   => $timestamp,
+			$mess                        = '';
+			$bp                          = BukanPeserta::where('periksa_id',  Input::get('periksa_id') )->first();
+			if ( $bp                    != null ) {
+				$bukan_peserta_updates[] = [
+					'collection'                 => $bp,
+					'updates' => [
+						'antrian_periksa_id' => null
+					]
 				];
 			}
-		}
-		DB::beginTransaction();
-		try {
+			$gammu_survey = false;
+			if ( 
+				$periksa->poli                                                  == 'estetika' &&
+				Keberatan::where('no_telp', $periksa->pasien->no_telp)->first() == null &&
+				$periksa->pasien->jangan_disms                                  == 0
+			) {
+				$gammu_survey = true;
+			}
+			
+			$terapis           = $periksa->terapii;
+			$biayaProduksiObat = 0;
+			foreach ($terapis as $terapi) {
+				$biayaProduksiObat += $terapi->harga_beli_satuan * $terapi->jumlah;
+			}
+			// Input jurnal umum kas di tangan bila tunai > 0
+			if ($periksa->tunai>0) {
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 110000, // Kas di tangan
+					'debit'           => 1,
+					'nilai'           => $periksa->tunai,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+			}
+			// Input jurnal umum kas di tangan bila piutang > 0
+			if ($periksa->piutang>0) {
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'debit'           => 1,
+					'coa_id'          => $periksa->asuransi->coa_id, // Piutang berdasarkan masing2 asuransi
+					'nilai'           => $periksa->piutang,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+			}
+
+			$transaksis    = $periksa->transaksi;
+			$transaksis    = json_decode($transaksis, true);
+			$adaJasaDokter = false;
+			$feeDokter     = 0;
+
+			$hutang_asisten_tindakan = 0;
+			// cek dulu apakah ada diskon di transaksis
+			//
+			$diskonArray= [];
+			$nilaiDiskon= 0;
+			foreach ($transaksis as $t) {
+				if ( $t['jenis_tarif_id'] == '0' ) {
+					$diskonArray[] = $t;
+					$nilaiDiskon += abs( $t['biaya'] );
+				}
+			}
+
+			foreach ($transaksis as $k => $transaksi) {
+				$adaBiaya = false;
+
+				$last_transaksi_periksa_id++;
+				$transaksi_periksas[] = [
+					'id'             => $last_transaksi_periksa_id,
+					'periksa_id'     => $periksa_id,
+					'jenis_tarif_id' => $transaksi['jenis_tarif_id'],
+					'biaya'          => $transaksi['biaya'],
+					'keterangan_pemeriksaan'          => null,
+					'created_at'     => $timestamp,
+					'updated_at'     => $timestamp
+				];
+				if (isset( $transaksi['keterangan_tindakan'] )) {
+					$transaksi_periksas[ count( $transaksi_periksas ) -1 ]['keterangan_pemeriksaan'] = $transaksi['keterangan_tindakan'];
+				}
+
+				if ( !($transaksi['jenis_tarif_id'] == '116' && $transaksi['biaya'] == 0) ) {
+					$feeDokter += Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
+				}
+
+				$jenis_tarif = JenisTarif::with('bahanHabisPakai.merek.rak')->where('id', $transaksi['jenis_tarif_id'])->first();
+
+				if ($transaksi['biaya'] > 0 && $transaksi['jenis_tarif_id'] != '0') { // jika biaya > 0 dan jenis_tarif_id bukan 0 (diskon)
+					//cek apakah jenis_tarif ini ada diskon;
+					// jika ada kurangi nilai di jurnal umum;
+					$diskon = 0;
+					foreach ($diskonArray as $d) {
+						if ($d['jenis_tarif_id_diskon'] == $transaksi['jenis_tarif_id'] ) {
+							$diskon = $d['biaya'];
+							break;
+						}
+					}
+
+					$jurnals[] = [
+						'jurnalable_id'   => $periksa->id,
+						'jurnalable_type' => 'App\Models\Periksa',
+						'coa_id'          => $jenis_tarif->coa_id,
+						'debit'           => 0,
+						'nilai'           => $transaksi['biaya'] - abs( $diskon ),
+						'created_at'      => $timestamp,
+						'updated_at'      => $timestamp,
+					];
+
+					$adaBiaya = true;
+				}
+
+				if ($jenis_tarif->dengan_asisten == '1') {
+					$hutang_asisten_tindakan += $this->biayaJasa($transaksi['jenis_tarif_id'], $transaksi['biaya']);
+				}
+
+				foreach ($jenis_tarif->bahanHabisPakai as $key => $bhp) {
+
+					$rak  = $bhp->merek->rak;
+					$stok = $rak->stok - $bhp->jumlah;
+
+					$rak_updates[] = [
+						'collection'   => $rak,
+						'updates' => [
+							'stok' => $stok
+						]
+					];
+
+					$last_dispensing_id++;
+					$dispensings[] = [
+						'id'               => $last_dispensing_id,
+						'merek_id'         => $bhp->merek_id,
+						'keluar'           => $bhp->jumlah,
+						'dispensable_id'   => $last_transaksi_periksa_id,
+						'dispensable_type' => 'App\Models\TransaksiPeriksa',
+						'tanggal'          => $periksa->tanggal,
+						'created_at'       => $timestamp,
+						'updated_at'       => $timestamp
+					];
+				}
+				
+				//Jika ada biaya untuk tindakan Nebulizer baik anak maupun dewasa, masukkan beban jasa dokter 
+				if ($adaBiaya && ($transaksi['jenis_tarif_id'] == '102' || $transaksi['jenis_tarif_id'] == '103')) {
+					$feeDokter += 3000;
+				}
+			}
+
+			//Masukkan pembayaran ke dalam Transaksi
+			if ($hutang_asisten_tindakan > 0) {
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 50205, // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
+					'debit'           => 1,
+					'nilai'           => $hutang_asisten_tindakan,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
+					'debit'           => 0,
+					'nilai'           => $hutang_asisten_tindakan,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+			}
+			//
+			// Input hutang kepada dokter
+			// 
+			if ($feeDokter > 0 && $periksa->staf->gaji_tetap == 0 ) {
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 50201, //Beban Jasa Dokter
+					'debit'           => 1,
+					'nilai'           => $feeDokter,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 200001, // Hutang Kepada dokter
+					'debit'           => 0,
+					'nilai'           => $feeDokter,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+			}
+			//
+			// Input Transaksi ini untuk pengurangan persediaan obat tiap transaksi pasien
+			//
+			if ($biayaProduksiObat > 0) {
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 50204, // Biaya Produksi : Obat
+					'debit'           => 1,
+					'nilai'           => $biayaProduksiObat,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 112000, // Persediaan Obat
+					'debit'           => 0,
+					'nilai'           => $biayaProduksiObat,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+			}
+			//INPUT points untuk tim bidan
+			//jika tidak ada tekanan_dara, berat_badan, suhu, dan tingggi badan yang diisi, tidak ada point\
+			if ($periksa->periksa_awal != '[]') {
+				$arr = $periksa->periksa_awal;
+				$arr = json_decode($arr, true);
+
+				$tekanan_darah = $arr['tekanan_darah'];
+				$berat_badan   = $arr['berat_badan'];
+				$suhu          = $arr['suhu'];
+				$tinggi_badan  = $arr['tinggi_badan'];
+				$periksa_id    = $periksa->id;
+
+
+				$points[]            = [
+					'periksa_id'    => Yoga::returnNull($periksa_id),
+					'tekanan_darah' => Yoga::returnNull($tekanan_darah),
+					'berat_badan'   => Yoga::returnNull($berat_badan),
+					'suhu'          => Yoga::returnNull($suhu),
+					'tinggi_badan'  => Yoga::returnNull($tinggi_badan),
+					'created_at'    => $timestamp,
+					'updated_at'    => $timestamp,
+				];
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 50202, // Biaya Produksi : Bonus per pasien
+					'debit'           => 1,
+					'nilai'           => 1530,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+					
+				$jurnals[] = [
+					'jurnalable_id'   => $periksa->id,
+					'jurnalable_type' => 'App\Models\Periksa',
+					'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
+					'debit'           => 0,
+					'nilai'           => 1530,
+					'created_at'      => $timestamp,
+					'updated_at'      => $timestamp,
+				];
+			}
+			if ( Input::get('dibayar_pasien') > 0 ) {
+				$data = [
+					'pembayaran' => Input::get('pembayaran'),
+					'kembalian' => Input::get('kembalian')
+				];
+				$receipts[] = [
+					'periksa_id' => $periksa_id,
+					'receipt' => json_encode($data),
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp,
+				];
+			}
+
+			if ($fix) {
+				$mess =  '<strong> dan Perbaikan Sudah Didokumentasi </strong>';
+			}
+
+			if ( $periksa->asuransi_id != '32' && !empty(trim(  $periksa->pasien->nomor_asuransi_bpjs  )) ) {
+				$countPeriksaPakaiBpjs = Periksa::where('pasien_id', $periksa->pasien_id)
+					->where('asuransi_id', '32')
+					->where('tanggal', 'like', date('Y-m') . '%')
+					->count();
+				$countAntarPakaiBpjs = PengantarPasien::where('pengantar_id', $periksa->pasien_id)
+					->where('created_at', 'like', date('Y-m') . '%')
+					->where('pcare_submit',1)
+					->count();
+
+				$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
+				$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
+				$query .= "AND ks.pcare_submit = 1 ";
+				$query .= "AND px.pasien_id = '" . $periksa->pasien_id . "';";
+
+				$countKunjunganSakit = DB::select($query)[0]->jumlah;
+				$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;
+				if ($hitung < 1) {
+					$kunjungan_sakits[] = [
+						'periksa_id'   => $periksa_id,
+						'created_at'   => $timestamp,
+						'updated_at'   => $timestamp,
+					];
+				}
+			}
 			if ( 
 				$periksa->terapi !== '' &&
 				$periksa->terapi !== '[]'
