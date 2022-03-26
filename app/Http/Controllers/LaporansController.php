@@ -629,7 +629,7 @@ class LaporansController extends Controller
 	public function payment($id)
 	{
 		$asuransi_controller = new AsuransisController;
-		$hutang_asuransis    = $asuransi_controller->hutangs_template($id);
+		$hutang_asuransis    = $asuransi_controller->hutangs_template(0,$id);
 		$asuransi            = Asuransi::find($id);
 		return view('laporans.payment', compact('hutang_asuransis','asuransi'));
 

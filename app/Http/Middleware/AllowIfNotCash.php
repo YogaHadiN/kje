@@ -32,7 +32,7 @@ class AllowIfNotCash
                             ->where('jurnalable_id', $periksa->id)
                             ->latest()
                             ->first();
-        if (is_null($periksa)) {
+        if (is_null($jurnal)) {
             $pesan = Yoga::gagalFlash('Data pemeriksaan belum bisa diedit. Silahkan selesaikan dulu hingga kasir');
             return redirect()->back()->withPesan($pesan);
         }
