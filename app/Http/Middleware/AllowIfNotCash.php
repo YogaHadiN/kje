@@ -28,11 +28,16 @@ class AllowIfNotCash
         }
 
         $checkout = CheckoutKasir::latest()->first();
-        $jurnal_id = JurnalUmum::where('jurnalable_type', 'App\Models\Periksa')
-                                ->where('jurnalable_id', $periksa->id)
-                                ->latest()
-                                ->first()
-                                ->id;
+        $jurnal = JurnalUmum::where('jurnalable_type', 'App\Models\Periksa')
+                            ->where('jurnalable_id', $periksa->id)
+                            ->latest()
+                            ->first();
+        if (is_null($periksa)) {
+            $pesan = Yoga::gagalFlash('Data pemeriksaan belum bisa diedit. Silahkan selesaikan dulu hingga kasir');
+            return redirect()->back()->withPesan($pesan);
+        }
+
+        $jurnal_id = $jurnal->id;
 
         $tunaiAdaTapiBolehDiedit = false;
 
