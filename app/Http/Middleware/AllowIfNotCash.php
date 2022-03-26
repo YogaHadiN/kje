@@ -22,7 +22,10 @@ class AllowIfNotCash
     {
         $id      = $request->id;
         $periksa = Periksa::find( $id );
-
+        if (is_null($periksa)) {
+            $pesan = Yoga::gagalFlash('Data pemeriksaan yang dimaksud tidak ditemukan');
+            return redirect()->back()->withPesan($pesan);
+        }
 
         $checkout = CheckoutKasir::latest()->first();
         $jurnal_id = JurnalUmum::where('jurnalable_type', 'App\Models\Periksa')
@@ -32,8 +35,6 @@ class AllowIfNotCash
                                 ->id;
 
         $tunaiAdaTapiBolehDiedit = false;
-
-        /* dd( $checkout->jurnal_umum_id, $jurnal_id ); */
 
         if ( $checkout->jurnal_umum_id > $jurnal_id ) {
             $tunaiAdaTapiBolehDiedit = true;
