@@ -112,7 +112,7 @@
 						<table class="table table-hover table-condensed">
 							<thead>
 								<tr>
-									<th>Tanggal</th>
+									<th nowrap>Tanggal</th>
 									<th>Supplier</th>
 									<th>Staf</th>
 									<th>Nilai</th>
@@ -123,7 +123,7 @@
 							<tbody>
 								@foreach($pengeluarans as $peng)
 									<tr>
-										<td>{{ $peng->tanggal->format('d-m-Y') }}</td>
+										<td nowrap>{{ $peng->tanggal->format('d-m-Y') }}</td>
 										<td>{{ $peng->supplier->nama }}</td>
 										<td>{{ $peng->staf->nama }}</td>
 										<td class="uang">{{ $peng->nilai }}</td>
