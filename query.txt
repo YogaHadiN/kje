@@ -1,6 +1,13 @@
-ALTER TABLE whatsapp_registrations DROP COLUMN nomor_bpjs;
-ALTER TABLE whatsapp_registrations ADD nomor_asuransi varchar(255);
-ALTER TABLE whatsapp_registrations ADD pasien_id varchar(255);
-ALTER TABLE whatsapp_registrations ADD konfirmasi_nomor_antrian int(1);
-ALTER TABLE whatsapp_registrations CHANGE poli poli_id varchar(255);
+alter table whatsapp_registrations drop column batuk_pilek;
+alter table whatsapp_registrations drop column nyeri_menelan;
+alter table whatsapp_registrations drop column sesak_nafas;
+alter table whatsapp_registrations drop column kontak_covid;
+alter table whatsapp_registrations drop column demam;
 
+alter table antrians add column no_telp varchar(255);
+alter table antrians add column poli_id varchar(255);
+alter table antrians add column nama_asuransi varchar(255);
+alter table antrians add column nama varchar(255);
+alter table antrians add column tanggal_lahir date;
+alter table antrians add column nomor_asuransi varchar(255);
+alter table antrians add column pasien_id varchar(255);

@@ -18,6 +18,4 @@ class WhatsappRegistration extends Model
 	public function antrian(){
 		return $this->belongsTo('App\Models\Antrian');
 	}
-	
-	
 }
