@@ -1,16 +1,24 @@
 <div class="row" id="memproses_antrian">
-	<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		<div class="widget style1 yellow-bg">
 			<div class="row">
-				<div class="col-xs-4">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<i class="fa fa-cogs fa-spin fa-5x"></i>
 				</div>
-				<div class="col-xs-8 text-right">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
 					<span>Memproses antrian</span>
 					<h2 class="font-bold">{{ $antrian->nomor_antrian }}</h2>
 					<div class="hide" id="antrian_id">
 						{{ $antrian->id }}
 					</div>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<ul>
+						<li>Nama : {{ $antrian->nama }}</li>
+						<li>Pembayaran : {{ $antrian->nama_asuransi }}</li>
+						<li>Tanggal Lahir : {{ $antrian->tanggal_lahir }}</li>
+						<li>Nomor Asuransi : {{ $antrian->nomor_asuransi }}</li>
+					</ul>
 				</div>
 			</div>
 		</div>
