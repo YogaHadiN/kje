@@ -11,3 +11,11 @@ alter table antrians add column nama varchar(255);
 alter table antrians add column tanggal_lahir date;
 alter table antrians add column nomor_asuransi varchar(255);
 alter table antrians add column pasien_id varchar(255);
+
+update antrians set no_telp = null;
+update antrians set poli_id = null;
+update antrians set nama_asuransi = null;
+update antrians set nama = null;
+update antrians set tanggal_lahir = null;
+update antrians set nomor_asuransi = null;
+update antrians set pasien_id = null;

@@ -1164,13 +1164,13 @@ p */
 			$antriankasir =  AntrianKasir::where('periksa_id', $id)->first();
 			if ( isset($antriankasir) ) {
 				$antarable_type = 'App\Models\AntrianKasir';
-				$antarable_id = $antriankasir->id;
+				$antarable_id   = $antriankasir->id;
 			}
 
 			$antrianapotek =  AntrianApotek::where('periksa_id', $id)->first();
 			if ( isset($antrianapotek) ) {
 				$antarable_type = 'App\Models\AntrianApotek';
-				$antarable_id = $antrianapotek->id;
+				$antarable_id   = $antrianapotek->id;
 			}
 
 			Antrian::where('antriable_type', $antarable_type)
