@@ -13,12 +13,22 @@
 					</div>
 				</div>
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<ul>
-						<li>Nama : {{ $antrian->nama }}</li>
-						<li>Pembayaran : {{ $antrian->nama_asuransi }}</li>
-						<li>Tanggal Lahir : {{ $antrian->tanggal_lahir }}</li>
-						<li>Nomor Asuransi : {{ $antrian->nomor_asuransi }}</li>
-					</ul>
+					<table class="table table-hover table-condensed table-bordered">
+						<tbody>
+							<tr>
+								<li>Nama : {{ $antrian->nama }}</li>
+							</tr>
+							<tr>
+								<li>Pembayaran : {{ $antrian->nama_asuransi }}</li>
+							</tr>
+							<tr>
+								<li>Tanggal Lahir : {{ $antrian->tanggal_lahir }}</li>
+							</tr>
+							<tr>
+								<li>Nomor Asuransi : {{ $antrian->nomor_asuransi }}</li>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
