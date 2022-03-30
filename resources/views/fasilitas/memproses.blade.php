@@ -15,18 +15,26 @@
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<table class="table table-hover table-condensed table-bordered">
 						<tbody>
-							<tr>
-								<li>Nama : {{ $antrian->nama }}</li>
-							</tr>
-							<tr>
-								<li>Pembayaran : {{ $antrian->nama_asuransi }}</li>
-							</tr>
-							<tr>
-								<li>Tanggal Lahir : {{ $antrian->tanggal_lahir }}</li>
-							</tr>
-							<tr>
-								<li>Nomor Asuransi : {{ $antrian->nomor_asuransi }}</li>
-							</tr>
+							@if (isset($antrian->nama))
+								<tr>
+									<td>iNama : {{ $antrian->nama }}</td>
+								</tr>
+							@endif
+							@if (isset($antrian->nama))
+								<tr>
+									<td>Pembayaran : {{ $antrian->nama_asuransi }}</td>
+								</tr>
+							@endif
+							@if (isset($antrian->nama))
+								<tr>
+									<td>Tanggal Lahir : {{ $antrian->tanggal_lahir }}</td>
+								</tr>
+							@endif
+							@if (isset($antrian->nama))
+								<tr>
+									<td>Nomor Asuransi : {{ $antrian->nomor_asuransi }}</td>
+								</tr>
+							@endif
 						</tbody>
 					</table>
 				</div>
