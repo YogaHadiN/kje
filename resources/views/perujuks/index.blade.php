@@ -20,7 +20,7 @@
       <div class="panel-heading">
             <div class="panel-title">
                 <div class="panelLeft">
-                    <h3>Total : {!! App\Perujuk::all()->count() !!}</h3>
+                    <h3>Total : {!! App\Models\Perujuk::all()->count() !!}</h3>
                 </div>
                 <div class="panelRight">
                     <a href="{{ url('perujuks/create') }}" class="btn btn-success"><span><i class="fa fa-plus"></i></span> Perujuk Baru</a>
