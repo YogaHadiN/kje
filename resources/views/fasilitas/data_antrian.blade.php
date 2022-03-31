@@ -13,6 +13,12 @@
 				<td nowrap>{{ $antrian->tanggal_lahir->format('Y-m-d') }}</td>
 			</tr>
 		@endif
+		@if (isset($antrian->alamat))
+			<tr>
+				<td nowrap>Alamat</td>
+				<td nowrap>{{ $antrian->alamat }}</td>
+			</tr>
+		@endif
 		@if (isset($antrian->nama_asuransi))
 			<tr>
 				<td nowrap>Pembayaran</td>
