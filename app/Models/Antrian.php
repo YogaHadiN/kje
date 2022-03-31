@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Antrian extends Model
 {
+	protected $dates = [
+		'tanggal_lahir'
+	];
 	public function jenis_antrian(){
 		return $this->belongsTo('App\Models\JenisAntrian');
 	}

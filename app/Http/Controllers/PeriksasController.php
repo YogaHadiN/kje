@@ -1147,6 +1147,10 @@ p */
 		try {
 			$periksa = Periksa::find( $id );
 
+			if (is_null($periksa)) {
+				$pesan = Yoga::gagalFlash('antrian periksa tidak ditemukan');
+				return redirect()->back()->withPesan($pesan);
+			}
 			$antrian              = new AntrianPeriksa;
 			$antrian->poli        = $periksa->poli;
 			$antrian->periksa_id  = $periksa->periksa_id;

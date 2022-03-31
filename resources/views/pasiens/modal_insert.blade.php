@@ -13,7 +13,7 @@
 			<div class="col-lg-12 col-md-12">
 				<div class="form-group @if($errors->has('nama'))has-error @endif">
 				  {!! Form::label('nama', 'Nama Pasien', ['class' => 'control-label']) !!}
-					{!! Form::text('nama', null, ['class' => 'form-control hh required 
+				  {!! Form::text('nama', !isset($pasien) && isset($antrian->nama)? $antrian->nama : null , ['class' => 'form-control hh required 
 						@if($rq)
 							rq
 						@endif
@@ -45,7 +45,10 @@
 				  @if (isset($pasien) && !empty( $pasien->tanggal_lahir ))
 					  {!! Form::text('tanggal_lahir', $pasien->tanggal_lahir->format('d-m-Y'), ['class' => 'form-control tanggal', 'id' => 'tanggal_lahir'])!!}
 				  @else
-					  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control tanggal', 'id' => 'tanggal_lahir'])!!}
+					  {!! Form::text('tanggal_lahir', 
+						  !isset($pasien) && isset( $antrian->tanggal_lahir ) ? $antrian->tanggal_lahir->format('d-m-Y') : null, 
+						  ['class' => 'form-control tanggal', 'id' => 'tanggal_lahir'])
+					  !!}
 				  @endif
 				  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 				</div>
@@ -130,7 +133,7 @@
 			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 				<div class="form-group @if($errors->has('nomor_asuransi'))has-error @endif">
 					{!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
-					{!! Form::text('nomor_asuransi', null, [
+					{!! Form::text('nomor_asuransi', !isset($pasien) && isset($antrian->nomor_asuransi)? $antrian->nomor_asuransi : null , [
 						'class' => 'form-control tog hh',
 						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
 					])!!}

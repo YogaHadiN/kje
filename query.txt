@@ -1,17 +1,3 @@
-alter table whatsapp_registrations drop column batuk_pilek;
-alter table whatsapp_registrations drop column nyeri_menelan;
-alter table whatsapp_registrations drop column sesak_nafas;
-alter table whatsapp_registrations drop column kontak_covid;
-alter table whatsapp_registrations drop column demam;
-
-alter table antrians add column no_telp varchar(255);
-alter table antrians add column poli_id varchar(255);
-alter table antrians add column nama_asuransi varchar(255);
-alter table antrians add column nama varchar(255);
-alter table antrians add column tanggal_lahir date;
-alter table antrians add column nomor_asuransi varchar(255);
-alter table antrians add column pasien_id varchar(255);
-
 update antrians set no_telp = null;
 update antrians set poli_id = null;
 update antrians set nama_asuransi = null;
@@ -19,3 +5,6 @@ update antrians set nama = null;
 update antrians set tanggal_lahir = null;
 update antrians set nomor_asuransi = null;
 update antrians set pasien_id = null;
+update antrians set konfirmasi_nomor_antrian = null;
+update antrians set pembayaran = null;
+

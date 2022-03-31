@@ -1,8 +1,8 @@
 <div class="row" id="memproses_antrian">
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		<div class="widget style1 yellow-bg">
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+		<div class="widget style1 blue-bg">
 			<div class="row">
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 					<i class="fa fa-cogs fa-spin fa-5x"></i>
 				</div>
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
@@ -12,31 +12,8 @@
 						{{ $antrian->id }}
 					</div>
 				</div>
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<table class="table table-hover table-condensed table-bordered">
-						<tbody>
-							@if (isset($antrian->nama))
-								<tr>
-									<td>iNama : {{ $antrian->nama }}</td>
-								</tr>
-							@endif
-							@if (isset($antrian->nama))
-								<tr>
-									<td>Pembayaran : {{ $antrian->nama_asuransi }}</td>
-								</tr>
-							@endif
-							@if (isset($antrian->nama))
-								<tr>
-									<td>Tanggal Lahir : {{ $antrian->tanggal_lahir }}</td>
-								</tr>
-							@endif
-							@if (isset($antrian->nama))
-								<tr>
-									<td>Nomor Asuransi : {{ $antrian->nomor_asuransi }}</td>
-								</tr>
-							@endif
-						</tbody>
-					</table>
+				<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+					@include('fasilitas.data_antrian')
 				</div>
 			</div>
 		</div>
