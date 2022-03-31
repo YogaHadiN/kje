@@ -240,6 +240,10 @@ class PengantarsController extends Controller
 
 		$model          = $this->getModel($posisi_antrian);
 		$antrian_posisi = $model::find($id);
+		if (is_null($antrian_posisi)) {
+			$pesan = Yoga::gagalFlash('Antrian tidak ditemukan');
+			return redirect()->back()->withPesan($pesan);
+		}
 		if ( $posisi_antrian == 'antrianperiksas' ||  $posisi_antrian == 'antrianpolis' ) {
 			$ap             = $antrian_posisi;
 		} else if ( $posisi_antrian == 'antrianapoteks' ||  $posisi_antrian == 'antriankasirs' ){
