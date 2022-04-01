@@ -1170,19 +1170,23 @@ p */
 				$antarable_type = 'App\Models\AntrianKasir';
 				$antarable_id   = $antriankasir->id;
 			}
-
 			$antrianapotek =  AntrianApotek::where('periksa_id', $id)->first();
 			if ( isset($antrianapotek) ) {
 				$antarable_type = 'App\Models\AntrianApotek';
 				$antarable_id   = $antrianapotek->id;
 			}
 
+			if (is_null($antarable_type)) {
+				$pesan = Yoga::gagalFlash('Pasien sudah pulang dan tidak bisa diedit lagi');
+				return redirect()->back()->withPesan($pesan);
+			}
+
 			Antrian::where('antriable_type', $antarable_type)
-				->where('antriable_id', $antarable_id)
-				->update([
-					 'antriable_type' => 'App\Models\AntrianPeriksa',
-					 'antriable_id' => $antrian->id
-			]);
+					->where('antriable_id', $antarable_id)
+					->update([
+						 'antriable_type' => 'App\Models\AntrianPeriksa',
+						 'antriable_id' => $antrian->id
+				]);
 
 			PengantarPasien::where('antarable_type', $antarable_type)
 				->where('antarable_id', $antarable_id)

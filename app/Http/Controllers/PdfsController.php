@@ -15,6 +15,7 @@ use App\Http\Controllers\PendapatansController;
 use App\Http\Controllers\KirimBerkasController;
 use Carbon\Carbon;
 use App\Models\Antrian;
+use App\Models\Terapi;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
 use App\Models\PesertaBpjsPerbulan;
@@ -923,5 +924,23 @@ class PdfsController extends Controller
 			$prolanis_ht = $psn->templateProlanisPeriksa($prolanis_ht, $d, 'prolanis_ht');
 		}
 		return $prolanis_ht;
+
 	}
+	public function label_obat($id){
+
+		$periksa = Periksa::with('terapii.merek.rak.formula.komposisi.generik', 'pasien')->where('id', $id)->first();
+		$pdf = PDF::loadView('pdfs.label_obat', compact(
+			'periksa'
+		))
+			->setPaper('a5')
+			->setOrientation('landscape')
+			->setOption('page-width', 297)
+			->setOption('page-height', 40)
+			->setOption('margin-left', 0)
+			->setOption('margin-right', 0)
+			->setWarnings(false);
+        // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
+        return $pdf->stream();
+	}
+	
 }

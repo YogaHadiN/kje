@@ -670,6 +670,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/amortisasi/{tahun}', [\App\Http\Controllers\PdfsController::class, 'amortisasi']);
 	Route::get('pdfs/peredaranBruto/{tahun}', [\App\Http\Controllers\PdfsController::class, 'peredaranBruto']);
 	Route::get('pdfs/status/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'status']);
+	Route::get('pdfs/label_obat/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'label_obat']);
 	Route::get('pdfs/bagi_hasil_gigi/{id}', [\App\Http\Controllers\PdfsController::class, 'bagiHasilGigi']);
 	Route::get('pdfs/status/a4/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'status_a4']);
 	Route::get('pdfs/dispensing/{rak_id}/{mulai}/{akhir}', [\App\Http\Controllers\PdfsController::class, 'dispensing']);

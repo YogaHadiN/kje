@@ -181,8 +181,11 @@ class PenjualansController extends Controller
 				return redirect('pasiens')->withPesan($pesan);
 			}
 
-
 			$staf    = Staf::where('email', $email)->first();
+			if ( is_null($staf) ) {
+				$pesan = Yoga::gagalFlash('email tersebut tidak ditemukan dalam data staf');
+				return redirect()->back()->withPesan($pesan);
+			}
 			$staf_id = $staf->id;
 
 			if( Hash::check($password, $hashedPassword) ){
