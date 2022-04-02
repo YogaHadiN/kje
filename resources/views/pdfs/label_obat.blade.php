@@ -249,9 +249,9 @@ border-spacing: -1px;
 <body style="font-size:11px; font-family:sans-serif">
 	<div style="" class="klinik">
 		@foreach ($periksa->terapii as $terapi)
-			@if ( 
-					$terapi->signa->signa != 'puyer' &&
-					$terapi->signa->signa != 'add'
+			@if (
+				 ucwords($terapi->signa) !== ucwords('puyer' ) &&
+				 ucwords($terapi->signa) !== ucwords( 'add')
 				)
 				<table width="100% text-center">
 					<tr>
