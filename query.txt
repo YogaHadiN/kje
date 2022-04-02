@@ -8,4 +8,4 @@ update antrians set pasien_id = null;
 update antrians set konfirmasi_nomor_antrian = null;
 update antrians set pembayaran = null;
 
-alter table antrians add column alamat text;
+alter table whatsapp_registrations add column periksa_id int;
