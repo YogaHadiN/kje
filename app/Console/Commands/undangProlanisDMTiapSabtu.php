@@ -55,6 +55,7 @@ class undangProlanisDMTiapSabtu extends Command
 
         $data   = [];
         $notelp = [];
+        Log::info('==================');
         foreach ($pasiens as $pasien) {
             $message = 'Selamat siang. Maaf mengganggu. Kami dari Klinik Jati Elok. Izin mengingatkan bahwa peserta BPJS atas nama ';
             $message .= PHP_EOL;
@@ -82,7 +83,10 @@ class undangProlanisDMTiapSabtu extends Command
                 'secret'   => false, // or true
                 'priority' => false, // or true
             ];
+            Log::info('terkirim wa ke ' . $no_wa . ' undangan prolanis dm');
         }
+
+        Log::info('==================');
         $wa = new WablasController;
         $wa->bulkSend($data);
     }
