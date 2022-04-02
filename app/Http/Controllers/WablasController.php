@@ -623,6 +623,29 @@ class WablasController extends Controller
 			'expired' => $expired
 		];
 	}
+	public function bulkSend($bulkMessage){
+		
+		$curl = curl_init();
+		$payload = [
+			"data" => $bulkMessage
+		];
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,
+			array(
+				"Authorization: ". env('WABLAS_TOKEN'),
+				"Content-Type: application/json"
+			)
+		);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
+		curl_setopt($curl, CURLOPT_URL, "https://console.wablas.com/api/v2/send-bulk/text");
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		$result = curl_exec($curl);
+		curl_close($curl);
+	}
+	
 
 	
 	

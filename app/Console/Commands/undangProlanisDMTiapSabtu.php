@@ -73,6 +73,8 @@ class undangProlanisDMTiapSabtu extends Command
             $message .= 'https:/www.klinikjatielok.com/eksklusi/' . bcrypt($pasien->id);
 
             $notelp[] = $pasien->no_telp;
+            $no_wa    = $pasien->no_telp;
+            $no_wa    = '081381912803';
             $data[] = [
                 'phone'    => $pasien->no_telp,
                 'message'  => $message,
@@ -80,6 +82,7 @@ class undangProlanisDMTiapSabtu extends Command
                 'priority' => false, // or true
             ];
         }
-
+        $wa = new WablasController;
+        $wa->bulkSend($data);
     }
 }
