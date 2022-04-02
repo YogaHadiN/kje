@@ -127,10 +127,10 @@ class testcommand extends Command
 
 		/* dd( $errors ); */
 
-		/* $this->testSendWablas(); */
+		$this->testSendWablas();
 		/* $this->testLog(); */
 		/* $this->testAudio(); */
-		$this->testButton();
+		/* $this->testButton(); */
 		/* $this->testSolo(); */
 		/* $this->removeBpjsFromAntrianKelengkapan(); */
 		/* $this->tuningPiutangdibayarSudahdibayar(); */

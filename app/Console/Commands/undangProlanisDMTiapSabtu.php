@@ -52,7 +52,7 @@ class undangProlanisDMTiapSabtu extends Command
         $query .= "AND sudah_kontak_bulan_ini = 0;";
         $pasiens = DB::select($query);
 
-        $data = [];
+        $data   = [];
         $notelp = [];
         foreach ($pasiens as $pasien) {
             $message = 'Selamat siang. Maaf mengganggu. Kami dari Klinik Jati Elok. Izin mengingatkan bahwa peserta BPJS atas nama ';
@@ -66,6 +66,11 @@ class undangProlanisDMTiapSabtu extends Command
             $message .= 'Izin menanyakan kira-kira bapak / ibu berkenan untuk periksa hari ini atau besok?';
             $message .= PHP_EOL;
             $message .= 'Mohon konfirmasinya. Terima kasih';
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .= 'Jika menurut anda pesan ini dirasa mengganggu, silahkan klik link di bawah ini. Terima kasih';
+            $message .= PHP_EOL;
+            $message .= 'https:/www.klinikjatielok.com/eksklusi/' . bcrypt($pasien->id);
 
             $notelp[] = $pasien->no_telp;
             $data[] = [
@@ -75,6 +80,6 @@ class undangProlanisDMTiapSabtu extends Command
                 'priority' => false, // or true
             ];
         }
-        Log::info('whatsapp terpanggil');
+
     }
 }
