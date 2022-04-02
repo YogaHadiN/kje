@@ -12,6 +12,7 @@ use App\Http\Controllers\AntrianPeriksasController;
 use App\Events\FormSubmitted;
 use App\Models\Antrian;
 use App\Models\JenisAntrian;
+use App\Models\WhatsappRegistration;
 use App\Models\Sms;
 use App\Models\Asuransi;
 use App\Models\AntrianPeriksa;
@@ -338,6 +339,12 @@ class AntrianPolisController extends Controller
 
 			$an->save();
 		}
+
+		// hapus jika ada whatsapp registration
+		if (isset($an->whatsapp_registration)) {
+			$an->whatsapp_registration->delete();
+		}
+
 		return $ap;
 
 	}

@@ -255,7 +255,7 @@ border-spacing: -1px;
 				)
 				<table width="100% text-center">
 					<tr>
-						<td class="h2 underline text-center">Apotek Jati Elok</td>
+						<td class="h2 underline text-center">Klinik Jati Elok</td>
 					</tr>
 					<tr>
 						<td class="font-small text-center">{{ \Carbon\Carbon::parse( $periksa->tanggal )->format('d M Y') }}</td>

@@ -54,6 +54,7 @@ class Kernel extends ConsoleKernel
 		 Commands\inputdata::class,
 		 /* Commands\smsPromoUlangTahun::class, */
 		 Commands\pphDokter::class,
+		 Commands\undangProlanisDMTiapSabtu::class,
 		 Commands\scheduleBackup::class,
 		 Commands\multiPenyusutan::class,
 		 Commands\cekMutasi::class,
@@ -66,6 +67,8 @@ class Kernel extends ConsoleKernel
     {
 		 $schedule->command('cek:mutasi20terakhir')
 				  ->hourly();
+		 $schedule->command('whatsapp:prolanis_dm')
+				  ->everyMinute();
 		 $schedule->command('cek:mutasi')
 				  ->dailyAt('23:50');
 		 /* $schedule->command('cron:test') */
