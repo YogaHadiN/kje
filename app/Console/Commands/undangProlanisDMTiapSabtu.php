@@ -77,7 +77,7 @@ class undangProlanisDMTiapSabtu extends Command
             $no_wa    = $pasien->no_telp;
             $no_wa    = '081381912803';
             $data[] = [
-                'phone'    => $pasien->no_telp,
+                'phone'    => $no_wa,
                 'message'  => $message,
                 'secret'   => false, // or true
                 'priority' => false, // or true
