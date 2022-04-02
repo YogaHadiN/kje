@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Pasien;
+use App\Http\Controllers\WablasController;
 use DB;
 use Log;
 
