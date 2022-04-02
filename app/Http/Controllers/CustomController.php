@@ -781,7 +781,7 @@ class CustomController extends Controller
 						'secret'   => false, // or true
 						'priority' => false, // or true
 					]
-				]
+				];
 				$wa = new WablasController;
 				$wa->bulkSend($data);
 
