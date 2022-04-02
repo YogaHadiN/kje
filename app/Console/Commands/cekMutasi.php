@@ -96,9 +96,7 @@ class cekMutasi extends Command
 			}
 			Rekening::insert($insertMutasi);
 		}
-		Log::info('==================================================================================================================================');
 		Log::info('Cek Mutasi Selesai');
-		Log::info('==================================================================================================================================');
     }
 	public function kata_kuncis(){
 		$asuransis = Asuransi::whereNotNull('kata_kunci')->get();
