@@ -49,7 +49,6 @@ class pphDokter extends Command
 		$query .= "st.menikah as menikah, ";
 		$query .= "st.jenis_kelamin as jenis_kelamin, ";
 		$query .= "st.kartu_keluarga as kartu_keluarga, ";
-		$query .= "st.surat_nikah as surat_nikah, ";
 		$query .= "st.npwp as npwp, ";
 		$query .= "st.suami_bekerja as suami_bekerja, ";
 		$query .= "st.ada_penghasilan_lain as ada_penghasilan_lain, ";
@@ -76,7 +75,6 @@ class pphDokter extends Command
 			$menikah                   = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'menikah');
 			$jumlah_anak               = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'jumlah_anak');
 			$kartu_keluarga            = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'kartu_keluarga');
-			$surat_nikah               = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'surat_nikah');
 			$suami_bekerja             = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'suami_bekerja');
 			$ada_penghasilan_lain      = $d->ada_penghasilan_lain;
 
@@ -102,7 +100,6 @@ class pphDokter extends Command
 					'penghasilan_bruto_setahun'      => null,
 					'ptkp_dasar'                     => null,
 					'penghasilan_kena_pajak_setahun' => null,
-					'surat_nikah'                    => $surat_nikah,
 					'suami_bekerja'                  => $suami_bekerja,
 					'created_at'                     => date('Y-m-d H:i:s'),
 					'updated_at'                     => date('Y-m-d H:i:s')
@@ -129,7 +126,6 @@ class pphDokter extends Command
 					'penghasilan_bruto_setahun'      => $pph21ini['penghasilan_bruto_setahun'],
 					'ptkp_dasar'                     => $pph21ini['ptkp_dasar'],
 					'penghasilan_kena_pajak_setahun' => $pph21ini['ptkp_setahun'],
-					'surat_nikah'                    => $surat_nikah,
 					'suami_bekerja'                  => $suami_bekerja,
 					'created_at'                     => date('Y-m-d H:i:s'),
 					'updated_at'                     => date('Y-m-d H:i:s')
