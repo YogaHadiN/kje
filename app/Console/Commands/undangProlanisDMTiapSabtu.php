@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Pasien;
 use DB;
+use Log;
 
 class undangProlanisDMTiapSabtu extends Command
 {
