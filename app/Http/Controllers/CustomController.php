@@ -748,7 +748,10 @@ class CustomController extends Controller
 
 			// masukkan kembali whatsapp_registration dengan periksa_id untuk customer surveyable_id
 			//
-			if (isset($antrian)) {
+			if (
+				isset($antrian) &&
+				!is_null($antrian->no_telp)
+			) {
 
 				$whatsapp_registration             = new WhatsappRegistration;
 				$whatsapp_registration->no_telp    = $antrian->no_telp;
