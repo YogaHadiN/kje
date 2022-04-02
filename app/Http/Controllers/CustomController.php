@@ -11,6 +11,7 @@ use App\Models\Classes\Yoga;
 use App\Models\Antrian;
 use App\Models\KlaimGdpBpjs;
 use App\Models\Asuransi;
+use App\Models\WablasController;
 use App\Models\AntrianKasir;
 use App\Models\AntrianApotek;
 use App\Models\AntrianFarmasi;
