@@ -465,20 +465,7 @@ class FormulasController extends Controller
 
 		// return $formula;
 
-		$sediaan = [
-			null 				=> '- pilih -',
-			'tablet'  			=> 'tablet',
-			'syrup'  			=> 'syrup',
-			'drop'  			=> 'drop',
-			'capsul' 			=> 'capsul',
-			'ampul'  			=> 'ampul',
-			'vial'  			=> 'vial',
-			'tetes mata'  		=> 'tetes mata',
-			'tetes telinga' 	=> 'tetes telinga',
-			'salep'  			=> 'salep',
-			'gel'  				=> 'gel',
-			'obat kumur'  		=> 'obat kumur'
-		];
+		$sediaan = Sediaan::pluck('id', 'sediaan');
 
 		$dijual_bebas = array(
                         null        => '- Pilih -',
