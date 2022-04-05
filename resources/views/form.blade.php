@@ -15,31 +15,31 @@
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered">
-							<thead>
-								<tr>
-									<th>Alergi</th>
-									<th class="fit">Action</th>
-								</tr>
-							</thead>
-							<tbody id="alergy_body_table">
-								@if($pasien->alergies->count() > 0)
-									@foreach($pasien->alergies as $alergi)
-										<tr>
-											<td class="nama_obat">{{ $alergi->generik->generik }}</td>
-											<td nowrap class="fit">
-												<button class="btn btn-danger btn-sm" onclick="deleteAlergi('{{ $alergi->id }}', this);return false;" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
-											</td>
-										</tr>
-									@endforeach
-								@else
+					<table class="table table-hover table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th>Alergi</th>
+								<th class="fit">Action</th>
+							</tr>
+						</thead>
+						<tbody id="alergy_body_table">
+							@if($pasien->alergies->count() > 0)
+								@foreach($pasien->alergies as $alergi)
 									<tr>
-										<td colspan="2" class="text-center">Tidak ada data ditemukan</td>
+										<td class="nama_obat">{{ $alergi->generik->generik }}</td>
+										<td nowrap class="fit">
+											<button class="btn btn-danger btn-sm" onclick="deleteAlergi('{{ $alergi->id }}', this);return false;" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+										</td>
 									</tr>
-								@endif
-							</tbody>
-						</table>
-					</div>
+								@endforeach
+							@else
+								<tr>
+									<td colspan="2" class="text-center">Tidak ada data ditemukan</td>
+								</tr>
+							@endif
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -176,6 +176,11 @@
 									{!! Form::text('antrian', $antrianperiksa->antrian, ['class' => 'displayNone']) !!}
 									<div class="row">
 										{!! Form::text('berat_badan', $berat_badan, ['class' => 'form-control hide', 'id' => 'berat_badan'])!!}
+										@if ( $dikasiDalam1BulanTerakhir > 0 )
+											<div class="alert alert-danger">
+												Pasien sudah mendapatkan surat sakit {{ $dikasiDalam1BulanTerakhir }} kali dalam 30 hari terakhir
+											</div>
+										@endif
 										<div class="col-lg-12 col-md-12">
 											<div class="form-group @if($errors->has('anamnesa'))has-error @endif">
 											  {!! Form::label('anamnesa', 'Anamnesa', ['class' => 'control-label']) !!}

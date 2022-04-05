@@ -36,7 +36,7 @@ class SuratSakitsController extends Controller
 	{	
 		$periksa                        = Periksa::find($id);
 		$ss                             = $this->querySuratSakit($periksa);
-		$dikasih_dalam_1_bulan_terakhir = $this->dikasiDalam1BulanTerakhir($periksa);
+		$dikasih_dalam_1_bulan_terakhir = $this->dikasiDalam1BulanTerakhir($periksa->pasien_id);
 
 		return view('suratsakits.create', compact(
 			'periksa',
@@ -99,7 +99,7 @@ class SuratSakitsController extends Controller
 		$suratsakit                     = SuratSakit::find($id);
 		$periksa                        = $suratsakit->periksa;
 		$ss                             = $this->querySuratSakit($periksa);
-		$dikasih_dalam_1_bulan_terakhir = $this->dikasiDalam1BulanTerakhir($periksa);
+		$dikasih_dalam_1_bulan_terakhir = $this->dikasiDalam1BulanTerakhir($periksa->pasien_id);
 		$poli                           = $this->poli($poli);
 
 		return view('suratsakits.edit', compact(
@@ -182,12 +182,13 @@ class SuratSakitsController extends Controller
 	*
 	* @return void
 	*/
-	private function dikasiDalam1BulanTerakhir($periksa)
+	public function dikasiDalam1BulanTerakhir($pasien_id)
 	{
 		$query = "SELECT * ";
 		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
-		$query .= "WHERE px.pasien_id = '{$periksa->pasien_id}' ";
-		$query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate();";
+		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
+		$query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate() ";
+		$query .= "AND px.asuransi_id = 32;";
 
 		/* $dikasih_dalam_2_bulan_terakhir = count(DB::select($query)); */
 		return count(DB::select($query));

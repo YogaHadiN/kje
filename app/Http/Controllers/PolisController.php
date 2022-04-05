@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\AntrianPolisController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\SuratSakitsController;
 use App\Events\updateMonitor;
 use App\Models\AntrianPeriksa;
 use App\Models\Antrian;
@@ -57,7 +58,10 @@ class PolisController extends Controller
 		$berat_badan 			= $antrianperiksa->berat_badan;
 		$tinggi_badan 			= $antrianperiksa->tinggi_badan;
 
-		$pemeriksaan_awal 	= '';
+		$ss                        = new SuratSakitsController;
+		$dikasiDalam1BulanTerakhir = $ss->dikasiDalam1BulanTerakhir($pasien_id);
+
+		$pemeriksaan_awal    = '';
 		$pakai_bayar_pribadi = false;
 
 		$g = null;
@@ -326,6 +330,7 @@ class PolisController extends Controller
 
 			 
 			//return $periksaExist->gambarPeriksa->count();
+			/* dd( $dikasiDalam1BulanTerakhir ); */
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
@@ -364,6 +369,7 @@ class PolisController extends Controller
 			->withHcw($hcw)
 			->withHcd($hcd)
 			->with('hc_mm', $hc_mm)
+			->with('dikasiDalam1BulanTerakhir', $dikasiDalam1BulanTerakhir)
 			->with('fl_mm', $fl_mm)
 			->with('ac_mm', $ac_mm)
 			->with('perujuk_id', $perujuk_id)
@@ -529,6 +535,7 @@ class PolisController extends Controller
 			->with('kepala_terhadap_paps', $kepala_terhadap_paps)
 			->withPresentasis($presentasis)
 			->with('refleks_patelas', $refleks_patelas)
+			->with('dikasiDalam1BulanTerakhir', $dikasiDalam1BulanTerakhir)
 			->withConfirms($confirms)
 			->withBukus($bukus)
 			->withSignas($signas)
