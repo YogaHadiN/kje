@@ -784,7 +784,13 @@ class LaporansController extends Controller
     public function bayardokter(){
 		// return 'oke';
 		$id = Input::get('id');
-        $nama_staf = Staf::find($id)->nama;
+		$staf = Staf::find($id);
+		if (is_null($staf)) {
+			$pesan = Yoga::gagalFlash('Nama Dokter tidak ditemukan');
+			return redirect()->back()->withPesan($pesan);
+		}
+        $nama_staf = $staf->nama;
+
 		$mulai = Input::get('mulai');
 		$akhir = Input::get('akhir');
 
