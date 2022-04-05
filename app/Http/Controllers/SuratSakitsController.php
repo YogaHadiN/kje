@@ -184,10 +184,12 @@ class SuratSakitsController extends Controller
 	*/
 	public function dikasiDalam1BulanTerakhir($pasien_id)
 	{
+		$today = date('Y-m-d');
 		$query = "SELECT * ";
 		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
 		$query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate() ";
+		$query .= "AND px.tanggal not like '{$today}'";
 		$query .= "AND px.asuransi_id = 32;";
 
 		/* $dikasih_dalam_2_bulan_terakhir = count(DB::select($query)); */
