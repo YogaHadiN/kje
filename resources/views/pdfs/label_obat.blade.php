@@ -13,7 +13,7 @@
 	}
 
 .font-smaller {
-  font-size: 9px;
+  font-size: 15px;
 }
 
 #qr{
@@ -166,11 +166,11 @@ border-spacing: -1px;
 		text-align: center;
 	}
 	.h1{
-		font-size: 18px;
+		font-size: 24px;
 		font-weight: bold;
 	}
 	.h2{
-		font-size: 14px;
+		font-size: 18px;
 		font-weight: bold;
 	}
 	.h3{
@@ -255,19 +255,20 @@ border-spacing: -1px;
 				)
 				<table width="100% text-center">
 					<tr>
-						<td class="h2 underline text-center">Klinik Jati Elok</td>
+						<td colspan="2" class="h1 underline text-center">Klinik Jati Elok</td>
+					</tr>
+					<tr class="font-small text-center">
+						<td>{{ \Carbon\Carbon::parse( $periksa->tanggal )->format('d M Y') }}</td>
+						<td>{{ $periksa->id }}</td>
 					</tr>
 					<tr>
-						<td class="font-small text-center">{{ \Carbon\Carbon::parse( $periksa->tanggal )->format('d M Y') }}</td>
+						<td colspan="2" class="h2 text-center">{{ $periksa->pasien->nama }}</td>
 					</tr>
 					<tr>
-						<td class="h2 text-center">{{ $periksa->pasien->nama }}</td>
+						<td colspan="2" class="h1 text-center">{{ $terapi->signa }}</td>
 					</tr>
 					<tr>
-						<td class="h1 text-center">{{ $terapi->signa }}</td>
-					</tr>
-					<tr>
-						<td class="text-center">{{ $terapi->aturan_minum }}</td>
+						<td colspan="2" class="font-small text-center">{{ $terapi->aturan_minum }}</td>
 					</tr>
 				</table>
 				@if ($k != (count($periksa->terapii) -1))

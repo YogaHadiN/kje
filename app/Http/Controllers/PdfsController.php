@@ -935,6 +935,8 @@ class PdfsController extends Controller
 			->setOption('page-width', 40)
 			->setOption('page-height', 60)
 			->setOption('margin-left', 0)
+			->setOption('margin-top', 5)
+			->setOption('margin-bottom', 5)
 			->setOption('margin-right', 0)
 			->setOrientation('landscape')
 			->setWarnings(false);
