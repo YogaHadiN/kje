@@ -1176,7 +1176,7 @@ p */
 				$antarable_id   = $antrianapotek->id;
 			}
 
-			if (is_null($antarable_type)) {
+			if (!isset($antarable_type)) {
 				$pesan = Yoga::gagalFlash('Pasien sudah pulang dan tidak bisa diedit lagi');
 				return redirect()->back()->withPesan($pesan);
 			}
