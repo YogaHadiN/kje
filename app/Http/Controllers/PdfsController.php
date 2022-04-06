@@ -932,12 +932,11 @@ class PdfsController extends Controller
 		$pdf = PDF::loadView('pdfs.label_obat', compact(
 			'periksa'
 		))
-			->setPaper('a5')
-			->setOrientation('landscape')
-			->setOption('page-width', 297)
-			->setOption('page-height', 40)
+			->setOption('page-width', 40)
+			->setOption('page-height', 60)
 			->setOption('margin-left', 0)
 			->setOption('margin-right', 0)
+			->setOrientation('landscape')
 			->setWarnings(false);
         // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
         return $pdf->stream();
