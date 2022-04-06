@@ -248,7 +248,7 @@ border-spacing: -1px;
 </head>
 <body style="font-size:11px; font-family:sans-serif">
 	<div style="" class="klinik">
-		@foreach ($periksa->terapii as $terapi)
+		@foreach ($periksa->terapii as $k => $terapi)
 			@if (
 				 ucwords($terapi->signa) !== ucwords('puyer' ) &&
 				 ucwords($terapi->signa) !== ucwords( 'add')
@@ -270,6 +270,10 @@ border-spacing: -1px;
 						<td class="text-center">{{ $terapi->aturan_minum }}</td>
 					</tr>
 				</table>
+				@if ($k != (count($periksa->terapii) -1))
+					<div style="page-break-after:always;">
+					</div>
+				@endif
 			@endif
 		@endforeach
 	</div>
