@@ -137,7 +137,7 @@ class PengantarsController extends Controller
 		if(!$insert){
 			return redirect($posisi_antrian)->withPesan(Yoga::gagalFlash('Tidak ada pengantar yang ditambahkan'));
 		}
-		if ( !$model ) {
+		if (is_null( $model::find($id) )) {
 			$pesan = Yoga::gagalFlash('Antrian tidak ditemukan');
 			Log::info('=================================');
 			Log::info('antrian tidak ditemukan');
