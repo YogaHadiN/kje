@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Input;
+use Log;
 use DB;
 use Storage;
 use App\Models\Pasien;
@@ -135,6 +136,14 @@ class PengantarsController extends Controller
 		); 
 		if(!$insert){
 			return redirect($posisi_antrian)->withPesan(Yoga::gagalFlash('Tidak ada pengantar yang ditambahkan'));
+		}
+		if ( !$model ) {
+			$pesan = Yoga::gagalFlash('Antrian tidak ditemukan');
+			Log::info('=================================');
+			Log::info('antrian tidak ditemukan');
+			Log::info($model);
+			Log::info('=================================');
+			return redirect()->back()->withPesan($pesan);
 		}
 
 		$nama = $this->getNama($model, $id, $posisi_antrian);
