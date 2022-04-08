@@ -231,7 +231,7 @@ class AsuransisController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(AsuransiValidation $request, $id)
+	public function update($id)
 	{
 		DB::beginTransaction();
 		try {

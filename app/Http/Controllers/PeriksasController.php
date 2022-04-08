@@ -1365,7 +1365,8 @@ p */
 		$query .= "AND prx.prolanis_dm = '1'";
 		$query .= "AND trx.jenis_tarif_id = '116' ";
 		/* $query .= "AND CAST(trx.keterangan_pemeriksaan AS UNSIGNED) between 80 and 130 "; */
-		$query .= "GROUP BY pasien_id;";
+		$query .= "GROUP BY pasien_id ";
+		$query .= "ORDER BY prx.id;";
 
 		$data_dm = DB::select($query);
 		$arr = [];
