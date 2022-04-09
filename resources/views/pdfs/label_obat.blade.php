@@ -52,7 +52,7 @@
 						<td>{{ $periksa->id }}</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="h2 text-center">{{ $printed_nama }}</td>
+						<td colspan="2" class="text-center">{{ $printed_nama }} ({{ $periksa->pasien->usia }} th)</td>
 					</tr>
 					<tr>
 						<td colspan="2" class="text-center">{{ $terapi->merek->merek }} ({{ $terapi->jumlah }})</td>
