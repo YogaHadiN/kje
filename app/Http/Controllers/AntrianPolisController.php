@@ -155,7 +155,7 @@ class AntrianPolisController extends Controller
 			/* dd( $this->input_antrian_id ); */
 			if (is_null( Antrian::find($this->input_antrian_id) )) {
 				$pesan = Yoga::gagalFlash('Antrian tidak ditemukan, mungkin tidak sengaja terhapus');
-				return redirect()->back()->withPesan($pesan);
+				return redirect('antrians')->withPesan($pesan);
 			}
 			$ap = $this->inputDataAntrianPoli();
 			DB::commit();
