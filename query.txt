@@ -9,3 +9,15 @@ update antrians set konfirmasi_nomor_antrian = null;
 update antrians set pembayaran = null;
 
 alter table whatsapp_registrations add column periksa_id int;
+
+update antrian_periksas set asuransi_id = '188' where asuransi_id='182';
+update antrian_polis set asuransi_id = '188' where asuransi_id='182';
+update daftars set asuransi_id = '188' where asuransi_id='182';
+update discount_asuransis set asuransi_id = '188' where asuransi_id='182';
+update nurse_stations set asuransi_id = '188' where asuransi_id='182';
+update pasiens set asuransi_id = '188' where asuransi_id='182';
+update pembayaran_asuransis set asuransi_id = '188' where asuransi_id='182';
+update periksas set asuransi_id = '188' where asuransi_id='182';
+update pics set asuransi_id = '188' where asuransi_id='182';
+update sops set asuransi_id = '188' where asuransi_id='182';
+update tarifs set asuransi_id = '188' where asuransi_id='182';
