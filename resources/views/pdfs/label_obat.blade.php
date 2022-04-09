@@ -40,8 +40,14 @@
 	<div style="" class="klinik">
 		@foreach ($periksa->terapii as $k => $terapi)
 			@if (
-				 ucwords($terapi->signa) !== ucwords('puyer' ) &&
-				 ucwords($terapi->signa) !== ucwords( 'add')
+				 ucwords($terapi->signa) !== ucwords('puyer' )
+				 && ucwords($terapi->signa) !== ucwords( 'add')
+				 {{-- // jika spuit --}}
+				 && !str_contains( ucwords($terapi->merek->merek),  ucwords('spuit'))
+				 {{-- // jika hanskun --}}
+				 && !str_contains( ucwords($terapi->merek->merek),  ucwords('hands coon'))
+				 {{-- // jika krim / salep --}}
+				 && ucwords($terapi->merek->rak->formula) !== ucwords( 'salep')
 				)
 				<table width="100% text-center">
 					<tr>

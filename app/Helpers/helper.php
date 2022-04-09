@@ -34,7 +34,7 @@ if (!function_exists('wamehp')) {
             // cek apakah no hp mengandung karakter + dan 0-9
             if(!preg_match('/[^+0-9]/',trim($nohp))){
                 // cek apakah no hp karakter 1-3 adalah +62
-                if(substr(trim($nohp), 0, 3)=='62'){
+                if(substr(trim($nohp), 0, 3)=='+62'){
                     $nohp = trim($nohp);
                 }
                 // cek apakah no hp karakter 1 adalah 0
@@ -116,5 +116,47 @@ if (!function_exists('get_string_between')) {
 if (!function_exists('buatrp')) {
     function buatrp($angka){
         return "Rp. " . number_format($angka,0,',','.') . ',-';
+    }
+}
+if (!function_exists('encrypt_string')) {
+    function encrypt_string($simple_string){
+        // Store the cipher method
+        $ciphering = "AES-128-CTR";
+          
+        // Use OpenSSl Encryption method
+        $iv_length = openssl_cipher_iv_length($ciphering);
+        $options = 0;
+          
+        // Non-NULL Initialization Vector for encryption
+        $encryption_iv = '1234567891011121';
+          
+        // Store the encryption key
+        $encryption_key = "GeeksforGeeks";
+          
+        // Use openssl_encrypt() function to encrypt the data
+        $encryption = openssl_encrypt($simple_string, $ciphering,
+                    $encryption_key, $options, $encryption_iv);
+        // return encrypt
+        return $encryption ;
+    }
+}
+
+if (!function_exists('decrypt_string')) {
+    function decrypt_string($encryption){
+
+        // Non-NULL Initialization Vector for decryption
+        $decryption_iv = '1234567891011121';
+          
+        $options = 0;
+        $ciphering = "AES-128-CTR";
+        // Store the decryption key
+        $decryption_key = "GeeksforGeeks";
+          
+        // Use openssl_decrypt() function to decrypt the data
+        $decryption=openssl_decrypt ($encryption, $ciphering, 
+                $decryption_key, $options, $decryption_iv);
+          
+        // return decrypt
+        return $decryption;
     }
 }

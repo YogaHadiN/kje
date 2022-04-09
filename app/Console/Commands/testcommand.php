@@ -46,7 +46,6 @@ use App\Models\JurnalUmum;
 use App\Models\Periksa;
 use App\Models\JenisAntrian;
 use App\Models\Telpon;
-
 use App\Jobs\sendEmailJob;
 use App\Http\Controllers\PeriksasController;
 use App\Http\Controllers\WablasController;
@@ -127,7 +126,8 @@ class testcommand extends Command
 
 		/* dd( $errors ); */
 
-		$this->testSendWablas();
+		$this->encryptTest();
+		/* $this->testSendWablas(); */
 		/* $this->testLog(); */
 		/* $this->testAudio(); */
 		/* $this->testButton(); */
@@ -1779,4 +1779,11 @@ class testcommand extends Command
 		Log::info('This is log');
 		Log::info('===================================================');
 	}
+	public function encryptTest(){
+		$string = 'yogahn';
+		$encrypt = encrypt_string($string);
+		$decrypt = decrypt_string($encrypt);
+		dd( 'string', $string, 'encrypt', $encrypt , 'decrypt', $decrypt);
+	}
+	
 }

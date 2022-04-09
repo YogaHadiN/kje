@@ -60,10 +60,14 @@ class undangProlanisDMTiapSabtu extends Command
             $message = 'Selamat siang. Maaf mengganggu. Kami dari Klinik Jati Elok. Izin mengingatkan bahwa peserta BPJS atas nama ';
             $message .= PHP_EOL;
             $message .= PHP_EOL;
-            $message .= '%' . ucfirst($pasien->nama) . '% ' ;
+            $message .=  ucfirst($pasien->nama);
             $message .= PHP_EOL;
             $message .= PHP_EOL;
             $message .= 'untuk melakukan pemeriksaan rutin Gula Darah di Klinik Jati Elok setiap bulannya. ';
+            $message .= PHP_EOL;
+            $message .= 'Biaya pemeriksaan tersebut sudah ditanggung oleh BPJS kesehatan. ';
+            $message .= PHP_EOL;
+            $message .= 'Persiapan pemeriksaan mohon agar dapat tidak makan atau minum kecuali air putih selama 8-10 jam.';
             $message .= PHP_EOL;
             $message .= 'Izin menanyakan kira-kira bapak / ibu berkenan untuk periksa hari ini atau besok?';
             $message .= PHP_EOL;
@@ -72,18 +76,18 @@ class undangProlanisDMTiapSabtu extends Command
             $message .= PHP_EOL;
             $message .= 'Jika menurut anda pesan ini dirasa mengganggu, silahkan klik link di bawah ini. Terima kasih';
             $message .= PHP_EOL;
-            $message .= 'https:/www.klinikjatielok.com/eksklusi/' . bcrypt($pasien->id);
+            $message .= 'https://www.klinikjatielok.com/eksklusi/' . encrypt_string($pasien->id);
 
             $notelp[] = $pasien->no_telp;
             $no_wa    = $pasien->no_telp;
-            $no_wa    = '081381912803';
+            /* $no_wa    = '081381912803'; */
             $data[] = [
                 'phone'    => $no_wa,
                 'message'  => $message,
                 'secret'   => false, // or true
                 'priority' => false, // or true
             ];
-            Log::info('terkirim wa ke ' . $no_wa . ' undangan prolanis dm');
+            Log::info('terkirim wa ke '. $pasien->nama . '-' . $no_wa . ' undangan prolanis dm');
         }
 
         Log::info('==================');
