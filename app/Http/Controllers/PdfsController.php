@@ -929,8 +929,15 @@ class PdfsController extends Controller
 	public function label_obat($id){
 
 		$periksa = Periksa::with('terapii.merek.rak.formula.komposisi.generik', 'pasien')->where('id', $id)->first();
+
+		$nama = $periksa->pasien->nama;
+
+		$exploded_nama = explode(" ", $nama);
+		$printed_nama = $exploded_nama[0] . ' ' . $exploded_nama[1];
+
 		$pdf = PDF::loadView('pdfs.label_obat', compact(
-			'periksa'
+			'periksa',
+			'printed_nama'
 		))
 			->setOption('page-width', 40)
 			->setOption('page-height', 60)
