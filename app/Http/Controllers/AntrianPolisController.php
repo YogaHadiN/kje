@@ -152,6 +152,11 @@ class AntrianPolisController extends Controller
 			//jika pasien memilih poli rapid test gak usah masuk nurse station
 			//
 			//
+			/* dd( $this->input_antrian_id ); */
+			if (is_null( Antrian::find($this->input_antrian_id) )) {
+				$pesan = Yoga::gagalFlash('Antrian tidak ditemukan, mungkin tidak sengaja terhapus');
+				return redirect()->back()->withPesan($pesan);
+			}
 			$ap = $this->inputDataAntrianPoli();
 			DB::commit();
 			if (!is_null( $this->input_antrian_id )) {
