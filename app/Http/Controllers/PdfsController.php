@@ -933,7 +933,10 @@ class PdfsController extends Controller
 		$nama = $periksa->pasien->nama;
 
 		$exploded_nama = explode(" ", $nama);
-		$printed_nama = $exploded_nama[0] . ' ' . $exploded_nama[1];
+		$printed_nama = $exploded_nama[0];
+		if (isset( $exploded_nama[1] )) {
+			$printed_nama .=  ' ' . $exploded_nama[1];
+		}
 
 		$pdf = PDF::loadView('pdfs.label_obat', compact(
 			'periksa',
