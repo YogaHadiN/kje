@@ -356,7 +356,6 @@ class PasiensController extends Controller
 		if (!empty($this->input_image)) {
 			$pasien->image               = $this->input_image;
 		}
-
 		$pasien->save();
 		return $pasien;
 	}

@@ -149,14 +149,16 @@ class AntrianPolisController extends Controller
 				return \Redirect::back()->withErrors($validator)->withInput();
 			}
 
-			//jika pasien memilih poli rapid test gak usah masuk nurse station
+			//cek jika antrian sudah tidak ada, maka jangan dilanjutkan
 			//
 			//
-			/* dd( $this->input_antrian_id ); */
 			if (is_null( Antrian::find($this->input_antrian_id) )) {
 				$pesan = Yoga::gagalFlash('Antrian tidak ditemukan, mungkin tidak sengaja terhapus');
 				return redirect('antrians')->withPesan($pesan);
 			}
+			//jika pasien memilih poli rapid test gak usah masuk nurse station
+			//
+			//
 			$ap = $this->inputDataAntrianPoli();
 			DB::commit();
 			if (!is_null( $this->input_antrian_id )) {
@@ -176,6 +178,8 @@ class AntrianPolisController extends Controller
 					return $apx->store($request);
 				}
 			}
+
+			$this->updateJumlahAntrian(false);
 			return $this->arahkanAP($ap);
 		} catch (\Exception $e) {
 			DB::rollback();

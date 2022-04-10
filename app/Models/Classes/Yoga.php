@@ -2438,6 +2438,7 @@ class Yoga {
 	}
 	public static function pasienSurvey(){
 		 return [ 
+			null => '- Pilih -',
 			'0' => 'Pasien tidak keberatan menerima SMS survey',
 			'1' => 'Pasien keberatan menerima SMS survey'
 	   	];

@@ -167,7 +167,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group @if($errors->has('jangan_disms'))has-error @endif">
 				  {!! Form::label('jangan_disms', 'Status Survey SMS', ['class' => 'control-label']) !!}
-				  {!! Form::select('jangan_disms' , App\Models\Classes\Yoga::pasienSurvey(), 0, ['class' => 'form-control']) !!}
+				  {!! Form::select('jangan_disms' , App\Models\Classes\Yoga::pasienSurvey(), null, ['class' => 'form-control']) !!}
 				  @if($errors->has('jangan_disms'))<code>{{ $errors->first('jangan_disms') }}</code>@endif
 				</div>
 			</div>
