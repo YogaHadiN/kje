@@ -47,7 +47,7 @@
 				 {{-- // jika hanskun --}}
 				 && !str_contains( ucwords($terapi->merek->merek),  ucwords('hands coon'))
 				 {{-- // jika krim / salep --}}
-				 && ucwords($terapi->merek->rak->formula) !== ucwords( 'salep')
+				 {{-- && ucwords($terapi->merek->rak->formula) !== ucwords( 'salep') --}}
 				)
 				<table width="100% text-center">
 					<tr>

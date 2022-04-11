@@ -1,23 +1,6 @@
-update antrians set no_telp = null;
-update antrians set poli_id = null;
-update antrians set nama_asuransi = null;
-update antrians set nama = null;
-update antrians set tanggal_lahir = null;
-update antrians set nomor_asuransi = null;
-update antrians set pasien_id = null;
-update antrians set konfirmasi_nomor_antrian = null;
-update antrians set pembayaran = null;
+alter formulas add column waktu_makan_id int(1) default 3;
 
-alter table whatsapp_registrations add column periksa_id int;
-
-update antrian_periksas set asuransi_id = '188' where asuransi_id='182';
-update antrian_polis set asuransi_id = '188' where asuransi_id='182';
-update daftars set asuransi_id = '188' where asuransi_id='182';
-update discount_asuransis set asuransi_id = '188' where asuransi_id='182';
-update nurse_stations set asuransi_id = '188' where asuransi_id='182';
-update pasiens set asuransi_id = '188' where asuransi_id='182';
-update pembayaran_asuransis set asuransi_id = '188' where asuransi_id='182';
-update periksas set asuransi_id = '188' where asuransi_id='182';
-update pics set asuransi_id = '188' where asuransi_id='182';
-update sops set asuransi_id = '188' where asuransi_id='182';
-update tarifs set asuransi_id = '188' where asuransi_id='182';
+CREATE TABLE t1 (
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

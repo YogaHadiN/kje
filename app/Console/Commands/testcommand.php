@@ -126,8 +126,8 @@ class testcommand extends Command
 
 		/* dd( $errors ); */
 
-		$this->encryptTest();
-		/* $this->testSendWablas(); */
+		/* $this->encryptTest(); */
+		$this->testSendWablas();
 		/* $this->testLog(); */
 		/* $this->testAudio(); */
 		/* $this->testButton(); */
@@ -1573,7 +1573,7 @@ class testcommand extends Command
 
 		curl_setopt($curl, CURLOPT_HTTPHEADER,
 			array(
-				"Authorization: ZL4P4xoFBwhvKMPieXqoqHmO1NTkRJgBNtqOLSeWdpy7tqUXqA1hAzsiwXWNGKoI",
+				"Authorization: ". env('WABLAS_TOKEN'),
 				"Content-Type: application/json"
 			)
 		);
