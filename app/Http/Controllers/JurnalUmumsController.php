@@ -103,7 +103,7 @@ class JurnalUmumsController extends Controller
 		}
 
 		$jurnalumums = JurnalUmum::with(
-			'jurnalable.supplier',
+			/* 'jurnalable.supplier', */
 			'jurnalable.staf'
 		)->whereNull('coa_id')->get();
 

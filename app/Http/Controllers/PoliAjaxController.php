@@ -94,7 +94,6 @@ class PoliAjaxController extends Controller
             $parameter_asuransi = "(asu.tipe_asuransi < 4)";
         }
 
-
 		$alergies    = Alergi::where('pasien_id', $pasien_id)->get();
 
 		$generik_ids = [];
@@ -109,9 +108,6 @@ class PoliAjaxController extends Controller
 		foreach ($komposisis_alergi as $komposisi) {
 			$formula_ids[] = $komposisi->formula_id;
 		}
-
-
-
 
         //jika dibawah 25 kg, maka query di setiap kilo tanpa range diatas itu pakai range  
         if ($bb < 18 && $bb != '') {
