@@ -102,23 +102,27 @@ class JurnalUmumsController extends Controller
 			$route = 'laporans';
 		}
 
-		$jurnalumums = JurnalUmum::with(
-			/* 'jurnalable.supplier', */
+		$pengeluarans = JurnalUmum::with(
+			'jurnalable.supplier',
 			'jurnalable.staf'
-		)->whereNull('coa_id')->get();
+		)
+			->where('jurnalable_type', 'App\Models\Pengeluaran')
+			->whereNull('coa_id')
+			->get();
 
-		$pengeluarans = [];
-		$pendapatans = [];
+		$pendapatans = JurnalUmum::with(
+			'jurnalable.staf'
+		)
+			->where('jurnalable_type', 'App\Models\Pendapatan')
+			->whereNull('coa_id')
+			->get();
 
-		foreach ($jurnalumums as $ju) {
-			if ($ju->jurnalable_type == 'App\Models\Pengeluaran') {
-				$pengeluarans[] = $ju;
-			}
-			if ($ju->jurnalable_type == 'App\Models\Pendapatan') {
-				$pendapatans[] = $ju;
-			}
-		}
-		//
+		$jurnalumums = JurnalUmum::with(
+			'jurnalable.staf'
+		)
+			->whereNull('coa_id')
+			->get();
+
 		$jurnalumums = json_encode( $jurnalumums );
 		$bebanCoaList = [null => '-pilih-'] + 
 			['120001' => 'Belanja Peralatan'] +
