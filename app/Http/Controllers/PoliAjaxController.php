@@ -109,6 +109,11 @@ class PoliAjaxController extends Controller
 			$formula_ids[] = $komposisi->formula_id;
 		}
 
+		$merek_discontinue = Merek::with('rak')->where('discontinue', 1)->get();
+		foreach ($merek_discontinue as $md) {
+			$formula_ids[] = $md->rak->formula_id;
+		}
+
         //jika dibawah 25 kg, maka query di setiap kilo tanpa range diatas itu pakai range  
         if ($bb < 18 && $bb != '') {
            $parameter_berat_badan = "( p.berat_badan = '{$bb}' )";
