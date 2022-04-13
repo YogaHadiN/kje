@@ -105,17 +105,15 @@ class JurnalUmumsController extends Controller
 		$pengeluarans = JurnalUmum::with(
 			'jurnalable.supplier',
 			'jurnalable.staf'
-		)
-			->where('jurnalable_type', 'App\Models\Pengeluaran')
-			->whereNull('coa_id')
-			->get();
+		)->where('jurnalable_type', 'App\Models\Pengeluaran')
+		->whereNull('coa_id')
+		->get();
 
 		$pendapatans = JurnalUmum::with(
 			'jurnalable.staf'
-		)
-			->where('jurnalable_type', 'App\Models\Pendapatan')
-			->whereNull('coa_id')
-			->get();
+		)->where('jurnalable_type', 'App\Models\Pendapatan')
+		->whereNull('coa_id')
+		->get();
 
 		$jurnalumums = JurnalUmum::with(
 			'jurnalable.staf'
