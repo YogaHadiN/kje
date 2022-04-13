@@ -18,16 +18,13 @@ function hapusSajalah(){
 	$('#' + submit_id).click();
 }
 
-function cekMasihAda(control){
-	var periksa_id = $(control).closest('tr').find('td:first-child').html();
+function cekMasihAda(control, periksa_id){
 	$.post( base + '/antrianperiksas/ajax/cekada', 
 		{'periksa_id': periksa_id }, 
 		function(data) {
 			data = $.trim(data);
 			if (data == '1') {
-				console.log('diterima');
 				var text = $(control).closest('span').find('.hide').html();
-				console.log('html = ' + text);
 				$(control).closest('span').find('.hide').get(0).click();
 			} else {
 				Swal.fire({

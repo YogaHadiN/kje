@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Models\SuratSakit;
 use App\Models\Periksa;
+use App\Models\Pasien;
 use App\Models\PoliAntrian;
 use App\Models\Classes\Yoga;
 use DB;
@@ -35,7 +36,7 @@ class SuratSakitsController extends Controller
 	public function create($id, $jenis_antrian_id)
 	{	
 		$periksa                        = Periksa::find($id);
-		$ss                             = $this->querySuratSakit($periksa);
+		$ss                             = $this->querySuratSakit($periksa->pasien_id);
 		$dikasih_dalam_1_bulan_terakhir = $this->dikasiDalam1BulanTerakhir($periksa->pasien_id);
 
 		return view('suratsakits.create', compact(
@@ -81,12 +82,6 @@ class SuratSakitsController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
-	{
-		$suratsakit = SuratSakit::findOrFail($id);
-
-		return view('suratsakits.show', compact('suratsakit'));
-	}
 
 	/**
 	 * Show the form for editing the specified suratsakit.
@@ -159,20 +154,23 @@ class SuratSakitsController extends Controller
 	*
 	* @return void
 	*/
-	private function querySuratSakit($periksa)
+	private function querySuratSakit($pasien_id)
 	{
-		$query = "SELECT px.tanggal as tanggal_periksa, ";
-		$query .= "ss.tanggal_mulai as tanggal_izin, ";
+		$query = "SELECT  ";
+		$query .= "px.tanggal as tanggal,";
+		$query .= "ss.tanggal_mulai as tanggal_mulai, ";
 		$query .= "ss.hari as jumlah_hari, ";
-		$query .= "st.nama as nama_staf, ";
+		$query .= "st.nama as nama_dokter, ";
 		$query .= "asu.nama as pembayaran, ";
-		$query .= "dg.diagnosa as diagnosa ";
+		$query .= "dg.diagnosa as diagnosa, ";
+		$query .= "icd.diagnosaICD as icd ";
 		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "join stafs as st on px.staf_id = st.id ";
 		$query .= "join diagnosas as dg on px.diagnosa_id = dg.id ";
+		$query .= "join icd10s as icd on icd.id = dg.icd10_id ";
 		$query .= "join asuransis as asu on px.asuransi_id = asu.id ";
-		$query .= "WHERE px.pasien_id = '{$periksa->pasien_id}' ";
+		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
 		$query .= "ORDER BY px.created_at desc ";
 
 		return DB::select($query);
@@ -223,6 +221,15 @@ class SuratSakitsController extends Controller
 	}
 	
 	
+	public function show($id)
+	{
+		$ss     = $this->querySuratSakit($id);
+		$pasien = Pasien::find( $id );
+		return view('suratsakits.show', compact(
+			'ss',
+			'pasien'
+		));
+	}
 	
 	
 

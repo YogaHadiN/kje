@@ -16,7 +16,6 @@ class SuratSakit extends Model{
 
 
 	public function periksa(){
-
 		return $this->belongsTo('App\Models\Periksa');
 	}
 
@@ -32,6 +31,9 @@ class SuratSakit extends Model{
 		}
 
 		return $return;
+	}
+	public function diagnosa(){
+		return $this->belongsTo('App\Models\Diagnosa');
 	}
 
 }

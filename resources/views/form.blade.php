@@ -179,6 +179,7 @@
 										@if ( $dikasiDalam1BulanTerakhir > 0 )
 											<div class="alert alert-danger">
 												Pasien sudah mendapatkan surat sakit {{ $dikasiDalam1BulanTerakhir }} kali dalam 30 hari terakhir
+												<a target="_blank" class="btn btn-info btn-xs" href="{{ url('suratsakits/show/' . $antrianperiksa->pasien_id) }}">Riwayat</a>
 											</div>
 										@endif
 										<div class="col-lg-12 col-md-12">

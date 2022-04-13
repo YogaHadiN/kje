@@ -463,7 +463,8 @@ p */
 			} else {
 				$ruang_periksa_id = 5;
 			}
-			return redirect('ruangperiksa/' . $ruang_periksa_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+			$banner_button = $this->banner_button($periksa);
+			return redirect('ruangperiksa/' . $ruang_periksa_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa ' . $banner_button ));
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -731,7 +732,9 @@ p */
 				if (!is_null($antrian)) {
 					$jenis_antrian_id = $antrian->jenis_antrian_id;
 				}
-				return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' ));
+
+				$banner_button = $this->banner_button($periksa);
+				return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa' . $banner_button ));
 			} else {
 				$pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrian');
 				return redirect()->back()->withPesan($pesan);
@@ -1431,17 +1434,26 @@ p */
 			'asuransi'
 		));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function banner_button($periksa)
+	{
+		if (is_null($periksa->suratSakit)) {
+			$banner_button = "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-success btn-sm\">Buat Surat Sakit</button> <a href=" . url('suratsakits/create/' . $periksa->id . '/' . $periksa->poli ) . " class=\"btn btn-success btn-sm rujukan hide\">Buat Surat Sakit2</a> </span>" ;
+		} else {
+			$banner_button = "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-warning btn-sm\">Edit Surat Sakit</button> <a href=" . url('suratsakits/' . $periksa->suratSakit->id . '/edit'. '/' . $periksa->poli ) . " class=\"btn btn-warning btn-sm rujukan hide\">Edit Surat Sakit</a> </span>" ;
+		}
+
+		if (is_null($periksa->rujukan)) {
+			$banner_button .= "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-success btn-sm\">Buat Rujukan</button> <a href=". url('rujukans/create/' . $periksa->id . '/' . $periksa->poli ). " class=\"btn btn-success btn-sm rujukan hide\">Buat Rujukan2</a> </span>";
+		} else {
+			$banner_button .= " <span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-warning btn-sm\">Edit Rujukan</button> <a href=" . url('rujukans/' . $periksa->rujukan->id . '/edit/' . $periksa->poli )." class=\"btn btn-warning btn-sm rujukan hide\">Edit Rujukan2</a> </span>" ;
+		}
+		return $banner_button;
+	}
 	
 	/* public function kirimWaAntrianBerikutnya($periksa){ */
 	/* 	$antrianPeriksa = new AntrianPeriksasController; */
@@ -1465,6 +1477,4 @@ p */
 
 	/* 	$antrianPeriksa->sendWaAntrian(); */
 	/* } */
-	
-	
 }

@@ -572,6 +572,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('suratsakits/create/{id}/{poli}', [\App\Http\Controllers\SuratSakitsController::class, 'create']);
 	Route::get('suratsakits/{id}/edit/{poli}', [\App\Http\Controllers\SuratSakitsController::class, 'edit']);
+	Route::get('suratsakits/show/{id}', [\App\Http\Controllers\SuratSakitsController::class, 'show']);
 	Route::post('suratsakits/{poli}', [\App\Http\Controllers\SuratSakitsController::class, 'store']);
 	Route::put('suratsakits/{id}/{poli}', [\App\Http\Controllers\SuratSakitsController::class, 'update']);
 	Route::get('suratsakits/delete/{id}/{poli}', [\App\Http\Controllers\SuratSakitsController::class, 'destroy']);
