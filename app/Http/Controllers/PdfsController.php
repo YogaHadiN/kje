@@ -9,12 +9,14 @@ use App\Http\Controllers\LaporanLabaRugisController;
 use App\Http\Controllers\LaporanNeracasController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\PajaksController;
+use App\Http\Controllers\StafsController;
 use App\Http\Controllers\PasiensController;
 use App\Http\Controllers\AsuransisController;
 use App\Http\Controllers\PendapatansController;
 use App\Http\Controllers\KirimBerkasController;
 use Carbon\Carbon;
 use App\Models\Antrian;
+use App\Models\Staf;
 use App\Models\Terapi;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
@@ -951,6 +953,18 @@ class PdfsController extends Controller
 			->setOrientation('landscape')
 			->setWarnings(false);
         // return view('pdfs.status', compact('periksa', 'cetak_usg', 'puyerAdd', 'bayarGDS'));
+        return $pdf->stream();
+	}
+
+	public function jumlahPasienPerTahun($id, $tahun){
+		$stfc = new StafsController;
+		$pdf   = PDF::loadView(
+				'pdfs.jumlah_pasien_tahunan', [ 
+					'jumlah' => $stfc->jumlahPasienTahunan($id, $tahun),
+					'staf'   => Staf::find($id) ,
+					'tahun'  => $tahun
+				])
+				->setPaper('a4');
         return $pdf->stream();
 	}
 	

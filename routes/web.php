@@ -265,6 +265,10 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pajaks/pph21s/{staf_id}/{bulanTahun}', [\App\Http\Controllers\Pph21Controller::class, 'pph21Detil']);
 	});
 
+		Route::get('stafs/{id}/jumlah_pasien', [\App\Http\Controllers\StafsController::class, 'jumlahPasien']);
+		Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}', [\App\Http\Controllers\StafsController::class, 'jumlahPasienPerTahun']);
+		Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}/pdf', [\App\Http\Controllers\PdfsController::class, 'jumlahPasienPerTahun']);
+
 		Route::resource('surats', \App\Http\Controllers\SuratController::class);
 		Route::resource('pelamars', \App\Http\Controllers\PelamarsController::class);
 		Route::resource('asuransis', \App\Http\Controllers\AsuransisController::class);

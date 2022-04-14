@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use Input;
+use DB;
 use Image;
 use App\Http\Requests;
 use App\Http\Controllers\PengeluaransController;
@@ -281,5 +282,47 @@ class StafsController extends Controller
 		$asu                  = new AsuransisController;
 		return $asu->hapusBerkas();
 	}
+	public function jumlahPasien($id){
+		$query  = "Select ";
+		$query .= "count(id) as jumlah, ";
+		$query .= "year(tanggal) as tahun ";
+		$query .= "FROM periksas as prx ";
+		$query .= "WHERE staf_id = {$id} ";
+		$query .= "GROUP BY YEAR(tanggal) asc;";
+		$jumlah = DB::select($query);
+		$staf = Staf::find( $id );
+		$tahun = true;
+		return view('stafs.jumlah', compact(
+			'jumlah',
+			'staf',
+		));
+	}
 
+	public function jumlahPasienPerTahun($id, $tahun){
+		$jumlah = $this->jumlahPasienTahunan($id, $tahun);
+		$staf   = Staf::find( $id );
+		return view('stafs.jumlah', compact(
+			'jumlah',
+			'staf',
+			'tahun'
+		));
+	}
+
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	public function jumlahPasienTahunan($id, $tahun)
+	{
+		$query  = "Select ";
+		$query .= "count(id) as jumlah, ";
+		$query .= "tanggal as tanggal ";
+		$query .= "FROM periksas as prx ";
+		$query .= "WHERE staf_id = {$id} ";
+		$query .= "AND year(tanggal) = '{$tahun}' ";
+		$query .= "GROUP BY tanggal asc;";
+		return DB::select($query);
+	}
+	
 }
