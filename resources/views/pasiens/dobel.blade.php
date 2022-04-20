@@ -28,7 +28,6 @@ Klinik Jati Elok | Pasien BPJS Dobel
 							<tr>
 								<th>No</th>
 								<th>Nama</th>
-								<th>Updated At</th>
 								<th>Tanggal Lahir</th>
 								<th>Alamat</th>
 								<th>Nomor BPJS</th>
@@ -42,7 +41,6 @@ Klinik Jati Elok | Pasien BPJS Dobel
 										<td nowrap>
 											<a href="{{ url('pasiens/' . $p->id . '/edit') }}" target="_blank">{{ $p->nama }}</a>
 										</td>
-										<td nowrap>{{ $p->updated_at->format('d-m-Y') }}</td>
 										<td nowrap>{{ $p->tanggal_lahir->format('d-m-Y') }}</td>
 										<td>{{ $p->alamat }}</td>
 										<td nowrap>{{ $p->nomor_asuransi_bpjs }}</td>

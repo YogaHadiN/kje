@@ -176,15 +176,15 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-				<div class="form-group @if($errors->has('penangguhan_pembayaran_bjps'))has-error @endif">
-				  {!! Form::label('penangguhan_pembayaran_bjps', 'Penangguhan Pembayaran BPJS', ['class' => 'control-label']) !!}
-				  {!! Form::select('penangguhan_pembayaran_bjps', [
+				<div class="form-group @if($errors->has('penangguhan_pembayaran_bpjs'))has-error @endif">
+				  {!! Form::label('penangguhan_pembayaran_bpjs', 'Penangguhan Pembayaran BPJS', ['class' => 'control-label']) !!}
+				  {!! Form::select('penangguhan_pembayaran_bpjs', [
 					  '0' => 'Tidak',
 					  '1' => 'Ya'
 					  ], null, array(
 						'class'         => 'form-control'
 					))!!}
-				  @if($errors->has('penangguhan_pembayaran_bjps'))<code>{{ $errors->first('penangguhan_pembayaran_bjps') }}</code>@endif
+				  @if($errors->has('penangguhan_pembayaran_bpjs'))<code>{{ $errors->first('penangguhan_pembayaran_bpjs') }}</code>@endif
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">

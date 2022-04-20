@@ -75,6 +75,10 @@ class PasiensController extends Controller
 		$this->input_meninggal                   = Input::get('meninggal');
 		$this->input_penangguhan_pembayaran_bpjs = Input::get('penangguhan_pembayaran_bpjs');
 
+		/* dd( Input::get('penangguhan_pembayaran_bjps')); */
+
+		/* dd( 'dd', Input::get('penangguhan_pembayaran_bpjs') ); */
+
 		$this->dataIndexPasien = [
 			'statusPernikahan' => $ps->statusPernikahan(),
 			'asuransi'         => Yoga::asuransiList(),
@@ -348,8 +352,8 @@ class PasiensController extends Controller
 		$pasien->nomor_ktp                   = $this->input_nomor_ktp;
 		$pasien->nomor_asuransi_bpjs         = $this->input_nomor_asuransi_bpjs;
 		$pasien->no_telp                     = $this->input_no_telp;
-		$pasien->verifikasi_prolanis_dm_id      = $this->input_verifikasi_prolanis_dm_id;
-		$pasien->verifikasi_prolanis_ht_id      = $this->input_verifikasi_prolanis_ht_id;
+		$pasien->verifikasi_prolanis_dm_id   = $this->input_verifikasi_prolanis_dm_id;
+		$pasien->verifikasi_prolanis_ht_id   = $this->input_verifikasi_prolanis_ht_id;
 		$pasien->meninggal                   = $this->input_meninggal;
 		$pasien->penangguhan_pembayaran_bpjs = $this->input_penangguhan_pembayaran_bpjs;
 		$pasien->tanggal_lahir               = Yoga::datePrep($this->input_tanggal_lahir);
@@ -649,7 +653,6 @@ class PasiensController extends Controller
 		$nama = [];
 		$pasiens = Pasien::whereIn('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)
 			->orderBy('nomor_asuransi_bpjs')
-			->orderBy('updated_at')
 			->get();
 
 		return view('pasiens.dobel', compact(
