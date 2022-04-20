@@ -127,7 +127,8 @@ class testcommand extends Command
 		/* dd( $errors ); */
 
 		/* $this->encryptTest(); */
-		$this->testSendWablas();
+		/* $this->testSendWablas(); */
+		$this->bpjsDobel();
 		/* $this->testLog(); */
 		/* $this->testAudio(); */
 		/* $this->testButton(); */
@@ -1785,5 +1786,32 @@ class testcommand extends Command
 		$decrypt = decrypt_string($encrypt);
 		dd( 'string', $string, 'encrypt', $encrypt , 'decrypt', $decrypt);
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function bpjsDobel()
+	{
+		$query  = "SELECT ";
+		$query .= "nomor_asuransi_bpjs, ";
+		$query .= "count(nomor_asuransi_bpjs) ";
+		$query .= "FROM pasiens as psn ";
+		$query .= "GROUP BY nomor_asuransi_bpjs ";
+		$query .= "HAVING count(nomor_asuransi_bpjs) > 1";
+		$data = DB::select($query);
+
+		$nomor_asuransi_bpjs = [];
+		foreach ($data as $d) {
+			$nomor_asuransi_bpjs[] = $d->nomor_asuransi_bpjs;
+		}
+		$nama = [];
+		$pasiens = Pasien::whereIn('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)->orderBy('nama')->get();
+		foreach ($pasiens as $p) {
+			$nama[] = $p->nama;
+		}
+		dd( $nama );
+	}
+	
 	
 }

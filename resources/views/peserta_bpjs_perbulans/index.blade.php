@@ -85,21 +85,21 @@ Klinik Jati Elok | Peserta BPJS bulanan
 				</tr>
 			</thead>
 			<tbody>
-				@if($peserta_bpjs_perbulans->count() > 0)
-					@foreach($peserta_bpjs_perbulans as $p)
+				@if(count($prolanis) > 0)
+					@foreach($prolanis as $p)
 						<tr>
 							<td>{{ $p->id }}</td>
-							<td>{{ $p->bulanTahun->format('M Y')}}</td>
+							<td>{{ $p->periode }}</td>
 							<td>{{ $p->jumlah_ht}}</td>
 							<td>{{ $p->jumlah_dm}}</td>
-							<td> 
-								{!! Form::open(['url' => 'peserta_bpjs_perbulans/' .$p->id, 'method' => 'delete']) !!}
-									<a href="{{ \Storage::disk('s3')->url('peserta_bpjs/' . $p->nama_file) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
-									{!! Form::submit('Delete', [
-										'class'   => 'btn btn-danger btn-sm',
-										'onclick' => 'return confirm("Anda yakin mau menghapus ' . $p->id . '-' . $p->name.'?");return false;'
-									]) !!}
-								{!! Form::close() !!}
+							<td>
+								@if ($p->unverified)
+									<a class="btn btn-danger" href="{{ url('prolanis/verifikasi/' . $p->periode) }}" target="_blank">
+										Please Verify
+									</a>
+								@else
+									Verified
+								@endif
 							</td>
 						</tr>
 					@endforeach

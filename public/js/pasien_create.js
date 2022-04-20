@@ -75,10 +75,9 @@ function cekNomorBpjsSama(control) {
 			},
 			function (data, textStatus, jqXHR) {
 				if (data['duplikasi'] == '1') {
-					validasi1($(control), 'Nomor BPJS yang sama sudah digunakan oleh <a href="' + base + '/pasiens/' + data['pasien']['id']+ '/edit">' + data['pasien']['nama'] + '</a>');
+					validasi1($(control), 'Nomor BPJS yang sama sudah digunakan oleh <a href="' + base + '/pasiens/' + data['pasien']['id']+ '/edit">' + data['pasien']['nama'] + '. Klik disini untuk melihat</a> Mohon hindari membuat pasien ganda');
 				}
 			}
 		);
-	} else {
 	}
 }

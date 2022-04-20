@@ -37,13 +37,13 @@
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                   {!! Form::submit('Delete', array('class' => 'btn btn-danger btn-block', 'onclick' => 'return confirm("Anda yakin mau menghapus pasien ' . $pasien->id . ' - ' . $pasien->nama . '")')) !!}
               </div>
-              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                  @if( $pasien->prolanis )
-                      <a class="btn btn-info btn-block" href="{{ url('prolanis/' . $pasien->prolanis->id . '/edit') }}">Edit Prolanis</a>
-                  @else
-                      <a class="btn btn-success btn-block" href="{{ url('prolanis/create/' . $pasien->id) }}">Create Prolanis</a>
-                  @endif
-              </div>
+              {{-- <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> --}}
+              {{--     @if( $pasien->prolanis ) --}}
+              {{--         <a class="btn btn-info btn-block" href="{{ url('prolanis/' . $pasien->prolanis->id . '/edit') }}">Edit Prolanis</a> --}}
+              {{--     @else --}}
+              {{--         <a class="btn btn-success btn-block" href="{{ url('prolanis/create/' . $pasien->id) }}">Create Prolanis</a> --}}
+              {{--     @endif --}}
+              {{-- </div> --}}
           </div>
           {!! Form::close() !!}
       @endif

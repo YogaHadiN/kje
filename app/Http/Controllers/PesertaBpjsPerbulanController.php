@@ -10,6 +10,7 @@ use App\Models\PesertaBpjsPerbulan;
 use App\Models\UpdateRpptPeserta;
 use App\Models\Classes\Yoga;
 use App\Models\Pasien;
+use App\Models\Prolanis;
 use App\Models\Periksa;
 use App\Rules\ExceRule;
 use App\Imports\PesertaBpjsPerbulanImport;
@@ -37,9 +38,41 @@ class PesertaBpjsPerbulanController extends Controller
     }
     
     public function index(){
-        $peserta_bpjs_perbulans = PesertaBpjsPerbulan::latest()->get();
+        /* $query  = "SELECT "; */
+        /* $query  = "SELECT "; */
+        /* $query .= "pro.id, "; */
+        /* $query .= "pro.prolanis, "; */
+        /* $query .= "sum( case when `prolanis` LIKE '%Diabetes Mellitus%' then 1 else 0 end ) as jumlah_dm,"; */
+        /* $query .= "sum( case when `prolanis` LIKE '%Hypertensi%' then 1 else 0 end ) as jumlah_ht,"; */
+        /* $query .= "sum(case when psn.verifikasi_prolanis_dm_id LIKE '1' OR psn.verifikasi_prolanis_ht_id LIKE '1' then 1 else 0 end) as unverified,"; */
+        /* $query .= "DATE_FORMAT(periode, '%Y-%m-01') as periode "; */
+        /* $query .= "FROM prolanis as pro "; */
+        /* $query .= "JOIN pasien_prolanis as ppr on ppr.prolanis_id = pro.id "; */
+        /* $query .= "JOIN pasiens as psn on psn.id = ppr.pasien_id "; */
+        /* $query .= "GROUP BY pro.id"; */
+
+        $query  = "SELECT ";
+        $query .= "id, ";
+        $query .= "periode, ";
+        $query .= "sum( case when `prolanis` LIKE '%Diabetes Mellitus%' then 1 else 0 end ) as jumlah_dm,";
+        $query .= "sum( case when `prolanis` LIKE '%Hypertensi%' then 1 else 0 end ) as jumlah_ht, ";
+        $query .= "sum(case when verifikasi_prolanis_dm_id LIKE '1' OR verifikasi_prolanis_ht_id LIKE '1' then 1 else 0 end) as unverified ";
+        $query .= "FROM (SELECT ";
+        $query .= "pro.id as id, ";
+        $query .= "pro.periode as periode, ";
+        $query .= "psn.verifikasi_prolanis_ht_id as verifikasi_prolanis_ht_id, ";
+        $query .= "psn.verifikasi_prolanis_dm_id as verifikasi_prolanis_dm_id, ";
+        $query .= "pro.prolanis as prolanis ";
+        $query .= "FROM pasien_prolanis as ppr ";
+        $query .= "JOIN prolanis as pro on pro.id = ppr.prolanis_id ";
+        $query .= "JOIN pasiens as psn on psn.id = ppr.pasien_id ";
+        $query .= "GROUP BY pro.id) t ";
+        $query .= "GROUP By periode";
+        $prolanis = DB::select($query);
+
+        $prolanis = DB::select($query);
         return view('peserta_bpjs_perbulans.index', compact(
-            'peserta_bpjs_perbulans'
+            'prolanis'
         ));
     }
     public function create(){
@@ -51,62 +84,29 @@ class PesertaBpjsPerbulanController extends Controller
     }
 
     public function editDataPasien(Request $request){
-
         if ($this->valid( Input::all() )) {
             return $this->valid( Input::all() );
         }
-        $import = new PesertaBpjsPerbulanImport;
+        $import             = new PesertaBpjsPerbulanImport;
         $import->bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');
-
         Excel::import($import, Input::file('nama_file'));
-
-        $data                        = $import->data;
-        $ht                          = $data['ht'];
-        $dm                          = $data['dm'];
-        $this->jumlah_dm             = $import->riwayat_dm;
-        $this->jumlah_ht             = $import->riwayat_ht;
-        $this->bulanTahun            = $import->bulanTahun;
-        $this->riwayat_dm_pasien_ids = $import->riwayat_dm_pasien_ids;
-        $this->riwayat_ht_pasien_ids = $import->riwayat_ht_pasien_ids;
-
-        $this->resetPasienPeriksa();
-        $this->updatePasienPeriksa();
-        $bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');
-
-        /* $ids = []; */
-        /* foreach ($ht as $h) { */
-        /*     foreach ($h['pasiens'] as $p) { */
-        /*         $ids[] = $p->id; */
-        /*     } */
-        /* } */
-        /* foreach ($dm as $h) { */
-        /*     foreach ($h['pasiens'] as $p) { */
-        /*         $ids[] = $p->id; */
-        /*     } */
-        /* } */
-
-        /* $periksa_ids = []; */
-        /* $periksas = Periksa::where('tanggal', 'like', $this->bulanTahun. '%')->whereIn('pasien_id', $ids)->get(); */
-        /* foreach ($periksas as $prx) { */
-        /*     $periksa_ids[] = $prx->pasien->nama; */
-        /* } */
-        /* dd( $periksa_ids ); */
-
-
-        $nama_file  = $this->fileUpload('nama_file');
-        $jumlah_dm  = $this->jumlah_dm;
-        $jumlah_ht  = $this->jumlah_ht;
-        return view('peserta_bpjs_perbulans.edit_data_pasien', compact(
-            'nama_file',
-            'jumlah_dm',
-            'jumlah_ht',
-            'ht',
-            'bulanTahun',
-            'dm'
-        ));
-
+        foreach ($import->data as $d) {
+            $prolanis                = new Prolanis;
+            $prolanis->nama          = $d['nama'];
+            $prolanis->jenis_kelamin = $d['jenis_kelamin'];
+            $prolanis->usia          = $d['usia'];
+            $prolanis->no            = $d['no'];
+            $prolanis->alamat        = $d['alamat'];
+            $prolanis->prb           = $d['prb'];
+            $prolanis->prolanis      = $d['prolanis'];
+            $prolanis->club_prolanis = $d['club_prolanis'];
+            $prolanis->periode       = $d['periode'];
+            $prolanis->save();
+            $prolanis->pasienProlanis()->createMany($d['pasien_ids']);
+        }
+        $pesan = Yoga::suksesFlash('Data prolanis berhasil dimasukkan');
+        return redirect()->back()->withPesan($pesan);
     }
-
     public function store(Request $request){
         $peserta_bpjs_perbulan = new PesertaBpjsPerbulan;
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);

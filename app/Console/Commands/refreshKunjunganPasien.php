@@ -41,5 +41,8 @@ class refreshKunjunganPasien extends Command
     {
 		Log::info('Kunjungan refreshed');
 		DB::statement('Update pasiens set sudah_kontak_bulan_ini = 0;');
+		DB::statement('Update pasiens set penangguhan_pembayaran_bpjs = 0;');
+		DB::statement('Update pasiens set verifikasi_prolanis_dm_id = 1;');
+		DB::statement('Update pasiens set verifikasi_prolanis_ht_id = 1;');
     }
 }

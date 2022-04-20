@@ -8,8 +8,8 @@ class Prolanis extends Model
 {
 	protected $guarded = ['id'];
 	protected $table = 'prolanis';
-	public function pasien(){
-		return $this->belongsTo('App\Models\Pasien');
+	public function pasienProlanis(){
+		return $this->hasMany('App\Models\PasienProlanis');
 	}
 	public function getGolonganProlanisAttribute(){
 		if ( $this->golongan_prolanis_id == '1' ) {

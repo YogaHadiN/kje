@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/peserta_bpjs_perbulans/update_data_pasien', [\App\Http\Controllers\PesertaBpjsPerbulanController::class, 'updateDataPasien']);
 
 
-	Route::resource('peserta_bpjs_perbulans', \App\Http\Controllers\PesertaBpjsPerbulanController::class);
+	/* Route::resource('peserta_bpjs_perbulans', \App\Http\Controllers\PesertaBpjsPerbulanController::class); */
 
 	Route::post('antrian_kelengkapan_dokumens/{id}', [\App\Http\Controllers\AntrianKelengkapanDokumenController::class, 'proses']); //antrian pasien
 	Route::resource('antrian_kelengkapan_dokumens', \App\Http\Controllers\AntrianKelengkapanDokumenController::class); //antrian pasien
@@ -207,11 +207,13 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('prolanis/denominator_dm', [\App\Http\Controllers\PasiensController::class, 'denominatorDm']);
 	Route::get('prolanis/denominator_ht', [\App\Http\Controllers\PasiensController::class, 'denominatorHt']);
 
-
-
+	Route::post('prolanis/verifikasi/ajax/meninggal', [\App\Http\Controllers\ProlanisController::class, 'ajaxMeninggal']);
+	Route::post('prolanis/verifikasi/ajax/verifikasi', [\App\Http\Controllers\ProlanisController::class, 'ajaxVerifikasi']);
+	Route::post('prolanis/verifikasi/ajax/penangguhan', [\App\Http\Controllers\ProlanisController::class, 'ajaxPenangguhan']);
 
 	Route::get('pasiens/{id}/transaksi', [\App\Http\Controllers\PasiensController::class, 'transaksi']);
 	Route::get('pasiens/getTransaksi/{id}', [\App\Http\Controllers\PasiensController::class, 'getTransaksi']);
+	Route::get('pasien_dobel', [\App\Http\Controllers\PasiensController::class, 'dobel']);
 	Route::resource('pasiens', \App\Http\Controllers\PasiensController::class);
 	Route::resource('periksas', \App\Http\Controllers\PeriksasController::class);
 
@@ -403,7 +405,11 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pengeluarans/{id}', [\App\Http\Controllers\PengeluaransController::class, 'index']);
 
 		Route::get('belanjalist', [\App\Http\Controllers\BelanjaListsController::class, 'index']);
-		Route::get('prolanis', [\App\Http\Controllers\ProlanisController::class, 'index']);
+
+		Route::get('prolanis', [\App\Http\Controllers\PesertaBpjsPerbulanController::class, 'index']); 
+		Route::get('prolanis/verifikasi/{date}', [\App\Http\Controllers\ProlanisController::class, 'verifikasi']); 
+
+
 		Route::post('prolanis', [\App\Http\Controllers\ProlanisController::class, 'store']);
 		Route::get('prolanis/terdaftar', [\App\Http\Controllers\ProlanisController::class, 'terdaftar']);
 		Route::get('prolanis/create/{id}', [\App\Http\Controllers\ProlanisController::class, 'create']);

@@ -9,6 +9,7 @@ use App\Http\Controllers\AntrianPolisController;
 use App\Models\Classes\Yoga;
 use App\Models\Alergi;
 use App\Models\Periksa;
+use App\Models\VerifikasiProlanis;
 use App\Models\Pasien;
 use App\Models\Asuransi;
 use App\Models\AntrianPoli;
@@ -43,28 +44,36 @@ class PasiensController extends Controller
 	public $input_prolanis_ht;
 	public $dataIndexPasien;
 	public $dataCreatePasien;
+	public $input_verifikasi_prolanis_dm_id;
+	public $input_verifikasi_prolanis_ht_id;
+	public $input_meninggal;
+	public $input_penangguhan_pembayaran_bpjs;
 
 
    public function __construct()
     {
-		$ps                                     = new Pasien;
-		$this->input_alamat                     = Input::get('alamat');
-		$this->input_asuransi_id                = $this->asuransiId(Input::get('asuransi_id'));
-		$this->input_sex                        = Input::get('sex');
-		$this->input_jenis_peserta              = Input::get('jenis_peserta');
-		$this->input_nama_ayah                  = ucwords(strtolower(Input::get('nama_ayah')));;
-		$this->input_nama_ibu                   = ucwords(strtolower(Input::get('nama_ibu')));;
-		$this->input_nama                       = ucwords(strtolower(Input::get('nama')));
-		$this->input_nama_peserta               = ucwords(strtolower(Input::get('nama_peserta')));;
-		$this->input_nomor_asuransi             = Input::get('nomor_asuransi');
-		$this->input_punya_asuransi             = Input::get('punya_asuransi');
-		$this->input_nomor_ktp                  = Input::get('nomor_ktp');
-		$this->input_nomor_asuransi_bpjs        = $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
-		$this->input_no_telp                    = Input::get('no_telp');
-		$this->input_tanggal_lahir              = Input::get('tanggal_lahir');
-		$this->input_jangan_disms               = Input::get('jangan_disms');
-		$this->input_prolanis_dm                = Input::get('prolanis_dm');
-		$this->input_prolanis_ht                = Input::get('prolanis_ht');
+		$ps                                      = new Pasien;
+		$this->input_alamat                      = Input::get('alamat');
+		$this->input_asuransi_id                 = $this->asuransiId(Input::get('asuransi_id'));
+		$this->input_sex                         = Input::get('sex');
+		$this->input_jenis_peserta               = Input::get('jenis_peserta');
+		$this->input_nama_ayah                   = ucwords(strtolower(Input::get('nama_ayah')));;
+		$this->input_nama_ibu                    = ucwords(strtolower(Input::get('nama_ibu')));;
+		$this->input_nama                        = ucwords(strtolower(Input::get('nama')));
+		$this->input_nama_peserta                = ucwords(strtolower(Input::get('nama_peserta')));;
+		$this->input_nomor_asuransi              = Input::get('nomor_asuransi');
+		$this->input_punya_asuransi              = Input::get('punya_asuransi');
+		$this->input_nomor_ktp                   = Input::get('nomor_ktp');
+		$this->input_nomor_asuransi_bpjs         = $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
+		$this->input_no_telp                     = Input::get('no_telp');
+		$this->input_tanggal_lahir               = Input::get('tanggal_lahir');
+		$this->input_jangan_disms                = Input::get('jangan_disms');
+		$this->input_prolanis_dm                 = Input::get('prolanis_dm');
+		$this->input_prolanis_ht                 = Input::get('prolanis_ht');
+		$this->input_verifikasi_prolanis_dm_id   = Input::get('verifikasi_prolanis_dm_id');
+		$this->input_verifikasi_prolanis_ht_id   = Input::get('verifikasi_prolanis_ht_id');
+		$this->input_meninggal                   = Input::get('meninggal');
+		$this->input_penangguhan_pembayaran_bpjs = Input::get('penangguhan_pembayaran_bpjs');
 
 		$this->dataIndexPasien = [
 			'statusPernikahan' => $ps->statusPernikahan(),
@@ -86,6 +95,7 @@ class PasiensController extends Controller
 				null => '- Pilih Poli -',
 				'darurat' => 'Poli Gawat Darurat'
 			],
+			'verifikasi_prolanis_options' =>  VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id'),
 			'pasienSurvey'          => $this->pasienSurvey()
 		];
 
@@ -212,10 +222,12 @@ class PasiensController extends Controller
 		$staf = array('0' => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
 		$pasienSurvey = $this->pasienSurvey();
 		$poli = Yoga::poliList();
+		$verifikasi_prolanis_options = VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id');
 		return compact(
 			'pasien',
 			'asuransi',
 			'statusPernikahan',
+			'verifikasi_prolanis_options',
 			'pasienSurvey',
 			'jenis_peserta',
 			'antrian_id',
@@ -322,22 +334,26 @@ class PasiensController extends Controller
 		$this->input_image                      = $this->imageUploadWajah('img', 'image', $this->input_id);
 
 
-		$pasien->alamat              = $this->input_alamat;
-		$pasien->prolanis_dm         = $this->input_prolanis_dm;
-		$pasien->prolanis_ht         = $this->input_prolanis_ht;
-		$pasien->asuransi_id         = $this->input_asuransi_id;
-		$pasien->sex                 = $this->input_sex;
-		$pasien->jenis_peserta       = $this->input_jenis_peserta;
-		$pasien->nama_ayah           = $this->input_nama_ayah;
-		$pasien->nama_ibu            = $this->input_nama_ibu;
-		$pasien->nama                = $this->input_nama;
-		$pasien->nama_peserta        = $this->input_nama_peserta;
-		$pasien->nomor_asuransi      = $this->input_nomor_asuransi;
-		$pasien->nomor_ktp           = $this->input_nomor_ktp;
-		$pasien->nomor_asuransi_bpjs = $this->input_nomor_asuransi_bpjs;
-		$pasien->no_telp             = $this->input_no_telp;
-		$pasien->tanggal_lahir       = Yoga::datePrep($this->input_tanggal_lahir);
-		$pasien->jangan_disms        = $this->input_jangan_disms;
+		$pasien->alamat                      = $this->input_alamat;
+		$pasien->prolanis_dm                 = $this->input_prolanis_dm;
+		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
+		$pasien->asuransi_id                 = $this->input_asuransi_id;
+		$pasien->sex                         = $this->input_sex;
+		$pasien->jenis_peserta               = $this->input_jenis_peserta;
+		$pasien->nama_ayah                   = $this->input_nama_ayah;
+		$pasien->nama_ibu                    = $this->input_nama_ibu;
+		$pasien->nama                        = $this->input_nama;
+		$pasien->nama_peserta                = $this->input_nama_peserta;
+		$pasien->nomor_asuransi              = $this->input_nomor_asuransi;
+		$pasien->nomor_ktp                   = $this->input_nomor_ktp;
+		$pasien->nomor_asuransi_bpjs         = $this->input_nomor_asuransi_bpjs;
+		$pasien->no_telp                     = $this->input_no_telp;
+		$pasien->verifikasi_prolanis_dm_id      = $this->input_verifikasi_prolanis_dm_id;
+		$pasien->verifikasi_prolanis_ht_id      = $this->input_verifikasi_prolanis_ht_id;
+		$pasien->meninggal                   = $this->input_meninggal;
+		$pasien->penangguhan_pembayaran_bpjs = $this->input_penangguhan_pembayaran_bpjs;
+		$pasien->tanggal_lahir               = Yoga::datePrep($this->input_tanggal_lahir);
+		$pasien->jangan_disms                = $this->input_jangan_disms;
 		if (!empty( $this->input_bpjs_image )) {
 			$pasien->bpjs_image          = $this->input_bpjs_image;
 		}
@@ -611,4 +627,34 @@ class PasiensController extends Controller
 		$query .= "LIMIT 20";
 		return DB::select($query);
 	}
+	public function dobel(){
+
+		$query  = "SELECT ";
+		$query .= "id, ";
+		$query .= "updated_at, ";
+		$query .= "nomor_asuransi_bpjs, ";
+		$query .= "count(nomor_asuransi_bpjs) ";
+		$query .= "FROM pasiens as psn ";
+		$query .= "WHERE nomor_asuransi_bpjs not like '' ";
+		$query .= "AND nomor_asuransi_bpjs is not null ";
+		$query .= "AND LENGTH(nomor_asuransi_bpjs) > 11 ";
+		$query .= "GROUP BY nomor_asuransi_bpjs ";
+		$query .= "HAVING count(nomor_asuransi_bpjs) > 1";
+		$data = DB::select($query);
+
+		$nomor_asuransi_bpjs = [];
+		foreach ($data as $d) {
+			$nomor_asuransi_bpjs[] = $d->nomor_asuransi_bpjs;
+		}
+		$nama = [];
+		$pasiens = Pasien::whereIn('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)
+			->orderBy('nomor_asuransi_bpjs')
+			->orderBy('updated_at')
+			->get();
+
+		return view('pasiens.dobel', compact(
+			'pasiens'
+		));
+	}
+	
 }

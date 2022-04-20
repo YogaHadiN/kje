@@ -774,13 +774,10 @@ class Yoga {
 
 		public static function umurSaatPeriksa($birthDate, $checkDate){
 
-			$num = number_format(((int)strtotime($checkDate) - (int)strtotime(date( 'Y-m-d', strtotime( $birthDate . ' -1 day' ) )))/31556952);
-			
-
 			if(empty($birthDate) || $birthDate == '0000-00-00'){
 				return ' -- ';
 			} else {
-				return $num;
+				return date_diff(date_create($birthDate), date_create($checkDate))->y;
 			}
 
 		}

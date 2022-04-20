@@ -19,7 +19,9 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
     * @param Collection $collection
     */
     public $data;
+    public $nama;
     public $tanggal;
+    public $bulanTahun;
     public $tanggal_lahir_dms;
     public $tanggal_lahir_hts;
     public $pasiens_dms;
@@ -46,25 +48,49 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
         $this->riwayat_dm_pasien_ids = [];
         $this->riwayat_dm            = 0;
         $this->riwayat_ht            = 0;
-        $this->tanggal               = date('Y-m');
         $this->elemen_riwayat_dm_ke  = 0;
         $this->elemen_riwayat_ht_ke  = 0;
     }
     
-    public function collection(Collection $collection)
-    {
-        $this->golongkanTanggalLahirMenurutDmHt($collection);
-        $dm       = [];
-        $ht       = [];
+    public function collection(Collection $collection) {
+        $timestamp       = date('Y-m-d H:i:s');
+        $firstdayofmonth = $this->bulanTahun . '-01';
         foreach ($collection as $c) {
-            $dm[] = $this->kumpulkanRppt($c, $this->pasiens_dms, 'riwayat_dm', 'prolanis_dm');
-            $ht[] = $this->kumpulkanRppt($c, $this->pasiens_hts, 'riwayat_ht', 'prolanis_ht');
+            if (
+                !is_null($c['prolanis']) ||
+                !is_null($c['prb'])
+            ) {
+                if (
+                    str_contains($c['prolanis'] ,"Diabetes") ||
+                    str_contains($c['prb'] ,"Diabetes") ||
+                    str_contains($c['prolanis'] ,"Hypertensi") ||
+                    str_contains($c['prb'] ,"Hypertensi")
+                ) {
+                    $data = $this->query($firstdayofmonth, $c['nama'], $c['usia']);
+                    $this->data[] = [
+                        "nama"          => $c['nama'],
+                        "jenis_kelamin" => $c['jenis_kelamin'],
+                        "usia"          => $c['usia'],
+                        "no"            => $c['no'],
+                        "alamat"        => $c['alamat'],
+                        "prb"           => $c['prb'],
+                        "prolanis"      => $c['prolanis'],
+                        "club_prolanis" => $c['club_prolanis'],
+                        "periode"       => $firstdayofmonth,
+                        'created_at'    => $timestamp,
+                        'updated_at'    => $timestamp
+                    ];
+                    $pasien_ids = [];
+                    foreach ($data as $d) {
+                        $pasien_ids[] = [
+                            'pasien_id' => $d->id
+                        ];
+                    }
+
+                    $this->data[count($this->data) -1]['pasien_ids'] = $pasien_ids;
+                }
+            }
         }
-
-        $dm       = array_filter($dm);
-        $ht       = array_filter($ht);
-
-        $this->data = compact('dm', 'ht');
     }
     /**
      * undocumented function
@@ -136,25 +162,6 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
      *
      * @return void
      */
-    private function golongkanTanggalLahirMenurutDmHt($collection)
-    {
-        foreach ($collection as $c) {
-            if (
-                !empty( $c['riwayat_dm'] && 
-                !in_array($this->excelToDate($c['tanggal_lahir']), $this->tanggal_lahir_dms)
-            ) ) {
-                $this->tanggal_lahir_dms[] = $this->excelToDate($c['tanggal_lahir']);
-            }
-            if ( 
-                !empty( $c['riwayat_ht'] &&
-                !in_array($this->excelToDate($c['tanggal_lahir']), $this->tanggal_lahir_dms)
-            ) ) {
-                $this->tanggal_lahir_hts[] =  $this->excelToDate($c['tanggal_lahir']);
-            }
-        }
-        $this->pasiens_dms = Pasien::whereIn('tanggal_lahir', $this->tanggal_lahir_dms)->get();
-        $this->pasiens_hts = Pasien::whereIn('tanggal_lahir', $this->tanggal_lahir_hts)->get();
-    }
     /**
      * undocumented function
      *
@@ -175,15 +182,48 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
      *
      * @return void
      */
-    private function validateDate($date, $elemen_ke )
-    {
+    private function validateDate($date, $elemen_ke ) {
         try {
             Carbon::createFromFormat('d-m-Y', $date);
         } catch (\Exception $e) {
             dd('Tanggal lahir pada baris ke ' . $elemen_ke . ' Tidak benar harusnya format dd-mm-yyyy, contoh : 19-07-1993');
         }
-
-        // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
     }
-    
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function query($firstdayofmonth, $nama, $usia) {
+
+
+        $nama             = preg_replace('/([*.])\1+/', '$1', $nama);
+        $nama             = str_replace('\'', '', $nama   );
+        $nama             = str_replace(' ', '', $nama   );
+        $nama             = str_replace('.', '', $nama   );
+        $nama             = str_replace('*', '%', $nama   );
+
+        $query            = "SELECT ";
+        $query           .= "id, ";
+        $query           .= "nama, ";
+        $query           .= "alamat, ";
+        $query           .= "nomor_asuransi_bpjs, ";
+        $query           .= "TIMESTAMPDIFF(YEAR, tanggal_lahir, '{$firstdayofmonth}') ";
+        $query           .= "FROM pasiens as psn ";
+        $query           .= "WHERE ";
+        $query           .= 'REPLACE(REPLACE(REPLACE(nama, "\'\'", ""), ".", ""), " ", "") like "' .$nama. '" ';
+        $query           .= "AND TIMESTAMPDIFF(YEAR, tanggal_lahir, '{$firstdayofmonth}') = {$usia} ";
+        $query           .= "AND nomor_asuransi_bpjs not like '' ";
+        $query           .= "AND nomor_asuransi_bpjs is not null ";
+        $query           .= "AND meninggal = 0 ";
+        $query           .= "ORDER BY prolanis_dm, prolanis_ht desc ";
+
+        $this->nama[] = $nama;
+        /* if ($nama == 'WAH%') { */
+        /*     dd( $query ); */
+        /* } */
+
+
+        return DB::select($query);
+    }
 }

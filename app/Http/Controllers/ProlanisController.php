@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Pasien;
 use App\Models\Prolanis;
+use App\Models\VerifikasiProlanis;
 use App\Models\Classes\Yoga;
 use DB;
 use Input;
@@ -14,15 +15,58 @@ use Input;
 class ProlanisController extends Controller
 {
 	public function index(){
-		$prolanis = Yoga::prolanis();
+		$prolanis   = Yoga::prolanis();
 		$hipertensi = Pasien::find( $prolanis['pasien_ht'] );
-		$dm = Pasien::with('periksa.transaksii')->whereIn('id', $prolanis['pasien_dm'] )->get();
+		$dm         = Pasien::with('periksa.transaksii')->whereIn('id', $prolanis['pasien_dm'] )->get();
         return view('prolanis.index', compact(
             'hipertensi',
             'dm'
         ));
 	}
 
+	public function verifikasi($date){
+		$prolanis                    = Prolanis::with('pasienProlanis.pasien')->where('periode', $date)->get();
+		$verifikasi_prolanis_options = VerifikasiProlanis::pluck('verifikasi_prolanis', 'id');
+
+		$prolanisDm = [];
+		$prolanisHt = [];
+
+		$pasienDm   = [];
+		$pasienHt   = [];
+
+		$pasiens    = Pasien::where('prolanis_dm', '1')
+						->orWhere('prolanis_ht', '1')
+						->orderBy('nama')
+						->get();
+
+		/* dd( $pasiens ); */
+
+		foreach ($pasiens as $p) {
+			if ($p->prolanis_dm) {
+				$pasienDm[] = $p;
+			}
+			if ($p->prolanis_ht) {
+				$pasienHt[] = $p;
+			}
+		}
+
+		foreach ($prolanis as $p) {
+			if ( str_contains($p['prolanis'] ,"Diabetes")) {
+				$prolanisDm[] = $p;
+			}
+			if ( str_contains($p['prolanis'] ,"Hypertensi")) {
+				$prolanisHt[] = $p;
+			}
+		}
+		return view('prolanis/verifikasi', compact(
+			'prolanisDm',
+			'prolanisHt',
+			'pasienDm',
+			'pasienHt',
+			'verifikasi_prolanis_options'
+		));
+	}
+	
 	public function terdaftar(){
 		
 		$prolanis = Prolanis::all();
@@ -124,10 +168,69 @@ class ProlanisController extends Controller
 		}
 		return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
 	}
-	
-	
-	
-	
-	
+	public function ajaxMeninggal(){
+		$meninggal                    = Input::get('meninggal');
+		$pasien_id                    = Input::get('pasien_id');
+		$kategori_prolanis            = Input::get('kategori_prolanis');
+		$pasien                       = Pasien::find( $pasien_id );
+		$verifikasi_kategori_prolanis = 'verifikasi_prolanis_'.$kategori_prolanis.'_id';
+
+		if ($pasien->$verifikasi_kategori_prolanis != 1) {
+			return $this->ajaxData(0, $pasien, $verifikasi_kategori_prolanis);
+		}
+
+		$pasien->meninggal              = $meninggal;
+		$pasien->prolanis_dm            = 0;
+		$pasien->prolanis_ht            = 0;
+		$pasien->$verifikasi_kategori_prolanis = 3;
+		$pasien->save();
+
+		return $this->ajaxData(1, $pasien, $verifikasi_kategori_prolanis);
+;
+	}
+	public function ajaxVerifikasi(){
+		$pasien_id         = Input::get('pasien_id');
+		$verifikasi        = Input::get('verifikasi');
+		$kategori_prolanis = Input::get('kategori_prolanis');
+		$pasien            = Pasien::find( $pasien_id );
+		$verifikasi_kategori_prolanis = 'verifikasi_prolanis_'.$kategori_prolanis.'_id';
+		if ($pasien->$verifikasi_kategori_prolanis != 1) {
+			return $this->ajaxData(0, $pasien, $verifikasi_kategori_prolanis);
+		}
+		$column                                = 'prolanis_' . $kategori_prolanis;
+		$pasien->$column                       = 1;
+		$pasien->$verifikasi_kategori_prolanis = $verifikasi;
+		$pasien->save();
+		return $this->ajaxData(1, $pasien, $verifikasi_kategori_prolanis);
+	}
+	public function ajaxPenangguhan(){
+		$penangguhan       = Input::get('penangguhan');
+		$pasien_id         = Input::get('pasien_id');
+		$kategori_prolanis = Input::get('kategori_prolanis');
+		$pasien            = Pasien::find( $pasien_id );
+		$verifikasi_kategori_prolanis = 'verifikasi_prolanis_'.$kategori_prolanis.'_id';
+		if ($pasien->$verifikasi_kategori_prolanis != 1) {
+			return $this->ajaxData(0, $pasien, $verifikasi_kategori_prolanis);
+		}
+		$pasien->penangguhan_pembayaran_bpjs  = $penangguhan;
+		$pasien->$verifikasi_kategori_prolanis       = 3;
+		$pasien->save();
+		return $this->ajaxData(1, $pasien, $verifikasi_kategori_prolanis);
+	}
+
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function ajaxData($response, $pasien, $verifikasi_kategori_prolanis)
+	{
+		return [
+			'response'                    => $response,
+			'meninggal'                   => $pasien->meninggal,
+			'verifikasi_prolanis_id'      => $pasien->$verifikasi_kategori_prolanis,
+			'penangguhan_pembayaran_bpjs' => $pasien->penangguhan_pembayaran_bpjs
+		];
+	}
 	
 }

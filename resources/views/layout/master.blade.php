@@ -148,6 +148,7 @@
                             <li>{!! HTML::link('laporans/dm_terkendali/' . date('Y-m'), 'Data Kunjungan Prolanis DM')!!}</li>
                             <li>{!! HTML::link('prolanis_terkendali', 'Laporan Rasio Prolanis Terkendali')!!}</li>
                             <li>{!! HTML::link('pasien_rujuk_baliks', 'Pasien Rujuk Balik')!!}</li>
+                            <li>{!! HTML::link('pasien_dobel', 'Pasien Dobel')!!}</li>
                         </ul>
                     </li>
                     <li>

@@ -1132,7 +1132,6 @@ function optionSyrup(ID_MEREK){
         })
         .done(function(dataMerek) {
             customOption(dataMerek);
-
         })
         .fail(function() {
             console.log("error");
@@ -1215,7 +1214,6 @@ function optionSyrup(ID_MEREK){
     }
 
     function customOption(dataMerek){
-        console.log('customOption');
         var id = getIdMerek()
 
         dataMerek = JSON.parse(dataMerek);

@@ -1296,7 +1296,8 @@ function validatePhone(phone)
 	if (phone == '') {
 		return true;
 	}
-	if (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(phone)) {
+    
+	if (/(?:\+62)?0?8\d{2}(\d{7})/im.test(phone)) {
 		return (true)
 	}
 	return (false)

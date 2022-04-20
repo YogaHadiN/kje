@@ -2,8 +2,8 @@ view_cr_trx();
 function cek(control){
 	var html_barcode = $('.barcode').html();
 	var x = $('.barcode').find('.i').html();
-    var sudah_dibayar       = $(control).closest('tr').find('td:nth-child(4)').html();
-    var piutang             = $(control).closest('tr').find('td:nth-child(3)').html();
+    var sudah_dibayar       = $(control).closest('tr').find('.sudah_dibayar').html();
+    var piutang             = $(control).closest('tr').find('.piutang').html();
     sudah_dibayar           = cleanUang(sudah_dibayar.trim());
     piutang                 = cleanUang(piutang.trim());
     var akan_dibayar        = parseInt(piutang) - parseInt(sudah_dibayar);
@@ -83,9 +83,8 @@ function view(pertama_kali = false){
             temp2 += '<tr>';
             temp2 += '<td><a href="' + base + '/periksas/' +MyArray[i].periksa_id+ '" target="_blank">' + MyArray[i].periksa_id + '</a></td>';
             temp2 += '<td><a href="' + base + '/pasiens/' +MyArray[i].pasien_id+ '/transaksi" target="_blank">' + MyArray[i].nama_pasien + '</a></td>';
-			temp2 += '<td>' + MyArray[i].nama_pasien + '</td>';
-            temp2 += '<td class="uang">' + MyArray[i].piutang + '</td>';
-            temp2 += '<td class="uang">' + MyArray[i].pembayaran + '</td>';
+            temp2 += '<td class="piutang uang">' + MyArray[i].piutang + '</td>';
+            temp2 += '<td class="sudah_dibayar uang">' + MyArray[i].pembayaran + '</td>';
             temp2 += '<td><input class="form-control angka2 akan_dibayar" value="' + MyArray[i].akan_dibayar + '" onkeyup="akanDibayarKeyup(this);return false;" /></td>';
             if(MyArray[i].piutang - MyArray[i].pembayaran < 1){
             var status = '<div class="alert-success">';

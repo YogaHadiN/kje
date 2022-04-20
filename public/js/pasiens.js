@@ -343,7 +343,10 @@
         });
 	
 	function dummySubmit(control){
-		if(validatePass2(control)){
+
+		if(
+			validatePass2(control)
+		){
 			$('#submit').click();
 		}
 	}

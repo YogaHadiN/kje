@@ -63,6 +63,9 @@ class cekMutasi19Terakhir extends Command
 		$inserted_description = [];
 		$timestamp            = date('Y-m-d H:i:s');
 		$insertMutasi         = [];
+		/* dd( 'banks', $banks ); */
+		
+
 		foreach ($banks['data'] as $bank) {
 			$bank_id = $bank->bank_id;
 			$newBank = AkunBank::firstOrCreate([

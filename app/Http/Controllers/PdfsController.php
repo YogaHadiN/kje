@@ -964,7 +964,8 @@ class PdfsController extends Controller
 					'staf'   => Staf::find($id) ,
 					'tahun'  => $tahun
 				])
-				->setPaper('a4');
+				->setPaper('a4')
+				->setOption('footer-right', '[page]');
         return $pdf->stream();
 	}
 	
