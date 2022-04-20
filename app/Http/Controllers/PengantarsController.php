@@ -9,6 +9,7 @@ use Log;
 use DB;
 use Storage;
 use App\Models\Pasien;
+use App\Models\VerifikasiProlanis;
 use App\Models\AntrianPeriksa;
 use App\Models\AntrianPoli;
 use App\Models\SmsJangan;
@@ -268,10 +269,12 @@ class PengantarsController extends Controller
 		}
 		$pengantars = json_encode($pengantars);
 		$riwayat    = $this->riwayatPengantaran($ap);
+		$verifikasi_prolanis_options =  VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id');
 		return view( 'antrianpolis.pengantar', compact(
 			'ap',
 			'id',
 			'panggilan',
+			'verifikasi_prolanis_options',
 			'posisi_antrian',
 			'pengantars',
 			'riwayat',
