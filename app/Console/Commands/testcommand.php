@@ -1794,24 +1794,70 @@ class testcommand extends Command
 	private function bpjsDobel()
 	{
 		$query  = "SELECT ";
-		$query .= "nomor_asuransi_bpjs, ";
-		$query .= "count(nomor_asuransi_bpjs) ";
+		$query .= "trim(nomor_asuransi_bpjs) as nomor_asuransi_bpjs, ";
+		$query .= "count(trim(nomor_asuransi_bpjs)) ";
 		$query .= "FROM pasiens as psn ";
-		$query .= "GROUP BY nomor_asuransi_bpjs ";
-		$query .= "HAVING count(nomor_asuransi_bpjs) > 1";
-		$data = DB::select($query);
+		$query .= "GROUP BY trim(nomor_asuransi_bpjs) ";
+		$query .= "HAVING count(trim(nomor_asuransi_bpjs)) > 1";
+		$data   = DB::select($query);
 
 		$nomor_asuransi_bpjs = [];
 		foreach ($data as $d) {
 			$nomor_asuransi_bpjs[] = $d->nomor_asuransi_bpjs;
 		}
-		$nama = [];
-		$pasiens = Pasien::whereIn('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)->orderBy('nama')->get();
+		$data    = [];
+		$pasiens = Pasien::whereIn('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)->orderBy('updated_at')->get();
 		foreach ($pasiens as $p) {
-			$nama[] = $p->nama;
+			$data[trim($p->nomor_asuransi_bpjs)]['datas'][] = [
+				'nama'                => $p->nama,
+				'tanggal_lahir'       => $p->tanggal_lahir->format('Y-m-d'),
+				'nomor_asuransi_bpjs' => trim($p->nomor_asuransi_bpjs),
+				'id'                  => $p->id,
+			];
+			$data[trim($p->nomor_asuransi_bpjs)]['principal'] = [
+				'nama'                => $p->nama,
+				'tanggal_lahir'       => $p->tanggal_lahir->format('Y-m-d'),
+				'nomor_asuransi_bpjs' => trim($p->nomor_asuransi_bpjs),
+				'id'                  => $p->id,
+			];
 		}
-		dd( $nama );
+
+		$query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS ";
+		$query .= "where COLUMN_NAME like 'pasien_id' ";
+		$query .= "and table_schema like 'jatielok' ";
+		$query .= "order by TABLE_NAME ";
+		$tables = DB::select($query);
+
+		$pro_delete_ids = [];
+		$test_data=[];
+		foreach ($data as $d) {
+			$principal_name = $d['principal']['nama'];
+			$principal_bd   = $d['principal']['tanggal_lahir'];
+			$principal_id   = $d['principal']['id'];
+			foreach ($d['datas'] as $k => $v) {
+				if ($v['nama'] == 'Kairos Jansuwardi Damanik') {
+					$test_data[] = $d;
+				}
+				if (
+					trim(strtoupper($v['nama'])) == trim(strtoupper($principal_name))
+					|| 
+					(
+						$v['tanggal_lahir']    == $principal_bd
+						&& $v['tanggal_lahir'] != '0000-00-00'
+					)
+				) {
+					foreach ($tables as $t) {
+						$query  = "UPDATE " . $t->TABLE_NAME . " set pasien_id = '{$principal_id}' where pasien_id='{$v['id']}';";
+						DB::statement($query);
+					}
+
+					if ( $v['id'] != $principal_id ) {
+						$pro_delete_ids[] = $v['id'];
+						$query  = "DELETE FROM pasiens where id = '{$v['id']}'";
+						DB::statement($query);
+					}
+				}
+			}
+		}
 	}
-	
-	
 }

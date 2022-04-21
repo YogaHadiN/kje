@@ -29,6 +29,10 @@ class AntrianKasirsController extends Controller
 	}
 	public function kembali($id){
 		$antriankasir = AntrianKasir::with('periksa.pasien')->where('id', $id)->first();
+		if (is_null($antriankasir)) {
+			$pesan = Yoga::gagalFlash('Antrian kasir dengan id ' . $id . ' Tidak ditemukan');
+			return redirect()->back()->withPesan($pesan);
+		}
 		if (!AntrianApotek::where('periksa_id', $antriankasir->periksa_id)->exists() ) {
 
 			$antrianapotek             = new AntrianApotek;
