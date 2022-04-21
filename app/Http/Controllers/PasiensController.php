@@ -64,7 +64,7 @@ class PasiensController extends Controller
 		$this->input_nomor_asuransi              = Input::get('nomor_asuransi');
 		$this->input_punya_asuransi              = Input::get('punya_asuransi');
 		$this->input_nomor_ktp                   = Input::get('nomor_ktp');
-		$this->input_nomor_asuransi_bpjs         = $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
+		$this->input_nomor_asuransi_bpjs         = !empty( Input::get('nomor_asuransi_bpjs') ) ? Input::get('nomor_asuransi_bpjs') : $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
 		$this->input_no_telp                     = Input::get('no_telp');
 		$this->input_tanggal_lahir               = Input::get('tanggal_lahir');
 		$this->input_jangan_disms                = Input::get('jangan_disms');

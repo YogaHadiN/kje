@@ -150,7 +150,19 @@
 				</div>
 			</div>
 		</div>	
-
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+				<div class="form-group @if($errors->has('nomor_asuransi_bpjs'))has-error @endif">
+					{!! Form::label('nomor_asuransi_bpjs', 'Nomor Asuransi', ['class' => 'control-label']) !!}
+					{!! Form::text('nomor_asuransi_bpjs', !isset($pasien) && isset($antrian->nomor_asuransi_bpjs)? $antrian->nomor_asuransi_bpjs : null , [
+						'id'      => 'nomor_asuransi_bpjs',
+						'class'   => 'form-control tog hh',
+						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
+					])!!}
+					@if($errors->has('nomor_asuransi_bpjs'))<code>{{ $errors->first('nomor_asuransi_bpjs') }}</code>@endif
+				</div>
+			</div>
+		</div>
 		  <div class="row">
 			  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
