@@ -23,8 +23,6 @@
 					<th>Meninggal</th>
 					<th>Penangguhan</th>
 					<th>Verifikasi</th>
-					{{-- <th>DM</th> --}}
-					{{-- <th>HT</th> --}}
 				</tr>
 			</thead>
 			<tbody>
@@ -56,9 +54,9 @@
 							<td rowspan="{{ $p->pasienProlanis->count() ? $p->pasienProlanis->count() : 1 }}">{{ $p->jenis_kelamin }}</td>
 							@foreach ($p->pasienProlanis as $k => $pp)
 								@if ($k !== 0)
-								 </tr><tr 
+								 </tr>
+								 <tr 
 									@if ( isset( $pp->pasien ))
-
 										@if ($kategori_prolanis == 'dm')
 											@if ( $pp->pasien->verifikasi_prolanis_dm_id == '2')
 												class="success"
@@ -74,7 +72,7 @@
 										@endif
 											@endif
 											 >
-								@endif
+									@endif
 								<td>
 										<a href="{{ url('pasiens/'. $pp->pasien_id . '/edit') }}" target="_blank">
 											{{ $pp->pasien->nama }} </br> 
@@ -84,17 +82,17 @@
 								<td>
 									{{ \App\Models\Classes\Yoga::umurSaatPeriksa( $pp->pasien->tanggal_lahir, $p->periode ) }}
 								</td>
-								<td class="hide pasien_id">
-									{{ $pp->pasien->id }}
-								</td>
-								<td class="hide kategori_prolanis">
-									{{ $kategori_prolanis }}
-								</td>
 								<td>
 									{{ $pp->pasien->alamat }}
 								</td>
 								<td>
 									{{ $pp->pasien->nomor_asuransi_bpjs }}
+								</td>
+								<td class="hide kategori_prolanis">
+									{{ $kategori_prolanis }}
+								</td>
+								<td class="hide pasien_id">
+									{{ $pp->pasien->id }}
 								</td>
 								<td nowrap class="autofit">
 									{!! Form::select('meninggal', [
@@ -136,33 +134,69 @@
 		<div class="table-responsive">
 			<table class="table table-hover table-condensed table-bordered table-striped">
 				<thead>
-					<tr>
 						<th>No</th>
 						<th>Nama</th>
-						<th>Tanggal Lahir</th>
-						<th>Prolanis DM</th>
-						<th>Prolanis HT</th>
 						<th>Nomor Bpjs</th>
-						{{-- <th>Action</th> --}}
+						<th>Meninggal</th>
+						<th>Penangguhan</th>
+						<th>Verifikasi</th>
 					</tr>
 				</thead>
 				<tbody>
 					@if(count($pasiens) > 0)
 						@foreach($pasiens as $k=> $p)
-							<tr>
+							 <tr 
+									@if ($kategori_prolanis == 'dm')
+										@if ( $p->verifikasi_prolanis_dm_id == '2')
+											class="success"
+										@elseif( $p->verifikasi_prolanis_dm_id == '3')
+											class="danger"
+										@endif
+									@elseif ($kategori_prolanis == 'ht')
+										@if ( $p->verifikasi_prolanis_ht_id == '2')
+											class="success"
+										@elseif( $p->verifikasi_prolanis_ht_id == '3')
+											class="danger"
+										@endif
+									@endif
+								 >
 								<td>{{ $k + 1 }}</td>
 								<td>
 									<a href="{{ url('pasiens/'. $p->id . '/edit') }}" target="_blank">
 										{{ $p->nama }}
 									</a>
 								</td>
-								<td>{{ $p->tanggal_lahir->format('Y-m-d') }}</td>
-								<td>{{ $p->prolanis_dm ? 'Ya' : 'Tidak' }}</td>
-								<td>{{ $p->prolanis_ht ? 'Ya' : 'Tidak' }}</td>
 								<td>{{ $p->nomor_asuransi_bpjs }}</td>
-								{{-- <td> --}}
-								{{-- 	{!! Form::select('verifikasi_prolanis_id', $verifikasi_prolanis_options, null, ['class' => 'form-control']) !!} --}}
-								{{-- </td> --}}
+								<td class="hide kategori_prolanis">
+									{{ $kategori_prolanis }}
+								</td>
+								<td class="hide pasien_id">
+									{{ $p->id }}
+								</td>
+								<td nowrap class="autofit">
+									{!! Form::select('meninggal', [
+											 0 => 'No',
+											 1 => 'Meninggal'
+										], $p->meninggal, [
+										'class'    => 'form-control meninggal',
+										'onchange' => 'changeMeninggal(this)'
+									]) !!}
+								</td>
+								<td nowrap class="autofit">
+									{!! Form::select('penangguhan', [
+											 0 => 'No',
+											 1 => 'Penangguhan'
+										], $p->penangguhan_pembayaran_bpjs, [
+										'class'    => 'form-control penangguhan',
+										'onchange' => 'changePenangguhan(this)'
+									]) !!}
+								</td>
+								<td nowrap class="autofit">
+									{!! Form::select('verifikasi_prolanis_id', $verifikasi_prolanis_options, $p->$verifikasi_prolanis_kategori_id, [
+										'class'    => 'form-control verifikasi',
+										'onchange' => 'changeVerifikasi(this)'
+									]) !!}
+								</td>
 							</tr>
 						@endforeach
 					@else

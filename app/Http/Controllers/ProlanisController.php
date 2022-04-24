@@ -34,18 +34,16 @@ class ProlanisController extends Controller
 		$pasienDm   = [];
 		$pasienHt   = [];
 
-		$pasiens    = Pasien::where('prolanis_dm', '1')
-						->orWhere('prolanis_ht', '1')
+		$pasiens    = Pasien::whereRaw('prolanis_dm = 1 or prolanis_ht = 1')
+						->WhereRaw('verifikasi_prolanis_dm_id = 1 or verifikasi_prolanis_ht_id = 1')
 						->orderBy('nama')
 						->get();
 
-		/* dd( $pasiens ); */
-
 		foreach ($pasiens as $p) {
-			if ($p->prolanis_dm) {
+			if ($p->prolanis_dm && $p->verifikasi_prolanis_dm_id == 1) {
 				$pasienDm[] = $p;
 			}
-			if ($p->prolanis_ht) {
+			if ($p->prolanis_ht && $p->verifikasi_prolanis_ht_id == 1) {
 				$pasienHt[] = $p;
 			}
 		}

@@ -49,6 +49,7 @@ use App\Models\Telpon;
 use App\Jobs\sendEmailJob;
 use App\Http\Controllers\PeriksasController;
 use App\Http\Controllers\WablasController;
+use App\Http\Controllers\PasiensMergeController;
 use Mail;
 use App\Mail\MailToInsuranceForDetails;
 use Carbon\Carbon;
@@ -1822,11 +1823,8 @@ class testcommand extends Command
 			];
 		}
 
-		$query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS ";
-		$query .= "where COLUMN_NAME like 'pasien_id' ";
-		$query .= "and table_schema like 'jatielok' ";
-		$query .= "order by TABLE_NAME ";
-		$tables = DB::select($query);
+		$pasien_merge = new PasiensMergeController;
+		$tables = $pasien_merge->queryTables();
 
 		$pro_delete_ids = [];
 		$test_data=[];
@@ -1860,4 +1858,5 @@ class testcommand extends Command
 			}
 		}
 	}
+	
 }

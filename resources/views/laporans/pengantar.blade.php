@@ -82,39 +82,41 @@ table tr th:nth-child(4), table tr td:nth-child(4) {
 						</thead>
 						<tbody>
 							@foreach($pp_harus_diinput as $p)
-								<tr @if( $p->pcare_submit == '2' ) class="danger" @endif >
-									<td>{{ $p->pengantar->nama }} <br />
-										<strong>Tanggal </strong> <br />
-										{{ $p->created_at->format('d M Y') }} <br />
-										<a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $p->pasien_id . '/edit') }}">Detail</a>	
-									</td>
-									<td>
-										<img src="{{ url('/'). '/' . $p->pengantar->ktp_image }}" alt="" class="img-rounded upload" />
-										@if(!empty( $p->pengantar->nomor_ktp ))
-										<br />  {{ $p->pengantar->nomor_ktp }}
-										@else
-										<br />  Nomor KTP tidak terdaftar
-										@endif
-									</td>
-									<td>
-										<img src="{{ url('/'). '/' . $p->pengantar->bpjs_image }}" alt="" class="img-rounded upload" />
-										@if(!empty( $p->pengantar->nomor_asuransi_bpjs ))
-											<br />  {{ $p->pengantar->nomor_asuransi_bpjs }}
-										@else
-										<br />  Nomor BPJS tidak terdaftar
-										@endif
-									</td>
-									<td>
-									{!! Form::open(['url' => 'laporans/pengantar', 'method' => 'post', 'autocomplete' => 'off']) !!}
-										{!! Form::text('id', $p->pengantar_id, ['class' => 'form-control hide']) !!}
-										{!! Form::text('nama', $p->pengantar->nama, ['class' => 'hide nama']) !!}
-										{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
-										{!! Form::text('kunjungan_sehat', '1', ['class' => 'form-control hide kunjungan_sehat']) !!}
-										{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
-										{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
-										{!! Form::close() !!}
-									</td>
-								</tr>
+								@if (isset( $p->pengantar ))
+									<tr @if( $p->pcare_submit == '2' ) class="danger" @endif >
+										<td>{{ $p->pengantar->nama }} <br />
+											<strong>Tanggal </strong> <br />
+											{{ $p->created_at->format('d M Y') }} <br />
+											<a class="btn btn-info btn-xs btn-block" href="{{ url('pasiens/' . $p->pasien_id . '/edit') }}">Detail</a>	
+										</td>
+										<td>
+											<img src="{{ url('/'). '/' . $p->pengantar->ktp_image }}" alt="" class="img-rounded upload" />
+											@if(!empty( $p->pengantar->nomor_ktp ))
+											<br />  {{ $p->pengantar->nomor_ktp }}
+											@else
+											<br />  Nomor KTP tidak terdaftar
+											@endif
+										</td>
+										<td>
+											<img src="{{ url('/'). '/' . $p->pengantar->bpjs_image }}" alt="" class="img-rounded upload" />
+											@if(!empty( $p->pengantar->nomor_asuransi_bpjs ))
+												<br />  {{ $p->pengantar->nomor_asuransi_bpjs }}
+											@else
+											<br />  Nomor BPJS tidak terdaftar
+											@endif
+										</td>
+										<td>
+										{!! Form::open(['url' => 'laporans/pengantar', 'method' => 'post', 'autocomplete' => 'off']) !!}
+											{!! Form::text('id', $p->pengantar_id, ['class' => 'form-control hide']) !!}
+											{!! Form::text('nama', $p->pengantar->nama, ['class' => 'hide nama']) !!}
+											{!! Form::text('previous', null, ['class' => 'hide previous']) !!}
+											{!! Form::text('kunjungan_sehat', '1', ['class' => 'form-control hide kunjungan_sehat']) !!}
+											{!! Form::select('pcare_submit', $pcare_submits, $p->pcare_submit, ['class' => 'form-control pcareSubmit']) !!}
+											{!! Form::submit('Terdaftar di PCare', ['class' => 'hide submit']) !!}
+											{!! Form::close() !!}
+										</td>
+									</tr>
+								@endif
 							@endforeach
 						</tbody>
 					</table>

@@ -8,6 +8,7 @@ use Input;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Bitly;
+use Carbon\Carbon;
 use App\Http\Controllers\AntrianPeriksasController;
 use App\Events\FormSubmitted;
 use App\Models\Antrian;
@@ -126,12 +127,43 @@ class AntrianPolisController extends Controller
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
 					->withPesan($pesan);
 			}
+			/* Jika pasien berusia kurang dari 15 tahun dan terakhir di update lebih dari satu tahun yang lalu, update foto pasien */
+
+			if (
+				$pasien->usia < 15 && // jika usia pasien kurang dari 15 tahun
+				Carbon::now()->subYears(1)->greaterThan( $pasien->updated_at )
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 1 tahun');
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
+					->withPesan($pesan);
+			}
+
+			/* Jika pasien berusia lebih dari 15 tahun dan terakhir di update lebih dari 5 tahun yang lalu, update foto pasien */
+			if (
+				$pasien->usia > 15 && // jika usia pasien lebih dari 15 tahun
+				Carbon::now()->subYears(5)->greaterThan( $pasien->updated_at ) // dan lebih dari 5 tahun yang lalu diupdate
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 5 tahun');
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
+					->withPesan($pesan);
+			}
+
+			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
 			if (
 				Input::get('asuransi_id') == '32' && // pasien bpjs
-				(empty($pasien->ktp_image) || empty($pasien->bpjs_image)) && //jika ktp atau bpjs tidak bawa suruh bawa dulu
-				$pasien->usia >= 18
+				(empty($pasien->ktp_image) && $pasien->usia >= 18) // jika usia > 18 tahun tapi tidak bawa KTP
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>gambar KTP pasien (bila DEWASA) </strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
+					->withPesan($pesan);
+			}
+
+			/* Jika pasien BPJS dan tidak membawa kartu BPJS */
+			if (
+				Input::get('asuransi_id') == '32' && // pasien bpjs
+				empty($pasien->bpjs_image) //jika kartu bpjs masih kosong
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>Kartu BPJS</strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
 					->withPesan($pesan);
 			}

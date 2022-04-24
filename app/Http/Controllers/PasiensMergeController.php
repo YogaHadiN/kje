@@ -102,62 +102,21 @@ class PasiensMergeController extends Controller
 		try {
 			$pasiens = json_decode( Input::get('tempArray'), true );
 			$hapusId = [];
+			$deleteId = '';
 			foreach ($pasiens as $k => $p) {
 				if ($k > 0) {
 					$hapusId[] = $p['id'];
+					$deleteId .= "," .  "'" . $p['id'].  "'";
 				} else {
-					$pertahankanID = $p['id'];
+					$deleteId      .= "'" . $p['id'] . "'";
+					$pertahankanID  = $p['id'];
 				}
 			}
 
-			$confirm = AntrianPeriksa::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm = AntrianPoli::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm = Complain::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm = FacebookDaftar::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm = Kabur::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm = Periksa::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm = Prolanis::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm = RegisterHamil::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm_sms_bpjs = SmsBpjs::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm_sms_gagal = SmsGagal::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm_sms_jangan = SmsJangan::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			$confirm_sms_kontak = SmsKontak::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			Alergi::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			DeletedPeriksa::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			HomeVisit::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
-			PasienRujukBalik::whereIn('pasien_id', $hapusId )->update([
-				'pasien_id' => $pertahankanID
-			]);
+			foreach ($tables as $t) {
+				$query  = "UPDATE " . $t->TABLE_NAME . " set pasien_id = '{$principal_id}' where pasien_id in ({$v['id']});";
+				DB::statement($query);
+			}
 
 			$confirm_pasien_hapus = Pasien::destroy($hapusId);
 
@@ -169,4 +128,13 @@ class PasiensMergeController extends Controller
 			throw $e;
 		}
 	}
+
+	public function queryTables(){
+		$query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS ";
+		$query .= "where COLUMN_NAME like 'pasien_id' ";
+		$query .= "and table_schema like 'jatielok' ";
+		$query .= "order by TABLE_NAME ";
+		return DB::select($query);
+	}
+	
 }
