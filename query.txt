@@ -114,3 +114,4 @@ UPDATE pasiens SET nama = REPLACE(nama, ', BY,', '') where nama like '%, BY,';
 
 
 CREATE INDEX index_pasien_prolanis ON pasien_prolanis (pasien_id, prolanis_id);
+CREATE INDEX index_pasien_prolanis_dm_ht_id ON pasiens (prolanis_dm, prolanis_ht, verifikasi_prolanis_dm_id, verifikasi_prolanis_ht_id);

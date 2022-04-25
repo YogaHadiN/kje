@@ -158,6 +158,16 @@ class AntrianPolisController extends Controller
 					->withPesan($pesan);
 			}
 
+			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
+			if (
+				Input::get('asuransi_id') == '32' && // pasien bpjs
+				(empty($pasien->nomor_asuransi_bpjs) && is_null($pasien->nomor_asuransi_bpjs)) // jika usia > 18 tahun tapi tidak bawa KTP
+			) {
+				$pesan = Yoga::gagalFlash('Nomor Asuransi BPJS harus diisi');
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
+					->withPesan($pesan);
+			}
+
 			/* Jika pasien BPJS dan tidak membawa kartu BPJS */
 			if (
 				Input::get('asuransi_id') == '32' && // pasien bpjs
@@ -184,7 +194,10 @@ class AntrianPolisController extends Controller
 			//cek jika antrian sudah tidak ada, maka jangan dilanjutkan
 			//
 			//
-			if (is_null( Antrian::find($this->input_antrian_id) )) {
+			if (
+				!is_null($this->input_antrian_id) &&
+				is_null( Antrian::find($this->input_antrian_id) )
+			) {
 				$pesan = Yoga::gagalFlash('Antrian tidak ditemukan, mungkin tidak sengaja terhapus');
 				return redirect('antrians')->withPesan($pesan);
 			}
