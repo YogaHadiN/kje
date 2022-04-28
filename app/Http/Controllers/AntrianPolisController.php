@@ -130,8 +130,8 @@ class AntrianPolisController extends Controller
 
 			/* Jika pasien memiliki KTP dan nomor ktp belum diisi */
 			if (
-				!is_null( $pasien->ktp_image ) && 	// jika ktp_image tidak null
-				!empty( $pasien->ktp_image ) && 	// jika ktp_image tidak empty
+				!is_null( $pasien->ktp_image )  	// jika ktp_image tidak null
+				&& !empty( $pasien->ktp_image ) 	// jika ktp_image tidak empty
 				&& Storage::disk('s3')->exists( $pasien->ktp_image ) // ditemukan di database
 				&& (empty($pasien->nomor_ktp) || is_null($pasien->nomor_ktp)) // dan nomor ktp masih kogong
 			) {
