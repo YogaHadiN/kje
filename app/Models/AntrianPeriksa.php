@@ -35,6 +35,11 @@ class AntrianPeriksa extends Model{
 	public function staf() {
 		return $this->belongsTo('App\Models\Staf');
 	}
+
+	public function periksa() {
+		return $this->belongsTo('App\Models\Periksa');
+	}
+
 	public function perujuk(){
 		return $this->belongsTo('App\Models\Perujuk');
 	}

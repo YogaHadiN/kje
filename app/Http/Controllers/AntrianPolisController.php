@@ -127,8 +127,19 @@ class AntrianPolisController extends Controller
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
 					->withPesan($pesan);
 			}
-			/* Jika pasien berusia kurang dari 15 tahun dan terakhir di update lebih dari satu tahun yang lalu, update foto pasien */
 
+			/* Jika pasien memiliki KTP dan nomor ktp belum diisi */
+			if (
+				!is_null( $pasien->ktp_image ) && 	// jika ktp_image tidak null
+				!empty( $pasien->ktp_image ) && 	// jika ktp_image tidak empty
+				&& Storage::disk('s3')->exists( $pasien->ktp_image ) // ditemukan di database
+				&& (empty($pasien->nomor_ktp) || is_null($pasien->nomor_ktp)) // dan nomor ktp masih kogong
+			) {
+				$pesan = Yoga::gagalFlash('Nomor KTP harus diisi terlebih dahulu sebelum dilanjutkan, gunakan foto KTP'); // Nomor KTP harus diisi
+				return redirect()->back()->withPesan($pesan);
+			}
+
+			/* Jika pasien berusia kurang dari 15 tahun dan terakhir di update lebih dari satu tahun yang lalu, update foto pasien */
 			if (
 				$pasien->usia < 15 && // jika usia pasien kurang dari 15 tahun
 				Carbon::now()->subYears(1)->greaterThan( $pasien->updated_at )
