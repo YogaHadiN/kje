@@ -1,117 +1,16 @@
-alter table prolanis add column nama varchar(255) not null;
-alter table prolanis add column jenis_kelamin varchar(255) not null;
-alter table prolanis add column usia varchar(255) not null;
-alter table prolanis add column alamat varchar(255) not null;
-alter table prolanis add column prb varchar(255);
-alter table prolanis add column no varchar(255);
-alter table prolanis add column prolanis varchar(255) not null;
-alter table prolanis add column club_prolanis varchar(255) not null;
-alter table prolanis add column periode date not null;
-alter table prolanis drop column golongan_prolanis_id;
-alter table prolanis drop column pasien_id;
-alter table pasiens add column verifikasi_prolanis_dm_id int(1) default 1 not null;
-alter table pasiens add column verifikasi_prolanis_ht_id int(1) default 1 not null;
-alter table pasiens add column meninggal int(1) default 0 not null;
-alter table pasiens add column penangguhan_pembayaran_bpjs int(1) default 0 not null;
-CREATE TABLE verifikasi_prolanis(
-  id INT NOT NULL AUTO_INCREMENT,
-  verifikasi_prolanis varchar(255) NOT NULL,
-  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-  created_at TIMESTAMP NOT NULL,
-  PRIMARY KEY(id)
+INSERT INTO icd10s (
+id,
+diagnosaICD,
+admedika,
+created_at,
+updated_at,
+terapis
+)
+VALUES (
+ "S303",
+ "Kekerasan tajam",
+ "19303",
+  now(),
+  now(),
+  null
 );
-INSERT INTO verifikasi_prolanis ( verifikasi_prolanis, created_at, updated_at) VALUES ( 'Belum', now(), now());
-INSERT INTO verifikasi_prolanis ( verifikasi_prolanis, created_at, updated_at) VALUES ( 'Sesuai', now(), now());
-INSERT INTO verifikasi_prolanis ( verifikasi_prolanis, created_at, updated_at) VALUES ( 'Tidak Sesuai', now(), now());
-delete from pasiens where id = '';
-delete from alergies where pasien_id = '';
-delete from antrian_polis where pasien_id = '';
-delete from update_rppt_pesertas where pasien_id = '';
-delete from home_visits where pasien_id = '';
-delete from sms_jangans where pasien_id = '';
-delete from periksas where pasien_id = '';
-delete from complains where pasien_id = '';
-delete from register_hamils where pasien_id = '';
-delete from sms_bpjs where pasien_id = '';
-delete from facebook_daftars where pasien_id = '';
-delete from kaburs where pasien_id = '';
-delete from antrian_periksas where pasien_id = '';
-delete from pasien_rujuk_baliks where pasien_id = '';
-delete from deleted_periksas where pasien_id = '';
-delete from sms_kontaks where pasien_id = '';
-delete from sms_gagals where pasien_id = '';
-
-CREATE TABLE pasien_prolanis(
-  id INT NOT NULL AUTO_INCREMENT,
-  pasien_id varchar(255) NOT NULL,
-  prolanis_id varchar(255) NOT NULL,
-  updated_at TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-  created_at TIMESTAMP NOT NULL,
-  PRIMARY KEY(id)
-);
-
-UPDATE pasiens SET nama = trim(nama);
-
-UPDATE pasiens SET nama = REPLACE(nama, ',ny', '') where nama like '%,ny';
-UPDATE pasiens SET nama = REPLACE(nama, ', ny', '') where nama like '%, ny';
-UPDATE pasiens SET nama = REPLACE(nama, ',ny,', '') where nama like '%,ny,';
-UPDATE pasiens SET nama = REPLACE(nama, ', ny,', '') where nama like '%, ny,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',tn', '') where nama like '%,tn';
-UPDATE pasiens SET nama = REPLACE(nama, ', tn', '') where nama like '%, tn';
-UPDATE pasiens SET nama = REPLACE(nama, ',tn,', '') where nama like '%,tn,';
-UPDATE pasiens SET nama = REPLACE(nama, ', tn,', '') where nama like '%, tn,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',an', '') where nama like '%,an';
-UPDATE pasiens SET nama = REPLACE(nama, ', an', '') where nama like '%, an';
-UPDATE pasiens SET nama = REPLACE(nama, ',an,', '') where nama like '%,an,';
-UPDATE pasiens SET nama = REPLACE(nama, ', an,', '') where nama like '%, an,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',by', '') where nama like '%,by';
-UPDATE pasiens SET nama = REPLACE(nama, ', by', '') where nama like '%, by';
-UPDATE pasiens SET nama = REPLACE(nama, ',by,', '') where nama like '%,by,';
-UPDATE pasiens SET nama = REPLACE(nama, ', by,', '') where nama like '%, by,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',Ny', '') where nama like '%,Ny';
-UPDATE pasiens SET nama = REPLACE(nama, ', Ny', '') where nama like '%, Ny';
-UPDATE pasiens SET nama = REPLACE(nama, ',Ny,', '') where nama like '%,Ny,';
-UPDATE pasiens SET nama = REPLACE(nama, ', Ny,', '') where nama like '%, Ny,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',Tn', '') where nama like '%,Tn';
-UPDATE pasiens SET nama = REPLACE(nama, ', Tn', '') where nama like '%, Tn';
-UPDATE pasiens SET nama = REPLACE(nama, ',Tn,', '') where nama like '%,Tn,';
-UPDATE pasiens SET nama = REPLACE(nama, ', Tn,', '') where nama like '%, Tn,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',An', '') where nama like '%,An';
-UPDATE pasiens SET nama = REPLACE(nama, ', An', '') where nama like '%, An';
-UPDATE pasiens SET nama = REPLACE(nama, ',An,', '') where nama like '%,An,';
-UPDATE pasiens SET nama = REPLACE(nama, ', An,', '') where nama like '%, An,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',By', '') where nama like '%,By';
-UPDATE pasiens SET nama = REPLACE(nama, ', By', '') where nama like '%, By';
-UPDATE pasiens SET nama = REPLACE(nama, ',By,', '') where nama like '%,By,';
-UPDATE pasiens SET nama = REPLACE(nama, ', By,', '') where nama like '%, By,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',NY', '') where nama like '%,NY';
-UPDATE pasiens SET nama = REPLACE(nama, ', NY', '') where nama like '%, NY';
-UPDATE pasiens SET nama = REPLACE(nama, ',NY,', '') where nama like '%,NY,';
-UPDATE pasiens SET nama = REPLACE(nama, ', NY,', '') where nama like '%, NY,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',TN', '') where nama like '%,TN';
-UPDATE pasiens SET nama = REPLACE(nama, ', TN', '') where nama like '%, TN';
-UPDATE pasiens SET nama = REPLACE(nama, ',TN,', '') where nama like '%,TN,';
-UPDATE pasiens SET nama = REPLACE(nama, ', TN,', '') where nama like '%, TN,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',AN', '') where nama like '%,AN';
-UPDATE pasiens SET nama = REPLACE(nama, ', AN', '') where nama like '%, AN';
-UPDATE pasiens SET nama = REPLACE(nama, ',AN,', '') where nama like '%,AN,';
-UPDATE pasiens SET nama = REPLACE(nama, ', AN,', '') where nama like '%, AN,';
-
-UPDATE pasiens SET nama = REPLACE(nama, ',BY', '') where nama like '%,BY';
-UPDATE pasiens SET nama = REPLACE(nama, ', BY', '') where nama like '%, BY';
-UPDATE pasiens SET nama = REPLACE(nama, ',BY,', '') where nama like '%,BY,';
-UPDATE pasiens SET nama = REPLACE(nama, ', BY,', '') where nama like '%, BY,';
-
-
-CREATE INDEX index_pasien_prolanis ON pasien_prolanis (pasien_id, prolanis_id);
-CREATE INDEX index_pasien_prolanis_dm_ht_id ON pasiens (prolanis_dm, prolanis_ht, verifikasi_prolanis_dm_id, verifikasi_prolanis_ht_id);

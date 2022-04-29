@@ -15,7 +15,6 @@ class Tidakdirujuk extends Model{
 	protected $guarded = ['id'];
 
 	public function icd10(){
-
 		return $this->belongsTo('App\Models\Icd10');
 	}
 

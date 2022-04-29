@@ -19,7 +19,8 @@ class TidakdirujukController extends Controller
 	 */
 	public function index()
 	{
-		$tidakdirujuks = Tidakdirujuk::all();
+		$tidakdirujuks = Tidakdirujuk::with('icd10.diagnosa')->get();
+
 		return view('tidakdirujuks.index', compact('tidakdirujuks'));
 	}
 

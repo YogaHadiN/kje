@@ -47,7 +47,13 @@
 							 {!! $tidakdirujuk->diagnosa !!}
 						   </td>
 						   <td>
-							 {!! $tidakdirujuk->icd10['diagnosaICD'] !!}
+							   <ul>
+							   @foreach ($tidakdirujuk->icd10->diagnosa as $diagnosa)
+								   <li>
+									   {!! $diagnosa->diagnosa !!}
+									</li>
+							   @endforeach
+							   </ul>
 						   </td>
 						 </tr>
 						 {{-- expr --}}
