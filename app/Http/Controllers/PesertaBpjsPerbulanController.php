@@ -87,6 +87,11 @@ class PesertaBpjsPerbulanController extends Controller
         if ($this->valid( Input::all() )) {
             return $this->valid( Input::all() );
         }
+
+		DB::statement('Update pasiens set penangguhan_pembayaran_bpjs = 0;');
+		DB::statement('Update pasiens set verifikasi_prolanis_dm_id = 1;');
+		DB::statement('Update pasiens set verifikasi_prolanis_ht_id = 1;');
+
         $import             = new PesertaBpjsPerbulanImport;
         $import->bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');
         Excel::import($import, Input::file('nama_file'));
