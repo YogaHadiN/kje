@@ -113,8 +113,11 @@ class PasiensMergeController extends Controller
 				}
 			}
 
+			$query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'pasien_id' and table_schema = 'jatielok' order by TABLE_NAME";
+			$tables = DB::select($query);
+
 			foreach ($tables as $t) {
-				$query  = "UPDATE " . $t->TABLE_NAME . " set pasien_id = '{$principal_id}' where pasien_id in ({$v['id']});";
+				$query  = "UPDATE " . $t->TABLE_NAME . " set pasien_id = '{$pertahankanID}' where pasien_id in ({$deleteId});";
 				DB::statement($query);
 			}
 

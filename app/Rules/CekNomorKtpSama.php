@@ -42,6 +42,6 @@ class CekNomorKtpSama implements Rule
      */
     public function message()
     {
-        return 'Nomor KTP sudah dimiliki oleh <a href="' . url('pasiens/'. $this->pasien->id '/edit'). '" >' . $this->pasien->nama. '</a>. Tidak mungkin 2 pasien memiliki Nomor KTP yang sama';
+        return 'Nomor KTP sudah dimiliki oleh <a href="' . url('pasiens/'. $this->pasien->id .'/edit'). '" >' . $this->pasien->nama. '</a>. Tidak mungkin 2 pasien memiliki Nomor KTP yang sama';
     }
 }
