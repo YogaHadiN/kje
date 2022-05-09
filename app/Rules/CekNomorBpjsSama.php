@@ -47,6 +47,7 @@ class CekNomorBpjsSama implements Rule
 
         if (
             is_null($this->pasien_dengan_nomor_bpjs_sama)
+            || empty($nomor_asuransi_bpjs)
         ) {
             return true;
         }
@@ -60,6 +61,6 @@ class CekNomorBpjsSama implements Rule
      */
     public function message()
     {
-        return 'Nomor BPJS pasien sudah dipunyai oleh ' . $this->pasien_dengan_nomor_bpjs_sama->nama;
+        return 'Nomor BPJS pasien sudah dipunyai oleh <a href="' . url('/pasiens/' . $this->pasien_dengan_nomor_bpjs_sama->id . '/edit'). '">' . $this->pasien_dengan_nomor_bpjs_sama->nama . '</a> Dilarang membuat pasien ganda. Salah satunya pasti salah';
     }
 }
