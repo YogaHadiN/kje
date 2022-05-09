@@ -139,25 +139,47 @@
  </div>
  <script type="text/javascript" charset="utf-8">
 	function dummySubmit(control){
+		var nomor_asuransi_bpjs = '';
+		var ambil_nomor_dari_nomor_asuransi = false;
+		if(
+				$('#nomor_asuransi_bpjs').val() == '' &&
+				$('#nomor_asuransi').val() != '' &&
+				$('#asuransi_id').val() == '32'
+		){
+				ambil_nomor_dari_nomor_asuransi = true;
+				nomor_asuransi_bpjs = $('#nomor_asuransi').val()
+		} else if (
+				$('#nomor_asuransi_bpjs').val() != ''
+		) {
+				nomor_asuransi_bpjs = $('#nomor_asuransi_bpjs').val()
+		}
+
 		$.get( base + '/pasiens/cek/nomor_bpjs/sama',
 			{ 
-				nomor_bpjs: $('#nomor_asuransi').val(),
+				nomor_bpjs: nomor_asuransi_bpjs
 			},
 			function (data, textStatus, jqXHR) {
 				if (
-						data['duplikasi']          == '1'
-						&& $('#asuransi_id').val() == '32'
+					data['duplikasi']          == '1'
 					) 
 				{
 					var duplikasiAlert = 'Nomor BPJS yang sama sudah digunakan oleh <a href="' + base + '/pasiens/' + data['pasien']['id']+ '/edit">' + data['pasien']['nama'] + '. Klik disini untuk melihat</a> Mohon hindari membuat pasien ganda';
-					validasi1($('#nomor_asuransi'), duplikasiAlert);
+					if( ambil_nomor_dari_nomor_asuransi ){
+							validasi1($('#nomor_asuransi'), duplikasiAlert);
+					} else {
+							validasi1($('#nomor_asuransi_bpjs'), duplikasiAlert);
+					}
 
 					Swal.fire({
 					  icon: 'error',
 					  title: 'Oops...',
 					  text: 'Nomor BPJS yang sama sudah digunakan oleh ' + data['pasien']['nama'] + '.  Mohon hindari membuat pasien ganda',
 					  didClose: () => {
-						$('#nomor_asuransi').focus();
+							if( ambil_nomor_dari_nomor_asuransi ){
+								$('#nomor_asuransi').focus();
+							} else {
+								$('#nomor_asuransi_bpjs').focus();
+							}
 					  }
 					});
 				} else {

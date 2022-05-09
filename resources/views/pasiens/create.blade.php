@@ -56,7 +56,7 @@ var base = "{{ url('/') }}";
 	{!! HTML::script('js/peringatan_usg.js')!!}
 <script>
     $(document).ready(function() {
-		select2Engage('.selectPasien', 'pasiens/ajax/cari')
+        select2Engage('.selectPasien', 'pasiens/ajax/cari')
     });
 </script>
 @stop

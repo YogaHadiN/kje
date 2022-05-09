@@ -8,9 +8,6 @@
 		padding: 0;
 	}
 	@page 
-	{
-		font-family: "Lucida Console", "Courier New", monospace;
-    }
 	.font-smaller {
 	  font-size: 15px;
 	}

@@ -116,6 +116,7 @@
 					{!!Form::select('asuransi_id', $asuransi, null, [
 						'class'            => 'form-control selectpick',
 						'id'               => 'asuransi_id',
+					  'onchange'         => 'cekNomorBpjsSama($("#nomor_asuransi"))',
 						'placeholder'      => 'Biaya Pribadi',
 						'data-live-search' => 'true'
 					])!!}

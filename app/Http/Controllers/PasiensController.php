@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AntrianPolisController;
 use App\Models\Classes\Yoga;
+use App\Rules\CekNomorBpjsSama;
 use App\Models\Alergi;
 use App\Models\Periksa;
 use App\Models\VerifikasiProlanis;
@@ -127,8 +128,10 @@ class PasiensController extends Controller
 	
 	public function store(Request $request){
 		$rules = [
-			"nama"      => "required",
-			"sex"       => "required"
+			"nama"                => "required",
+			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
+			"nomor_asuransi"      => new CekNomorBpjsSama($request),
+			"sex"                 => "required"
 		];
 
 		if ( $this->input_punya_asuransi == '1' ) {
@@ -144,6 +147,7 @@ class PasiensController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		dd(Input::all()); 
 		$pasien         = new Pasien;
 		$this->input_id = Yoga::customId('App\Models\Pasien');
 		$pasien->id     = $this->input_id;
