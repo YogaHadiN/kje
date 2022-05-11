@@ -43,7 +43,9 @@ class CekNomorBpjsSama implements Rule
             $nomor_asuransi_bpjs = $this->request->nomor_asuransi_bpjs;
         }
 
-        $this->pasien_dengan_nomor_bpjs_sama = Pasien::where('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)->first();
+        $this->pasien_dengan_nomor_bpjs_sama = Pasien::where('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)
+                                                     ->where('id', 'not like', $this->request->pasien_id)
+                                                     ->first();
 
         if (
             is_null($this->pasien_dengan_nomor_bpjs_sama)

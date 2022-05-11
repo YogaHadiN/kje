@@ -89,7 +89,6 @@ class cekMutasi19Terakhir extends Command
 				if ( !isset( $newRekening->id ) ) {
 
 					$pembayaran_asuransi_id = null;
-
 					// cari kata asuransi yang cocok kata kunci nya sesuai deskripsi mutasi
 					//
 
@@ -157,6 +156,26 @@ class cekMutasi19Terakhir extends Command
 							}
 						}
 					}
+					//
+					//
+					//validasi pembayaran BPJS sekaligus update jumlah peserta asuransi
+					//
+					//
+					if (
+						str_contains( $mutasi->description, 'BPJS KESEHATAN KC TIGARAKSA')
+					) {
+						if ( $mutasi->amount > 100000000) {
+							$pendapatan                                = new PendapatansController;
+							$pendapatan->input_staf_id                 = '16';
+							$pendapatan->input_nilai_clean             = $mutasi->amount;
+							$pendapatan->input_periode_bulan_bpjs      = Carbon::parse($mutasi->date)->subMonth()->format('Y-m');
+							$pendapatan->input_tanggal_pembayaran_bpjs = $mutasi->date;
+							$pendapatan->input_konfirmasikan           = 0;
+							$pendapatan->prosesPembayaranBpjs();
+						}
+					}
+
+
 					$insertMutasi[] = [
 						'id'                     => $mutasi->mutation_id,
 						'akun_bank_id'           => $newBank->id,

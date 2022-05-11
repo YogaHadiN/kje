@@ -28,7 +28,9 @@ class CekNomorKtpSama implements Rule
      */
     public function passes($attribute, $value)
     {
-        $this->pasien = Pasien::where('nomor_ktp', $value)->first();
+        $this->pasien = Pasien::where('nomor_ktp', $value)
+                             ->where('id', 'not like', $this->request->pasien_id)
+                             ->first();
         if ( is_null( $this->pasien ) ) {
             return true;
         }
@@ -42,6 +44,6 @@ class CekNomorKtpSama implements Rule
      */
     public function message()
     {
-        return 'Nomor KTP sudah dimiliki oleh <a href="' . url('pasiens/'. $this->pasien->id .'/edit'). '" >' . $this->pasien->nama. '</a>. Tidak mungkin 2 pasien memiliki Nomor KTP yang sama';
+        return 'Nomor KTP sudah dimiliki oleh <a href="' . url('pasiens/'. $this->pasien->id .'/edit'). '" >' . $this->pasien->nama. '</a>. Tidak mungkin 2 pasien memiliki Nomor KTP yang sama. Dilarang membuat pasien Ganda. Bila ada pasien ganda mohon <a href="'. url('pasiens/gabungkan/pasien/ganda').'" target="_blank">Gabungkan</a>';
     }
 }

@@ -41,11 +41,8 @@ function checkIfDuplicate(data, nama) {
     return false;
 }
 function cekNomorBpjsSama(control) {
-    console.log("bpjs sama");
-    console.log("control");
-    console.log(control);
-    console.log(" $(control).val() ");
-    console.log($(control).val());
+    console.log("cekNomorBpjsSama");
+    var pasien_id = $("#pasien_id").val();
     var asuransi_id = $("#asuransi_id").val();
     var nomor_asuransi_bpjs = "";
     var ambil_nomor_dari_nomor_asuransi = false;
@@ -65,10 +62,9 @@ function cekNomorBpjsSama(control) {
             base + "/pasiens/cek/nomor_bpjs/sama",
             {
                 nomor_bpjs: nomor_asuransi_bpjs,
+                pasien_id: pasien_id,
             },
             function (data, textStatus, jqXHR) {
-                console.log("data");
-                console.log(data);
                 if (data["duplikasi"] == "1") {
                     if (ambil_nomor_dari_nomor_asuransi) {
                         validasi1(

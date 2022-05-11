@@ -79,7 +79,6 @@ class SmsKontak extends Model
 
 		$first_date_of_month = $tahunBulan ."-01";
 		$last_date_of_month = date("Y-m-t", strtotime($first_date_of_month));
-		/* dd( $first_date_of_month, $last_date_of_month ); */
 
 		$query  = " Select pasien_id as id , px.created_at as created_at ";
 		$query .= "from periksas as px ";

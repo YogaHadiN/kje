@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
+use App\Models\Config;
 use App\Console\Commands\testcommand;
 use App\Http\Requests;
 use App\Rules\noLaterThan;
@@ -32,6 +33,9 @@ use Carbon\Carbon;
 
 class PendapatansController extends Controller
 {
+
+	public $input_tanggal_pembayaran_bpjs ;
+	public $input_periode_bulan_bpjs ;
 	public $input_dibayar;
 	public $input_mulai;
 	public $input_staf_id;
@@ -56,6 +60,8 @@ class PendapatansController extends Controller
 	public $input_pass;
 	public $input_key;
 	public $input_kata_kunci;
+	public $input_nilai;
+	public $input_nilai_clean;
 
 	/**
 	 * Display a listing of pendapatans
@@ -421,44 +427,10 @@ class PendapatansController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-		$nilai               = Yoga::clean( Input::get('nilai') );
-		$staf_id             = Input::get('staf_id');
-		$tanggal_pembayaran  = Yoga::datePrep( Input::get('tanggal_pembayaran') );
-		$periode_bulan       = Yoga::blnPrep( Input::get('periode_bulan') );
-		$hari_terakhir_bulan = date('Y-m-t 23:59:59', strtotime($periode_bulan . '-01'));
 
-		$bpjs = new PembayaranBpjs;
-		$bpjs->staf_id = Input::get('staf_id');
-		$bpjs->nilai = $nilai;
-		$bpjs->mulai_tanggal = $periode_bulan . '-01 00:00:00';
-		$bpjs->akhir_tanggal = $hari_terakhir_bulan;
-		$bpjs->tanggal_pembayaran = $tanggal_pembayaran;
-		$confirm = $bpjs->save();
+		$this->prosesPembayaranBpjs();
 
-		if ($confirm) {
-			
-			$jurnal                  = new JurnalUmum;
-			$jurnal->jurnalable_id   = $bpjs->id; // kenapa ini nilainya empty / null padahal di database ada id
-			$jurnal->jurnalable_type = 'App\Models\PembayaranBpjs';
-			$jurnal->coa_id          = 110004;
-			$jurnal->debit           = 1;
-			$jurnal->created_at      = $hari_terakhir_bulan;
-			$jurnal->updated_at      = $hari_terakhir_bulan;
-			$jurnal->nilai           = $nilai;
-			$jurnal->save();
-
-			$jurnal                  = new JurnalUmum;
-			$jurnal->jurnalable_id   = $bpjs->id;
-			$jurnal->jurnalable_type = 'App\Models\PembayaranBpjs';
-			$jurnal->coa_id          =  400045 ;// pendapatan kapitasi bpjs
-			$jurnal->debit           = 0;
-			$jurnal->created_at      = $hari_terakhir_bulan;
-			$jurnal->updated_at      = $hari_terakhir_bulan;
-			$jurnal->nilai           = $nilai;
-			$jurnal->save();
-
-		}
-		$pesan = Yoga::suksesFlash('Input pembayaran kapitasi bpjs bulan ' . $periode_bulan . ' telah berhasil');
+		$pesan = Yoga::suksesFlash('Input pembayaran kapitasi bpjs bulan ' . Input::get('periode_bulan') . ' telah berhasil');
 		return redirect()->back()->withPesan($pesan);
 	}
 	public function pembayaran_asuransi_rekening($id){
@@ -881,5 +853,52 @@ class PendapatansController extends Controller
 		$words = explode(" ", $string);
 		return join(" ", array_slice($words, 0, 2));
 	}
+	public function prosesPembayaranBpjs(){
+		
+		$nilai               = isset($this->input_nilai_clean) ? $this->input_nilai_clean : Yoga::clean( Input::get('nilai') );
+		$staf_id             = $this->input_staf_id;
+		$tanggal_pembayaran  =  isset($this->input_tanggal_pembayaran_bpjs) ? $this->input_tanggal_pembayaran_bpjs : Yoga::datePrep( Input::get('tanggal_pembayaran') );
+		$periode_bulan       = isset( $this->input_periode_bulan_bpjs ) ?  $this->input_periode_bulan_bpjs  : Yoga::blnPrep( Input::get('periode_bulan') );
+		$hari_terakhir_bulan = date('Y-m-t 23:59:59', strtotime($periode_bulan . '-01'));
+
+		$bpjs                     = new PembayaranBpjs;
+		$bpjs->staf_id            = $staf_id;
+		$bpjs->nilai              = $nilai;
+		$bpjs->mulai_tanggal      = $periode_bulan . '-01 00:00:00';
+		$bpjs->akhir_tanggal      = $hari_terakhir_bulan;
+		$bpjs->tanggal_pembayaran = $tanggal_pembayaran;
+		$confirm = $bpjs->save();
+
+		if ($nilai > 100000000) { // bila nilai lebih dari 100 juta, update jumlah peserta BPJS
+			$conifg        = Config::find(1);
+			$conifg->value = ceil($nilai / 10000) ;
+			$conifg->save();
+		}
+
+		if ($confirm) {
+			
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $bpjs->id; // kenapa ini nilainya empty / null padahal di database ada id
+			$jurnal->jurnalable_type = 'App\Models\PembayaranBpjs';
+			$jurnal->coa_id          = 110004;
+			$jurnal->debit           = 1;
+			$jurnal->created_at      = $hari_terakhir_bulan;
+			$jurnal->updated_at      = $hari_terakhir_bulan;
+			$jurnal->nilai           = $nilai;
+			$jurnal->save();
+
+			$jurnal                  = new JurnalUmum;
+			$jurnal->jurnalable_id   = $bpjs->id;
+			$jurnal->jurnalable_type = 'App\Models\PembayaranBpjs';
+			$jurnal->coa_id          =  400045 ;// pendapatan kapitasi bpjs
+			$jurnal->debit           = 0;
+			$jurnal->created_at      = $hari_terakhir_bulan;
+			$jurnal->updated_at      = $hari_terakhir_bulan;
+			$jurnal->nilai           = $nilai;
+			$jurnal->save();
+
+		}
+	}
+	
 	
 }

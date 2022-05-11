@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use Auth;
 use Carbon\Carbon;
 use App\Models\Classes\Yoga;

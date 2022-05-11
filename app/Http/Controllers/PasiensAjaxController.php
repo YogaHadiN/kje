@@ -433,7 +433,10 @@ class PasiensAjaxController extends Controller
 	}
 	public function cekNomorBpjsSama(){
 		$nomor_bpjs = Input::get('nomor_bpjs');
-		$pasien     = Pasien::where('nomor_asuransi_bpjs', $nomor_bpjs)->first();
+		$pasien_id  = !is_null(Input::get('pasien_id')) ? Input::get('pasien_id') : '';
+		$pasien     = Pasien::where('nomor_asuransi_bpjs', $nomor_bpjs)
+											->where('id' , 'not like', $pasien_id)
+											->first();
 		if ( !is_null( $pasien ) && !empty($nomor_bpjs) ) {
 			return [
 				'duplikasi' => 1,

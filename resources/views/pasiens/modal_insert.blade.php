@@ -105,7 +105,7 @@
 				<div class="form-group @if($errors->has('nomor_ktp'))has-error @endif">
 				  {!! Form::label('nomor_ktp', 'Nomor KTP', ['class' => 'control-label']) !!}
 				  {!! Form::text('nomor_ktp' , null, ['class' => 'form-control']) !!}
-				  @if($errors->has('nomor_ktp'))<code>{{ $errors->first('nomor_ktp') }}</code>@endif
+				  @if($errors->has('nomor_ktp'))<code>{!! $errors->first('nomor_ktp') !!}</code>@endif
 				</div>
 			</div>
 		</div>

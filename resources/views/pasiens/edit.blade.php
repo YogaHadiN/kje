@@ -54,7 +54,7 @@
     var base = '{{ url("/") }}';
     </script>
     {!! HTML::script('js/togglepanel.js')!!}
-    {!! HTML::script('js/pasien.js')!!}
+    {!! HTML::script('js/pasien_create.js')!!}
    <script pasiens="{{ url('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
     {!! HTML::script('js/plugins/webcam/photo.js')!!}
    <script>

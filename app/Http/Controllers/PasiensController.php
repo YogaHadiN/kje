@@ -257,14 +257,29 @@ class PasiensController extends Controller
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id){
-		$pasien = Pasien::findOrFail($id);
-		$validator = \Validator::make($data = Input::all(), Pasien::$rules);
+	public function update($id, Request $request){
+			$pasien = Pasien::findOrFail($id);
 
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
+			$rules = [
+				"nama"                => "required",
+				"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
+				"nomor_asuransi"      => new CekNomorBpjsSama($request),
+				"nomor_ktp"           => new CekNomorKtpSama($request),
+				"sex"                 => "required"
+			];
+
+			if ( $this->input_punya_asuransi == '1' ) {
+					$rules["asuransi_id"]    = "required";
+					$rules["jenis_peserta"]  = "required";
+					$rules["nomor_asuransi"] = "required";
+			}
+			
+			$validator = \Validator::make(Input::all(), $rules);
+			
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
 			$pn = new Pasien;
 			if (empty(trim(Input::get('asuransi_id')))) {
 				$asuransi_id = 0;

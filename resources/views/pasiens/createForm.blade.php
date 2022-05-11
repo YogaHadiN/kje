@@ -9,6 +9,7 @@
 						@else
 							@include('pasiens.modal_insert', ['facebook' => !$antrianpolis])    
 						@endif
+						{!! Form::text('pasien_id', isset($pasien)? $pasien->id : null , ['class' => 'form-control', 'id' => 'pasien_id' ]) !!}
 				 	</div>
 				 </div>
 			</div>

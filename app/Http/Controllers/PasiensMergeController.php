@@ -121,6 +121,9 @@ class PasiensMergeController extends Controller
 				DB::statement($query);
 			}
 
+			$query  = "UPDATE pengantar_pasiens set pengantar_id = '{$pertahankanID}' where pengantar_id in ({$deleteId});";
+			DB::statement($query);
+
 			$confirm_pasien_hapus = Pasien::destroy($hapusId);
 
 			$pesan = Yoga::suksesFlash('Pasien berhasil digabung');
