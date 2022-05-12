@@ -89,7 +89,6 @@ class undangProlanisDMTiapSabtu extends Command
             ];
             Log::info('terkirim wa ke '. $pasien->nama . '-' . $no_wa . ' undangan prolanis dm');
         }
-
         Log::info('==================');
         $wa = new WablasController;
         $wa->bulkSend($data);

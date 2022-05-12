@@ -14,9 +14,11 @@ class CekNomorBpjsSama implements Rule
      */
     public $request;
     public $pasien_dengan_nomor_bpjs_sama;
+    public $ambil_dari_nomor_asuransi ;
     public function __construct($request)
     {
         $this->request = $request;
+        $this->ambil_dari_nomor_asuransi = false;
     }
 
     /**
@@ -29,13 +31,12 @@ class CekNomorBpjsSama implements Rule
     public function passes($attribute, $value)
     {
         $nomor_asuransi_bpjs       = '';
-        $ambil_dari_nomor_asuransi = false;
         if ( 
             $this->request->asuransi_id == '32' 
             && $this->request->nomor_asuransi != ''
             && $this->request->nomor_asuransi_bpjs == ''
         ) {
-            $ambil_dari_nomor_asuransi = true;
+            $this->ambil_dari_nomor_asuransi = true;
             $nomor_asuransi_bpjs = $this->request->nomor_asuransi;
         } else if(
             $this->request->nomor_asuransi_bpjs != ''
@@ -63,6 +64,7 @@ class CekNomorBpjsSama implements Rule
      */
     public function message()
     {
-        return 'Nomor BPJS pasien sudah dipunyai oleh <a href="' . url('/pasiens/' . $this->pasien_dengan_nomor_bpjs_sama->id . '/edit'). '">' . $this->pasien_dengan_nomor_bpjs_sama->nama . '</a> Dilarang membuat pasien ganda. Salah satunya pasti salah';
+        $nomor_asuransi_bpjs = !$this->ambil_dari_nomor_asuransi ? $this->request->nomor_asuransi : $this->request->nomor_asuransi_bpjs;
+        return 'Nomor BPJS <strong>' . $nomor_asuransi_bpjs . '</strong> sudah dipunyai oleh <a href="' . url('/pasiens/' . $this->pasien_dengan_nomor_bpjs_sama->id . '/edit'). '">' . $this->pasien_dengan_nomor_bpjs_sama->nama . '</a> Dilarang membuat pasien ganda. ';
     }
 }
