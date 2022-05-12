@@ -111,25 +111,6 @@ class PasiensController extends Controller
 
 
 
-		$rules = [
-			"nama"                => "required",
-			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
-			"nomor_asuransi"      => new CekNomorBpjsSama($request),
-			"nomor_ktp"           => new CekNomorKtpSama($request),
-			"sex"                 => "required"
-		];
-
-		if ( $this->input_punya_asuransi == '1' ) {
-			  $rules["asuransi_id"]    = "required";
-			  $rules["jenis_peserta"]  = "required";
-			  $rules["nomor_asuransi"] = "required";
-		}
-
-		if ( Storage::disk('s3')->exists( Input::get('ktp_image') )) {
-			  $rules["nomor_ktp"]    =  ["required", new CekNomorKtpSama($request)];
-		}
-
-		$this->rules = $rules;
     }
 
 	/**
