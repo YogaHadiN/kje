@@ -53,7 +53,7 @@ class PasiensController extends Controller
 	public $rules;
 
 
-   public function __construct(Request $request)
+   public function __construct()
     {
 		$ps                                      = new Pasien;
 		$this->input_alamat                      = Input::get('alamat');
