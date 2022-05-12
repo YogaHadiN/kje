@@ -12,11 +12,11 @@ class CekNomorKtpSama implements Rule
      *
      * @return void
      */
-    public $request;
+    public $pasien_id;
     public $pasien;
-    public function __construct($request)
+    public function __construct($pasien_id)
     {
-        $this->request = $request;
+        $this->pasien_id = $pasien_id;
     }
 
     /**
@@ -29,7 +29,7 @@ class CekNomorKtpSama implements Rule
     public function passes($attribute, $value)
     {
         $this->pasien = Pasien::where('nomor_ktp', $value)
-                             ->where('id', 'not like', $this->request->pasien_id)
+                             ->where('id', 'not like', $this->pasien_id)
                              ->first();
         if ( is_null( $this->pasien ) ) {
             return true;

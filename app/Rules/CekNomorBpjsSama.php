@@ -12,12 +12,12 @@ class CekNomorBpjsSama implements Rule
      *
      * @return void
      */
-    public $request;
+    public $dataNomorBpjs;
     public $pasien_dengan_nomor_bpjs_sama;
     public $ambil_dari_nomor_asuransi ;
-    public function __construct($request)
+    public function __construct($dataNomorBpjs)
     {
-        $this->request = $request;
+        $this->dataNomorBpjs = $dataNomorBpjs;
         $this->ambil_dari_nomor_asuransi = false;
     }
 
@@ -32,20 +32,20 @@ class CekNomorBpjsSama implements Rule
     {
         $nomor_asuransi_bpjs       = '';
         if ( 
-            $this->request->asuransi_id == '32' 
-            && $this->request->nomor_asuransi != ''
-            && $this->request->nomor_asuransi_bpjs == ''
+            $this->dataNomorBpjs['asuransi_id'] == '32' 
+            && $this->dataNomorBpjs['nomor_asuransi'] != ''
+            && $this->dataNomorBpjs['nomor_asuransi_bpjs'] == ''
         ) {
             $this->ambil_dari_nomor_asuransi = true;
-            $nomor_asuransi_bpjs = $this->request->nomor_asuransi;
+            $nomor_asuransi_bpjs = $this->dataNomorBpjs['nomor_asuransi'];
         } else if(
-            $this->request->nomor_asuransi_bpjs != ''
+            $this->dataNomorBpjs['nomor_asuransi_bpjs'] != ''
         ) {
-            $nomor_asuransi_bpjs = $this->request->nomor_asuransi_bpjs;
+            $nomor_asuransi_bpjs = $this->dataNomorBpjs['nomor_asuransi_bpjs'];
         }
 
         $this->pasien_dengan_nomor_bpjs_sama = Pasien::where('nomor_asuransi_bpjs', $nomor_asuransi_bpjs)
-                                                     ->where('id', 'not like', $this->request->pasien_id)
+                                                     ->where('id', 'not like', $this->dataNomorBpjs['pasien_id'])
                                                      ->first();
 
         if (
@@ -64,7 +64,7 @@ class CekNomorBpjsSama implements Rule
      */
     public function message()
     {
-        $nomor_asuransi_bpjs = !$this->ambil_dari_nomor_asuransi ? $this->request->nomor_asuransi : $this->request->nomor_asuransi_bpjs;
+        $nomor_asuransi_bpjs = !$this->ambil_dari_nomor_asuransi ? $this->dataNomorBpjs['nomor_asuransi'] : $this->dataNomorBpjs['nomor_asuransi_bpjs'];
         return 'Nomor BPJS <strong>' . $nomor_asuransi_bpjs . '</strong> sudah dipunyai oleh <a href="' . url('/pasiens/' . $this->pasien_dengan_nomor_bpjs_sama->id . '/edit'). '">' . $this->pasien_dengan_nomor_bpjs_sama->nama . '</a> Dilarang membuat pasien ganda. ';
     }
 }

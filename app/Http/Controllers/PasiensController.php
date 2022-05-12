@@ -128,25 +128,14 @@ class PasiensController extends Controller
 	}
 	
 	public function store(Request $request){
-		$rules = [
-			"nama"                => "required",
-			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
-			"nomor_asuransi"      => new CekNomorBpjsSama($request),
-			"nomor_ktp"           => new CekNomorKtpSama($request),
-			"sex"                 => "required"
+		$dataNomorBpjs = [
+			'asuransi_id'         => $request->asuransi_id,
+			'nomor_asuransi'      => $request->nomor_asuransi,
+			'nomor_asuransi_bpjs' => $request->nomor_asuransi_bpjs,
+			'pasien_id'           => $request->pasien_id
 		];
-
-		if ( $this->input_punya_asuransi == '1' ) {
-			  $rules["asuransi_id"]    = "required";
-			  $rules["jenis_peserta"]  = "required";
-			  $rules["nomor_asuransi"] = "required";
-		}
-
-		if ( Storage::disk('s3')->exists( Input::get('ktp_image') )) {
-			  $rules["nomor_ktp"]    =  ["required", new CekNomorKtpSama($request)];
-		}
 		
-		$validator = \Validator::make(Input::all(), $rules);
+		$validator = \Validator::make(Input::all(), $this->rules( $dataNomorBpjs ));
 		
 		if ($validator->fails())
 		{
@@ -262,48 +251,41 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function update($id, Request $request){
-			$pasien = Pasien::findOrFail($id);
+		$pasien = Pasien::findOrFail($id);
 
-			$rules = [
-				"nama"                => "required",
-				"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
-				"nomor_asuransi"      => new CekNomorBpjsSama($request),
-				"nomor_ktp"           => new CekNomorKtpSama($request),
-				"sex"                 => "required"
-			];
+		$dataNomorBpjs = [
+			'asuransi_id'         => $request->asuransi_id,
+			'nomor_asuransi'      => $request->nomor_asuransi,
+			'nomor_asuransi_bpjs' => $request->nomor_asuransi_bpjs,
+			'pasien_id'           => $request->pasien_id
+		];
+		
+		$validator = \Validator::make(Input::all(), $this->rules( $dataNomorBpjs, $id ));
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+		$pn = new Pasien;
+		if (empty(trim(Input::get('asuransi_id')))) {
+			$asuransi_id = 0;
+		} else {
+			$asuransi_id = Input::get('asuransi_id');
+		}
 
-			if ( $this->input_punya_asuransi == '1' ) {
-					$rules["asuransi_id"]    = "required";
-					$rules["jenis_peserta"]  = "required";
-					$rules["nomor_asuransi"] = "required";
-			}
-			
-			$validator = \Validator::make(Input::all(), $rules);
-			
-			if ($validator->fails())
-			{
-				return \Redirect::back()->withErrors($validator)->withInput();
-			}
-			$pn = new Pasien;
-			if (empty(trim(Input::get('asuransi_id')))) {
-				$asuransi_id = 0;
-			} else {
-				$asuransi_id = Input::get('asuransi_id');
-			}
+		$pasien         = Pasien::find($id);
+		$this->input_id = $id;
+		/* dd( $this->input_id ); */
+		$pasien         = $this->inputDataPasien($pasien);
 
-			$pasien         = Pasien::find($id);
-			$this->input_id = $id;
-			/* dd( $this->input_id ); */
-			$pasien         = $this->inputDataPasien($pasien);
+		$antrian_id =  Input::get('antrian_id');
+		if ( !empty( $antrian_id ) ) {
+			return redirect("antrians/proses/" . $antrian_id)->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
+		} 
 
-			$antrian_id =  Input::get('antrian_id');
-			if ( !empty( $antrian_id ) ) {
-				return redirect("antrians/proses/" . $antrian_id)->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
-			} 
-
-			if ( !empty( Input::get('back') ) ) {
-				return redirect( Input::get('back') )->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
-			} 
+		if ( !empty( Input::get('back') ) ) {
+			return redirect( Input::get('back') )->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
+		} 
 		return \Redirect::route('pasiens.index')->withPesan(Yoga::suksesFlash('Data pasien <strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> berhasil dirubah'));
 	}
 	/**
@@ -683,5 +665,36 @@ class PasiensController extends Controller
 			'pasiens'
 		));
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function rules($dataNomorBpjs, $id = null)
+	{
+		$rules = [
+			"nama"                => "required",
+			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($dataNomorBpjs),
+			"nomor_asuransi"      => new CekNomorBpjsSama($dataNomorBpjs),
+			"nomor_ktp"           => new CekNomorKtpSama($dataNomorBpjs['pasien_id']),
+			"sex"                 => "required"
+		];
+
+		if ( $this->input_punya_asuransi == '1' ) {
+			  $rules["asuransi_id"]    = "required";
+			  $rules["jenis_peserta"]  = "required";
+			  $rules["nomor_asuransi"] = "required";
+		}
+
+		/* dd( 'binggo', isset($id) , Storage::disk('s3')->exists( Pasien::find($id)->ktp_image ) ); */
+		if (
+			 Input::hasFile('ktp_image') ||
+			 ( isset($id) && Storage::disk('s3')->exists( Pasien::find($id)->ktp_image ) )
+		) {
+			  $rules["nomor_ktp"]    =  ["required", new CekNomorKtpSama($dataNomorBpjs['pasien_id'])];
+		}
+		return $rules;
+	}
+	
 	
 }
