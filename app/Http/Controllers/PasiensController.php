@@ -50,9 +50,10 @@ class PasiensController extends Controller
 	public $input_verifikasi_prolanis_ht_id;
 	public $input_meninggal;
 	public $input_penangguhan_pembayaran_bpjs;
+	public $rules;
 
 
-   public function __construct()
+   public function __construct(Request $request)
     {
 		$ps                                      = new Pasien;
 		$this->input_alamat                      = Input::get('alamat');
@@ -107,6 +108,28 @@ class PasiensController extends Controller
 
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
         $this->middleware('super', ['only' => 'delete']);
+
+
+
+		$rules = [
+			"nama"                => "required",
+			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
+			"nomor_asuransi"      => new CekNomorBpjsSama($request),
+			"nomor_ktp"           => new CekNomorKtpSama($request),
+			"sex"                 => "required"
+		];
+
+		if ( $this->input_punya_asuransi == '1' ) {
+			  $rules["asuransi_id"]    = "required";
+			  $rules["jenis_peserta"]  = "required";
+			  $rules["nomor_asuransi"] = "required";
+		}
+
+		if ( Storage::disk('s3')->exists( Input::get('ktp_image') )) {
+			  $rules["nomor_ktp"]    =  ["required", new CekNomorKtpSama($request)];
+		}
+
+		$this->rules = $rules;
     }
 
 	/**
@@ -251,6 +274,7 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function update($id, Request $request){
+<<<<<<< HEAD
 		$pasien = Pasien::findOrFail($id);
 
 		$dataNomorBpjs = [
@@ -272,6 +296,21 @@ class PasiensController extends Controller
 		} else {
 			$asuransi_id = Input::get('asuransi_id');
 		}
+=======
+			$pasien    = Pasien::findOrFail($id);
+
+			$validator = \Validator::make(Input::all(), $this->rules);
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
+			$pn = new Pasien;
+			if (empty(trim(Input::get('asuransi_id')))) {
+				$asuransi_id = 0;
+			} else {
+				$asuransi_id = Input::get('asuransi_id');
+			}
+>>>>>>> origin/main
 
 		$pasien         = Pasien::find($id);
 		$this->input_id = $id;
