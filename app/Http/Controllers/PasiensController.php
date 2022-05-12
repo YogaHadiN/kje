@@ -50,6 +50,7 @@ class PasiensController extends Controller
 	public $input_verifikasi_prolanis_ht_id;
 	public $input_meninggal;
 	public $input_penangguhan_pembayaran_bpjs;
+	public $rules;
 
 
    public function __construct()
@@ -107,6 +108,28 @@ class PasiensController extends Controller
 
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
         $this->middleware('super', ['only' => 'delete']);
+
+
+
+		$rules = [
+			"nama"                => "required",
+			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
+			"nomor_asuransi"      => new CekNomorBpjsSama($request),
+			"nomor_ktp"           => new CekNomorKtpSama($request),
+			"sex"                 => "required"
+		];
+
+		if ( $this->input_punya_asuransi == '1' ) {
+			  $rules["asuransi_id"]    = "required";
+			  $rules["jenis_peserta"]  = "required";
+			  $rules["nomor_asuransi"] = "required";
+		}
+
+		if ( Storage::disk('s3')->exists( Input::get('ktp_image') )) {
+			  $rules["nomor_ktp"]    =  ["required", new CekNomorKtpSama($request)];
+		}
+
+		$this->rules = $rules;
     }
 
 	/**
@@ -128,23 +151,7 @@ class PasiensController extends Controller
 	}
 	
 	public function store(Request $request){
-		$rules = [
-			"nama"                => "required",
-			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
-			"nomor_asuransi"      => new CekNomorBpjsSama($request),
-			"nomor_ktp"           => new CekNomorKtpSama($request),
-			"sex"                 => "required"
-		];
-
-		if ( $this->input_punya_asuransi == '1' ) {
-			  $rules["asuransi_id"]    = "required";
-			  $rules["jenis_peserta"]  = "required";
-			  $rules["nomor_asuransi"] = "required";
-		}
-
-		if ( Storage::disk('s3')->exists( Input::get('ktp_image') )) {
-			  $rules["nomor_ktp"]    =  ["required", new CekNomorKtpSama($request)];
-		}
+		$rules = $this->rules;
 		
 		$validator = \Validator::make(Input::all(), $rules);
 		
@@ -262,24 +269,9 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function update($id, Request $request){
-			$pasien = Pasien::findOrFail($id);
+			$pasien    = Pasien::findOrFail($id);
 
-			$rules = [
-				"nama"                => "required",
-				"nomor_asuransi_bpjs" => new CekNomorBpjsSama($request),
-				"nomor_asuransi"      => new CekNomorBpjsSama($request),
-				"nomor_ktp"           => new CekNomorKtpSama($request),
-				"sex"                 => "required"
-			];
-
-			if ( $this->input_punya_asuransi == '1' ) {
-					$rules["asuransi_id"]    = "required";
-					$rules["jenis_peserta"]  = "required";
-					$rules["nomor_asuransi"] = "required";
-			}
-			
-			$validator = \Validator::make(Input::all(), $rules);
-			
+			$validator = \Validator::make(Input::all(), $this->rules);
 			if ($validator->fails())
 			{
 				return \Redirect::back()->withErrors($validator)->withInput();
