@@ -141,6 +141,10 @@ class PasiensController extends Controller
 			  $rules["jenis_peserta"]  = "required";
 			  $rules["nomor_asuransi"] = "required";
 		}
+
+		if ( Storage::disk('s3')->exists( Input::get('ktp_image') )) {
+			  $rules["nomor_ktp"]    =  ["required", new CekNomorKtpSama($request)];
+		}
 		
 		$validator = \Validator::make(Input::all(), $rules);
 		
