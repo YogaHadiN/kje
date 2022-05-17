@@ -22,13 +22,13 @@
 @section('content') 
 {!! Form::open(['url' => 'suratsakits/' . $jenis_antrian_id, 'method' => 'post'])!!}
 	@include('suratsakits.form', [
-  'periksa_id' => $periksa->id,
-  'nama' => $periksa->pasien->nama,
-  'poli' => $periksa->poli,
-  'submit' => 'Submit',
-  'tanggal_mulai' => date('d-m-Y'),
-  'hari' => '1',
-  'delete' => false])
+      'periksa_id'    => $periksa->id,
+      'nama'          => $periksa->pasien->nama,
+      'poli'          => $periksa->poli,
+      'submit'        => 'Submit',
+      'tanggal_mulai' => date('d-m-Y'),
+      'hari'          => '1',
+      'delete'        => false])
 {!! Form::close()!!}
 @stop
 @section('footer') 

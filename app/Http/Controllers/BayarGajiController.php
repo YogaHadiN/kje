@@ -115,7 +115,6 @@ class BayarGajiController extends Controller
 				$this->input_staf_id    = $cg['staf_id'];
 				$this->input_gaji_pokok = $cg['gaji_pokok'];
 				$this->input_bonus      = $cg['jumlah_bonus'];
-
 				$this->bayar            = $this->inputBayarGajiDanPph();
 				$pph[]                  = $this->pph21Data();
 

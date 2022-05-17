@@ -93,7 +93,7 @@ class SuratSakitsController extends Controller
 	{
 		$suratsakit                     = SuratSakit::find($id);
 		$periksa                        = $suratsakit->periksa;
-		$ss                             = $this->querySuratSakit($periksa);
+		$ss                             = $this->querySuratSakit($periksa->pasien_id);
 		$dikasih_dalam_1_bulan_terakhir = $this->dikasiDalam1BulanTerakhir($periksa->pasien_id);
 		$poli                           = $this->poli($poli);
 

@@ -128,8 +128,8 @@ class testcommand extends Command
 		/* dd( $errors ); */
 
 		/* $this->encryptTest(); */
-		/* $this->testSendWablas(); */
-		$this->bpjsDobel();
+		$this->testSendWablas();
+		/* $this->bpjsDobel(); */
 		/* $this->testLog(); */
 		/* $this->testAudio(); */
 		/* $this->testButton(); */
@@ -1561,7 +1561,6 @@ class testcommand extends Command
 	private function testSendWablas()
 	{
 		$curl = curl_init();
-		/* $token = "ZL4P4xoFBwhvKMPieXqoqHmO1NTkRJgBNtqOLSeWdpy7tqUXqA1hAzsiwXWNGKoI"; */
 		$payload = [
 			"data" => [
 				[
