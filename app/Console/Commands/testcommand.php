@@ -19,6 +19,7 @@ use App\Models\BayarGaji;
 use App\Models\PengantarPasien;
 use App\Models\Role;
 use App\Models\Panggilan;
+use App\Console\Commands\undangProlanisDMTiapSabtu;
 use App\Models\Rekening;
 use App\Models\BahanBangunan;
 use App\Models\Asuransi;
@@ -126,9 +127,11 @@ class testcommand extends Command
 		/* } */
 
 		/* dd( $errors ); */
-
+		$this->testWablasTemplate();
 		/* $this->encryptTest(); */
-		$this->testSendWablas();
+
+		/* $this->testBulkMessage('hello there Puri'); */
+		/* $this->testSendWablas(); */
 		/* $this->bpjsDobel(); */
 		/* $this->testLog(); */
 		/* $this->testAudio(); */
@@ -228,6 +231,35 @@ class testcommand extends Command
 	*
 	* @return void
 	*/
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testBulkMessage($message)
+	{
+		$wa = new WablasController;
+
+		$data = [
+			[
+				'phone'   => '6281381912803',
+				'message' => $message,
+				'secret'  => false, // or true
+				'retry'   => false, // or true
+				'isGroup' => false, // or true
+			],
+			[
+				'phone'   => '628111842351',
+				'message' => $message,
+				'secret'  => false, // or true
+				'retry'   => false, // or true
+				'isGroup' => false, // or true
+			]
+		];
+
+		$wa->bulkSend($data);
+	}
+	
 	private function revisiPembayaranBpjs()
 	{
 		$pembayaran_bpjs = PembayaranBpjs::all();
@@ -1853,5 +1885,23 @@ class testcommand extends Command
 			}
 		}
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+	private function testWablasTemplate()
+	{
+		$undang = new undangProlanisDMTiapSabtu;
+
+		$data   = [];
+		$data[] = $undang->templatePesan('Yoga', '220517001', '081381912803');
+		$data[] = $undang->templatePesan('Puri', '220517001', '08111842351');
+
+		$wa = new WablasController;
+		/* dd( $data ); */
+		$wa->bulkSend($data);
+	}
+	
 	
 }

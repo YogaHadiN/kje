@@ -42,7 +42,6 @@ class undangProlanisDMTiapSabtu extends Command
     public function handle()
     {
         // cari semua pasien yang prolanis DM dan belum berobat bulan ini
-
         $query  = "SELECT * ";
         $query .= "FROM pasiens ";
 		$query .= "WHERE (no_telp like '+628%' ";
@@ -57,40 +56,55 @@ class undangProlanisDMTiapSabtu extends Command
         $notelp = [];
         Log::info('==================');
         foreach ($pasiens as $pasien) {
-            $message = 'Selamat siang. Maaf mengganggu. Kami dari Klinik Jati Elok. Izin mengingatkan bahwa peserta BPJS atas nama ';
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .=  ucfirst($pasien->nama);
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .= 'untuk melakukan pemeriksaan rutin Gula Darah di Klinik Jati Elok bulan ini. ';
-            $message .= PHP_EOL;
-            $message .= 'Biaya pemeriksaan tersebut sudah ditanggung oleh BPJS kesehatan. ';
-            $message .= PHP_EOL;
-            $message .= 'Persiapan pemeriksaan mohon agar dapat tidak makan atau minum kecuali air putih selama 8-10 jam.';
-            $message .= PHP_EOL;
-            $message .= 'Izin menanyakan kira-kira bapak / ibu berkenan untuk periksa hari ini atau besok?';
-            $message .= PHP_EOL;
-            $message .= 'Mohon konfirmasinya. Terima kasih';
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .= 'Jika menurut anda pesan ini dirasa mengganggu, silahkan klik link di bawah ini. Terima kasih';
-            $message .= PHP_EOL;
-            $message .= 'https://www.klinikjatielok.com/eksklusi/' . encrypt_string($pasien->id);
-
-            $notelp[] = $pasien->no_telp;
-            $no_wa    = $pasien->no_telp;
-            /* $no_wa    = '081381912803'; */
-            $data[] = [
-                'phone'    => $no_wa,
-                'message'  => $message,
-                'secret'   => false, // or true
-                'priority' => false, // or true
-            ];
-            Log::info('terkirim wa ke '. $pasien->nama . '-' . $no_wa . ' undangan prolanis dm');
+            $data[] = $this->templatePesan($pasien->nama, $pasien->id, $pasien->no_telp);
         }
         Log::info('==================');
         $wa = new WablasController;
         $wa->bulkSend($data);
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function templatePesan($nama, $pasien_id, $no_telp)
+    {
+        $message = 'Selamat siang. Maaf mengganggu. Kami dari Klinik Jati Elok. Izin mengingatkan bahwa peserta BPJS atas nama ';
+        $message .= PHP_EOL;
+        $message .= PHP_EOL;
+        $message .=  ucfirst($nama);
+        $message .= PHP_EOL;
+        $message .= PHP_EOL;
+        $message .= 'untuk melakukan pemeriksaan rutin Gula Darah di Klinik Jati Elok bulan ini. ';
+        $message .= PHP_EOL;
+        $message .= 'Biaya pemeriksaan tersebut sudah ditanggung oleh BPJS kesehatan. ';
+        $message .= PHP_EOL;
+        $message .= 'Persiapan pemeriksaan mohon agar tidak makan dan minum kecuali air putih selama 8-10 jam.';
+        $message .= PHP_EOL;
+        $message .= PHP_EOL;
+        $message .= 'Izin menanyakan kira-kira bapak / ibu berkenan untuk periksa hari ini atau besok?';
+        $message .= PHP_EOL;
+        $message .= 'Mohon konfirmasinya.';
+        $message .= PHP_EOL;
+        $message .= PHP_EOL;
+        $message .= 'Jika menurut anda pesan ini dirasa mengganggu, silahkan klik link di bawah ini';
+        $message .= PHP_EOL;
+        $message .= PHP_EOL;
+        $message .= 'https://www.klinikjatielok.com/eksklusi/' . encrypt_string($pasien_id);
+        $message .= PHP_EOL;
+        $message .= PHP_EOL;
+        $message .= 'Terima kasih';
+
+        $notelp[] = $no_telp;
+        /* $no_wa    = '081381912803'; */
+        Log::info('terkirim wa ke '. $nama . '-' . $no_telp . ' undangan prolanis dm');
+        return [
+            'phone'    => $no_telp,
+            'message'  => $message,
+            'secret'   => false, // or true
+            'priority' => false, // or true
+        ];
+    }
+    
 }
