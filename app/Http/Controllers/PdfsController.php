@@ -463,8 +463,7 @@ class PdfsController extends Controller
 	public function bagiHasilGigi($id)
 	{
 		$bayar = BagiGigi::find($id);
-
-		$pembayaran_bulan_ini = BagiGigi::where('tanggal_mulai', 'like', $bayar->tanggal_mulai->format('Y-m') . '%' )->get();
+		$pembayaran_bulan_ini = BagiGigi::where('mulai', 'like', $bayar->mulai->format('Y-m') . '%' )->get();
 		$total_pembayaran_bulan_ini = 0;
 		$total_pph_bulan_ini = 0;
 		foreach ($pembayaran_bulan_ini as $b) {

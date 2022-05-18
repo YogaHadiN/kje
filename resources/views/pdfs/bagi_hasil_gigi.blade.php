@@ -24,11 +24,11 @@
                         <tbody>
                             <tr>
                                 <td>Tanggal Mulai</td>
-                                <td>{{ $bayar->tanggal_mulai->format('d-m-Y') }}</td>
+                                <td>{{ $bayar->mulai->format('d-m-Y') }}</td>
                             </tr>
                             <tr>
                                 <td>Tanggal Akhir</td>
-                                <td>{{ $bayar->tanggal_akhir->format('d-m-Y') }}</td>
+                                <td>{{ $bayar->akhir->format('d-m-Y') }}</td>
                             </tr>
 							<tr>
                                 <td>Menikah</td>
