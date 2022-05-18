@@ -1561,32 +1561,28 @@ class testcommand extends Command
 	private function testSendWablas()
 	{
 		$curl = curl_init();
-		$payload = [
-			"data" => [
-				[
-					'phone' => '081381912803',
-					'message' => 'try message 1',
-					'secret' => false, // or true
-					'priority' => false, // or true
-				]
-			]
+		$token = env('WABLAS_TOKEN');
+		$data = [
+			'phone' => '6281381912803',
+			'message' => 'hello there',
+			'isGroup' => 'true',
 		];
-
 		curl_setopt($curl, CURLOPT_HTTPHEADER,
 			array(
-				"Authorization: ". env('WABLAS_TOKEN'),
-				"Content-Type: application/json"
+				"Authorization: $token",
 			)
 		);
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
-		curl_setopt($curl, CURLOPT_URL, "https://console.wablas.com/api/v2/send-bulk/text");
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+		curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/send-message");
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
 		$result = curl_exec($curl);
 		curl_close($curl);
-		dd($result);
+		echo "<pre>";
+		print_r($result);
 	}
 	
 	private function testSolo()
