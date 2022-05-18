@@ -76,6 +76,7 @@ class AntrianPolisController extends Controller
 
 		$antrianpolis  = AntrianPoli::with('pasien', 'asuransi', 'antars', 'antrian')
 								->where('submitted', 0)
+								->orderBy('jam', 'ASC')
 								->get();
 
 		$perjanjian = [];
@@ -393,16 +394,21 @@ class AntrianPolisController extends Controller
 		if ( $this->input_asuransi_id == '32' ) {
 			$ap->bukan_peserta         = $this->input_bukan_peserta;
 		}
-		$ap->jam                       = date("H:i:s");
+
+		if ( isset($this->input_antrian_id) ) {
+			$antrian_id = $this->input_antrian_id;
+			$an         = Antrian::find($antrian_id);
+			$ap->jam    = $an->created_at;
+		} else {
+			$ap->jam                       = date("H:i:s");
+		}
+
 		$ap->tanggal                   = $this->input_tanggal;
 		$ap->save();
 
 		if ( isset($this->input_antrian_id) ) {
-			$antrian_id         = $this->input_antrian_id;
-			$an                 = Antrian::find($antrian_id);
 			$an->antriable_id   = $ap->id;
 			$an->antriable_type = 'App\\Models\\AntrianPoli';
-
 			$an->save();
 		}
 
