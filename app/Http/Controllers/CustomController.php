@@ -810,10 +810,10 @@ class CustomController extends Controller
 			$this->massUpdate($rak_updates);
 			$this->massUpdate($bukan_peserta_updates);
 			$this->massUpdate($rujukan_updates);
-			if ($gammu_survey) {
-				$message = "Yth Pelanggan " . env("NAMA_KLINIK") . ", untuk meningkatkan pelayanan kami, bagaimana pelayanan kami hari ini? Reply Puas / Tidak Puas / Keberatan jika tidak ingin menerima sms tiap habis berobat";
-				Sms::gammuSurvey($periksa->pasien->no_telp, $message, $periksa->id);
-			}
+			/* if ($gammu_survey) { */
+			/* 	$message = "Yth Pelanggan " . env("NAMA_KLINIK") . ", untuk meningkatkan pelayanan kami, bagaimana pelayanan kami hari ini? Reply Puas / Tidak Puas / Keberatan jika tidak ingin menerima sms tiap habis berobat"; */
+			/* 	Sms::gammuSurvey($periksa->pasien->no_telp, $message, $periksa->id); */
+			/* } */
 			DB::commit();
 		} catch (\Exception $e) {
 			DB::rollback();
