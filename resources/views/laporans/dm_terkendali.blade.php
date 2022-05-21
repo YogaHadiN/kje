@@ -42,10 +42,11 @@ Klinik Jati Elok | Laporan DM Terkendali
                         <td>
                             <a href="{{ url('periksas/' . $d['periksa_id'] ) }}" target="_blank">{{ $d['tanggal'] }}</a>
                         </td>
-                        <td>
+                        <td
 							@if(is_null( $d['prolanis_dm_flagging_image'] ))
 								class="danger"
 							@endif
+                        >
                             <a href="{{ url('pasiens/' . $d['pasien_id'] . '/edit') }}" target="_blank">{{ ucwords($d['nama']) }}</a>
                         </td>
                         <td>{{ $d['tanggal_lahir'] }}</td>
