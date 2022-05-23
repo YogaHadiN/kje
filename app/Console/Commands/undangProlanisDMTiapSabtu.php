@@ -49,7 +49,8 @@ class undangProlanisDMTiapSabtu extends Command
 		$query .= "AND no_telp not like '%/%' ";
 		$query .= "AND CHAR_LENGTH(no_telp) >9 ";
         $query .= "AND prolanis_dm = 1 ";
-        $query .= "AND sudah_kontak_bulan_ini = 0;";
+        $query .= "AND sudah_kontak_bulan_ini = 0 ";
+        $query .= "AND meninggal = 0;";
         $pasiens = DB::select($query);
 
         $data   = [];
