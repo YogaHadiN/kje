@@ -695,6 +695,8 @@ class PolisController extends Controller
 		$jenis_antrian->save();
 
 		$antrian->touch();
+		$antrian->antriable->dipanggil = 1;
+		$antrian->antriable->save();
 
 		$apc                                = new AntrianPolisController;
 		$apc->updateJumlahAntrian();

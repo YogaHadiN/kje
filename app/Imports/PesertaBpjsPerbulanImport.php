@@ -219,9 +219,6 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
         $query           .= "ORDER BY prolanis_dm, prolanis_ht desc ";
 
         $this->nama[] = $nama;
-        /* if ($nama == 'WAH%') { */
-        /*     dd( $query ); */
-        /* } */
 
 
         return DB::select($query);

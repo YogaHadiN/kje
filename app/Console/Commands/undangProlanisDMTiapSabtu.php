@@ -74,7 +74,7 @@ class undangProlanisDMTiapSabtu extends Command
         $message = 'Selamat siang. Maaf mengganggu. Kami dari Klinik Jati Elok. Izin mengingatkan bahwa peserta BPJS atas nama ';
         $message .= PHP_EOL;
         $message .= PHP_EOL;
-        $message .=  ucfirst($nama);
+        $message .=  ucwords($nama);
         $message .= PHP_EOL;
         $message .= PHP_EOL;
         $message .= 'Untuk melakukan pemeriksaan rutin Gula Darah di Klinik Jati Elok bulan ini. ';

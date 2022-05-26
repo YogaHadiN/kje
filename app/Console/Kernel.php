@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
 		 Commands\smsUndanganprolanis::class,
 		 Commands\cronTest::class,
 		 Commands\smsLaporanHarian::class,
+		 Commands\refrestAntrianTiapHari::class,
 		 Commands\smsDonnaruko::class,
 		 Commands\smsIngatkanJanji::class,
 		 Commands\smsIngatkanHariIni::class,
@@ -83,6 +84,8 @@ class Kernel extends ConsoleKernel
 				  /* ->monthlyOn('1', '14:00'); */
 		 $schedule->command('db:hapusDiskon')
 				  ->dailyAt('23:50');
+		 $schedule->command('refresh:antrian')
+				  ->dailyAt('23:59');
 		 $schedule->command('test:neraca')
 				  ->dailyAt('01:00');
 		 $schedule->command('sms:piutangReminder')

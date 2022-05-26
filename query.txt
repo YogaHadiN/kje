@@ -1,16 +1,7 @@
-INSERT INTO icd10s (
-id,
-diagnosaICD,
-admedika,
-created_at,
-updated_at,
-terapis
-)
-VALUES (
- "S303",
- "Kekerasan tajam",
- "19303",
-  now(),
-  now(),
-  null
-);
+alter table periksas add dipanggil int(1) default 0;
+alter table antrian_apoteks add dipanggil int(1) default 0;
+alter table antrian_kasirs add dipanggil int(1) default 0;
+alter table antrian_polis add dipanggil int(1) default 0;
+alter table antrian_farmasis add dipanggil int(1) default 0;
+alter table panggilans add dipanggil int(1) default 0;
+alter table whatsapp_registrations add dipanggil int(1) default 0;

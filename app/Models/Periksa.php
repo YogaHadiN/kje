@@ -813,7 +813,6 @@ class Periksa extends Model{
 
 
 	public function antrian(){
-
         return $this->morphOne(Antrian::class, 'antriable');
 	}
 
