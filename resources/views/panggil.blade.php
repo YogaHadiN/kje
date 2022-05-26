@@ -130,6 +130,22 @@
   <source src="{{ flex_url('sound/ruangperiksasatu.mp3') }}" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+<audio id="audio_ruangperiksadua">
+  <source src="{{ flex_url('sound/ruangperiksadua.mp3') }}" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<audio id="audio_ruangperiksagigi">
+  <source src="{{ flex_url('sound/ruangperiksagigi.mp3') }}" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<audio id="audio_loketsatu">
+  <source src="{{ flex_url('sound/loketsatu.mp3') }}" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<audio id="audio_loketdua">
+  <source src="{{ flex_url('sound/loketdua.mp3') }}" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 <audio id="audio_silahkanmenuju">
   <source src="{{ flex_url('sound/silahkanmenuju.mp3') }}" type="audio/mpeg">
   Your browser does not support the audio element.

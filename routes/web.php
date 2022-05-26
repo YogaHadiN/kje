@@ -672,6 +672,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 	Route::get('ruangperiksa/{jenis_antrian_id}', [\App\Http\Controllers\RuangPeriksaController::class, 'index']);
+	Route::post('ruangperiksa/ruangan', [\App\Http\Controllers\RuangPeriksaController::class, 'ruangan']);
 
 
 	Route::get('/home_visits/ajax/angka_kontak_bpjs', [\App\Http\Controllers\HomeVisitController::class, 'searchAjax']);

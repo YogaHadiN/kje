@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
+use Session;
 use App\Models\Outbox;
 use App\Models\Ht;
 use App\Models\AntrianKelengkapanDokumen;
@@ -114,6 +115,8 @@ class testcommand extends Command
      */
     public function handle()
     {
+		/* Session::put('ruangan', '1'); */
+		dd( Session::get('ruangan') );
 		/* $antrians = Antrian::where('created_at', 'like', '2022-02-14%') */
 		/* 					->where('antriable_type', 'App\\Models\\Periksa') */
 		/* 					->get(); */
@@ -127,7 +130,7 @@ class testcommand extends Command
 		/* } */
 
 		/* dd( $errors ); */
-		$this->testWablasTemplate();
+		/* $this->testWablasTemplate(); */
 		/* $this->encryptTest(); */
 
 		/* $this->testBulkMessage('hello there Puri'); */

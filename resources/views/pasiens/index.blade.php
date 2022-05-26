@@ -47,7 +47,6 @@
 
 @stop
 @section('page-title') 
-	
  <h2>Pasien</h2>
  <ol class="breadcrumb">
       <li>
@@ -57,7 +56,6 @@
           <strong>Pasien</strong>
       </li>
 </ol>
-
 @stop
 @section('content')
 	@if(isset($antrian))

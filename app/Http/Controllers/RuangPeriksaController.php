@@ -69,5 +69,9 @@ class RuangPeriksaController extends Controller
 			'poli_list'
 		));
 	}
+	public function ruangan(){
+		\Session::put('ruangan', Input::get('ruangan'));
+		return \Session::get('ruangan');
+	}
 }
 

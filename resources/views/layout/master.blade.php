@@ -340,11 +340,27 @@
         </nav>
         </div>
             <div class="row border-bottom white-bg page-heading">
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     @yield('page-title')
+                    <br>
                 </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        {!! Form::label('ruangan', 'Ruangan', ['class' => 'control-label']) !!}
+                        {!! Form::select('ruangan', [
+                            ''                   => 'Pilih Ruangan',
+                            'loketsatu'            => 'Loket 1',
+                            'loketdua'            => 'Loket 2',
+                            'ruangperiksasatu'    => 'Ruang Periksa 1',
+                            'ruangperiksadua'    => 'Ruang Periksa 2',
+                            'ruangperiksagigi' => 'Ruang Periksa gigi'
+                        ], \Session::get('ruangan') , [
+                                'onchange' => 'ruangan(this);return false',
+                                'id'       => 'ruangan',
+                                'class'    => 'form-control'
+                            ]) !!}
+                      <code class="hide">Mohon isi diisi terlebih dahulu sebelum panggil</code>
+                    </div>
                 </div>
             </div>
         <div class="row">
@@ -432,6 +448,15 @@
 		@if(strpos(strtolower(gethostname()), 'yoga') === false)
 			{{-- pusherCaller(); --}}
 		@endif
+
+        function ruangan(control) {
+            $.post(base+'/ruangperiksa/ruangan',
+                { ruangan : $(control).val() },
+                function (data, textStatus, jqXHR) {
+                    // success callback
+                }
+            );
+        }
 	</script>
 @yield('footer')
 </body>

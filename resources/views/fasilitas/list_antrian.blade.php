@@ -105,15 +105,6 @@ Klinik Jati Elok | List Antrian
 		$('body').tooltip({
 			selector: '[rel="tooltip"]'
 		});
-
-		$(".btn").click(function(e) {
-			if (! $(this).hasClass("disabled"))
-			{
-				$(".disabled").removeClass("disabled").attr("rel", null);
-
-				$(this).addClass("disabled").attr("rel", "tooltip");
-			}
-		});
 	</script>
     <script src="{!! asset('js/panggil.js') !!}"></script>
 @stop
