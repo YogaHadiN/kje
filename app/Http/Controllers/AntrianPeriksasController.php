@@ -113,8 +113,8 @@ class AntrianPeriksasController extends Controller
 
 		return view('antrianperiksas.index', compact(
 			'antrianperiksas',
-			'staf_list',
-		   	'postperiksa'
+			'poli',
+			'staf_list'
 		));
 	}
 

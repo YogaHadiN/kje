@@ -313,6 +313,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('rayons/create', [\App\Http\Controllers\RayonsController::class, 'create']); //form membuat rumah sakit baru
 		Route::post('rayons', [\App\Http\Controllers\RayonsController::class, 'store']); //form membuat rumah sakit baru
 		Route::get('bayardokters', [\App\Http\Controllers\BayarDoktersController::class, 'index']); //penjualan obat tanpa resep
+		Route::get('bayardokters/select/ajax', [\App\Http\Controllers\BayarDoktersController::class, 'selectAjax']); //penjualan obat tanpa resep
+
 
 		Route::get('penjualans', [\App\Http\Controllers\PenjualansController::class, 'index']); //penjualan obat tanpa resep
 		Route::get('penjualans/obat_buat_karyawan', [\App\Http\Controllers\PenjualansController::class, 'obat_buat_karyawan']); //penjualan obat tanpa resep
