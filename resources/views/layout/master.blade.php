@@ -359,7 +359,7 @@
                                 'id'       => 'ruangan',
                                 'class'    => 'form-control'
                             ]) !!}
-                      <code class="hide">Mohon isi diisi terlebih dahulu sebelum panggil</code>
+                      <code class="hide">Mohon pilih ruangan terlebih dahulu sebelum panggil</code>
                     </div>
                 </div>
             </div>
