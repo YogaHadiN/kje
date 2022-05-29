@@ -100,7 +100,7 @@
 										  <td class="periksa_id">{!! $periksa->periksa_id !!}</td>
 										  <td class="hide old_asuransi_id">{!! $periksa->asuransi_id !!}</td>
 										  <td class="hide tanggal">{!! $periksa->tanggal !!}</td>
-										  <td class="nama_pasien">{!! $periksa->nama_pasien !!}</td>
+										  <td class="nama_pasien">{!! ucwords($periksa->nama_pasien) !!}</td>
 										  <td>{!! $periksa->nama_asuransi !!}</td>
 										  {{-- <td> --}}
 											  {{-- {!! Form::select('asuransi_id', $list_asuransi, $periksa->asuransi_id, [ --}}

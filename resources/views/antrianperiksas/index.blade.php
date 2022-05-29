@@ -25,7 +25,7 @@
                     <h3>Belum Diperiksa</h3>
                 </div>
                 <div class="panelRight">
-                    <h3>Total : {!! $antrian_periksas->count() !!}</h3>
+                    <h3>Total : {!! count($antrian_periksas) !!}</h3>
                 </div>
             </div>
       </div>
@@ -46,15 +46,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($antrian_periksas->count() > 0)
+                    @if (count($antrian_periksas) > 0)
                         @foreach ($antrian_periksas as $periksa)
                             <tr>
-								@if($periksa->poli == 'estetika' && $periksa->periksaEx != null)
-								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksaEx->id . '/images') }}">Gambar</a> </td>
+								@if($periksa->poli == 'estetika' && $periksa->periksa_id != null)
+								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksa_id . '/images') }}">Gambar</a> </td>
 								@else
 									<td class="nomor_antrian">
-										@if(isset($periksa->antrian))
-											{!! $periksa->antrian->nomor_antrian !!}
+										@if(isset($periksa->nomor_antrian))
+											{!! $periksa->prefix !!}{!! $periksa->nomor_antrian !!}
 										@endif
 									</td>
 								@endif
@@ -66,8 +66,8 @@
 										{!! Form::select('poli', $poli_list, $periksa->poli, ['class' => 'form-control', 'onchange' => 'changePoli(this);return false;']) !!}
                                     {!! Form::close() !!}
 								</td>
-                                <td>{!! $periksa->asuransi->nama !!}</td>
-                                <td class="nama_pasien">{!! $periksa->pasien_id !!} - {!! $periksa->pasien->nama !!}</td>
+                                <td>{!! $periksa->nama_asuransi !!}</td>
+                                <td class="nama_pasien">{!! $periksa->pasien_id !!} - {!! ucwords($periksa->nama_pasien) !!}</td>
 								<td>
 								{!! Form::select('staf_id', $staf_list, $periksa->staf_id, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'onchange' => 'changeStaf(this);return false;']) !!}
 								
@@ -85,14 +85,31 @@
                                         <button type="button" class="btn btn-danger btn-xs" onclick="alasas_hapus(this);return false;">
 											<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
 										</button>
-                                        @if ( isset($periksa->antrian) )
-                                          @include('fasilitas.call_button', ['antrian' => $periksa->antrian])
+                                        @if ( isset($periksa->nomor_antrian) )
+                                            <style type="text/css" media="screen">
+                                                .btn.disabled {
+                                                    pointer-events: auto;
+                                                }
+                                            </style>
+                                            <button type="button"
+                                                class="btn btn-info btn-xs
+                                                    @if(!str_contains( $periksa->created_at , date('Y-m-d')))
+                                                        disabled		
+                                                    @endif
+                                                " 
+                                                    @if(!str_contains( $periksa->created_at , date('Y-m-d')))
+                                                         data-toggle="tooltip" data-placement="bottom" title="Bukan antrian hari ini"
+                                                    @endif
+                                                onclick="panggil('{{ $periksa->antrian_id }}', 'pendaftaran');return false;">
+                                                  <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+                                            </button>
                                         @endif
-                                        @include('antrianpolis.pengantar_button', [
-                                            'antrianpoli'    => $periksa,
-                                            'asuransi_id'    => $periksa->asuransi_id,
-                                            'posisi_antrian' => 'antrianperiksas'
-                                        ])
+                                        @if(
+                                            $periksa->tanggal <= date('Y-m-d 00:00:00') 
+                                            && $periksa->asuransi_id == '32'
+                                          )
+                                              <a href="{{ url( 'antrianperiksas/pengantar/' . $periksa->id ) }}" class="btn btn-success btn-xs">{{ $periksa->jumlah_pengantar }} pengantar</a>		
+                                        @endif
                                       {!! Form::close() !!}
                                 </td>
                             </tr>
