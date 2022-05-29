@@ -577,7 +577,7 @@ class PolisController extends Controller
 			$jenis_antrian->save();
 		}
 		$apc = new AntrianPolisController;
-		$apc->updateJumlahAntrian();
+		$apc->updateJumlahAntrian(true, null);
 	}
 	private function panggilPasien($nomor_antrian, $ruangan){
 		$huruf         = strtolower(str_split($nomor_antrian)[0]);
@@ -697,7 +697,7 @@ class PolisController extends Controller
 		$antrian->touch();
 
 		$apc                                = new AntrianPolisController;
-		$apc->updateJumlahAntrian();
+		$apc->updateJumlahAntrian($panggil_pasien, $ruangan);
 		return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
 	}
 }

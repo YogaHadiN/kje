@@ -237,7 +237,7 @@ class AntrianPolisController extends Controller
 				}
 			}
 
-			$this->updateJumlahAntrian(false);
+			$this->updateJumlahAntrian(false, null);
 			return $this->arahkanAP($ap);
 		} catch (\Exception $e) {
 			DB::rollback();
@@ -436,7 +436,7 @@ class AntrianPolisController extends Controller
 		return redirect('antrianpolis')
 			->withPesan($pesan);
 	}
-	public function updateJumlahAntrian($panggil_pasien = true){
-		event(new FormSubmitted($panggil_pasien));
+	public function updateJumlahAntrian($panggil_pasien, $ruangan){
+		event(new FormSubmitted($panggil_pasien, $ruangan));
 	}
 }

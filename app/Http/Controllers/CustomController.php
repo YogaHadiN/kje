@@ -744,7 +744,7 @@ class CustomController extends Controller
 			}
 
 			$apc = new AntrianPolisController;
-			$apc->updateJumlahAntrian(false);
+			$apc->updateJumlahAntrian(false, null);
 
 			// masukkan kembali whatsapp_registration dengan periksa_id untuk customer surveyable_id
 			//

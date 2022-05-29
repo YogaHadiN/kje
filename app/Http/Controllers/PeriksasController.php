@@ -915,7 +915,7 @@ p */
 			$antrianperiksa->delete();
 		}
 		$apc = new AntrianPolisController;
-		$apc->updateJumlahAntrian(false);
+		$apc->updateJumlahAntrian(false, null);
 	}
 	public function uploadBerkas($id){
 

@@ -295,7 +295,7 @@ class FasilitasController extends Controller
 		$antrian->save();
 
 		$apc                     = new AntrianPolisController;
-		$apc->updateJumlahAntrian(false);
+		$apc->updateJumlahAntrian(false, null);
 		return $antrian;
 	}
 	public function antrian($id){

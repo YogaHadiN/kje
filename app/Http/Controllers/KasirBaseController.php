@@ -216,7 +216,7 @@ class KasirBaseController extends Controller
 			$antrianapotek->delete();
 
 			$apc = new AntrianPolisController;
-			$apc->updateJumlahAntrian(false);
+			$apc->updateJumlahAntrian(false, null);
 
 			DB::commit();
 			return redirect('antrianapoteks')

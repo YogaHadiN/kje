@@ -14,15 +14,17 @@ class FormSubmitted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-	public $text;
+	public $panggil;
+	public $ruangan;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($text)
+    public function __construct($panggil, $ruangan)
     {
-		$this->text = $text;
+		$this->panggil = $panggil;
+		$this->ruangan = $ruangan;
     }
 
     /**

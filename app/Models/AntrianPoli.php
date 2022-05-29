@@ -57,8 +57,7 @@ class AntrianPoli extends Model{
 		self::deleting(function($antrianpoli){
 			$antrianpoli->antrian()->delete();
 			$apc                     = new AntrianPolisController;
-			$apc->updateJumlahAntrian(false);
+			$apc->updateJumlahAntrian(false, null);
 		});
 	}
-	
 }

@@ -43,7 +43,7 @@ class AntriansController extends Controller
 			$whatsapp_registration->delete();
 		}
 		$apc              = new AntrianPolisController;
-		$apc->updateJumlahAntrian(false);
+		$apc->updateJumlahAntrian(false, null);
 		$antrian->delete();
 		return redirect()->back()->withPesan($pesan);
 	}

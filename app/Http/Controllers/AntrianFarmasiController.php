@@ -83,7 +83,7 @@ class AntrianFarmasiController extends Controller
         $antrianfarmasi->delete();
 
         $apc                   = new AntrianPolisController;
-        $apc->updateJumlahAntrian(false);
+        $apc->updateJumlahAntrian(false, null);
 
         $pesan = Yoga::suksesFlash('Pasien <strong>'. $pasien_id . '-' . $nama_pasien . '</strong> BERHASIL diselesaikan dari farmasi');
         return redirect('antrianfarmasis')->withPesan($pesan);
