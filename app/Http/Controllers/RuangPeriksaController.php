@@ -34,7 +34,6 @@ class RuangPeriksaController extends Controller
 			$poli_ids .=  "'" .$poli->poli_id. "'";
 		}
 
-		/* dd( $poli_ids ); */
 		$query  = "SELECT ";
 		$query .= "apx.poli as poli, ";
 		$query .= "apx.asuransi_id as asuransi_id, ";
@@ -59,9 +58,9 @@ class RuangPeriksaController extends Controller
 		$query .= "JOIN jenis_antrians as jnt on jnt.id = ant.jenis_antrian_id ";
 		$query .= "JOIN stafs as stf on stf.id = apx.staf_id ";
 		$query .= "JOIN asuransis as asu on asu.id = apx.asuransi_id ";
-		/* $query .= "WHERE ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' "; */
-		$query .= "WHERE apx.poli in ({$poli_ids})";
-		/* $query .= "AND apx.poli in ({$poli_ids})"; */
+		$query .= "WHERE ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' ";
+		/* $query .= "WHERE apx.poli in ({$poli_ids})"; */
+		$query .= "AND apx.poli in ({$poli_ids})";
 		$query .= "GROUP BY apx.id ASC ";
 		$query .= "ORDER BY ant.id ";
 		$antrian_periksas = DB::select($query);

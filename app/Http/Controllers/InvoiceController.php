@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Storage;
-use App\Models\Models\Invoice;
-use App\Models\Models\Classes\Yoga;
+use App\Models\Invoice;
+use App\Models\Classes\Yoga;
 use Input;
 
 class InvoiceController extends Controller
