@@ -49,6 +49,7 @@ Route::resource('users', \App\Http\Controllers\UsersController::class);
 Route::get('invoices/inv/{id}', [\App\Http\Controllers\InvoiceController::class, 'test']);
 Route::get('invoices/getData', [\App\Http\Controllers\InvoiceController::class, 'getData']);
 Route::post('invoices/upload_verivication/{id}', [\App\Http\Controllers\InvoiceController::class, 'upload_verivication']);
+Route::get('invoices/pendingReceivedVerification', [\App\Http\Controllers\InvoiceController::class, 'pendingReceivedVerification']);
 Route::resource('invoices', \App\Http\Controllers\InvoiceController::class);
 Route::resource('pasien_rujuk_baliks', \App\Http\Controllers\PasienRujukBalikController::class);
 

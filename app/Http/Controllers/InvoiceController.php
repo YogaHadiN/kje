@@ -77,7 +77,7 @@ class InvoiceController extends Controller
 		$invoice->save();
 
 		$pesan = Yoga::suksesFlash('Validasi Penerimaan Berkas Berhasil di Upload');
-		return redirect()->back()->withPesan($pesan);
+		return redirect('invoices/pendingReceivedVerification')->withPesan($pesan);
 		
 	}
 
@@ -117,5 +117,26 @@ class InvoiceController extends Controller
 			return null;
 		}
 	}
-	
+	public function pendingReceivedVerification(){
+		return view('invoices.pending', [
+			'pending' => $this->queryPendingReceivedVerification()
+		]);
+
+	}
+	public function queryPendingReceivedVerification(){
+		$query  = "SELECT ";
+		$query .= "inv.id as invoice_id, ";
+		$query .= "inv.created_at as tanggal, ";
+		$query .= "asu.nama as nama_asuransi ";
+		$query .= "FROM invoices as inv ";
+		$query .= "JOIN periksas as prx on prx.invoice_id = inv.id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+		$query .= "WHERE asu.tipe_asuransi = 3 ";
+		$query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ;
+		$query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) ";
+		$query .= "AND inv.pembayaran_asuransi_id is null ";
+		$query .= "GROUP BY inv.id ";
+		$query .= "ORDER BY inv.created_at desc ";
+		return DB::select($query);
+	}
 }

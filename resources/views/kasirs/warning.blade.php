@@ -67,9 +67,44 @@
 			<h3 class="panel-title">Denominator BPJS</h3>
 		</div>
 		<div class="panel-body">
-			<h3>Denominator BPJS</h3>
 			<p>Denominator BPJS harus diisi setelah tanggal 6 dan paling lambat tanggal 14 setiap bulannya</p>
 			<p> <a href="{{ url('denominator_bpjs') }}">Klik Disini</a> untuk melihat </p>
+		</div>
+	</div>
+
+	<div class="panel panel-{{ $uploadDataPesertaBpjsWarning }}">
+		<div class="panel-heading">
+			<h3 class="panel-title">Upload Data Peserta BPJS</h3>
+		</div>
+		<div class="panel-body">
+			<p>Data Peserta Bpjs Harus di Upload Antara tanggal 6 - 14 setiap bulannya</p>
+			<p> <a href="{{ url('prolanis') }}">Klik Disini</a> untuk melihat </p>
+		</div>
+	</div>
+
+	@if ($pasienProlanisBulanIniSudahDiupload)
+		<div class="panel panel-{{ $validasiProlanisBpjsWarning }}">
+			<div class="panel-heading">
+				<h3 class="panel-title">Validasi Prolanis Bpjs</h3>
+			</div>
+			<div class="panel-body">
+				<h3>Validasi Prolanis BPJS</h3>
+				<p>Denominator BPJS harus diisi setelah tanggal 6 dan paling lambat tanggal 14 setiap bulannya</p>
+				<p> <a href="{{ url('denominator_bpjs') }}">Klik Disini</a> untuk melihat </p>
+			</div>
+		</div>
+	@endif
+	<div class="panel panel-{{ $validateReceivedVerification }}">
+		<div class="panel-heading">
+			<h3 class="panel-title">Verifikasi Invoice Sudah Diterima Admeika</h3>
+		</div>
+		<div class="panel-body">
+			@if ( count($invoiceBelumDiterimaAdmedika) )
+				<p>Invoice Yang Belum Verifikasi Diterima Sebanyak  </p>
+				<h1><a href="{{ url('invoices/pendingReceivedVerification') }}" target="_blank">{{ count($invoiceBelumDiterimaAdmedika) }} Berkas</a> </h1>
+			@else
+				<h3>Semua Invoice sudah diverifikasi</h3>
+			@endif
 		</div>
 	</div>
 	{{-- <div class="panel panel-{{ $vultrWarning }}"> --}}

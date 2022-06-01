@@ -17,6 +17,57 @@ Klinik Jati Elok | Piutang Asuransi
 
 @stop
 @section('content') 
+<div class="row">
+	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Upload Validasi Penerimaan</h3>
+			</div>
+			<div class="panel-body">
+				{!! Form::open([
+					'url'    => 'invoices/upload_verivication/' . str_replace('/', '!',  $invoice->id ),
+					'method' => 'post',
+					"class"  => "m-t",
+					"role"   => "form",
+					"files"  => "true"
+				]) !!}
+					<div class="form-group{{ $errors->has('received_verification') ? ' has-error' : '' }}">
+						{!! Form::label('received_verification', 'Upload Validasi Penerimaan Berkas') !!}
+						{!! Form::file('received_verification') !!}
+							@if (isset($invoice) && $invoice->received_verification)
+								<p>
+									<a href="{{ \Storage::disk('s3')->url($invoice->received_verification ) }}" target="_blank">
+										<img src="{{ \Storage::disk('s3')->url($invoice->received_verification ) }}" class="upload" alt="...">
+									</a>
+								</p>
+							@else
+								<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+							@endif
+						{!! $errors->first('received_verification', '<p class="help-block">:message</p>') !!}
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
+							{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+						</div>
+					</div>
+				{!! Form::close() !!}
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+		<div class="alert alert-info">
+		  <strong>Petunjuk Upload Berkas</strong>
+		  <ul>
+			  <li>Tujuan upload berkas ini adalah memastikan jumlah yang diterima Admedika sama dengan yang kita kirimkan</li>
+			  <li>Jika jumlah berkas yang diterima Admedika tidak sama (kurang) Maka Harus dilakukan upaya untuk mengirimkan berkas sisanya</li>
+			  <li>Gambar yang diupload harus mencakup keseluruhan pasien dan semua uang yang dikirimkan</li>
+			  <li>Gambar yang diupload ini digunakan sebagai bukti bahwa kita sudah mengirimkan berkas, sehingga apabila nanti tagihan tidak dibayarkan karena tagihan berlum diterima, maka kita bisa tunjukkan bawha berkas tersebut sudah diterima admedika</li>
+			  <li>Gambar upload harus dilakukan dalam jangka waktu 6 bulan, karena data di Admedika akan hilang apabila berkas pengiriman lebih dari 6 bulan</li>
+		  </ul>
+		</div>
+	</div>
+</div>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
@@ -70,45 +121,6 @@ Klinik Jati Elok | Piutang Asuransi
 		</div>
 	</div>
 </div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Upload Validasi Penerimaan</h3>
-				</div>
-				<div class="panel-body">
-					{!! Form::open([
-						'url'    => 'invoices/upload_verivication/' . str_replace('/', '!',  $invoice->id ),
-						'method' => 'post',
-						"class"  => "m-t",
-						"role"   => "form",
-						"files"  => "true"
-					]) !!}
-						<div class="form-group{{ $errors->has('received_verification') ? ' has-error' : '' }}">
-							{!! Form::label('received_verification', 'Upload Validasi Penerimaan Berkas') !!}
-							{!! Form::file('received_verification') !!}
-								@if (isset($invoice) && $invoice->received_verification)
-									<p>
-										<a href="{{ \Storage::disk('s3')->url($invoice->received_verification ) }}" target="_blank">
-											<img src="{{ \Storage::disk('s3')->url($invoice->received_verification ) }}" class="upload" alt="...">
-										</a>
-									</p>
-								@else
-									<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
-								@endif
-							{!! $errors->first('received_verification', '<p class="help-block">:message</p>') !!}
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-								{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
-							</div>
-						</div>
-					{!! Form::close() !!}
-				</div>
-			</div>
-		</div>
-	</div>
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">

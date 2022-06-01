@@ -38,18 +38,6 @@ class PesertaBpjsPerbulanController extends Controller
     }
     
     public function index(){
-        /* $query  = "SELECT "; */
-        /* $query  = "SELECT "; */
-        /* $query .= "pro.id, "; */
-        /* $query .= "pro.prolanis, "; */
-        /* $query .= "sum( case when `prolanis` LIKE '%Diabetes Mellitus%' then 1 else 0 end ) as jumlah_dm,"; */
-        /* $query .= "sum( case when `prolanis` LIKE '%Hypertensi%' then 1 else 0 end ) as jumlah_ht,"; */
-        /* $query .= "sum(case when psn.verifikasi_prolanis_dm_id LIKE '1' OR psn.verifikasi_prolanis_ht_id LIKE '1' then 1 else 0 end) as unverified,"; */
-        /* $query .= "DATE_FORMAT(periode, '%Y-%m-01') as periode "; */
-        /* $query .= "FROM prolanis as pro "; */
-        /* $query .= "JOIN pasien_prolanis as ppr on ppr.prolanis_id = pro.id "; */
-        /* $query .= "JOIN pasiens as psn on psn.id = ppr.pasien_id "; */
-        /* $query .= "GROUP BY pro.id"; */
 
         $query  = "SELECT ";
         $query .= "id, ";
@@ -89,8 +77,8 @@ class PesertaBpjsPerbulanController extends Controller
         }
 
 		DB::statement('Update pasiens set penangguhan_pembayaran_bpjs = 0;');
-		DB::statement('Update pasiens set verifikasi_prolanis_dm_id = 1;');
-		DB::statement('Update pasiens set verifikasi_prolanis_ht_id = 1;');
+		DB::statement('Update pasiens set verifikasi_prolanis_dm_id = 1;'); //verifikasi_prolanis 1 = "belum"
+		DB::statement('Update pasiens set verifikasi_prolanis_ht_id = 1;'); //verifikasi_prolanis 1 = "belum"
 
         $import             = new PesertaBpjsPerbulanImport;
         $import->bulanTahun = Input::get('tahun') . '-' . Input::get('bulan');

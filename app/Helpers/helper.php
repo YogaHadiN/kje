@@ -160,3 +160,10 @@ if (!function_exists('decrypt_string')) {
         return $decryption;
     }
 }
+if (!function_exists('day_diff')) {
+    function day_diff($earlier, $later){
+        $earlier = new DateTime($earlier);
+        $later   = new DateTime($later);
+        return abs($earlier->diff($later)->format("%r%a")); //3
+    }
+}
