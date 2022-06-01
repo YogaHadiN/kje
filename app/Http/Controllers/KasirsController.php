@@ -13,6 +13,7 @@ use App\Console\Commands\scheduleBackup;
 use Moota;
 use DB;
 use App\Models\Saldo;
+use App\Models\DenominatorBpjs;
 use App\Models\CheckoutKasir;
 use App\Models\JurnalUmum;
 use App\Models\PesertaBpjsPerbulan;
@@ -130,7 +131,7 @@ class KasirsController extends Controller
 
 		
 		//
-		//jika sudah diatas tanggal 11 dan belum diupload daftar peserta bpjs bulan itu maka fail
+		//jika sudah diatas tanggal 15 dan belum diupload daftar peserta bpjs bulan itu maka fail
 		//
 		//
 
@@ -145,13 +146,36 @@ class KasirsController extends Controller
 		/* } */
 
 		$saldos     = Saldo::with('staf')->latest()->paginate(20);
-
 		$jarak_hari = $this->countDay( $pasien_pertama_belum_dikirim  );
+
+
+		// ==========================================================================================
+		// INPUT DATA DENOMINATOR BPJS SETIAP BULAN
+		// ==========================================================================================
+		//
+		//
+		$denominatorBpjsBulanIniAda = DenominatorBpjs::where('bulanTahun', date('Y-m'))->exists();
+
+		$denominatorBpjsWarning = 'success';
+
+		if ( date('j') > 6 && !$denominatorBpjsBulanIniAda ) {
+			$status                 = 'warning';
+			$denominatorBpjsWarning = 'warning';
+		} 
+
+		if ( date('j') > 14 && !$denominatorBpjsBulanIniAda) {
+			$status                 = 'danger';
+			$denominatorBpjsWarning = 'danger';
+		} 
+
+
+
 
 
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
+			'denominatorBpjsWarning',
 			'mootaWarning',
 			'status',
 			'pasien_pertama_belum_dikirim',

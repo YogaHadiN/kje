@@ -1,7 +1,12 @@
-alter table periksas add dipanggil int(1) default 0;
-alter table antrian_apoteks add dipanggil int(1) default 0;
-alter table antrian_kasirs add dipanggil int(1) default 0;
-alter table antrian_polis add dipanggil int(1) default 0;
-alter table antrian_farmasis add dipanggil int(1) default 0;
-alter table panggilans add dipanggil int(1) default 0;
-alter table whatsapp_registrations add dipanggil int(1) default 0;
+DELETE from CONFIGS where id in (1,2);
+
+CREATE TABLE denominator_bpjs (
+    id int unsigned not null auto_increment primary key,
+    bulanTahun date not null,
+    jumlah_peserta INT(11) not null,
+    denominator_dm INT(11) not null,
+    denominator_ht INT(11) not null,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+insert into denominator_bpjs values ( 0, '2022-06-01', 14901, 206, 473, now(), now());

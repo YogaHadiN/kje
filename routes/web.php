@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::post('antrian_kelengkapan_dokumens/{id}', [\App\Http\Controllers\AntrianKelengkapanDokumenController::class, 'proses']); //antrian pasien
 	Route::resource('antrian_kelengkapan_dokumens', \App\Http\Controllers\AntrianKelengkapanDokumenController::class); //antrian pasien
+	Route::resource('denominator_bpjs', \App\Http\Controllers\DenominatorBpjsController::class); //antrian pasien
 
 	Route::get('antrianapoteks', [\App\Http\Controllers\AntrianApotekController::class, 'index']); //antrian pasien
 	Route::post('antrianapoteks/kembali/{id}', [\App\Http\Controllers\AntrianApotekController::class, 'kembali']); //antrian pasien

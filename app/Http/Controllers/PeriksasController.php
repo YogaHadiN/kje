@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use DB;
 
 use App\Models\Promo;
+use App\Models\DenominatorBpjs;
 use App\Models\Antrian;
 use App\Models\AntrianKasir;
 use App\Models\AntrianApotek;
@@ -1058,9 +1059,10 @@ p */
 		} else {
 			$tanggal_object = Carbon::parse($bulanThn . '-01');
 		}
+		$denominaor_bpjs          = DenominatorBpjs::orderBy('bulanTahun', 'desc')->first();
 		$peserta_bpjs_perbulan    = PesertaBpjsPerbulan::orderBy('bulanTahun', 'desc')->latest()->first();
-		$jumlah_denominator_ht    = $peserta_bpjs_perbulan->jumlah_ht;
-		$jumlah_denominator_dm    = $peserta_bpjs_perbulan->jumlah_dm;
+		$jumlah_denominator_ht    = $denominaor_bpjs->denominator_ht;
+		$jumlah_denominator_dm    = $denominaor_bpjs->denominator_dm;
 		$data_ht                  = $this->queryDataHt($tanggal_object);
 		$data_ht_terkendali       = $this->dataHtTerkendali($data_ht);
 		$jumlah_ht_terkendali     = count( $data_ht_terkendali );

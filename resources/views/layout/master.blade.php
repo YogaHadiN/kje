@@ -134,6 +134,7 @@
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data BPJS</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('denominator_bpjs', 'Denominator BPJS')!!}</li>
                             <li>{!! HTML::link('perujuks', 'Perujuk')!!}</li>
                             <li>{!! HTML::link('diagnosa/tidakdirujuk', 'Tidak Dirujuk')!!}</li>
                             <li>{!! HTML::link('prolanis', 'Prolanis')!!}</li>

@@ -62,7 +62,16 @@
 		</div>
 	</div>
 
-
+	<div class="panel panel-{{ $denominatorBpjsWarning }}">
+		<div class="panel-heading">
+			<h3 class="panel-title">Denominator BPJS</h3>
+		</div>
+		<div class="panel-body">
+			<h3>Denominator BPJS</h3>
+			<p>Denominator BPJS harus diisi setelah tanggal 6 dan paling lambat tanggal 14 setiap bulannya</p>
+			<p> <a href="{{ url('denominator_bpjs') }}">Klik Disini</a> untuk melihat </p>
+		</div>
+	</div>
 	{{-- <div class="panel panel-{{ $vultrWarning }}"> --}}
 	{{-- 	<div class="panel-heading"> --}}
 	{{-- 		<h3 class="panel-title">Vultr</h3> --}}

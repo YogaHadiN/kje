@@ -869,12 +869,6 @@ class PendapatansController extends Controller
 		$bpjs->tanggal_pembayaran = $tanggal_pembayaran;
 		$confirm = $bpjs->save();
 
-		if ($nilai > 100000000) { // bila nilai lebih dari 100 juta, update jumlah peserta BPJS
-			$conifg        = Config::find(1);
-			$conifg->value = ceil($nilai / 10000) ;
-			$conifg->save();
-		}
-
 		if ($confirm) {
 			
 			$jurnal                  = new JurnalUmum;

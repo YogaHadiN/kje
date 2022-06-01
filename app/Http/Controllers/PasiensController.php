@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AntrianPolisController;
 use App\Models\Classes\Yoga;
+use App\Models\DenominatorBpjs;
 use App\Rules\CekNomorBpjsSama;
 use App\Rules\CekNomorKtpSama;
 use App\Models\Alergi;

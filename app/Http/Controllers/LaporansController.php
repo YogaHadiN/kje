@@ -12,6 +12,7 @@ use App\Http\Controllers\PdfsController;
 use App\Http\Controllers\PasiensController;
 use App\Http\Requests;
 use App\Models\AkunBank;
+use App\Models\DenominatorBpjs;
 use App\Models\PesertaBpjsPerbulan;
 use App\Models\Config;
 use App\Models\Asuransi;
@@ -205,7 +206,8 @@ class LaporansController extends Controller
 																->where('kunjungan_sehat', '1')
 																->count();
 
-		$jumlah_peserta_bpjs                 = Config::where('id', 1)->first()->value;
+		$denominaor_bpjs     = DenominatorBpjs::orderBy('bulanTahun', 'desc')->first();
+		$jumlah_peserta_bpjs = $denominaor_bpjs->jumlah_peserta;
 		//target peserta bpjs bulan ini adalah 15% dari seluruh peserta
 		$target_jumlah_pasien_bpjs_bulan_ini = $jumlah_peserta_bpjs * 0.15;
 		// karena target harus dipenuhi tanggal 25 setiap bulannya;
@@ -223,8 +225,8 @@ class LaporansController extends Controller
 		$prx->input_tanggal       = date('Y-m-d');
 		$hitungRppt               = $prx->hitungPersentaseRppt();
 
-		$jumlah_denominator_dm    = $hitungRppt['jumlah_denominator_dm'];
-		$jumlah_denominator_ht    = $hitungRppt['jumlah_denominator_ht'];
+		$jumlah_denominator_dm    = $denominaor_bpjs->denominator_dm;
+		$jumlah_denominator_ht    = $denominaor_bpjs->denominator_ht;
 
 		$jumlah_ht_terkendali     = $hitungRppt['jumlah_ht_terkendali'];
 		$persentase_ht_terkendali = $hitungRppt['persentase_ht_terkendali'];

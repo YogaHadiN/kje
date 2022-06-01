@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
 use Crypt;
 use App\Http\Controllers\LaporanLabaRugisController;
@@ -16,6 +15,7 @@ use App\Http\Controllers\PendapatansController;
 use App\Http\Controllers\KirimBerkasController;
 use Carbon\Carbon;
 use App\Models\Antrian;
+use App\Models\DenominatorBpjs;
 use App\Models\Staf;
 use App\Models\Terapi;
 use App\Models\Classes\Yoga;
@@ -462,10 +462,14 @@ class PdfsController extends Controller
 
 	public function bagiHasilGigi($id)
 	{
-		$bayar = BagiGigi::find($id);
-		$pembayaran_bulan_ini = BagiGigi::where('mulai', 'like', $bayar->mulai->format('Y-m') . '%' )->get();
+		$bayar                      = BagiGigi::find($id);
+		if (!$bayar) {
+			$pesan = Yoga::gagalFlash('Pembayaran Bagi Hasil Gigi tidak ditemukan');
+			return redirect()->back()->withPesan($pesan);
+		}
+		$pembayaran_bulan_ini       = BagiGigi::where('mulai', 'like', $bayar->mulai->format('Y-m') . '%' )->get();
 		$total_pembayaran_bulan_ini = 0;
-		$total_pph_bulan_ini = 0;
+		$total_pph_bulan_ini        = 0;
 		foreach ($pembayaran_bulan_ini as $b) {
 			$total_pembayaran_bulan_ini += $b->nilai;
 			$total_pph_bulan_ini += $b->pph21;
@@ -781,7 +785,8 @@ class PdfsController extends Controller
 				$jumlah_ht_terkendali++;
 			}
 		}
-		$jumlah_denominator_ht = PesertaBpjsPerbulan::where('bulanTahun', $bulanTahun->format('Y-m-01'))->first()->jumlah_ht;
+		$denominaor_bpjs = DenominatorBpjs::orderBy('bulanTahun', 'desc')->first();
+		$jumlah_denominator_ht = $denominaor_bpjs->denominator_ht;
 		$pdf                   = PDF::loadView('pdfs.prolanisHipertensiPerBulan', compact(
 			'prolanis_ht',
 			'jumlah_ht_terkendali',
@@ -798,7 +803,8 @@ class PdfsController extends Controller
 			$prolanis_dm = $psn->templateProlanisPeriksa($prolanis_dm, $d, 'prolanis_dm');
 		}
 		$bulanTahun = Carbon::createFromFormat('Y-m', $bulanTahun);
-		$jumlah_denominator_dm = PesertaBpjsPerbulan::where('bulanTahun', $bulanTahun->format('Y-m-01'))->first()->jumlah_dm;
+		$denominaor_bpjs = DenominatorBpjs::orderBy('bulanTahun', 'desc')->first();
+		$jumlah_denominator_dm = $denominaor_bpjs->denominator_dm;
 
 		$jumlah_dm_terkendali = 0;
 		foreach ($prolanis_dm as $p) {
