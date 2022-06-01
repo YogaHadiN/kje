@@ -49,21 +49,24 @@ class RuangPeriksaController extends Controller
 		$query .= "apx.jam as jam, ";
 		$query .= "apx.id as id, ";
 		$query .= "ant.nomor as nomor_antrian, ";
+		$query .= "ant.antriable_type as antriable_type, ";
 		$query .= "prx.antrian_periksa_id as periksa_id ";
 		$query .= " FROM antrian_periksas as apx ";
 		$query .= "LEFT JOIN periksas as prx on prx.antrian_periksa_id = apx.id ";
 		$query .= "JOIN pasiens as psn on psn.id = apx.pasien_id ";
 		$query .= "LEFT JOIN pengantar_pasiens as pgn on pgn.pengantar_id = psn.id ";
 		$query .= "LEFT JOIN antrians as ant on ant.antriable_id = apx.id ";
-		$query .= "JOIN jenis_antrians as jnt on jnt.id = ant.jenis_antrian_id ";
+		$query .= "LEFT JOIN jenis_antrians as jnt on jnt.id = ant.jenis_antrian_id ";
 		$query .= "JOIN stafs as stf on stf.id = apx.staf_id ";
 		$query .= "JOIN asuransis as asu on asu.id = apx.asuransi_id ";
-		$query .= "WHERE ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' ";
-		/* $query .= "WHERE apx.poli in ({$poli_ids})"; */
-		$query .= "AND apx.poli in ({$poli_ids})";
+		$query .= "WHERE (ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' or ant.antriable_type is null) ";
+		$query .= "AND apx.poli in ({$poli_ids}) ";
 		$query .= "GROUP BY apx.id ASC ";
 		$query .= "ORDER BY ant.id ";
+
+		/* dd( $query ); */
 		$antrian_periksas = DB::select($query);
+		/* dd( $antrian_periksas ); */
 
 
 

@@ -50,7 +50,11 @@ class InvoiceController extends Controller
 	
 	public function show($id){
 		$id       = str_replace('!', '/', $id);
-		$invoice  = Invoice::with('periksa.asuransi')->where('id', $id )->first();
+		$invoice  = Invoice::with(
+			'periksa.asuransi', 
+			'periksa.pasien', 
+			'periksa.pembayarans'
+		)->where('id', $id )->first();
 		return view('invoices.show', compact(
 			'invoice'
 		));

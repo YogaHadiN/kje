@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     public $incrementing = false; 
+
     protected $keyType = 'string';
+
 	public function pembayaran_asuransi(){
 		return $this->belongsTo('App\Models\PembayaranAsuransi');
 	}
