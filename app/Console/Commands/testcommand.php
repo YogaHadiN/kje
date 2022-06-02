@@ -115,6 +115,9 @@ class testcommand extends Command
      */
     public function handle()
     {
+		// perhitungan jasa dokter lebih cepat
+		//
+		//
 		/* Session::put('ruangan', '1'); */
 		dd( Session::get('ruangan') );
 		/* $antrians = Antrian::where('created_at', 'like', '2022-02-14%') */

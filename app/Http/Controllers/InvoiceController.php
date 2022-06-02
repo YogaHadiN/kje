@@ -43,7 +43,6 @@ class InvoiceController extends Controller
 		$query    .= "AND ( piutang - sudah_dibayar like '{$sisa}%' or '{$sisa}' = '' ) ";
 		$query    .= "ORDER BY kbs.tanggal desc ";
 		$query    .= "LIMIT 0, 20";
-		/* dd( $query ); */
 		return DB::select($query);
 	}
 	
@@ -130,6 +129,7 @@ class InvoiceController extends Controller
 	public function queryPendingReceivedVerification(){
 		$query  = "SELECT ";
 		$query .= "inv.id as invoice_id, ";
+		$query .= "inv.created_at as created_at, ";
 		$query .= "inv.created_at as tanggal, ";
 		$query .= "asu.nama as nama_asuransi ";
 		$query .= "FROM invoices as inv ";
