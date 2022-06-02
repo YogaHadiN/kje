@@ -1,7 +1,6 @@
 getData();
 function getData() {
     var asuransi_id = $("#asuransi_id").val();
-    var nama_asuransi = $("#asuransi_id :selected").text();
     var invoice_id = $("#invoice_id").val();
     var tanggal = $("#tanggal").val();
     var piutang = $("#piutang").val();
@@ -12,7 +11,6 @@ function getData() {
         "/invoices/getData",
         {
             asuransi_id: asuransi_id,
-            nama_asuransi: nama_asuransi,
             tanggal: tanggal,
             piutang: piutang,
             sudah_dibayar: sudah_dibayar,

@@ -20,7 +20,7 @@ class InvoiceController extends Controller
 
 	public function getData(){
 		dd(Input::all()); 
-		$asuransi_id   = Input::get('$asuransi_id');
+		$asuransi_id   = Input::get('asuransi_id');
 		$tanggal       = Input::get('tanggal');
 		$piutang       = Input::get('piutang');
 		$sudah_dibayar = Input::get('sudah_dibayar');
@@ -61,6 +61,7 @@ class InvoiceController extends Controller
 		}
 		$query .= "ORDER BY kbs.tanggal desc ";
 		$query .= "LIMIT 0, 20";
+
 		/* dd( $query ); */
 		return DB::select($query);
 	}
