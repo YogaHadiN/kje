@@ -62,7 +62,6 @@ class InvoiceController extends Controller
 		$query .= "ORDER BY kbs.tanggal desc ";
 		$query .= "LIMIT 0, 20";
 
-		/* dd( $query ); */
 		return DB::select($query);
 	}
 	
