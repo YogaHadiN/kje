@@ -19,6 +19,7 @@ class InvoiceController extends Controller
 	}
 
 	public function getData(){
+		dd(Input::all()); 
 		$asuransi_id   = Input::get('$asuransi_id');
 		$tanggal       = Input::get('tanggal');
 		$piutang       = Input::get('piutang');
