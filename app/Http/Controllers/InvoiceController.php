@@ -58,7 +58,7 @@ class InvoiceController extends Controller
 		if (!empty($sisa)) {
 			$query .= "AND CAST(piutang - sudah_dibayar as CHAR) LIKE '{$sisa}%' ";
 		}
-		/* $query .= "ORDER BY kbs.tanggal desc "; */
+		$query .= "ORDER BY kbs.tanggal desc ";
 		$query .= "LIMIT 0, 20";
 		/* dd( $query ); */
 		return DB::select($query);
