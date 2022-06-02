@@ -39,10 +39,12 @@ Klinik Jati Elok | Invoices
 					</th>
 					<th>Asuransi
 						<br>
-						{!! Form::text('nama_asuransi', null, [
-							'class'   => 'form-control',
-							'onkeyup' => 'getData();return false;',
-							'id'      => 'nama_asuransi'
+						{!! Form::select('asuransi_id', $asuransi_list, null, [
+							'placeholder'      => '- Pilih Asuransi -',
+							'class'            => 'form-control selectpick',
+							'data-live-search' => 'true',
+							'onchange'         => 'getData();return false;',
+							'id'               => 'asuransi_id'
 						]) !!}
 					</th>
 					<th>Piutang

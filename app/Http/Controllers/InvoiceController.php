@@ -6,43 +6,61 @@ use Illuminate\Http\Request;
 use DB;
 use Storage;
 use App\Models\Invoice;
+use App\Models\Asuransi;
 use App\Models\Classes\Yoga;
 use Input;
 
 class InvoiceController extends Controller
 {
 	public function index(){
-		return view('invoices.index');
+		return view('invoices.index', [
+			'asuransi_list' => Asuransi::list()
+		]);
 	}
 
 	public function getData(){
-		$nama_asuransi = Input::get('nama_asuransi');
+		$asuransi_id   = Input::get('$asuransi_id');
 		$tanggal       = Input::get('tanggal');
 		$piutang       = Input::get('piutang');
 		$sudah_dibayar = Input::get('sudah_dibayar');
 		$sisa          = Input::get('sisa');
 		$invoice_id    = Input::get('invoice_id');
 
-		$query     = "SELECT ";
-		$query    .= "inv.id as invoice_id, ";
-		$query    .= "kbs.tanggal as tanggal, ";
-		$query    .= "asu.nama as nama_asuransi, ";
-		$query    .= "sum(prx.piutang) as piutang, ";
-		$query    .= "COALESCE(sum(pdb.pembayaran),0) as sudah_dibayar ";
-		$query    .= "FROM invoices as inv ";
-		$query    .= "JOIN kirim_berkas as kbs on kbs.id = inv.kirim_berkas_id ";
-		$query    .= "JOIN periksas as prx on prx.invoice_id = inv.id ";
-		$query    .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
-		$query    .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
-		$query    .= "WHERE (asu.nama like '{$nama_asuransi}%' or '{$nama_asuransi}' = '') ";
-		$query    .= "AND ( kbs.tanggal like '{$tanggal}%' or '{$tanggal}' = ''  )";
-		$query    .= "AND ( inv.id like '%{$invoice_id}%' or '{$invoice_id}' = ''  )";
-		$query    .= "GROUP BY inv.id ";
-		$query    .= "HAVING ( piutang like '{$piutang}%' or '{$piutang}' = '' ) ";
-		$query    .= "AND ( sudah_dibayar like '{$sudah_dibayar}%' or '{$sudah_dibayar}' = '' ) ";
-		$query    .= "AND ( piutang - sudah_dibayar like '{$sisa}%' or '{$sisa}' = '' ) ";
-		$query    .= "ORDER BY kbs.tanggal desc ";
-		$query    .= "LIMIT 0, 20";
+		$query  = "SELECT ";
+		$query .= "inv.id as invoice_id, ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "kbs.tanggal as tanggal, ";
+		$query .= "sum(prx.piutang) as piutang, ";
+		$query .= "COALESCE(sum(pdb.pembayaran),0) as sudah_dibayar ";
+		$query .= "FROM invoices as inv ";
+		$query .= "JOIN kirim_berkas as kbs on kbs.id = inv.kirim_berkas_id ";
+		$query .= "JOIN periksas as prx on prx.invoice_id = inv.id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+		$query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
+		$query .= "WHERE '' = '' ";
+		if (!empty($asuransi_id)) {
+			$query .= "AND prx.asuransi_id = '{$asuransi_id}%' ";
+		}
+		if (!empty($tanggal)) {
+			$query .= "AND kbs.tanggal like '{$tanggal}%' ";
+		}
+		if (!empty($invoice_id)) {
+			$query .= "AND inv.id like '%{$invoice_id}%' ";
+		}
+		$query .= "GROUP BY prx.invoice_id ";
+		$query .= "HAVING '' = '' ";
+		if (!empty($piutang)) {
+			$query .= "AND CAST(piutang as CHAR) LIKE '{$piutang}%' ";
+		}
+		if (!empty($sudah_dibayar)) {
+			$query .= "AND CAST(sudah_dibayar as CHAR) LIKE '{$sudah_dibayar}%' ";
+		}
+		if (!empty($sisa)) {
+			$query .= "AND CAST(piutang - sudah_dibayar as CHAR) LIKE '{$sisa}%' ";
+		}
+		/* $query .= "ORDER BY kbs.tanggal desc "; */
+		$query .= "LIMIT 0, 20";
+		/* dd( $query ); */
 		return DB::select($query);
 	}
 	
