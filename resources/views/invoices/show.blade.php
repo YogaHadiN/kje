@@ -80,7 +80,7 @@ Klinik Jati Elok | Piutang Asuransi
 						<th>Tanggal</th>
 						<th>Nama Pasien</th>
 						<th>Nomor Asuransi</th>
-						<th>Piutang</th>
+						<th>Total Transaksi</th>
 						<th>Tunai</th>
 						<th>Tagihan</th>
 						<th>Sudah Dibayar</th>
@@ -90,9 +90,9 @@ Klinik Jati Elok | Piutang Asuransi
 				<tbody>
 
 					@php
-						$total_piutang       = 0;
+						$total_transaksi       = 0;
 						$total_tunai         = 0;
-						$total_tagihan       = 0;
+						$total_piutang       = 0;
 						$total_sudah_dibayar = 0;
 						$total_sisa_dibayar  = 0;
 					@endphp
@@ -110,16 +110,16 @@ Klinik Jati Elok | Piutang Asuransi
 									</a>
 								</td>
 								<td>{{ $piutang->nomor_asuransi }}</td>
-								<td class="uang">{{ $piutang->piutang }}</td>
+								<td class="uang">{{ $piutang->piutang + $piutang->tunai  }}</td>
 								<td class="uang">{{ $piutang->tunai }}</td>
-								<td class="uang">{{ $piutang->piutang - $piutang->tunai }}</td>
+								<td class="uang">{{ $piutang->piutang }}</td>
 								<td class="uang">{{ $piutang->sudah_dibayar }}</td>
 								<td class="uang">{{ $piutang->piutang  - $piutang->sudah_dibayar }}</td>
 							</tr>
 							@php
-								$total_piutang       += $piutang->piutang;
+								$total_transaksi     += $piutang->piutang + $piutang->tunai;
 								$total_tunai         += $piutang->tunai;
-								$total_tagihan       += $piutang->piutang - $piutang->tunai;
+								$total_piutang       += $piutang->piutang;
 								$total_sudah_dibayar += $piutang->sudah_dibayar;
 								$total_sisa_dibayar  += $piutang->piutang - $piutang->sudah_dibayar;
 							@endphp
@@ -133,9 +133,9 @@ Klinik Jati Elok | Piutang Asuransi
 				<tfoot>
 					<tr>
 						<td colspan="3"></td>
-						<td class="uang">{{ $total_piutang}}</td>
+						<td class="uang">{{ $total_transaksi}}</td>
 						<td class="uang">{{ $total_tunai}}</td>
-						<td class="uang">{{ $total_tagihan}}</td>
+						<td class="uang">{{ $total_piutang}}</td>
 						<td class="uang">{{ $total_sudah_dibayar}}</td>
 						<td class="uang">{{ $total_sisa_dibayar}}</td>
 					</tr>

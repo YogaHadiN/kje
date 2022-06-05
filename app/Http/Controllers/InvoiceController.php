@@ -27,10 +27,18 @@ class InvoiceController extends Controller
 		$invoice_id    = Input::get('invoice_id');
 
 		$query  = "SELECT ";
+		$query .= "invoice_id, ";
+		$query .= "nama_asuransi, ";
+		$query .= "tanggal, ";
+		$query .= "sum(piutang) as total_piutang, ";
+		$query .= "sum(sudah_dibayar) as total_sudah_dibayar ";
+		$query .= "FROM ";
+		$query .= "(";
+		$query .= "SELECT ";
 		$query .= "inv.id as invoice_id, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "kbs.tanggal as tanggal, ";
-		$query .= "sum(prx.piutang) as piutang, ";
+		$query .= "prx.piutang as piutang, ";
 		$query .= "COALESCE(sum(pdb.pembayaran),0) as sudah_dibayar ";
 		$query .= "FROM invoices as inv ";
 		$query .= "JOIN kirim_berkas as kbs on kbs.id = inv.kirim_berkas_id ";
@@ -47,18 +55,20 @@ class InvoiceController extends Controller
 		if (!empty($invoice_id)) {
 			$query .= "AND inv.id like '%{$invoice_id}%' ";
 		}
-		$query .= "GROUP BY prx.invoice_id ";
+		$query .= "GROUP BY prx.id ";
+		$query .= ") as bl ";
+		$query .= "GROUP BY invoice_id ";
 		$query .= "HAVING '' = '' ";
 		if (!empty($piutang)) {
-			$query .= "AND CAST(piutang as CHAR) LIKE '{$piutang}%' ";
+			$query .= "AND CAST(total_piutang as CHAR) LIKE '{$piutang}%' ";
 		}
 		if (!empty($sudah_dibayar)) {
-			$query .= "AND CAST(sudah_dibayar as CHAR) LIKE '{$sudah_dibayar}%' ";
+			$query .= "AND CAST(total_sudah_dibayar as CHAR) LIKE '{$sudah_dibayar}%' ";
 		}
 		if (!empty($sisa)) {
-			$query .= "AND CAST(piutang - sudah_dibayar as CHAR) LIKE '{$sisa}%' ";
+			$query .= "AND CAST(total_piutang - total_sudah_dibayar as CHAR) LIKE '{$sisa}%' ";
 		}
-		$query .= "ORDER BY kbs.tanggal desc ";
+		$query .= "ORDER BY tanggal desc ";
 		$query .= "LIMIT 0, 20";
 
 		return DB::select($query);
@@ -145,23 +155,56 @@ class InvoiceController extends Controller
 
 	}
 	public function queryPendingReceivedVerification(){
+
+		/* $query  = "SELECT "; */
+		/* $query .= "inv.id as invoice_id, "; */
+		/* $query .= "inv.created_at as created_at, "; */
+		/* $query .= "inv.created_at as tanggal, "; */
+		/* $query .= "sum(prx.piutang) as total_piutang, "; */
+		/* $query .= "sum(pdb.pembayaran) as total_pembayaran, "; */
+		/* $query .= "asu.nama as nama_asuransi "; */
+		/* $query .= "FROM invoices as inv "; */
+		/* $query .= "JOIN periksas as prx on prx.invoice_id = inv.id "; */
+		/* $query .= "JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id "; */
+		/* $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id "; */
+		/* $query .= "WHERE asu.tipe_asuransi = 3 "; */
+		/* $query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ; */
+		/* $query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) "; */
+		/* $query .= "GROUP BY inv.id "; */
+		/* $query .= "HAVING sum( prx.piutang ) - sum( pdb.pembayaran ) > 0 "; */
+		/* $query .= "ORDER BY inv.created_at asc "; */
+
 		$query  = "SELECT ";
+		$query .= "invoice_id, ";
+		$query .= "created_at, ";
+		$query .= "tanggal, ";
+		$query .= "sum(piutang) as total_piutang, ";
+		$query .= "sum(pembayaran) as total_pembayaran, ";
+		$query .= "nama_asuransi ";
+		$query .= "FROM ";
+		$query .= "(";
+		$query .= "SELECT ";
 		$query .= "inv.id as invoice_id, ";
 		$query .= "inv.created_at as created_at, ";
 		$query .= "inv.created_at as tanggal, ";
-		$query .= "sum(prx.piutang) as total_piutang, ";
-		$query .= "sum(pdb.pembayaran) as total_pembayaran, ";
+		$query .= "prx.piutang as piutang, ";
+		$query .= "COALESCE(sum(pdb.pembayaran),0) as pembayaran, ";
 		$query .= "asu.nama as nama_asuransi ";
 		$query .= "FROM invoices as inv ";
 		$query .= "JOIN periksas as prx on prx.invoice_id = inv.id ";
-		$query .= "JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
+		$query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "WHERE asu.tipe_asuransi = 3 ";
 		$query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ;
 		$query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) ";
-		$query .= "GROUP BY inv.id ";
-		$query .= "HAVING sum( prx.piutang ) - sum( pdb.pembayaran ) > 0 ";
-		$query .= "ORDER BY inv.created_at asc ";
+		/* $query .= "AND inv.id = 'INV/1/KJE/P187/II/2022' "; */
+		$query .= "GROUP BY prx.id ";
+		$query .= ") as bl ";
+		$query .= "GROUP BY invoice_id ";
+		$query .= "HAVING sum( piutang ) - sum( pembayaran ) > 0 ";
+		$query .= "ORDER BY created_at asc ";
+		/* dd( DB::select($query) ); */
 		return DB::select($query);
+
 	}
 }

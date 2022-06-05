@@ -21,9 +21,9 @@ function getData() {
             var temp = "";
 
             for (let i = 0, len = data.length; i < len; i++) {
-                var sudah_dibayar = 0;
+                var total_sudah_dibayar = 0;
                 if (data[i].sudah_dibayar !== null) {
-                    sudah_dibayar = data[i].sudah_dibayar;
+                    total_sudah_dibayar = data[i].total_sudah_dibayar;
                 }
                 temp += "<tr>";
                 temp += "<td nowrap>";
@@ -36,13 +36,13 @@ function getData() {
                 temp += data[i].nama_asuransi;
                 temp += "</td>";
                 temp += '<td class="uang">';
-                temp += data[i].piutang;
+                temp += data[i].total_piutang;
                 temp += "</td>";
                 temp += '<td class="uang">';
                 temp += sudah_dibayar;
                 temp += "</td>";
                 temp += '<td class="uang">';
-                temp += data[i].piutang - data[i].sudah_dibayar;
+                temp += data[i].total_piutang - data[i].total_sudah_dibayar;
                 temp += "</td>";
                 temp += "<td nowrap>";
                 temp +=

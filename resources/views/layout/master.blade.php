@@ -157,6 +157,7 @@
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('pembelians', 'Pembelian Obat ')!!}</li>
                             <li>{!! HTML::link('invoices', 'Invoice')!!}</li>
+                            <li>{!! HTML::link('invoices/pendingReceivedVerification', 'Pending Received Verification ADMEDIKA')!!}</li>
                             <li>{!! HTML::link('laporans/cari_transaksi', 'Cari Transaksi')!!}</li>
                             <li>{!! HTML::link('fakturbelanjas/obat', 'Faktur Belanja Obat')!!}</li>
                             <li>{!! HTML::link('fakturbelanjas/alat', 'Faktur Belanja Peralatan')!!}</li>
