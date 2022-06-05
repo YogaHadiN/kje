@@ -36,12 +36,10 @@ Klinik Jati Elok | Piutang Asuransi
 						{!! Form::file('received_verification') !!}
 							@if (isset($invoice) && $invoice->received_verification)
 								<p>
-									<a href="{{ \Storage::disk('s3')->url($invoice->received_verification ) }}" target="_blank">
-										<img src="{{ \Storage::disk('s3')->url($invoice->received_verification ) }}" class="upload" alt="...">
+									<a class="btn btn-primary" href="{{ \Storage::disk('s3')->url($invoice->received_verification ) }}" target="_blank">
+										Download ZIP file
 									</a>
 								</p>
-							@else
-								<p> {!! HTML::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
 							@endif
 						{!! $errors->first('received_verification', '<p class="help-block">:message</p>') !!}
 					</div>
@@ -71,7 +69,7 @@ Klinik Jati Elok | Piutang Asuransi
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			{{ $invoice->id }} ({{ $invoice->periksa->first()->asuransi->nama }})
+			{{ $invoice->id }} ({{ $invoice->periksa->first()->asuransi->nama }}) Sebanyak {{ $invoice->periksa->count() }} Berkas
 		</h3>
 	</div>
 	<div class="panel-body">
@@ -90,6 +88,14 @@ Klinik Jati Elok | Piutang Asuransi
 					</tr>
 				</thead>
 				<tbody>
+
+					@php
+						$total_piutang       = 0;
+						$total_tunai         = 0;
+						$total_tagihan       = 0;
+						$total_sudah_dibayar = 0;
+						$total_sisa_dibayar  = 0;
+					@endphp
 					@if($invoice->periksa->count() > 0)
 						@foreach($invoice->periksa as $piutang)
 							<tr>
@@ -110,6 +116,13 @@ Klinik Jati Elok | Piutang Asuransi
 								<td class="uang">{{ $piutang->sudah_dibayar }}</td>
 								<td class="uang">{{ $piutang->piutang  - $piutang->sudah_dibayar }}</td>
 							</tr>
+							@php
+								$total_piutang       += $piutang->piutang;
+								$total_tunai         += $piutang->tunai;
+								$total_tagihan       += $piutang->piutang - $piutang->tunai;
+								$total_sudah_dibayar += $piutang->sudah_dibayar;
+								$total_sisa_dibayar  += $piutang->piutang - $piutang->sudah_dibayar;
+							@endphp
 						@endforeach
 					@else
 						<tr>
@@ -117,6 +130,16 @@ Klinik Jati Elok | Piutang Asuransi
 						</tr>
 					@endif
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3"></td>
+						<td class="uang">{{ $total_piutang}}</td>
+						<td class="uang">{{ $total_tunai}}</td>
+						<td class="uang">{{ $total_tagihan}}</td>
+						<td class="uang">{{ $total_sudah_dibayar}}</td>
+						<td class="uang">{{ $total_sisa_dibayar}}</td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>

@@ -243,17 +243,12 @@ class KasirsController extends Controller
 			$validateReceivedVerification = 'warning';
 		}
 
-		/* dd( */
-		/* 	  Carbon::parse($invoiceBelumDiterimaAdmedika[0]->created_at)->format('Y-m-d') , date('Y-m-d'), */
-		/* 	 day_diff(  Carbon::parse($invoiceBelumDiterimaAdmedika[0]->created_at)->format('Y-m-d') , date('Y-m-d')) */ 
-		/* ); */
+
 
 		if ( day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 ) {
 			$status                      = 'danger';
 			$validateReceivedVerification = 'danger';
 		}
-
-		/* dd( count( $invoiceBelumDiterimaAdmedika )); */
 
 		return view('kasirs.saldo', compact(
 			'saldos',
