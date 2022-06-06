@@ -601,20 +601,26 @@ class PendapatansController extends Controller
 	}
 	public function invoicesQuery($asuransi_id, $nilai = false){
 		$query  = "SELECT ";
+		$query .= "invoice_id, ";
+		$query .= "sum(tagihan) as total_tagihan ";
+		$query .= "FROM ";
+		$query .= "(";
+		$query .= "SELECT ";
 		$query .= "inv.id as invoice_id, ";
-		if ($nilai) {
-			$query .= "sum(px.piutang - pd.pembayaran) as total_tagihan ";
-		} else {
-			$query .= "count(px.piutang - pd.pembayaran) as total_tagihan ";
-		}
+		$query .= "px.piutang as piutang, ";
+		$query .= "sum(pd.pembayaran) as pembayaran, ";
+		$query .= "px.piutang - sum(pd.pembayaran) as tagihan ";
+		$query .= "count(px.piutang) as count_tagihan ";
 		$query .= "FROM invoices as inv ";
 		$query .= "JOIN periksas as px on px.invoice_id = inv.id ";
 		$query .= "JOIN piutang_dibayars as pd on pd.periksa_id = px.id ";
 		$query .= "WHERE px.asuransi_id = '{$asuransi_id}' ";
 		$query .= "AND inv.pembayaran_asuransi_id is null ";
+		$query .= "GROUP BY prx.id";
+		$query .= ") as bl ";
 		$query .= "GROUP BY inv.id";
 		if ($nilai) {
-			$query .= " HAVING sum(px.piutang - pd.sudah_dibayar) = {$nilai} LIMIT 1;";
+			$query .= " HAVING total_tagihan = {$nilai} LIMIT 1;";
 		} else {
 			$query .= ";";
 		}

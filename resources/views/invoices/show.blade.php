@@ -59,9 +59,10 @@ Klinik Jati Elok | Piutang Asuransi
 		  <ul>
 			  <li>Tujuan upload berkas ini adalah memastikan jumlah yang diterima Admedika sama dengan yang kita kirimkan</li>
 			  <li>Jika jumlah berkas yang diterima Admedika tidak sama (kurang) Maka Harus dilakukan upaya untuk mengirimkan berkas sisanya</li>
-			  <li>Gambar yang diupload harus mencakup keseluruhan pasien dan semua uang yang dikirimkan</li>
-			  <li>Gambar yang diupload ini digunakan sebagai bukti bahwa kita sudah mengirimkan berkas, sehingga apabila nanti tagihan tidak dibayarkan karena tagihan berlum diterima, maka kita bisa tunjukkan bawha berkas tersebut sudah diterima admedika</li>
-			  <li>Gambar upload harus dilakukan dalam jangka waktu 6 bulan, karena data di Admedika akan hilang apabila berkas pengiriman lebih dari 6 bulan</li>
+			  <li>File yang di upload harus dalam bentuk zip yang isinya adalah file html dan folder asset</li>
+			  <li>Jika file html dibuka, maka akan terlihat halaman informasi bukti penerimaan berkas di admedika</li>
+			  <li>File zip yang diupload ini digunakan sebagai bukti bahwa kita sudah mengirimkan berkas, sehingga apabila nanti tagihan tidak dibayarkan karena tagihan berlum diterima, maka kita bisa tunjukkan bawha berkas tersebut sudah diterima admedika</li>
+			  <li>Upload harus dilakukan dalam jangka waktu 6 bulan, karena data di Admedika akan hilang apabila berkas pengiriman lebih dari 6 bulan</li>
 		  </ul>
 		</div>
 	</div>
