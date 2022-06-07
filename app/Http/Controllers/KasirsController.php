@@ -237,15 +237,20 @@ class KasirsController extends Controller
 
 		// Jika invoice terakhir sudah dikirim 1 minggu yang lalu, maka 
 		$validateReceivedVerification = 'primary';
-		if ( day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 7 ) {
-
+		if ( 
+			count($invoiceBelumDiterimaAdmedika)  &&
+			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 7 
+		) {
 			$status                      = 'warning';
 			$validateReceivedVerification = 'warning';
 		}
 
 
 
-		if ( day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 ) {
+		if (
+			count($invoiceBelumDiterimaAdmedika)  &&
+			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 
+		) {
 			$status                      = 'danger';
 			$validateReceivedVerification = 'danger';
 		}
