@@ -609,16 +609,16 @@ class PendapatansController extends Controller
 		$query .= "inv.id as invoice_id, ";
 		$query .= "px.piutang as piutang, ";
 		$query .= "sum(pd.pembayaran) as pembayaran, ";
-		$query .= "px.piutang - sum(pd.pembayaran) as tagihan ";
+		$query .= "px.piutang - sum(pd.pembayaran) as tagihan, ";
 		$query .= "count(px.piutang) as count_tagihan ";
 		$query .= "FROM invoices as inv ";
 		$query .= "JOIN periksas as px on px.invoice_id = inv.id ";
 		$query .= "JOIN piutang_dibayars as pd on pd.periksa_id = px.id ";
 		$query .= "WHERE px.asuransi_id = '{$asuransi_id}' ";
 		$query .= "AND inv.pembayaran_asuransi_id is null ";
-		$query .= "GROUP BY prx.id";
+		$query .= "GROUP BY px.id";
 		$query .= ") as bl ";
-		$query .= "GROUP BY inv.id";
+		$query .= "GROUP BY invoice_id";
 		if ($nilai) {
 			$query .= " HAVING total_tagihan = {$nilai} LIMIT 1;";
 		} else {
