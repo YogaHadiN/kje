@@ -197,6 +197,9 @@ class InvoiceController extends Controller
 		$query .= "WHERE asu.tipe_asuransi = 3 ";
 		$query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ;
 		$query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) ";
+		$query .= "AND asu.id not in (";
+		$query .= "151";
+		$query .= ")";
 		/* $query .= "AND inv.id = 'INV/1/KJE/P187/II/2022' "; */
 		$query .= "GROUP BY prx.id ";
 		$query .= ") as bl ";
