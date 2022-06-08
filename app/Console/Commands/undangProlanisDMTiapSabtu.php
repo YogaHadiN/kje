@@ -34,6 +34,8 @@ class undangProlanisDMTiapSabtu extends Command
         parent::__construct();
     }
 
+    public $jangan_puasa_pasien_ids;
+
     /**
      * Execute the console command.
      *
@@ -55,11 +57,12 @@ class undangProlanisDMTiapSabtu extends Command
 
         $data   = [];
         $notelp = [];
-        Log::info('==================');
+        $this->jangan_puasa_pasien_ids = $this->pasien_ids_gula_darah_rendah($pasiens);
+
         foreach ($pasiens as $pasien) {
-            $data[] = $this->templatePesan($pasien->nama, $pasien->id, $pasien->no_telp);
+            $data[] = $this->templatePesan($pasien);
         }
-        Log::info('==================');
+        /* $data[] = $this->templatePesan( $pasiens[0]); */
         $wa = new WablasController;
         $wa->bulkSend($data);
     }
@@ -69,19 +72,26 @@ class undangProlanisDMTiapSabtu extends Command
      *
      * @return void
      */
-    public function templatePesan($nama, $pasien_id, $no_telp)
+    public function templatePesan($pasien)
     {
         $message = 'Selamat siang. Maaf mengganggu. Kami dari Klinik Jati Elok. Izin mengingatkan bahwa peserta BPJS atas nama ';
         $message .= PHP_EOL;
         $message .= PHP_EOL;
-        $message .=  ucwords($nama);
+        $message .=  ucwords($pasien->nama);
         $message .= PHP_EOL;
         $message .= PHP_EOL;
         $message .= 'Untuk melakukan pemeriksaan rutin Gula Darah di Klinik Jati Elok bulan ini. ';
         $message .= PHP_EOL;
         $message .= 'Biaya pemeriksaan tersebut sudah ditanggung oleh BPJS kesehatan. ';
         $message .= PHP_EOL;
-        $message .= 'Persiapan pemeriksaan mohon agar tidak makan dan minum kecuali air putih selama 8-10 jam.';
+        $message .= PHP_EOL;
+
+        if ( in_array( $pasien->id, $this->jangan_puasa_pasien_ids)) {
+            $message .= '*Mengingat gula darah bapak / ibu bulan kemarin cenderung normal, Mohon agar makan dahulu sebelum pemeriksaan.* ';
+        } else {
+            $message .= 'Persiapan pemeriksaan mohon agar tidak makan dan minum kecuali air putih selama 8-10 jam.';
+        }
+
         $message .= PHP_EOL;
         $message .= PHP_EOL;
         $message .= 'Izin menanyakan kira-kira bapak / ibu berkenan untuk periksa hari ini atau besok?';
@@ -92,14 +102,14 @@ class undangProlanisDMTiapSabtu extends Command
         $message .= 'Jika menurut anda pesan ini dirasa mengganggu, silahkan klik link di bawah ini';
         $message .= PHP_EOL;
         $message .= PHP_EOL;
-        $message .= 'https://www.klinikjatielok.com/eksklusi/' . encrypt_string($pasien_id);
+        $message .= 'https://www.klinikjatielok.com/eksklusi/' . encrypt_string($pasien->id);
         $message .= PHP_EOL;
         $message .= PHP_EOL;
         $message .= 'Terima kasih';
 
-        $notelp[] = $no_telp;
-        /* $no_wa    = '081381912803'; */
-        Log::info('terkirim wa ke '. $nama . '-' . $no_telp . ' undangan prolanis dm');
+        Log::info('terkirim wa ke '. $pasien->nama . '-' . $pasien->no_telp . ' undangan prolanis dm');
+        $no_telp = $pasien->no_telp;
+        /* $no_telp = '081381912803'; */
         return [
             'phone'    => $no_telp,
             'message'  => $message,
@@ -107,5 +117,49 @@ class undangProlanisDMTiapSabtu extends Command
             'priority' => false, // or true
         ];
     }
-    
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function pasien_ids_gula_darah_rendah($pasiens)
+    {
+        $pasien_ids = [];
+        foreach ($pasiens as $pasien) {
+            $pasien_ids[] = $pasien->id;
+        }
+
+        /* $lastMonth =  \Carbon\Carbon::now()->format('Y-m'); */
+        $lastMonth =  \Carbon\Carbon::now()->subMonth()->format('Y-m');
+
+        $query  = "SELECT ";
+        $query .= "prx.pasien_id ";
+        $query .= "FROM transaksi_periksas as trp ";
+        $query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
+        $query .= "WHERE prx.tanggal like '{$lastMonth}%' ";
+        $query .= "AND trp.jenis_tarif_id = 116 "; // Gula Darah
+        $query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
+        $query .= "AND CAST(trp.keterangan_pemeriksaan AS integer) > 0 ";
+        $query .= "AND CAST(trp.keterangan_pemeriksaan AS integer) < 81 ";
+        $query .= "AND prx.pasien_id in "; 
+        $query .= "( "; 
+        foreach ($pasien_ids as $k => $id) {
+            if ($k) {
+                $query .= ",'" . $id . "'";
+            } else {
+                $query .= "'" . $id . "'";
+            }
+        }
+        $query .= ") "; 
+        $query .= "ORDER BY CAST(trp.keterangan_pemeriksaan AS integer) desc;"; 
+        $data = DB::select($query);
+
+        $pasien_ids_gula_darah_rendah = [];
+
+        foreach ($data as $d) {
+            $pasien_ids_gula_darah_rendah[] = $d->pasien_id;
+        }
+        return $pasien_ids_gula_darah_rendah;
+    }
 }
