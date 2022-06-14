@@ -200,7 +200,7 @@ class KasirsController extends Controller
 
 			// Cari pasien yang memiliki image kartu bpjs dan masuk dalam pasien_prolanis bulan ini
 			$bulanIni  = date('Y-m');
-			$query     = "SELECT count(prn.id) as count "; // cari semua 
+			$query     = "SELECT count(ppr.id) as count "; // cari semua 
 			$query    .= "FROM pasien_prolanis as ppr ";
 			$query    .= "JOIN pasiens as psn on psn.id = ppr.pasien_id ";
 			$query    .= "WHERE ppr.created_at like '{$bulanIni}%' ";

@@ -93,7 +93,11 @@ class PesertaBpjsPerbulanController extends Controller
             $prolanis->prolanis      = $d['prolanis'];
             $prolanis->club_prolanis = $d['club_prolanis'];
             $prolanis->periode       = $d['periode'];
-            $prolanis->save();
+            try {
+                $prolanis->save();
+            } catch (\Exception $e) {
+                dd( $d );
+            }
             $prolanis->pasienProlanis()->createMany($d['pasien_ids']);
         }
         $pesan = Yoga::suksesFlash('Data prolanis berhasil dimasukkan');
