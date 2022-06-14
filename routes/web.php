@@ -411,6 +411,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('belanjalist', [\App\Http\Controllers\BelanjaListsController::class, 'index']);
 
 		Route::get('prolanis', [\App\Http\Controllers\PesertaBpjsPerbulanController::class, 'index']); 
+		Route::delete('prolanis/{id}', [\App\Http\Controllers\PesertaBpjsPerbulanController::class, 'destroy']); 
 		Route::get('prolanis/verifikasi/{date}', [\App\Http\Controllers\ProlanisController::class, 'verifikasi']); 
 
 

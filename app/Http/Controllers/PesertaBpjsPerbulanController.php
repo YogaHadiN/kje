@@ -89,9 +89,9 @@ class PesertaBpjsPerbulanController extends Controller
             $prolanis->usia          = $d['usia'];
             $prolanis->no            = $d['no'];
             $prolanis->alamat        = $d['alamat'];
-            $prolanis->prb           = $d['prb'];
+            /* $prolanis->prb           = $d['prb']; */
             $prolanis->prolanis      = $d['prolanis'];
-            $prolanis->club_prolanis = $d['club_prolanis'];
+            /* $prolanis->club_prolanis = $d['club_prolanis']; */
             $prolanis->periode       = $d['periode'];
             try {
                 $prolanis->save();
@@ -118,11 +118,6 @@ class PesertaBpjsPerbulanController extends Controller
         $peserta_bpjs_perbulan = $this->processData($peserta_bpjs_perbulan);
 
         $pesan = Yoga::suksesFlash('PesertaBpjsPerbulan berhasil diupdate');
-        return redirect('peserta_bpjs_perbulans')->withPesan($pesan);
-    }
-    public function destroy($id){
-        PesertaBpjsPerbulan::destroy($id);
-        $pesan = Yoga::suksesFlash('PesertaBpjsPerbulan berhasil dihapus');
         return redirect('peserta_bpjs_perbulans')->withPesan($pesan);
     }
 
@@ -289,4 +284,14 @@ class PesertaBpjsPerbulanController extends Controller
             'prolanis_dm' => 1
         ]);
     }
+    public function destroy($id){
+        $prolanis = Prolanis::find( $id );
+
+        $periode = $prolanis->periode;
+        Prolanis::where('periode', $periode)->delete();
+        $pesan = Yoga::suksesFlash('Prolanis bulan ' . \Carbon\Carbon::parse($periode)->format('M Y') . ' berhasil dihapus');
+        return redirect('model_plural')->withPesan($pesan);
+    }
+    
 }
+

@@ -61,10 +61,10 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
                 !is_null($c['prb'])
             ) {
                 if (
-                    str_contains($c['prolanis'] ,"Diabetes") ||
-                    str_contains($c['prb'] ,"Diabetes") ||
-                    str_contains($c['prolanis'] ,"Hypertensi") ||
-                    str_contains($c['prb'] ,"Hypertensi")
+                    str_contains($c['prolanis'] ,"Diabetes")
+                    /* || str_contains($c['prb'] ,"Diabetes") */
+                   || str_contains($c['prolanis'] ,"Hypertensi")
+                    /* || str_contains($c['prb'] ,"Hypertensi") */
                 ) {
                     $data = $this->query($firstdayofmonth, $c['nama'], $c['usia']);
                     $this->data[] = [
@@ -73,9 +73,9 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
                         "usia"          => $c['usia'],
                         "no"            => $c['no'],
                         "alamat"        => $c['alamat'],
-                        "prb"           => $c['prb'],
-                        "prolanis"      => is_null($c['prolanis']) ? $c['prb'] : $c['prolanis'],
-                        "club_prolanis" => $c['club_prolanis'],
+                        /* "prb"           => $c['prb'], */
+                        "prolanis"      => $c['prolanis'],
+                        /* "club_prolanis" => $c['club_prolanis'], */
                         "periode"       => $firstdayofmonth,
                         'created_at'    => $timestamp,
                         'updated_at'    => $timestamp

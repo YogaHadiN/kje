@@ -1,3 +1,2 @@
-CREATE INDEX index_invoice_id ON periksas (invoice_id);
-alter table periksas convert to character set utf8mb4 collate utf8mb4_unicode_ci;
+alter table prolanis drop column prb, club_prolanis;
 

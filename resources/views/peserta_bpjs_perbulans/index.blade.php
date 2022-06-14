@@ -93,13 +93,18 @@ Klinik Jati Elok | Peserta BPJS bulanan
 							<td>{{ $p->jumlah_ht}}</td>
 							<td>{{ $p->jumlah_dm}}</td>
 							<td>
-								@if ($p->unverified)
-									<a class="btn btn-danger" href="{{ url('prolanis/verifikasi/' . $p->periode) }}" target="_blank">
-										Please Verify
-									</a>
-								@else
-									Verified
-								@endif
+									{!! Form::open(['url' => 'prolanis/' . $p->id, 'method' => 'delete']) !!}
+										@if ($p->unverified)
+											<a class="btn btn-warning btn-sm" href="{{ url('prolanis/verifikasi/' . $p->periode) }}" target="_blank">
+												Please Verify
+											</a>
+										@else
+											Verified
+										@endif
+										@if( $p->periode == date('Y-m-01'))
+											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus periode bulan ini ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+										@endif
+									{!! Form::close() !!}
 							</td>
 						</tr>
 					@endforeach
@@ -121,3 +126,5 @@ Klinik Jati Elok | Peserta BPJS bulanan
 		}
 	</script>
 @stop
+
+	
