@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Input;
 use DB;
+use Log;
 use App\Http\Requests;
 use App\Models\Merek;
 use App\Models\Pasien;
@@ -311,41 +312,47 @@ class PoliAjaxController extends Controller
 	}
 
 	public function ajxobat(){
-
 		$merek_id = Input::get('merek_id');
+		$merek      = Merek::with('rak.formula.komposisi')->where('id',$merek_id)->first();
+		if ( !is_null($merek)) {
+			$komposisi  = $merek->rak->formula->komposisi;
+			$komposisis = [];
+			foreach ($komposisi as $key => $komp) {
+				$komposisis[] = [
+					'komposisi'              => $komp->generik->generik . ' ' . $komp->bobot,
+					'pregnancy_safety_index' => $komp->generik->pregnancy_safety_index
+				];
+			}
+			$formula        = $merek->rak->formula;
+			$kontraindikasi = $formula->kontraindikasi;
+			$indikasi       = $formula->indikasi;
+			$efek_samping   = $formula->efek_samping;
 
-		$merek = Merek::find($merek_id);
+			$data = [
+				'komposisis'     => $komposisis,
+				'kontraindikasi' => $kontraindikasi,
+				'indikasi'       => $indikasi,
+				'efek_samping'   => $efek_samping
 
-		$formula_id = $merek->rak->formula_id;
-
-		$komposisi = Komposisi::where('formula_id', $formula_id)->get();
-
-        $komposisis = [];
-
-		foreach ($komposisi as $key => $komp) {
-			$komposisis[] = [
-				'komposisi' => $komp->generik->generik . ' ' . $komp->bobot,
-				'pregnancy_safety_index' => $komp->generik->pregnancy_safety_index
 			];
+		} else {
+
+			$data = [
+				'komposisis'     => [],
+				'kontraindikasi' => null,
+				'indikasi'       => null,
+				'efek_samping'   => null
+			];
+
+			Log::info('=============================================');
+			Log::info('=============================================');
+			Log::info('');
+			Log::info('Tidak ditemukan merek dengan id ' . $merek_id);
+			Log::info('');
+			Log::info('=============================================');
+			Log::info('=============================================');
 		}
-
-
-		$formula = Formula::find($formula_id);
-		$kontraindikasi = $formula->kontraindikasi;
-		$indikasi = $formula->indikasi;
-		$efek_samping = $formula->efek_samping;
-
-		$data = [
-
-			'komposisis'     => $komposisis,
-			'kontraindikasi' => $kontraindikasi,
-			'indikasi'       => $indikasi,
-			'efek_samping'   => $efek_samping
-
-		];
-
 		return json_encode($data);
-
 	}
 
 

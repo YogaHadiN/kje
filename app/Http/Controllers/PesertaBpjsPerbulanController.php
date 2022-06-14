@@ -55,9 +55,8 @@ class PesertaBpjsPerbulanController extends Controller
         $query .= "JOIN prolanis as pro on pro.id = ppr.prolanis_id ";
         $query .= "JOIN pasiens as psn on psn.id = ppr.pasien_id ";
         $query .= "GROUP BY pro.id) t ";
-        $query .= "GROUP By periode";
-        $prolanis = DB::select($query);
-
+        $query .= "GROUP By periode ";
+        $query .= "ORDER BY id desc ";
         $prolanis = DB::select($query);
         return view('peserta_bpjs_perbulans.index', compact(
             'prolanis'
