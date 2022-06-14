@@ -74,7 +74,7 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
                         "no"            => $c['no'],
                         "alamat"        => $c['alamat'],
                         "prb"           => $c['prb'],
-                        "prolanis"      => $c['prolanis'],
+                        "prolanis"      => is_null($c['prolanis']) ? $c['prb'] : $c['prolanis'],
                         "club_prolanis" => $c['club_prolanis'],
                         "periode"       => $firstdayofmonth,
                         'created_at'    => $timestamp,
