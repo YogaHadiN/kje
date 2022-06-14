@@ -208,12 +208,12 @@ class KasirsController extends Controller
 			$query    .= "AND ( psn.bpjs_image is not null and psn.bpjs_image not like '' ) ";
 			$pasienBelumDivalidasi      = DB::select($query);
 
-			if ( date('j') > 6 && $pasienBelumDivalidasi->count > 1) {
+			if ( date('j') > 6 && count($pasienBelumDivalidasi) > 1) {
 				$status                      = 'warning';
 				$validasiProlanisBpjsWarning = 'warning';
 			} 
 
-			if ( date('j') > 14 && $pasienBelumDivalidasi->count > 1) {
+			if ( date('j') > 14 && count($pasienBelumDivalidasi) > 1) {
 				$status                      = 'danger';
 				$validasiProlanisBpjsWarning = 'danger';
 			} 
