@@ -1,2 +1,3 @@
-alter table prolanis drop column prb, club_prolanis;
+alter table prolanis drop column prb;
+alter table prolanis drop column club_prolanis;
 

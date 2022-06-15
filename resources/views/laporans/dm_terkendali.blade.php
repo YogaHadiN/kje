@@ -52,6 +52,9 @@ Klinik Jati Elok | Laporan DM Terkendali
                         <td>{{ $d['tanggal_lahir'] }}</td>
                         <td>{{ $d['alamat'] }}</td>
                         <td>{{ $d['gula_darah'] }}</td>
+                        <td>
+                            <a href="{{ url('pasiens/riwayat/gula_darah/' . $d['pasien_id'] )}}" target="_blank" class="btn btn-info btn-xs">Riwayat GDS</a>
+                        </td>
                     </tr>
                 @endforeach
             @endif

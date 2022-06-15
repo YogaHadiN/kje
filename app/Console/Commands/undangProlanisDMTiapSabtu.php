@@ -64,7 +64,7 @@ class undangProlanisDMTiapSabtu extends Command
         }
         /* $data[] = $this->templatePesan( $pasiens[0]); */
         $wa = new WablasController;
-        $wa->bulkSend($data);
+        /* $wa->bulkSend($data); */
     }
 
     /**
@@ -131,17 +131,15 @@ class undangProlanisDMTiapSabtu extends Command
         }
 
         /* $lastMonth =  \Carbon\Carbon::now()->format('Y-m'); */
-        $lastMonth =  \Carbon\Carbon::now()->subMonth()->format('Y-m');
+        /* $lastMonth =  \Carbon\Carbon::now()->subMonth()->format('Y-m'); */
 
         $query  = "SELECT ";
-        $query .= "prx.pasien_id ";
+        $query .= "prx.pasien_id, ";
+        $query .= "trp.keterangan_pemeriksaan ";
         $query .= "FROM transaksi_periksas as trp ";
         $query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
-        $query .= "WHERE prx.tanggal like '{$lastMonth}%' ";
         $query .= "AND trp.jenis_tarif_id = 116 "; // Gula Darah
         $query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
-        $query .= "AND CAST(trp.keterangan_pemeriksaan AS integer) > 0 ";
-        $query .= "AND CAST(trp.keterangan_pemeriksaan AS integer) < 81 ";
         $query .= "AND prx.pasien_id in "; 
         $query .= "( "; 
         foreach ($pasien_ids as $k => $id) {
@@ -152,8 +150,12 @@ class undangProlanisDMTiapSabtu extends Command
             }
         }
         $query .= ") "; 
-        $query .= "ORDER BY CAST(trp.keterangan_pemeriksaan AS integer) desc;"; 
+        $query .= "GROUP BY prx.pasien_id "; 
+        $query .= "ORDER BY prx.id asc ;"; 
+        dd( $query );
         $data = DB::select($query);
+
+        dd( $data );
 
         $pasien_ids_gula_darah_rendah = [];
 

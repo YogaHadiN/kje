@@ -216,6 +216,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasiens/{id}/transaksi', [\App\Http\Controllers\PasiensController::class, 'transaksi']);
 	Route::get('pasiens/getTransaksi/{id}', [\App\Http\Controllers\PasiensController::class, 'getTransaksi']);
 	Route::get('pasien_dobel', [\App\Http\Controllers\PasiensController::class, 'dobel']);
+	Route::get('pasiens/riwayat/gula_darah/{id}', [\App\Http\Controllers\PasiensController::class, 'riwayat_pemeriksaan_gula_darah']);
 	Route::resource('pasiens', \App\Http\Controllers\PasiensController::class);
 	Route::resource('periksas', \App\Http\Controllers\PeriksasController::class);
 

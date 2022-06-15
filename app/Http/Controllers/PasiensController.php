@@ -700,6 +700,26 @@ class PasiensController extends Controller
 		}
 		return $rules;
 	}
+	public function riwayat_pemeriksaan_gula_darah($id){
+		$query  = "SELECT ";
+		$query .= "psn.nama as nama_pasien, ";
+		$query .= "prx.tanggal as tanggal, ";
+		$query .= "trp.keterangan_pemeriksaan as gula_darah ";
+		$query .= "FROM transaksi_periksas as trp ";
+		$query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "WHERE ";
+		$query .= "prx.pasien_id = '{$id}' ";
+		$query .= "AND trp.jenis_tarif_id = 116 "; // gula darah 
+		$query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
+		$query .= "ORDER BY prx.id desc";  // keterangan_pemeriksaan berbentuk number
+		$data = DB::select($query);
+
+		return view('pasiens.riwayat_pemeriksaan_gula_darah', compact(
+			'data'
+		));
+	}
+			
 	
 	
 }
