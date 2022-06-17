@@ -64,7 +64,7 @@ class undangProlanisDMTiapSabtu extends Command
         }
         /* $data[] = $this->templatePesan( $pasiens[0]); */
         $wa = new WablasController;
-        /* $wa->bulkSend($data); */
+        $wa->bulkSend($data);
     }
 
     /**
@@ -130,12 +130,9 @@ class undangProlanisDMTiapSabtu extends Command
             $pasien_ids[] = $pasien->id;
         }
 
-        /* $lastMonth =  \Carbon\Carbon::now()->format('Y-m'); */
-        /* $lastMonth =  \Carbon\Carbon::now()->subMonth()->format('Y-m'); */
-
         $query  = "SELECT ";
-        $query .= "prx.pasien_id, ";
-        $query .= "trp.keterangan_pemeriksaan ";
+        $query .= "prx.pasien_id as pasien_id, ";
+        $query .= "trp.keterangan_pemeriksaan as keterangan_pemeriksaan ";
         $query .= "FROM transaksi_periksas as trp ";
         $query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
         $query .= "AND trp.jenis_tarif_id = 116 "; // Gula Darah
@@ -150,18 +147,22 @@ class undangProlanisDMTiapSabtu extends Command
             }
         }
         $query .= ") "; 
-        $query .= "GROUP BY prx.pasien_id "; 
-        $query .= "ORDER BY prx.id asc ;"; 
-        dd( $query );
+        $query .= "ORDER BY prx.pasien_id, trp.keterangan_pemeriksaan * 1 asc;"; 
         $data = DB::select($query);
 
-        dd( $data );
-
-        $pasien_ids_gula_darah_rendah = [];
+        $data_gula_tertinggi_per_pasien = [];
 
         foreach ($data as $d) {
-            $pasien_ids_gula_darah_rendah[] = $d->pasien_id;
+            $data_gula_tertinggi_per_pasien[$d->pasien_id] = $d->keterangan_pemeriksaan;
         }
-        return $pasien_ids_gula_darah_rendah;
+
+        $data_pasien_id_gula_normal = [];
+
+        foreach ($data_gula_tertinggi_per_pasien as $k => $d) {
+            if ( $d < 131 ) {
+                $data_pasien_id_gula_normal[] = $k;
+            }
+        }
+        return $data_pasien_id_gula_normal;
     }
 }

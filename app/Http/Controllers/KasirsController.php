@@ -154,7 +154,9 @@ class KasirsController extends Controller
 		// ==========================================================================================
 		//
 		//
-		$denominatorBpjsBulanIniAda = DenominatorBpjs::where('bulanTahun', date('Y-m'))->exists();
+		$denominatorBpjsBulanIniAda = DenominatorBpjs::where('bulanTahun', 'like', date('Y-m') . '%')->exists();
+
+		/* dd( ' $denominatorBpjsBulanIniAda ',  $denominatorBpjsBulanIniAda ); */
 
 		$denominatorBpjsWarning = 'primary';
 
@@ -174,7 +176,7 @@ class KasirsController extends Controller
 		// ==========================================================================================
 		//
 		//
-		$pasienProlanisBulanIniSudahDiupload  = PasienProlanis::where('created_at', 'like', date('Y-m-d') . '%')->exists();
+		$pasienProlanisBulanIniSudahDiupload  = PasienProlanis::where('created_at', 'like', date('Y-m') . '%')->exists();
 		$uploadDataPesertaBpjsWarning = 'primary';
 
 		if ( date('j') > 6 && !$pasienProlanisBulanIniSudahDiupload  ) {
@@ -186,6 +188,8 @@ class KasirsController extends Controller
 			$status                       = 'danger';
 			$uploadDataPesertaBpjsWarning = 'danger';
 		} 
+
+		/* dd( ' $pasienProlanisBulanIniSudahDiupload ', $pasienProlanisBulanIniSudahDiupload ); */
 
 		// ==========================================================================================
 		// VALIDASI DATA PROLANIS BPJS YANG SUDAH DIUPLOAD
@@ -246,7 +250,6 @@ class KasirsController extends Controller
 		}
 
 
-
 		if (
 			count($invoiceBelumDiterimaAdmedika)  &&
 			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 
@@ -254,6 +257,8 @@ class KasirsController extends Controller
 			$status                      = 'danger';
 			$validateReceivedVerification = 'danger';
 		}
+
+		/* dd( $status ); */
 
 		return view('kasirs.saldo', compact(
 			'saldos',
