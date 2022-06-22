@@ -43,7 +43,7 @@ Klinik Jati Elok | Laporan DM Terkendali
                             $d['gula_darah'] > 0 
                             && $d['gula_darah'] < 80
                         )
-                            class="warning"
+                            class="danger"
                         @endif
                     >
                         <td>{{ $k + 1 }}</td>
