@@ -47,7 +47,7 @@ Klinik Jati Elok | Laporan DM Terkendali
                         )
                             class="warning"
                         @endif
-                        >
+                    >
                         <td>{{ $k + 1 }}</td>
                         <td>
                             <a href="{{ url('periksas/' . $d['periksa_id'] ) }}" target="_blank">{{ $d['tanggal'] }}</a>
