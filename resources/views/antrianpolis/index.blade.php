@@ -245,7 +245,11 @@
 									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 										<div class="form-group @if($errors->has('gds')) has-error @endif">
 										{!! Form::label('gds', 'GDS', ['class' => 'control-label']) !!}
-										{!! Form::text('gds' , null, ['class' => 'form-control status_gds', 'id' => 'gds']) !!}
+										{!! Form::text('gds' , null, [
+											'class' => 'form-control status_gds',
+											'onkeyup' => 'gdsKeyUp(this);return false;',
+											'id'    => 'gds'
+										]) !!}
 										@if($errors->has('gds'))<code>{{ $errors->first('gds') }}</code>@endif
 										</div>
 									</div>
