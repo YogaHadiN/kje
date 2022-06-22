@@ -34,14 +34,12 @@ Klinik Jati Elok | Laporan DM Terkendali
             @if(count($prolanis_dm) > 0)
                 @foreach($prolanis_dm as $k => $d)
                     <tr
-                        @if 
-                        ( 
+                        @if ( 
                             $d['gula_darah'] >= 80 
                             && $d['gula_darah'] <= 130  
                         )
                             class="success"
-                        @elseif 
-                        (
+                        @elseif (
                             $d['gula_darah'] > 0 
                             && $d['gula_darah'] < 80
                         )
