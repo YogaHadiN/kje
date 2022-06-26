@@ -54,6 +54,7 @@ class PesertaBpjsPerbulanController extends Controller
         $query .= "FROM pasien_prolanis as ppr ";
         $query .= "JOIN prolanis as pro on pro.id = ppr.prolanis_id ";
         $query .= "JOIN pasiens as psn on psn.id = ppr.pasien_id ";
+		$query .= "WHERE ppr.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "GROUP BY pro.id) t ";
         $query .= "GROUP By periode ";
         $query .= "ORDER BY id desc ";
@@ -146,6 +147,7 @@ class PesertaBpjsPerbulanController extends Controller
 
                 // Do insert here
 
+							'tenant_id'  => session()->get('tenant_id'),
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ];

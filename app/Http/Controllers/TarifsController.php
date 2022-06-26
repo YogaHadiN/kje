@@ -105,6 +105,7 @@ class TarifsController extends Controller
 					 'merek_id'       => $bhp['merek_id'],
 					 'jumlah'         => $bhp['jumlah'],
 					 'jenis_tarif_id' => $jenis_tarif->id,
+							'tenant_id'  => session()->get('tenant_id'),
 					 'created_at'     => date('Y-m-d H:i:s'),
 					 'updated_at'     => date('Y-m-d H:i:s')
 				];
@@ -123,6 +124,7 @@ class TarifsController extends Controller
 					'jasa_dokter' =>  Input::get('jasa_dokter'), 
 					'jasa_dokter_tanpa_sip' =>  Input::get('jasa_dokter'), 
 					'bhp_items' =>  Input::get('bhp_items'), 
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' =>  $timestamps, 
 					'updated_at' =>  $timestamps
 				];

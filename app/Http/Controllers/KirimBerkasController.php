@@ -77,6 +77,7 @@ class KirimBerkasController extends Controller
 		$query .= "LEFT JOIN invoices as inv on inv.id = px.invoice_id ";
 		$query .= "LEFT JOIN kirim_berkas as ks on ks.id = inv.kirim_berkas_id ";
 		$query .= "WHERE px.tanggal between '$date_from' and '$date_to' ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND px.asuransi_id = '$asuransi_id' ";
 		$query .= "GROUP BY px.id ";
 		$data = DB::select($query);
@@ -211,6 +212,7 @@ class KirimBerkasController extends Controller
 				'debit'           => 1,
 				'coa_id'           => null,
 				'nilai'           => $peng->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -221,6 +223,7 @@ class KirimBerkasController extends Controller
 				'coa_id'          => Input::get('sumber_uang'),
 				'debit'           => 0,
 				'nilai'           => $peng->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];

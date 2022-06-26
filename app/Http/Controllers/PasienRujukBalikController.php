@@ -63,6 +63,7 @@ class PasienRujukBalikController extends Controller
 	
 				// Do insert here
 	
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			];

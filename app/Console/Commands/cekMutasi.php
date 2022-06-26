@@ -80,6 +80,7 @@ class cekMutasi extends Command
 						'nilai'        => $mutasi->amount,
 						'saldo_akhir'  => $mutasi->balance,
 						'debet'        => $debet,
+						'tenant_id'    => session()->get('tenant_id'),
 						'created_at'   => $timestamp,
 						'updated_at'   => $timestamp
 					];

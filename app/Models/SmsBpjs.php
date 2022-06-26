@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class SmsBpjs extends Model
 {
+    use BelongsToTenant;
 	public function pasien(){
 		return $this->belongsTo('App\Models\Pasien');
 	}
@@ -33,6 +35,7 @@ class SmsBpjs extends Model
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
 		$query.= "OR id in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' )) ";
 		// Sehingga kita bisa mendapat angka kontak saat ini
+		$query .= "and tenant_id = " . session()->get('tenant_id') . " ";
 		return DB::select($query)[0]->jumlah;
 	}
 }

@@ -439,8 +439,9 @@ class FormulasController extends Controller
 		$query .= "join raks as rk on rk.id = mr.rak_id ";
 		$query .= "join formulas as fr on fr.id = rk.formula_id ";
 		$query .= "where fr.id='{$id}' ";
+		$query .= "AND fr.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by supplier_id ";
-		$query .= "order by harga_beli asc;";
+		$query .= "order by harga_beli asc ";
 		$supplierprices = DB::select($query);
 
 		return view('formulas.show', compact('formula', 'raks', 'supplierprices'));

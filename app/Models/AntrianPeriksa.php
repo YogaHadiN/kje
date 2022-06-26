@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Http\Controllers\AntrianPolisController;
 
 class AntrianPeriksa extends Model{
+    use BelongsToTenant;
 	// Add your validation rules here
 	public static $rules = [
 		'asuransi_id' => 'required',

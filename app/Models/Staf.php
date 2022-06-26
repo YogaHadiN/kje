@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use Session;
 use App\Models\Classes\Yoga;
 
 class Staf extends Model{
+    use BelongsToTenant;
 
 	protected $dates = [
 		'tanggal_lahir',

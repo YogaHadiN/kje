@@ -176,8 +176,9 @@ class RaksController extends Controller
 		$query .= "join mereks as mr on mr.id = pb.merek_id ";
 		$query .= "join raks as rk on rk.id = mr.rak_id ";
 		$query .= "where rk.id ='{$id}' ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by supplier_id ";
-		$query .= "order by harga_beli asc;";
+		$query .= "order by harga_beli asc ";
 		$supplierprices = DB::select($query);
 
 		return view('raks.show', compact('rak', 'formula', 'supplierprices'));

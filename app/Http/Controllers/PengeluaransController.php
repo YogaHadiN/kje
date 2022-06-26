@@ -159,6 +159,7 @@ class PengeluaransController extends Controller
 				'debit'           => 1,
 				'coa_id'           => null,
 				'nilai'           => $peng->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -169,6 +170,7 @@ class PengeluaransController extends Controller
 				'coa_id'          => Input::get('sumber_uang'),
 				'debit'           => 0,
 				'nilai'           => $peng->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -307,7 +309,8 @@ class PengeluaransController extends Controller
 		$query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
 		$query .= "where p.created_at > '{$tanggal}' ";
-		$query .= "AND p.pembayaran is not null;";
+		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND p.pembayaran is not null ";
 
 		$periksas = DB::select($query);
 		$tunai_periksa = 0;
@@ -333,6 +336,7 @@ class PengeluaransController extends Controller
 					'jurnalable_type' => $plr->jurnalable_type,
 					'jurnalable_id'   => $plr->jurnalable_id,
 					'nilai'           => $plr->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $plr->created_at->format('d-m-Y H:i:s'),
 					'updated_at'      => $plr->updated_at->format('d-m-Y H:i:s')
 				];
@@ -384,6 +388,7 @@ class PengeluaransController extends Controller
 			$query .= "join periksas as px on px.id=tp.periksa_id ";
 			$query .= "join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id ";
 			$query .= "where tp.created_at >= '{$tanggal}' ";
+			$query .= "AND tp.tenant_id = " . session()->get('tenant_id') . " ";
 			$query .= "group by tp.jenis_tarif_id ";
 			$transaksis = DB::select($query);
 
@@ -554,7 +559,24 @@ class PengeluaransController extends Controller
     
     private function hutangs($id, $mulai, $akhir){
          
-        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Models\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( date(p.created_at) between '{$mulai}' and '{$akhir}' );";
+		$query = "select p.id as periksa_id, ";
+		$query .= "p.tanggal as tanggal, ";
+		$query .= "st.nama as nama_staf, ";
+		$query .= "ps.id as pasien_id, ";
+		$query .= "ps.nama as nama, ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "tunai, p";
+		$query .= "iutang, ";
+		$query .= "nilai ";
+		$query .= " from jurnal_umums as ju ";
+		$query .= "join periksas as p on p.id=ju.jurnalable_id ";
+		$query .= "join stafs as st on st.id= p.staf_id ";
+		$query .= "join pasiens as ps on ps.id=p.pasien_id ";
+		$query .= "join asuransis as asu on asu.id=p.asuransi_id ";
+		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and p.staf_id='{$id}' and ju.coa_id=200001 ";
+		$query .= "and ( date(p.created_at) between '{$mulai}' and '{$akhir}' ) ";
         $hutangs = DB::select($query);
 
         return $hutangs;
@@ -590,30 +612,42 @@ class PengeluaransController extends Controller
         $jurnal_umum_id = $checkout->jurnal_umum_id;
 		$query = "select jurnalable_type, jurnalable_id from jurnal_umums as ju ";
 		$query .= "where coa_id=110000 and ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "debit = 1 and ";
 		$query .= "ju.id > {$jurnal_umum_id} ";
-		$query .= "group by jurnalable_type, jurnalable_id;";
+		$query .= "group by jurnalable_type, jurnalable_id ";
 		$type_and_id = DB::select($query);
-        $text = "select ju.debit, jurnalable_type, ju.id, ju.coa_id, co.coa, ju.nilai, ju.jurnalable_id from jurnal_umums as ju join coas as co on co.id = ju.coa_id where ju.id > {$jurnal_umum_id} ";
+
+		$query = "select ju.debit, ";
+		$query .= "jurnalable_type, ";
+		$query .= "ju.id, ";
+		$query .= "ju.coa_id, ";
+		$query .= "co.coa, ";
+		$query .= "ju.nilai, ";
+		$query .= "ju.jurnalable_id ";
+		$query .= "from jurnal_umums as ju ";
+		$query .= "join coas as co on co.id = ju.coa_id ";
+		$query .= "where ju.id > {$jurnal_umum_id} ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		if (count($type_and_id)) {
-			$text .= "and ( ";
+			$query .= "and ( ";
 		}
 		foreach ($type_and_id as $k => $value) {
 			$type = $value->jurnalable_type;
 			$type = explode("\\", $type);
 			$jurnalable_type = $type[0] . '\\\\\\' . $type[1];
 
-			$text .= "( jurnalable_type = '" . $jurnalable_type. "' and jurnalable_id = '" . $value->jurnalable_id. "' ) ";
+			$query .= "( jurnalable_type = '" . $jurnalable_type. "' and jurnalable_id = '" . $value->jurnalable_id. "' ) ";
 			if ($k < count($type_and_id) -1) {
-				$text .= "or ";
+				$query .= "or ";
 			}
 		}
 
 		if (count($type_and_id)) {
-			$text .= ")";
+			$query .= ")";
 		}
 
-        $rinci = DB::select($text);
+        $rinci = DB::select($query);
 		$array=[];
 		foreach ($rinci as $key => $r) {
 			$sama = false;
@@ -771,6 +805,7 @@ class PengeluaransController extends Controller
 				 'harga_satuan'      => $t['nilai'],
 				 'jumlah'            => $t['jumlah'],
 				 'masa_pakai'        => $t['masa_pakai'],
+							'tenant_id'  => session()->get('tenant_id'),
 				 'created_at'        => $timestamp,
 				 'updated_at'        => $timestamp
 			];
@@ -781,6 +816,7 @@ class PengeluaransController extends Controller
 					'merek'             => $ac['merek'],
 					'keterangan'        => $ac['keterangan_lokasi'],
 					'faktur_belanja_id' => $fb->id,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'        => $timestamp,
 					'updated_at'        => $timestamp
 
@@ -1227,6 +1263,7 @@ class PengeluaransController extends Controller
 			'coa'             => Input::get('harta'),
 			'kelompok_coa_id' => 12,
 			'saldo_awal'      => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => date('Y-m-d H:i:s'),
 			'updated_at'      => date('Y-m-d H:i:s')
 		];
@@ -1235,6 +1272,7 @@ class PengeluaransController extends Controller
 			'coa'             => 'Akumulasi Penyusutan ' .Input::get('harta'),
 			'kelompok_coa_id' => 12,
 			'saldo_awal'      => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => date('Y-m-d H:i:s'),
 			'updated_at'      => date('Y-m-d H:i:s')
 		];
@@ -1248,6 +1286,7 @@ class PengeluaransController extends Controller
 			'coa'             => 'Hutang ' .Input::get('harta'),
 			'kelompok_coa_id' => 2,
 			'saldo_awal'      => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => date('Y-m-d H:i:s'),
 			'updated_at'      => date('Y-m-d H:i:s')
 		];
@@ -1289,6 +1328,7 @@ class PengeluaransController extends Controller
 			'debit'           => 1,
 			'nilai'           => $hargaClean,
 			'coa_id'          => $coa_id,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => $timestamp_that_day->format('Y-m-d'),
 			'updated_at'      => $timestamp_that_day->format('Y-m-d')
 		];
@@ -1302,6 +1342,7 @@ class PengeluaransController extends Controller
 				'debit'                    => 0,
 				'nilai'                    => $hutangHarta,
 				'coa_id'                   => $coa_hutang_id,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'               => $timestamp_that_day->format('Y-m-d'),
 				'updated_at'               => $timestamp_that_day->format('Y-m-d')
 			];
@@ -1314,6 +1355,7 @@ class PengeluaransController extends Controller
 					'debit'                => 0,
 					'nilai'                => $uangMukaClean,
 					'coa_id'               => 110004,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'           => $timestamp_that_day->format('Y-m-d'),
 					'updated_at'           => $timestamp_that_day->format('Y-m-d')
 				];
@@ -1327,6 +1369,7 @@ class PengeluaransController extends Controller
 				'debit'           => 0,
 				'nilai'           => $hargaClean,
 				'coa_id'          => 110004,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp_that_day->format('Y-m-d'),
 				'updated_at'      => $timestamp_that_day->format('Y-m-d')
 			];
@@ -1373,6 +1416,7 @@ class PengeluaransController extends Controller
 							'debit'           => 1,
 							'nilai'           => $bayarBulanIni,
 							'coa_id'          => $coa_hutang_id,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at'      => $timestamp->format('Y-m-d'),
 							'updated_at'      => $timestamp->format('Y-m-d')
 						];
@@ -1382,6 +1426,7 @@ class PengeluaransController extends Controller
 							'debit'           => 0,
 							'nilai'           => $bayarBulanIni,
 							'coa_id'          => 110004,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at'      => $timestamp->format('Y-m-d'),
 							'updated_at'      => $timestamp->format('Y-m-d')
 						];
@@ -1424,6 +1469,7 @@ class PengeluaransController extends Controller
 						$last_ringkasan_penyustan_id++;
 						$ringkasan_penyusutans[] = [
 							'keterangan' => 'Penyusutan Harta bulan ' . $timestamp->format('M y'),
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at' =>  $timestamp_last_second_of_month,
 							'updated_at' =>  $timestamp_last_second_of_month
 						];
@@ -1435,6 +1481,7 @@ class PengeluaransController extends Controller
 						'debit'           => 1,
 						'nilai'           => $bayarPenyusutan,
 						'coa_id'          => 612312, // biaya penyusutan
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'      => $timestamp_last_second_of_month,
 						'updated_at'      => $timestamp_last_second_of_month
 					];
@@ -1444,6 +1491,7 @@ class PengeluaransController extends Controller
 						'debit'           => 0,
 						'nilai'           => $bayarPenyusutan,
 						'coa_id'          => $coa_penyusutan_id, // Akumulasi penyusutan harta
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'      => $timestamp_last_second_of_month,
 						'updated_at'      => $timestamp_last_second_of_month
 					];
@@ -1454,6 +1502,7 @@ class PengeluaransController extends Controller
 						'keterangan'              => 'Penyusutan ' . Input::get('harta') . ' bulan ' . $timestamp->format('M y'),
 						'susutable_type'          => 'App\Models\InputHarta',
 						'nilai'                   => $bayarPenyusutan,
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'              => $timestamp_last_second_of_month,
 						'updated_at'              => $timestamp_last_second_of_month
 					];
@@ -1481,6 +1530,7 @@ class PengeluaransController extends Controller
 							'debit'           => 1,
 							'nilai'           => $hargaJualClean,
 							'coa_id'          => 110004,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at'      => $timestamp,
 							'updated_at'      => $timestamp
 						];
@@ -1492,6 +1542,7 @@ class PengeluaransController extends Controller
 								'debit'           => 1,
 								'nilai'           => $penyusutanTerbayar,
 								'coa_id'          => $coa_penyusutan_id,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1505,6 +1556,7 @@ class PengeluaransController extends Controller
 								'debit'           => 0,
 								'nilai'           => $hargaClean,
 								'coa_id'          => $coa_id,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1517,6 +1569,7 @@ class PengeluaransController extends Controller
 								'debit'           => 0,
 								'nilai'           => $keuntungan,
 								'coa_id'          => 70100,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1527,6 +1580,7 @@ class PengeluaransController extends Controller
 								'debit'           => 1,
 								'nilai'           => abs( $keuntungan ),
 								'coa_id'          => 70100,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1581,6 +1635,7 @@ class PengeluaransController extends Controller
 		$query .= "sum(CASE WHEN debit = 0 THEN nilai ELSE 0 END) as kredit ";
 		$query .= "FROM jurnal_umums ";
 		$query .= "WHERE created_at <= '{$timestamp}' ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND coa_id like '110004' ";
 
 		$ju = DB::select($query)[0];
@@ -1620,6 +1675,7 @@ class PengeluaransController extends Controller
 				'debit' => 1,
 				'nilai' => $tambahanModal,
 				'coa_id' => 110004,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at' => $time,
 				'updated_at' => $time
 			];
@@ -1630,6 +1686,7 @@ class PengeluaransController extends Controller
 				'debit' => 0,
 				'nilai' => $tambahanModal,
 				'coa_id' => 301000,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at' => $time,
 				'updated_at' => $time
 			];
@@ -1653,7 +1710,8 @@ class PengeluaransController extends Controller
 			$query  = "SELECT ";
 			$query .= "SUM(CASE WHEN menambah = '1' THEN nilai ELSE 0 END) AS menambah,";
 			$query .= "SUM(CASE WHEN menambah = '0' THEN nilai ELSE 0 END) AS mengurangi ";
-			$query .= "FROM go_pays";
+			$query .= "FROM go_pays ";
+			$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 
 			$menambah   = 0;
 			$mengurangi = 0;
@@ -1694,6 +1752,7 @@ class PengeluaransController extends Controller
 		$query .= "(pg.keterangan like ? or ? = '') ";
 		$query .= "AND (pg.tanggal like ? or ? = '') ";
 		$query .= "AND (sp.nama like ? or ? = '') ";
+		$query .= "AND pg.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY pg.created_at desc ";
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$displayed_rows} ";
@@ -1712,7 +1771,8 @@ class PengeluaransController extends Controller
 		$query  = "SELECT ";
 		$query .= "SUM(CASE WHEN menambah = '1' THEN nilai ELSE 0 END) AS menambah,";
 		$query .= "SUM(CASE WHEN menambah = '0' THEN nilai ELSE 0 END) AS mengurangi ";
-		$query .= "FROM go_pays";
+		$query .= "FROM go_pays ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$datas = DB::select($query);
 		$total = $datas[0]->menambah - $datas[0]->mengurangi;
 		$ggs = GoPay::latest()->paginate(15);
@@ -1751,6 +1811,7 @@ class PengeluaransController extends Controller
 				'debit'           => 1,
 				'coa_id'          => '112001',
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1761,6 +1822,7 @@ class PengeluaransController extends Controller
 				'debit'           => 0,
 				'coa_id'          => Input::get('sumber_uang_id'),
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1803,6 +1865,7 @@ class PengeluaransController extends Controller
 				'debit'           => 1,
 				'coa_id'          => '612345',
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1813,6 +1876,7 @@ class PengeluaransController extends Controller
 				'debit'           => 0,
 				'coa_id'          => '112001',
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1852,6 +1916,7 @@ class PengeluaransController extends Controller
 		$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
 		$query .= "JOIN stafs as st on st.id = fb.petugas_id ";
 		$query .= "WHERE susutable_type= '{$model}' ";
+		$query .= "AND pn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY pn.susutable_id ";
 		$query .= "ORDER BY bp.id desc";
 		return DB::select($query);

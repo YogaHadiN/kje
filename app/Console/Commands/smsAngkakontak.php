@@ -75,6 +75,7 @@ class smsAngkakontak extends Command
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
 		$query.= "OR id in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' )) ";
 		// Sehingga kita bisa mendapat angka kontak saat ini
+		$query   .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$angka_kontak_saat_ini = DB::select($query)[0]->jumlah;
 
 		
@@ -131,6 +132,7 @@ class smsAngkakontak extends Command
 		$query.= "AND ( no_telp like '08%' or no_telp like '+628%' ) ";
 		// kita order by menurut no_telp, jangan sampai no_telp yang sama di sms 2 kali
 		 $query.= "ORDER BY replace( no_telp, ' ', '' ) ";
+		$query   .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		// kita batasi sesuai target angka kontak hari ini supaya gak terlalu banyak yang disms dan memudahkan penginputan
 		$query.= "LIMIT {$angka_kontak_kurang} ";
 
@@ -184,7 +186,9 @@ class smsAngkakontak extends Command
 					foreach ($value['id'] as $val) {
 						$data[] = [ 
 							'pasien_id'  => $val,
+							'tenant_id'  => session()->get('tenant_id'),
 							'pesan'      => $pesan,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at' => $timestamp,
 							'updated_at' => $timestamp
 						];
@@ -199,6 +203,7 @@ class smsAngkakontak extends Command
 						$gagal[] = [
 							'pasien_id'  => $val,
 							'pesan'      => $pesan,
+							'tenant_id'  => session()->get('tenant_id'),
 							'error'      => $e->getMessage(),
 							'created_at' => $timestamp,
 							'updated_at' => $timestamp

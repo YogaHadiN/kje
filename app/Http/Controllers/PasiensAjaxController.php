@@ -124,8 +124,12 @@ class PasiensAjaxController extends Controller
 		
 			$pasien->save();
 
-			$query = "SELECT asu.nama as nama_asuransi, p.* FROM pasiens as p LEFT OUTER JOIN asuransis as asu on p.asuransi_id = asu.id WHERE p.id = '" . $id . "'";
-			
+			$query = "SELECT asu.nama as nama_asuransi, ";
+			$query .= "p.* ";
+			$query .= "FROM pasiens as p ";
+			$query .= "LEFT OUTER JOIN asuransis as asu on p.asuransi_id = asu.id ";
+			$query .= "WHERE p.id = '" . $id . "' ";
+			$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 			return DB::SELECT($query);
 
 		} else {
@@ -255,6 +259,7 @@ class PasiensAjaxController extends Controller
 		}
 
 		$query = substr($query, 0, -5);
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= ' limit 15;';
 			
 		$pasiens = DB::select($query);
@@ -396,6 +401,7 @@ class PasiensAjaxController extends Controller
 			$query .= "AND (p.nama_ibu like ? or ? = '') ";
 			$query .= "AND (p.nama_ayah like ? or ? = '') ";
 			$query .= "AND (p.sudah_kontak_bulan_ini like ? or ? = '') ";
+			$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
 			$query .= "ORDER BY p.created_at DESC ";
 			if (!$count) {
 				$query .= "LIMIT {$pass}, {$displayed_rows} ";
@@ -457,9 +463,10 @@ class PasiensAjaxController extends Controller
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "JOIN transaksi_periksas as trx on trx.periksa_id = prx.id ";
 		$query .= "WHERE prx.tanggal like '{$bulanThn}%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND psn.id = '{$this->input_pasien_id}' ";
 		$query .= "AND trx.jenis_tarif_id =116 "; //gula darah
-		$query .= "AND prx.asuransi_id =32;"; //bpjs
+		$query .= "AND prx.asuransi_id =32 "; //bpjs
 		$data = DB::select($query);
 		return $data[0]->jumlah;
 	}

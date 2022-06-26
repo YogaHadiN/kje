@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class BahanBangunan extends Model
 {
+    use BelongsToTenant;
 	protected $guarded = [];
 	protected $dates = ['tanggal_renovasi_selesai'];
 	public function fakturBelanja(){

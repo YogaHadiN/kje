@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use Session;
 use App\Models\Classes\Yoga;
 use App\Models\Terapi;
@@ -13,6 +14,7 @@ use App\Models\Dispensing;
 use DB;
 
 class Formula extends Model{
+    use BelongsToTenant;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($formula){
@@ -34,6 +36,7 @@ class Formula extends Model{
 				$query .= "LEFT JOIN formulas as fx on fx.id = rk.formula_id ";
 				$query .= "WHERE fx.id = '" . $formula->id . "' ";
 				$query .= "AND mr.id in ";
+				$query .= "AND mr.tenant_id = " . session()->get('tenant_id') . " ";
 				$query .= "(Select merek_id from terapis)";
 				$mereks = DB::select($query);
 				$pesan = 'Tidak bisa menghapus karena ';
@@ -105,7 +108,12 @@ class Formula extends Model{
 	}
 
 	public function existing_komposisi($id){
-		return DB::select("select * from komposisis as k left outer join generiks as g on g.id = k.generik_id where formula_id = $id");
+		$query = "select * ";
+		$query .= "from komposisis as k ";
+		$query .= "left outer join generiks as g on g.id = k.generik_id ";
+		$query .= "where formula_id = $id ";
+		$query .= "and k.tenant_id = " . session()->get('tenant_id') . " ";
+		return DB::select($query);
 	}
 
 	public function getEndfixAttribute(){

@@ -236,6 +236,7 @@ class FasilitasController extends Controller
 					'pasien_id'  => $pasien_id,
 					'kabur_id'   => $last_kabur_id,
 					'periksa_id' => $periksa->id,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];

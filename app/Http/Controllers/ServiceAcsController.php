@@ -37,6 +37,7 @@ class ServiceAcsController extends Controller
 				'coa_id'          => '623433',
 				'keterangan'      => 'tidak ada keterangan',
 				'jurnalable_type' => 'App\Models\ServiceAc',
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -48,6 +49,7 @@ class ServiceAcsController extends Controller
 				'coa_id'          => '623433',
 				'keterangan'      => 'tidak ada keterangan',
 				'jurnalable_type' => 'App\Models\ServiceAc',
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];

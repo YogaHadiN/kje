@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\Classes\Yoga;
 
 class Penyusutan extends Model
 {
+    use BelongsToTenant;
     protected $morphClass = 'App\Models\Penyusutan';
     protected $dates = [ 'tanggal_mulai', 'tanggal_akhir'  ];
 

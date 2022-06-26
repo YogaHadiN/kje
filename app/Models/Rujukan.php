@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class Rujukan extends Model{
+    use BelongsToTenant;
 
 	// Don't forget to fill this array
 	protected $fillable = [];

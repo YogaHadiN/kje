@@ -1,3 +1,379 @@
-alter table prolanis drop column prb;
-alter table prolanis drop column club_prolanis;
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - User.php 
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AbaikanTransaksi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Ac.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AkunBank.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Alergi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Antrian.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AntrianApotek.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AntrianFarmasi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AntrianKasir.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AntrianKelengkapanDokumen.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AntrianPeriksa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AntrianPoli.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Approve.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Asuransi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - AturanMinum.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BagiGigi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BahanBangunan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BahanHabisPakai.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BayarBonus.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BayarDokter.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BayarGaji.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BayarHutangHarta.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Belanja.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BelanjaPeralatan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BeratBadan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Berkas.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BpjsCenter.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BukanObat.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - BukanPeserta.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Buku.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - CekListrik.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - CekObat.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - CekPulsa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - CheckoutDetail.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - CheckoutKasir.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Classes
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Coa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Complain.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Config.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Confirm.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Custom.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - DataDuplikat.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - DeletedPeriksa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - DenominatorBpjs.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Diagnosa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Discount.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - DiscountAsuransi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Dispensing.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Dm.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Dose.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Email.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - FacebookDaftar.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - FakturBelanja.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Fasilitas.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Formula.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - GajiGigi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - GambarPeriksa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Generik.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - GoPay.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - GolonganPeralatan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Harta.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Helper.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - HomeVisit.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Ht.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Icd10.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Inbox.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - InputHarta.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Invoice.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - JenisAntrian.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - JenisPajak.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - JenisPengeluaran.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - JenisRumahSakit.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - JenisTarif.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - JurnalUmum.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Kabur.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Keberatan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - KelasObat.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - KelompokCoa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - KepalaTerhadapPap.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - KeteranganPenyusutan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - KirimBerkas.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - KlaimGdpBpjs.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Komposisi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Kontrol.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - KunjunganSakit.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - LaporPajak.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Manual.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Merek.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Mesabot.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - MetodeBayar.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Modal.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Monitor.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - NoSale.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - NotaBeli.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - NotaJual.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Outbox.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Panggilan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Pasien.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PasienProlanis.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PasienRujukBalik.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PcareSubmit.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Pelamar.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PembayaranAsuransi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PembayaranBpjs.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Pembelian.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Pendapatan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PengantarPasien.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Pengeluaran.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Penjualan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PenjualanAset.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Penyusutan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Perbaikanresep.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Perbaikantrx.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Periksa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Perujuk.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PesanKeluar.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PesanMasuk.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PesertaBpjsPerbulan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PetugasKirim.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Pic.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PiutangAsuransi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PiutangDibayar.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Point.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Poli.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - PoliAntrian.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Pph21.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Presentasi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Prolanis.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Promo.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Rak.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Rayon.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Receipt.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - RefleksPatela.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - RegisterAnc.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - RegisterHamil.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Rekening.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - ResepLuar.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - RingkasanPenyusutan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Role.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - RolePengiriman.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Rujukan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - RumahSakit.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Saldo.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Sediaan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - ServiceAc.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Signa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Sms.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SmsBpjs.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SmsGagal.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SmsJangan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SmsKirim.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SmsKontak.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SmsSurvey.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SmsTerkirim.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Sop.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Staf.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - StatusBpjs.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - StatusGizi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - StatusHarta.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - StokOpname.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Supplier.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Surat.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - SuratSakit.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Tarif.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Telpon.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Terapi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Tidakdirujuk.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TipeAsuransi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TipeJual.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TipeLaporanAdmedika.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TipeLaporanKasir.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TipeRumahSakit.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TipeTindakan.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Transaksi.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TransaksiPeriksa.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - TujuanRujuk.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - UpdateRpptPeserta.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - User.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Usg.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - VerifikasiProlanis.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - WhatsappRegistration.php
+(echo 5a; echo 'use App\Traits\BelongsToTenant; '; echo .; echo w) | ed - Woowa.php
 
+CREATE TABLE `tenants` (
+  `id` bigint not null auto_increment,
+  `name` varchar(255),
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO tenants (`name`, `created_at`, `updated_at`) VALUES ( 'klinik jati elok', now(), now());
+
+CREATE TABLE `logins` (
+  `id` bigint not null auto_increment,
+  `user_id` bigint,
+  `tenant_id` bigint,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+
+alter table abaikan_transaksis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table acs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table akun_banks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table alergies add tenant_id bigint not null default 1, add index (tenant_id);
+alter table antrian_apoteks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table antrian_kasirs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table antrian_periksas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table antrian_polis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table antrians add tenant_id bigint not null default 1, add index (tenant_id);
+alter table approves add tenant_id bigint not null default 1, add index (tenant_id);
+alter table asuransis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table aturan_minums add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bagi_gigis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bahan_bangunans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bahan_habis_pakais add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bayar_bonus add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bayar_gajis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bayar_hutang_hartas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table belanja_peralatans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table belanjas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table berat_badans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table berkas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bpjs_centers add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bukan_obats add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bukan_pesertas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table bukus add tenant_id bigint not null default 1, add index (tenant_id);
+alter table cek_listriks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table cek_obats add tenant_id bigint not null default 1, add index (tenant_id);
+alter table cek_pulsas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table checkout_details add tenant_id bigint not null default 1, add index (tenant_id);
+alter table checkout_kasirs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table coas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table complains add tenant_id bigint not null default 1, add index (tenant_id);
+alter table configs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table confirms add tenant_id bigint not null default 1, add index (tenant_id);
+alter table data_duplikats add tenant_id bigint not null default 1, add index (tenant_id);
+alter table deleted_periksas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table denominator_bpjs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table diagnosas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table discount_asuransis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table discounts add tenant_id bigint not null default 1, add index (tenant_id);
+alter table dispensings add tenant_id bigint not null default 1, add index (tenant_id);
+alter table dms add tenant_id bigint not null default 1, add index (tenant_id);
+alter table doses add tenant_id bigint not null default 1, add index (tenant_id);
+alter table emails add tenant_id bigint not null default 1, add index (tenant_id);
+alter table facebook_daftars add tenant_id bigint not null default 1, add index (tenant_id);
+alter table failed_jobs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table faktur_belanjas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table fasilitas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table formulas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table gambar_periksas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table gammu add tenant_id bigint not null default 1, add index (tenant_id);
+alter table generiks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table go_pays add tenant_id bigint not null default 1, add index (tenant_id);
+alter table golongan_peralatans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table haris add tenant_id bigint not null default 1, add index (tenant_id);
+alter table home_visits add tenant_id bigint not null default 1, add index (tenant_id);
+alter table hts add tenant_id bigint not null default 1, add index (tenant_id);
+alter table inbox add tenant_id bigint not null default 1, add index (tenant_id);
+alter table input_hartas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table invoices add tenant_id bigint not null default 1, add index (tenant_id);
+alter table jenis_antrians add tenant_id bigint not null default 1, add index (tenant_id);
+alter table jenis_pajaks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table jenis_pengeluarans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table jenis_rumah_sakits add tenant_id bigint not null default 1, add index (tenant_id);
+alter table jenis_tarifs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table jobs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table jurnal_umums add tenant_id bigint not null default 1, add index (tenant_id);
+alter table kaburs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table keberatans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table kelas_obats add tenant_id bigint not null default 1, add index (tenant_id);
+alter table kelompok_coas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table kepala_terhadap_paps add tenant_id bigint not null default 1, add index (tenant_id);
+alter table keterangan_penyusutans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table kirim_berkas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table klaim_gdp_bpjs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table komposisis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table kontrols add tenant_id bigint not null default 1, add index (tenant_id);
+alter table kunjungan_sakits add tenant_id bigint not null default 1, add index (tenant_id);
+alter table lapor_pajaks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table listriks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table manuals add tenant_id bigint not null default 1, add index (tenant_id);
+alter table mereks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table metode_bayars add tenant_id bigint not null default 1, add index (tenant_id);
+alter table migrations add tenant_id bigint not null default 1, add index (tenant_id);
+alter table modals add tenant_id bigint not null default 1, add index (tenant_id);
+alter table monitors add tenant_id bigint not null default 1, add index (tenant_id);
+alter table no_sales add tenant_id bigint not null default 1, add index (tenant_id);
+alter table nota_belis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table nota_juals add tenant_id bigint not null default 1, add index (tenant_id);
+alter table outbox add tenant_id bigint not null default 1, add index (tenant_id);
+alter table outbox_multipart add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pasien_prolanis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pasien_rujuk_baliks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pasiens add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pcare_submits add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pembayaran_asuransis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pembayaran_bpjs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pembelians add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pendapatans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pengantar_pasiens add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pengeluarans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table penjualan_asets add tenant_id bigint not null default 1, add index (tenant_id);
+alter table penjualans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table penyusutans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table perbaikanreseps add tenant_id bigint not null default 1, add index (tenant_id);
+alter table perbaikantrxs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table periksas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table periodes add tenant_id bigint not null default 1, add index (tenant_id);
+alter table perujuks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pesan_keluars add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pesan_masuks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table peserta_bpjs_perbulans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table petugas_kirims add tenant_id bigint not null default 1, add index (tenant_id);
+alter table phones add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pics add tenant_id bigint not null default 1, add index (tenant_id);
+alter table piutang_dibayars add tenant_id bigint not null default 1, add index (tenant_id);
+alter table points add tenant_id bigint not null default 1, add index (tenant_id);
+alter table poli_antrians add tenant_id bigint not null default 1, add index (tenant_id);
+alter table polis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table pph21s add tenant_id bigint not null default 1, add index (tenant_id);
+alter table presentasis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table prolanis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table promos add tenant_id bigint not null default 1, add index (tenant_id);
+alter table raks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table rayons add tenant_id bigint not null default 1, add index (tenant_id);
+alter table receipts add tenant_id bigint not null default 1, add index (tenant_id);
+alter table refleks_patelas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table register_ancs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table register_hamils add tenant_id bigint not null default 1, add index (tenant_id);
+alter table register_kbs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table rekenings add tenant_id bigint not null default 1, add index (tenant_id);
+alter table ringkasan_penyusutans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table role_pengirimans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table roles add tenant_id bigint not null default 1, add index (tenant_id);
+alter table rujukans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table rumah_sakits add tenant_id bigint not null default 1, add index (tenant_id);
+alter table saldos add tenant_id bigint not null default 1, add index (tenant_id);
+alter table satisfaction_index add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sediaans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sentitems add tenant_id bigint not null default 1, add index (tenant_id);
+alter table service_acs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table signas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sms_bpjs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sms_gagals add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sms_jangans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sms_kirims add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sms_kontaks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table sops add tenant_id bigint not null default 1, add index (tenant_id);
+alter table stafs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table status_bpjs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table status_hartas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table status_imunisasi_tts add tenant_id bigint not null default 1, add index (tenant_id);
+alter table stok_opnames add tenant_id bigint not null default 1, add index (tenant_id);
+alter table success_jurnals add tenant_id bigint not null default 1, add index (tenant_id);
+alter table suppliers add tenant_id bigint not null default 1, add index (tenant_id);
+alter table surat_sakits add tenant_id bigint not null default 1, add index (tenant_id);
+alter table surats add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tambah_kwhs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tarifs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table telpons add tenant_id bigint not null default 1, add index (tenant_id);
+alter table terapis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tidakdirujuks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tipe_asuransis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tipe_juals add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tipe_laporan_admedikas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tipe_laporan_kasirs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tipe_pakets add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tipe_tindakans add tenant_id bigint not null default 1, add index (tenant_id);
+alter table transaksi_periksas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table tujuan_rujuks add tenant_id bigint not null default 1, add index (tenant_id);
+alter table update_rppt_pesertas add tenant_id bigint not null default 1, add index (tenant_id);
+alter table users add tenant_id bigint not null default 1, add index (tenant_id);
+alter table usgs add tenant_id bigint not null default 1, add index (tenant_id);
+alter table verifikasi_prolanis add tenant_id bigint not null default 1, add index (tenant_id);
+alter table whatsapp_registrations add tenant_id bigint not null default 1, add index (tenant_id);

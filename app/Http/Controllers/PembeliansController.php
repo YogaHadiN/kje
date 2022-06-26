@@ -166,6 +166,7 @@ class PembeliansController extends Controller
 			'diskon'         => Yoga::clean( Input::get('diskon') ),
 			'submit'         => 1,
 			'faktur_image'   => $this->imageUpload('faktur','faktur_image', $faktur_belanja_id),
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'     => $timestamp,
 			'updated_at'     => $timestamp
 		];
@@ -189,6 +190,7 @@ class PembeliansController extends Controller
 				'merek_id'          => $dt['merek_id'],
 				'harga_naik'        => $dt['harga_berubah'],
 				'jumlah'            => $dt['jumlah'],
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'        => $timestamp,
 				'updated_at'        => $timestamp,
 				'id'                => $last_pembelian_id
@@ -203,7 +205,8 @@ class PembeliansController extends Controller
 			$query .= "join raks as r on r.id=m.rak_id ";
 			$query .= "where r.id='{$rak_id}' ";
 			$query .= "AND p.exp_date > '" . date('Y-m-d') . "' ";
-			$query .= "order by p.exp_date asc;";
+			$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+			$query .= "order by p.exp_date asc ";
 
 			if (count(DB::select($query)) > 0) {
 				$exp_date = DB::select($query)[0]->expiry;
@@ -242,6 +245,7 @@ class PembeliansController extends Controller
 				'dispensable_id'   => $last_pembelian_id,
 				'dispensable_type' => 'App\Models\Pembelian',
 				'id'               => $last_dispensing_id,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'       => $timestamp,
 				'updated_at'       => $timestamp
 			];
@@ -252,6 +256,7 @@ class PembeliansController extends Controller
 			'coa_id'          => 112000, // persediaan obat
 			'debit'           => 1,
 			'nilai'           => $total_pembelian,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp
 		];
@@ -261,6 +266,7 @@ class PembeliansController extends Controller
 			'coa_id'          => Input::get('sumber_uang'),
 			'debit'           => 0,
 			'nilai'           => $total_pembelian - Yoga::clean( Input::get('diskon') ), // Kas di tangan,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp
 		];
@@ -272,6 +278,7 @@ class PembeliansController extends Controller
 				'coa_id'          => 50204, // Biaya Produsi Obat (berkurang,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean( Input::get('diskon') ), // Kas di tanga,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -362,6 +369,7 @@ class PembeliansController extends Controller
 				'harga_berubah' => $v->harga_naik,
 				'exp_date'      => $v->exp_date,
 				'jumlah'        => $v->jumlah,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'        => $v->created_at
 			];
 		}
@@ -471,7 +479,15 @@ class PembeliansController extends Controller
 			foreach ($data as $k => $dt) {
 				$rak_id = Merek::find($dt['merek_id'])->rak_id;
 				$rak    = Rak::find($rak_id);
-				$query = "SELECT *, p.exp_date as expiry FROM pembelians as p left join mereks as m on m.id=p.merek_id join raks as r on r.id=m.rak_id where r.id='{$rak_id}' AND p.exp_date > '" . date('Y-m-d') . "' order by p.exp_date asc;";
+				$query = "SELECT *, ";
+				$query .= "p.exp_date as expiry ";
+				$query .= "FROM pembelians as p ";
+				$query .= "left join mereks as m on m.id=p.merek_id ";
+				$query .= "join raks as r on r.id=m.rak_id ";
+				$query .= "where r.id='{$rak_id}' ";
+				$query .= "AND p.exp_date > '" . date('Y-m-d') . "' ";
+				$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+				$query .= "order by p.exp_date asc ";
 
 				if (count(DB::select($query)) > 0) {
 					$exp_date = DB::select($query)[0]->expiry;
@@ -492,6 +508,7 @@ class PembeliansController extends Controller
 						'merek_id'          => $dt['merek_id'],
 						'harga_naik'        => $dt['harga_berubah'],
 						'jumlah'            => $dt['jumlah'],
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'        => $timestamp,
 						'updated_at'        => $timestamp
 					];
@@ -512,6 +529,7 @@ class PembeliansController extends Controller
 						'masuk'            => $dt['jumlah'],
 						'dispensable_id'   => $last_pembelian_id,
 						'dispensable_type' => 'App\Models\Pembelian',
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'       => $timestamp,
 						'updated_at'       => $timestamp,
 					];
@@ -691,6 +709,7 @@ class PembeliansController extends Controller
 		$query .= "AND (sp.nama like ? or ? = '') ";
 		$query .= "AND (fb.nomor_faktur like ? or ? = '') ";
 		$query .= "AND (st.nama like ? or ? = '') ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY pb.faktur_belanja_id ";
 		$query .= "ORDER BY pb.created_at ";
 		if (!$count) {
@@ -773,6 +792,7 @@ class PembeliansController extends Controller
 		$query .= "AND ( pb.harga_beli like ? or ? = '' ) ";
 		$query .= "AND ( pb.harga_jual like ? or ? = '' ) ";
 		$query .= "AND ( fb.tanggal like ? or ? = '' ) ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		if (!$count) {
 			$query .= "ORDER BY pb.created_at desc ";
 			$query .= "LIMIT {$pass}, {$displayed_rows}";

@@ -171,6 +171,7 @@ class SuratSakitsController extends Controller
 		$query .= "join icd10s as icd on icd.id = dg.icd10_id ";
 		$query .= "join asuransis as asu on px.asuransi_id = asu.id ";
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
+		$query .= "AND ss.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY px.created_at desc ";
 
 		return DB::select($query);
@@ -186,11 +187,11 @@ class SuratSakitsController extends Controller
 		$query = "SELECT * ";
 		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
+		$query .= "AND ss.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate() ";
 		$query .= "AND px.tanggal not like '{$today}'";
-		$query .= "AND px.asuransi_id = 32;";
+		$query .= "AND px.asuransi_id = 32 ";
 
-		/* $dikasih_dalam_2_bulan_terakhir = count(DB::select($query)); */
 		return count(DB::select($query));
 	}
 	/**

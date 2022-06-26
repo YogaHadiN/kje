@@ -508,11 +508,12 @@ class PasiensController extends Controller
 		$query .= "LEFT JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
 		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
 		$query .= "WHERE prx.tanggal like '{$tahunBulan}%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND (prx.prolanis_ht = 1 or prx.prolanis_dm = 1) ";
 		$query .= "AND prx.asuransi_id = 32 ";
 		$query .= "ORDER BY ";
 		$query .= "prx.sistolik DESC, ";
-		$query .= "prx.diastolik DESC;";
+		$query .= "prx.diastolik DESC ";
 		return DB::select($query);
 
 	}
@@ -633,6 +634,7 @@ class PasiensController extends Controller
 		$query .= "JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "WHERE (asu.nama like '%{$nama_asuransi}%' or '{$nama_asuransi}' = '') ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND (prx.piutang like '{$piutang}%' or '{$piutang}' = '') ";
 		$query .= "AND (prx.tunai like '{$tunai}%' or '{$tunai}' = '') ";
 		$query .= "AND (prx.tanggal like '{$tanggal}%' or '{$tanggal}' = '') ";
@@ -651,6 +653,7 @@ class PasiensController extends Controller
 		$query .= "count(nomor_asuransi_bpjs) ";
 		$query .= "FROM pasiens as psn ";
 		$query .= "WHERE nomor_asuransi_bpjs not like '' ";
+		$query .= "AND psn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND nomor_asuransi_bpjs is not null ";
 		$query .= "AND LENGTH(nomor_asuransi_bpjs) > 11 ";
 		$query .= "GROUP BY nomor_asuransi_bpjs ";
@@ -710,6 +713,7 @@ class PasiensController extends Controller
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE ";
 		$query .= "prx.pasien_id = '{$id}' ";
+		$query .= "AND trp.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND trp.jenis_tarif_id = 116 "; // gula darah 
 		$query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
 		$query .= "ORDER BY prx.id desc";  // keterangan_pemeriksaan berbentuk number

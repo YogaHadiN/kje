@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\JenisPajak;
 
 class JenisPajak extends Model
 {
+    use BelongsToTenant;
     /**
      * undocumented function
      *

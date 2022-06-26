@@ -530,6 +530,7 @@ class testcommand extends Command
 		$query         .= "OR no_telp like '08%') ";
 		$query         .= "AND no_telp not like '%/%' ";
 		$query         .= "AND CHAR_LENGTH(no_telp) >9 ";
+		$query         .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query         .= "GROUP BY no_telp";
 		$data           = DB::select($query);
 		$duplikats      = DataDuplikat::all();
@@ -585,6 +586,7 @@ class testcommand extends Command
 				'bonus'                => 0,
 				'tanggal_dibayar'      => $gaji->tanggal_dibayar,
 				'sumber_uang_id'       => $gaji->sumber_uang_id,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'           => $gaji->created_at,
 				'updated_at'           => $gaji->updated_at,
 				'petugas_id'           => $petugas_id,
@@ -606,6 +608,7 @@ class testcommand extends Command
 				'tanggal_dibayar'      => $gaji->tanggal_dibayar,
 				'sumber_uang_id'       => 110000,
 				'petugas_id'           => $petugas_id,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'           => $gaji->created_at,
 				'updated_at'           => $gaji->updated_at,
 				'hutang'               => 0
@@ -640,12 +643,13 @@ class testcommand extends Command
 		$hitung = [];
 		$jurnal_umums  = JurnalUmum::where('jurnalable_type', 'App\\Models\\BayarDokter')->get();
 		foreach ($jurnal_umums as $ju) {
-			$created_at           = $ju->created_at;
-			$query                = "SELECT bg.id as id from bayar_gajis as bg ";
-			$query               .= "JOIN stafs as stf on stf.id = bg.staf_id ";
-			$query               .= "WHERE stf.titel = 'dr' ";
-			$query               .= "AND bg.created_at = '{$created_at}';";
-			$bayar_gaji           = DB::select($query);
+			$created_at  = $ju->created_at;
+			$query       = "SELECT bg.id as id from bayar_gajis as bg ";
+			$query      .= "JOIN stafs as stf on stf.id = bg.staf_id ";
+			$query      .= "WHERE stf.titel = 'dr' ";
+			$query      .= "AND bg.created_at = '{$created_at}' ";
+			$query      .= "AND stf.tenant_id = " . session()->get('tenant_id') . " ";
+			$bayar_gaji  = DB::select($query);
 			if ( count($bayar_gaji) ) {
 				$ju->jurnalable_id    = $bayar_gaji[0]->id;
 				$ju->jurnalable_type  = 'App\\Models\\BayarGaji';
@@ -654,11 +658,12 @@ class testcommand extends Command
 		}
 		$jurnal_umums  = JurnalUmum::where('jurnalable_type', 'App\\Models\\GajiGigi')->get();
 		foreach ($jurnal_umums as $ju) {
-			$query                = "SELECT bg.id as id from bayar_gajis as bg ";
-			$query               .= "JOIN stafs as stf on stf.id = bg.staf_id ";
-			$query               .= "WHERE stf.titel = 'drg' ";
-			$query               .= "AND bg.gaji_pokok = '{$ju->nilai}' ";
-			$query               .= "AND bg.created_at = '{$ju->created_at}';";
+			$query  = "SELECT bg.id as id from bayar_gajis as bg ";
+			$query .= "JOIN stafs as stf on stf.id = bg.staf_id ";
+			$query .= "WHERE stf.titel = 'drg' ";
+			$query .= "AND bg.gaji_pokok = '{$ju->nilai}' ";
+			$query .= "AND bg.created_at = '{$ju->created_at}' ";
+			$query .= "AND bg.tenant_id = " . session()->get('tenant_id') . " ";
 			$bayar_gaji           = DB::select($query);
 			if ( count($bayar_gaji) ) {
 				$ju->jurnalable_id    = $bayar_gaji[0]->id;
@@ -672,8 +677,9 @@ class testcommand extends Command
 		$hitung = [];
 		/* $jurnal_umums  = JurnalUmum::all(); */
 		$query  = "SELECT *";
-		$query .= "FROM jurnal_umums;";
-		$data = DB::select($query);
+		$query .= "FROM jurnal_umums ";
+		$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
+		$data   = DB::select($query);
 		dd('kil');
 		foreach ($jurnal_umums as $ju) {
 			dd( $ju );
@@ -825,6 +831,7 @@ class testcommand extends Command
 					'nilai'                  => $r->nilai,
 					'saldo_akhir'            => $r->saldo_akhir,
 					'debet'                  => $r->debet,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'             => $r->created_at->format('Y-m-d'),
 					'updated_at'             => $r->updated_at->format('Y-m-d'),
 					'pembayaran_asuransi_id' => $r->pembayaran_asuransi_id,
@@ -865,6 +872,7 @@ class testcommand extends Command
 				'nilai'                  => $add['nilai'],
 				'saldo_akhir'            => 0,
 				'debet'                  => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'             => Carbon::now()->format('Y-m-d h:i:s'),
 				'updated_at'             => Carbon::now()->format('Y-m-d h:i:s'),
 				'pembayaran_asuransi_id' => null,
@@ -1069,7 +1077,8 @@ class testcommand extends Command
 		$query  = "SELECT * ";
 		$query .= "FROM pembayaran_asuransis as pasu ";
 		$query .= "INNER JOIN rekenings as rek on pasu.id = rek.pembayaran_asuransi_id ";
-		$query .= "WHERE pasu.asuransi_id = '200216001'";
+		$query .= "WHERE pasu.asuransi_id = '200216001' ";
+		$query .= "AND pasu.tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query);
 		dd( $data );
 
@@ -1113,7 +1122,8 @@ class testcommand extends Command
 		$query .= "piu.periksa_id as periksa_id ";
 		$query .= "from piutang_asuransis as piu ";
 		$query .= "left join periksas as prx on prx.id = piu.periksa_id ";
-		$query .= "where prx.id is null;";
+		$query .= "where prx.id is null ";
+		$query .= "AND piu.tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query);
 		$periksa_ids = [];
 		foreach ($data as $d) {
@@ -1131,7 +1141,8 @@ class testcommand extends Command
 		$query .= "where asuransi_id not like 0 ";
 		$query .= "and asuransi_id not like 32 ";
 		$query .= "and piu.id is null ";
-		$query .= "and prx.created_at >= '2016-06-11 09:55:49';";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and prx.created_at >= '2016-06-11 09:55:49' ";
 
 		$data = DB::select($query);
 		$piutang_asuransis = [];
@@ -1140,6 +1151,7 @@ class testcommand extends Command
 				'periksa_id'    => $d->periksa_id,
 				'created_at'    => $d->created_at,
 				'updated_at'    => $d->updated_at,
+							'tenant_id'  => session()->get('tenant_id'),
 				'sudah_dibayar' => 0,
 				'invoice_id'    => null
 			];
@@ -1358,8 +1370,9 @@ class testcommand extends Command
 		$query .= "join piutang_dibayars as pdb on pdb.pembayaran_asuransi_id = pem.id ";
 		$query .= "left join rekenings as rek on rek.pembayaran_asuransi_id = pem.id ";
 		$query .= "where rek.id is not null ";
+		$query .= "AND pem.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by pem.id ";
-		$query .= "having pem_piut_db not like rek_nilai;";
+		$query .= "having pem_piut_db not like rek_nilai ";
 		$data = DB::select($query);
 
 		$pembayaran_asuransi_ids = [];
@@ -1513,7 +1526,12 @@ class testcommand extends Command
 
 		$asuransis = Asuransi::all();
 
-		$query  = "select table_name from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'asuransi_id' and table_schema = 'jatielok' group by table_name order by TABLE_NAME";
+		$query  = "select table_name ";
+		$query .= "from INFORMATION_SCHEMA.COLUMNS ";
+		$query .= "where ";
+		$query .= "COLUMN_NAME like 'asuransi_id' ";
+		$query .= "and table_schema = 'jatielok' ";
+		$query .= "group by table_name order by TABLE_NAME";
 		$data = DB::select($query);
 		
 		foreach ($asuransis as $asu) {
@@ -1831,6 +1849,7 @@ class testcommand extends Command
 		$query .= "trim(nomor_asuransi_bpjs) as nomor_asuransi_bpjs, ";
 		$query .= "count(trim(nomor_asuransi_bpjs)) ";
 		$query .= "FROM pasiens as psn ";
+		$query .= "WHERE psn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY trim(nomor_asuransi_bpjs) ";
 		$query .= "HAVING count(trim(nomor_asuransi_bpjs)) > 1";
 		$data   = DB::select($query);

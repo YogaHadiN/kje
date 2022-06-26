@@ -100,6 +100,7 @@ class CustomController extends Controller
 					'merek_id'       => $bhp['merek_id'],
 					'jumlah'         => $bhp['jumlah'],
 					'jenis_tarif_id' => $jenis_tarif_id,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'     => $timestamps,
 					'updated_at'     => $timestamps
 				];
@@ -219,7 +220,8 @@ class CustomController extends Controller
 			$query .=  ', ' . $jt;
 		}
 		$query .= ") AND da.asuransi_id = '" . $periksa->asuransi_id . "' ";
-		$query .= "GROUP BY dc.id;";
+		$query .= "AND dc.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY dc.id ";
 		$data = DB::select($query);
 		if ( count( $data )  > 0) {
 			$insterted = [];
@@ -355,6 +357,7 @@ class CustomController extends Controller
 				$perbaikans[] = [
 					'periksa_id' => Input::get('periksa_id'),
 					'sebelum'    => Input::get('sebelum'),
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];
@@ -421,6 +424,7 @@ class CustomController extends Controller
 					'dispensable_id'   => $value->id,
 					'dispensable_type' => 'App\Models\Terapi',
 					'tanggal'          => $periksa->tanggal,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'       => $timestamp,
 					'updated_at'       => $timestamp
 				];
@@ -458,6 +462,7 @@ class CustomController extends Controller
 					'coa_id'          => 110000, // Kas di tangan
 					'debit'           => 1,
 					'nilai'           => $periksa->tunai,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -470,6 +475,7 @@ class CustomController extends Controller
 					'debit'           => 1,
 					'coa_id'          => $periksa->asuransi->coa_id, // Piutang berdasarkan masing2 asuransi
 					'nilai'           => $periksa->piutang,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -502,6 +508,7 @@ class CustomController extends Controller
 					'jenis_tarif_id' => $transaksi['jenis_tarif_id'],
 					'biaya'          => $transaksi['biaya'],
 					'keterangan_pemeriksaan'          => null,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'     => $timestamp,
 					'updated_at'     => $timestamp
 				];
@@ -532,6 +539,7 @@ class CustomController extends Controller
 						'coa_id'          => $jenis_tarif->coa_id,
 						'debit'           => 0,
 						'nilai'           => $transaksi['biaya'] - abs( $diskon ),
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'      => $timestamp,
 						'updated_at'      => $timestamp,
 					];
@@ -563,6 +571,7 @@ class CustomController extends Controller
 						'dispensable_id'   => $last_transaksi_periksa_id,
 						'dispensable_type' => 'App\Models\TransaksiPeriksa',
 						'tanggal'          => $periksa->tanggal,
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'       => $timestamp,
 						'updated_at'       => $timestamp
 					];
@@ -582,6 +591,7 @@ class CustomController extends Controller
 					'coa_id'          => 50205, // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
 					'debit'           => 1,
 					'nilai'           => $hutang_asisten_tindakan,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -591,6 +601,7 @@ class CustomController extends Controller
 					'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
 					'debit'           => 0,
 					'nilai'           => $hutang_asisten_tindakan,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -605,6 +616,7 @@ class CustomController extends Controller
 					'coa_id'          => 50201, //Beban Jasa Dokter
 					'debit'           => 1,
 					'nilai'           => $feeDokter,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -614,6 +626,7 @@ class CustomController extends Controller
 					'coa_id'          => 200001, // Hutang Kepada dokter
 					'debit'           => 0,
 					'nilai'           => $feeDokter,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -628,6 +641,7 @@ class CustomController extends Controller
 					'coa_id'          => 50204, // Biaya Produksi : Obat
 					'debit'           => 1,
 					'nilai'           => $biayaProduksiObat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -637,6 +651,7 @@ class CustomController extends Controller
 					'coa_id'          => 112000, // Persediaan Obat
 					'debit'           => 0,
 					'nilai'           => $biayaProduksiObat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -660,6 +675,7 @@ class CustomController extends Controller
 					'berat_badan'   => Yoga::returnNull($berat_badan),
 					'suhu'          => Yoga::returnNull($suhu),
 					'tinggi_badan'  => Yoga::returnNull($tinggi_badan),
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'    => $timestamp,
 					'updated_at'    => $timestamp,
 				];
@@ -669,6 +685,7 @@ class CustomController extends Controller
 					'coa_id'          => 50202, // Biaya Produksi : Bonus per pasien
 					'debit'           => 1,
 					'nilai'           => 1530,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -679,6 +696,7 @@ class CustomController extends Controller
 					'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
 					'debit'           => 0,
 					'nilai'           => 1530,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp,
 				];
@@ -691,6 +709,7 @@ class CustomController extends Controller
 				$receipts[] = [
 					'periksa_id' => $periksa_id,
 					'receipt' => json_encode($data),
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp,
 				];
@@ -713,13 +732,15 @@ class CustomController extends Controller
 				$query = "SELECT count(ks.id) as jumlah FROM kunjungan_sakits as ks join periksas as px on ks.periksa_id = px.id join pasiens as ps on ps.id = px.pasien_id ";
 				$query .= "WHERE ks.created_at like '" . date('Y-m') . "%' ";
 				$query .= "AND ks.pcare_submit = 1 ";
-				$query .= "AND px.pasien_id = '" . $periksa->pasien_id . "';";
+				$query .= "AND ks.tenant_id = " . session()->get('tenant_id') . " ";
+				$query .= "AND px.pasien_id = '" . $periksa->pasien_id . "' ";
 
 				$countKunjunganSakit = DB::select($query)[0]->jumlah;
 				$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;
 				if ($hitung < 1) {
 					$kunjungan_sakits[] = [
 						'periksa_id'   => $periksa_id,
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'   => $timestamp,
 						'updated_at'   => $timestamp,
 					];
@@ -891,7 +912,22 @@ class CustomController extends Controller
 
 	public function buyhistory($id){
 
-		$query = "SELECT sp.nama as nama, sp.alamat as alamat, sp.no_telp as telepon, sp.hp_pic as hp, sp.pic as pic, fb.supplier_id as supplier_id, pb.harga_beli, max(fb.tanggal) as tanggal from pembelians as pb join faktur_belanjas as fb on fb.id = pb.faktur_belanja_id join suppliers as sp on sp.id = fb.supplier_id where merek_id='{$id}' group by supplier_id order by harga_beli asc;";
+		$query = "SELECT ";
+		$query .= "sp.nama as nama, ";
+		$query .= "sp.alamat as alamat, ";
+		$query .= "sp.no_telp as telepon, ";
+		$query .= "sp.hp_pic as hp, ";
+		$query .= "sp.pic as pic, ";
+		$query .= "fb.supplier_id as supplier_id, ";
+		$query .= "pb.harga_beli, ";
+		$query .= "max(fb.tanggal) as tanggal ";
+		$query .= "from pembelians as pb ";
+		$query .= "join faktur_belanjas as fb on fb.id = pb.faktur_belanja_id ";
+		$query .= "join suppliers as sp on sp.id = fb.supplier_id ";
+		$query .= "where merek_id='{$id}' ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "group by supplier_id ";
+		$query .= "order by harga_beli asc ";
 		$supplierprices = DB::select($query);
 
 		$pembelians = Pembelian::where('merek_id', $id)->get();
@@ -902,7 +938,18 @@ class CustomController extends Controller
 
 	public function terapi($id)
 	{
-		$query = "SELECT p.id as id, terapi, s.nama as staf, count(p.id) as jumlah from periksas as p join stafs as s on s.id= p.staf_id where staf_id='{$id}' and terapi not like '[]' and p.created_at > 0 group by terapi order by jumlah desc";
+		$query = "SELECT p.id as id, ";
+		$query .= "terapi, ";
+		$query .= "s.nama as staf, ";
+		$query .= "count(p.id) as jumlah ";
+		$query .= "from periksas as p ";
+		$query .= "join stafs as s on s.id= p.staf_id ";
+		$query .= "where staf_id='{$id}' ";
+		$query .= "and terapi not like '[]' ";
+		$query .= "and p.created_at > 0 ";
+		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "group by terapi ";
+		$query .= "order by jumlah desc";
 		$periksas = DB::select($query);
 		return view('stafs.terapi', compact('periksas'));
 		// return $faktur_belanja_id;
@@ -943,7 +990,22 @@ class CustomController extends Controller
         foreach ($qs as $q) {
             $temp .= $q . '%';
         }
-        $query = "select min(mr.id) as merek_id, min(mr.merek) as merek, min(rk.fornas) as fornas, min(atu.aturan_minum) as aturan_minum, min(rk.stok) as stok from mereks as mr join raks as rk on rk.id = mr.rak_id join formulas as fr on fr.id = rk.formula_id join komposisis as kp on kp.formula_id = fr.id join generiks as gk on gk.id=kp.generik_id join aturan_minums as atu on atu.id = fr.aturan_minum_id where merek like '%$temp' or gk.generik like '%$temp' or atu.aturan_minum like '%$temp' group by mr.id limit 20;";
+		$query = "select min(mr.id) as merek_id, ";
+		$query .= "min(mr.merek) as merek, ";
+		$query .= "min(rk.fornas) as fornas, ";
+		$query .= "min(atu.aturan_minum) as aturan_minum, ";
+		$query .= "min(rk.stok) as stok ";
+		$query .= "from mereks as mr ";
+		$query .= "join raks as rk on rk.id = mr.rak_id ";
+		$query .= "join formulas as fr on fr.id = rk.formula_id ";
+		$query .= "join komposisis as kp on kp.formula_id = fr.id ";
+		$query .= "join generiks as gk on gk.id=kp.generik_id ";
+		$query .= "join aturan_minums as atu on atu.id = fr.aturan_minum_id ";
+		$query .= "WHERE mr.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "where merek like '%$temp' ";
+		$query .= "or gk.generik like '%$temp' ";
+		$query .= "or atu.aturan_minum like '%$temp' ";
+		$query .= "group by mr.id limit 20 ";
         $mereks = DB::select($query);
         $data = [];
         foreach ($mereks as $mrk) {

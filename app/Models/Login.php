@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
-class edit.blade.php extends Model
+class Login extends Model
 {
-    use HasFactory;
+    protected $guarded = [];
+    use BelongsToTenant;
 }

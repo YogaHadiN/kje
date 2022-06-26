@@ -124,6 +124,7 @@ class BayarGajiController extends Controller
 					   'jurnalable_type' => 'App\Models\BayarGaji',
 					   'coa_id'          => 60101,
 					   'debit'           => 1,
+							'tenant_id'  => session()->get('tenant_id'),
 					   'created_at'      => $timestamp_jurnal,
 					   'updated_at'      => $timestamp_jurnal,
 					   'nilai'           => $cg['gaji_pokok']
@@ -137,6 +138,7 @@ class BayarGajiController extends Controller
 						   'jurnalable_type' => 'App\Models\BayarGaji',
 						   'coa_id'          => 200002, // Hutang Kepada Asisten Dokte,
 						   'debit'           => 1,
+							'tenant_id'  => session()->get('tenant_id'),
 						   'created_at'      => $timestamp_jurnal,
 						   'updated_at'      => $timestamp_jurnal,
 						   'nilai'           => $cg['jumlah_bonus']
@@ -154,6 +156,7 @@ class BayarGajiController extends Controller
 						   'jurnalable_type' => 'App\Models\BayarGaji',
 						   'coa_id'          => 200002,// Hutang Kepada Asisten Dokte,
 						   'debit'           => 1,
+							'tenant_id'  => session()->get('tenant_id'),
 						   'created_at'      => $timestamp_jurnal,
 						   'updated_at'      => $timestamp_jurnal,
 						   'nilai'           => $sisa_hutang_bonus,
@@ -165,6 +168,7 @@ class BayarGajiController extends Controller
 						   'jurnalable_id'   => $this->bayar->id,
 						   'jurnalable_type' => 'App\Models\BayarGaji',
 						   'coa_id'          => 50205,
+							'tenant_id'  => session()->get('tenant_id'),
 						   'created_at'      => $timestamp_jurnal,
 						   'updated_at'      => $timestamp_jurnal,
 						   'debit'           => 1,
@@ -178,6 +182,7 @@ class BayarGajiController extends Controller
 					   'jurnalable_id'   => $this->bayar->id,
 					   'jurnalable_type' => 'App\Models\BayarGaji',
 					   'coa_id'          => $this->input_sumber_uang_id, //Kas Sumbe,
+							'tenant_id'  => session()->get('tenant_id'),
 					   'created_at'      => $timestamp_jurnal,
 					   'updated_at'      => $timestamp_jurnal,
 					   'debit'           => 0,
@@ -190,6 +195,7 @@ class BayarGajiController extends Controller
 						   'coa_id'          => 200004, // Hutang pph21
 						   'debit'           => 0,
 						   'nilai'           => $this->perhitunganPph_ini['pph21'],
+							'tenant_id'  => session()->get('tenant_id'),
 						   'created_at'      => $timestamp_jurnal,
 						   'updated_at'      => $timestamp_jurnal
 					   ];
@@ -447,7 +453,25 @@ class BayarGajiController extends Controller
     public function bayardokterdetail(){
         $tanggal_mulai = Input::get('tanggal_mulai');
         $tanggal_akhir = Input::get('tanggal_akhir');
-        $query = "select p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Models\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 where date(p.tanggal) between '{$tanggal_mulai}' and '{$tanggal_akhir}';";
+		$query = "select ";
+		$query .= "p.tanggal as tanggal, ";
+		$query .= "st.nama as nama_staf, ";
+		$query .= "ps.id as pasien_id, ";
+		$query .= "ps.nama as nama, ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "tunai, ";
+		$query .= "piutang, ";
+		$query .= "nilai ";
+		$query .= "from jurnal_umums as ju ";
+		$query .= "join periksas as p on p.id=ju.jurnalable_id ";
+		$query .= "join stafs as st on st.id= p.staf_id ";
+		$query .= "join pasiens as ps on ps.id=p.pasien_id ";
+		$query .= "join asuransis as asu on asu.id=p.asuransi_id ";
+		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
+		$query .= "and p.staf_id='{$id}' ";
+		$query .= "and ju.coa_id=200001 ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "where date(p.tanggal) between '{$tanggal_mulai}' and '{$tanggal_akhir}' ";
         $hutangs = DB::select($query);
         $total = 0;
         foreach ($hutangs as $hutang) {
@@ -520,6 +544,7 @@ class BayarGajiController extends Controller
 		$query .= "LEFT JOIN pph21s as pph on pph.pph21able_id = bgj.id ";
 		$query .= "WHERE {$param} ";
 		$query .= "AND (pph.pph21able_type = 'App\\\\\Models\\\\\BayarGaji' ";
+		$query .= "AND bgj.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "OR pph.pph21able_type is null) ";
 		$query .= "ORDER BY id desc ";
 		$query .= "LIMIT 30";
@@ -758,6 +783,7 @@ class BayarGajiController extends Controller
 		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
 		$query .= "and p.staf_id='{$id}' ";
 		$query .= "and ju.coa_id=200001 "; //hutang kepada dokter
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and ( date(p.created_at) between '{$mulai}' and '{$akhir}') ";
         $total = 0;
 
@@ -829,6 +855,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => 200001, // Hutang Kepada Dokte,
 				'debit'           => 1,
 				'nilai'           => $this->input_hutang,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -838,6 +865,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => $this->input_sumber_uang_id,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus  > $this->input_hutang - $this->perhitunganPph_ini['pph21'],
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -848,6 +876,7 @@ class BayarGajiController extends Controller
 					'coa_id'          => 200004, // Hutang pph21
 					'debit'           => 0,
 					'nilai'           => $this->perhitunganPph_ini['pph21'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -860,6 +889,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => 200001, // Hutang Kepada Dokte,
 				'debit'           => 1,
 				'nilai'           => $this->input_hutang,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -869,6 +899,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => 50201, // B. Produksi Jasa Dokter,
 				'debit'           => 1,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->input_hutang,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -878,6 +909,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => $this->input_sumber_uang_id,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -888,6 +920,7 @@ class BayarGajiController extends Controller
 					'coa_id'          => 200004, // Hutang pph21
 					'debit'           => 0,
 					'nilai'           => $this->perhitunganPph_ini['pph21'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -901,6 +934,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => 200001, // Hutang kepada dokte,
 				'debit'           => 1,
 				'nilai'           => $this->input_hutang,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -910,6 +944,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => 50201, // B. Produksi Jasa Dokte,
 				'debit'           => 0,
 				'nilai'           => $this->input_hutang- Yoga::clean($this->input_gaji_pokok) + $this->input_bonus,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -920,6 +955,7 @@ class BayarGajiController extends Controller
 				'coa_id'          => $this->input_sumber_uang_id,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -930,6 +966,7 @@ class BayarGajiController extends Controller
 					'coa_id'          => 200004, // Hutang pph21
 					'debit'           => 0,
 					'nilai'           => $this->perhitunganPph_ini['pph21'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];

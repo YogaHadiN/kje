@@ -611,6 +611,7 @@ class Yoga {
 			$query .= "mr.merek as merek ";
 			$query .= "FROM raks as rk ";
 			$query .= "JOIN mereks as mr on mr.rak_id = rk.id ";
+			$query .= "WHERE rk.tenant_id = " . session()->get('tenant_id') . " ";
 			$raks = DB::select($query);
 
 			foreach ($raks as $rak) {
@@ -1142,7 +1143,12 @@ class Yoga {
          	
      	   	$modalObat = 0;
 
-     	   	$query = "SELECT sum(tr.harga_beli_satuan * tr.jumlah) as modal_obat FROM terapis as tr join periksas as px on px.id = tr.periksa_id where px.tanggal like '{$tanggal}%' and px.asuransi_id like '{$asuransi_id}'";
+			$query = "SELECT sum(tr.harga_beli_satuan * tr.jumlah) as modal_obat ";
+			$query .= "FROM terapis as tr ";
+			$query .= "join periksas as px on px.id = tr.periksa_id ";
+			$query .= "where px.tanggal like '{$tanggal}%' ";
+			$query .= "and tr.tenant_id = " . session()->get('tenant_id') . " ";
+			$query .= "and px.asuransi_id like '{$asuransi_id}'";
 
      	    return DB::select($query)[0]->modal_obat;
 
@@ -1677,7 +1683,18 @@ class Yoga {
 
 		public static function soOption(){
 			$date = date('Y-m');
-			$query = "SELECT m.merek as merek, r.id as rak_id, m.id as merek_id, r.stok as stok from mereks as m join raks as r on r.id = m.rak_id where r.id not in (select rak_id from stok_opnames where created_at like '{$date}%')";
+			$query = "SELECT m.merek as merek, ";
+			$query .= "r.id as rak_id, ";
+			$query .= "m.id as merek_id, ";
+			$query .= "r.stok as stok ";
+			$query .= "from mereks as m ";
+			$query .= "join raks as r on r.id = m.rak_id ";
+			$query .= "where r.id not in (";
+				$query .= "select rak_id ";
+				$query .= "from stok_opnames ";
+				$query .= "where created_at like '{$date}%'";
+			$query .= ")";
+			$query .= "and m.tenant_id = " . session()->get('tenant_id') . " ";
 			$mereks = DB::select($query);
 
 			return $mereks;
@@ -2050,7 +2067,14 @@ class Yoga {
 		return array('' => '- Pilih Dokter Spesialis -') + TujuanRujuk::pluck('tujuan_rujuk', 'id')->all();
     }
     public static function hitungTindakan($asuransi_id, $jenis_tarif_id, $tanggal){
-        $query = "SELECT * FROM transaksi_periksas as tp join periksas as px on px.id = tp.periksa_id join jenis_tarifs as jt on jt.id=tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' and tp.jenis_tarif_id = {$jenis_tarif_id} and px.asuransi_id = '{$asuransi_id}';";
+		$query = "SELECT * ";
+		$query .= "FROM transaksi_periksas as tp ";
+		$query .= "join periksas as px on px.id = tp.periksa_id ";
+		$query .= "join jenis_tarifs as jt on jt.id=tp.jenis_tarif_id ";
+		$query .= "where tp.created_at >= '{$tanggal}' ";
+		$query .= "and tp.jenis_tarif_id = {$jenis_tarif_id} ";
+		$query .= "and px.asuransi_id = '{$asuransi_id}' ";
+		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
         $biaya = 0;
         foreach (DB::select($query) as $trx) {
             $biaya += $trx->biaya;
@@ -2169,8 +2193,9 @@ class Yoga {
 		$query .= "and px.asuransi_id=32 ";
 		$query .= "and px.sistolik not like '' ";
 		$query .= "and px.sistolik is not null ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by ps.id ";
-		$query .= "having sum( px.sistolik ) / count( px.id ) >139;";
+		$query .= "having sum( px.sistolik ) / count( px.id ) >139 ";
 
 		$datas = DB::select($query);
 
@@ -2196,8 +2221,9 @@ class Yoga {
 		$query .= "and trx.jenis_tarif_id = 116 ";
 		$query .= "and trx.keterangan_pemeriksaan not like '' ";
 		$query .= "and trx.keterangan_pemeriksaan is not null ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by ps.id ";
-		$query .= "having sum( cast(trx.keterangan_pemeriksaan as unsigned) ) / count( trx.id ) > 210;";
+		$query .= "having sum( cast(trx.keterangan_pemeriksaan as unsigned) ) / count( trx.id ) > 210 ";
 
 		$dms = DB::select($query);
 		$pasien_dm = [];
@@ -2213,46 +2239,6 @@ class Yoga {
 		];
 	}
 	
-	//public static function Prolanis(){
-		
-		//$pasien_ids = [];
-		//// Dapatkan pasien hipertensi lebih dari 3 x pemerikssaan dengan usia diatas 49 tahun
-		//$query = "select ps.id as pasien_id, count(*) as jumlah, ps.nama as nama_pasien, px.pemeriksaan_fisik as pf, ps.alamat as alamat, ps.no_telp as no_hp, TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) as age, px.pemeriksaan_penunjang as lab from periksas as px join pasiens as ps on ps.id = px.pasien_id where TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 and px.asuransi_id=32 and ((  pemeriksaan_fisik like '%mmHg%' and pemeriksaan_fisik like '%/%'  ) or (px.pemeriksaan_penunjang like '%gds%') ) group by pasien_id;";
-		//$datas = DB::select($query);
-		//$prolanis = [];
-		//foreach ($datas as $data) {
-			//$riwayats = Pasien::find($data->pasien_id)->periksa;
-			//$jumlah = 0;
-			//foreach ($riwayats as $rw) {
-				//$pretd    = explode("mmHg",$rw->pf)[0];
-				//$sistolik = filter_var(explode("/",$pretd)[0], FILTER_SANITIZE_NUMBER_INT);
-				//if ( $sistolik > 139) {
-					//$jumlah++;
-				//}
-			//}
-			//if ($jumlah > 2) {
-				//$pasien_ids[]=$data->pasien_id;
-			//}
-		//}
-   //[>     foreach ($datas as $data) {<]
-			////$pretd = explode("mmHg",$data->pf)[0];
-			////$sistolik = filter_var(explode("/",$pretd)[0], FILTER_SANITIZE_NUMBER_INT);
-			////if (( $sistolik > 139 and $data->jumlah >2 ) or strpos($data->lab, 'gds')) {
-				////$pasien_ids[] = $data->pasien_id;
-			////}
-		//[>}<]
-		//// Dapatkan pasien hipertensi lebih dari 3 x pemerikssaan dengan usia diatas 49 tahun
-		//$query = "select ps.id as pasien_id, count(*) as jumlah, ps.nama as nama_pasien, px.pemeriksaan_fisik as pf, ps.alamat as alamat, ps.no_telp as no_hp, TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) as age, px.pemeriksaan_penunjang as lab from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.asuransi_id=32 and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 and dg.diagnosa like '%dm tipe 2%' group by ps.id;";
-
-		//$dms = DB::select($query);
-
-		//foreach ($dms as $data) {
-			//if ($data->jumlah > 2) {
-				//$pasien_ids[] = $data->pasien_id;
-			//}
-		//}
-		//return  array_unique($pasien_ids);
-	//}
 	public static function imageBPJSFromBrowser($image, $id){
 		$filename = null;
 		if (!empty( $image )) {
@@ -2404,7 +2390,8 @@ class Yoga {
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
 		$query .= "AND ks.created_at like '{$bulanTahun}%' ";
 		$query .= "AND ks.pcare_submit = 0 ";
-		$query .= "ORDER BY ks.created_at desc;";
+		$query .= "and ks.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "ORDER BY ks.created_at desc ";
 		return DB::select($query);
 	}
 	public static function even($number){

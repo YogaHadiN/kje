@@ -112,6 +112,7 @@ class cekMutasi19Terakhir extends Command
 						$query .= "AND kata_kunci not like '' ";
 						$query .= "AND krm.tanggal < '{$mutasi->created_at}' ";
 						$query .= "AND krm.tanggal >= '" . date("Y-m-d", strtotime("-6 months")). "' ";
+						$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
 						$query .= "group by prx.id ";
 						$query .= ") bl ";
 						$query .= "group by invoice_id ";
@@ -148,6 +149,7 @@ class cekMutasi19Terakhir extends Command
 							$query .= "FROM asuransis asu ";
 							$query .= "WHERE INSTR('{$description}' , asu.kata_kunci ) ";
 							$query .= "AND kata_kunci not like '' ";
+							$query .= "AND asu.tenant_id = " . session()->get('tenant_id') . " ";
 							$matched_insurance = DB::select($query);
 
 							if (count($matched_insurance) > 0) {
@@ -184,7 +186,10 @@ class cekMutasi19Terakhir extends Command
 						'deskripsi'              => $mutasi->description,
 						'nilai'                  => $mutasi->amount,
 						'saldo_akhir'            => $mutasi->balance,
-						'debet'                  => $debet
+						'debet'                  => $debet,
+						'tenant_id'              => session()->get('tenant_id'),
+						'created_at'             => $timestamp,
+						'updated_at'             => $timestamp
 					];
 				}
 			}

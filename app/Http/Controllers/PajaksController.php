@@ -20,7 +20,10 @@ class PajaksController extends Controller
 		 $this->middleware('super', ['except' => []]);
 	 }
 	public function amortisasi(){
-		$query  = "select year(created_at) as tahun from penyusutans group by YEAR(created_at)";
+		$query  = "select year(created_at) as tahun ";
+		$query .= "from penyusutans ";
+		$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "group by YEAR(created_at)";
 		$data = DB::select($query);
 
 		$lists = [];
@@ -126,6 +129,7 @@ class PajaksController extends Controller
 		}
 		$query .= "WHERE pn.created_at < '{$first_date_of_the_year}'";
 		$query .= "AND pn.susutable_type = '{$BelanjaPeralatan}' ";
+		$query .= "AND pn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY pn.susutable_id";
 
 		//return $query;
@@ -189,53 +193,12 @@ class PajaksController extends Controller
 		}
 		$query .= "WHERE pn.created_at < '{$first_date_of_the_year}'";
 		$query .= "AND pn.susutable_type = '{$BelanjaPeralatan}' ";
+		$query .= "AND pn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY pn.susutable_id";
 
 		return DB::select($query);
 	}
 
-	/* public function queryAmortisasi( */
-	/* 	$peralatan, */
-	/* 	$belanja_peralatans, */
-	/* 	$BelanjaPeralatan, */
-	/* 	$tanggal, */
-	/* 	$tahun */
-	/* ){ */
-	/* 	$tahun_pajak = $tahun +1; */
-	/* 	$first_date_of_the_year          = date($tahun_pajak .'-01-01');//2017-01-01 00:00:00 */
-	/* 	/1* return 'first_date_of_the_year = ' . $first_date_of_the_year; *1/ */
-	/* 	$first_date_of_the_previous_year = date('Y-m-d H:i:s', strtotime("-1 year " . $first_date_of_the_year)); //2016-01-01 00:00:00 */
-	/* 	/1* return 'first_date_of_the_previous_year = ' . $first_date_of_the_previous_year; *1/ */
-
-	/* 	$query  = "SELECT "; */
-	/* 	/1* $query .= "bp.{$peralatan} as peralatan, "; *1/ */
-	/* 	$query .= "DATE_FORMAT({$tanggal}, '%m') as bulan_perolehan, "; */
-	/* 	$query .= "DATE_FORMAT({$tanggal}, '%Y') as tahun_perolehan, "; */
-	/* 	$query .= "SUM(CASE WHEN pn.created_at < '{$first_date_of_the_previous_year}' THEN pn.nilai ELSE 0 END) AS susut_fiskal_tahun_lalu,"; */
-	/* 	$query .= "SUM(nilai) AS total_penyusutan, "; */
-	/* 	$query .= "sum(bp.harga_satuan * bp.jumlah) as harga_perolehan, "; */
-	/* 	$query .= "sum(bp.harga_satuan * bp.jumlah) - SUM(CASE WHEN pn.created_at < '{$first_date_of_the_previous_year}' THEN pn.nilai ELSE 0 END) as harga_awal_tahun, "; */
-	/* 	/1* $query .= "bp.harga_satuan as harga_satuan, "; *1/ */
-	/* 	if ($BelanjaPeralatan != 'App\\\BahanBangunan') { */
-	/* 		$query .= "bp.masa_pakai as masa_pakai, "; */
-	/* 	} */
-	/* 	if ($BelanjaPeralatan == 'App\\\BahanBangunan') { */
-	/* 		$query .= "bp.bangunan_permanen as permanen, "; */
-	/* 	} */
-	/* 	/1* $query .= "bp.jumlah as jumlah, "; *1/ */
-	/* 	$query .= "pn.created_at as tanggal_penyusutan, "; */
-	/* 	$query .= "fb.tanggal as tanggal "; */
-	/* 	$query .= "FROM penyusutans as pn "; */
-	/* 	$query .= "JOIN {$belanja_peralatans} as bp on bp.id = pn.susutable_id "; */
-	/* 	$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id "; */
-	/* 	$query .= "WHERE pn.created_at < '{$first_date_of_the_year}'"; */
-	/* 	$query .= "AND pn.susutable_type = '{$BelanjaPeralatan}' "; */
-	/* 	$query .= "GROUP BY pn.susutable_id"; */
-
-	/* 	dd($query); */
-	/* 	//return $query; */
-	/* 	return DB::select($query); */
-	/* } */
 
 	public function peredaranBrutoPost(){
 		$tahun = Input::get('tahun');
@@ -334,7 +297,10 @@ class PajaksController extends Controller
 	*/
 	private function pluckTahun()
 	{
-		$query  = "select year(created_at) as tahun from jurnal_umums group by YEAR(created_at)";
+		$query  = "select year(created_at) as tahun ";
+		$query .= "from jurnal_umums ";
+		$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "group by YEAR(created_at)";
 		$data = DB::select($query);
 
 		$pluck = [];

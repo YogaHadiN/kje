@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class Antrian extends Model
 {
+    use BelongsToTenant;
 	protected $dates = [
 		'tanggal_lahir'
 	];

@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class BelanjaPeralatan extends Model
 {
+    use BelongsToTenant;
 	protected $guarded = ['id'];
 	public function staf(){
 		return $this->belongsTo('App\Models\Staf');

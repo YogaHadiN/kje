@@ -27,7 +27,13 @@ class NeracaSaldosController extends Controller
 		$jurn = new JurnalUmumsController;
 		$jurn->notReadh($bulan, $tahun, 'neraca_saldos');
 
-    	$query = "SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.created_at like '{$tahun}-{$bulan}%' group by coa_id";
+        $query = "SELECT coa_id as coa_id, ";
+        $query .= "c.coa as coa ";
+        $query .= "from jurnal_umums as j ";
+        $query .= "join coas as c on c.id = j.coa_id ";
+        $query .= "where j.created_at like '{$tahun}-{$bulan}%' ";
+		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "group by coa_id";
     	$jurnalumums = DB::select($query);
 
     	$jurnalumums = json_encode($jurnalumums);

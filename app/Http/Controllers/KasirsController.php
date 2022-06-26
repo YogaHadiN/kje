@@ -203,14 +203,15 @@ class KasirsController extends Controller
 		if ($pasienProlanisBulanIniSudahDiupload) {
 
 			// Cari pasien yang memiliki image kartu bpjs dan masuk dalam pasien_prolanis bulan ini
-			$bulanIni  = date('Y-m');
-			$query     = "SELECT count(ppr.id) as count "; // cari semua 
-			$query    .= "FROM pasien_prolanis as ppr ";
-			$query    .= "JOIN pasiens as psn on psn.id = ppr.pasien_id ";
-			$query    .= "WHERE ppr.created_at like '{$bulanIni}%' ";
-			$query    .= "AND ( psn.verifikasi_prolanis_dm_id = 1 or psn.verifikasi_prolanis_ht_id = 1 )";
-			$query    .= "AND ( psn.bpjs_image is not null and psn.bpjs_image not like '' ) ";
-			$pasienBelumDivalidasi      = DB::select($query);
+			$bulanIni               = date('Y-m');
+			$query                  = "SELECT count(ppr.id) as count "; // cari semua
+			$query                 .= "FROM pasien_prolanis as ppr ";
+			$query                 .= "JOIN pasiens as psn on psn.id = ppr.pasien_id ";
+			$query                 .= "WHERE ppr.created_at like '{$bulanIni}%' ";
+			$query                 .= "AND ppr.tenant_id = " . session()->get('tenant_id') . " ";
+			$query                 .= "AND ( psn.verifikasi_prolanis_dm_id = 1 or psn.verifikasi_prolanis_ht_id = 1 )";
+			$query                 .= "AND ( psn.bpjs_image is not null and psn.bpjs_image not like '' ) ";
+			$pasienBelumDivalidasi  = DB::select($query);
 
 			if ( date('j') > 6 && count($pasienBelumDivalidasi) > 1) {
 				$status                      = 'warning';
@@ -353,9 +354,10 @@ class KasirsController extends Controller
 		$query .= "JOIN tipe_asuransis as ta on ta.id = asu.tipe_asuransi ";
 		$query .= "WHERE invoice_id is null ";
 		$query .= "AND px.tanggal > '2020-12-31' ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND ta.id = 3 "; // tipe asuransi admedika
 		$query .= "ORDER BY px.tanggal asc ";
-		$query .= "LIMIT 1;";
+		$query .= "LIMIT 1 ";
 
 		$pasienBelumDikirim = DB::select($query);
 		if ( count( $pasienBelumDikirim )  ) {

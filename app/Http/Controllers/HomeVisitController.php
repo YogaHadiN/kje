@@ -90,6 +90,7 @@ class HomeVisitController extends Controller
 		$query .= "WHERE ";
 		$query .= "(hv.created_at like '%{$this->input_tanggal}%') ";
 		$query .= "AND (ps.nama like '%{$this->input_nama}%') ";
+		$query .= "AND hv.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND (ps.no_telp like '%{$this->input_no_telp}%') ";
 		if (isset( $bulan_ini )) {
 			$query .= "AND (hv.created_at like '{$bulan_ini}%')  ";

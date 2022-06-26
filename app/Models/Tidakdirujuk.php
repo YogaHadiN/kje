@@ -3,9 +3,11 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToTenant; 
 use Illuminate\Database\Eloquent\Model;
 
 class Tidakdirujuk extends Model{
+    use BelongsToTenant;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

@@ -34,6 +34,7 @@ class DdlMerekController extends Controller
 		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "WHERE m.discontinue = 0 ";
+		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= 'ORDER BY m.id ASC';
 		$data =  DB::select($query);
 		return $this->formatDdlNamaObat($data);
@@ -65,6 +66,7 @@ class DdlMerekController extends Controller
 		$query .= "JOIN doses as d on f.id = d.formula_id ";
 		$query .= "WHERE d.berat_badan_id = '{$berat_badan_id}'";
 		$query .= "AND m.discontinue = 0 ";
+		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY m.id ASC";
 		$data   = DB::select($query);
 		$i      = 0;
@@ -128,6 +130,7 @@ class DdlMerekController extends Controller
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "WHERE f.sediaan = 'capsul' ";
 		$query .= "AND m.discontinue = 0 ";
+		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "or f.sediaan = 'tablet' ";
 		$query .= "ORDER BY m.id ASC";
 		$data =  DB::select($query);
@@ -155,6 +158,7 @@ class DdlMerekController extends Controller
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "WHERE f.sediaan like '%syrup%' ";
 		$query .= "AND m.discontinue = 0 ";
+		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY m.id ASC";
 		$data =  DB::select($query);
 		return $this->formatDdlNamaObat($data);

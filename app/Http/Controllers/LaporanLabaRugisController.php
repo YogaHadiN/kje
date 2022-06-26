@@ -221,6 +221,7 @@ class LaporanLabaRugisController extends Controller
 		}
 
 		$query             .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query             .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
 		$query             .= "group by coa_id ";
 
         $akuns              = DB::select($query);
@@ -269,36 +270,6 @@ class LaporanLabaRugisController extends Controller
 			];
 		}
 
-		/* dd($akuns); */
-
-		/* $query  = "select "; */
-		/* if ($bikinan) { */
-		/* 	$query .= "px.asuransi_id as asuransi_id, "; */
-		/* 	$query .= "j.jurnalable_type as jurnalable_type, "; */
-		/* } */
-		/* $query .= "coa_id as coa_id, "; */
-		/* $query .= "c.coa as coa, "; */
-		/* $query .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai "; */
-		/* $query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id "; */
-		/* if ($bikinan) { */
-		/* 	$query .= "left join periksas as px on px.id = j.jurnalable_id "; */
-		/* } */
-		/* $query .= "WHERE j.created_at like '2019%'"; */
-		/* $query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) "; */
-		/* $query .= "group by coa_id "; */
-        /* $akuns  = DB::select($query); */
-
-		/* if ($bikinan) { */
-		/* 	foreach ($akuns as $k=>$ak) { */
-		/* 		if ( */
-		/* 			$ak->asuransi_id == 0 */ 
-		/* 			&& $ak->jurnalable_type == 'App\Models\Periksa' */ 
-		/* 			/1* && (substr($ak->coa_id, 0, 1) == '4' || substr($ak->coa_id, 0, 1) == '7' ) *1/ */
-		/* 		) { */
-		/* 			unset($akuns[$k]); */
-		/* 		} */
-		/* 	} */
-		/* } */
 
 		return $this->olahDataLaporanLabaRugi($akuns, null, null, $tanggal_awal, $tanggal_akhir);
 	}
@@ -312,6 +283,7 @@ class LaporanLabaRugisController extends Controller
 		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
 		$query .= "where date(j.created_at) between '{$tanggal_awal} 00:00:00' and '{$tanggal_akhir} 23:59:59'  ";
 		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by coa_id ";
         $akuns  = db::select($query);
 		/* dd($query); */
@@ -370,8 +342,9 @@ class LaporanLabaRugisController extends Controller
 		
 		$query  = "SELECT year(created_at) as tahun ";
 		$query .= "FROM jurnal_umums ";
-		$query .= "GROUP BY year(created_at);";
-		$data = DB::select($query);
+		$query .= "GROUP BY year(created_at) ";
+		$query .= "WHERE j.tenant_id = " . session()->get('tenant_id') . " ";
+		$data   = DB::select($query);
 
 		$tahun=[];
 		foreach ($data as $d) {
@@ -405,6 +378,7 @@ class LaporanLabaRugisController extends Controller
 			$query .= "WHERE j.created_at between '{$tanggal_awal} 00:00:00' and '{$tanggal_akhir} 23:59:59'";
 		}
 		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "group by coa_id "; */
         return DB::select($query);
 	}

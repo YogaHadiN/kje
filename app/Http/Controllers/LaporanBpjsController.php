@@ -84,6 +84,7 @@ class LaporanBpjsController extends Controller
 		$query .= "JOIN icd10s as icd on icd.id = dgn.icd10_id ";
 		$query .= "RIGHT JOIN rujukans as rjk on rjk.periksa_id = prx.id ";
 		$query .= "WHERE prx.asuransi_id = 32 ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
 		return DB::select($query);
 	}
@@ -107,6 +108,7 @@ class LaporanBpjsController extends Controller
 		$query .= "RIGHT JOIN rujukans as rjk on rjk.periksa_id = prx.id ";
 		$query .= "WHERE prx.asuransi_id = 32 ";
 		$query .= "AND tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND prx.sistolik not like '' ";
 		$query .= "AND prx.diastolik not like '' ";
 		return DB::select($query);
@@ -131,6 +133,7 @@ class LaporanBpjsController extends Controller
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE psn.prolanis_dm=1 ";
 		$query .= "AND prx.tanggal like '" . $bulanThn. "%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY keterangan_pemeriksaan asc";
 		$dm = DB::select($query);
 

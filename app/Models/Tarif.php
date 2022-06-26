@@ -3,12 +3,14 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToTenant; 
 use DB;
 use App\Models\BahanHabisPakai;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Tarif extends Model{
+    use BelongsToTenant;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

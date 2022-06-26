@@ -66,6 +66,7 @@ class BayarDoktersController extends Controller
 		$query .= "AND (bgj.gaji_pokok + bgj.bonus like ? or ? = '') ";
 		$query .= "AND (bgj.tanggal_dibayar like ? or ? = '') ";
 		$query .= "AND (stf.nama like ? or ? = '') ";
+		$query .= "AND bgj.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "ORDER BY bgj.id DESC ";
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$displayed_rows} ";

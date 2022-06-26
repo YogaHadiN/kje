@@ -127,7 +127,8 @@ class LaporanNeracasController extends Controller
 		$query .= "or co.kelompok_coa_id = 3 ";
 		$query .= ") ";
 		$query .= "and ju.created_at <= '{$tanggal_akhir}' ";
-		$query .= "and ju.created_at >= '{$tanggal_awal}';";
+		$query .= "and ju.created_at >= '{$tanggal_awal}' ";
+		$query .= "and ju.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= " group by co.id"; */
 
 		/* dd( $query ); */
@@ -262,6 +263,7 @@ class LaporanNeracasController extends Controller
 		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
 		$query .= "where j.created_at < '{$tahun}-01-01 00:00:00' ";
 		$query .= "and j.created_at > '2017-11-30 00:00:00' ";
+		$query .= "and j.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
 
         $akuns = DB::select($query);

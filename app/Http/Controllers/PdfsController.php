@@ -282,8 +282,6 @@ class PdfsController extends Controller
     }
 	public function dispensing($rak_id, $mulai, $akhir){
 
-		// return 'mulai = ' . $mulai . ' akhir = ' . $akhir . ' rak_id = ' . $rak_id . ' ';
-		//$dispensings = DB::select("SELECT id, tanggal, rak_id, sum(keluar) as keluar, sum(masuk) as masuk, dispensable_id FROM dispensings where tanggal <= '{$akhir}' AND tanggal >= '{$mulai}' AND rak_id like '{$rak_id}' group by tanggal");
 		$query = "SELECT id, ";
 		$query .= "tanggal, ";
 		$query .= "rak_id, ";
@@ -293,6 +291,7 @@ class PdfsController extends Controller
 		$query .= "dispensable_type ";
 		$query .= "FROM dispensings ";
 		$query .= "where tanggal <= '{$akhir}' ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND tanggal >= '{$mulai}' ";
 		$query .= "AND rak_id like '{$rak_id}' ";
 		$query .= "group by tanggal";

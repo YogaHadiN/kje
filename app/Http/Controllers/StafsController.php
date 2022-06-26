@@ -288,7 +288,8 @@ class StafsController extends Controller
 		$query .= "year(tanggal) as tahun ";
 		$query .= "FROM periksas as prx ";
 		$query .= "WHERE staf_id = {$id} ";
-		$query .= "GROUP BY YEAR(tanggal) asc;";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY YEAR(tanggal) asc ";
 		$jumlah = DB::select($query);
 		$staf = Staf::find( $id );
 		$tahun = true;
@@ -321,7 +322,8 @@ class StafsController extends Controller
 		$query .= "FROM periksas as prx ";
 		$query .= "WHERE staf_id = {$id} ";
 		$query .= "AND year(tanggal) = '{$tahun}' ";
-		$query .= "GROUP BY tanggal asc;";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY tanggal asc ";
 		return DB::select($query);
 	}
 	

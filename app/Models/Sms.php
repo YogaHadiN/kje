@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use Twilio\Rest\Client;
 use Twilio\Exceptions\Twilioexception;
 use App\Models\Classes\Yoga;
@@ -10,6 +11,7 @@ use App\Models\Outbox;
 
 class Sms extends Model
 {
+    use BelongsToTenant;
 	public static function sendSms($no, $message){
 		// Step 2: set our AccountSid and AuthToken from https://twilio.com/console
 		$AccountSid =env('TWILLIO_ACCOUNT_SID');

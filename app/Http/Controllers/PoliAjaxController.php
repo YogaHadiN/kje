@@ -130,25 +130,26 @@ class PoliAjaxController extends Controller
            $parameter_berat_badan = "(p.berat_badan > 40 or p.berat_badan is null or p.berat_badan = 0)";
         }
 
-		$queryRaw = "select p.id as periksa_id, ";
-		$queryRaw .= "replace(p.terapi ,' ', '') as terapih, ";
-		$queryRaw .= "count(p.id) as jumlah ";
-		$queryRaw .= "from `periksas` as p ";
-		$queryRaw .= "join diagnosas as d on d.id = p.diagnosa_id ";
-		$queryRaw .= "join asuransis as asu on asu.id = p.asuransi_id ";
-		$queryRaw .= "where (staf_id=? or staf_id='16' ) ";
-		$queryRaw .= "and {$parameter_asuransi} ";
-		$queryRaw .= "and d.icd10_id = '{$icd10}' ";
-		$queryRaw .= "and {$parameter_berat_badan} ";
+		$query  = "select p.id as periksa_id, ";
+		$query .= "replace(p.terapi ,' ', '') as terapih, ";
+		$query .= "count(p.id) as jumlah ";
+		$query .= "from `periksas` as p ";
+		$query .= "join diagnosas as d on d.id = p.diagnosa_id ";
+		$query .= "join asuransis as asu on asu.id = p.asuransi_id ";
+		$query .= "where (staf_id=? or staf_id='16' ) ";
+		$query    .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and {$parameter_asuransi} ";
+		$query .= "and d.icd10_id = '{$icd10}' ";
+		$query .= "and {$parameter_berat_badan} ";
 		foreach ($formula_ids as $formula_id) {
-			$queryRaw .= "and p.terapi not like '%{$formula_id}%' ";
+			$query .= "and p.terapi not like '%{$formula_id}%' ";
 		}
-		$queryRaw .= "and p.created_at > '2016-01-22 18:15:04' ";
-		$queryRaw .= "group by terapih ";
-		$queryRaw .= "order by jumlah ";
-		$queryRaw .= "desc limit 10";
+		$query .= "and p.created_at > '2016-01-22 18:15:04' ";
+		$query .= "group by terapih ";
+		$query .= "order by jumlah ";
+		$query .= "desc limit 10";
 
-		$query = DB::select($queryRaw, [
+		$query = DB::select($query, [
 			$staf_id 
 		]);
 
@@ -252,7 +253,11 @@ class PoliAjaxController extends Controller
 		$id = '';
 		$temp = '';
 
-		if(count(DB::select("SELECT * FROM signas WHERE replace(signa,' ','') = '" . $signa . "'")) > 0){
+		$query = "SELECT * ";
+		$query .= "FROM signas ";
+		$query .= "WHERE replace(signa,' ','') = '" . $signa . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		if(count(DB::select($query)) > 0){
 			$warningSama = 'Signa ini sudah ada';
 		} else {
 			$sig = new Signa;
@@ -292,7 +297,11 @@ class PoliAjaxController extends Controller
 		$id = '';
 		$temp = '';
 
-		if(count(DB::select("SELECT * FROM aturan_minums WHERE replace(aturan_minum,' ','') = '" . $aturan . "'")) > 0){
+		$query = "SELECT * ";
+		$query .= "FROM aturan_minums ";
+		$query .= "WHERE replace(aturan_minum,' ','') = '" . $aturan . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		if(count(DB::select($query)) > 0){
 			$warningSama = 'Aturan Minum ini sudah ada';
 		} else {
 			$atu = new AturanMinum;

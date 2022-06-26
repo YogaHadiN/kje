@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Classes\Yoga;
+use App\Traits\BelongsToTenant; 
 use Carbon\Carbon;
 use DB;
 use Image;
@@ -11,6 +12,7 @@ use Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class Periksa extends Model{
+    use BelongsToTenant;
     public $incrementing = false; 
     // In Laravel 6.0+ make sure to also set $keyType
     protected $keyType = 'string';
@@ -1158,6 +1160,7 @@ class Periksa extends Model{
         $query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
         $query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
         $query .= "where p.tanggal like '{$tanggal}' ";
+		$query .= "and p.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "AND p.asuransi_id like '{$asuransi_id}'";
 
 		$periksas = DB::select($query);

@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class Pph21 extends Model
 {
+    use BelongsToTenant;
 	protected $guarded = ['id'];
 	public function pph21able(){
 		return $this->morphto();

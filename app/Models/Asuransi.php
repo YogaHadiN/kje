@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 
 use App\Models\Classes\Yoga;
@@ -11,6 +12,7 @@ use DB;
 
 
 class Asuransi extends Model{
+    use BelongsToTenant;
 
 	// Add your validation rules here
 	public static $rules = [
@@ -110,7 +112,14 @@ class Asuransi extends Model{
 		return Yoga::emptyIfNull($string);
 	}
 	public function getBelumAttribute(){
-		$query = "SELECT count(px.id) as jumlah from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$this->id}';";
+		$query = "SELECT count(px.id) as jumlah ";
+		$query .= "from periksas as px ";
+		$query .= "join pasiens as p on px.pasien_id = p.id ";
+		$query .= "join asuransis as asu on asu.id = px.asuransi_id ";
+		$query .= "where px.piutang > 0 ";
+		$query .= "and px.piutang > px.piutang_dibayar ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and px.asuransi_id = '{$this->id}' ";
 		return DB::select($query)[0]->jumlah;
 	}
 	public static function list(){

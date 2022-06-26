@@ -76,6 +76,7 @@ class TestController extends Controller
 					'nilai'        => $e['nilai'],
 					'saldo_akhir'  => 0,
 					'debet'        => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];

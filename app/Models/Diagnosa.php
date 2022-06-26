@@ -3,8 +3,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant; 
 class Diagnosa extends Model{
 	// Add your validation rules here
+    use BelongsToTenant;
 	public static $rules = [
 		// 'title' => 'required'
 	];

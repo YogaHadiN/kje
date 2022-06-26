@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class Helper extends Model
 {
+    use BelongsToTenant;
 	const API_URL = "https://mutasibank.co.id/api/v1";
     const API_KEY = "bTRHb05Wb1cyV1hodjJhZWdJckQ1STdXWkdqbUFJUGFXWGxvb3BVdGM4OW9hbGx0RkxhQTdWOXl0Uk1v5e3bd36c40fa9";
 

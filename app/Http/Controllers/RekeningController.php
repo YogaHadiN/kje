@@ -111,9 +111,10 @@ class RekeningController extends Controller
 		$query .= "(deskripsi like '{$this->input_deskripsi}' and tanggal like '{$this->input_tanggal}') ";
 		$query .= "AND ";
 		$query .= "(nilai like '{$this->input_nilai}%' or '{$this->input_nilai}' = '') ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY tanggal desc, created_at desc ";
 		if (!$count) {
-			$query .= "LIMIT {$pass}, {$this->input_displayed_rows};";
+			$query .= "LIMIT {$pass}, {$this->input_displayed_rows} ";
 		}
 		/* dd( $query ); */
 		if (!$count) {
@@ -309,6 +310,7 @@ class RekeningController extends Controller
 						'debet'                  => $debet,
 						'pembayaran_asuransi_id' => null,
 						'old_id'                 => null,
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'             => $timestamp,
 						'updated_at'             => $timestamp
 					];

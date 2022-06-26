@@ -233,6 +233,7 @@ class JurnalUmumsController extends Controller
 											'merek'             => $ac['merek'],
 											'keterangan'        => $ac['keterangan'],
 											'faktur_belanja_id' => $fb->id,
+							'tenant_id'  => session()->get('tenant_id'),
 											'created_at'        => $timestamp,
 											'updated_at'        => $timestamp
 										];
@@ -253,6 +254,7 @@ class JurnalUmumsController extends Controller
 									'ac_id'             => $ac_id,
 									'tanggal'           => $p->tanggal,
 									'faktur_belanja_id' => $fb->id,
+							'tenant_id'  => session()->get('tenant_id'),
 									'created_at'        => $timestamp,
 									'updated_at'        => $timestamp
 								];
@@ -308,6 +310,7 @@ class JurnalUmumsController extends Controller
 						'nilai'          => $tp['nilai'],
 						'pengeluaran_id' => $tp['jurnalable_id'],
 						'menambah'       => 1,
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'     => $tp['created_at'],
 						'updated_at'     => $tp['created_at']
 					];
@@ -463,6 +466,7 @@ class JurnalUmumsController extends Controller
 					'debit'           => $t['debit'],
 					'coa_id'          => $t['coa_id'],
 					'nilai'           => $t['nilai'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $tanggal_submit,
 					'updated_at'      => $tanggal_submit
 				];
@@ -528,6 +532,7 @@ class JurnalUmumsController extends Controller
 				'supplier_id'           => $alats[0]['supplier_id'],
 				'sumber_uang_id'        => $alats[0]['sumber_uang_id'],
 				'faktur_image'          => $nama_file,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'            => $timestamp,
 				'updated_at'            => $timestamp
 			];
@@ -543,6 +548,7 @@ class JurnalUmumsController extends Controller
 					'harga_satuan'      => $alat['harga_satuan'],
 					'faktur_belanja_id' => $last_fb_id,
 					'masa_pakai'        => $alat['masa_pakai'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'        => $timestamp,
 					'updated_at'        => $timestamp,
 					'jumlah'            => $alat['jumlah']
@@ -577,6 +583,7 @@ class JurnalUmumsController extends Controller
 						$penyusutans[] = [
 							'created_at'              => $tanggalAkhir,
 							'updated_at'              => $tanggalAkhir,
+							'tenant_id'  => session()->get('tenant_id'),
 							'keterangan'              => 'Penyusutan ' . $a['peralatan'] . ' bulan ' . date('M y', strtotime($tanggalAkhir)) . ' sebanyak ' . $a['jumlah']. ' pcs',
 							'susutable_id'            => $a['id'],
 							'susutable_type'          => 'App\Models\BelanjaPeralatan',
@@ -669,6 +676,7 @@ class JurnalUmumsController extends Controller
 				'supplier_id'    => $acs[0]['supplier_id'],
 				'sumber_uang_id' => $acs[0]['sumber_uang_id'],
 				'faktur_image'   => $nama_file,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'     => $timestamp,
 				'updated_at'     => $timestamp
 			];
@@ -680,6 +688,7 @@ class JurnalUmumsController extends Controller
 				$inputServiceAc[] = [
 					'ac_id'      => $ac['ac_id'],
 					'faktur_belanja_id' => $last_fb_id,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'        => $timestamp,
 					'updated_at'        => $timestamp,
 					'tanggal'            => $ac['tanggal']
@@ -723,6 +732,7 @@ class JurnalUmumsController extends Controller
 		$query .= "count(id) as jumlah ";
 		$query .= "FROM bahan_bangunans ";
 		$query .= "WHERE tanggal_renovasi_selesai is null ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND ( tanggal_terakhir_dikonfirmasi < '{$bulanIni}' or tanggal_terakhir_dikonfirmasi is null) ";
 		return DB::select($query);
 	}
@@ -746,9 +756,10 @@ class JurnalUmumsController extends Controller
 		$query .= "AND ( px.asuransi_id > 0 or px.asuransi_id is null) ";
 		$query .= "AND ( px.poli not like 'poli estetika' or poli is null) ";
 		$query .= "AND ju.jurnalable_type not like 'App\\\Models\\\NotaJual' ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "AND ((  px.asuransi_id > 0 and ju.jurnalable_type = 'App\\\Periksa'  ) or ju.jurnalable_type not like 'App\\\Periksa') "; */
 		$query .= "GROUP BY Year(ju.created_at), Month(ju.created_at) ";
-		$query .= "ORDER BY ju.created_at desc;";
+		$query .= "ORDER BY ju.created_at desc ";
 		$pajaks = DB::select($query);
 		return view('jurnal_umums.omset_pajak', compact(
 			'pajaks'

@@ -60,6 +60,7 @@ class RuangPeriksaController extends Controller
 		$query .= "JOIN stafs as stf on stf.id = apx.staf_id ";
 		$query .= "JOIN asuransis as asu on asu.id = apx.asuransi_id ";
 		$query .= "WHERE (ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' or ant.antriable_type is null) ";
+		$query .= "AND apx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND apx.poli in ({$poli_ids}) ";
 		$query .= "GROUP BY apx.id ASC ";
 		$query .= "ORDER BY ant.id ";

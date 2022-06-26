@@ -13,10 +13,11 @@ use DB;
 class PembayaranAsuransiController extends Controller
 {
 	public function index(){
-		$query                 = "SELECT ";
-		$query                .= "*, sum(peas.pembayaran) as total_pembayaran ";
-		$query                .= "FROM pembayaran_asuransis as peas ";
-		$query                .= "GROUP BY YEAR(peas.tanggal_dibayar) DESC, MONTH(peas.tanggal_dibayar) DESC";
+		$query  = "SELECT ";
+		$query .= "*, sum(peas.pembayaran) as total_pembayaran ";
+		$query .= "FROM pembayaran_asuransis as peas ";
+		$query .= "WHERE peas.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY YEAR(peas.tanggal_dibayar) DESC, MONTH(peas.tanggal_dibayar) DESC";
 		$pembayaran_asuransis  = DB::select($query);
 		return view('pembayaran_asuransis.index', compact(
 			'pembayaran_asuransis'
@@ -37,7 +38,8 @@ class PembayaranAsuransiController extends Controller
 		$query .= "JOIN piutang_dibayars as pd on pd.pembayaran_asuransi_id = peas.id ";
 		$query .= "JOIN periksas as px on px.id = pd.periksa_id ";
 		$query .= "JOIN pasiens as ps on ps.id = px.pasien_id ";
-		$query .= "WHERE peas.id = '{$id}'";
+		$query .= "WHERE peas.id = '{$id}' ";
+		$query .= "AND peas.tenant_id = " . session()->get('tenant_id') . " ";
 
 		$pembayaran_asuransi = DB::select($query);
 

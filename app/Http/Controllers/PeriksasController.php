@@ -243,6 +243,7 @@ p */
 			$bukan_pesertas[] = [
 				'periksa_id'         => $periksa_id,
 				'antrian_periksa_id' => Input::get('antrian_periksa_id'),
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'         => $timestamp,
 				'updated_at'         => $timestamp,
 			];
@@ -272,6 +273,7 @@ p */
 				'periksa_id'        => $periksa_id,
 				'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,
 				'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'        => $timestamp,
 				'updated_at'        => $timestamp,
 			];
@@ -588,6 +590,7 @@ p */
 						'periksa_id'        => $id,
 						'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,
 						'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'        => $timestamp,
 						'updated_at'        => $timestamp,
 					];
@@ -1139,8 +1142,10 @@ p */
 		// dengan diastolik antara 70 hingga 79
 		$query .= "AND diastolik >= 70 and diastolik <= 79 ";
 		if ($id) {
-			$query .= "AND id not like '{$id}';";
+			$query .= "AND id not like '{$id}' ";
 		}
+
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query);
 
 		if ( count($data) == 0 ) {
@@ -1264,6 +1269,7 @@ p */
 		$query .= "AND prx.tanggal between '" . $tanggal_object->format('Y-m-01'). "' and '" . $tanggal_object->format('Y-m-t'). "' ";
 		//pemeriksaan terflagging prolanis_ht
 		$query .= "AND prx.prolanis_ht = '1' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		// dengan diastolik antara 70 dan 79
 		/* $query .= "AND diastolik between 70 and 79 "; */
 		/* $query .= "AND (( "; */
@@ -1369,9 +1375,10 @@ p */
 		//pemeriksaan terflagging prolanis_dm
 		$query .= "AND prx.prolanis_dm = '1'";
 		$query .= "AND trx.jenis_tarif_id = '116' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "AND CAST(trx.keterangan_pemeriksaan AS UNSIGNED) between 80 and 130 "; */
 		$query .= "GROUP BY pasien_id ";
-		$query .= "ORDER BY prx.id;";
+		$query .= "ORDER BY prx.id ";
 
 		$data_dm = DB::select($query);
 		$arr = [];

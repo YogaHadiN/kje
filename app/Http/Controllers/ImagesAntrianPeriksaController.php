@@ -41,6 +41,7 @@ class ImagesAntrianPeriksaController extends Controller
 						 'keterangan'      => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id'   => $id,
 						 'gambarable_type' => 'App\Models\AntrianPeriksa',
+							'tenant_id'  => session()->get('tenant_id'),
 						 'created_at'      => $timestamp,
 						 'updated_at'      => $timestamp
 					];
@@ -98,6 +99,7 @@ class ImagesAntrianPeriksaController extends Controller
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id' => $id,
 						 'gambarable_type' => 'App\Models\AntrianPeriksa',
+							'tenant_id'  => session()->get('tenant_id'),
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];

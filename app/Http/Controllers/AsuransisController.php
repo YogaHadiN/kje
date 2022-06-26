@@ -291,6 +291,7 @@ class AsuransisController extends Controller
 		$query .= "FROM periksas as prx ";
 		$query .= "JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
 		$query .= "WHERE asuransi_id = '{$id}' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY prx.id ";
 		$query .= "ORDER BY prx.tanggal desc";
 		$periksas = DB::select($query);
@@ -360,6 +361,7 @@ class AsuransisController extends Controller
 		$query .="AND px.asuransi_id > 0 ";
 		$query .="AND ju.coa_id like '111%' ";
 		$query .="AND ju.debit = '1' ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .="Group by ju.id) bl ";
 		$query .="Group by bl.id";
 
@@ -424,6 +426,7 @@ class AsuransisController extends Controller
 		$query .= "having (piutang like '{$piutang}%' or '{$piutang}' = '') ";
 		$query .= "and (sudah_dibayar like '{$sudah_dibayar}%' or '{$sudah_dibayar}' = '') ";
 		$query .= "and (piutang - sudah_dibayar like '{$sisa}%' or '{$sisa}' = '') ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "order by px.tanggal desc ";
 		$total_rows = count(DB::select($query));
 
@@ -473,7 +476,8 @@ class AsuransisController extends Controller
 		$query .= "JOIN coas as co on co.id = peas.kas_coa_id ";
 		$query .= "JOIN stafs as st on st.id = peas.staf_id ";
 		$query .= "WHERE ( mulai like '" .date('Y-m', strtotime($mulai)) . '%'. "' or akhir like '" .date('Y-m', strtotime($akhir)) . '%'. "'  ) ";
-		$query .= "AND asu.id = '{$asuransi_id}';";
+		$query .= "AND peas.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND asu.id = '{$asuransi_id}' ";
 
 		$pembayaran_asuransi = DB::select($query);
 
@@ -557,6 +561,7 @@ class AsuransisController extends Controller
 		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "WHERE asu.id = '{$asuransi_id}' ";
 		$query .= "AND ( DATE(px.created_at) between '{$mulai}' and '{$akhir}' ) ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by px.id";
 
 		return DB::select($query);
@@ -621,6 +626,7 @@ class AsuransisController extends Controller
 					'email' => $email,
 					'emailable_id' => $asuransi->id,
 					'emailable_type' => 'App\\Models\\Asuransi',
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];
@@ -633,6 +639,7 @@ class AsuransisController extends Controller
 					'nama' => $pic,
 					'nomor_telepon' => $this->input_hp_pic[$k],
 					'asuransi_id' => $asuransi->id,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];
@@ -645,6 +652,7 @@ class AsuransisController extends Controller
 					'nomor'          => $telpon,
 					'telponable_id'   => $asuransi->id,
 					'telponable_type' => 'App\\Models\\Asuransi',
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'     => $timestamp,
 					'updated_at'     => $timestamp
 				];
@@ -792,7 +800,7 @@ class AsuransisController extends Controller
 			$query .= " AND px.tanggal between '" . $year_three_months_ago . '-' . $param->copy()->format('01-01 00:00:00') . "' and '{$param->copy()->subMonths(3)->format('Y-m-t 23:59:59')}' ";
 		}
 		$query .= " GROUP BY ju.id) bl";
-		$query .= " GROUP BY bl.tahun DESC, bl.bulan DESC;";
+		$query .= " GROUP BY bl.tahun DESC, bl.bulan DESC ";
 
 		return $query;
 	}
@@ -828,6 +836,7 @@ class AsuransisController extends Controller
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "WHERE prx.tanggal like '{$year}%' ";
 		$query .= "AND asuransi_id > 0 ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY prx.id ";
 		$query .= ") bl ";
 		$query .= "GROUP BY asuransi_id ";
@@ -866,7 +875,8 @@ class AsuransisController extends Controller
 		$query .= "join rekenings as rke on pmb.id = rke.pembayaran_asuransi_id ";
 		$query .= " join asuransis as asu on asu.id = pmb.asuransi_id ";
 		$query .= "where staf_id = '180411001' ";
-		$query .= "and rke.nilai not like pmb.pembayaran;";
+		$query .= "AND pmb.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and rke.nilai not like pmb.pembayaran ";
 		$pembayarans = DB::select($query);
 		return view('asuransis.cek_salah_bayar', compact(
 			'pembayarans'
@@ -913,6 +923,7 @@ class AsuransisController extends Controller
 		$query .= "AND ( pem.pembayaran like '{$pembayaran}%' or '{$pembayaran}' = '' ) ";
 		$query .= "AND ( rek.nilai like '{$nilai}%' or '{$pembayaran}' = '' ) ";
 		$query .= "AND ( rek.deskripsi like '{$deskripsi}%' or '{$deskripsi}' = '' ) ";
+		$query .= "AND pem.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND pem.asuransi_id like '{$asuransi_id}' ";
 		$query .= "ORDER BY {$column_name} {$order} ";
 
@@ -997,6 +1008,7 @@ class AsuransisController extends Controller
 		$query .="and (sudah_dibayar like '{$this->input_sudah_dibayar}%' or '{$this->input_sudah_dibayar}' = '') ";
 		$query .="and (bulan like '{$this->input_bulan}%' or '{$this->input_bulan}' = '') ";
 		$query .="and (sisa like '{$this->input_sisa}%' or '{$this->input_sisa}' = '') ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .="order by {$this->input_column_order} {$this->input_order} ";
 
 		$total_rows = count(DB::select($query));

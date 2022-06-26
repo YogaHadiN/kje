@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use Session;
 use DB;
 use stdClass;
@@ -10,6 +11,7 @@ use Input;
 use App\Models\Classes\Yoga;
 
 class Mesabot extends Model{
+    use BelongsToTenant;
 
 
     protected $token;

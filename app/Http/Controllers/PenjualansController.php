@@ -73,6 +73,7 @@ class PenjualansController extends Controller
 					'merek_id'     => $data['merek_id'],
 					'harga_jual'   => $data['harga_jual'],
 					'jumlah'       => $data['jumlah'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'   => $timestamp,
 					'updated_at'   => $timestamp
 				];
@@ -87,6 +88,7 @@ class PenjualansController extends Controller
 					'keluar'           => $data['jumlah'],
 					'dispensable_id'   => $last_penjualan_id,
 					'dispensable_type' => 'App\Models\Penjualan',
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'       => $timestamp,
 					'updated_at'       => $timestamp
 				];
@@ -111,6 +113,7 @@ class PenjualansController extends Controller
 					'coa_id'          => 110000,
 					'debit'           => 1,
 					'nilai'           => $biaya,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -121,6 +124,7 @@ class PenjualansController extends Controller
 					'coa_id'          => 400002,
 					'debit'           => 0,
 					'nilai'           => $biaya,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -132,6 +136,7 @@ class PenjualansController extends Controller
 					'coa_id'          => 50200,
 					'debit'           => 1,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -142,6 +147,7 @@ class PenjualansController extends Controller
 					'coa_id'          => 112000,
 					'debit'           => 0,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -214,6 +220,7 @@ class PenjualansController extends Controller
 						'merek_id'     => $data['merek_id'],
 						'harga_jual'   => $data['harga_jual'],
 						'jumlah'       => $data['jumlah'],
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'   => $timestamp,
 						'updated_at'   => $timestamp
 					];
@@ -230,6 +237,7 @@ class PenjualansController extends Controller
 						'keluar'           => $data['jumlah'],
 						'dispensable_id'   => $last_penjualan_id,
 						'dispensable_type' => 'App\Models\Penjualan',
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'       => $timestamp,
 						'updated_at'       => $timestamp
 					];
@@ -244,6 +252,7 @@ class PenjualansController extends Controller
 					'coa_id'          => 50200, // Beban Biaya Obat
 					'debit'           => 1,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -253,6 +262,7 @@ class PenjualansController extends Controller
 					'coa_id'          => 112000, // Persediaan obat
 					'debit'           => 0,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];

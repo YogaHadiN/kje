@@ -121,6 +121,7 @@ class Kernel extends ConsoleKernel
 				$date->modify('-90 day');
 				$query  = "SELECT max(created_at) as tanggal, ac_id ";
 				$query .= "FROM service_acs ";
+				$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
 				$query .= "GROUP BY ac_id ";
 				$query .= "ORDER BY created_at desc";
 				$data   = DB::select($query);

@@ -3,10 +3,12 @@
 namespace App\Models;
 use App\Models\Coa;
 
+use App\Traits\BelongsToTenant; 
 use Illuminate\Database\Eloquent\Model;
 
 class PembayaranAsuransi extends Model
 {
+    use BelongsToTenant;
     public function asuransi(){
          return $this->belongsTo('App\Models\Asuransi');
     }

@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\AntrianPoli;
 use App\Http\Controllers\AntrianPolisController;
 use DateTime;
 
 class AntrianPoli extends Model{
+    use BelongsToTenant;
 		
 	public $incrementing = true;
     protected $keyType = 'string';

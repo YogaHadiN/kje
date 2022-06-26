@@ -68,6 +68,7 @@ class InvoiceController extends Controller
 		if (!empty($sisa)) {
 			$query .= "AND CAST(total_piutang - total_sudah_dibayar as CHAR) LIKE '{$sisa}%' ";
 		}
+		$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY tanggal desc ";
 		$query .= "LIMIT 0, 20";
 
@@ -196,6 +197,7 @@ class InvoiceController extends Controller
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "WHERE asu.tipe_asuransi = 3 ";
 		$query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ;
+		$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) ";
 		$query .= "AND asu.id not in (";
 		$query .= "151";

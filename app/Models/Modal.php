@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class Modal extends Model
 {
+    use BelongsToTenant;
     
     protected $dates = ['created_at'];
     public function coa(){

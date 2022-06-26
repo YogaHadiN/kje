@@ -69,6 +69,7 @@ class KunjunganSakitController extends Controller
 			$query .= "AND (ks.created_at like '{$bulan_ini}%')  ";
 		}
 		$query .= "AND (pcare_submit = '1') ";
+		$query .= "AND ks.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "GROUP BY p.id "; */
 		/* $query .= "ORDER BY dg.created_at DESC "; */
 

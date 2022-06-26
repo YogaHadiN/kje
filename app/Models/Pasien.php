@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use Session;
 use Storage;
 use DB;
@@ -12,6 +13,7 @@ use App\Models\Classes\Yoga;
 use Carbon\Carbon;
 
 class Pasien extends Model{
+    use BelongsToTenant;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($pasien){
@@ -125,7 +127,12 @@ class Pasien extends Model{
 
 	public function getAdadmAttribute(){
 		$id = $this->id;
-		$query = "SELECT count(*) as jumlah FROM periksas as px join diagnosas as dg on dg.id = px.diagnosa_id where dg.diagnosa like '%dm tipe 2%' and px.pasien_id='{$id}'";
+		$query = "SELECT count(*) as jumlah ";
+		$query .= "FROM periksas as px ";
+		$query .= "join diagnosas as dg on dg.id = px.diagnosa_id ";
+		$query .= "where dg.diagnosa like '%dm tipe 2%' ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and px.pasien_id='{$id}'";
 		$jumlah = DB::select($query)[0]->jumlah;
 		if ($jumlah > 2) {
 			return 'golongan DM ' . 'didiagnosa dm sebanyak' . ' ' . $jumlah . ' kali';

@@ -52,7 +52,11 @@ class StokOpnamesController extends Controller
 		$date = Input::get('bulanTahun');
 		$rak_id = Input::get('rak_id');
 
-		$query = "SELECT * FROM stok_opnames where created_at like '{$date}%' and rak_id = '{$rak_id}'";
+		$query = "SELECT * ";
+		$query .= "FROM stok_opnames ";
+		$query .= "where created_at like '{$date}%' ";
+		$query .= "and rak_id = '{$rak_id}'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$count = count(DB::select($query));
 		if ($count < 1) {
 
@@ -172,13 +176,37 @@ class StokOpnamesController extends Controller
 	}
 
 	private function data($date){
-		$data = "SELECT so.id as so_id, m.merek as merek, so.exp_date as exp_date, so.stok_komputer as stok_komputer, so.stok_fisik as stok_fisik, r.id as rak_id FROM stok_opnames as so join raks as r on r.id = so.rak_id join mereks as m on m.rak_id = r.id where so.created_at like '{$date}%' group by so.id";
+		$data = "SELECT so.id as so_id, ";
+		$query .= "m.merek as merek, ";
+		$query .= "so.exp_date as exp_date, ";
+		$query .= "so.stok_komputer as stok_komputer, ";
+		$query .= "so.stok_fisik as stok_fisik, ";
+		$query .= "r.id as rak_id ";
+		$query .= "FROM stok_opnames as so ";
+		$query .= "join raks as r on r.id = so.rak_id ";
+		$query .= "join mereks as m on m.rak_id = r.id ";
+		$query .= "where so.created_at like '{$date}%' ";
+		$query .= "AND so.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "group by so.id";
 		$data = DB::select($data);
 		return $data;
 	}
 
 	private function soOption($date){
-		$query = "SELECT m.merek as merek, r.id as rak_id, m.id as merek_id, r.stok as stok from mereks as m join raks as r on r.id = m.rak_id where r.id not in (select rak_id from stok_opnames where created_at like '{$date}%') order by stok_minimal desc";
+		$query = "SELECT m.merek as merek, ";
+		$query .= "r.id as rak_id, ";
+		$query .= "m.id as merek_id, ";
+		$query .= "r.stok as stok ";
+		$query .= "from mereks as m ";
+		$query .= "join raks as r on r.id = m.rak_id ";
+		$query .= "where r.id not in ";
+		$query .= "(";
+		$query .= "select rak_id ";
+		$query .= "from stok_opnames ";
+		$query .= "where created_at like '{$date}%'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= ") ";
+		$query .= "order by stok_minimal desc";
 		$mereks = DB::select($query);
 		return $mereks;
 	}

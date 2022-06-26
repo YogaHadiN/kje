@@ -328,7 +328,13 @@ class PengantarsController extends Controller
 		$pasien = Pasien::find($pasien_id);
 		$date = date('Y-m'). '%';
 		$sudah = Periksa::where('tanggal', 'like', $date)->where('pasien_id', $pasien_id)->count();
-		$query = "SELECT count(pp.id) as count FROM pengantar_pasiens as pp join periksas as px on px.id = pp.antarable_id WHERE antarable_type='App\\\Models\\\Periksa' and pp.pengantar_id = '{$pasien_id}' and tanggal like '{$date}'";
+		$query = "SELECT count(pp.id) as count ";
+		$query .= "FROM pengantar_pasiens as pp ";
+		$query .= "join periksas as px on px.id = pp.antarable_id ";
+		$query .= "WHERE antarable_type='App\\\Models\\\Periksa' ";
+		$query .= "AND pp.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and pp.pengantar_id = '{$pasien_id}' ";
+		$query .= "and tanggal like '{$date}'";
 		$iniPengantar = DB::select($query);
 		$adaPengantar = $iniPengantar[0]->count;
 		$sudah = $sudah + $adaPengantar;
@@ -423,6 +429,7 @@ class PengantarsController extends Controller
 					'antarable_type'  => $model,
 					'pengantar_id'    => $j['id'],
 					'kunjungan_sehat' => $j['kunjungan_sehat'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => date('Y-m-d H:i:s'),
 					'updated_at'      => date('Y-m-d H:i:s')
 				];
@@ -745,6 +752,7 @@ class PengantarsController extends Controller
 		$query .= "join pasiens as pps on pps.id = ppg.pengantar_id ";
 		$query .= "where pas.id = '{$ap->pasien_id}' ";
 		$query .= "and antarable_type = 'App\\\Models\\\Periksa' ";
+		$query .= "AND ppg.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by pengantar_id ";
 		$query .= "order by prx.created_at; ";
 		/* dd( $query ); */

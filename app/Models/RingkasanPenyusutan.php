@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class RingkasanPenyusutan extends Model
 {
+    use BelongsToTenant;
 	public function penyusutan(){
 		return $this->hasMany('App\Models\Penyusutan');
 	}

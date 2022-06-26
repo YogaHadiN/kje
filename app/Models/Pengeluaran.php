@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\Classes\Yoga;
 
 class Pengeluaran extends Model{
+    use BelongsToTenant;
 	protected $guarded = [];
 	//protected $with = ['supplier'];
 	protected $dates = ['created_at', 'tanggal'];

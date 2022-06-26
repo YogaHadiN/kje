@@ -128,7 +128,11 @@ class RujukansController extends Controller
 		// INPUT RUJUKAN 
 		// cek apakah rujukannya rujukan baru atay lama
 		$tujuan_rujuk              = str_replace(' ', '', preg_replace('/\\\\/', '', Input::get('tujuan_rujuk')));
-		$query                     = DB::select("SELECT * FROM tujuan_rujuks WHERE replace(tujuan_rujuk,' ','') = '" . $tujuan_rujuk . "'");
+		$query = "SELECT * ";
+		$query .= "FROM tujuan_rujuks ";
+		$query .= "WHERE replace(tujuan_rujuk,' ','') = '" . $tujuan_rujuk . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query                     = DB::select($query);
 		//jika rujukan cocok dengan rujukan yang lama, maka masukkan rujukan yang cocok
 		if(count($query) > 0){
 			$id                        = $query[0]->id;
@@ -157,7 +161,13 @@ class RujukansController extends Controller
 		$rujuk->periksa_id      = $periksa->id;
 		// cek apakah rumah sakit baru atau lama 
 		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));
-		$query = DB::select("SELECT * FROM rumah_sakits WHERE replace(nama,' ','') = '" . $rumah_sakit . "'");
+
+		$query  = "SELECT * ";
+		$query .= "FROM rumah_sakits ";
+		$query .= "WHERE replace(nama,' ','') = '" . $rumah_sakit . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query = DB::select($query);
+
 		if(count($query) > 0){
 			$id = $query[0]->id;
 		//jika tidak ada rujukan yang cocok, buat rujukan baru
@@ -330,7 +340,11 @@ class RujukansController extends Controller
 		// INPUT RUJUKAN 
 		// cek apakah rujukannya rujukan baru atay lama
 		$tujuan_rujuk              = str_replace(' ', '', preg_replace('/\\\\/', '', Input::get('tujuan_rujuk')));
-		$query                     = DB::select("SELECT * FROM tujuan_rujuks WHERE replace(tujuan_rujuk,' ','') = '" . $tujuan_rujuk . "'");
+		$query = "SELECT * ";
+		$query .= "FROM tujuan_rujuks ";
+		$query .= "WHERE replace(tujuan_rujuk,' ','') = '" . $tujuan_rujuk . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query                     = DB::select($query);
 		//jika rujukan cocok dengan rujukan yang lama, maka masukkan rujukan yang cocok
 		if(count($query) > 0){
 			$id                        = $query[0]->id;
@@ -350,7 +364,11 @@ class RujukansController extends Controller
 		$rujuk->periksa_id      = $periksa->id;
 		// cek apakah rumah sakit baru atau lama 
 		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));
-		$query = DB::select("SELECT * FROM rumah_sakits WHERE replace(nama,' ','') = '" . $rumah_sakit . "'");
+		$query = "SELECT * ";
+		$query .= "FROM rumah_sakits ";
+		$query .= "WHERE replace(nama,' ','') = '" . $rumah_sakit . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query = DB::select($query);
 		if(count($query) > 0){
 			$id = $query[0]->id;
 		//jika tidak ada rujukan yang cocok, buat rujukan baru

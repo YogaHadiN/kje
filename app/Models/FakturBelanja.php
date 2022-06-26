@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\Classes\Yoga;
 
 class FakturBelanja extends Model{
+    use BelongsToTenant;
 		// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

@@ -75,6 +75,7 @@ class DiscountsController extends Controller
 				$data[]            = [
 					'discount_id' => $d->id,
 					'asuransi_id' => $v,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'  => $timestamp,
 					'updated_at'  => $timestamp
 				];
@@ -116,6 +117,7 @@ class DiscountsController extends Controller
 				$data[]            = [
 					'discount_id' => $d->id,
 					'asuransi_id' => $v,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'  => $timestamp,
 					'updated_at'  => $timestamp
 				];

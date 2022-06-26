@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\Poli;
 
 class Poli extends Model
 {
+    use BelongsToTenant;
     public $incrementing = false; 
     protected $keyType = 'string';
 	public static function list(){

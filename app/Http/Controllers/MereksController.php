@@ -135,8 +135,9 @@ class MereksController extends Controller
 		$query .= "join mereks as mr on mr.id = pb.merek_id ";
 		$query .= "join raks as rk on rk.id = mr.rak_id ";
 		$query .= "where mr.id ='{$id}' ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by supplier_id ";
-		$query .= "order by harga_beli asc;";
+		$query .= "order by harga_beli asc ";
 		$supplierprices = DB::select($query);
 
 		// return var_dump($supplierprices);
@@ -237,6 +238,7 @@ class MereksController extends Controller
 		$query .= "JOIN komposisis as ko on ko.formula_id = fr.id ";
 		$query .= "JOIN generiks as gr on gr.id = ko.generik_id ";
 		$query .= "WHERE gr.generik  like '{$param}' ";
+		$query .= "AND mr.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "OR mr.merek like '{$param}' ";
 		$query .= "GROUP BY mr.id limit 10";
 		$datas = DB::select($query);
