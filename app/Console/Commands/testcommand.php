@@ -4,6 +4,7 @@ use Illuminate\Console\Command;
 use Session;
 use App\Models\Outbox;
 use App\Models\Ht;
+use App\Models\Coa;
 use App\Models\AntrianKelengkapanDokumen;
 use App\Models\PembayaranBpjs;
 use App\Models\PiutangAsuransi;
@@ -114,12 +115,12 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle()
-    {
+	{ 
+		$this->multi_tenancy();
 		// perhitungan jasa dokter lebih cepat
 		//
 		//
 		/* Session::put('ruangan', '1'); */
-		dd( Session::get('ruangan') );
 		/* $antrians = Antrian::where('created_at', 'like', '2022-02-14%') */
 		/* 					->where('antriable_type', 'App\\Models\\Periksa') */
 		/* 					->get(); */
@@ -1927,6 +1928,181 @@ class testcommand extends Command
 		/* dd( $data ); */
 		$wa->bulkSend($data);
 	}
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+
+	private function multi_tenancy()
+	{
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'coa_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query = "Update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "JOIN coas as co on t1.coa_id = co.kode_coa ";
+			$query .= "SET t1.coa_id = co.id;";
+			/* DB::statement($query); */
+		}
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'formula_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "Update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "JOIN formulas as fo on t1.formula_id = fo.old_id ";
+			$query .= "SET t1.formula_id = fo.id;";
+			/* DB::statement($query); */
+		}
+
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'invoice_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "Update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "JOIN invoices as iv on t1.invoice_id = iv.kode_invoice ";
+			$query .= "SET t1.invoice_id = iv.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'kirim_berkas_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join kirim_berkas as ki on t1.kirim_berkas_id = ki.old_id ";
+			$query .= "set t1.kirim_berkas_id = ki.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'kirim_berkas_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join kirim_berkas as ki on t1.kirim_berkas_id = ki.old_id ";
+			$query .= "set t1.kirim_berkas_id = ki.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'nota_beli_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join nota_belis as no on t1.nota_beli_id = no.old_id ";
+			$query .= "set t1.nota_beli_id = no.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'nota_jual_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join nota_juals as no on t1.nota_jual_id = no.old_id ";
+			$query .= "set t1.nota_jual_id = no.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'pasien_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join pasiens as pa on t1.pasien_id = pa.old_id ";
+			$query .= "set t1.pasien_id = pa.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'periksa_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join periksas as px on t1.periksa_id = px.old_id ";
+			$query .= "set t1.periksa_id = px.id;";
+			/* DB::statement($query); */
+		}
+
+		$data = DB::select(" select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'poli_id' order by TABLE_NAME; ");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join polis as po on t1.poli_id = po.old_id ";
+			$query .= "set t1.poli_id = po.id;";
+			/* DB::statement($query); */
+		}
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'rak_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join raks as rk on t1.rak_id = rk.old_id ";
+			$query .= "set t1.rak_id = rk.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'sediaan_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join sediaans as se on t1.sediaan_id = se.old_id ";
+			$query .= "set t1.sediaan_id = se.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'sms_bpjs_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join sms_bpjs as sm on t1.sms_bpjs_id = sm.old_id ";
+			$query .= "set t1.sms_bpjs_id = sm.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'staf_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join stafs as st on t1.staf_id = st.old_id ";
+			$query .= "set t1.staf_id = st.id;";
+			/* DB::statement($query); */
+		}
+
+		
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'usg_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "join usgs as us on t1.usg_id = us.old_id ";
+			$query .= "set t1.usg_id = us.id;";
+			/* DB::statement($query); */
+		}
+
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'pengantar_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "Update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "JOIN pasiens as ps on t1.petugas_id = ps.old_id ";
+			$query .= "SET t1.petugas_id = ps.id;";
+			/* DB::statement($query); */
+		}
+
+		$data = DB::select("select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='jatielok' AND COLUMN_NAME like 'petugas_id' order by TABLE_NAME;");
+
+		foreach ($data as $d) {
+			$query .= "Update " . $d->TABLE_NAME . " as t1 ";
+			$query .= "JOIN stafs as st on t1.petugas_id = ps.old_id ";
+			$query .= "SET t1.petugas_id = ps.id;";
+			/* DB::statement($query); */
+		}
+
+		dd( $query );
+
+	}
+	
 	
 	
 }

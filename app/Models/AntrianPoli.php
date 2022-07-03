@@ -11,8 +11,6 @@ use DateTime;
 class AntrianPoli extends Model{
     use BelongsToTenant;
 		
-	public $incrementing = true;
-    protected $keyType = 'string';
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

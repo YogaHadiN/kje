@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Periksa extends Model{
     use BelongsToTenant;
-    public $incrementing = false; 
-    // In Laravel 6.0+ make sure to also set $keyType
-    protected $keyType = 'string';
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

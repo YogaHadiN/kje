@@ -99,7 +99,6 @@ class StafsController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		$staf     = new Staf;
-		$staf->id = Yoga::customId('App\Models\Staf');
 		$staf     = $this->inputData($staf);
 
 

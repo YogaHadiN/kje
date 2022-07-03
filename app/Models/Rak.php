@@ -62,8 +62,6 @@ class Rak extends Model{
 		});
 	}
 	// Add your validation rules here
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	// Don't forget to fill this array
 	protected $guarded = [];

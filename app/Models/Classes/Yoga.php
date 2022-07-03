@@ -633,6 +633,7 @@ class Yoga {
     			$insert_id = "$substr_id" + 1;
     			$idCustom = date('ymd').sprintf("%03d", $insert_id);
     		}
+
     		return $idCustom; // id ke 100, tanggal 01-01-2016 mereturn 1601010100
 		}
 
@@ -1784,14 +1785,14 @@ class Yoga {
 			return $temp;
 		}
 		public static function suksesFlash($text){
-			$temp = '<div class="alert alert-success text-left">';
+			$temp = '<div class="text-left alert alert-success">';
 			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>SUKSES!!  </strong>';
 			$temp .= $text;
 			$temp .= '</div>';
 			return $temp;
 		}
 		public static function infoFlash($text){
-			$temp = '<div class="alert alert-info text-left">';
+			$temp = '<div class="text-left alert alert-info">';
 			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>PETUNJUK :  </strong>';
 			$temp .= $text;
 			$temp .= '</div>';
@@ -1799,13 +1800,13 @@ class Yoga {
 		}
 
 		public static function Flash($text){
-			$temp = '<div class="alert alert-success text-left">';
+			$temp = '<div class="text-left alert alert-success">';
 			$temp .= $text;
 			$temp .= '</div>';
 			return $temp;
 		}
 		public static function gagalFlash($text){
-			$temp = '<div class="alert alert-danger text-left">';
+			$temp = '<div class="text-left alert alert-danger">';
 			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>GAGAL !! </strong>';
 			$temp .= $text;
 			$temp .= '</div>';

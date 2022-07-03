@@ -35,7 +35,7 @@ class RuangPeriksaController extends Controller
 		}
 
 		$query  = "SELECT ";
-		$query .= "apx.poli as poli, ";
+		$query .= "po.poli as poli, ";
 		$query .= "apx.asuransi_id as asuransi_id, ";
 		$query .= "jnt.prefix as prefix, ";
 		$query .= "asu.nama as nama_asuransi, ";
@@ -58,10 +58,11 @@ class RuangPeriksaController extends Controller
 		$query .= "LEFT JOIN antrians as ant on ant.antriable_id = apx.id ";
 		$query .= "LEFT JOIN jenis_antrians as jnt on jnt.id = ant.jenis_antrian_id ";
 		$query .= "JOIN stafs as stf on stf.id = apx.staf_id ";
+		$query .= "JOIN polis as po on po.id = apx.poli_id ";
 		$query .= "JOIN asuransis as asu on asu.id = apx.asuransi_id ";
 		$query .= "WHERE (ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' or ant.antriable_type is null) ";
 		$query .= "AND apx.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "AND apx.poli in ({$poli_ids}) ";
+		$query .= "AND apx.poli_id in ({$poli_ids}) ";
 		$query .= "GROUP BY apx.id ASC ";
 		$query .= "ORDER BY ant.id ";
 
@@ -89,6 +90,11 @@ class RuangPeriksaController extends Controller
 			'antars',
 			'antrian.jenis_antrian'
 		)->get();
+
+		/* foreach ($antrian_kasirs as $an) { */
+		/* 	$asuransi = $an->periksa->asuransi->nama; */
+		/* } */
+
 		$antrian_apoteks = AntrianApotek::with(
 			'periksa.pasien',
 			'periksa.staf',
@@ -99,6 +105,11 @@ class RuangPeriksaController extends Controller
 			'antars',
 			'antrian.jenis_antrian'
 		)->get();
+
+		/* foreach ($antrian_apoteks as $an) { */
+		/* 	$asuransi = $an->periksa->asuransi->nama; */
+		/* } */
+
 		$poli      = 'umum';
 		$staf_list = $this->staf_list;
 		$poli_list = $this->poli_list;

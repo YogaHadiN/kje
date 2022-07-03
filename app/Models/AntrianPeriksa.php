@@ -22,7 +22,7 @@ class AntrianPeriksa extends Model{
 		return $this->belongsTo('App\Models\Asuransi');
 	}
 	public function ispoli() {
-		return $this->belongsTo('App\Models\Poli', 'poli');
+		return $this->belongsTo('App\Models\Poli');
 	}
 	public function antrian(){
         return $this->morphOne(Antrian::class, 'antriable');

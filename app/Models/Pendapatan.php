@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pendapatan extends Model{
     use BelongsToTenant;
-	// public $incrementing = false;  // hapus saja kalo mau increment
 
 	// Add your validation rules here
 	public static $rules = [

@@ -7,8 +7,6 @@ use App\Traits\BelongsToTenant;
 class KirimBerkas extends Model
 {
     use BelongsToTenant;
-	public $incrementing = false;
-    protected $keyType = 'string';
 	protected $dates = [
 		'tanggal'
 	];

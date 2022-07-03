@@ -38,13 +38,13 @@
         "yugo/moota": "^1.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.2",
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.19",
         "laravel/sail": "^1.0.1",
-        "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10",
-        "facade/ignition": "^2.5",
-        "barryvdh/laravel-debugbar": "^3.2"
+        "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
         "psr-4": {

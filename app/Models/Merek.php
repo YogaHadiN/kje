@@ -37,8 +37,6 @@ class Merek extends Model{
 			return true;
 		});
 	}
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	// Add your validation rules here
 	public static $rules = [

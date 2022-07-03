@@ -8,8 +8,6 @@ use App\Traits\BelongsToTenant;
 class Usg extends Model
 {
     use BelongsToTenant;
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	// Add your validation rules here
 	public static $rules = [

@@ -28,9 +28,6 @@ class Pasien extends Model{
 		});
 	}
 	
-	public $incrementing = false; 
-
-    protected $keyType = 'string';
 	// Add your validation rules here
 
 	// Add your validation rules here

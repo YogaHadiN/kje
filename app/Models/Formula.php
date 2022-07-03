@@ -81,8 +81,6 @@ class Formula extends Model{
 		});
 	}
 
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	// Add your validation rules here
 	public static $rules = [

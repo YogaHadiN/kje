@@ -9,8 +9,6 @@ use App\Models\Coa;
 
 class Coa extends Model{
     use BelongsToTenant;
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	public function kelompokCoa(){
 

@@ -7,8 +7,6 @@ use App\Traits\BelongsToTenant;
 
 class NotaJual extends Model{
     use BelongsToTenant;
-	public $incrementing = false; 
-    protected $keyType = 'string';
 	
 	protected $fillable = [];
 	protected $dates = [ 'tanggal' , 'created_at'];

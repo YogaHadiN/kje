@@ -8,9 +8,6 @@ use App\Traits\BelongsToTenant;
 class Invoice extends Model
 {
     use BelongsToTenant;
-    public $incrementing = false; 
-
-    protected $keyType = 'string';
 
 	public function pembayaran_asuransi(){
 		return $this->belongsTo('App\Models\PembayaranAsuransi');
