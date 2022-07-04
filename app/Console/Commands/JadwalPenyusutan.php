@@ -267,7 +267,7 @@ class JadwalPenyusutan extends Command
 			$jurnals[] = [
 				'jurnalable_id'   => $last_ringkasan_penyustan_id,
 				'jurnalable_type' => 'App\Models\RingkasanPenyusutan',
-				'coa_id'          => 612312, //Biaya Penyusutan
+				'coa_id'          => Coa::where('kode_coa', 612312)->first()->id, //Biaya Penyusutan
 				'debit'           => 1,
 				'nilai'           => $total_penyusutan,
 				'tenant_id'       => session()->get('tenant_id'),
@@ -277,7 +277,7 @@ class JadwalPenyusutan extends Command
 			$jurnals[] = [
 				'jurnalable_id'   => $last_ringkasan_penyustan_id,
 				'jurnalable_type' => 'App\Models\RingkasanPenyusutan',
-				'coa_id'          => $coa_id_akumulasi_penyusutan, // Akumulasi Penyusutan Peralatan
+				'coa_id'          => Coa::where('kode_coa', $coa_id_akumulasi_penyusutan)->first()->id, // Akumulasi Penyusutan Peralatan
 				'debit'           => 0,
 				'nilai'           => $total_penyusutan,
 				'tenant_id'       => session()->get('tenant_id'),

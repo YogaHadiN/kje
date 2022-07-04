@@ -43,7 +43,7 @@ class CoasController extends Controller
 	public function store()
 	{
 		$coa       = new Coa;
-		$coa->id   = Input::get('coa_id');
+		$coa->kode_coa   = Input::get('coa_id');
 		$coa->coa   = Input::get('coa');
 		$coa->kelompok_coa_id   = Input::get('kelompok_coa_id');
 		$confirm = $coa->save();
@@ -92,7 +92,7 @@ class CoasController extends Controller
 	{
 		$coa = Coa::findOrFail($id);
 		$rules = [
-			'coa_id' => 'unique:coas,id,' . $id . '|required',
+			'coa_id' => 'unique:coas,kode_coa,' . $id . '|required',
 			'coa' => 'unique:coas,coa,' .$coa->id .'|required',
 			'kelompok_coa_id' => 'required'
 		];
@@ -104,9 +104,9 @@ class CoasController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		
-		$coa->id   = Input::get('coa_id');
-		$coa->coa   = Input::get('coa');
-		$coa->kelompok_coa_id   = Input::get('kelompok_coa_id');
+		$coa->kode_coa        = Input::get('coa_id');
+		$coa->coa             = Input::get('coa');
+		$coa->kelompok_coa_id = Input::get('kelompok_coa_id');
 		$confirm = $coa->save();
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('Chart Of Account '  . $coa->id . ' - '. $coa->coa . ' berhasil di Update');
@@ -155,7 +155,7 @@ class CoasController extends Controller
 	}
 	public function getCoaName(){
 		$coa_id = Input::get('coa_id');
-		$coa = Coa::find( $coa_id );
+		$coa = Coa::where( 'kode_coa', $coa_id )->first();
 		return $coa->coa;
 	}
 	

@@ -380,7 +380,7 @@ class KasirsController extends Controller
 		$jurnal_umum_id = CheckoutKasir::latest()->first()->jurnal_umum_id;
 		/* $jurnal_umum_id = CheckoutKasir::latest()->limit(2)->first()->jurnal_umum_id; */
 		$jurnal_umums   = JurnalUmum::with('jurnalable')
-								  ->where('coa_id', '110000')
+								  ->where('coa_id', Coa::where('kode_coa', '110000' )->first()->id)
 								  ->where('id', '>', $jurnal_umum_id)
 								  ->orderBy('id', 'desc')
 								  ->get();

@@ -1273,11 +1273,9 @@ class Yoga {
 		public static function rincian($periksas){
 			$rincian = [];
 			$sama = false;
-			// return $periksas;
 			foreach ($periksas as $key => $px) {
 				$transaksi = $px->transaksi;
 				$transaksi = json_decode($transaksi,true);
-				// return $px-;
 				foreach ($transaksi as $ky => $tr) {
 					if (count($rincian) == 0) {
 						$rincian[] = $tr['jenis_tarif'];
@@ -1294,8 +1292,8 @@ class Yoga {
 						$sama = false;
 					}
 				}
-				return $rincian;
 			}
+			return $rincian;
 		}
 
 		public static function laporanRinci($rincian, $periksa){

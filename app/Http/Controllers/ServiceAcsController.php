@@ -28,13 +28,14 @@ class ServiceAcsController extends Controller
 		$sa->image       = $this->imageUpload('sa','image', $sa->id);
 		$confirm         = $sa->save();
 
+		$coa_id_623433 = Coa::where('kode_coa', '623433')->first()->id;
 		if ($confirm) {
 			$timestamp = date('Y-m-d H:i:s');
 			$data[] = [
 				'jurnalable_id'   => $sa->id,
 				'debit'           => 1,
 				'nilai'           => $sa->biaya,
-				'coa_id'          => '623433',
+				'coa_id'          => $coa_id_623433,
 				'keterangan'      => 'tidak ada keterangan',
 				'jurnalable_type' => 'App\Models\ServiceAc',
 							'tenant_id'  => session()->get('tenant_id'),
@@ -46,7 +47,7 @@ class ServiceAcsController extends Controller
 				'jurnalable_id'   => $sa->id,
 				'debit'           => 0,
 				'nilai'           => $sa->biaya,
-				'coa_id'          => '623433',
+				'coa_id'          => $coa_id_623433,
 				'keterangan'      => 'tidak ada keterangan',
 				'jurnalable_type' => 'App\Models\ServiceAc',
 							'tenant_id'  => session()->get('tenant_id'),

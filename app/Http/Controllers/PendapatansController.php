@@ -401,7 +401,7 @@ class PendapatansController extends Controller
 			$data = $this->inputData();
 			$pesan = Yoga::suksesFlash('Asuransi <strong>' . $asuransi->nama . '</strong> tanggal <strong>' . Yoga::updateDatePrep($data['mulai']). '</strong> sampai dengan <strong>' . Yoga::updateDatePrep($data['akhir']) . ' BERHASIL</strong> dibayarkan sebesar <strong><span class="uang">' . $data['dibayar'] . '</span></strong>');
 			DB::commit();
-			if ($data['coa_id'] == '110000') {
+			if ($data['coa_id'] == Coa::where('kode_coa',  '110000')->first()->id) {
 				return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan)->withPrint($data['pb']->id);
 			} else {
 				return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan);

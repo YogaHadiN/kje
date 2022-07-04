@@ -477,8 +477,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pendapatans/pembayaran_asuransi/cari_pembayaran', [\App\Http\Controllers\PendapatansController::class, 'cariPembayaran']);
 		Route::get('pendapatans/pembayaran/asuransi/{id}', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_asuransi_rekening']);
 		Route::post('pengeluarans/pembayaran_asuransi/show ', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi']);
-		Route::post('pengeluarans/pembayaran_asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi_by_rekening']);
 
+		Route::post('pengeluarans/pembayaran_asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi_by_rekening']);
 		Route::get('pendapatans/pembayaran_bpjs ', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_bpjs']);
 		Route::post('pendapatans/pembayaran_bpjs', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_bpjs_post']);
 		Route::get('pendapatans/pembayaran/asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_asuransi_show']);
@@ -523,7 +523,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('laporans/hariandanjam', [\App\Http\Controllers\LaporansController::class, 'hariandanjam']);
 		Route::get('laporans/asuransi/detail/{asuransi_id}/{tanggal}', [\App\Http\Controllers\LaporansController::class, 'asuransi_detail']);
 		Route::get('laporans/contoh', [\App\Http\Controllers\LaporansController::class, 'contoh']);
-		Route::get('laporans/bpjs_tidak_terpakai', [\App\Http\Controllers\LaporansController::class, 'bpjsTidakTerpakai']);
+		Route::get('laporans/bpjs_tidak_terpakai/{bulanTahun}', [\App\Http\Controllers\LaporansController::class, 'bpjsTidakTerpakai']);
 		Route::get('laporans/sms/bpjs', [\App\Http\Controllers\LaporansController::class, 'smsBpjs']);
 
 		Route::get('pajaks/amortisasi', [\App\Http\Controllers\PajaksController::class, 'amortisasi']);

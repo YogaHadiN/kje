@@ -455,11 +455,12 @@ class CustomController extends Controller
 				$biayaProduksiObat += $terapi->harga_beli_satuan * $terapi->jumlah;
 			}
 			// Input jurnal umum kas di tangan bila tunai > 0
+			$coa_id_110000 = Coa::where('kode_coa', '110000')->first()->id;
 			if ($periksa->tunai>0) {
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 110000, // Kas di tangan
+					'coa_id'          => $coa_id_110000, // Kas di tangan
 					'debit'           => 1,
 					'nilai'           => $periksa->tunai,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -584,11 +585,19 @@ class CustomController extends Controller
 			}
 
 			//Masukkan pembayaran ke dalam Transaksi
+			$coa_id_50201 = Coa::where('kode_coa', '50201')->first()->id;
+			$coa_id_50202 = Coa::where('kode_coa', '50202')->first()->id;
+			$coa_id_50204 = Coa::where('kode_coa', '50204')->first()->id;
+			$coa_id_50205 = Coa::where('kode_coa', '50205')->first()->id;
+			$coa_id_200002 = Coa::where('kode_coa', '200002')->first()->id;
+			$coa_id_200001 = Coa::where('kode_coa', '200001')->first()->id;
+			$coa_id_112000 = Coa::where('kode_coa', '112000')->first()->id;
+
 			if ($hutang_asisten_tindakan > 0) {
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 50205, // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
+					'coa_id'          => $coa_id_50205, // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
 					'debit'           => 1,
 					'nilai'           => $hutang_asisten_tindakan,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -598,7 +607,7 @@ class CustomController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
+					'coa_id'          => $coa_id_200002, // Hutang Kepada Asisten Dokter
 					'debit'           => 0,
 					'nilai'           => $hutang_asisten_tindakan,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -613,7 +622,7 @@ class CustomController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 50201, //Beban Jasa Dokter
+					'coa_id'          => $coa_id_50201, //Beban Jasa Dokter
 					'debit'           => 1,
 					'nilai'           => $feeDokter,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -623,7 +632,7 @@ class CustomController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 200001, // Hutang Kepada dokter
+					'coa_id'          => $coa_id_200001, // Hutang Kepada dokter
 					'debit'           => 0,
 					'nilai'           => $feeDokter,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -638,7 +647,7 @@ class CustomController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 50204, // Biaya Produksi : Obat
+					'coa_id'          => $coa_id_50204, // Biaya Produksi : Obat
 					'debit'           => 1,
 					'nilai'           => $biayaProduksiObat,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -648,7 +657,7 @@ class CustomController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 112000, // Persediaan Obat
+					'coa_id'          => $coa_id_112000, // Persediaan Obat
 					'debit'           => 0,
 					'nilai'           => $biayaProduksiObat,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -682,7 +691,7 @@ class CustomController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 50202, // Biaya Produksi : Bonus per pasien
+					'coa_id'          => $coa_id_50202, // Biaya Produksi : Bonus per pasien
 					'debit'           => 1,
 					'nilai'           => 1530,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -693,7 +702,7 @@ class CustomController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $periksa->id,
 					'jurnalable_type' => 'App\Models\Periksa',
-					'coa_id'          => 200002, // Hutang Kepada Asisten Dokter
+					'coa_id'          => $coa_id_200002, // Hutang Kepada Asisten Dokter
 					'debit'           => 0,
 					'nilai'           => 1530,
 							'tenant_id'  => session()->get('tenant_id'),

@@ -277,6 +277,7 @@ class LaporanLabaRugisController extends Controller
 	public function templaporanlabarugibikinan($tanggal_awal, $tanggal_akhir){
 		$query  = "select ";
 		$query .= "coa_id as coa_id, ";
+		$query .= "c.kode_coa as kode_coa, ";
 		$query .= "c.coa as coa, ";
 		$query .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai ";
 		$query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
@@ -309,19 +310,19 @@ class LaporanLabaRugisController extends Controller
 		$pendapatan_lains['total_nilai']  = 0;
 		$bebans['total_nilai']            = 0;
 		foreach ($akuns as $a) {
-			if (substr($a['coa_id'], 0, 1) === '4') {
+			if (substr($a['kode_coa'], 0, 1) === '4') {
 				$pendapatan_usahas['akuns'][] = $a;
 				$pendapatan_usahas['total_nilai'] += $a['nilai'];
-			} else if( substr($a['coa_id'], 0, 1) === '5' ){
+			} else if( substr($a['kode_coa'], 0, 1) === '5' ){
 				$hpps['akuns'][] = $a;
 				$hpps['total_nilai'] += $a['nilai'];
-			} else if( substr($a['coa_id'], 0, 1) === '6' ){
+			} else if( substr($a['kode_coa'], 0, 1) === '6' ){
 				$biayas['akuns'][] = $a;
 				$biayas['total_nilai'] += $a['nilai'];
-			} else if( substr($a['coa_id'], 0, 1) === '7' ){
+			} else if( substr($a['kode_coa'], 0, 1) === '7' ){
 				$pendapatan_lains['akuns'][] = $a;
 				$pendapatan_lains['total_nilai'] += $a['nilai'];
-			} else if( substr($a['coa_id'], 0, 1) === '8' ){
+			} else if( substr($a['kode_coa'], 0, 1) === '8' ){
 				$bebans['akuns'][] = $a;
 				$bebans['total_nilai'] += $a['nilai'];
 			}
@@ -366,18 +367,20 @@ class LaporanLabaRugisController extends Controller
 		$query .= "px.asuransi_id as asuransi_id, ";
 		$query .= "j.jurnalable_type as jurnalable_type, ";
 		$query .= "coa_id as coa_id, ";
+		$query .= "co.kode_coa as kode_coa, ";
 		$query .= "debit as debit, ";
 		$query .= "c.coa as coa, ";
 		$query .= "j.created_at as created_at, ";
 		$query .= "j.nilai as nilai ";
 		$query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
+		$query .= "JOIN coas as co on co.id = j.coa_id ";
 		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
 		if ( $tahun ) {
 			$query .= "WHERE j.created_at like '{$tahun}%' ";
 		} else {
 			$query .= "WHERE j.created_at between '{$tanggal_awal} 00:00:00' and '{$tanggal_akhir} 23:59:59'";
 		}
-		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query .= "and ( co.kode_coa like '4%' or co.kode_coa like '5%' or co.kode_coa like '6%' or co.kode_coa like '7%' or co.kode_coa like '8%' ) ";
 		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "group by coa_id "; */
         return DB::select($query);

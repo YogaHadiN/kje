@@ -59,7 +59,7 @@ class smsLaporanHarian extends Command
 		foreach ($periksas as $v) {
 			$tunai += $v->tunai;
 			$piutang += $v->piutang;
-			if ($v->poli == 'estetika') {
+			if ($v->poli->poli == 'estetika') {
 				$estetika++;
 			}
 		}	

@@ -86,7 +86,7 @@
 									<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>
 									<td><h1> <a class="" href="{{ url('laporans/pengantar') }}">{{ $pengantar_belum_disubmit }}</a> </h1></td>
 									<td><h1><a class="" href="{{ url('laporans/angka_kontak_belum_terpenuhi') }}"> {{ $angka_kontak_belum_terpenuhi }} </a></h1></td>
-									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai/'. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
 								</tr>
 							</tbody>
 						</table>
@@ -459,15 +459,6 @@
 												<td> {!! Form::select('id', $staf, null, ['class' => 'form-control selectpick', 'data-live-search'=> 'true']) !!} </td>
 												<td> {!! Form::text('mulai', date('m-Y'), ['class' => 'form-control bulanTahun', 'placeholder' => 'mulai'])!!}</td>
 												<td></td>
-												{!! Form::close() !!}
-											</tr>
-											<tr>
-												{!! Form::open(['url'=>'laporans/pembayaran/dokter', 'method'=> 'get']) !!} 
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-												<td>Laporan Pembayaran Dokter </td>
-												<td></td>
-												<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
-												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
 												{!! Form::close() !!}
 											</tr>
 											<tr>

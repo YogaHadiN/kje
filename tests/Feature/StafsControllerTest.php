@@ -24,24 +24,6 @@ class StafsControllerTest extends TestCase
      */
 
 
-    /**
-     * @param 
-     */
-    /**
-     * @param 
-     */
-    public $staf_id;
-    
-    /**
-     * @param 
-     */
-    /* public function __construct() */
-    /* { */
-    /*     $user = User::factory()->create() */
-    /*     auth()->login($user); */
-    /* } */
-        
-    
     public function test_index_displays_view()
     {
         $user     = User::find(28);
@@ -375,7 +357,7 @@ class StafsControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_a_user_can_only_create_a_staf_in_his_tenant_even_if_other_tenant_is_provided()
+    public function test_a_user_can_only_create_a_staf()
     {
         $tenant1 = Tenant::factory()->create();
         $tenant2 = Tenant::factory()->create();

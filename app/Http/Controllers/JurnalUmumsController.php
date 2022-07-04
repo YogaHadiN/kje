@@ -305,7 +305,7 @@ class JurnalUmumsController extends Controller
 				$ju->coa_id = $tp['coa_id'];
 				$ju->save();            
 
-				if ( $tp['coa_id']        == '112001' ) { // Penambahan Pulsa GoPay
+				if ( $tp['coa_id']        == Coa::where('kode_coa', '112001')->first()->id ) { // Penambahan Pulsa GoPay
 					$gopays[] = [
 						'nilai'          => $tp['nilai'],
 						'pengeluaran_id' => $tp['jurnalable_id'],
@@ -574,7 +574,7 @@ class JurnalUmumsController extends Controller
 					$jurnal = JurnalUmum::where('jurnalable_type', 'App\Models\RingkasanPenyusutan')
 							->where('created_at', 'like', $bulan_penyusutan . '%')
 							->where('debit', '0')
-							->where('coa_id', '120002')
+							->where('coa_id', Coa::where('kode_coa',  '120002')->first()->id)
 							->firstOrFail();
 					$nilai_penyusutan = 0;
 
@@ -752,9 +752,10 @@ class JurnalUmumsController extends Controller
 		$query .= " - sum( if ( debit = 1, nilai, 0 ) )) as nilai ";
 		$query .= "FROM jurnal_umums as ju ";
 		$query .= "LEFT OUTER JOIN periksas as px on px.id = ju.jurnalable_id ";
+		$query .= "INNER JOIN polis as po on po.id = px.poli_id ";
 		$query .= "WHERE ( coa_id like '4%' ) ";
 		$query .= "AND ( px.asuransi_id > 0 or px.asuransi_id is null) ";
-		$query .= "AND ( px.poli not like 'poli estetika' or poli is null) ";
+		$query .= "AND ( po.poli not like 'Poli Estetika' or poli is null) ";
 		$query .= "AND ju.jurnalable_type not like 'App\\\Models\\\NotaJual' ";
 		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "AND ((  px.asuransi_id > 0 and ju.jurnalable_type = 'App\\\Periksa'  ) or ju.jurnalable_type not like 'App\\\Periksa') "; */

@@ -1152,8 +1152,9 @@ class Periksa extends Model{
         $query .= "ps.nama as nama_pasien, ";
         $query .= "asu.nama as nama_asuransi, ";
         $query .= "p.id as periksa_id, ";
-        $query .= "p.poli as poli ";
+        $query .= "po.poli as poli ";
         $query .= "FROM periksas as p ";
+        $query .= "JOIN polis as po on po.id = p.poli_id ";
         $query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
         $query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
         $query .= "where p.tanggal like '{$tanggal}' ";

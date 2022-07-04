@@ -253,7 +253,7 @@ class PembeliansController extends Controller
 		$jurnals[] = [
 			'jurnalable_id'   => $faktur_belanja_id,
 			'jurnalable_type' => 'App\Models\FakturBelanja',
-			'coa_id'          => 112000, // persediaan obat
+			'coa_id'          => Coa::where('kode_coa', '112000')->first()->id, // persediaan obat
 			'debit'           => 1,
 			'nilai'           => $total_pembelian,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -275,7 +275,7 @@ class PembeliansController extends Controller
 			$jurnals[] = [
 				'jurnalable_id'   => $faktur_belanja_id,
 				'jurnalable_type' => 'App\Models\FakturBelanja',
-				'coa_id'          => 50204, // Biaya Produsi Obat (berkurang,
+				'coa_id'          => Coa::where('kode_coa', '50204')->first()->id, // Biaya Produsi Obat (berkurang,
 				'debit'           => 0,
 				'nilai'           => Yoga::clean( Input::get('diskon') ), // Kas di tanga,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -576,9 +576,16 @@ class PembeliansController extends Controller
 
 			//ganti nilai persediaan
 
+			$coa_ids = [];
+
+			$coas = Coa::where('kode_coa', 'like',  '11000%')->get();
+
+			foreach ($coas as $c) {
+				$coa_ids[] = $c->id;
+			}
 			$ju = JurnalUmum::where('jurnalable_id', $faktur_belanja_id)
 				->where('jurnalable_type', 'App\Models\FakturBelanja')
-				->where('coa_id', 'like', '11000%') // 
+				->whereIn('coa_id', $coa_ids) // 
 				->where('debit', 0)
 				->first();
 			$ju->nilai =  ( $nilai_baru - Yoga::clean( Input::get('diskon') ));
@@ -586,9 +593,10 @@ class PembeliansController extends Controller
 			$ju->save();
 			//cari jurnal diskon
 			//
+			$coa_id_50204 = Coa::where('kode_coa', '50204')->first()->id;
 			$jurnalDiskon = JurnalUmum::where('jurnalable_type', 'App\Models\FakturBelanja')
 				->where('jurnalable_id', $faktur_belanja_id)
-				->where('coa_id', 50204)
+				->where('coa_id', $coa_id_50204 )
 				->where('debit', 0)
 				->first();
 
@@ -600,7 +608,7 @@ class PembeliansController extends Controller
 					$jrnl                  = new JurnalUmum;
 					$jrnl->jurnalable_id   = $faktur_belanja_id;
 					$jrnl->jurnalable_type = 'App\Models\FakturBelanja';
-					$jrnl->coa_id          = 50204; // Biaya Produsi Obat (berkurang)
+					$jrnl->coa_id          = $coa_id_50204; // Biaya Produsi Obat (berkurang)
 					$jrnl->debit           = 0;
 					$jrnl->nilai           = Yoga::clean( Input::get('diskon') ); // Kas di tangan
 					$jrnl->save();
@@ -608,7 +616,7 @@ class PembeliansController extends Controller
 			} else {
 				JurnalUmum::where('jurnalable_type', 'App\Models\FakturBelanja')
 					->where('jurnalable_id', $faktur_belanja_id)
-					->where('coa_id', 50204)
+					->where('coa_id', $coa_id_50204)
 					->where('debit', 0)
 					->delete();
 			}

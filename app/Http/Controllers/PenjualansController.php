@@ -110,7 +110,7 @@ class PenjualansController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 110000,
+					'coa_id'          => Coa::where('kode_coa',  '110000')->first()->id,
 					'debit'           => 1,
 					'nilai'           => $biaya,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -121,7 +121,7 @@ class PenjualansController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 400002,
+					'coa_id'          => Coa::where('kode_coa',  '400002')->first()->id,
 					'debit'           => 0,
 					'nilai'           => $biaya,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -133,7 +133,7 @@ class PenjualansController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 50200,
+					'coa_id'          => Coa::where('kode_coa',  '50200')->first()->id,
 					'debit'           => 1,
 					'nilai'           => $biaya_obat,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -144,7 +144,7 @@ class PenjualansController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 112000,
+					'coa_id'          => Coa::where('kode_coa',  '112000')->first()->id,
 					'debit'           => 0,
 					'nilai'           => $biaya_obat,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -249,7 +249,7 @@ class PenjualansController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 50200, // Beban Biaya Obat
+					'coa_id'          => Coa::where('kode_coa',  '50200')->first()->id, // Beban Biaya Obat
 					'debit'           => 1,
 					'nilai'           => $biaya_obat,
 							'tenant_id'  => session()->get('tenant_id'),
@@ -259,7 +259,7 @@ class PenjualansController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 112000, // Persediaan obat
+					'coa_id'          => Coa::where('kode_coa',  '112000')->first()->id, // Persediaan obat
 					'debit'           => 0,
 					'nilai'           => $biaya_obat,
 							'tenant_id'  => session()->get('tenant_id'),

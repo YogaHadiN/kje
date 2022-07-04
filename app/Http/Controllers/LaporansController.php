@@ -34,6 +34,7 @@ use App\Models\Terapi;
 use App\Models\SmsKontak;
 use App\Models\SmsGagal;
 use App\Models\AntrianPoli;
+use App\Models\Poli;
 use App\Models\JenisTarif;
 use App\Models\KunjunganSakit;
 use App\Models\TipeLaporanAdmedika;
@@ -54,8 +55,7 @@ class LaporansController extends Controller
 		 ]]);
 	 }
 
-	public function bpjsTidakTerpakai(){
-		$tanggall = Input::get('bulanTahun');
+	public function bpjsTidakTerpakai($tanggall){
 		$tanggal  = Yoga::blnPrep($tanggall);
 
 		$kunjungan_sakits = KunjunganSakit::with(
@@ -699,10 +699,10 @@ class LaporansController extends Controller
 
 	public function detbulan()
 	{
+		/* dd(Input::all()); */ 
 
 		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
 		$asuransi_id 	= Input::get('asuransi_id');
-
 
 		$query = "SELECT icd.diagnosaICD as diagnosaICD, ";
 		$query .= "p.tanggal, ";
@@ -730,16 +730,16 @@ class LaporansController extends Controller
 		} else {
 			$nama_asuransi = Asuransi::find($asuransi_id)->nama;
 		}
-		$tanggall = $tanggal;
-		$tanggal = DB::select($query);
+		$data = DB::select($query);
 
 		$modal = 0;
 
-		$rincian = Yoga::rincian($tanggal);
+		$rincian = Yoga::rincian($data);
+		$tanggall = $tanggal;
 
 		return view('laporans.detbulan')
 			->withTanggall($tanggall)
-			->withTanggal($tanggal)
+			->withTanggal($data)
 			->with('asuransi_id', $asuransi_id)
 			->with('nama_asuransi', $nama_asuransi)
 			->withRincian($rincian);
@@ -879,7 +879,6 @@ class LaporansController extends Controller
 	}
 	public function pendapatan()
 	{
-		// return Input::all();
 		$mulai = Input::get('mulai');
 		$akhir = Input::get('akhir');
 
@@ -963,25 +962,18 @@ class LaporansController extends Controller
         }
         return view('gajidokter', compact('hutangs', 'total', 'nama_staf', 'mulai', 'akhir'));
     }
-    public function pembayarandokter(){
-		$mulai = Input::get('mulai');
-		$akhir = Input::get('akhir');
-		$mulai = Yoga::nowIfEmptyMulai($mulai);
-		$akhir = Yoga::nowIfEmptyAkhir($akhir);
-         
-        $bayardokters = BayarDokter::whereRaw("created_at between '{$mulai}' and '{$akhir}'")->get();
-        return view('bayar_dokters.index', compact('bayardokters'));
-         
-    }
+
     public function no_asisten(){
-		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
+
+		$tanggal  = Yoga::blnPrep(Input::get('bulanTahun'));
         $periksas = Periksa::where('tanggal', 'like', $tanggal . '%')->where('periksa_awal', '[]')->get();
         //return $periksas;
         return view('laporans.no_asisten', compact('periksas'));
     }
     public function gigiBulanan(){
-		$tanggal 		= Yoga::blnPrep(Input::get('bulanTahun'));
-        $periksas = Periksa::where('tanggal', 'like', $tanggal . '%')->where('poli', 'gigi')->get();
+		$tanggal  = Yoga::blnPrep(Input::get('bulanTahun'));
+		$poli_id  = Poli::where('poli', 'Poli Gigi')->first()->id;
+        $periksas = Periksa::where('tanggal', 'like', $tanggal . '%')->where('poli_id', $poli_id)->get();
         //return $periksas;
         return view('laporans.gigi', compact('periksas'));
     }
@@ -991,16 +983,17 @@ class LaporansController extends Controller
 		$query    .= "st.nama as nama_staf,";
 		$query    .= " px.jam as jam,";
 		$query    .= " ps.nama as nama_pasien,";
-		$query    .= " px.poli as poli,";
+		$query    .= " po.poli as poli,";
 		$query    .= " px.pemeriksaan_fisik as pf";
 		$query    .= " from periksas as px";
-		$query    .= " join stafs as st on st.id=px.staf_id";
+		$query    .= " join stafs as st on st.id=px.staf_id ";
+		$query    .= " join polis as po on po.id=px.poli_id ";
 		$query    .= " join pasiens as ps on ps.id=px.pasien_id";
 		$query    .= " join diagnosas as dg on dg.id = px.diagnosa_id";
 		$query    .= " where st.titel = 'bd'";
 		$query    .= " and tanggal like '{$tanggal}%'";
 		$query    .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query    .= " and (px.poli = 'anc') ";
+		$query    .= " and (po.poli = 'poli ANC') ";
         $periksas  = DB::select($query);
 
 		$query = "select min( st.nama ) as nama_staf, ";
@@ -1009,10 +1002,11 @@ class LaporansController extends Controller
 		$query .= "join stafs as st on st.id=px.staf_id ";
 		$query .= "join pasiens as ps on ps.id=px.pasien_id ";
 		$query .= "join diagnosas as dg on dg.id = px.diagnosa_id ";
+		$query .= "join polis as po on po.id = px.poli_id ";
 		$query .= "where st.titel = 'bd' ";
 		$query .= "and tanggal like '{$tanggal}%' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and (px.poli = 'anc') group by staf_id ";
+		$query .= "and (po.poli = 'poli ANC') group by staf_id ";
         $group_by_stafs = DB::select($query);
         //return $periksas;
         return view('laporans.anc', compact('periksas', 'group_by_stafs'));
@@ -1024,9 +1018,10 @@ class LaporansController extends Controller
 		$query   .= " px.jam as jam,";
 		$query   .= " asu.nama as nama_asuransi,";
 		$query   .= " ps.nama as nama_pasien,";
-		$query   .= " px.poli as poli,";
+		$query   .= " po.poli as poli,";
 		$query   .= " px.pemeriksaan_fisik as pf";
 		$query   .= " from periksas as px";
+		$query   .= " join polis as po on po.id = px.poli_id ";
 		$query   .= " join stafs as st on st.id=px.staf_id";
 		$query   .= " join asuransis as asu on asu.id=px.asuransi_id";
 		$query   .= " join pasiens as ps on ps.id=px.pasien_id";
@@ -1781,8 +1776,9 @@ class LaporansController extends Controller
 		$query .= "ps.nama as nama_pasien, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "p.id as periksa_id, ";
-		$query .= "p.poli as poli ";
+		$query .= "po.poli as poli ";
 		$query .= "FROM periksas as p ";
+		$query .= "JOIN polis as po on po.id = p.poli_id ";
 		$query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
 		$query .= "where date(p.created_at) between '{$tanggal_awal}' and '{$tanggal_akhir}' ";
@@ -2050,8 +2046,9 @@ class LaporansController extends Controller
 		$query .= "ps.nama as nama_pasien, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "p.id as periksa_id, ";
-		$query .= "p.poli as poli ";
+		$query .= "po.poli as poli ";
 		$query .= "FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
+		$query .= "INNER JOIN polis as po on po.id = p.poli_id ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
 		$query .= "where p.tanggal like '{$tanggal}' ";
 		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
