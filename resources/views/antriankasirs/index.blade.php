@@ -56,10 +56,10 @@
 											{!! $antriankasir->antrian->nomor_antrian !!}
 										@endif
 									</td>
-									<td>{!! $antriankasir->periksa->pasien->nama!!}</td>
+									<td>{!! !is_null($antriankasir->periksa) ? $antriankasir->periksa->pasien->nama : ''!!}</td>
 									<td>{!! $antriankasir->jam!!}</td>
 									<td>{!! $antriankasir->tanggal!!}</td>
-									<td>{!! $antriankasir->periksa->asuransi->nama!!}</td>
+									<td>{!! !is_null($antriankasir->periksa) ? $antriankasir->periksa->asuransi->nama : ''!!}</td>
 							<td>
 								  {!! Form::open(['url' => 'antriankasirs/kembali/' . $antriankasir->id, 'method' => 'post'])!!}
 									<a href="#" class="btn btn-warning btn-xs"  onclick="monitor_available(this); return false;">Lanjut</a>

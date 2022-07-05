@@ -24,7 +24,16 @@ class AntrianKasirsController extends Controller
 	public function index()
 	{
 		$antriankasirs = AntrianKasir::with('periksa.pasien', 'periksa.asuransi', 'antrian.jenis_antrian')->get();
-		/* dd($antriankasirs->first()->transaksi); */
+
+		foreach ($antriankasirs as $an) {
+			try {
+				$pasien = $an->periksa->pasien;
+			} catch (\Exception $e) {
+				dd( $an );
+			}
+		}
+
+
 		return view('antriankasirs.index', compact('antriankasirs'));
 	}
 	public function kembali($id){
