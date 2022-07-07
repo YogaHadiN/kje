@@ -167,3 +167,10 @@ if (!function_exists('day_diff')) {
         return abs($earlier->diff($later)->format("%r%a")); //3
     }
 }
+
+if (!function_exists('checkForUploadedFile')) {
+    function checkForUploadedFile($file, $path){
+        $exists = Storage::disk('s3')->exists($path);
+        Storage::disk('s3')->assertExists($path);
+    }
+}

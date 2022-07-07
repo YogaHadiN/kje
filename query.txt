@@ -8,13 +8,15 @@ CREATE TABLE `tenants` (
 
 INSERT INTO tenants (`name`, `created_at`, `updated_at`) VALUES ( 'klinik jati elok', now(), now());
 
+
 CREATE TABLE `logins` (
   `id` bigint not null auto_increment,
   `user_id` bigint,
   `tenant_id` bigint,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX( user_id, tenant_id )
 );
 
 alter table abaikan_transaksis add tenant_id bigint not null, add index( tenant_id );
@@ -87,7 +89,6 @@ alter table jobs add tenant_id bigint not null, add index( tenant_id );
 alter table jurnal_umums add tenant_id bigint not null, add index( tenant_id );
 alter table kaburs add tenant_id bigint not null, add index( tenant_id );
 alter table keberatans add tenant_id bigint not null, add index( tenant_id );
-alter table kelas_obats add tenant_id bigint not null, add index( tenant_id );
 alter table kelompok_coas add tenant_id bigint not null, add index( tenant_id );
 alter table kepala_terhadap_paps add tenant_id bigint not null, add index( tenant_id );
 alter table keterangan_penyusutans add tenant_id bigint not null, add index( tenant_id );
@@ -156,7 +157,6 @@ alter table rujukans add tenant_id bigint not null, add index( tenant_id );
 alter table rumah_sakits add tenant_id bigint not null, add index( tenant_id );
 alter table saldos add tenant_id bigint not null, add index( tenant_id );
 alter table satisfaction_index add tenant_id bigint not null, add index( tenant_id );
-alter table sediaans add tenant_id bigint not null, add index( tenant_id );
 alter table sentitems add tenant_id bigint not null, add index( tenant_id );
 alter table service_acs add tenant_id bigint not null, add index( tenant_id );
 alter table signas add tenant_id bigint not null, add index( tenant_id );
@@ -264,7 +264,6 @@ update jobs set tenant_id = 1;
 update jurnal_umums set tenant_id = 1;
 update kaburs set tenant_id = 1;
 update keberatans set tenant_id = 1;
-update kelas_obats set tenant_id = 1;
 update kelompok_coas set tenant_id = 1;
 update kepala_terhadap_paps set tenant_id = 1;
 update keterangan_penyusutans set tenant_id = 1;
@@ -333,7 +332,6 @@ update rujukans set tenant_id = 1;
 update rumah_sakits set tenant_id = 1;
 update saldos set tenant_id = 1;
 update satisfaction_index set tenant_id = 1;
-update sediaans set tenant_id = 1;
 update sentitems set tenant_id = 1;
 update service_acs set tenant_id = 1;
 update signas set tenant_id = 1;
@@ -375,89 +373,89 @@ update whatsapp_registrations set tenant_id = 1;
 ALTER TABLE coas ADD kode_coa varchar(255) not null, add index( kode_coa );
 UPDATE coas set kode_coa = id;
 ALTER TABLE coas DROP COLUMN id;
-ALTER TABLE coas ADD id bigint auto_increment primary key;
+ALTER TABLE coas ADD id bigint auto_increment primary key first;
 
 ALTER TABLE formulas ADD old_id varchar(255) not null, add index (old_id);
 UPDATE formulas set old_id = id;
 ALTER TABLE formulas DROP COLUMN id;
-ALTER TABLE formulas ADD id bigint auto_increment primary key;
+ALTER TABLE formulas ADD id bigint auto_increment primary key first;
 
 ALTER TABLE invoices ADD kode_invoice varchar(255) not null, add index (kode_invoice);
 UPDATE invoices set kode_invoice = id;
 ALTER TABLE invoices DROP COLUMN id;
-ALTER TABLE invoices ADD id bigint auto_increment primary key;
+ALTER TABLE invoices ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE kirim_berkas ADD old_id varchar(255) not null, add index(old_id);
 UPDATE kirim_berkas set old_id = id;
 ALTER TABLE kirim_berkas DROP COLUMN id;
-ALTER TABLE kirim_berkas ADD id bigint auto_increment primary key;
+ALTER TABLE kirim_berkas ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE mereks ADD old_id varchar(255) not null, add index(old_id);
 UPDATE mereks set old_id = id;
 ALTER TABLE mereks DROP COLUMN id;
-ALTER TABLE mereks ADD id bigint auto_increment primary key;
+ALTER TABLE mereks ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE nota_belis ADD old_id varchar(255) not null, add index(old_id);
 UPDATE nota_belis set old_id = id;
 ALTER TABLE nota_belis DROP COLUMN id;
-ALTER TABLE nota_belis ADD id bigint auto_increment primary key;
+ALTER TABLE nota_belis ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE nota_juals ADD old_id varchar(255) not null, add index(old_id);
 UPDATE nota_juals set old_id = id;
 ALTER TABLE nota_juals DROP COLUMN id;
-ALTER TABLE nota_juals ADD id bigint auto_increment primary key;
+ALTER TABLE nota_juals ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE pasiens ADD old_id varchar(255) not null, add index(old_id);
 UPDATE pasiens set old_id = id;
 ALTER TABLE pasiens DROP COLUMN id;
-ALTER TABLE pasiens ADD id bigint auto_increment primary key;
+ALTER TABLE pasiens ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE periksas ADD old_id varchar(255) not null, add index(old_id);
 UPDATE periksas set old_id = id;
 ALTER TABLE periksas DROP COLUMN id;
-ALTER TABLE periksas ADD id bigint auto_increment primary key;
+ALTER TABLE periksas ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE polis ADD old_id varchar(255) not null, add index(old_id);
 UPDATE polis set old_id = id;
 ALTER TABLE polis DROP COLUMN id;
-ALTER TABLE polis ADD id bigint auto_increment primary key;
+ALTER TABLE polis ADD id bigint auto_increment primary key first;
 
 
-ALTER TABLE raks ADD old_id varchar(255) not null, add index(old_id);
-UPDATE raks set old_id = id;
+ALTER TABLE raks ADD kode_rak varchar(255) not null, add index(kode_rak);
+UPDATE raks set kode_rak = id;
 ALTER TABLE raks DROP COLUMN id;
-ALTER TABLE raks ADD id bigint auto_increment primary key;
+ALTER TABLE raks ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE sediaans ADD old_id varchar(255) not null, add index(old_id);
 UPDATE sediaans set old_id = id;
 ALTER TABLE sediaans DROP COLUMN id;
-ALTER TABLE sediaans ADD id bigint auto_increment primary key;
+ALTER TABLE sediaans ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE sms_bpjs ADD old_id varchar(255) not null, add index(old_id);
 UPDATE sms_bpjs set old_id = id;
 ALTER TABLE sms_bpjs DROP COLUMN id;
-ALTER TABLE sms_bpjs ADD id bigint auto_increment primary key;
+ALTER TABLE sms_bpjs ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE stafs ADD old_id varchar(255) not null, add index(old_id);
 UPDATE stafs set old_id = id;
 ALTER TABLE stafs DROP COLUMN id;
-ALTER TABLE stafs ADD id bigint auto_increment primary key;
+ALTER TABLE stafs ADD id bigint auto_increment primary key first;
 
 
 ALTER TABLE usgs ADD old_id varchar(255) not null, add index(old_id);
 UPDATE usgs set old_id = id;
 ALTER TABLE usgs DROP COLUMN id;
-ALTER TABLE usgs ADD id bigint auto_increment primary key;
+ALTER TABLE usgs ADD id bigint auto_increment primary key first;
 
 Update jurnal_umums as t1 JOIN coas as co on t1.coa_id = co.kode_coa SET t1.coa_id = co.id;
 Update doses as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
@@ -513,9 +511,9 @@ update usgs as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periks
 update whatsapp_registrations as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
 update antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
 update poli_antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
-update cek_obats as t1 join raks as rk on t1.rak_id = rk.old_id set t1.rak_id = rk.id;
-update mereks as t1 join raks as rk on t1.rak_id = rk.old_id set t1.rak_id = rk.id;
-update stok_opnames as t1 join raks as rk on t1.rak_id = rk.old_id set t1.rak_id = rk.id;
+update cek_obats as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
+update mereks as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
+update stok_opnames as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
 update antrian_periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
 update antrian_polis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
 update bayar_bonus as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
@@ -546,6 +544,7 @@ Update pengantar_pasiens as t1 JOIN pasiens as ps on t1.pengantar_id = ps.old_id
 Update bagi_gigis as t1 JOIN stafs as st on t1.petugas_id = st.old_id SET t1.petugas_id = st.id;
 Update bayar_gajis as t1 JOIN stafs as st on t1.petugas_id = st.old_id SET t1.petugas_id = st.id;
 Update faktur_belanjas as t1 JOIN stafs as st on t1.petugas_id = st.old_id SET t1.petugas_id = st.id;
+update bahan_habis_pakais as t1 JOIN mereks as mr on t1.merek_id = mr.old_id SET t1.merek_id = mr.id;
 
 update antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
 update poli_antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
@@ -555,7 +554,83 @@ update periksas as t1 join polis as po on t1.poli = po.old_id set t1.poli = po.i
 
 update periksas set poli = '1' where poli = 'kandungan';
 
-ALTER TABLE antrian_periksas CHANGE poli poli_id bigint;
-ALTER TABLE antrian_polis CHANGE poli poli_id bigint;
-ALTER TABLE periksas CHANGE poli poli_id bigint;
+ALTER TABLE antrian_periksas CHANGE poli poli_id bigint, add index( poli_id );
+ALTER TABLE antrian_polis CHANGE poli poli_id bigint, add index( poli_id );
+ALTER TABLE periksas CHANGE poli poli_id bigint, add index( poli_id );
+
+update pasiens set jenis_peserta = 1;
+ALTER TABLE pasiens CHANGE jenis_peserta jenis_peserta_id int(1);
+
+
+CREATE TABLE `jenis_pesertas` (
+  `id` bigint not null auto_increment,
+  `jenis_peserta` varchar(255),
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+
+INSERT INTO jenis_pesertas (`jenis_peserta`, `created_at`, `updated_at`) VALUES ( 'peserta', now(), now());
+INSERT INTO jenis_pesertas (`jenis_peserta`, `created_at`, `updated_at`) VALUES ( 'suami', now(), now());
+INSERT INTO jenis_pesertas (`jenis_peserta`, `created_at`, `updated_at`) VALUES ( 'istri', now(), now());
+INSERT INTO jenis_pesertas (`jenis_peserta`, `created_at`, `updated_at`) VALUES ( 'anak', now(), now());
+
+ALTER TABLE pasiens DROP COLUMN riwayat_alergi_obat;
+ALTER TABLE pasiens DROP COLUMN riwayat_penyakit_dahulu;
+
+CREATE TABLE `riwayat_kehamilan_sebelumnyas` (
+  `id` bigint not null auto_increment,
+  `pasien_id` bigint not null,
+  `tenant_id` bigint not null,
+  `jenis_kelamin` int(1) not null,
+  `berat_lahir` int(11) not null,
+  `penolong_persalinan_id` int(1) not null,
+  `cara_persalinan_id` int(1) not null,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX( pasien_id, tenant_id )
+);
+
+CREATE TABLE `penolong_persalinans` (
+  `id` bigint not null auto_increment,
+  `penolong_persalinan` varchar(255) not null,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO penolong_persalinans (`penolong_persalinan`, `created_at`, `updated_at`) VALUES ( 'bidan', now(), now());
+INSERT INTO penolong_persalinans (`penolong_persalinan`, `created_at`, `updated_at`) VALUES ( 'dokter', now(), now());
+INSERT INTO penolong_persalinans (`penolong_persalinan`, `created_at`, `updated_at`) VALUES ( 'spog', now(), now());
+
+CREATE TABLE `cara_persalinans` (
+  `id` bigint not null auto_increment,
+  `cara_persalinan` varchar(255) not null,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO cara_persalinans (`cara_persalinan`, `created_at`, `updated_at`) VALUES ( 'spontan', now(), now());
+INSERT INTO cara_persalinans (`cara_persalinan`, `created_at`, `updated_at`) VALUES ( 'bedah sc', now(), now());
+INSERT INTO cara_persalinans (`cara_persalinan`, `created_at`, `updated_at`) VALUES ( 'abortus', now(), now());
+
+update dispensings as t1 JOIN mereks as mr on t1.merek_id = mr.old_id SET t1.merek_id = mr.id;
+update pembelians as t1 JOIN mereks as mr on t1.merek_id = mr.old_id SET t1.merek_id = mr.id;
+update penjualans as t1 JOIN mereks as mr on t1.merek_id = mr.old_id SET t1.merek_id = mr.id;
+update terapis as t1 JOIN mereks as mr on t1.merek_id = mr.old_id SET t1.merek_id = mr.id;
+
+select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'merek_id' order by TABLE_NAME;
+
+alter table asuransis drop column rujukan;
+alter table asuransis drop column umum;
+alter table asuransis drop column penagihan;
+alter table asuransis drop column gigi;
+
+alter table mereks drop column tipe_paket_id;
+drop table tipe_pakets;
+
+alter table formulas drop column golongan_obat;
 

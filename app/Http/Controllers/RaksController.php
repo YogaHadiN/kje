@@ -16,16 +16,6 @@ use App\Models\Merek;
 class RaksController extends Controller
 {
 
-	public $input_alternatif_fornas;
-	public $input_id;
-	public $input_exp_date;
-	public $input_fornas;
-	public $input_harga_beli;
-	public $input_harga_jual;
-	public $input_formula_id;
-	public $input_kelas_obat_id;
-	public $input_stok;
-	public $input_stok_minimal;
 	/**
 	 * Display a listing of raks
 	 *
@@ -46,6 +36,7 @@ class RaksController extends Controller
 		$this->input_formula_id        = Input::get('formula_id');
 		$this->input_kelas_obat_id     = Input::get('kelas_obat_id');
 		$this->input_stok              = Input::get('stok');
+		$this->input_kode_rak              = Input::get('kode_rak');
 		$this->input_stok_minimal      = Input::get('stok_minimal');
 
 		/* dd( */
@@ -64,12 +55,6 @@ class RaksController extends Controller
 
 	}
 	
-	public function index()
-	{
-		$raks = Rak::all();
-		return view('mereks.index', compact('raks'));
-	}
-
 	/**
 	 * Show the form for creating a new rak
 	 *
@@ -87,44 +72,33 @@ class RaksController extends Controller
 	 */
 	public function store()
 	{
-		if (Input::ajax()) {
-		} else {
-			$rules = [
+        $rules = [
+            'kode_rak'   => 'required',
+            'merek'      => 'required',
+            'exp_date'   => 'required',
+            'fornas'     => 'required',
+            'harga_beli' => 'numeric|required',
+            'harga_jual' => 'numeric|required',
+            'formula_id' => 'required'
+        ];
+        $validator = \Validator::make($data = Input::all(), $rules);
+        /* dd( $validator->errors()->first() ); */
+        if ($validator->fails())
+        {
+            return \Redirect::back()->withErrors($validator)->withInput();
+        }
 
-				'id' => 'required',
-				'merek' => 'required',
-				'exp_date' => 'required',
-				'fornas' => 'required',
-				'harga_beli' => 'numeric|required',
-				'harga_jual' => 'numeric|required',
-				'formula_id' => 'required'
 
-			];
-			$validator = \Validator::make($data = Input::all(), $rules);
-			
-			if ($validator->fails())
-			{
-				return \Redirect::back()->withErrors($validator)->withInput();
-			}
-		}
-
-		$rak = new Rak;
-		$rak = $this->inputData($rak);
+		$rak     = new Rak;
+		$rak     = $this->inputData($rak);
 
 		$formula = Formula::find($rak->formula_id);
-
 		$sediaan = $formula->sediaan;
+        $merek   = $this->customMerek($formula, Input::get('merek'));
 
-		if($formula->komposisi->count() >1){
-			$merek = ucwords(strtolower(Input::get('merek'))) . ' ' . $sediaan;
-		} else {
-			$merek = ucwords(strtolower(Input::get('merek'))) . ' ' . $sediaan . ' ' . $formula->komposisi->first()->bobot;
-		}
 
-		$merek_id_custom = Yoga::customId('App\Models\Merek');
 		$mrk             = new Merek;
-		$mrk->id         = $merek_id_custom;
-		$mrk->rak_id     = Input::get('id');
+		$mrk->rak_id     = $rak;
 		$mrk->merek      = $merek;
 		$mrk->save();
 
@@ -132,8 +106,8 @@ class RaksController extends Controller
 
 		if (Input::ajax()) {
 			$returnData = [
-				'merek_id' => $merek_id_custom,
-				'merek'	=> $merek,
+				'merek_id'     => $merek_id_custom,
+				'merek'        => $merek,
 				'custom_value' => Merek::find($merek_id_custom)->custid
 			];
 
@@ -275,20 +249,34 @@ class RaksController extends Controller
 	{
 
 		$rak->alternatif_fornas = $this->input_alternatif_fornas;
-		$rak->id                = $this->input_id;
 		$rak->exp_date          = Yoga::datePrep($this->input_exp_date);
 		$rak->fornas            = $this->input_fornas;
 		$rak->harga_beli        = $this->input_harga_beli;
+		$rak->kode_rak        = $this->input_kode_rak;
 		$rak->harga_jual        = $this->input_harga_jual;
 		$rak->formula_id        = $this->input_formula_id;
 		$rak->kelas_obat_id     = $this->input_kelas_obat_id;
 		$rak->stok              = $this->input_stok;
 		$rak->stok_minimal      = $this->input_stok_minimal;
-		/* dd( $rak ); */
 		$rak->save();
 
 		return $rak;
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function customMerek($formula, $merek)
+    {
+		if($formula->komposisi->count() < 2){
+			$merek = ucwords(strtolower($merek)) . ' ' . $formula->sediaan;
+		} else {
+			$merek = ucwords(strtolower($merek)) . ' ' . $formula->sediaan . ' ' . $formula->komposisi->first()->bobot;
+		}
+        return $merek;
+    }
+    
 	
 
 }

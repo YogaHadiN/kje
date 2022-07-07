@@ -253,9 +253,10 @@ class PajaksController extends Controller
 		}
 
 		$akuns = [];
+        $coa_id_70100 = Coa::where('kode_coa', '70100')->first()->id;
 		foreach ($perbulan as $k => $pb) {
 			/* dd( $pb ); */
-			if ($akun->coa_id == '70100') {
+			if ($akun->coa_id == $coa_id_70100) {
 				$data_pendapatan_lain[] = $akun;
 			}
 			$akuns[] = [

@@ -32,7 +32,7 @@ class AntrianPolisController extends Controller
 {
 	public $input_pasien_id;
 	public $input_asuransi_id;
-	public $input_poli;
+	public $input_poli_id;
 	public $input_staf_id;
 	public $input_tanggal;
 	public $input_jam;
@@ -44,7 +44,7 @@ class AntrianPolisController extends Controller
 	public function __construct() {
 		$this->input_pasien_id     = Input::get('pasien_id');
 		$this->input_asuransi_id   = Input::get('asuransi_id');
-		$this->input_poli          = Input::get('poli');
+		$this->input_poli_id          = Input::get('poli_id');
 		$this->input_staf_id       = Input::get('staf_id');
 		$this->input_tanggal       = Yoga::datePrep( Input::get('tanggal') );
 		$this->input_bukan_peserta = Input::get('bukan_peserta');
@@ -389,7 +389,7 @@ class AntrianPolisController extends Controller
 		$ap                            = new AntrianPoli;
 		$ap->asuransi_id               = $this->input_asuransi_id;
 		$ap->pasien_id                 = $this->input_pasien_id;
-		$ap->poli                      = $this->input_poli;
+		$ap->poli_id                   = $this->input_poli_id;
 		$ap->staf_id                   = $this->input_staf_id;
 		if ( $this->input_asuransi_id == '32' ) {
 			$ap->bukan_peserta         = $this->input_bukan_peserta;

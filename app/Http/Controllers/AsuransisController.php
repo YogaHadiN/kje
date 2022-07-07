@@ -151,15 +151,16 @@ class AsuransisController extends Controller
 			$asuransi         = new Asuransi;
 			$asuransi         = $this->inputData($asuransi);
 
-			$coa_id               = (int)Coa::where('id', 'like', '111%')->orderBy('id', 'desc')->first()->id + 1;
+			$kode_coa             = (int)Coa::where('kode_coa', 'like', '111%')->orderBy('id', 'desc')->first()->kode_coa + 1;
+
 			$coa                  = new Coa;
-			$coa->id              = $coa_id;
+			$coa->kode_coa        = $kode_coa;
 			$coa->kelompok_coa_id = '11';
 			$coa->coa             = 'Piutang Asuransi ' . $asuransi->nama;
 			$coa->save();
 
 
-			$asuransi->coa_id = $coa_id;
+			$asuransi->coa_id = $coa->id;
 			$asuransi->save();
 
 			$tarifs = Input::get('tarifs');
@@ -178,6 +179,7 @@ class AsuransisController extends Controller
 					'jasa_dokter_tanpa_sip' => $tarif_pribadi['jasa_dokter']
 				];
 			}
+
 			Tarif::insert($data);
 			DB::commit();
 			return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . ucwords(strtolower(Input::get('nama')))  .'</strong> berhasil dibuat'));
@@ -598,21 +600,11 @@ class AsuransisController extends Controller
 		));
 	}
 	
-	public function catatan(){
-		$catatans = CatatanAsuransi::all();
-		return view('asuransis.catatan', compact(
-			'catatans'
-		));
-	}
 	private function inputData($asuransi){
 		$asuransi->nama             = $this->input_nama;
 		$asuransi->alamat           = $this->input_alamat;
 		$asuransi->tanggal_berakhir = $this->input_tanggal_berakhir;
-		$asuransi->penagihan        = $this->input_penagihan;
-		$asuransi->gigi             = $this->input_gigi;
-		$asuransi->rujukan          = $this->input_rujukan;
 		$asuransi->tipe_asuransi    = $this->input_tipe_asuransi;
-		$asuransi->umum             = $this->input_umum;
 		$asuransi->kali_obat        = $this->input_kali_obat;
 		$asuransi->kata_kunci       = $this->input_kata_kunci;
 		$asuransi->aktif            = $this->input_aktif;
@@ -1021,6 +1013,9 @@ class AsuransisController extends Controller
 			'result'     => $result
 		];
 	}
-	
-	
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
 }

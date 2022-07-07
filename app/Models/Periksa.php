@@ -1200,7 +1200,7 @@ class Periksa extends Model{
 		$jurnals = $this->jurnals;
 		$hutang_dokter = 0;
 		foreach ($jurnals as $j) {
-			if ($j->coa_id == 200001) {
+			if ($j->coa_id == Coa::where('kode_coa', '200001')->first()->id) {
 				$hutang_dokter = $j->nilai;
 				break;
 			}

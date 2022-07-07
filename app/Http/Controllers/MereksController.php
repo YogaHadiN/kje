@@ -70,11 +70,9 @@ class MereksController extends Controller
 			}
 		}
 
-		$merek_custom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('endfix');
+		$merek_custom = $this->merekCustom( Input::get('merek'), Input::get('endfix') );
 
-		$merek_id_custom = Yoga::customId('App\Models\Merek');
 		$merek = new Merek;
-		$merek->id= $merek_id_custom;
 		$merek->merek = $merek_custom;
 		$merek->rak_id = Input::get('rak_id');
 		$merek->save();
@@ -89,20 +87,8 @@ class MereksController extends Controller
 			return json_encode($returnData);
 
 		} else {
-			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('MEREK obat <strong>' . $merek_id_custom . ' - ' . $merek_custom . '</strong> telah <strong>BERHASIL</strong> dibuat'));
+			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('MEREK obat <strong>' . $merek->id . ' - ' . $merek_custom . '</strong> telah <strong>BERHASIL</strong> dibuat'));
 		}
-	}
-
-	/**
-	 * Display the specified merek.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$merek = Merek::findOrFail($id);
-		return view('mereks.show', compact('merek'));
 	}
 
 	/**
@@ -263,6 +249,17 @@ class MereksController extends Controller
 		}
 		return json_encode($mereks);
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function merekCustom($merek, $endfix)
+    {
+		/* $merek_custom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('endfix'); */
+        return ucwords(strtolower($merek)) . ' ' . $endfix;
+    }
+    
 	
 
 }

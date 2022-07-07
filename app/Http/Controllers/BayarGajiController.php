@@ -268,7 +268,7 @@ class BayarGajiController extends Controller
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $this->bayar->id; // id referensi yang baru dibuat
 		$jurnal->jurnalable_type = 'App\Models\BayarGaji';
-		$jurnal->coa_id          = 610000; // biaya operasional gaji dokter gigi
+		$jurnal->coa_id          = Coa::where('kode_coa', '610000')->first()->id; // biaya operasional gaji dokter gigi
 		$jurnal->debit           = 1;
 		$jurnal->nilai           = Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus;
 		$jurnal->created_at      = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
@@ -288,7 +288,7 @@ class BayarGajiController extends Controller
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $this->bayar->id;// id referensi yang baru dibuat
 		$jurnal->jurnalable_type = 'App\Models\BayarGaji';
-		$jurnal->coa_id          = 200004;
+		$jurnal->coa_id          = Coa::where('kode_coa', '200004')->first()->id;
 		$jurnal->debit           = 0;
 		$jurnal->nilai           = $this->perhitunganPph_ini['pph21'];
 		$jurnal->created_at      = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
@@ -344,7 +344,7 @@ class BayarGajiController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $this->bayar->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\Models\BayarGaji';
-			$jurnal->coa_id          = 610000; // biaya operasional gaji dokter gigi
+			$jurnal->coa_id          = Coa::where('kode_coa', '610000')->first()->id; // biaya operasional gaji dokter gigi
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = Yoga::clean( $this->input_gaji_pokok ) + $this->input_bonus;
 			$jurnal->created_at = date("Y-m-t 23:59:59", strtotime($bulan . '-01'));
@@ -771,6 +771,7 @@ class BayarGajiController extends Controller
 	}
     private function total($mulai, $akhir){
 
+        $coa_id200001 = Coa::where('kode_coa', '200001')->first()->id;
 		$id = $this->staf->id;
 		$query = "select ";
 		$query .= "p.id as periksa_id, ";
@@ -790,7 +791,7 @@ class BayarGajiController extends Controller
 		$query .= "join asuransis as asu on asu.id=p.asuransi_id ";
 		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
 		$query .= "and p.staf_id='{$id}' ";
-		$query .= "and ju.coa_id=200001 "; //hutang kepada dokter
+		$query .= "and ju.coa_id= " . $coa_id200001 . " "; //hutang kepada dokter
 		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and ( date(p.created_at) between '{$mulai}' and '{$akhir}') ";
         $total = 0;

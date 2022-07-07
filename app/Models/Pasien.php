@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Session;
 use Storage;
 use DB;
@@ -13,7 +14,7 @@ use App\Models\Classes\Yoga;
 use Carbon\Carbon;
 
 class Pasien extends Model{
-    use BelongsToTenant;
+    use BelongsToTenant,HasFactory;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($pasien){
@@ -236,16 +237,6 @@ class Pasien extends Model{
 	
 	}
 	
-	public function jenisPeserta(){
-		return array(
-					null => ' - pilih asuransi -',  
-		            "P" => 'Peserta',
-		            "S" => 'Suami',
-		            "I" => 'Istri',
-		            "A" => 'Anak'
-		);
-	}
-
 	public function prolanis(){
         return $this->hasOne('App\Models\Prolanis', 'pasien_id');
 	}

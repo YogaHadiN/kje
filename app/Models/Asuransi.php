@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
-
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Classes\Yoga;
 use App\Models\Asuransi;
 use DB;
 
 
 class Asuransi extends Model{
-    use BelongsToTenant;
+    use BelongsToTenant,HasFactory;
 
 	// Add your validation rules here
 	public static $rules = [

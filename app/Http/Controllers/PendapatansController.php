@@ -891,7 +891,7 @@ class PendapatansController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $bpjs->id; // kenapa ini nilainya empty / null padahal di database ada id
 			$jurnal->jurnalable_type = 'App\Models\PembayaranBpjs';
-			$jurnal->coa_id          = 110004;
+			$jurnal->coa_id          = Coa::where('kode_coa', '110004')->first()->id;
 			$jurnal->debit           = 1;
 			$jurnal->created_at      = $hari_terakhir_bulan;
 			$jurnal->updated_at      = $hari_terakhir_bulan;
@@ -901,7 +901,7 @@ class PendapatansController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $bpjs->id;
 			$jurnal->jurnalable_type = 'App\Models\PembayaranBpjs';
-			$jurnal->coa_id          =  400045 ;// pendapatan kapitasi bpjs
+			$jurnal->coa_id          =  Coa::where('kode_coa', '400045')->first()->id ;// pendapatan kapitasi bpjs
 			$jurnal->debit           = 0;
 			$jurnal->created_at      = $hari_terakhir_bulan;
 			$jurnal->updated_at      = $hari_terakhir_bulan;

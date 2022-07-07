@@ -1,17 +1,17 @@
 @extends('layout.master')
 
 @section('title') 
-	Klinik Jati Elok | Riwayat Pemeriksaan Gula Darah {{ ucwords($data[0]->nama_pasien)}}
+	Klinik Jati Elok | Riwayat Pemeriksaan Gula Darah {{ ucwords($pasien->nama)}}
 
 @stop
 @section('page-title') 
 <h2>
-		Riwayat Pemeriksaan Gula Darah {{ ucwords( $data[0]->nama_pasien)}}
+		Riwayat Pemeriksaan Gula Darah {{ ucwords( $pasien->nama)}}
  </h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('laporans')}}">Home</a>
-		Riwayat Pemeriksaan Gula Darah {{ ucwords( $data[0]->nama_pasien)}}
+		Riwayat Pemeriksaan Gula Darah {{ ucwords( $pasien->nama)}}
 	  <li class="active">
 		  <strong>Riwayat </strong>
 	  </li>

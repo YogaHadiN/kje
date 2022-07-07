@@ -123,7 +123,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post( '/antrianperiksas/update/staf', [\App\Http\Controllers\AntrianPeriksasController::class, 'updateStaf']);
 	Route::post('antriankasirs/pengantar/{id}/edit', [\App\Http\Controllers\PengantarsController::class, 'antriankasirsUpdate']);
 	Route::post('laporans/pengantar', [\App\Http\Controllers\PengantarsController::class, 'submitPcare']);
-	Route::post('laporans/kunjungansakit', [\App\Http\Controllers\PengantarsController::class, 'postKunjunganSakit']);
 	Route::post('laporans/periksa/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'updatePengantarPeriksa']);
 
 
@@ -189,7 +188,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('antriankasirs', \App\Http\Controllers\AntrianKasirsController::class);
 
 	Route::resource('antrianpolis', \App\Http\Controllers\AntrianPolisController::class);
-
 
 	Route::get('pasiens/{id}/alergi', [\App\Http\Controllers\PasiensController::class, 'alergi']);
 	Route::get('pasiens/{id}/alergi/create', [\App\Http\Controllers\PasiensController::class, 'alergiCreate']);
@@ -521,8 +519,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('laporans/jumlahIspa', [\App\Http\Controllers\LaporansController::class, 'jumlahIspa']);
 		Route::get('laporans/jumlahDiare', [\App\Http\Controllers\LaporansController::class, 'jumlahDiare']);
 		Route::get('laporans/hariandanjam', [\App\Http\Controllers\LaporansController::class, 'hariandanjam']);
-		Route::get('laporans/asuransi/detail/{asuransi_id}/{tanggal}', [\App\Http\Controllers\LaporansController::class, 'asuransi_detail']);
-		Route::get('laporans/contoh', [\App\Http\Controllers\LaporansController::class, 'contoh']);
 		Route::get('laporans/bpjs_tidak_terpakai/{bulanTahun}', [\App\Http\Controllers\LaporansController::class, 'bpjsTidakTerpakai']);
 		Route::get('laporans/sms/bpjs', [\App\Http\Controllers\LaporansController::class, 'smsBpjs']);
 

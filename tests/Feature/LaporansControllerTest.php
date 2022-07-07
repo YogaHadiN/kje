@@ -250,10 +250,6 @@ class LaporansControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * @group failing
-     * 
-     */
     public function test_JumlahDiare(){
         $user     = User::find(28);
 		auth()->login($user);
@@ -267,38 +263,98 @@ class LaporansControllerTest extends TestCase
     public function test_hariandanjam(){
         $user     = User::find(28);
 		auth()->login($user);
+
         $response = $this->get('laporans/hariandanjam?'. Arr::query([
-                'asuransi_id' => '%',
-                'mulai'     => date('01-m-Y'),
-                'akhir'     => date('t-m-Y')
+                'tanggal_awal'     => date('01-m-Y'),
+                'tanggal_akhir'     => date('t-m-Y')
         ]));
         $response->assertStatus(200);
     }
-	/* public function asuransi_detail($asuransi_id, $tanggal) */
-	/* public function contoh() */
-	/* public function smsBpjs() */
-	/* public function postKunjunganSakit() */
-	/* public function dispensingBpjs() */
-	/* public function jumlahPasienBaru($bulanIni, $id_bulan_ini, $asuransi_id = '%') */
-	/* public function hariinis($tanggal, $asuransi_id = '%') */
-	/* public function periksaHarian($tanggal, $asuransi_id = '%') */
-	/* public function polisHarian($periksas) */
-	/* public function omsetEstetik() */
-	/* public function jumlahPenyakitTBCTahunan() */
-	/* public function jumlahPenyakitDM_HT() */
-	/* public function extractId($data, $attr_id) */
-	/* public function angkaKontakBelumTerpenuhi() */
-	/* public function angkaKontakBpjs() */
-	/* public function PengantarPasienBpjs() */
-	/* public function KunjunganSakitBpjs() */
-	/* public function homeVisit() */
-	/* public function angkaKontakBpjsBulanIni() */
-	/* public function updateAsuransi() */
-	/* public function pph21() */
-	/* public function cariJumlahProlanis($bulanTahun) */
-	/* public function cariStatusHt($bulanTahun, $jumlah_prolanis_ht) */
-	/* public function cariTransaksi() */
-	/* public function cariTransaksiAjax() */
+    public function test_smsBpjs(){
+        $user     = User::find(28);
+		auth()->login($user);
+
+        $response = $this->get('laporans/sms/bpjs?'. Arr::query([
+                'bulanTahun'     => date('m-Y')
+        ]));
+        $response->assertStatus(200);
+    }
+    public function test_dispensingBpjs(){
+        $user     = User::find(28);
+		auth()->login($user);
+
+        $response = $this->post('laporans/dispensing/bpjs/dokter', [
+            'mulai'     => date('m-Y')
+        ]);
+        $response->assertStatus(200);
+    }
+    public function test_jumlahPenyakitTBCTahunan(){
+        $user     = User::find(28);
+		auth()->login($user);
+
+        $response = $this->get('laporans/jumlahPenyakitTBCTahunan?'. Arr::query([
+                'tahun'     => date('Y')
+        ]));
+        $response->assertStatus(200);
+
+    }
+    public function test_jumlahPenyakitDM_HT(){
+        $user     = User::find(28);
+		auth()->login($user);
+        $response = $this->get('laporans/jumlahPenyakit_DM_HT?'. Arr::query([
+                'bulanTahun'     => date('m-Y')
+        ]));
+        $response->assertStatus(200);
+    }
+    public function test_angkaKontakBelumTerpenuhi(){
+
+        $user     = User::find(28);
+		auth()->login($user);
+        $response = $this->get('laporans/angka_kontak_belum_terpenuhi');
+        $response->assertStatus(200);
+
+    }
+    public function test_angkaKontakBpjs(){
+
+        $user     = User::find(28);
+		auth()->login($user);
+        $response = $this->get('laporans/angka_kontak_bpjs');
+        $response->assertStatus(200);
+
+
+    }
+	public function test_PengantarPasienBpjs(){
+
+        $user     = User::find(28);
+		auth()->login($user);
+        $response = $this->get('laporans/pengantar_pasien');
+        $response->assertStatus(200);
+
+
+    }
+	public function test_KunjunganSakitBpjs(){
+
+        $user     = User::find(28);
+		auth()->login($user);
+        $response = $this->get('laporans/kunjungan_sakit');
+        $response->assertStatus(200);
+
+
+    }
+    public function test_angkaKontakBpjsBulanIni(){
+        $user     = User::find(28);
+		auth()->login($user);
+        $response = $this->get('laporans/angka_kontak_bpjs_bulan_ini');
+        $response->assertStatus(200);
+    }
+    public function cariTransaksi(){
+
+        $user     = User::find(28);
+		auth()->login($user);
+        $response = $this->get('laporans/cari_transaksi');
+        $response->assertStatus(200);
+
+    }
     /* public function payment($id) */
     /* public function paymentpost() */
 }

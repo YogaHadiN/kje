@@ -1,0 +1,145 @@
+    use App\Models\Tenant;
+    use App\Models\User;
+    use App\Models\\${1:Model};
+	use WithFaker;
+
+	/**
+	 * @test
+	 */
+
+	public function test_index(){
+	    \$user     = User::find(28);
+	    auth()->login(\$user);
+	    \$response = \$this->get('${2:model_singular}s');
+	    \$response->assertStatus(200);
+	}
+	public function test_create_view(){
+	    \$user     = User::find(28);
+	    auth()->login(\$user);
+	    \$response = \$this->get('$2s/create');
+	    \$response->assertStatus(200);
+	}
+	    public function test_store(){
+	    Storage::fake('s3');
+	    // make a request with file
+
+
+	    \$user     = User::find(28);
+	    auth()->login(\$user);
+
+	    /* sebelum kesini ke acting as dulu */
+	    /* key mapping j */
+	    /* dari bentuk '"nama"  => \$nama,' */	
+	    /* KE BENTUK */	
+	    /* \$nama = \$this->faker->text */
+
+	      \$nama                        = \$this->faker->name;
+
+	    /* sebelum kesini ke acting as dulu */
+	    /* key mapping l */
+	    /* dari bentuk '"nama"  => \$nama,' */	
+	    /* KE BENTUK */	
+	    /* \$nama = File::create('nama.png', 100) */
+
+	    \$image                      = File::create('image.png', 100);
+
+	    \$this->withoutExceptionHandling();
+
+	    /* key mapping k */
+	    /* dari bentuk "nama	varchar(255)	NO		NULL" */	
+	    /* KE BENTUK */	
+	    /* "nama" => \$nama, */
+
+	    \$inputAll = [
+		  "nama"                        => \$nama,
+	    ];
+
+	    \$response = \$this->post('$2s', \$inputAll);
+
+	    /* key mapping h */
+	    /* dari bentuk '"nama"  => \$nama,' */	
+	    /* KE BENTUK */	
+	    /* ->where("nama", \$nama) */
+
+	    \$$2s = Pasien::query()
+		  ->where("nama", \$nama)
+		->get();
+	    \$this->assertCount(1, \$$2s);
+
+	    \$$2 = \$$2s->first();
+
+	    // report was created and file was stored
+
+	    /* key mapping g */
+	    /* dari bentuk '"nama"  => \$nama,' */	
+	    /* KE BENTUK */	
+	    /* \$this->checkForUploadedFile(\$nama, \$model->nama); */
+
+	    checkForUploadedFile(\$image, \$$2->image);
+
+	    \$response->assertRedirect('$2s');
+	}
+	public function test_show(){
+	    \$user     = User::find(28);
+	    auth()->login(\$user);
+	    \$$2 = Pasien::factory()->create();
+	    \$response = \$this->get('$2s/' . \$$2->id);
+	    \$response->assertStatus(200);
+	}
+	public function test_edit(){
+	    \$user     = User::find(28);
+	    auth()->login(\$user);
+	    \$$2 = Pasien::factory()->create();
+	    \$response = \$this->get('$2s/' . \$$2->id . '/edit');
+	    \$response->assertStatus(200);
+	}
+	public function test_destroy(){
+	    \$user     = User::find(28);
+	    auth()->login(\$user);
+	    \$$2 = Pasien::factory()->create();
+	    \$response = \$this->delete('$2s/' . \$$2->id);
+	    \$response->assertStatus(200);
+	}
+
+	public function test_a_user_can_only_see_$2_in_the_same_tenant()
+	{
+	    \$tenant1 = Tenant::factory()->create();
+	    \$tenant2 = Tenant::factory()->create();;
+
+	    \$user1 = User::factory()->create([
+		'tenant_id' => \$tenant1,
+	    ]);
+
+	    for (\$x = 0; \$x < 10; \$x++) {
+		$1:factory()->create([
+		    'tenant_id' => \$tenant1,
+		]);
+	    }
+
+	    for (\$x = 0; \$x < 11; \$x++) {
+		$1:factory()->create([
+		    'tenant_id' => \$tenant2,
+		]);
+	    }
+
+	    auth()->login(\$user1);
+
+	    \$this->assertEquals(10, $1:count());
+	}
+
+	/** @test */
+	public function test_a_user_can_only_create_a_$2_in_his_tenant_even_if_other_tenant_is_provided()
+	{
+	    \$tenant1 = Tenant::factory()->create();
+	    \$tenant2 = Tenant::factory()->create();
+
+	    \$user1 = User::factory()->create([
+		'tenant_id' => \$tenant1,
+	    ]);
+
+	    auth()->login(\$user1);
+
+	    \$createdUser = User::factory()->create();
+
+	    \$this->assertTrue(\$createdUser->tenant_id == \$user1->tenant_id);
+	}

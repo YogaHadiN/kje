@@ -165,14 +165,14 @@ class StafsControllerTest extends TestCase
         /* key mapping g */
         /* dari bentuk '"nama"  => $nama,' */	
         /* KE BENTUK */	
-        /* $this->checkForUploadedFile($nama, $model->nama); */
+        /* checkForUploadedFile($nama, $model->nama); */
 
-        $this->checkForUploadedFile($image, $staf->image);
-        $this->checkForUploadedFile($ktp_image, $staf->ktp_image);
-        $this->checkForUploadedFile($str_image, $staf->str_image);
-        $this->checkForUploadedFile($sip_image, $staf->sip_image);
-        $this->checkForUploadedFile($gambar_npwp, $staf->gambar_npwp);
-        $this->checkForUploadedFile($kartu_keluarga, $staf->kartu_keluarga);
+        checkForUploadedFile($image, $staf->image);
+        checkForUploadedFile($ktp_image, $staf->ktp_image);
+        checkForUploadedFile($str_image, $staf->str_image);
+        checkForUploadedFile($sip_image, $staf->sip_image);
+        checkForUploadedFile($gambar_npwp, $staf->gambar_npwp);
+        checkForUploadedFile($kartu_keluarga, $staf->kartu_keluarga);
 
         $response->assertRedirect('stafs');
     }
@@ -288,12 +288,12 @@ class StafsControllerTest extends TestCase
         // report was created and file was stored
         $staf = $stafs->first();
 
-        $this->checkForUploadedFile($image, $staf->image);
-        $this->checkForUploadedFile($ktp_image, $staf->ktp_image);
-        $this->checkForUploadedFile($str_image, $staf->str_image);
-        $this->checkForUploadedFile($sip_image, $staf->sip_image);
-        $this->checkForUploadedFile($gambar_npwp, $staf->gambar_npwp);
-        $this->checkForUploadedFile($kartu_keluarga, $staf->kartu_keluarga);
+        checkForUploadedFile($image, $staf->image);
+        checkForUploadedFile($ktp_image, $staf->ktp_image);
+        checkForUploadedFile($str_image, $staf->str_image);
+        checkForUploadedFile($sip_image, $staf->sip_image);
+        checkForUploadedFile($gambar_npwp, $staf->gambar_npwp);
+        checkForUploadedFile($kartu_keluarga, $staf->kartu_keluarga);
 
         $response->assertRedirect('stafs');
     }
@@ -375,10 +375,6 @@ class StafsControllerTest extends TestCase
         $this->assertTrue($createdUser->tenant_id == $user1->tenant_id);
     }
     
-    private function checkForUploadedFile($file, $path){
-        $exists = Storage::disk('s3')->exists($path);
-        Storage::disk('s3')->assertExists($path);
-    }
 }
 
 

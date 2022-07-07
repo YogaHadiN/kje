@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Session;
 use App\Models\Classes\Yoga;
 use App\Models\Terapi;
@@ -14,7 +15,7 @@ use App\Models\Dispensing;
 use DB;
 
 class Formula extends Model{
-    use BelongsToTenant;
+    use BelongsToTenant,HasFactory;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($formula){

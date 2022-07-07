@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Session;
 use App\Models\Classes\Yoga;
 use App\Models\Formula;
 use DB;
 
 class Rak extends Model{
-    use BelongsToTenant;
+    use BelongsToTenant,HasFactory;
 
 
 	public static function boot(){
@@ -32,6 +32,7 @@ class Rak extends Model{
 				$query .= "AND mr.id in ";
 				$query .= "and mr.tenant_id = " . session()->get('tenant_id') . " ";
 				$query .= "(Select merek_id from terapis)";
+
 				$mereks = DB::select($query);
 				$pesan = 'Tidak bisa menghapus karena ';
 				$pesan .= '<ul>';

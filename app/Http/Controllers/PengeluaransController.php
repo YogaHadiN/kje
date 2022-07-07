@@ -437,11 +437,12 @@ class PengeluaransController extends Controller
 			$new_z->detil_modals             = json_encode($modal_ids);
 
 			$confirm = $new_z->save();
+            $coa_id_110004 = Coa::where('kode_coa', '110004')->first()->id;
 			if ($confirm) {
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $new_z->id;
 				$jurnal->jurnalable_type = 'App\Models\CheckoutKasir';
-				$jurnal->coa_id          = 110004; // Kas di tangan
+				$jurnal->coa_id          = $coa_id_110004; // Kas di tangan
 				$jurnal->debit           = 1;
 				$jurnal->nilai           = $uang_di_kasir;
 				$jurnal->save();
@@ -449,7 +450,7 @@ class PengeluaransController extends Controller
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $new_z->id;
 				$jurnal->jurnalable_type = 'App\Models\CheckoutKasir';
-				$jurnal->coa_id          = 110000; // Kas di kasir
+				$jurnal->coa_id          = $coa_id_110004; // Kas di kasir
 				$jurnal->debit           = 0;
 				$jurnal->nilai           = $uang_di_kasir;
 				$jurnal->save();
@@ -501,7 +502,7 @@ class PengeluaransController extends Controller
         $jurnal                  = new JurnalUmum;
         $jurnal->jurnalable_id   = $modal->id;
         $jurnal->jurnalable_type = 'App\Models\Modal';
-        $jurnal->coa_id          = 110000; // Kas di kasir
+        $jurnal->coa_id          = Coa::where('kode_coa', '110000')->first()->id; // Kas di kasir
         $jurnal->debit           = 1;
         $jurnal->nilai           = $modal->modal;
         $jurnal->save();
@@ -509,7 +510,7 @@ class PengeluaransController extends Controller
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $modal->id;
 		$jurnal->jurnalable_type = 'App\Models\Modal';
-		$jurnal->coa_id          = 110004; // kas di tangan
+		$jurnal->coa_id          = Coa::where('kode_coa', '110004')->first()->id; // kas di tangan
 		$jurnal->debit           = 0;
 		$jurnal->nilai           = $modal->modal;
 		$jurnal->save();
@@ -838,7 +839,7 @@ class PengeluaransController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $fb->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\Models\FakturBelanja';
-			$jurnal->coa_id          = 120001; // Peralatan
+			$jurnal->coa_id          = Coa::where('kode_coa', '120001')->first()->id; // Peralatan
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = $total_nilai;
 			$jurnal->save();
@@ -1013,7 +1014,7 @@ class PengeluaransController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $gaji->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\Models\BagiGigi';
-			$jurnal->coa_id          = 610001; // biaya operasional bagi hasil pelayanan dokter gigi
+			$jurnal->coa_id          = Coa::where('kode_coa', '610001')->first()->id; // biaya operasional bagi hasil pelayanan dokter gigi
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = $nilai;
 			$jurnal->created_at = $timestamp;

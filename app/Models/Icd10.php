@@ -5,18 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Icd10 extends Model{
+    // if your key name is not 'id'
+    // you can also set this to null if you don't have a primary key
+    protected $primaryKey = 'id';
 
-	// Add your validation rules here
-	public static $rules = [
-		// 'title' => 'required'
-	];
+    public $incrementing = false;
 
-	// Don't forget to fill this array
-	protected $guarded = [];
+    // In Laravel 6.0+ make sure to also set $keyType
+    protected $keyType = 'string';
+    // Add your validation rules here
+    public static $rules = [
+            // 'title' => 'required'
+    ];
+
+    // Don't forget to fill this array
+    protected $guarded = [];
 
 
-	public function diagnosa(){
-		return $this->hasMany('App\Models\Diagnosa');
-	}
+    public function diagnosa(){
+            return $this->hasMany('App\Models\Diagnosa');
+    }
 
 }
