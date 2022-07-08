@@ -214,7 +214,9 @@ class RaksController extends Controller
 	 */
 	public function destroy($id)
 	{
-		Rak::destroy($id);
+        $rak = Rak::find( $id );
+        $rak->merek()->delete();
+		$rak->delete();
 		return \Redirect::route('mereks.index');
 		/* DB::beginTransaction(); */
 		/* try { */

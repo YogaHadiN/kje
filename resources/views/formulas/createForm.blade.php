@@ -99,17 +99,40 @@
 							</div>
                         </div>
                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-							 <div class="form-group @if($errors->has('rak_id'))has-error @endif">
-							   {!! Form::label('rak_id', 'Rak Id', ['class' => 'control-label']) !!}
-                                {!!Form::text('rak_id', null, array(
+							 <div class="form-group @if($errors->has('kode_rak'))has-error @endif">
+							   {!! Form::label('kode_rak', 'Kode Rak', ['class' => 'control-label']) !!}
+                                {!!Form::text('kode_rak', null, array(
                                     'class'         => 'form-control',
                                     'placeholder'   => 'Kode Rak',
-                                    'id'            => 'rak_id'
+                                    'id'            => 'kode_rak'
                                 ))!!}
-							   @if($errors->has('rak_id'))<code>{{ $errors->first('rak_id') }}</code>@endif
+							   @if($errors->has('kode_rak'))<code>{{ $errors->first('kode_rak') }}</code>@endif
 							 </div>
                         </div>
                     </div>
+                    <div class="row">
+                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							 <div class="form-group @if($errors->has('kelas_obat_id'))has-error @endif">
+							   {!! Form::label('kelas_obat_id', 'Kelas Obat', ['class' => 'control-label']) !!}
+                                {!!Form::select('kelas_obat_id', $kelas_obat_list, null, array(
+                                    'class'         => 'form-control',
+                                    'placeholder'   => 'Pilih kelas obat'
+                                ))!!}
+							   @if($errors->has('kelas_obat_id'))<code>{{ $errors->first('kelas_obat_id') }}</code>@endif
+							 </div>
+                        </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group @if($errors->has('tidak_dipuyer')) has-error @endif">
+                                  {!! Form::label('tidak_dipuyer', 'Tidak Dipuyer', ['class' => 'control-label']) !!}
+                                  {!! Form::select('tidak_dipuyer' , [
+                                      '0' => 'Tidak Boleh Dipuyer',
+                                      '0' => 'Boleh Dipuyer'
+                                  ], null, ['class' => 'form-control']) !!}
+                                  @if($errors->has('tidak_dipuyer'))<code>{{ $errors->first('tidak_dipuyer') }}</code>@endif
+                                </div>
+                            </div>
+                     </div>
+                     @include('raks.formStok')
                      <div class="row">
                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 							 <div class="form-group @if($errors->has('exp_date'))has-error @endif">

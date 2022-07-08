@@ -633,4 +633,4 @@ alter table mereks drop column tipe_paket_id;
 drop table tipe_pakets;
 
 alter table formulas drop column golongan_obat;
-
+ALTER TABLE formulas CHANGE tidak_dipuyer boleh_dipuyer int(1);

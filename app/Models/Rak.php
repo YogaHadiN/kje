@@ -30,8 +30,8 @@ class Rak extends Model{
 				$query .= "LEFT JOIN raks as rk on rk.id = mr.rak_id ";
 				$query .= "WHERE rk.id = '" . $rak->id . "' ";
 				$query .= "AND mr.id in ";
-				$query .= "and mr.tenant_id = " . session()->get('tenant_id') . " ";
 				$query .= "(Select merek_id from terapis)";
+				$query .= "and mr.tenant_id = " . session()->get('tenant_id') . " ";
 
 				$mereks = DB::select($query);
 				$pesan = 'Tidak bisa menghapus karena ';

@@ -22,7 +22,7 @@ class FormulaFactory extends Factory
             'sediaan'         => rand(1,14),
             'aturan_minum_id' => 1,
             'peringatan'      => $this->faker->text,
-            'tidak_dipuyer'   => rand(0,1),
+            'boleh_dipuyer'   => rand(0,1),
             'tenant_id'       => Tenant::factory()
         ];
     }

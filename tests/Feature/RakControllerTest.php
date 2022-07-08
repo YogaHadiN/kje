@@ -94,17 +94,6 @@ class RakControllerTest extends TestCase
           ->where("stok", $stok)
           ->where("stok_minimal", $stok_minimal)
         ->get();
-        /* dd([ */
-        /*         "formula_id" => $formula_id, */
-        /*       "kelas_obat_id" => $kelas_obat_id, */
-        /*       "exp_date" => $exp_date, */
-        /*       "kode_rak" => $kode_rak, */
-        /*       "fornas" => $fornas, */
-        /*       "harga_beli" => $harga_beli, */
-        /*       "harga_jual" => $harga_jual, */
-        /*       "stok" => $stok, */
-        /*       "stok_minimal" => $stok_minimal, */
-        /* ]); */
 
         $this->assertCount(1, $raks);
 
@@ -129,7 +118,7 @@ class RakControllerTest extends TestCase
     }
 
     /**
-     * @group failing
+     * 
      */
     public function test_update(){
         // make a request with file
@@ -246,9 +235,6 @@ class RakControllerTest extends TestCase
         $response = $this->get('raks/' . $rak->id . '/edit');
         $response->assertStatus(200);
     }
-    /**
-     * @group failing
-     */
     public function test_destroy(){
         $user     = User::find(28);
         auth()->login($user);
@@ -257,7 +243,9 @@ class RakControllerTest extends TestCase
         $response->assertRedirect('mereks');
         $this->assertDeleted($rak);
     }
-
+    /**
+     * 
+     */
     public function test_a_user_can_only_see_rak_in_the_same_tenant()
     {
         $tenant1 = Tenant::factory()->create();
@@ -284,7 +272,9 @@ class RakControllerTest extends TestCase
         $this->assertEquals(10, Rak::count());
     }
 
-    /** @test */
+        /**
+         * 
+         */
     public function test_a_user_can_only_create_a_rak_in_his_tenant_even_if_other_tenant_is_provided()
     {
         $tenant1 = Tenant::factory()->create();

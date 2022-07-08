@@ -37,6 +37,13 @@ class MereksController extends Controller
 		$mereks = Merek::with('rak.formula.komposisi.generik', 'rak.kelasObat')
 						->where('id', '>', '0')
 						->get();
+        foreach ($mereks as $m) {
+            try {
+                $m->rak->kelasObat->kelas_obat;
+            } catch (\Exception $e) {
+                dd( $m );
+            }
+        }
 		$raks_nol = Rak::with('merek')->where('harga_beli', '<', 1)->get();
 
 		return view('mereks.index', compact('mereks', 'raks_nol'));
@@ -256,7 +263,6 @@ class MereksController extends Controller
      */
     public function merekCustom($merek, $endfix)
     {
-		/* $merek_custom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('endfix'); */
         return ucwords(strtolower($merek)) . ' ' . $endfix;
     }
     
