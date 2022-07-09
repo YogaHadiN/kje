@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
@@ -8,7 +9,7 @@ use DB;
 
 class SmsKontak extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 	protected $guarded = ['id'];
 	protected $dates = ['created_at'];
 	public function pasien(){

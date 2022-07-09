@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
@@ -11,7 +12,7 @@ use App\Models\Outbox;
 
 class Sms extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 	public static function sendSms($no, $message){
 		// Step 2: set our AccountSid and AuthToken from https://twilio.com/console
 		$AccountSid =env('TWILLIO_ACCOUNT_SID');

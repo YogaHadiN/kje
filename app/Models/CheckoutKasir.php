@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
 
 class CheckoutKasir extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
     protected $dates = ['created_at'];
 
     public function getTanggalAttribute(){
@@ -21,11 +22,6 @@ class CheckoutKasir extends Model
     public function checkoutDetail(){
          return $this->hasMany('App\Models\CheckoutDetail');
     }
-    
-    public function jenisTarif(){
-         return $this->belongsTo('App\Models\JenisTarif');
-    }
-
     
     public function getKetjurnalAttribute(){
         $tanggal = $this->created_at->format('d-m-Y');

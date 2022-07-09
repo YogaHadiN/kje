@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class VerifikasiProlanis extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
     use HasFactory;
 }

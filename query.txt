@@ -457,6 +457,12 @@ UPDATE usgs set old_id = id;
 ALTER TABLE usgs DROP COLUMN id;
 ALTER TABLE usgs ADD id bigint auto_increment primary key first;
 
+ALTER TABLE akun_banks ADD old_id varchar(255) not null, add index(old_id);
+UPDATE akun_banks set old_id = id;
+ALTER TABLE akun_banks DROP COLUMN id;
+ALTER TABLE akun_banks ADD id bigint auto_increment primary key first;
+
+update rekenings as t1 join akun_banks as pa on t1.akun_bank_id = pa.old_id set t1.akun_bank_id = pa.id;
 Update jurnal_umums as t1 JOIN coas as co on t1.coa_id = co.kode_coa SET t1.coa_id = co.id;
 Update doses as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
 Update komposisis as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
@@ -634,3 +640,7 @@ drop table tipe_pakets;
 
 alter table formulas drop column golongan_obat;
 ALTER TABLE formulas CHANGE tidak_dipuyer boleh_dipuyer int(1);
+
+drop table status_bpjs;
+
+gsed -i '4i use Illuminate\\Database\\Eloquent\\Factories\\HasFactory;' AbaikanTransaksi.php

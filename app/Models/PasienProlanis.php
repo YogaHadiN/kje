@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PasienProlanis extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
     protected $guarded = [];
     public function pasien(){
         return $this->belongsTo(Pasien::class);

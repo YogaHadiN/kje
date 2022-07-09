@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
 
 class TujuanRujuk extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

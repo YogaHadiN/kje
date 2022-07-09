@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Coa;
 
 use App\Traits\BelongsToTenant; 
@@ -8,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PembayaranAsuransi extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
     public function asuransi(){
          return $this->belongsTo('App\Models\Asuransi');
     }

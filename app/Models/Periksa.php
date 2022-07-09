@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\Classes\Yoga;
 use App\Traits\BelongsToTenant; 
@@ -12,7 +13,7 @@ use Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class Periksa extends Model{
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'
@@ -51,10 +52,6 @@ class Periksa extends Model{
     }
     public function staf(){
         return $this->belongsTo('App\Models\Staf');      
-    }
-    public function jenisTarif(){
-
-        return $this->belongsTo('App\Models\JenisTarif');      
     }
     public function merek(){
         return $this->belongsTo('App\Models\Merek');      

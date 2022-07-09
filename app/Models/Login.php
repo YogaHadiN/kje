@@ -9,5 +9,5 @@ use App\Traits\BelongsToTenant;
 class Login extends Model
 {
     protected $guarded = [];
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 }

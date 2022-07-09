@@ -7,7 +7,6 @@ use App\Models\Ht;
 use App\Models\Coa;
 use App\Models\AntrianKelengkapanDokumen;
 use App\Models\PembayaranBpjs;
-use App\Models\PiutangAsuransi;
 use App\Models\BelanjaPeralatan;
 use App\Models\Dm;
 use App\Models\HomeVisit;
@@ -116,7 +115,8 @@ class testcommand extends Command
      */
     public function handle()
 	{ 
-		$this->multi_tenancy();
+		$this->testFactory();
+		/* $this->multi_tenancy(); */
 		// perhitungan jasa dokter lebih cepat
 		//
 		//
@@ -1158,9 +1158,6 @@ class testcommand extends Command
 			];
 		}
 
-		PiutangAsuransi::insert($piutang_asuransis);
-
-		$piutang_asuransis = PiutangAsuransi::all();
 
 		$piutang_asuransi_ids = [];
 		foreach ($piutang_asuransis as $piu) {
@@ -2102,7 +2099,171 @@ class testcommand extends Command
 		dd( $query );
 
 	}
-	
-	
-	
+
+    public function testFactory(){
+        \App\Models\AbaikanTransaksi::factory()->create();
+        \App\Models\Ac::factory()->create();
+        \App\Models\AkunBank::factory()->create();
+        \App\Models\Alergi::factory()->create();
+        \App\Models\Antrian::factory()->create();
+        \App\Models\AntrianApotek::factory()->create();
+        \App\Models\AntrianKasir::factory()->create();
+        \App\Models\AntrianPeriksa::factory()->create();
+        \App\Models\AntrianPoli::factory()->create();
+        \App\Models\Approve::factory()->create();
+        \App\Models\Asuransi::factory()->create();
+        \App\Models\AturanMinum::factory()->create();
+        \App\Models\BagiGigi::factory()->create();
+        \App\Models\BahanBangunan::factory()->create();
+        \App\Models\BahanHabisPakai::factory()->create();
+        \App\Models\BayarBonus::factory()->create();
+        \App\Models\BayarGaji::factory()->create();
+        \App\Models\BayarHutangHarta::factory()->create();
+        \App\Models\Belanja::factory()->create();
+        \App\Models\BelanjaPeralatan::factory()->create();
+        \App\Models\BeratBadan::factory()->create();
+        \App\Models\Berkas::factory()->create();
+        \App\Models\BpjsCenter::factory()->create();
+        \App\Models\BukanObat::factory()->create();
+        \App\Models\BukanPeserta::factory()->create();
+        \App\Models\Buku::factory()->create();
+        \App\Models\CekListrik::factory()->create();
+        \App\Models\CekObat::factory()->create();
+        \App\Models\CekPulsa::factory()->create();
+        \App\Models\CheckoutDetail::factory()->create();
+        \App\Models\CheckoutKasir::factory()->create();
+        \App\Models\Coa::factory()->create();
+        \App\Models\Complain::factory()->create();
+        \App\Models\Config::factory()->create();
+        \App\Models\Confirm::factory()->create();
+        \App\Models\DataDuplikat::factory()->create();
+        \App\Models\DeletedPeriksa::factory()->create();
+        \App\Models\DenominatorBpjs::factory()->create();
+        \App\Models\Diagnosa::factory()->create();
+        \App\Models\Discount::factory()->create();
+        \App\Models\DiscountAsuransi::factory()->create();
+        \App\Models\Dispensing::factory()->create();
+        \App\Models\Dm::factory()->create();
+        \App\Models\Dose::factory()->create();
+        \App\Models\Email::factory()->create();
+        \App\Models\FacebookDaftar::factory()->create();
+        \App\Models\FakturBelanja::factory()->create();
+        \App\Models\Fasilitas::factory()->create();
+        \App\Models\Formula::factory()->create();
+        \App\Models\GambarPeriksa::factory()->create();
+        \App\Models\Generik::factory()->create();
+        \App\Models\GoPay::factory()->create();
+        \App\Models\GolonganPeralatan::factory()->create();
+        \App\Models\HomeVisit::factory()->create();
+        \App\Models\Ht::factory()->create();
+        \App\Models\Icd10::factory()->create();
+        \App\Models\Inbox::factory()->create();
+        \App\Models\InputHarta::factory()->create();
+        \App\Models\Invoice::factory()->create();
+        \App\Models\JenisAntrian::factory()->create();
+        \App\Models\JenisPajak::factory()->create();
+        \App\Models\JenisPengeluaran::factory()->create();
+        \App\Models\JenisPeserta::factory()->create();
+        \App\Models\JenisRumahSakit::factory()->create();
+        \App\Models\JenisTarif::factory()->create();
+        \App\Models\JurnalUmum::factory()->create();
+        \App\Models\Kabur::factory()->create();
+        \App\Models\Keberatan::factory()->create();
+        \App\Models\KelasObat::factory()->create();
+        \App\Models\KelompokCoa::factory()->create();
+        \App\Models\KepalaTerhadapPap::factory()->create();
+        \App\Models\KeteranganPenyusutan::factory()->create();
+        \App\Models\KirimBerkas::factory()->create();
+        \App\Models\KlaimGdpBpjs::factory()->create();
+        \App\Models\Komposisi::factory()->create();
+        \App\Models\Kontrol::factory()->create();
+        \App\Models\KunjunganSakit::factory()->create();
+        \App\Models\LaporPajak::factory()->create();
+        \App\Models\Login::factory()->create();
+        \App\Models\Manual::factory()->create();
+        \App\Models\Merek::factory()->create();
+        \App\Models\MetodeBayar::factory()->create();
+        \App\Models\Modal::factory()->create();
+        \App\Models\Monitor::factory()->create();
+        \App\Models\NoSale::factory()->create();
+        \App\Models\NotaBeli::factory()->create();
+        \App\Models\NotaJual::factory()->create();
+        \App\Models\Outbox::factory()->create();
+        \App\Models\Pasien::factory()->create();
+        \App\Models\PasienProlanis::factory()->create();
+        \App\Models\PasienRujukBalik::factory()->create();
+        \App\Models\PcareSubmit::factory()->create();
+        \App\Models\PembayaranAsuransi::factory()->create();
+        \App\Models\PembayaranBpjs::factory()->create();
+        \App\Models\Pembelian::factory()->create();
+        \App\Models\Pendapatan::factory()->create();
+        \App\Models\PengantarPasien::factory()->create();
+        \App\Models\Pengeluaran::factory()->create();
+        \App\Models\Penjualan::factory()->create();
+        \App\Models\PenjualanAset::factory()->create();
+        \App\Models\Penyusutan::factory()->create();
+        \App\Models\Perbaikanresep::factory()->create();
+        \App\Models\Perbaikantrx::factory()->create();
+        \App\Models\Periksa::factory()->create();
+        \App\Models\Periode::factory()->create();
+        \App\Models\Perujuk::factory()->create();
+        \App\Models\PesanKeluar::factory()->create();
+        \App\Models\PesanMasuk::factory()->create();
+        \App\Models\PesertaBpjsPerbulan::factory()->create();
+        \App\Models\PetugasKirim::factory()->create();
+        \App\Models\Pic::factory()->create();
+        \App\Models\PiutangDibayar::factory()->create();
+        \App\Models\Point::factory()->create();
+        \App\Models\Poli::factory()->create();
+        \App\Models\PoliAntrian::factory()->create();
+        \App\Models\Pph21::factory()->create();
+        \App\Models\Presentasi::factory()->create();
+        \App\Models\Prolanis::factory()->create();
+        \App\Models\Promo::factory()->create();
+        \App\Models\Rak::factory()->create();
+        \App\Models\Rayon::factory()->create();
+        \App\Models\Receipt::factory()->create();
+        \App\Models\RefleksPatela::factory()->create();
+        \App\Models\RegisterAnc::factory()->create();
+        \App\Models\RegisterHamil::factory()->create();
+        \App\Models\Rekening::factory()->create();
+        \App\Models\RingkasanPenyusutan::factory()->create();
+        \App\Models\Role::factory()->create();
+        \App\Models\RolePengiriman::factory()->create();
+        \App\Models\Rujukan::factory()->create();
+        \App\Models\RumahSakit::factory()->create();
+        \App\Models\Saldo::factory()->create();
+        \App\Models\Sediaan::factory()->create();
+        \App\Models\ServiceAc::factory()->create();
+        \App\Models\Signa::factory()->create();
+        \App\Models\SmsBpjs::factory()->create();
+        \App\Models\SmsGagal::factory()->create();
+        \App\Models\SmsJangan::factory()->create();
+        \App\Models\SmsKirim::factory()->create();
+        \App\Models\SmsKontak::factory()->create();
+        \App\Models\Sop::factory()->create();
+        \App\Models\Staf::factory()->create();
+        \App\Models\StatusHarta::factory()->create();
+        \App\Models\StokOpname::factory()->create();
+        \App\Models\Supplier::factory()->create();
+        \App\Models\Surat::factory()->create();
+        \App\Models\SuratSakit::factory()->create();
+        \App\Models\Tarif::factory()->create();
+        \App\Models\Telpon::factory()->create();
+        \App\Models\Tenant::factory()->create();
+        \App\Models\Terapi::factory()->create();
+        \App\Models\Tidakdirujuk::factory()->create();
+        \App\Models\TipeAsuransi::factory()->create();
+        \App\Models\TipeJual::factory()->create();
+        \App\Models\TipeLaporanAdmedika::factory()->create();
+        \App\Models\TipeLaporanKasir::factory()->create();
+        \App\Models\TipeTindakan::factory()->create();
+        \App\Models\TransaksiPeriksa::factory()->create();
+        \App\Models\TujuanRujuk::factory()->create();
+        \App\Models\UpdateRpptPeserta::factory()->create();
+        \App\Models\User::factory()->create();
+        \App\Models\Usg::factory()->create();
+        \App\Models\VerifikasiProlanis::factory()->create();
+        \App\Models\WhatsappRegistration::factory()->create();
+    }
 }

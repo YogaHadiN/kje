@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
@@ -8,17 +9,13 @@ use App\Models\Classes\Yoga;
 
 class Penyusutan extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
     protected $morphClass = 'App\Models\Penyusutan';
     protected $dates = [ 'tanggal_mulai', 'tanggal_akhir'  ];
 
     public function jurnals(){
         return $this->morphMany('App\Models\JurnalUmum', 'jurnalable');
     }
-	public function belanjaPeralatan(){
-		return $this->belongsTo('App\Models\BelanjaPeralatan');
-	}
-
     public function getKetjurnalAttribute(){
 
 		$temp = $this->keterangan;

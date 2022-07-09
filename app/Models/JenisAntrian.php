@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
 
 class JenisAntrian extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 	public function poli_antrian(){
 		return $this->hasMany('App\Models\PoliAntrian');
 	}

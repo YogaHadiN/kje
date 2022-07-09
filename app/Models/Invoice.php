@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
 
 class Invoice extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 
 	public function pembayaran_asuransi(){
 		return $this->belongsTo('App\Models\PembayaranAsuransi');

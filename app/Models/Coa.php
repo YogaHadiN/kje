@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use DB;
 
 use App\Traits\BelongsToTenant; 
@@ -8,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Coa;
 
 class Coa extends Model{
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 
 	public function kelompokCoa(){
 

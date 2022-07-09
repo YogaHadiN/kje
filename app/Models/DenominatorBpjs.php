@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DenominatorBpjs extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
     protected $dates = [
         'bulanTahun'
     ];
