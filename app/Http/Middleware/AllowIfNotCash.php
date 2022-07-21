@@ -48,7 +48,7 @@ class AllowIfNotCash
         if (
             (
                 ($periksa->tunai < 1 || $tunaiAdaTapiBolehDiedit) && 
-                Auth::user()->role > 3 &&
+                Auth::user()->role_id > 3 &&
                 $periksa->asuransi_id != '0'
             ) || 
             Auth::id() == '28'
@@ -57,7 +57,7 @@ class AllowIfNotCash
         } else if ( $periksa->tunai > 0 ) {
             $pesan = Yoga::gagalFlash('Untuk mengedit pemeriksaan ini, kasir harus dikosongkan dahulu oleh dr. Puri, atau hubungi super admin untuk edit sebelum kosongkan kasir');
             return redirect()->back()->withPesan($pesan);
-        } else if ( Auth::user()->role > 3 ){
+        } else if ( Auth::user()->role_id > 3 ){
             $pesan = Yoga::gagalFlash('Hanya user dengan akses minimal admin bisa menggunakan fasilitas ini');
             return redirect()->back()->withPesan($pesan);
         }

@@ -130,7 +130,7 @@ class MereksController extends Controller
 		$query .= "where mr.id ='{$id}' ";
 		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by supplier_id ";
-		$query .= "order by harga_beli asc ";
+		$query .= "order by pb.harga_beli asc ";
 		$supplierprices = DB::select($query);
 
 		// return var_dump($supplierprices);

@@ -38,7 +38,7 @@ class StafsController extends Controller
 	public $input_universitas_asal;
 
 	  public function __construct() {
-		$this->input_nama             = ucwords(strtolower(Input::get('nama')));
+		$this->input_nama             = Input::get('nama');
 		$this->input_tanggal_lahir    = Input::get('tanggal_lahir');
 		$this->input_tanggal_lulus    = Input::get('tanggal_lulus');
 		$this->input_tanggal_mulai    = Input::get('tanggal_mulai');

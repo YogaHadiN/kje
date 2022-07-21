@@ -49,7 +49,7 @@
                 </div>
 			</div>
             <div class="row">
-              @if(\Auth::user()->role == '6')
+              @if(\Auth::user()->role_id == '6')
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               @else
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -58,7 +58,7 @@
                 {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block displayNone', 'id' => 'submit_update'])!!}
           {!! Form::close() !!}
               </div>
-              @if(\Auth::user()->role == '6')
+              @if(\Auth::user()->role_id == '6')
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 {!! Form::open(['url' => 'mereks/' . $merek->id, 'method' => 'delete'])!!}
                   {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-block', 'onclick' => 'return confirm("Anda yakin mau menghapus ' . $merek->id . ' - ' . $merek->merek . '")'])!!}

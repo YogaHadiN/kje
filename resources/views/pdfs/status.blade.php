@@ -302,7 +302,7 @@ border-spacing: -1px;
 				{!! $periksa->pasien->alamat !!}
 			</td>
 		</tr>
-		@if($periksa->poli != 'anc' && $periksa->poli !='usg')
+        @if($periksa->poli->poli != 'Poli ANC' && $periksa->poli->poli !='Poli USG Kebidanan')
 			<tr class="content2">
 				<td class="half">
 					<strong>Anamnesa :</strong> <br>
@@ -380,7 +380,7 @@ border-spacing: -1px;
 						</div>
 					@endif
 					@if(
-					$periksa->asuransi->tipe_asuransi == '4' &&
+					$periksa->asuransi->tipe_asuransi_id == '4' &&
 					($biayaObat > $tarifObatFlat))
 						<div class="alert alert-danger">
 							Pasien <strong> {{ $periksa->asuransi->nama }}</strong> ini ada biaya tambahan sebesar <strong>Rp. {{ $biayaObat - $tarifObatFlat }},-</strong> <br>

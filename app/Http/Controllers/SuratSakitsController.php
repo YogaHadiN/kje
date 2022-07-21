@@ -186,11 +186,16 @@ class SuratSakitsController extends Controller
 		$today = date('Y-m-d');
 		$query = "SELECT * ";
 		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
 		$query .= "AND ss.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate() ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate() ";
+        } else{
+            $query .= "AND px.tanggal between DATE('now', '-30 days') and DATE('now') ";
+        }
 		$query .= "AND px.tanggal not like '{$today}'";
-		$query .= "AND px.asuransi_id = 32 ";
+		$query .= "AND asu.tipe_asuransi_id = 5 ";
 
 		return count(DB::select($query));
 	}

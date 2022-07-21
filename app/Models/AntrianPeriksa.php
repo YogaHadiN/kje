@@ -22,7 +22,7 @@ class AntrianPeriksa extends Model{
 	public function asuransi() {
 		return $this->belongsTo('App\Models\Asuransi');
 	}
-	public function ispoli() {
+	public function poli() {
 		return $this->belongsTo('App\Models\Poli');
 	}
 	public function antrian(){

@@ -351,7 +351,7 @@ class KasirsController extends Controller
 		$query .= "FROM periksas as px ";
 		$query .= "JOIN pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
-		$query .= "JOIN tipe_asuransis as ta on ta.id = asu.tipe_asuransi ";
+		$query .= "JOIN tipe_asuransis as ta on ta.id = asu.tipe_asuransi_id ";
 		$query .= "WHERE invoice_id is null ";
 		$query .= "AND px.tanggal > '2020-12-31' ";
 		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";

@@ -160,9 +160,9 @@ class RekeningController extends Controller
 		$abaikans = AbaikanTransaksi::all();
 		foreach ($abaikans as $k => $abaikan) {
 			if ($k == 0) {
-				$ignored_ids .= "'" . $abaikan->transaksi_id . "'" ;
+				$ignored_ids .= "'" . $abaikan->rekening_id . "'" ;
 			} else {
-				$ignored_ids .= ", '" . $abaikan->transaksi_id . "'";
+				$ignored_ids .= ", '" . $abaikan->rekening_id . "'";
 			}
 		}
 		return $ignored_ids;
@@ -170,7 +170,7 @@ class RekeningController extends Controller
 	public function ignore($id){
 
 		$abaikan               = new AbaikanTransaksi;
-		$abaikan->transaksi_id = $id;
+		$abaikan->rekening_id = $id;
 		$abaikan->save();
 
 		$rekening              = Rekening::find( $id );
@@ -227,7 +227,7 @@ class RekeningController extends Controller
 		$ignored     = AbaikanTransaksi::all();
 		$ignored_ids = [];
 		foreach ($ignored as $ignore) {
-			$ignored_ids[] = $ignore->transaksi_id;
+			$ignored_ids[] = $ignore->rekening_id;
 		}
 		return $ignored_ids;
 	}
@@ -254,7 +254,7 @@ class RekeningController extends Controller
 		));
 	}
 	public function unignore($id){
-		AbaikanTransaksi::where('transaksi_id', $id)->delete();
+		AbaikanTransaksi::where('rekening_id', $id)->delete();
 		$pesan = Yoga::suksesFlash('transaksi ' . $id . ' Berhasil Diunignore');
 		return redirect()->back()->withPesan($pesan);
 	}

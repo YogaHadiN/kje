@@ -39,7 +39,7 @@
 						<tr>
 						  <th>ID</th>
 									<th>Merek</th>
-						  @if (\Auth::user()->role == '6')
+						  @if (\Auth::user()->role_id == '6')
 							{{-- <th>Stok</th> --}}
 						  @endif
 						  <th>Fornas</th>
@@ -60,7 +60,7 @@
 						<tr>
 						   <td>{!! $merek->id !!}</td>
 						   <td>{!! $merek->merek !!}</td>
-						   @if (\Auth::user()->role == '6')
+						   @if (\Auth::user()->role_id == '6')
 							 {{-- <td>{!! $merek->rak->stok !!}</td> --}}
 						   @endif
 						   <td>{!! $merek->rak->fornasnya !!}</td>

@@ -47,7 +47,7 @@ class AntrianPeriksaFactory extends Factory
             'sistolik' => $this->faker->randomNumber(),
             'diastolik' => $this->faker->randomNumber(),
             'gds' => $this->faker->word,
-            'periksa_id' => \App\Models\Periksa::factory(),
+            'periksa_id' => null,
             'dipanggil' => $this->faker->boolean,
             'tenant_id' => \App\Models\Tenant::factory(),
             'poli_id' => \App\Models\Poli::factory(),

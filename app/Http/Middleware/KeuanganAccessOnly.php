@@ -17,7 +17,7 @@ class KeuanganAccessOnly
      */
     public function handle($request, Closure $next)
     {
-         if (Auth::user()->role < 5 ) {
+         if (Auth::user()->role_id < 5 ) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {

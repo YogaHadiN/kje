@@ -93,7 +93,6 @@ class PasiensAjaxController extends Controller
 	public function create()
 	{
 		if(Input::ajax()){
-			$id = Yoga::customIdPasien();
 			// return Yoga::inputKtpIfNotEmpty(Input::get('ktp_image'), $id);
 			// return Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
 			// return Input::get('image');
@@ -112,12 +111,12 @@ class PasiensAjaxController extends Controller
 			$pasien->nama           = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 			$pasien->nama_peserta   = ucwords(strtolower(Input::get('nama_peserta')));
 			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
-			if ($asuransi_id == '32') {
+            $asurnsi_bpjs = Asuransi::Bpjs();
+			if ($asuransi_id == $asurnsi_bpjs->id) {
 				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
 			}
 			$pasien->no_telp        = Input::get('no_telp');
 			$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
-			$pasien->id             = $id;
 			$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
 			$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
 			$pasien->image          = Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
@@ -128,7 +127,7 @@ class PasiensAjaxController extends Controller
 			$query .= "p.* ";
 			$query .= "FROM pasiens as p ";
 			$query .= "LEFT OUTER JOIN asuransis as asu on p.asuransi_id = asu.id ";
-			$query .= "WHERE p.id = '" . $id . "' ";
+			$query .= "WHERE p.id = '" . $pasien->id . "' ";
 			$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 			return DB::SELECT($query);
 

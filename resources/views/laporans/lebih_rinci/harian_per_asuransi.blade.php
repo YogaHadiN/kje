@@ -56,7 +56,7 @@
 									<td>{!! $key + 1 !!}</td>
 									<td>{!! $periksa->nama_pasien !!}</td>
 									<td>{!! $periksa->nama_asuransi !!}</td>
-									<td>{!! $periksa->poli !!}</td>
+                                    <td>{!! $periksa->poli->poli !!}</td>
 									<td class='uang'>{!! $periksa->tunai !!}</td>
 									<td class='uang'>{!! $periksa->piutang !!}</td>
 									<td>

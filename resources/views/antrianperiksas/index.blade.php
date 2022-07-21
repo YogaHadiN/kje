@@ -49,7 +49,7 @@
                     @if (count($antrian_periksas) > 0)
                         @foreach ($antrian_periksas as $periksa)
                             <tr>
-								@if($periksa->poli == 'estetika' && $periksa->periksa_id != null)
+                                @if($periksa->poli == 'Poli Estetika' && $periksa->periksa_id != null)
 								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksa_id . '/images') }}">Gambar</a> </td>
 								@else
 									<td class="nomor_antrian">
@@ -63,7 +63,7 @@
 								</td>
                                 <td>
                                     {!! Form::open(['url' => 'antrianperiksas/' . $periksa->id .'/editPoli', 'method' => 'put'])!!}
-										{!! Form::select('poli', $poli_list, $periksa->poli, ['class' => 'form-control', 'onchange' => 'changePoli(this);return false;']) !!}
+										{!! Form::select('poli', $poli_list, $periksa->poli_id, ['class' => 'form-control', 'onchange' => 'changePoli(this);return false;']) !!}
                                     {!! Form::close() !!}
 								</td>
                                 <td>{!! $periksa->nama_asuransi !!}</td>

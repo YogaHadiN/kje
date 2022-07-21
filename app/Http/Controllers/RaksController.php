@@ -93,7 +93,7 @@ class RaksController extends Controller
 		$rak     = $this->inputData($rak);
 
 		$formula = Formula::find($rak->formula_id);
-		$sediaan = $formula->sediaan;
+		$sediaan = $formula->sediaan->sediaan;
         $merek   = $this->customMerek($formula, Input::get('merek'));
 
 
@@ -272,9 +272,9 @@ class RaksController extends Controller
     public function customMerek($formula, $merek)
     {
 		if($formula->komposisi->count() < 2){
-			$merek = ucwords(strtolower($merek)) . ' ' . $formula->sediaan;
+			$merek = ucwords(strtolower($merek)) . ' ' . $formula->sediaan->sediaan;
 		} else {
-			$merek = ucwords(strtolower($merek)) . ' ' . $formula->sediaan . ' ' . $formula->komposisi->first()->bobot;
+			$merek = ucwords(strtolower($merek)) . ' ' . $formula->sediaan->sediaan . ' ' . $formula->komposisi->first()->bobot;
 		}
         return $merek;
     }

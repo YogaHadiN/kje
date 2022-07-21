@@ -30,17 +30,17 @@ class User extends Authenticatable
 
     public function getPeranAttribute(){
 
-        if($this->role == '1'){
+        if($this->role_id == '1'){
            return 'Dokter';
-        }elseif($this->role == '2'){
+        }elseif($this->role_id == '2'){
             return 'Kasir';
-        }elseif($this->role == '3'){
+        }elseif($this->role_id == '3'){
             return 'Bidan';
-        }elseif($this->role == '4'){
+        }elseif($this->role_id == '4'){
             return 'Admin';
-        }elseif($this->role == '5'){
+        }elseif($this->role_id == '5'){
             return 'Dokter Gigi';
-        }elseif($this->role == '6'){
+        }elseif($this->role_id == '6'){
             return 'Super Admin';
         }
     }

@@ -13,7 +13,7 @@ class TransaksiPeriksa extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 	protected $dates = ['created_at'];
 
 	public function jenisTarif(){

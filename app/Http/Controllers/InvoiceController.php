@@ -195,7 +195,7 @@ class InvoiceController extends Controller
 		$query .= "JOIN periksas as prx on prx.invoice_id = inv.id ";
 		$query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
-		$query .= "WHERE asu.tipe_asuransi = 3 ";
+		$query .= "WHERE asu.tipe_asuransi_id = 3 ";
 		$query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ;
 		$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) ";

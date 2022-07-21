@@ -125,7 +125,7 @@ class Asuransi extends Model{
 		return  Asuransi::where('aktif', 1)->pluck('nama', 'id');
 	}
 	public function tipe_asuransi(){
-		return $this->belongsTo('App\Models\TipeAsuransi', 'tipe_asuransi');
+		return $this->belongsTo('App\Models\TipeAsuransi');
 	}
 	
     public function telpons(){
@@ -135,4 +135,8 @@ class Asuransi extends Model{
     public function berkas(){
         return $this->morphMany('App\Models\Berkas', 'berkasable');
     }
+    public static function Bpjs(){
+        return Asuransi::where('tipe_asuransi_id', 5)->first();
+    }
+    
 }

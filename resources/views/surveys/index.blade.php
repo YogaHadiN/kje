@@ -36,7 +36,7 @@
 </ol>
 @stop
 @section('content') 
-	<input class="hide" type="text" id="tipe_asuransi" value="{{ $periksa->asuransi->tipe_asuransi }}" />
+	<input class="hide" type="text" id="tipe_asuransi" value="{{ $periksa->asuransi->tipe_asuransi_id }}" />
 	<input class="hide" type="text" id="asuransi_id" value="{{ $periksa->asuransi_id }}" />
 	{!! Form::open([
 		'url'          => 'update/surveys',
@@ -164,7 +164,7 @@
 												   {!! $resep['jumlah'] !!} 
 												</td>
 												<td nowrap class="uang">
-													@if($periksa->asuransi->tipe_asuransi == 5)
+													@if($periksa->asuransi->tipe_asuransi_id == 5)
 														@if($resep['fornas'] == '0')
 															{!! $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
 														@else 
@@ -175,7 +175,7 @@
 													@endif                
 												</td>
 												<td nowrap class="uang">
-													@if($periksa->asuransi->tipe_asuransi == 5)
+													@if($periksa->asuransi->tipe_asuransi_id == 5)
 														@if($resep['fornas'] == '0')
 															{!! $resep['jumlah'] * $resep['harga_jual'] * $periksa->asuransi->kali_obat !!}
 														@else

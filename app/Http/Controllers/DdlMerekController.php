@@ -15,9 +15,9 @@ class DdlMerekController extends Controller
 {
 	public function alloption(){
 		$asuransi_id = Input::get('asuransi_id');
-		$query = 'SELECT f.tidak_dipuyer as tidak_dipuyer, ';
+		$query = 'SELECT f.boleh_dipuyer as boleh_dipuyer, ';
 		$query .= 'm.id as merek_id, ';
-		$query .= 'f.sediaan as sediaan, ';
+		$query .= 's.sediaan as sediaan, ';
 		$query .= 'r.id as rak_id, ';
 		$query .= 'f.id as formula_id, ';
 		$query .= 'm.merek, ';
@@ -31,6 +31,7 @@ class DdlMerekController extends Controller
 		$query .= 'FROM mereks as m ';
 		$query .= 'JOIN raks as r on r.id = m.rak_id ';
 		$query .= 'JOIN formulas as f on f.id = r.formula_id ';
+		$query .= 'JOIN sediaans as s on s.id = f.sediaan_id ';
 		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "WHERE m.discontinue = 0 ";
@@ -41,10 +42,10 @@ class DdlMerekController extends Controller
 	}
 	public function alloption2(){
 
-		$query  = "SELECT f.tidak_dipuyer as tidak_dipuyer, ";
+		$query  = "SELECT f.boleh_dipuyer as boleh_dipuyer, ";
 		$query .= "r.harga_jual as harga_jual, ";
 		$query .= "m.id as merek_id, ";
-		$query .= "f.sediaan as sediaan, ";
+		$query .= "s.sediaan as sediaan, ";
 		$query .= "r.id as rak_id, ";
 		$query .= "f.id as formula_id, ";
 		$query .= "m.merek, ";
@@ -63,6 +64,7 @@ class DdlMerekController extends Controller
 		$query .= "join formulas as f on f.id = r.formula_id ";
 		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
+		$query .= 'LEFT JOIN sediaans as s on s.id = f.sediaan_id ';
 		$query .= "JOIN doses as d on f.id = d.formula_id ";
 		$query .= "WHERE d.berat_badan_id = '{$berat_badan_id}'";
 		$query .= "AND m.discontinue = 0 ";
@@ -110,11 +112,11 @@ class DdlMerekController extends Controller
 	}
 
 	public function optionpuyer(){
-		$query = "SELECT f.tidak_dipuyer as tidak_dipuyer, ";
+		$query = "SELECT f.boleh_dipuyer as boleh_dipuyer, ";
 		$query .= "r.harga_jual as harga_jual, ";
 		$query .= "f.aturan_minum_id as aturan_minum_id, ";
 		$query .= "m.id as merek_id, ";
-		$query .= "f.sediaan as sediaan, ";
+		$query .= "s.sediaan as sediaan, ";
 		$query .= "r.id as rak_id, ";
 		$query .= "f.id as formula_id, ";
 		$query .= "m.merek, ";
@@ -128,21 +130,22 @@ class DdlMerekController extends Controller
 		$query .= "join formulas as f on f.id = r.formula_id ";
 		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
-		$query .= "WHERE f.sediaan = 'capsul' ";
+		$query .= 'LEFT JOIN sediaans as s on s.id = f.sediaan_id ';
+		$query .= "WHERE s.sediaan = 'capsul' ";
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "or f.sediaan = 'tablet' ";
+		$query .= "or s.sediaan = 'tablet' ";
 		$query .= "ORDER BY m.id ASC";
 		$data =  DB::select($query);
 
 		return $this->formatDdlNamaObat($data);
 	}
 	public function optionsyrup(){
-		$query = "SELECT f.tidak_dipuyer as tidak_dipuyer, ";
+		$query = "SELECT f.boleh_dipuyer as boleh_dipuyer, ";
 		$query .= "r.harga_jual as harga_jual, ";
 		$query .= "m.id as merek_id, ";
 		$query .= "f.aturan_minum_id as aturan_minum_id, ";
-		$query .= "f.sediaan as sediaan, ";
+		$query .= "s.sediaan as sediaan, ";
 		$query .= "r.id as rak_id, ";
 		$query .= "f.id as formula_id, ";
 		$query .= "m.merek, ";
@@ -156,7 +159,8 @@ class DdlMerekController extends Controller
 		$query .= "join formulas as f on f.id = r.formula_id ";
 		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
-		$query .= "WHERE f.sediaan like '%syrup%' ";
+		$query .= 'LEFT JOIN sediaans as s on s.id = f.sediaan_id ';
+		$query .= "WHERE s.sediaan like '%syrup%' ";
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY m.id ASC";

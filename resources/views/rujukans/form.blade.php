@@ -146,7 +146,7 @@
 				 		{!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block hide', 'id' => 'submit'])!!}
 				 	</div>
 				 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				 		{!! HTML::link('ruangperiksa/' . $periksa->poli, 'Cancel', ['class' => 'btn btn-warning btn-block'])!!}
+				 		{!! HTML::link('ruangperiksa/' . $periksa->poli_id, 'Cancel', ['class' => 'btn btn-warning btn-block'])!!}
 				 	</div>
 				 </div>
 				 @if($periksa->asuransi_id == '3')

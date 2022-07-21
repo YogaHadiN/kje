@@ -32,7 +32,7 @@ class WoowaController extends Controller
 			}
 		} else if ( 
 				!is_null( $whatsapp_registration ) &&
-				is_null( $whatsapp_registration->poli ) 
+				is_null( $whatsapp_registration->poli_id ) 
 		) {
 			if (
 				$this->clean($message) == 'a' ||
@@ -41,7 +41,7 @@ class WoowaController extends Controller
 				$this->clean($message) == 'd' ||
 				$this->clean($message) == 'e'
 			) {
-				$whatsapp_registration->poli   = $this->clean($message);
+				$whatsapp_registration->poli_id   = $this->clean($message);
 				$whatsapp_registration->save();
 			} else {
 				$response = 'Input yang anda masukkan salah';
@@ -175,7 +175,7 @@ class WoowaController extends Controller
 		) {
 			if (
 			 !is_null( $whatsapp_registration->nama ) ||
-			 !is_null( $whatsapp_registration->poli ) ||
+			 !is_null( $whatsapp_registration->poli_id ) ||
 			 !is_null( $whatsapp_registration->pembayaran ) ||
 			 !is_null( $whatsapp_registration->tanggal_lahir )
 			) {
@@ -187,9 +187,9 @@ class WoowaController extends Controller
 				$response .= 'Nama Pasien: ' . ucwords($whatsapp_registration->nama)  ;
 				$response .= PHP_EOL;
 			}
-			if ( !is_null( $whatsapp_registration->poli ) ) {
+			if ( !is_null( $whatsapp_registration->poli_id ) ) {
 				$response .= 'Poli : ';
-				$response .= $this->formatPoli( $whatsapp_registration->poli );
+				$response .= $this->formatPoli( $whatsapp_registration->poli_id );
 				$response .= PHP_EOL;
 			}
 			if ( !is_null( $whatsapp_registration->pembayaran ) ) {
@@ -203,7 +203,7 @@ class WoowaController extends Controller
 			}
 			if (
 			 !is_null( $whatsapp_registration->nama ) ||
-			 !is_null( $whatsapp_registration->poli ) ||
+			 !is_null( $whatsapp_registration->poli_id ) ||
 			 !is_null( $whatsapp_registration->pembayaran ) ||
 			 !is_null( $whatsapp_registration->tanggal_lahir )
 			) {
@@ -234,7 +234,7 @@ class WoowaController extends Controller
 	*/
 	private function botKirim($whatsapp_registration)
 	{
-		if ( is_null( $whatsapp_registration->poli ) ) {
+		if ( is_null( $whatsapp_registration->poli_id ) ) {
 			$text  = 'Terima kasih telah mendaftar sebagai pasien di *KLINIK JATI ELOK*.' ;
 			$text .= PHP_EOL;
 			$text .= 'Dengan senang hati kami akan siap membantu Anda.';
@@ -324,7 +324,7 @@ class WoowaController extends Controller
 		$text .= PHP_EOL;
 		$text .= "pembayaran = {$this->formatPembayaran($whatsapp_registration->pembayaran)}";
 		$text .= PHP_EOL;
-		$text .= "poli = {$this->formatPoli($whatsapp_registration->poli)}";
+		$text .= "poli = {$this->formatPoli($whatsapp_registration->poli_id)}";
 		return $text;
 	}
 	private function validateDate($date, $format = 'Y-m-d')

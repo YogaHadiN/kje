@@ -47,7 +47,7 @@ class PolisController extends Controller
 			return redirect()->back()->withPesan($pesan);
 		}
 
-		if ( $antrianperiksa->asuransi_id == '32' && empty( $antrianperiksa->pasien->image ) ) {
+		if ( $antrianperiksa->asuransi->tipe_asuransi_id ==  5 && empty( $antrianperiksa->pasien->image ) ) {
 			return redirect('pasiens/' . $antrianperiksa->pasien_id . '/edit')
 				->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu')
 				->withBack( 'poli/' . $id );
@@ -163,11 +163,7 @@ class PolisController extends Controller
 			return Icd10::all()->take(10);
 		});
 
-        if($asuransi_id == '32'){
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->pluck('jenisbpjs', 'tarif_jual')->toArray();
-        }else{
-            $tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->toArray();
-        }
+        $tindakans   = Tarif::listByAsuransi($asuransi_id);
 
 		$periksaExist = Periksa::with(
 			'terapii.merek.rak', 
@@ -178,12 +174,12 @@ class PolisController extends Controller
 
 		$cekGdsBulanIni = Yoga::cekGDSBulanIni($antrianperiksa->pasien, $periksaExist); 
 
-		if ($asuransi_id == '32') {
+		if (Asuransi::find($asuransi_id)->tipe_asuransi_id == 5 ) {
 			if (!$cekGdsBulanIni['bayar']) { 
 				foreach ($tindakans as $key => $tindakan) {
 					if ($key !== '') {
 						$Array = json_decode($key, true);
-						if ($Array['jenis_tarif_id'] == '116') {
+						if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $transaksi['jenis_tarif_id'])->exists() ) {
 							 unset($tindakans[$key]);
 							$tindakans['{"tarif_id":5549,"jenis_tarif_id":"116","biaya":0}'] = 'Gula Darah';
 						}
@@ -254,7 +250,8 @@ class PolisController extends Controller
 			}
 
 			$sudah = false;
-			$periksaBulanIni = Periksa::with('terapii.merek')->where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $periksaExist->id)->get();
+            $asuransi_bpjs = Asuransi::Bpjs();
+			$periksaBulanIni = Periksa::with('terapii.merek')->where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', $asuransi_bpjs->id)->where('id', '<', $periksaExist->id)->get();
 
 			foreach ($periksaBulanIni as $periksa) {
 				if(preg_match('/Gula Darah/',$periksa->pemeriksaan_penunjang)){
@@ -426,7 +423,8 @@ class PolisController extends Controller
 			$antrian_id = $antrianperiksa->antrian->id;
 		}
 		$sudah           = false;
-		$periksaBulanIni = Periksa::where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->get();
+        $asuransi_bpjs = Asuransi::Bpjs();
+		$periksaBulanIni = Periksa::where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', $asuransi_bpjs->id)->get();
 
 		foreach ($periksaBulanIni as $periksa) {
 			if(preg_match('/Gula Darah/',$periksa->pemeriksaan_penunjang)){
@@ -437,9 +435,10 @@ class PolisController extends Controller
 		$periksaExist = false;
 		$penunjang    =[];
 		$transaksiusg = [];
-		if ($antrianperiksa->poli == 'usg') {
+		if ($antrianperiksa->poli->poli == 'Poli USG Kebidanan') {
 			$biayaUSG = 100000;
-			if ($antrianperiksa->asuransi_id=='32') {
+            $asuransi_bpjs = Asuransi::Bpjs();
+			if ($antrianperiksa->asuransi_id == $asuransi_bpjs->id) {
 				$sudahPernahUsg = false;
 				$counts = Periksa::where('pasien_id', $antrianperiksa->pasien_id)->where('tanggal', 'like', date('Y').'%')->get();
 				foreach ($counts as $k => $periksa) {
@@ -459,37 +458,38 @@ class PolisController extends Controller
 					$biayaUSG = 0;
 				}
 			}
+            $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'USG');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => '111',
-				'jenis_tarif'         => 'USG',
+				'jenis_tarif_id'      => $tarif->id,
+				'jenis_tarif'         => $tarif->jenis_tarif,
 				'biaya'               => $biayaUSG,
 				'keterangan_tindakan' => ''
 			];
 			$penunjang[] = 'USG : ,';
-		} else if($antrianperiksa->poli == 'sks'){
+		} else if($antrianperiksa->poli->poli == 'Poli Umum - Surat Keterangan Sehat'){
+            $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'surat keterangan sehat');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => '121',
-				'jenis_tarif'         => 'surat keterangan sehat',
-				'biaya'               => Tarif::where('asuransi_id', $antrianperiksa->asuransi_id)
-										->where('jenis_tarif_id', '121')->first()->biaya,
+				'jenis_tarif_id'      => $tarif->id,
+				'jenis_tarif'         => $tarif->jenis_tarif,
+				'biaya'               => $tarif->biaya,
 				'keterangan_tindakan' => ''
 			];
 			$penunjang[] = 'surat keterangan sehat : , ';
-		} else if($antrianperiksa->poli == 'kb 1 bulan'){
+		} else if($antrianperiksa->poli->poli == 'Poli Kandungan - Suntik KB 1 Bulan'){
+            $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'kb 1 bulan');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => '265',
-				'jenis_tarif'         => 'kb 1 bulan',
-				'biaya'               => Tarif::where('asuransi_id', $antrianperiksa->asuransi_id)
-										->where('jenis_tarif_id', '265')->first()->biaya,
+				'jenis_tarif_id'      => $tarif->id,
+				'jenis_tarif'         => $tarif->jenis_tarif,
+				'biaya'               => $tarif->biaya,
 				'keterangan_tindakan' => ''
 			];
 			$penunjang[] = 'KB 1 Bulan : , ';
-		} else if($antrianperiksa->poli == 'kb 3 bulan'){
+		} else if($antrianperiksa->poli->poli == 'Poli Kandungan - Suntik KB 3 Bulan'){
+            $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'kb 3 bulan');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => '72',
-				'jenis_tarif'         => 'kb 3 bulan',
-				'biaya'               => Tarif::where('asuransi_id', $antrianperiksa->asuransi_id)
-										->where('jenis_tarif_id', '72')->first()->biaya,
+				'jenis_tarif_id'      => $tarif->id,
+				'jenis_tarif'         => $tarif->jenis_tarif,
+				'biaya'               => $tarif->biaya,
 				'keterangan_tindakan' => ''
 			];
 			$penunjang[] = 'KB 3 Bulan : , ';
@@ -497,7 +497,7 @@ class PolisController extends Controller
 		//entry untuk menentukan apakah akan ada tindakan atau tidak
 		$adatindakan = '0';
 
-		if ($antrianperiksa->poli == 'luka') {
+		if ($antrianperiksa->poli->poli == 'Poli Umum - Luka') {
 			$adatindakan = '1';
 		}
 		$pakai_bayar_pribadi = Yoga::pakaiBayarPribadi($antrianperiksa->asuransi_id, $antrianperiksa->pasien_id, $periksa);
@@ -558,10 +558,6 @@ class PolisController extends Controller
 			->withTransaksiusg($transaksiusg)
 			->withPeriksa($periksa)
 			->with('pemeriksaan_awal', $pemeriksaan_awal);
-	}
-
-	public function jangan(){
-		return view('jangan');
 	}
 
     private function cacheku($name, $data){

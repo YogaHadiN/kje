@@ -116,8 +116,10 @@ class HomeController extends Controller
 		$signas      = Signa::orderBy('id', 'desc')->get()->take(10);
 		$diagnosa    = Diagnosa::get()->pluck('diagnosa_icd', 'id')->all();
 		$icd10s      = Icd10::all()->take(10);
-		$tindakans   = [null => '- Pilih -'] + Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', '>', '10')->get()->pluck('jenis_tarif_list', 'tarif_jual')->all();
-		$keterangan  = json_decode(Asuransi::find(32)->umum, true);
+
+        $tindakans = Tarif::listByAsuransi($asuransi->id);
+
+		$keterangan  = json_decode(Asuransi::where('nama', 'BPJS')->first()->umum, true);
    		// return $tindakans;
 		$periksaExist = Periksa::where('pasien_id', $pasien_id)->where('jam', $antrianperiksa->jam)->where('tanggal', $antrianperiksa->tanggal)->first();
 		// return $periksaExist;
@@ -186,7 +188,7 @@ class HomeController extends Controller
 			// return 'g = ' . $g . ' p= ' . $p . ' a= ' . $a;
 
 			$sudah = false;
-			$periksaBulanIni = Periksa::where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $periksaExist->id)->get();
+			$periksaBulanIni = Periksa::periksaBulanIni($pasien_id, $periksaExist->id);
 
 			foreach ($periksaBulanIni as $periksa) {
 				if(preg_match('/Gula Darah/',$periksa->pemeriksaan_penunjang)){
@@ -308,15 +310,7 @@ class HomeController extends Controller
 
 		// return $sudah? 'true' :'false';
 		//CEK APAKAH SUDAH PERIKSA GDS BULAN INI
-		$sudah = false;
-		$periksaBulanIni = Periksa::where('pasien_id', $pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->get();
-
-		foreach ($periksaBulanIni as $periksa) {
-			if(preg_match('/Gula Darah/',$periksa->pemeriksaan_penunjang)){
-				$sudah = true;
-				break;				
-			}
-		}
+		$sudah = Pasien::sudahPeriksaGDSBulanIniPakaiBPJS($pasien_id, null);
 		$periksaExist = false;
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
@@ -349,15 +343,7 @@ class HomeController extends Controller
 
 		$periksa = Periksa::find($id);
 		//Cek apakah ada gula darah yang diperiksa bulan ini termasuk sekarang
-		$sudah = false;
-		$periksaBulanIni = Periksa::where('pasien_id', $periksa->pasien_id)->where('tanggal', 'like', date('Y-m') . '%')->where('asuransi_id', '32')->where('id', '<', $id)->get();
-
-		foreach ($periksaBulanIni as $prx) {
-			if(preg_match('/Gula Darah/',$prx->pemeriksaan_penunjang)){
-				$sudah = true;
-				break;				
-			}
-		}
+		$sudah = Pasien::sudahPeriksaGDSBulanIniPakaiBPJS($periksa->pasien_id, $periksa->id);
 
 		$pasien_id = $periksa->pasien_id;
 		$periksa_id = $periksa->id;

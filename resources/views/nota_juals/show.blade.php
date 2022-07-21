@@ -65,7 +65,7 @@
 				</table>
 		  </div>
             <div class="row">
-				@if( \Auth::user()->role == '6' )
+				@if( \Auth::user()->role_id == '6' )
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					<a href="{{ url('nota_juals/' . $nota_jual->id . '/edit') }}" class='btn btn-warning btn-lg btn-block'>Edit</a>            
 				</div>

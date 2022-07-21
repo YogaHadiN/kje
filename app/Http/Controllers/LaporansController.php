@@ -763,9 +763,7 @@ class LaporansController extends Controller
 		$asuransi = Asuransi::find($id);
 
 		if ($biaya > 0) {
-            $nota_jual_id = Yoga::customId('App\Models\NotaJual');
 			$pn = new NotaJual;
-			$pn->id = $nota_jual_id;
 			$pn->tanggal = Yoga::datePrep( Input::get('tanggal') );
 			$confirm = $pn->save();
 
@@ -894,7 +892,6 @@ class LaporansController extends Controller
 	}
 
 	public function rujukankebidanan(){
-		// return 'oke';
 		$mulai = Input::get('mulai');
 		$akhir = Input::get('akhir');
 
@@ -922,7 +919,6 @@ class LaporansController extends Controller
 		return view('laporans.rujukankebidanan', compact('rujukans'));
 	}
     public function bayardokter(){
-		// return 'oke';
 		$id = Input::get('id');
 		$staf = Staf::find($id);
 		if (is_null($staf)) {
@@ -1084,7 +1080,12 @@ class LaporansController extends Controller
 		$query            .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query            .= "and dg.icd10_id = 'J06' ";
 		$query            .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) = 0 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query            .= " = 0 ";
 		$query            .= "and ps.sex = 1 ";
         $jumlahIspa_0_1_L  = DB::select($query)[0]->jumlah;
 
@@ -1095,7 +1096,12 @@ class LaporansController extends Controller
 		$query            .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query            .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query            .= "and dg.icd10_id = 'J06' ";
-		$query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 5 ";
 		$query            .= "and ps.sex = 1 ";
         $jumlahIspa_1_5_L  = DB::select($query)[0]->jumlah;
 
@@ -1106,7 +1112,12 @@ class LaporansController extends Controller
 		$query                 .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query                 .= "and dg.diagnosa like '%pneum%' ";
 		$query                 .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query                 .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) = 0 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " = 0 ";
 		$query                 .= "and ps.sex = 1 ";
         $jumlahPneumonia_0_1_L  = DB::select($query)[0]->jumlah;
 
@@ -1117,7 +1128,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and dg.diagnosa like '%pneum%' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 5 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahPneumonia_1_5_L = DB::select($query)[0]->jumlah;
 
@@ -1128,7 +1144,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and (dg.icd10_id like 'a00%' or dg.icd10_id like 'a04%' or dg.icd10_id like 'a06%' or dg.icd10_id like 'a08%' or dg.icd10_id like 'a09%') ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) = 0 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " = 0 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_0_1_L = DB::select($query)[0]->jumlah;
 
@@ -1144,7 +1165,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a06%' ";
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 5 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_1_5_L = DB::select($query)[0]->jumlah;
 
@@ -1155,7 +1181,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.icd10_id = 'J06' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " > 5 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahIspaBukanPneumonia_diatas_5_tahun_L = DB::select($query)[0]->jumlah;
 
@@ -1166,7 +1197,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.diagnosa like '%pneum%' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " > 5 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahIspaPneumonia_diatas_5_tahun_L = DB::select($query)[0]->jumlah;
 
@@ -1177,7 +1213,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.icd10_id = 'J06' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) = 0 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " = 0 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahIspa_0_1_P = DB::select($query)[0]->jumlah;
 
@@ -1188,7 +1229,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.icd10_id = 'J06' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 5 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahIspa_1_5_P = DB::select($query)[0]->jumlah;
 
@@ -1199,7 +1245,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.diagnosa like '%pneum%' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) = 0 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " = 0 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahPneumonia_0_1_P = DB::select($query)[0]->jumlah;
 
@@ -1210,7 +1261,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.diagnosa like '%pneum%' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 5 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahPneumonia_1_5_P = DB::select($query)[0]->jumlah;
 
@@ -1227,7 +1283,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%'";
 		$query .= ") ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) = 0 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " = 0 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_0_1_P = DB::select($query)[0]->jumlah;
 
@@ -1244,7 +1305,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%'";
 		$query .= ") ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 5 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_1_5_P = DB::select($query)[0]->jumlah;
 
@@ -1256,7 +1322,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.icd10_id = 'J06' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " > 5 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahIspaBukanPneumonia_diatas_5_tahun_P = DB::select($query)[0]->jumlah;
 
@@ -1267,7 +1338,12 @@ class LaporansController extends Controller
 		$query .= "where date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and dg.diagnosa like '%pneum%' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " > 5 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahIspaPneumonia_diatas_5_tahun_P = DB::select($query)[0]->jumlah;
 
@@ -1346,7 +1422,13 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a09%'";
 		$query .= ") ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 0 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+
+        $query .= " between 0 and 5 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_0_5_L = DB::select($query)[0]->jumlah;
 
@@ -1363,7 +1445,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a09%'";
 		$query .= ") "; 
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 0 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+        $query .= " between 0 and 5 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_0_5_P = DB::select($query)[0]->jumlah;
 
@@ -1379,7 +1466,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 6 and 11 and ps.sex = 1 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+        $query .= " between 6 and 11 and ps.sex = 1 ";
         $jumlahDiare_6_12_L = DB::select($query)[0]->jumlah;
 
 		$query = "select count(*) as jumlah ";
@@ -1394,7 +1486,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 6 and 11 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+        $query .= " between 6 and 11 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_6_12_P = DB::select($query)[0]->jumlah;
          
@@ -1410,7 +1507,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 4 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 4 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_1_4_L = DB::select($query)[0]->jumlah;
 
@@ -1426,7 +1528,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 4 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 4 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_1_4_P = DB::select($query)[0]->jumlah;
          
@@ -1442,7 +1549,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 5 and 9 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 5 and 9 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_5_9_L = DB::select($query)[0]->jumlah;
          
@@ -1458,7 +1570,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 5 and 9 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 5 and 9 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_5_9_P = DB::select($query)[0]->jumlah;
 
@@ -1474,7 +1591,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 10 and 14 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 10 and 14 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_10_14_L = DB::select($query)[0]->jumlah;
 
@@ -1490,7 +1612,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 10 and 14 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 10 and 14 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_10_14_P = DB::select($query)[0]->jumlah;
          
@@ -1506,7 +1633,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 15 and 19 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 15 and 19 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_15_19_L = DB::select($query)[0]->jumlah;
 
@@ -1522,7 +1654,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 15 and 19 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 15 and 19 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_15_19_P = DB::select($query)[0]->jumlah;
 
@@ -1538,7 +1675,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 20 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " > 20 ";
 		$query .= "and ps.sex = 1 ";
         $jumlahDiare_20_L = DB::select($query)[0]->jumlah;
 
@@ -1554,7 +1696,12 @@ class LaporansController extends Controller
 		$query .= "or dg.icd10_id like 'a08%' ";
 		$query .= "or dg.icd10_id like 'a09%') ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 20 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " > 20 ";
 		$query .= "and ps.sex = 0 ";
         $jumlahDiare_20_P = DB::select($query)[0]->jumlah;
 
@@ -1594,7 +1741,12 @@ class LaporansController extends Controller
 		$query .= "where fr.id='150802006' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 0 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+        $query .= " between 0 and 5 ";
         $jumlahZink_0_5 = DB::select($query)[0]->jumlah;
 
 		$query = "select count(*) as jumlah ";
@@ -1607,7 +1759,12 @@ class LaporansController extends Controller
 		$query .= "where fr.id='150802006' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 6 and 11 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+        $query .= " between 6 and 11 ";
         $jumlahZink_6_11 = DB::select($query)[0]->jumlah;
 
 		$query = "select count(*) as jumlah ";
@@ -1620,7 +1777,12 @@ class LaporansController extends Controller
 		$query .= "where fr.id='150802006' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 4 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 4 ";
         $jumlahZink_1_4 = DB::select($query)[0]->jumlah;
 
 		$query = "select count(*) as jumlah ";
@@ -1632,7 +1794,12 @@ class LaporansController extends Controller
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "where fr.id='150811020' and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) > 4 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " > 4 ";
         $jumlahOralit_lebih_dari_5 = DB::select($query)[0]->jumlah;
 
 		$query = "select count(*) as jumlah ";
@@ -1644,7 +1811,12 @@ class LaporansController extends Controller
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "where fr.id='150811020' and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) < 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " < 5 ";
         $jumlahOralit_kurang_dari_5 = DB::select($query)[0]->jumlah;
 
 		$query = "select count(*) as jumlah ";
@@ -1657,7 +1829,12 @@ class LaporansController extends Controller
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "where fr.id='150802006' and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 0 and 5 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+        $query .= " between 0 and 5 ";
 		$query .= "and (";
 		$query .= "dg.icd10_id like 'a00%' ";
 		$query .= "or dg.icd10_id like 'a04%' ";
@@ -1676,7 +1853,12 @@ class LaporansController extends Controller
 		$query .= "join pasiens as ps on ps.id=px.pasien_id ";
 		$query .= "where fr.id='150802006' and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal) between 6 and 11 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "and TIMESTAMPDIFF(MONTH, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query .= "and cast((julianday(px.tanggal)-julianday(ps.tanggal_lahir))/(365/12) as int)";
+        }
+        $query .= " between 6 and 11 ";
 		$query .= "and (";
 		$query .= "dg.icd10_id like 'a00%' ";
 		$query .= "or dg.icd10_id like 'a04%' ";
@@ -1695,7 +1877,12 @@ class LaporansController extends Controller
 		$query .= "join pasiens as ps on ps.id=px.pasien_id ";
 		$query .= "where fr.id='150802006' and date(px.tanggal) between '{$mulai}' and '{$akhir}' ";
 		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal) between 1 and 4 ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query            .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, px.tanggal)";
+        } else {
+            $query            .= "and cast(strftime('%Y.%m%d', 'now') - strftime('%Y.%m%d', ps.tanggal_lahir) as int)";
+        }
+        $query .= " between 1 and 4 ";
 		$query .= "and (";
 		$query .= "dg.icd10_id like 'a00%' ";
 		$query .= "or dg.icd10_id like 'a04%' ";
@@ -1933,11 +2120,12 @@ class LaporansController extends Controller
 		$query .= "st.id as staf_id, ";
 		$query .= "st.nama as nama_staf ";
 		$query .= "FROM periksas as px ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "JOIN stafs as st on st.id = px.staf_id ";
 		$query .= "WHERE st.id like '{$staf_id}'";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND px.tanggal like '{$bulanTahun}%'";
-		$query .= "AND px.asuransi_id = 32 ";
+		$query .= "AND asu.tipe_asuransi_id = 5 ";
 		$query .= "GROUP BY st.id ";
 		$pasiens = DB::select($query);
 		$pasien_array = [];
@@ -1952,8 +2140,9 @@ class LaporansController extends Controller
 		$query .= "st.nama as nama_staf ";
 		$query .= "FROM terapis as tx ";
 		$query .= "JOIN periksas as px on px.id = tx.periksa_id ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "JOIN stafs as st on st.id = px.staf_id ";
-		$query .= "WHERE asuransi_id = 32 ";
+		$query .= "WHERE asu.tipe_asuransi_id = 5 ";
 		$query .= "AND tx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND staf_id like '{$staf_id}' ";
 		$query .= "AND tanggal like '{$bulanTahun}%' ";
@@ -2036,7 +2225,7 @@ class LaporansController extends Controller
 	public function polisHarian($periksas){
 		$poli_id = [];
 		foreach ($periksas as $periksa) {
-			$poli_id[] = $periksa->poli;
+			$poli_id[] = $periksa->poli_id;
 		}
 		$polis = array_unique($poli_id, SORT_REGULAR);
 		sort( $polis );
@@ -2136,7 +2325,7 @@ class LaporansController extends Controller
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran non bpjs
 		$query .= "AND  ps.id not in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tahunBulan}%' and ks.pcare_submit = 1 ) ";
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
-		$query .= "AND  ps.id not in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tahunBulan}%' )) ";
+		$query .= "AND  ps.id not in( Select pasien_id from periksas as prx join asuransis as asu on asu.id = prx.asuransi_id where asu.tipe_asuransi_id = 5 and prx.created_at like '{$tahunBulan}%' )) ";
 		$query .= "AND ps.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by px.pasien_id, ps.alamat ";
 		$query .= "order by kali_berobat ";
@@ -2218,10 +2407,10 @@ class LaporansController extends Controller
 
 		$polis         = [];
 		foreach ($periksa_hari_ini as $prx) {
-			if (!isset($polis[$prx->poli])) {
-				$polis[$prx->poli] = 1;
+			if (!isset($polis[$prx->poli_id])) {
+				$polis[$prx->poli_id] = 1;
 			} else {
-				$polis[$prx->poli]++;
+				$polis[$prx->poli_id]++;
 			}
 		}
 		ksort($polis);
@@ -2241,10 +2430,10 @@ class LaporansController extends Controller
 				$hariinis[ $prx->asuransi_id ]['jumlah_hari_ini']++;
 			}
 
-			if (!isset($hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli])) {
-				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli] = 1;
+			if (!isset($hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli_id])) {
+				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli_id] = 1;
 			} else {
-				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli]++;
+				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli_id]++;
 			}
 		}
 

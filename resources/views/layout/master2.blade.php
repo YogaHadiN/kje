@@ -33,9 +33,9 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element"> <span>
-                            @if(\Auth::user()->role == '1')
+                            @if(\Auth::user()->role_id == '1')
                                 <img alt="image" class="img-circle" width="75px" height="75px" src="{{ \Storage::disk('s3')->url('img/dokter_pria.jpeg') }}" />
-                            @elseif(\Auth::user()->role == '6')
+                            @elseif(\Auth::user()->role_id == '6')
                                 <img alt="image" class="img-circle" width="75px" height="75px" src="{{ \Storage::disk('s3')->url('img/profile_small.jpg') }}" />
                             @else
                                 <img alt="image" class="img-circle" width="75px" height="75px" src="{{ \Storage::disk('s3')->url('img/nurse.jpeg') }}" />
@@ -46,17 +46,17 @@
                                 {!! \Auth::user()->username !!}</strong>
                              </span> <span class="text-muted text-xs block">
                                 
-                                @if(\Auth::user()->role == '1')
+                                @if(\Auth::user()->role_id == '1')
                                     Dokter
-                                @elseif(\Auth::user()->role == '2')
+                                @elseif(\Auth::user()->role_id == '2')
                                     Kasir
-                                @elseif(\Auth::user()->role == '3')
+                                @elseif(\Auth::user()->role_id == '3')
                                     Bidan
-                                @elseif(\Auth::user()->role == '4')
+                                @elseif(\Auth::user()->role_id == '4')
                                     Admin
-                                @elseif(\Auth::user()->role == '5')
+                                @elseif(\Auth::user()->role_id == '5')
                                     Dokter Gigi
-                                @elseif(\Auth::user()->role == '6')
+                                @elseif(\Auth::user()->role_id == '6')
                                     Super Admin
                                 @endif
 

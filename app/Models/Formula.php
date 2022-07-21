@@ -89,7 +89,7 @@ class Formula extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 	public function dose(){
 		return $this->hasMany('App\Models\Dose');
@@ -97,6 +97,9 @@ class Formula extends Model{
 	public function aturanMinum(){
 		return $this->belongsTo('App\Models\AturanMinum');
 	}
+    public function sediaan(){
+        return $this->belongsTo('App\Models\Sediaan');
+    }
 
 	public function komposisi(){
 		return $this->hasMany('App\Models\Komposisi');

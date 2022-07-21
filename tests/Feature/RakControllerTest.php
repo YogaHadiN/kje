@@ -14,10 +14,10 @@ use App\Models\Formula;
 use Carbon\Carbon;
 class RakControllerTest extends TestCase
 {
-    use WithFaker;
+    use WithFaker, RefreshDatabase;
 
     public function test_create_view(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $formula = Formula::factory()->create();
         $response = $this->get('create/raks/' . $formula->id);
@@ -27,7 +27,7 @@ class RakControllerTest extends TestCase
         // make a request with file
 
 
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
 
         /* sebelum kesini ke acting as dulu */
@@ -124,7 +124,7 @@ class RakControllerTest extends TestCase
         // make a request with file
 
 
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
 
         /* sebelum kesini ke acting as dulu */
@@ -229,14 +229,14 @@ class RakControllerTest extends TestCase
         $response->assertRedirect('mereks');
     }
     public function test_edit(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $rak = Rak::factory()->create();
         $response = $this->get('raks/' . $rak->id . '/edit');
         $response->assertStatus(200);
     }
     public function test_destroy(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $rak = Rak::factory()->create();
         $response = $this->delete('raks/' . $rak->id);

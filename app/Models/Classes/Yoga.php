@@ -530,19 +530,8 @@ class Yoga {
 			return $bulanThn;
 		}
 
-		public static function rataAtas5000($totalBiayaObat){
-
-		   if($totalBiayaObat == 0){
-			   	return 0;
-		   }
-
-		   $i = 0;
-		   while(($i - $totalBiayaObat) <5000){
-		        $total = $i;
-		        $i = $i + 5000;
-		   }
-
-		   return $total;
+		public static function rataAtas5000($n){
+            return round(($n+5000/2)/5000)*5000;
 		}
 
 		public static function alternatif_fornas(){
@@ -554,7 +543,6 @@ class Yoga {
 
 		public static function fornas(){
 			return [
-						
 						 null        => '- Pilih -',
 			            '0'         => 'Bukan Fornas',
 			            '1'         => 'Fornas'
@@ -563,7 +551,7 @@ class Yoga {
 
 		public static function merekAsli($merek_lama, $formula, $bobot){
 			if($formula->komposisi->count() == 1) {
-				$end = $formula->sediaan . ' ' . $bobot;
+				$end = $formula->sediaan->sediaan . ' ' . $bobot;
 				$merek = str_replace($end, '', $merek_lama);
 			} else {
 				$merek = str_replace($formula->sediaan, '', $merek_lama);
@@ -854,16 +842,6 @@ class Yoga {
 
 		}
 
-		public static function tipe_asuransi(){
-			return array(
-                                null => '- Tipe Asuransi -',
-                                '1' => 'Admedika',
-                                '2' => 'Kapitasi',
-                                '3' => 'Perusahaan',
-                                '4' => 'Flat',
-                                '5' => 'BPJS',
-                        );
-		}
 
 		public static function biayaObatTotal($control){
 	   		$transaksis = json_decode($control, true);
@@ -874,73 +852,6 @@ class Yoga {
 	   		}
 		}
 
-		public static function kaliObat($transaksis, $terapi, $asuransi, $plafon, $poli){
-			$transaksi_array = $transaksis;
-			$non_paket = true;
-			foreach ($transaksi_array as $k => $v) {
-				$tarif_ini = Tarif::where('jenis_tarif_id', $v['jenis_tarif_id'])->where('asuransi_id', $asuransi->id)->first();
-				if ($tarif_ini->tipe_tindakan_id == 2) {
-					$non_paket = false;
-					$tarif_ini = $v;
-					break;	
-				}
-			}
-			if ($non_paket) {
-				if($terapi != '' && $terapi != '[]'){
-					$tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();//jenis tarif id = 9 adalah biaya obat
-					$terapis = json_decode($terapi, true);
-					$merek = Merek::all();
-					$biaya = 0;
-					foreach ($terapis as $terapi) {
-						if ($asuransi->tipe_asuransi == '5') { //pembayaran BPJS
-							if ($terapi['fornas'] == '0') { // jika obat tidak tergolong fornas
-								$biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'];
-							} else {
-								$biaya += 0;
-							}
-						} else {
-							$biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'] * $asuransi->kali_obat;
-						}
-					}
-					if ($asuransi->tipe_asuransi == 4) { //tipe asuransi pembayaran flat
-						$selisihPlafon = $plafon - $biaya;
-						if ( $selisihPlafon > 0) {
-							$biaya = $tarif->biaya;
-						} else {
-							$biaya = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya - $selisihPlafon;
-						}
-					}
-                    if ($biaya < 30000 && ( $asuransi->id == '151222001' || $asuransi->id == '10' )) {
-                        $biaya = 30000;
-                    } else {
-						if ($poli != 'estetika') {
-							$biaya = Yoga::rataAtas5000($biaya);
-						}
-                    }
-					$plus = [
-						'jenis_tarif_id' => $tarif->jenis_tarif_id,
-						'jenis_tarif' => $tarif->jenisTarif->jenis_tarif,
-						'biaya' => $biaya
-					];
-					array_unshift($transaksis, $plus);
-				} else {
-					$plus = [
-						'jenis_tarif_id' => 9,
-						'jenis_tarif' => 'Biaya Obat',
-						'biaya' => 0
-					];
-					array_unshift($transaksis, $plus);
-				}
-			} else {
-				$plus = [
-					'jenis_tarif_id' => 9,
-					'jenis_tarif' => 'Biaya Obat',
-					'biaya' => 0
-				];
-				array_unshift($transaksis, $plus);
-			}
-			return $transaksis;
-		}
 		public static function kaliObat2($transaksis, $terapis, $asuransi, $plafon){
 
 			$transaksi_array = $transaksis;
@@ -954,16 +865,14 @@ class Yoga {
 				}
 			}
 			if ($non_paket) {
-
 				if($terapis->count() > 0){
 				//jenis tarif id = 9 adalah biaya obat
-
-					$tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();
+					$tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
 					$merek = Merek::all();
 					$biaya = 0;
 
 					foreach ($terapis as $terapi) {
-						if ($asuransi->tipe_asuransi == '5') { //pembayaran BPJS
+						if ($asuransi->tipe_asuransi_id == 5) { //pembayaran BPJS
 							if ($terapi->merek->rak->fornas == '0') { // jika obat tidak tergolong fornas
 								$biaya += $terapi->merek->rak->harga_jual * $terapi->jumlah;
 							} else {
@@ -977,38 +886,30 @@ class Yoga {
 							}
 						}
 					}
-					if ($asuransi->tipe_asuransi == 4) { //tipe asuransi pembayaran flat
+					if ($asuransi->tipe_asuransi_id == 4) { //tipe asuransi pembayaran flat
 						$selisihPlafon = $plafon - $biaya;
-
-						if ( $selisihPlafon > 0) {
-							$biaya = $tarif->biaya;
-						} else {
-							$biaya = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya - $selisihPlafon;
-						}
 					}
 
 					$biaya = Yoga::rataAtas5000($biaya);
-
-
 					$plus = [
 						'jenis_tarif_id' => $tarif->jenis_tarif_id,
-						'jenis_tarif' => $tarif->jenisTarif->jenis_tarif,
-						'biaya' => $biaya
+						'jenis_tarif'    => $tarif->jenis_tarif,
+						'biaya'          => $biaya
 					];
 					array_unshift($transaksis, $plus);
 				} else {
 					$plus = [
-						'jenis_tarif_id' => 9,
-						'jenis_tarif' => 'Biaya Obat',
-						'biaya' => 0
+						'jenis_tarif_id' => $tarif->jenis_tarif_id,
+						'jenis_tarif'    => $tarif->jenis_tarif,
+						'biaya'          => 0
 					];
 					array_unshift($transaksis, $plus);
 				}
 			} else {
 				$plus = [
-					'jenis_tarif_id' => 9,
-					'jenis_tarif' => 'Biaya Obat',
-					'biaya' => 0
+                    'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                    'jenis_tarif'    => $tarif->jenis_tarif,
+					'biaya'          => 0
 				];
 				array_unshift($transaksis, $plus);
 			}
@@ -1031,15 +932,14 @@ class Yoga {
 			//Jika tipe_asuransi adalah 4 == flat, maka hitung plafon
 			//
 			
-			if ($asuransi->tipe_asuransi == '4') {
+			if ($asuransi->tipe_asuransi_id == 4) {
 
 				//
 				//plafon sekali berobat
 				//
 				
-				$plafonObatSekaliBerobat       = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya;
-				$plafonJasaDokterSekaliBerobat = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '1')->first()->biaya;
-				//return $plafonObatSekaliBerobat;
+				$plafonObatSekaliBerobat       = Tarif::queryTarif($asuransi->id, 'Biaya Obat')->biaya;
+				$plafonJasaDokterSekaliBerobat = Tarif::queryTarif($asuransi->id, 'Jasa Dokter')->biaya;
 				$sisaPlafon = 0;
 
 				//
@@ -1107,7 +1007,8 @@ class Yoga {
 		public static function kasirHargaJualItem($terapi, $periksa, $bool = true){
 			if ($bool) {
 	            if($terapi->merek_id > 0){
-	            	if ($periksa->asuransi_id == '32') {
+                    $asuransi_bpjs = Asuransi::Bpjs();
+	            	if ($periksa->asuransi_id == $asuransi_bpjs->id) {
 		            	if ($terapi->merek->rak_id == 'D7' && $terapi->signa == 'Puyer') {
 		            		return '0';
 		            	} else {
@@ -1126,7 +1027,8 @@ class Yoga {
 		        }
 			} else {
         		$merek = Merek::find($terapi['merek_id']);
-            	if ($periksa->asuransi_id == '32') {
+                $asuransi_bpjs = Asuransi::Bpjs();
+            	if ($periksa->asuransi_id == $asuransi_bpjs->id) {
             		$fornas = $terapi['fornas'];
             		if ($fornas == '1') {
             			$harga_jual = 0;
@@ -1813,7 +1715,7 @@ class Yoga {
 
 		public static function hargaJualSatuan($asuransi, $merek_id){
 			$merek = Merek::with('rak')->where('id', $merek_id)->first();
-			if ($asuransi->tipe_asuransi == 5) { //asuransi bpjs
+			if ($asuransi->tipe_asuransi_id == 5) { //asuransi bpjs
 				$fornas = $merek->rak->fornas;
 				if ($fornas == '1') {
 					$harga_jual_satuan = 0;
@@ -2020,7 +1922,8 @@ class Yoga {
 
 	public static function pakaiBayarPribadi($asuransi_id, $pasien_id, $pemeriksaanTerakhir = null){
 		$pakai_bayar_pribadi = false;
-		if ($asuransi_id == '32')  {
+        $asuransi_bpjs = Asuransi::Bpjs();
+		if ($asuransi_id == $asuransi_bpjs->id)  {
 			//cek pemeriksaan dalam 3 minggu terakhir yang memakai biaya pribadi
 			$periksa3mingguTerakhirPakaiBiayaPribadi = Periksa::where('pasien_id', $pasien_id)
 			->whereRaw("date(tanggal) between '" . date( 'Y-m-d', strtotime( date('Y-m-d') . ' -21 day' ) ) . "' and '" .date('Y-m-d'). "'")
@@ -2030,7 +1933,7 @@ class Yoga {
 			//Cek Pemeriksaan terakhir
 			//
 			if($pemeriksaanTerakhir != null){
-				if ($pemeriksaanTerakhir->asuransi_id == '32') {
+				if ($pemeriksaanTerakhir->asuransi_id == $asuransi_bpjs->id) {
 					$periksaTerakhirGakPakaiBPJS = false;
 				} else {
 					$periksaTerakhirGakPakaiBPJS = true;

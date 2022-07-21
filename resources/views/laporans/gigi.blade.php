@@ -48,7 +48,7 @@
 							<td>{!! App\Models\Classes\Yoga::updateDatePrep( $periksa->tanggal ) !!}</td>
 							<td>{!! $periksa->jam !!}</td>
 							<td>{!! $periksa->pasien->nama !!}</td>
-							<td>{!! $periksa->poli !!}</td>
+                            <td>{!! $periksa->poli->poli !!}</td>
 							<td>{!! $periksa->pemeriksaan_fisik !!}</td>
 							<td>{!! $periksa->terapi_html !!}</td>
 						</tr>

@@ -166,7 +166,7 @@ return [
          * Package Service Providers...
          */
         Collective\Html\HtmlServiceProvider::class,
-
+        Orangehill\Iseed\IseedServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 		/* Barryvdh\Debugbar\ServiceProvider::class, */
 	    /* Laravel\Socialite\SocialiteServiceProvider::class, */

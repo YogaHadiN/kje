@@ -37,7 +37,7 @@
 		  'penagihanstring' => $asuransi->penagihanstring
 		])
 {!! Form::close()!!}
-@if(\Auth::user()->role == '6')
+@if(\Auth::user()->role_id == '6')
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         {!!Form::open(['url' => 'asuransis/' . $asuransi->id, 'method' => 'delete'])!!}

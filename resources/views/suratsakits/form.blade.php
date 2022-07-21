@@ -31,7 +31,7 @@
 				 		{!! Form::submit($submit, ['class' => 'btn btn-primary btn-block'])!!}
 				 	</div>
 				 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				 		<a href="{!! url('ruangperiksa/'.$periksa->poli) !!}" class="btn btn-warning btn-block">Cancel</a>
+				 		<a href="{!! url('ruangperiksa/'.$periksa->poli_id) !!}" class="btn btn-warning btn-block">Cancel</a>
 				 	</div>
 				 </div>
 				 @if($delete)

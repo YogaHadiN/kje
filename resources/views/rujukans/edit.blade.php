@@ -11,7 +11,7 @@
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li>
-          <a href="{{ url('ruangperiksas/' . $rujukan->periksa->poli)}}">Antrian Periksa</a>
+          <a href="{{ url('ruangperiksas/' . $rujukan->periksa->poli_id)}}">Antrian Periksa</a>
       </li>
       <li class="active">
           <strong>Edit Rujukan</strong>

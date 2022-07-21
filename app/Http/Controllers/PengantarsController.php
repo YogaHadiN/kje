@@ -16,6 +16,8 @@ use App\Models\SmsJangan;
 use App\Models\PengantarPasien;
 use App\Models\KunjunganSakit;
 use App\Models\Periksa;
+use App\Models\Asuransi;
+use App\Models\JenisPeserta;
 use App\Models\Classes\Yoga;
 
 class PengantarsController extends Controller
@@ -27,7 +29,7 @@ class PengantarsController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan        = $ps->panggilan();
 		$asuransi         = Yoga::asuransiList();
-		$jenis_peserta    = $ps->jenisPeserta();
+		$jenis_peserta    = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf             = Yoga::stafList();
 		$poli             = Yoga::poliList();
 		$ap               = AntrianPeriksa::find($id);
@@ -152,7 +154,7 @@ class PengantarsController extends Controller
 		$redirect = $posisi_antrian;
 		if ($posisi_antrian == 'antrianperiksas') {
 			$antrianperiksa = AntrianPeriksa::find($id);
-			$jenis_antrian_id = $antrianperiksa->ispoli->poli_antrian->jenis_antrian_id;
+			$jenis_antrian_id = $antrianperiksa->poli->poli_antrian->jenis_antrian_id;
 			$redirect = 'ruangperiksa/' . $jenis_antrian_id;
 		}
 		return redirect($redirect)->withPesan( Yoga::suksesFlash($pesan) );
@@ -164,7 +166,7 @@ class PengantarsController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan = $ps->panggilan();
 		$asuransi = Yoga::asuransiList();
-		$jenis_peserta = $ps->jenisPeserta();
+		$jenis_peserta = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$peserta = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
@@ -206,7 +208,6 @@ class PengantarsController extends Controller
 			$asuransi_id = Input::get('asuransi_id');
 		}
 
-		$id = Yoga::customId('App\Models\Pasien');
 
 		$pasien                 = new Pasien;
 		$pasien->alamat         = Input::get('alamat');
@@ -218,21 +219,21 @@ class PengantarsController extends Controller
 		$pasien->nama           = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 		$pasien->nama_peserta   = ucwords(strtolower(Input::get('nama_peserta')));
 		$pasien->nomor_asuransi = Input::get('nomor_asuransi');
-		if ($asuransi_id == '32') {
+        $asuransi_bpjs = Asuransi::Bpjs();
+		if ($asuransi_id == $asuransi_bpjs->id) {
 			$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
 		}
 		$pasien->no_telp        = Input::get('no_telp');
 		$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
-		$pasien->id             = $id;
 		$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
 		$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
 		$pasien->image          = Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
 		$conf = $pasien->save();
 	
 		if ($conf) {
-			$pesan = Yoga::suksesFlash( '<strong>' . $id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
+			$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		} else {
-			$pesan = Yoga::suksesFlash( '<strong>' . $id . ' - ' . $pasien->nama . '</strong> Gagal masuk antrian Nurse Station' );
+			$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Gagal masuk antrian Nurse Station' );
 		}
 
 		return redirect()->back()
@@ -244,7 +245,7 @@ class PengantarsController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan        = $ps->panggilan();
 		$asuransi         = Yoga::asuransiList();
-		$jenis_peserta    = $ps->jenisPeserta();
+		$jenis_peserta    = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf             = Yoga::stafList();
 		$poli             = Yoga::poliList();
 
@@ -293,7 +294,7 @@ class PengantarsController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan        = $ps->panggilan();
 		$asuransi         = Yoga::asuransiList();
-		$jenis_peserta    = $ps->jenisPeserta();
+		$jenis_peserta    = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf             = Yoga::stafList();
 		$poli             = Yoga::poliList();
 		$ap               = AntrianPoli::find($id);
@@ -476,7 +477,7 @@ class PengantarsController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan        = $ps->panggilan();
 		$asuransi         = Yoga::asuransiList();
-		$jenis_peserta    = $ps->jenisPeserta();
+		$jenis_peserta    = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf             = Yoga::stafList();
 		$poli             = Yoga::poliList();
 		$ap               = Periksa::find($id);
@@ -513,7 +514,7 @@ class PengantarsController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan = $ps->panggilan();
 		$asuransi = Yoga::asuransiList();
-		$jenis_peserta = $ps->jenisPeserta();
+		$jenis_peserta = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$ap = Periksa::find($id);
@@ -605,20 +606,21 @@ class PengantarsController extends Controller
 	}
 
 	public function storePasienAjax(){
-		$pasien_id = Yoga::customId('App\Models\Pasien');
 		$ps       = new Pasien;
 		if (empty(trim(Input::get('asuransi_id')))) {
 			$asuransi_id = 0;
 		} else {
 			$asuransi_id = Input::get('asuransi_id');
 		}
-		$ps->id   = $pasien_id;
 		$ps->nama   = Input::get('nama') . ', '. Input::get('panggilan');
 		$ps->alamat   = Input::get('alamat');
 		$ps->tanggal_lahir   = Yoga::datePrep( Input::get('tanggal_lahir') );
 		$ps->sex   = Input::get('sex');
 		$ps->asuransi_id   = $asuransi_id;
-		if ($asuransi_id == '32') {
+
+
+        $asuransi_bpjs = Asuransi::Bpjs();
+		if ($asuransi_id == $asuransi_bpjs->id) {
 			$ps->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
 		}
 		$ps->nomor_asuransi   = Input::get('nomor_asuransi');
@@ -632,7 +634,7 @@ class PengantarsController extends Controller
 		if ($confirm) {
 
 			$data = [
-				'pasien_id' => $pasien_id,
+				'pasien_id' => $ps->id,
 				'nama' => $ps->nama,
 				'nomor_asuransi' => $ps->nomor_asuransi
 			];
@@ -670,7 +672,7 @@ class PengantarsController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan = $ps->panggilan();
 		$asuransi = Yoga::asuransiList();
-		$jenis_peserta = $ps->jenisPeserta();
+		$jenis_peserta = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 		$ap = Periksa::find($id);

@@ -22,7 +22,6 @@ class RekeningFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => $this->faker->asciify('********************'),
             'akun_bank_id' => \App\Models\AkunBank::factory(),
             'tanggal' => $this->faker->dateTime(),
             'deskripsi' => $this->faker->text,
@@ -30,7 +29,7 @@ class RekeningFactory extends Factory
             'saldo_akhir' => $this->faker->randomFloat(),
             'debet' => $this->faker->boolean,
             'pembayaran_asuransi_id' => \App\Models\PembayaranAsuransi::factory(),
-            'old_id' => $this->faker->word,
+            'kode_transaksi' => $this->faker->word,
             'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }

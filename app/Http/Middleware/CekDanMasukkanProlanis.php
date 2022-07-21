@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Carbon\Carbon;
 use App\Models\Periksa;
+use App\Models\Asuransi;
 use App\Models\Classes\Yoga;
 use App\Models\PesertaBpjsPerbulan;
 use App\Http\Controllers\LaporansController;
@@ -27,24 +28,29 @@ class CekDanMasukkanProlanis
         $periksa    = Periksa::find( $periksa_id );
         $pasien     = $periksa->pasien;
         $pc         = new PeriksasController;
-        $rppt       = $pc->hitungPersentaseRppt();
 
+        /* dd( */
+        /*     $periksa->asuransi->tipe_asuransi_id, */
+        /*     $pasien->prolanis_ht, */
+        /*     $pasien->prolanis_dm */
+        /* ); */
         if (
-            $rppt['rppt'] < 5 &&//jika rppt belum mencapai 5%
-            $pasien->prolanis_ht &&//jika pasien merupakan pasien prolanis_ht
-            $periksa->asuransi_id == '32' &&//jika pemeriksaan menggunakan pembayaran BPJS
-            $pdf->htTerkendali($periksa) &&//jika pasien masuk kategori tekanan darah terkendali
-            is_null($pasien->prolanis_ht_flagging_image)//jika pasien belum diflagging prolanis hipertensi
+            $periksa->asuransi->tipe_asuransi_id ==  5 &&//jika pemeriksaan menggunakan pembayaran BPJS
+            ($pasien->prolanis_ht || $pasien->prolanis_dm) //jika pasien merupakan pasien prolanis_ht atau dm
         ) {
-            $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien <strong>PROLANIS HIPERTENSI</strong>, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis Hipertensi BPJS');
-            return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
-        } else if (
-            $pasien->prolanis_dm &&//jika pasien merupakan pasien prolanis_ht
-            $periksa->asuransi_id == '32' &&//jika pemeriksaan menggunakan pembayaran BPJS
-            is_null($pasien->prolanis_dm_flagging_image)//jika pasien belum diflagging prolanis hipertensi
-        ){
-            $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien <strong>PROLANIS DIABETES MELITUS</strong>, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis DM BPJS');
-            return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
+            if (
+                $pasien->prolanis_ht &&//jika pasien merupakan pasien prolanis_ht
+                is_null($pasien->prolanis_ht_flagging_image)//jika pasien belum diflagging prolanis hipertensi
+            ) {
+                $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien <strong>PROLANIS HIPERTENSI</strong>, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis Hipertensi BPJS');
+                return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
+            } else if (
+                $pasien->prolanis_dm &&//jika pasien merupakan pasien prolanis_ht
+                is_null($pasien->prolanis_dm_flagging_image)//jika pasien belum diflagging prolanis hipertensi
+            ){
+                $pesan = Yoga::gagalFlash('Pasien ini harus diflagging sebagai Pasien <strong>PROLANIS DIABETES MELITUS</strong>, harap upload bukti bahwa pasien sudah didaftarkan sebagai pasien prolanis DM BPJS');
+                return redirect('pasiens/' . $pasien->id . '/edit')->withPesan($pesan);
+            }
         }
         return $next($request);
     }

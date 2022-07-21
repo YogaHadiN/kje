@@ -26,19 +26,19 @@ use DB;
 class AsuransisController extends Controller
 {
 
-	public $input_nama             = '';
-	public $input_pic             = '';
-	public $input_alamat           = '';
-	public $input_telpon          = '';
-	public $input_tanggal_berakhir = '';
-	public $input_penagihan        = '';
-	public $input_gigi             = '';
-	public $input_rujukan          = '';
-	public $input_tipe_asuransi    = '';
-	public $input_email            = '';
-	public $input_umum             = '';
-	public $input_kali_obat        = '';
-	public $input_kata_kunci       = '';
+	public $input_nama;
+	public $input_pic ;
+	public $input_alamat;
+	public $input_telpon ;
+	public $input_tanggal_berakhir;
+	public $input_penagihan       ;
+	public $input_gigi            ;
+	public $input_rujukan         ;
+	public $input_tipe_asuransi_id;
+	public $input_email           ;
+	public $input_umum            ;
+	public $input_kali_obat       ;
+	public $input_kata_kunci      ;
 	public $input_aktif;
 	public $hasfile;
 	public $input_id;
@@ -61,7 +61,7 @@ class AsuransisController extends Controller
     {
         $this->middleware('super', ['only'   => 'delete']);
         $this->middleware('admin', ['except' => []]);
-		$this->input_nama                     = ucwords(strtolower(Input::get('nama')));
+		$this->input_nama                     = Input::get('nama');
 		$this->input_alamat                   = Input::get('alamat');
 		$this->input_pic                      = Input::get('pic');
 		$this->input_hp_pic                   = Input::get('hp_pic');
@@ -71,7 +71,7 @@ class AsuransisController extends Controller
 		$this->input_penagihan                = Yoga::cleanArrayJson(Input::get('penagihan'));
 		$this->input_gigi                     = Yoga::cleanArrayJson(Input::get('gigi'));
 		$this->input_rujukan                  = Yoga::cleanArrayJson(Input::get('rujukan'));
-		$this->input_tipe_asuransi            = Input::get('tipe_asuransi');
+		$this->input_tipe_asuransi_id            = Input::get('tipe_asuransi_id');
 		$this->input_umum                     = Yoga::cleanArrayJson(Input::get('umum'));
 		$this->input_kali_obat                = Input::get('kali_obat');
 		$this->input_kata_kunci               = Input::get('kata_kunci');
@@ -104,8 +104,6 @@ class AsuransisController extends Controller
 		$asuransis = Asuransi::where('id', '>', 0)->get();
 
 		$asur = [];
-
-		/* return $asuransis->first()->belum; */
 
 		foreach ($asuransis as $key => $asu) {
 			$asur[] = [
@@ -171,7 +169,6 @@ class AsuransisController extends Controller
 			foreach ($tarifs as $tarif_pribadi) {
 				$data [] = [
 					'biaya'                 => $tarif_pribadi['biaya'],
-					'asuransi_id'           => $asuransi->id,
 					'jenis_tarif_id'        => $tarif_pribadi['jenis_tarif_id'],
 					'tipe_tindakan_id'      => $tarif_pribadi['tipe_tindakan_id'],
 					'bhp_items'             => $tarif_pribadi['bhp_items'],
@@ -180,7 +177,7 @@ class AsuransisController extends Controller
 				];
 			}
 
-			Tarif::insert($data);
+            $asuransi->tarif()->createMany($data);
 			DB::commit();
 			return \Redirect::route('asuransis.index')->withPesan(Yoga::suksesFlash('<strong>Asuransi ' . ucwords(strtolower(Input::get('nama')))  .'</strong> berhasil dibuat'));
 		} catch (\Exception $e) {
@@ -346,8 +343,18 @@ class AsuransisController extends Controller
 		$query .="sum(bl.hutang) as hutang, ";
 		$query .="sum(bl.sudah_dibayar) as sudah_dibayar ";
 		$query .="FROM ( ";
-		$query .="SELECT year(ju.created_at) as tahun, ";
-		$query .="month(ju.created_at) as bulan, ";
+
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .="SELECT year(ju.created_at) as tahun, ";
+        } else {
+            $query .="SELECT strftime('%Y',ju.created_at) as tahun, ";
+        }
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .="month(ju.created_at) as bulan, ";
+        } else {
+            $query .="strftime('%m',ju.created_at) as bulan, ";
+        }
+
 		$query .="ju.created_at as tanggal, ";
 		$query .="ju.nilai as hutang, ";
 		$query .="asu.nama as nama_asuransi, ";
@@ -475,7 +482,7 @@ class AsuransisController extends Controller
 		$query .= "co.coa as coa ";
 		$query .= "FROM pembayaran_asuransis as peas ";
 		$query .= "JOIN asuransis as asu on asu.id = peas.asuransi_id ";
-		$query .= "JOIN coas as co on co.id = peas.kas_coa_id ";
+		$query .= "JOIN coas as co on co.id = peas.coa_id ";
 		$query .= "JOIN stafs as st on st.id = peas.staf_id ";
 		$query .= "WHERE ( mulai like '" .date('Y-m', strtotime($mulai)) . '%'. "' or akhir like '" .date('Y-m', strtotime($akhir)) . '%'. "'  ) ";
 		$query .= "AND peas.tenant_id = " . session()->get('tenant_id') . " ";
@@ -604,7 +611,7 @@ class AsuransisController extends Controller
 		$asuransi->nama             = $this->input_nama;
 		$asuransi->alamat           = $this->input_alamat;
 		$asuransi->tanggal_berakhir = $this->input_tanggal_berakhir;
-		$asuransi->tipe_asuransi    = $this->input_tipe_asuransi;
+		$asuransi->tipe_asuransi_id = $this->input_tipe_asuransi_id;
 		$asuransi->kali_obat        = $this->input_kali_obat;
 		$asuransi->kata_kunci       = $this->input_kata_kunci;
 		$asuransi->aktif            = $this->input_aktif;
@@ -615,12 +622,12 @@ class AsuransisController extends Controller
 		foreach ( $this->input_email as $email) {
 			if ( !empty($email) ) {
 				$emails[] = [
-					'email' => $email,
-					'emailable_id' => $asuransi->id,
+					'email'          => $email,
+					'emailable_id'   => $asuransi->id,
 					'emailable_type' => 'App\\Models\\Asuransi',
-							'tenant_id'  => session()->get('tenant_id'),
-					'created_at' => $timestamp,
-					'updated_at' => $timestamp
+                    'tenant_id'      => session()->get('tenant_id'),
+					'created_at'     => $timestamp,
+					'updated_at'     => $timestamp
 				];
 			}
 		}
@@ -677,8 +684,13 @@ class AsuransisController extends Controller
 			}
 		}
 	}
-	public function tarifTemp($id = 0){
-		$asuransi = Asuransi::with('pic', 'emails', 'tarif.jenisTarif', 'tarif.tipeTindakan')->where('id',$id)->first();
+	public function tarifTemp($id = null){
+        /* dd( $id ); */
+        if (is_null($id)) {
+            $asuransi = Asuransi::with('pic', 'emails', 'tarif.jenisTarif', 'tarif.tipeTindakan')->where('nama','Biaya Pribadi')->first();
+        } else {
+            $asuransi = Asuransi::with('pic', 'emails', 'tarif.jenisTarif', 'tarif.tipeTindakan')->where('id',$id)->first();
+        }
 		$trf    = $asuransi->tarif;
 		$tarifs = [];
 		foreach ($trf as $t) {
@@ -771,8 +783,16 @@ class AsuransisController extends Controller
 		$query .= "sum(bl.sudah_dibayar) as sudah_dibayar ";
 		$query .= "FROM ( ";
 		$query .= "SELECT ";
-		$query .= "year(ju.created_at) as tahun,";
-		$query .= " month(ju.created_at) as bulan,";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "year(ju.created_at) as tahun,";
+        } else {
+            $query .="strftime('%Y',ju.created_at) as tahun, ";
+        }
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= " month(ju.created_at) as bulan,";
+        } else {
+            $query .="strftime('%m',ju.created_at) as bulan, ";
+        }
 		$query .= " ju.created_at as tanggal,";
 		$query .= " ju.nilai as hutang,";
 		$query .= " COALESCE(sum(byr.pembayaran),0) as sudah_dibayar";
@@ -784,6 +804,7 @@ class AsuransisController extends Controller
 		$query .= " where jurnalable_type = 'App\\\Models\\\Periksa'";
 		$query .= " AND px.asuransi_id > 0";
 		$query .= " AND ju.coa_id like '111%'";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= " AND ju.debit = '1'";
 		if ( $waktu == 'tahun' ) {
 			$query .= " AND px.tanggal like '{$param}%' ";
@@ -792,7 +813,7 @@ class AsuransisController extends Controller
 			$query .= " AND px.tanggal between '" . $year_three_months_ago . '-' . $param->copy()->format('01-01 00:00:00') . "' and '{$param->copy()->subMonths(3)->format('Y-m-t 23:59:59')}' ";
 		}
 		$query .= " GROUP BY ju.id) bl";
-		$query .= " GROUP BY bl.tahun DESC, bl.bulan DESC ";
+		$query .= " GROUP BY bl.tahun, bl.bulan;";
 
 		return $query;
 	}

@@ -94,7 +94,6 @@ class TestController extends Controller
 			11,12,13,14,15,16,17,18,19,110
 		];
 		foreach ($foos as $foo) {
-			/* Log::info('oke'); */
 			sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
 		}
 		return 'sukses!!';

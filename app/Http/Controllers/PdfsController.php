@@ -327,15 +327,15 @@ class PdfsController extends Controller
 		//
 		//
 		//
-		$tarifObatFlat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;		
+		$tarifObatFlat = Tarif::queryTarif($periksa->asuransi_id, 'Biaya Obat')->biaya;		
 
 
 		$bayarGDS   = false;
 		$transaksi_before = json_decode($periksa->transaksi, true);
-		// return 'oke';
 		if ($periksa->asuransi_id == 32) {
 			foreach ($transaksi_before as $key => $value) {
-				if (($value['jenis_tarif_id'] == '116')) {
+                $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
+				if (($value['jenis_tarif_id'] == $jt_gula_darah->id)) {
 					$bayarGDS = Yoga::cekGDSBulanIni($periksa->pasien, $periksa)['bayar'];
 				}
 			}
@@ -359,7 +359,7 @@ class PdfsController extends Controller
 		// return $t
 		foreach ($transaksis as $transaksi) {
 			$biaya += $transaksi['biaya'];
-			if ($transaksi['jenis_tarif_id'] == '9') {
+			if ( JenisTarif::where('jenis_tarif', 'Biaya Obat')->where('id', $transaksi['jenis_tarif_id'])->exists()) {
 				$biayaObat = $transaksi['biaya'];
 			}
 		}
@@ -829,7 +829,7 @@ class PdfsController extends Controller
 		$hasil = '';
 		/* dd( $periksa ); */
 		foreach (json_decode($periksa->transaksi, true) as $transaksi) {
-			if ( $transaksi['jenis_tarif_id'] == '404' ) {
+			if ( JenisTarif::where('jenis_tarif', 'rapid test antigen')->where('id', $transaksi['jenis_tarif_id'])->exists() ) {
 				$hasil = $transaksi['keterangan_tindakan'];
 			}
 		}
@@ -864,7 +864,7 @@ class PdfsController extends Controller
 		$periksa = Periksa::with('pasien')->where('id', $periksa_id)->first();
 		$hasil   = '';
 		foreach (json_decode($periksa->transaksi, true) as $transaksi) {
-			if ( $transaksi['jenis_tarif_id'] == '403' ) {
+			if ( JenisTarif::where('jenis_tarif', 'rapid test')->where('id', $transaksi['jenis_tarif_id'])->exists() ) {
 				$hasil = $transaksi['keterangan_tindakan'];
 			}
 		}

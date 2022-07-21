@@ -22,17 +22,17 @@ class AntrianPoliFactory extends Factory
     public function definition(): array
     {
         return [
-            'pasien_id' => \App\Models\Pasien::factory(),
-            'asuransi_id' => \App\Models\Asuransi::factory(),
-            'poli_id' => $this->faker->randomNumber(),
-            'staf_id' => \App\Models\Staf::factory(),
-            'tanggal' => $this->faker->dateTime(),
-            'jam' => $this->faker->time(),
+            'pasien_id'        => \App\Models\Pasien::factory(),
+            'asuransi_id'      => \App\Models\Asuransi::factory(),
+            'poli_id'          => $this->faker->randomNumber(),
+            'staf_id'          => \App\Models\Staf::factory(),
+            'tanggal'          => $this->faker->dateTime(),
+            'jam'              => $this->faker->time(),
             'kecelakaan_kerja' => $this->faker->randomNumber(),
-            'self_register' => $this->faker->randomNumber(),
-            'bukan_peserta' => $this->faker->randomNumber(),
-            'submitted' => $this->faker->boolean,
-            'tenant_id' => \App\Models\Tenant::factory(),
+            'self_register'    => $this->faker->randomNumber(),
+            'bukan_peserta'    => $this->faker->randomNumber(),
+            'submitted'        => 0,
+            'tenant_id'        => \App\Models\Tenant::factory(),
         ];
     }
 }

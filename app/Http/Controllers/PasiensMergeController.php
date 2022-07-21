@@ -119,10 +119,12 @@ class PasiensMergeController extends Controller
 
 			foreach ($tables as $t) {
 				$query  = "UPDATE " . $t->TABLE_NAME . " set pasien_id = '{$pertahankanID}' where pasien_id in ({$deleteId}) ";
+                $query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 				DB::statement($query);
 			}
 
 			$query  = "UPDATE pengantar_pasiens set pengantar_id = '{$pertahankanID}' where pengantar_id in ({$deleteId}) ";
+            $query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 			DB::statement($query);
 
 			$confirm_pasien_hapus = Pasien::destroy($hapusId);

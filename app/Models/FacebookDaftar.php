@@ -12,7 +12,7 @@ class FacebookDaftar extends Model
 	protected $dates = ['created_at', 'tanggal_lahir_pasien'];
 
 	public function poli(){
-		return $this->belongsTo('App\Models\Poli', 'pilihan_poli');
+		return $this->belongsTo('App\Models\Poli');
 	}
 	
 

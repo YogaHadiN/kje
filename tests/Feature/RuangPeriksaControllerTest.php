@@ -8,20 +8,20 @@ use Tests\TestCase;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Models\AntrianPeriksa;
+use App\Models\JenisAntrian;
 
 class RuangPeriksaControllerTest extends TestCase
 {
     
-        use WithFaker;
+        use WithFaker, RefreshDatabase;
 
-        /**
-         * @test
-         */
         public function test_index_displays_view()
         {
-            $user     = User::find(28);
+            $user     = User::factory()->create(['role_id' => 6]);
             auth()->login($user);
-            $response = $this->get('ruangperiksa/1');
+            $jenis_antrian = JenisAntrian::factory()->create();
+            $response = $this->get('ruangperiksa/' . $jenis_antrian->id);
+            $this->withoutExceptionHandling();
             $response->assertStatus(200);
         }
 

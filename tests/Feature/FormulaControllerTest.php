@@ -21,20 +21,21 @@ class FormulaControllerTest extends TestCase
      * @test
      */
 
+    public $formula;
     public function test_create_view(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $response = $this->get('formulas/create');
         $response->assertStatus(200);
     }
         /**
-         * @group failing
+         * 
          */
     public function test_store(){
         // make a request with file
 
 
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
 
         /* sebelum kesini ke acting as dulu */
@@ -55,8 +56,8 @@ class FormulaControllerTest extends TestCase
         $kode_rak               = $this->faker->numerify('###');
         $exp_date             = $this->faker->date('d-m-Y');
         $fornas               = rand(0,1);
-        $sediaan              = rand(1, 12);
-        $aturan_minum_id      = rand(1, 12);
+        $sediaan_id              = \App\Models\Sediaan::factory()->create()->id;
+        $aturan_minum_id      = \App\Models\AturanMinum::factory()->create()->id;
         $alternatif_fornas    = null;
         $stok = $this->faker->numerify('##');
         $stok_minimal = $this->faker->numerify('##');
@@ -136,7 +137,7 @@ class FormulaControllerTest extends TestCase
               "kode_rak"               => $kode_rak,
               "exp_date"             => $exp_date,
               "fornas"               => $fornas,
-              "sediaan"              => $sediaan,
+              "sediaan_id"              => $sediaan_id,
               "stok"              => $stok,
               "stok_minimal"              => $stok_minimal,
               "kelas_obat_id"              => $kelas_obat_id,
@@ -195,13 +196,8 @@ class FormulaControllerTest extends TestCase
               "jumlah_kg50_bpjs"     => $jumlah_kg50_bpjs,
         ];
 
+        $this->withoutExceptionHandling();
         $response = $this->post('formulas', $inputAll);
-
-        /* key mapping h */
-        /* dari bentuk '"nama"  => $nama,' */	
-        /* KE BENTUK */	
-        /* ->where("nama", $nama) */
-
 
         $formulas = Formula::query()
               ->where("indikasi", $indikasi)
@@ -209,13 +205,15 @@ class FormulaControllerTest extends TestCase
               ->where("efek_samping", $efek_samping)
               ->where("boleh_dipuyer", $boleh_dipuyer)
               ->where("dijual_bebas", $dijual_bebas)
-              ->where("sediaan", $sediaan)
+              ->where("sediaan_id", $sediaan_id)
               ->where("aturan_minum_id", $aturan_minum_id)
               ->where("peringatan", $peringatan)
         ->get();
         $this->assertCount(1, $formulas);
 
         $formula = $formulas->first();
+
+        $this->formula = $formula;
 
         /* dd([ */
         /*   "kelas_obat_id" => $kelas_obat_id, */
@@ -253,34 +251,21 @@ class FormulaControllerTest extends TestCase
 
         $response->assertRedirect('mereks');
     }
-
-    
-
-    public function test_show(){
-        $user     = User::find(28);
-        auth()->login($user);
-        $formula = Formula::factory()->create();
-        $response = $this->get('formulas/' . $formula->id);
-        $response->assertStatus(200);
-    }
-
-    /**
-     * @group failing
-     */
     public function test_edit(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
-        $formula = Formula::first();
-        $response = $this->get('formulas/' . $formula->id . '/edit');
+        $this->test_store();
+        $response = $this->get('formulas/' . $this->formula->id . '/edit');
         $response->assertStatus(200);
     }
+
     public function test_destroy(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
-        $formula = Formula::factory()->create();
-        $response = $this->delete('formulas/' . $formula->id);
+        $this->test_store();
+        $response = $this->delete('formulas/' . $this->formula->id);
         $response->assertRedirect('mereks');
-        $this->assertDeleted($formula);
+        $this->assertDeleted($this->formula);
     }
 
     public function test_a_user_can_only_see_formula_in_the_same_tenant()
@@ -330,10 +315,4 @@ class FormulaControllerTest extends TestCase
      *
      * @return void
      */
-    private function createFormula()
-    {
-
-
-    }
-    
 }

@@ -34,7 +34,7 @@ class PeriksaFactory extends Factory
             'terapi' => $this->faker->text,
             'piutang' => $this->faker->randomNumber(),
             'tunai' => $this->faker->randomNumber(),
-            'poli_id' => $this->faker->randomNumber(),
+            'poli_id' => \App\Models\Poli::factory(),
             'jam' => $this->faker->time(),
             'jam_resep' => $this->faker->time(),
             'transaksi' => $this->faker->text,

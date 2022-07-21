@@ -23,7 +23,6 @@ class RoleFactory extends Factory
     {
         return [
             'role' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

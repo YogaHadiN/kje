@@ -185,7 +185,7 @@
 		</div>
 			<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					@if ($auth->role != '1')
+					@if ($auth->role_id != '1')
 						<div class="panel panel-success">
 							<div class="panel-heading">
 								Laporan Khusus
@@ -534,15 +534,7 @@
 														</td>
 													</form>
 												</tr>
-												<tr>
-													<form action="{{ url('laporans/jumlahPenyakit_DM_HT') }}" method="get">
-														<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-														<td>Laporan Bulanan DM HT</td>
-														<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-														<td colspan="2"></td>
-													</form>
-												</tr>
-                                                @if( \Auth::user()->role == 6 )
+                                                @if( \Auth::user()->role_id == 6 )
                                                 <tr>
 													<form action="{{ url('laporans/pph21') }}" method="get">
 														<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>

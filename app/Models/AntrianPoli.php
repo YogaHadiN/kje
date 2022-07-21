@@ -29,8 +29,11 @@ class AntrianPoli extends Model{
 	}
 
 	public function pasien(){
-
 		return $this->belongsTo('App\Models\Pasien');
+	}
+
+	public function poli(){
+		return $this->belongsTo('App\Models\Poli');
 	}
 
 	public function asuransi(){

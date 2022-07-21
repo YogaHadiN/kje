@@ -141,13 +141,13 @@
 										</div>
 										<div class="row">
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-												<div class="form-group @if($errors->has('tipe_asuransi'))has-error @endif">
-												  {!! Form::label('tipe_asuransi', 'Tipe Asuransi', ['class' => 'control-label']) !!}
-													{!! Form::select('tipe_asuransi', $tipe_asuransi_list, null, array(
+												<div class="form-group @if($errors->has('tipe_asuransi_id'))has-error @endif">
+												  {!! Form::label('tipe_asuransi_id', 'Tipe Asuransi', ['class' => 'control-label']) !!}
+													{!! Form::select('tipe_asuransi_id', $tipe_asuransi_list, null, array(
 														'class'         => 'form-control rq',
 														'placeholder'   => '- Pilih Tipe Asuransi -'
 														))!!}
-												  @if($errors->has('tipe_asuransi'))<code>{{ $errors->first('tipe_asuransi') }}</code>@endif
+												  @if($errors->has('tipe_asuransi_id'))<code>{{ $errors->first('tipe_asuransi_id') }}</code>@endif
 												</div>
 											</div>
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

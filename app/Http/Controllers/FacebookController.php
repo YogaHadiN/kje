@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Pasien;
 use App\Models\Periksa;
+use App\Models\Asuransi;
 use App\Models\AntrianPeriksa;
 use App\Models\AntrianPoli;
 use App\Models\Classes\Yoga;
@@ -121,7 +122,7 @@ class FacebookController extends Controller
 		}
 		$fb->gender_id = Input::get('gender_id');
 		$fb->facebook_id = Input::get('facebook_id');
-		$fb->pilihan_poli = Input::get('poli');
+		$fb->poli_id = Input::get('poli');
 		$fb->pilihan_pembayaran = $pilihan_pembayaran;
 		$fb->save();
 
@@ -239,12 +240,14 @@ class FacebookController extends Controller
 				$asuransi_id = Input::get('asuransi_id');
 			}
 
+        $asuransi = Asuransi::find($asuransi_id);
+
 		$ps							= Pasien::find($id);
 		$ps->nama					= Input::get('nama');
 		$ps->nama_peserta			= Input::get('nama_peserta');
 		$ps->nomor_asuransi			= Input::get('nomor_asuransi');
 		$ps->asuransi_id			= $asuransi_id;
-		if ($asuransi_id == '32') {
+		if ($asuransi->tipe_asuransi_id == 5 ) {
 			$ps->nomor_asuransi_bpjs			= Input::get('nomor_asuransi');
 		}
 		$ps->jenis_peserta			= Input::get('jenis_peserta');
@@ -266,20 +269,18 @@ class FacebookController extends Controller
 		}
 		$ps->save();
 		
-		if (empty(Pasien::find($id)->image) && Input::get('asuransi_id') == '32') {
+		if (empty(Pasien::find($id)->image) && $asuransi->tipe_asuransi_id == 5 ) {
 			return redirect('pasiens/' . $id . '/edit')->withCek('Gambar <strong>Foto pasien (bila anak2) atau gambar KTP pasien (bila DEWASA) </strong> harus dimasukkan terlebih dahulu');
 		}
 
-		$antrian_poli_id = Yoga::customId('App\Models\AntrianPoli');
 
-		$ap              = new Antrianpoli;
+		$ap              = new AntrianPoli;
 		$ap->antrian     = Input::get('antrian');
 		$ap->asuransi_id = Input::get('asuransi_id');
 		$ap->pasien_id   = $id;
-		$ap->poli        = Input::get('poli');
+		$ap->poli_id        = Input::get('poli_id');
 		$ap->jam         = date("H:i:s");
 		$ap->tanggal     = date('Y-m-d');
-		$ap->id          = $antrian_poli_id;
 		$ap->save();
 
 		$fb = FacebookDaftar::find($fb_id);
@@ -389,7 +390,7 @@ class FacebookController extends Controller
 		$fb->alamat_pasien = Input::get('alamat');
 		$fb->no_hp_pasien = Input::get('no_hp');
 		$fb->gender_id = Input::get('gender_id');
-		$fb->pilihan_poli = Input::get('poli');
+		$fb->poli_id = Input::get('poli');
 		$fb->pilihan_pembayaran = Input::get('pembayaran');
 		$fb->pernah_berobat = Input::get('pernah_berobat');
 		$confirm = $fb->save();
@@ -416,10 +417,10 @@ class FacebookController extends Controller
 		//return Input::all();
 		$facebook_id = Input::get('facebook_id');
 		$pilihan_pembayaran = Input::get('pembayaran');
-		$pasien = Pasien::where('facebook_id', $facebook_id)->first();
+		$pasien = Pasien::where('facebook_id', $facebook_id)->with('asuransi')->first();
 
 
-		if ($pilihan_pembayaran == 2 || ( $pilihan_pembayaran == 1 && $pasien->asuransi_id != '32' )) {
+		if ($pilihan_pembayaran == 2 || ( $pilihan_pembayaran == 1 && $pasien->asuransi->tipe_asuransi_id !=  5)) {
 
 			$fb = new FacebookDaftar;
 			$fb->nama_pasien = $pasien->nama;
@@ -432,14 +433,13 @@ class FacebookController extends Controller
 			$fb->gender_id = Input::get('gender_id');
 			$fb->pernah_berobat = 1;
 			$fb->pilihan_pembayaran = Input::get('pembayaran');
-			$fb->pilihan_poli = Input::get('poli');
+			$fb->poli_id = Input::get('poli');
 			$fb->save();
 
 			$pesan = Yoga::gagalFlash('Verifikasi dulu asuransinya apakah boleh digunakan');
 			return redirect('facebook/terdaftar/unverified/' . $fb->id)->withPesan($pesan);
-		} else if($pilihan_pembayaran == 0 ||( $pilihan_pembayaran == 1 && $pasien->asuransi_id == '32' )) {
+		} else if($pilihan_pembayaran == 0 ||( $pilihan_pembayaran == 1 && $pasien->asuransi->tipe_asuransi_id ==  5)) {
 			$antrian = $this->antrian();
-			$antrian_poli_id = Yoga::customId('App\Models\AntrianPoli');
 
 			$ap              = new Antrianpoli;
 			$ap->antrian     = $antrian;
@@ -450,11 +450,10 @@ class FacebookController extends Controller
 			}
 			$ap->asuransi_id = $asuransi_id;
 			$ap->pasien_id   = $pasien->id;
-			$ap->poli        = Input::get('poli');
+			$ap->poli_id        = Input::get('poli_id');
 			$ap->staf_id     = null;
 			$ap->jam         = date("H:i:s");
 			$ap->tanggal     = date('Y-m-d');
-			$ap->id          = $antrian_poli_id;
 			$confirm = $ap->save();
 
 
@@ -503,20 +502,19 @@ class FacebookController extends Controller
 		//return Input::all();
 		$facebook_id = Input::get('facebook_id');
 		$pilihan_pembayaran = Input::get('pembayaran');
-		$pasien = Pasien::where('facebook_id', $facebook_id)->first();
+		$pasien = Pasien::where('facebook_id', $facebook_id)->with('asuransi')->first();
 
 
-		if ($pilihan_pembayaran == 2 || ( $pilihan_pembayaran == 1 && $pasien->asuransi_id != '32' )) {
+		if ($pilihan_pembayaran == 2 || ( $pilihan_pembayaran == 1 && $pasien->asuransi->tipe_asuransi_id !=  5)) {
 			$fb = FacebookDaftar::find($id);
 			$fb->pilihan_pembayaran = Input::get('pembayaran');
-			$fb->pilihan_poli = Input::get('poli');
+			$fb->poli_id = Input::get('poli');
 			$fb->save();
 
 			return redirect('facebook/terdaftar/unverified/' . $fb->id)->withPesan($pesan);
-		} else if($pilihan_pembayaran == 0 ||( $pilihan_pembayaran == 1 && $pasien->asuransi_id == '32' )) {
-			FacebookDaftar::destroy($id);
+        } else if($pilihan_pembayaran == 0 ||( $pilihan_pembayaran == 1 && $pasien->asuransi->tipe_asuransi_id !=  5)) {
+            FacebookDaftar::destroy($id);
 			$antrian = AntrianPoli::latest()->first()->antrian + 1;
-			$antrian_poli_id = Yoga::customId('App\Models\AntrianPoli');
 
 			$ap              = new Antrianpoli;
 			$ap->antrian     = $antrian;
@@ -527,11 +525,10 @@ class FacebookController extends Controller
 			}
 			$ap->asuransi_id = $asuransi_id;
 			$ap->pasien_id   = $pasien->id;
-			$ap->poli        = Input::get('poli');
+			$ap->poli_id        = Input::get('poli_id');
 			$ap->staf_id     = null;
 			$ap->jam         = date("H:i:s");
 			$ap->tanggal     = date('Y-m-d');
-			$ap->id          = $antrian_poli_id;
 			$confirm = $ap->save();
 
 
@@ -608,13 +605,14 @@ class FacebookController extends Controller
 	
 	public function postPasienBaru($facebook_daftar_id){
 			
-			$id = Yoga::customId('App\Models\Pasien');
 
 			if (empty(trim(Input::get('asuransi_id')))) {
 				$asuransi_id = 0;
 			} else {
 				$asuransi_id = Input::get('asuransi_id');
 			}
+
+            $asuransi = Asuransi::find( $asuransi_id );
 
 			$pasien                 = new Pasien;
 			$pasien->alamat         = Input::get('alamat');
@@ -626,30 +624,27 @@ class FacebookController extends Controller
 			$pasien->nama           = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 			$pasien->nama_peserta   = ucwords(strtolower(Input::get('nama_peserta')));
 			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
-			if ( $asuransi_id == '32') {
+			if ( $asuransi->tipe_asuransi_id == 5) {
 				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
 			}
 			$pasien->facebook_id = Input::get('facebook_id');
 			$pasien->email = Input::get('email');
 			$pasien->no_telp        = Input::get('no_telp');
 			$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
-			$pasien->id             = $id;
 			$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
 			$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
 			$pasien->image          = Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
 			$pasien->save();
 
 
-			$antrian_poli_id = Yoga::customId('App\AntrianPoli');
 			$ap              = new Antrianpoli;
 			$ap->antrian     = Input::get('antrian');
 			$ap->asuransi_id = $pasien->asuransi_id;
-			$ap->pasien_id   = $id;
-			$ap->poli        = Input::get('poli');
+			$ap->pasien_id   = $pasien->id;
+			$ap->poli_id        = Input::get('poli_id');
 			$ap->staf_id     = null;
 			$ap->jam         = date("H:i:s");
 			$ap->tanggal     = date('Y-m-d');
-			$ap->id          = $antrian_poli_id;
 			$confirm = $ap->save();
 
 			if ($confirm) {

@@ -650,9 +650,7 @@ class PendapatansController extends Controller
 
 		// create nota_jual
 
-		$nota_jual_id     = Yoga::customId('App\Models\NotaJual');
 		$nj               = new NotaJual;
-		$nj->id           = $nota_jual_id;
 		$nj->tipe_jual_id = 2;
 		$nj->tanggal      = $tanggal;
 		$nj->staf_id      = $staf_id;
@@ -664,11 +662,11 @@ class PendapatansController extends Controller
 		$pb->asuransi_id     = $asuransi_id;
 		$pb->mulai           = $mulai;
 		$pb->staf_id         = $staf_id;
-		$pb->nota_jual_id    = $nota_jual_id;
+		$pb->nota_jual_id    = $nj->id;
 		$pb->akhir           = $akhir;
 		$pb->pembayaran      = $dibayar;
 		$pb->tanggal_dibayar = $tanggal;
-		$pb->kas_coa_id      = $coa_id;
+		$pb->coa_id      = $coa_id;
 		$confirm             = $pb->save();
 
 		//update rekening
@@ -744,7 +742,7 @@ class PendapatansController extends Controller
 		if ($confirm) {
 			$jurnals = [];
 			$jurnals[] = [
-				'jurnalable_id'   => $nota_jual_id,
+				'jurnalable_id'   => $nj->id,
 				'jurnalable_type' => 'App\Models\NotaJual',
 				'coa_id'          => $coa_id, //coa_kas_di_bank_mandiri = 110001;
 				'debit'           => 1,
@@ -755,7 +753,7 @@ class PendapatansController extends Controller
 			];
 
 			$jurnals[] = [
-				'jurnalable_id'   => $nota_jual_id,
+				'jurnalable_id'   => $nj->id,
 				'jurnalable_type' => 'App\Models\NotaJual',
 				'coa_id'          => $coa_id_asuransi,
 				'debit'           => 0,
@@ -834,7 +832,7 @@ class PendapatansController extends Controller
 		}
 		$query .= "FROM pembayaran_asuransis as pa ";
 		$query .= "JOIN asuransis as asu on asu.id = pa.asuransi_id ";
-		$query .= "JOIN coas as co on co.id = pa.kas_coa_id ";
+		$query .= "JOIN coas as co on co.id = pa.coa_id ";
 		$query .= "WHERE pa.id like '{$this->input_id}' ";
 		$query .= "AND pa.created_at like '{$this->input_created_at}' ";
 		$query .= "AND asu.nama like '{$this->input_nama_asuransi}' ";

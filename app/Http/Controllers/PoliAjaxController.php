@@ -85,14 +85,14 @@ class PoliAjaxController extends Controller
         $staf_id               = input::get('staf_id');
         $icd10                 = Diagnosa::find($diagnosa_id)->icd10_id;
         $asuransi              = Asuransi::find($asuransi_id);
-        $tipe_asuransi         = $asuransi->tipe_asuransi;
+        $tipe_asuransi_id         = $asuransi->tipe_asuransi_id;
         $parameter_asuransi    = '';
         $parameter_berat_badan = '';
 
-        if ($tipe_asuransi > 3) {
-            $parameter_asuransi = "(asu.tipe_asuransi > 3)";
+        if ($tipe_asuransi_id > 3) {
+            $parameter_asuransi = "(asu.tipe_asuransi_id > 3)";
         } else {
-            $parameter_asuransi = "(asu.tipe_asuransi < 4)";
+            $parameter_asuransi = "(asu.tipe_asuransi_id < 4)";
         }
 
 		$alergies    = Alergi::where('pasien_id', $pasien_id)->get();
@@ -136,13 +136,16 @@ class PoliAjaxController extends Controller
 		$query .= "from `periksas` as p ";
 		$query .= "join diagnosas as d on d.id = p.diagnosa_id ";
 		$query .= "join asuransis as asu on asu.id = p.asuransi_id ";
-		$query .= "where (staf_id=? or staf_id='16' ) ";
+		$query .= "join terapis as trp on trp.periksa_id = p.id ";
+		$query .= "join mereks as mrk on mrk.id = trp.merek_id ";
+		$query .= "join raks as rk on rk.id = mrk.rak_id ";
+		$query .= "where (staf_id=? or staf_id='11' ) ";
 		$query    .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and {$parameter_asuransi} ";
 		$query .= "and d.icd10_id = '{$icd10}' ";
 		$query .= "and {$parameter_berat_badan} ";
 		foreach ($formula_ids as $formula_id) {
-			$query .= "and p.terapi not like '%{$formula_id}%' ";
+			$query .= "and rk.formula_id not like {$formula_id} ";
 		}
 		$query .= "and p.created_at > '2016-01-22 18:15:04' ";
 		$query .= "group by terapih ";
@@ -152,6 +155,7 @@ class PoliAjaxController extends Controller
 		$query = DB::select($query, [
 			$staf_id 
 		]);
+
 
 		if (count($query)) {
 			$periksa_ids = [];
@@ -469,11 +473,11 @@ class PoliAjaxController extends Controller
 
 
 	private function sesuaikanResep($terapis, $asuransi){
-		if($asuransi->id == '32' || $asuransi->tipe_asuransi == '4') { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
+		if($asuransi->tipe_asuransi_id ==  5 || $asuransi->tipe_asuransi_id == '4') { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
 			if ($terapis != '' && $terapis != '[]') {
 				$terapis = $this->sesuaikanResepYoga($terapis, 'asc');
 			}
-		} elseif($asuransi->tipe_asuransi == '3'){ //tipe_asuransi 1 = admedika
+		} elseif($asuransi->tipe_asuransi_id == '3'){ //tipe_asuransi 1 = admedika
 			if ($terapis != '' && $terapis != '[]') {
 				$terapis = $this->sesuaikanResepYoga($terapis, 'desc');
 			}

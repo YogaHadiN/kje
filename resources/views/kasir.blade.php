@@ -165,7 +165,7 @@
 													@endif
 												</td>
 												<td class='uang totalItem total_satuan'>
-													@if($periksa->asuransi->tipe_asuransi == 5)
+													@if($periksa->asuransi->tipe_asuransi_id == 5)
 														@if($terapi->merek->rak->fornas == '0')
 														{!! App\Models\Classes\Yoga::kasirHargaJualItem($terapi, $periksa)!!}
 														@else
@@ -182,7 +182,7 @@
 									</tbody>
 									<tfoot>
 										<tr>
-											@if($periksa->asuransi->tipe_asuransi == 4)
+											@if($periksa->asuransi->tipe_asuransi_id == 4)
 												@if($plafon < 0)
 													<td class="red"> Plafon kurang <br> : {{ $plafon }}</td>
 													<td class="text-right" colspan='4'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
@@ -448,7 +448,7 @@
             string = parseInt(Number(string.replace(/[^0-9]+/g,"")));
             total += parseInt(string);
         });
-		@if($periksa->poli != 'estetika')
+        @if($periksa->poli->poli != 'Poli Estetika')
 			$('#biaya').html(rataAtas5000(total));
 		@else
 			$('#biaya').html(total);

@@ -493,7 +493,7 @@ class PengeluaransController extends Controller
 		}
 
         $modal             = new Modal;
-        $modal->coa_kas_id = 110004; // kas di tangan
+        $modal->coa_id = 110004; // kas di tangan
         $modal->modal      = Yoga::clean( Input::get('kas_masuk') );
         $modal->staf_id    = Input::get('staf_id');
         $modal->keterangan = Input::get('keterangan');
@@ -1673,7 +1673,7 @@ class PengeluaransController extends Controller
 			Log::info('Dibuat Modal');
 			$tambahanModal = (int)abs($selisih);
 			$modal = new Modal;
-			$modal->coa_kas_id = Coa::where('kode_coa', '301000')->first()->id;
+			$modal->coa_id = Coa::where('kode_coa', '301000')->first()->id;
 			$modal->modal = $tambahanModal;
 			$modal->staf_id = Input::get('staf_id');
 			$modal->keterangan = 'Modal untuk pembelian harta ' . Input::get('harta');

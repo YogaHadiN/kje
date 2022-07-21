@@ -13,7 +13,7 @@ use App\Models\Formula;
 use App\Http\Controllers\MereksController;
 class MereksControllerTest extends TestCase
 {
-    use WithFaker;
+    use WithFaker, RefreshDatabase;
 
     /**
      * @test
@@ -23,7 +23,7 @@ class MereksControllerTest extends TestCase
      * 
      */
     public function test_index(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $response = $this->get('mereks');
         $response->assertStatus(200);
@@ -32,7 +32,7 @@ class MereksControllerTest extends TestCase
      * 
      */
     public function test_create_view(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $formula = Formula::factory()->create();
         $rak = Rak::factory()->create([
@@ -49,7 +49,7 @@ class MereksControllerTest extends TestCase
         // make a request with file
 
 
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
 
         /* sebelum kesini ke acting as dulu */
@@ -112,7 +112,7 @@ class MereksControllerTest extends TestCase
      * 
      */
     public function test_edit(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $merek = $this->createMerek();
         $response = $this->get('mereks/' . $merek->id . '/edit');
@@ -123,7 +123,7 @@ class MereksControllerTest extends TestCase
      * 
      */
     public function test_destroy(){
-        $user     = User::find(28);
+        $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $merek = $this->createMerek();
         $response = $this->delete('mereks/' . $merek->id);
@@ -188,7 +188,7 @@ class MereksControllerTest extends TestCase
 
     private function createMerekWithTenant($tenant)
     {
-        $formula = Formula::foctory()->create([
+        $formula = Formula::factory()->create([
             'tenant_id' => $tenant
         ]);
         $rak = Rak::factory()->create([

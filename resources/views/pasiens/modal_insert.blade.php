@@ -126,7 +126,10 @@
 			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 				<div class="form-group @if($errors->has('jenis_peserta_id'))has-error @endif">
 					{!! Form::label('jenis_peserta_id', 'Jenis Peserta', ['class' => 'control-label']) !!}
-					{!! Form::select('jenis_peserta_id', $jenis_peserta, null, ['class' => 'form-control tog hh'])!!}
+					{!! Form::select('jenis_peserta_id', $jenis_peserta, null, [
+                        'class' => 'form-control tog hh',
+                        'placeholder' => 'Pilih Jenis Peserta'
+                    ])!!}
 					@if($errors->has('jenis_peserta_id'))<code>{{ $errors->first('jenis_peserta_id') }}</code>@endif
 				</div>
 			</div>

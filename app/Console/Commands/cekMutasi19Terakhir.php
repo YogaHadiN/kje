@@ -179,7 +179,7 @@ class cekMutasi19Terakhir extends Command
 
 
 					$insertMutasi[] = [
-						'id'                     => $mutasi->mutation_id,
+						'kode_transaksi'                     => $mutasi->mutation_id,
 						'akun_bank_id'           => $newBank->id,
 						'tanggal'                => $mutasi->created_at,
 						'pembayaran_asuransi_id' => $pembayaran_asuransi_id,

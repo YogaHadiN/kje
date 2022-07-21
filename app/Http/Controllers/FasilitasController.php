@@ -94,16 +94,18 @@ class FasilitasController extends Controller
 		$pesan = $this->postAntrianPoli($poli, $pasien_id, $asuransi_id);
 		return redirect('fasilitas/antrian_pasien')->withPesan($pesan);
 	}
-	public function postAntrianPoli($poli, $pasien_id, $asuransi_id){
+	public function postAntrianPoli($poli_id, $pasien_id, $asuransi_id){
 		$antrianPoli = ( isset( AntrianPoli::latest()->first()->antrian ) )?  AntrianPoli::latest()->first()->antrian : null;
 		$antrianPeriksa = ( isset( AntrianPeriksa::latest()->first()->antrian ) )? AntrianPeriksa::latest()->first()->antrian : null; 
 		$antrian = [
 			$antrianPeriksa,
 			$antrianPoli
 		];
+
+        $asuransi = Asuransi::find($asuransi_id);
 		$antrian = (int)max($antrian) + 1; 
 		$ap       = new AntrianPoli;
-		$ap->poli   = $poli;
+		$ap->poli_id   = $poli_id;
 		$ap->pasien_id   = $pasien_id;
 		if ($asuransi_id !='x') {
 			$ap->asuransi_id   = $asuransi_id;
@@ -116,7 +118,7 @@ class FasilitasController extends Controller
 		$confirm = $ap->save();
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash( '<strong>' . $ap->pasien->id . ' - ' . $ap->pasien->nama . '</strong> Berhasil masuk antrian' );
-			if ($asuransi_id != '0' && $asuransi_id != '32') {
+			if ($asuransi_id != '0' && $asuransi->tipe_asuransi_id != 5) {
 				$pesan .= " Mohon berikan kartu asuransi / pengantar berobat ke kasir";
 			}
 		} else {

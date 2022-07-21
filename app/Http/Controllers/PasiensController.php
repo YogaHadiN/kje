@@ -62,10 +62,10 @@ class PasiensController extends Controller
 		$this->input_asuransi_id                  = $this->asuransiId(Input::get('asuransi_id'));
 		$this->input_sex                          = Input::get('sex');
 		$this->input_jenis_peserta_id             = Input::get('jenis_peserta_id');
-		$this->input_nama_ayah                    = ucwords(strtolower(Input::get('nama_ayah')));;
-		$this->input_nama_ibu                     = ucwords(strtolower(Input::get('nama_ibu')));;
-		$this->input_nama                         = ucwords(strtolower(Input::get('nama')));
-		$this->input_nama_peserta                 = ucwords(strtolower(Input::get('nama_peserta')));;
+		$this->input_nama_ayah                    = Input::get('nama_ayah');
+		$this->input_nama_ibu                     = Input::get('nama_ibu');
+		$this->input_nama                         = Input::get('nama');
+		$this->input_nama_peserta                 = Input::get('nama_peserta');
 		$this->input_nomor_asuransi               = Input::get('nomor_asuransi');
 		$this->input_punya_asuransi               = Input::get('punya_asuransi');
 		$this->input_nomor_ktp                    = Input::get('nomor_ktp');
@@ -148,6 +148,7 @@ class PasiensController extends Controller
 		$pasien         = new Pasien;
 		$pasien         = $this->inputDataPasien($pasien);
 		$ap             = $this->inputDataAntrianPoli($pasien);
+
 
 		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		return redirect('antrianpolis')
@@ -335,6 +336,16 @@ class PasiensController extends Controller
 	}
 	public function inputDataPasien($pasien){
 
+        /* dd( [ */
+        /*     $this->input_sex, */
+        /*     $this->input_jangan_disms, */
+        /*     $this->input_prolanis_ht, */
+        /*     $this->input_prolanis_dm, */
+        /*     $this->input_verifikasi_prolanis_dm_id, */
+        /*     $this->input_verifikasi_prolanis_ht_id, */
+        /*     $this->input_meninggal, */
+        /*     $this->input_penangguhan_pembayaran_bpjs */
+        /* ] ); */
 
 
 		$pasien->alamat                      = $this->input_alamat;
@@ -342,7 +353,7 @@ class PasiensController extends Controller
 		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
 		$pasien->asuransi_id                 = $this->input_asuransi_id;
 		$pasien->sex                         = $this->input_sex;
-		$pasien->jenis_peserta_id               = $this->input_jenis_peserta_id;
+		$pasien->jenis_peserta_id            = $this->input_jenis_peserta_id;
 		$pasien->nama_ayah                   = $this->input_nama_ayah;
 		$pasien->nama_ibu                    = $this->input_nama_ibu;
 		$pasien->nama                        = $this->input_nama;
@@ -358,6 +369,7 @@ class PasiensController extends Controller
 		$pasien->tanggal_lahir               = Yoga::datePrep($this->input_tanggal_lahir);
 		$pasien->jangan_disms                = $this->input_jangan_disms;
 		$pasien->save();
+
 
 		$this->input_bpjs_image                 = $this->imageUpload('bpjs','bpjs_image', $pasien->id);
 		$this->input_ktp_image                  = $this->imageUpload('ktp','ktp_image', $pasien->id);
@@ -397,7 +409,8 @@ class PasiensController extends Controller
 		return $asuransi_id;
 	}
 	public function nomorAsuransiBpjs($nomor_asuransi, $asur_id){
-		if ($asur_id == '32') {
+        $asuransi_bpjs = Asuransi::Bpjs();
+		if ($asur_id == $asuransi_bpjs->id) {
 			return Input::get('nomor_asuransi');
 		}
 		return null;
@@ -505,7 +518,7 @@ class PasiensController extends Controller
 		$query .= "WHERE prx.tanggal like '{$tahunBulan}%' ";
 		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND (prx.prolanis_ht = 1 or prx.prolanis_dm = 1) ";
-		$query .= "AND prx.asuransi_id = 32 ";
+		$query .= "AND asu.tipe_asuransi_id = 5 ";
 		$query .= "ORDER BY ";
 		$query .= "prx.sistolik DESC, ";
 		$query .= "prx.diastolik DESC ";
@@ -539,36 +552,9 @@ class PasiensController extends Controller
 			'prolanis'
 		));
 	}
-	private function imageUpload($pre, $fieldName, $id){
+	public function imageUpload($pre, $fieldName, $id){
 		if(Input::hasFile($fieldName)) {
-
-			$upload_cover = Input::file($fieldName);
-			/* dd( $upload_cover ); */
-			//mengambil extension
-			$extension = $upload_cover->getClientOriginalExtension();
-
-			/* $upload_cover = Image::make($upload_cover); */
-			/* $upload_cover->resize(1000, null, function ($constraint) { */
-			/* 	$constraint->aspectRatio(); */
-			/* 	$constraint->upsize(); */
-			/* }); */
-
-			//membuat nama file random + extension
-			$filename =	 $pre . $id . '_' .  time().'.' . $extension;
-
-			//menyimpan bpjs_image ke folder public/img
-			$destination_path =  'img/pasien/';
-
-			//destinasi s3
-			//
-			Storage::disk('s3')->put($destination_path. $filename, file_get_contents($upload_cover));
-			// Mengambil file yang di upload
-
-			/* $upload_cover->save($destination_path . '/' . $filename); */
-			
-			//mengisi field bpjs_image di book dengan filename yang baru dibuat
-			return 'img/pasien/'. $filename;
-			
+            return $this->fileNameUploaded($pre, Input::file($fieldName), $id);
 		} else {
 			return null;
 		}
@@ -721,6 +707,40 @@ class PasiensController extends Controller
             'pasien'
 		));
 	}
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function fileNameUploaded($pre, $upload_cover, $id)
+    {
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			/* $upload_cover = Image::make($upload_cover); */
+			/* $upload_cover->resize(1000, null, function ($constraint) { */
+			/* 	$constraint->aspectRatio(); */
+			/* 	$constraint->upsize(); */
+			/* }); */
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '_' .  time().'.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path =  'img/pasien/';
+
+			//destinasi s3
+			//
+			Storage::disk('s3')->put($destination_path. $filename, file_get_contents($upload_cover));
+			// Mengambil file yang di upload
+
+			/* $upload_cover->save($destination_path . '/' . $filename); */
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return 'img/pasien/'. $filename;
+    }
+    
 			
 	
 	

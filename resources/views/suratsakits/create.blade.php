@@ -11,7 +11,7 @@
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li>
-          <a href="{{ url('ruangperiksas/' . $periksa->poli)}}">Antrian Periksa</a>
+          <a href="{{ url('ruangperiksas/' . $periksa->poli_id)}}">Antrian Periksa</a>
       </li>
       <li class="active">
           <strong>Buat Surat Sakit</strong>
@@ -24,7 +24,7 @@
 	@include('suratsakits.form', [
       'periksa_id'    => $periksa->id,
       'nama'          => $periksa->pasien->nama,
-      'poli'          => $periksa->poli,
+      'poli_id'          => $periksa->poli_id,
       'submit'        => 'Submit',
       'tanggal_mulai' => date('d-m-Y'),
       'hari'          => '1',

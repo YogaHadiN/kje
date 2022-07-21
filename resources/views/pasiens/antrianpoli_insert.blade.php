@@ -22,7 +22,7 @@
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">Poli:</label>
-						{!! Form::select('poli', $poli, null, [
+						{!! Form::select('poli_id', $poli, null, [
 							'id' => 'antrianpoli_poli', 
 							'class' => 'form-control rq', 
 							'onchange' => 'pilihPoli(this);return false;'

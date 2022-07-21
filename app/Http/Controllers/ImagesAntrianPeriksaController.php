@@ -56,10 +56,10 @@ class ImagesAntrianPeriksaController extends Controller
 			$pesan = Yoga::gagalFlash('Gambar GAGAL di Update');
 		}
 
-		if ($periksa->poli == 'sks') {
-			$poli = 'umum';
+		if ($periksa->poli->poli == 'Poli Umum - Surat Keterangan Sehat') {
+			$poli = \App\Models\Poli::where('poli',  'Poli Umum - Konsul Dokter')->first()->id;
 		} else {
-			$poli = $periksa->poli;
+			$poli = $periksa->poli_id;
 		}
 		return redirect('images/result')->withPesan($pesan);
 	}

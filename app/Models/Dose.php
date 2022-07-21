@@ -15,7 +15,7 @@ class Dose extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 	public function formula(){
 		return $this->belongsTo('App\Models\Formula');

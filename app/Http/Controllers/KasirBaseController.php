@@ -9,8 +9,10 @@ use App\Models\Periksa;
 use App\Models\PengantarPasien;
 use App\Models\Antrian;
 use App\Models\JurnalUmum;
+use App\Models\JenisTarif;
 use App\Models\Signa;
 use App\Models\Terapi;
+use App\Models\TransaksiPeriksa;
 use App\Models\Tarif;
 use App\Http\Controllers\AntrianPolisController;
 use App\Models\Pasien;
@@ -35,7 +37,7 @@ class KasirBaseController extends Controller
 	}
 	
 	public function kasir($id){
-		$periksa = Periksa::with('terapii.merek.rak.formula')->where('id', $id)->first();
+		$periksa = Periksa::with('terapii.merek.rak.formula', 'poli')->where('id', $id)->first();
 		if (!AntrianApotek::where('periksa_id', $periksa->id)->exists()) {
 			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
 			return redirect()->back()->withPesan($pesan);
@@ -46,9 +48,9 @@ class KasirBaseController extends Controller
 		$reseps     = Yoga::masukLagi($terapis);
 		$plafon     = 0;
 		$biayatotal = 0;
-   		if ($periksa->asuransi->tipe_asuransi == '4') {
+   		if ($periksa->asuransi->tipe_asuransi_id == '4') {
 			$plafon = Yoga::dispensingObatBulanIni($periksa->asuransi, [], false, true)['plafon'];
-			$plafon_obat_tiap_kali_berobat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;
+			$plafon_obat_tiap_kali_berobat = Tarif::queryTarif($periksa->asuransi_id, 'Biaya Obat')->biaya;
 			if ($plafon >= 0) {
 			   $biayatotal = $plafon_obat_tiap_kali_berobat;				
    			} else {
@@ -60,12 +62,12 @@ class KasirBaseController extends Controller
 				$biayatotal += Yoga::kasirHargaJualItem($terapi, $periksa, false);
 			}
    		}
-		if ($periksa->poli != 'estetika') {
+		if ($periksa->poli->poli != 'Poli Estetika') {
 			$biayatotal  = Yoga::rataAtas5000($biayatotal);
 		}
 		$asuransi_id = $periksa->asuransi_id;
 		$pasien      = $periksa->pasien;
-		$tindakans   = [ null => '- Pilih -' ] + Tarif::where('asuransi_id', $asuransi_id)->with('jenisTarif')->get()->pluck('jenis_tarif_list', 'tarif_jual')->all();
+		$tindakans   = Tarif::listByAsuransi($periksa->asuransi_id);
 		$transaksi   = $periksa->transaksi;
 		$resepjson   = json_encode($reseps);
 		//	HITUNG DISPENSING BULAN INI KHUSUS UNTUK TIPE ASURANSI FLAT
@@ -114,27 +116,10 @@ class KasirBaseController extends Controller
 		DB::beginTransaction();
 		try {
 
-			/* if ( */ 
-			/* 	JurnalUmum::where('jurnalable_type', 'App\Periksa') */
-			/* 				->where('jurnalable_id', $periksa_id) */
-			/* 				->count() > 0 */
-			/* ) { */
-			/* 	return redirect('antriankasirs')->withPesan( Yoga::gagalFlash('Pasien sudah pernah diperiksa dan sudah selesai dari Kasir, karena sudah ada catatan di Pembukuan. Bagaimana mungkin bisa dimasukkan lagi? Ceritakan pada dr. Yoga bagaimana pasien ini bisa disubmit lagi di kasir. Karena errornya gak ketemu') ); */
-			/* 	 Sms::send(env("NO_HP_OWNER"),'Kejadian LAGI!!! Kasir input 2 kali!!! Tanyakan!!!' ); */
-			/* } */
-			/* if (AntrianApotek::where('periksa_id', $prx->id)->exists()) { */
-			/* 	$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi'); */
-			/* 	return redirect('antriankasirs')->withPesan($pesan); */
-			/* } */
-
-
-
-			//rubah terapi sesuai yang sudah diubah
 			$terapi1        = Input::get('terapi1');
 			$terapi1        = json_decode($terapi1, true);
 			$array          = [];
-			$hargaTotalObat = 0;
-			$arrays         = [];
+			$hargaObat = 0;
 			foreach ($terapi1 as $t) {
 				Terapi::where('id', $t['id'])->update([
 					'merek_id'          => $t['merek_id'],
@@ -142,25 +127,18 @@ class KasirBaseController extends Controller
 					'harga_beli_satuan' => $t['harga_beli_satuan'],
 					'harga_jual_satuan' => $t['harga_jual_satuan']
 				]);
-				$hargaTotalObat += $t['harga_jual_satuan'] * $t['jumlah'];
-				$arrays[] = [
-
-					'merek' => Merek::find($t['merek_id'])->merek,
-					'jumlah' => $t['jumlah'],
-					'harga_jual_satuan' => $t['harga_jual_satuan']
-				];
+				$hargaObat += $t['harga_jual_satuan'] * $t['jumlah'];
 			}
-
 			//rubah harga obat sesuai dengan terapi yang sudah diubah
 			//
 			//
-
-			if ($prx->poli != 'estetika') {
-				$hargaTotalObat = Yoga::rataAtas5000( $hargaTotalObat );
+			if ($prx->poli->poli != 'Poli Estetika') {
+				$hargaTotalObat = Yoga::rataAtas5000( $hargaObat );
 			}
 
 			$transaksi = $prx->transaksi;
 			$transaksi = json_decode($transaksi, true);
+
 			foreach ($transaksi as $k=> $tr) {
 				if ($tr['jenis_tarif'] == 'Biaya Obat') {
 					$transaksi[$k]['biaya'] = $hargaTotalObat;
@@ -170,7 +148,18 @@ class KasirBaseController extends Controller
 			$prx->transaksi    = json_encode( $transaksi );
 			$prx->save();
 
-			if ( ( Input::get('tacc') ) && Input::get('tacc') == '1' ) {
+            $jt_biaya_obat = JenisTarif::where('jenis_tarif', 'Biaya Obat')->first();
+
+            TransaksiPeriksa::where('periksa_id', $prx->id)
+                            ->where('jenis_tarif_id', $jt_biaya_obat->id)
+                            ->update([
+                                'biaya' => $hargaTotalObat
+                            ]);
+
+            if ( 
+                ( Input::get('tacc') ) 
+                && Input::get('tacc') == '1' 
+            ) {
 				$rjk                    = $prx->rujukan;
 				$rjk->time              = Input::get('time_tacc') ;
 				$rjk->age               = Input::get('age_tacc') ;
@@ -183,7 +172,6 @@ class KasirBaseController extends Controller
 				$tidakdirujuk->diagnosa = $prx->diagnosa->diagnosa ;
 				$tidakdirujuk->save();
 			}
-
 			//jika ada perbaikan terapi di apotek, masukkam ke dalam database
 			if (!empty(Input::get('terapi2'))) {
 				$perbaikan             = new Perbaikanresep;
@@ -191,8 +179,6 @@ class KasirBaseController extends Controller
 				$perbaikan->terapi     = Input::get('terapi1');
 				$perbaikan->save();
 			}
-
-
 			$antriankasir             = new AntrianKasir;
 			$antriankasir->periksa_id = $periksa_id;
 			$antriankasir->jam        = date('H:i:s');
@@ -205,16 +191,13 @@ class KasirBaseController extends Controller
 						'antriable_type' => 'App\Models\AntrianKasir',
 						'antriable_id' => $antriankasir->id
 					]);
-
 			PengantarPasien::where('antarable_type', 'App\Models\AntrianApotek')
 					->where('antarable_id', $antrianapotek->id)
 					->update([
 						'antarable_type' => 'App\Models\AntrianKasir',
 						'antarable_id'   => $antriankasir->id
 					]);
-
 			$antrianapotek->delete();
-
 			$apc = new AntrianPolisController;
 			$apc->updateJumlahAntrian(false, null);
 
@@ -295,7 +278,7 @@ class KasirBaseController extends Controller
 		$harga_obat = 0;
 
 		foreach ($terapis as $k => $terapi) {
-			if ($periksa->asuransi_id == '32') {
+			if ($periksa->asuransi->tipe_asuransi_id == 5) {
 				$fornas = Merek::find($terapi->merek_id)->rak->fornas;
 				if ($fornas == '1') {
 					$harga_obat += 0;
@@ -306,13 +289,13 @@ class KasirBaseController extends Controller
 				$harga_obat += $this->hargaHitung($terapi, $periksa);
 			}
 		}
-		if ($periksa->poli != 'estetika') {
+		if ($periksa->poli->poli != 'Poli Estetika') {
 			$harga_obat = Yoga::rataAtas5000($harga_obat);
 		}
 		// return $harga_obat;
 		$transaksis = json_decode($periksa->transaksi, true);
 
-		if ($periksa->asuransi->tipe_asuransi != '4') {
+		if ($periksa->asuransi->tipe_asuransi_id != '4') {
 			foreach ($transaksis as $k => $trx) {
 				if ($trx['jenis_tarif'] == "Biaya Obat") {
 					if ($harga_obat < 30000 && ( 
@@ -325,6 +308,7 @@ class KasirBaseController extends Controller
 				}
 			}
 		}
+
 		return json_encode($transaksis);
 	}
 

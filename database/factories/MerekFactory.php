@@ -17,6 +17,7 @@ class MerekFactory extends Factory
         return [
             'merek'           => $this->faker->name,
             'unit_tiap_paket' => $this->faker->numerify('##'),
+            'rak_id'          => \App\Models\Rak::factory(),
             'discontinue'     => rand(0,1),
             'tenant_id'       => Tenant::factory()
         ];

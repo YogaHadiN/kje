@@ -140,7 +140,6 @@ class multiPenyusutan extends Command
 		$jurnals            = [];
 		$bahan_bangunans    = [];
 
-		/* dd('oke'); */
 		//penyusutan
 
 		$query    = "SELECT tanggal from belanja_peralatans as bp ";

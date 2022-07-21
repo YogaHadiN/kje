@@ -43,7 +43,7 @@
 					</td>
 					<td class="nama">{!! $antrianpoli->asuransi->nama !!}</td>
 					<td class="nama_pasien">{!! $antrianpoli->pasien->nama!!} </td>
-					<td class="poli">{!! $antrianpoli->poli!!}</td>
+                    <td class="poli_id">{!! $antrianpoli->poli_id !!}</td>
 					<td class="jam">{!! $antrianpoli->jam!!}</td>
 					<td class="tanggal">{!! $antrianpoli->tanggal->format('d-m-Y')!!}</td>
 					<td class="displayNone pasien_id">{!! $antrianpoli->pasien_id !!}</td>

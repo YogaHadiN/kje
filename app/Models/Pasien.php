@@ -56,23 +56,6 @@ class Pasien extends Model{
 	public function registerHamil(){
 		return $this->hasMany('App\Models\RegisterHamil');
 	}
-	public function getNamaAttribute($nama){
-		return ucwords( strtolower($nama) );
-	}
-	public function getAlamatAttribute($alamat){
-		return ucwords( strtolower($alamat) );
-	}
-
-	public function setNamaAttribute($value) {
-
-		$this->attributes['nama'] = strtolower($value);
-
-	}
-	public function setAlamatAttribute($value) {
-
-		$this->attributes['alamat'] = strtolower($value);
-
-	}
 
 	public function getTensisAttribute(){
 		$periksas = $this->periksa;
@@ -260,4 +243,26 @@ class Pasien extends Model{
 	public function getTanggalLahirAttribute($nama){
 		return empty($nama)? Carbon::parse(date('Y-m-d')) : Carbon::parse($nama);
 	}
+
+	public function role(){
+		return $this->belongsTo('App\Models\Role');
+	}
+    public static function sudahPeriksaGDSBulanIniPakaiBPJS($pasien_id, $periksa_id = null){
+        $bulanIni = date('Y-m');
+        $query  = "SELECT pemeriksaan_penunjang ";
+        $query .= "FROM periksas as prx ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "WHERE tanggal like '{$bulanIni}%' ";
+        $query .= "AND prx.pasien_id  =  " . $pasien_id . " ";
+        if (isset ($periksa_id)) {
+            $query .= "AND prx.id < " . $periksa_id . " ";
+        }
+        $query .= "AND prx.pemeriksaan_penunjang like '%Gula Darah%';";
+        
+        if ( count( DB::select($query) ) ) {
+            return true;
+        }
+        return false;
+    }
+    
 }

@@ -16,6 +16,8 @@ class RakFactory extends Factory
     {
         return [
             'harga_beli'        => $this->faker->numerify('##'),
+            'formula_id'        => \App\Models\Formula::factory(),
+            'kode_rak'        => $this->faker->numerify('##'),
             'harga_jual'        => $this->faker->numerify('##'),
             'exp_date'          => $this->faker->date('Y-m-d'),
             'fornas'            => rand(0,1),
