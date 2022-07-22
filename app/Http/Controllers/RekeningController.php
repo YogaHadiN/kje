@@ -20,16 +20,15 @@ use App\Imports\PembayaranImport;
 class RekeningController extends Controller
 {
 
-	private $input_tanggal;
-	private $input_displayed_rows;
-	private $input_key;
-	private $input_deskripsi;
-	private $input_akun_bank_id;
-	private $input_pembayaran_null;
+	public $input_tanggal;
+	public $input_displayed_rows;
+	public $input_key;
+	public $input_deskripsi;
+	public $input_akun_bank_id;
+	public $input_pembayaran_null;
 
 
-   public function __construct()
-    {
+   public function __construct(){
 		$this->input_tanggal         = Input::get('tanggal') .  "%";
 		$this->input_displayed_rows  = Input::get('displayed_rows');
 		$this->input_key             = Input::get('key');
@@ -41,16 +40,12 @@ class RekeningController extends Controller
         $this->middleware('admin', ['except' => []]);
     }
 	public function index($id){
-		/* try { */
-			Artisan::call('cek:mutasi20terakhir');
-		/* } catch (\Exception $e) { */
-		/* 	$pesan = Yoga::gagalFlash('Mutasi Moota gagal'); */
-		/* 	session(['pesan' => $pesan]); */
-		/* } */
+
+        Artisan::call('cek:mutasi20terakhir');
 
 		$ignored_ids = $this->cariIgnoredIds();
+
 		$rekening    = $this->rekeningCari($id,$ignored_ids);
-		/* dd( 'oon', $rekening ); */
 
 		if ( is_null($rekening)) {
 			$pesan = Yoga::gagalFlash('Tidak ada data rekening yang bisa diambil');
@@ -78,7 +73,11 @@ class RekeningController extends Controller
 		$pass                  = $this->input_key * $this->input_displayed_rows;
 		$query  = "SELECT ";
 		if (!$count) {
-			$query .= "str_to_date(tanggal, '%Y-%m-%d') as tanggal, ";
+            if (env("DB_CONNECTION") == 'mysql') {
+                $query .= "str_to_date(tanggal, '%Y-%m-%d') as tanggal, ";
+            } else {
+                $query .= "tanggal, ";
+            }
 			$query .= "deskripsi, ";
 			$query .= "id, ";
 			$query .= "pembayaran_asuransi_id, ";
@@ -182,10 +181,8 @@ class RekeningController extends Controller
 		
 	}
 	public function ignoredList(){
-
 		$ignored_ids = $this->cariIgnoredIds();
 		$rekening    = $this->rekeningCari(null,$ignored_ids);
-
 		return view('rekenings.abaikan', compact('rekening', 'ignored_ids'));
 	}
 	public function ignoredListAjax(){

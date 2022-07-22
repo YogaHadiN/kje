@@ -15,6 +15,6 @@ class Point extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 }

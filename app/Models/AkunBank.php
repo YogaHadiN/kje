@@ -9,6 +9,8 @@ use App\Traits\BelongsToTenant;
 class AkunBank extends Model
 {
     use BelongsToTenant, HasFactory;
+    
+    protected $guarded = [] ;
 
     public function rekening(){
         return $this->hasMany(Rekening::class);

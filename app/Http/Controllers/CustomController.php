@@ -269,6 +269,9 @@ class CustomController extends Controller
 			'tindakans'
 		));
 	}
+    /**
+     * @group failing
+     */
     public function survey_post()
     {
 
@@ -316,6 +319,7 @@ class CustomController extends Controller
 			//JIKA ADA KOREKSI DALAM transaksi, maka masukkan ke dalam tabel perbaikantrxs
 			$tarif         = Input::get('tarif');
 			$sebelum       = Input::get('sebelum');
+			$sebelum_array = json_decode($sebelum, true);
 			$tarif_array   = json_decode($tarif, true);
 			//HILANGKAN elemen BHP dari tarif
 			foreach ($sebelum_array as $key => $value) {
@@ -427,7 +431,7 @@ class CustomController extends Controller
 			}
 			// Input jurnal umum kas di tangan bila tunai > 0
 			$coa_id_110000 = Coa::where('kode_coa', '110000')->first()->id;
-			if ($periksa->tunai>0) {
+			if ($periksa->tunai > 0) {
 				$periksa->jurnals()->create([
                     'coa_id'          => $coa_id_110000, // Kas di tangan
                     'debit'           => 1,
@@ -450,7 +454,7 @@ class CustomController extends Controller
 
 			$hutang_asisten_tindakan = 0;
             $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
-
+            $jt_diskon = JenisTarif::where('jenis_tarif', 'Diskon')->first();
 			foreach ($transaksis as $k => $transaksi) {
 				$adaBiaya = false;
                 $tp = $periksa->transaksii()->create([
@@ -660,7 +664,7 @@ class CustomController extends Controller
 			}
 
 			$apc = new AntrianPolisController;
-			$apc->updateJumlahAntrian(false, null);
+			/* $apc->updateJumlahAntrian(false, null); */
 
 			// masukkan kembali whatsapp_registration dengan periksa_id untuk customer surveyable_id
 			//
@@ -720,7 +724,13 @@ class CustomController extends Controller
 			$this->massUpdate($bukan_peserta_updates);
 			$this->massUpdate($rujukan_updates);
 
+            /* dd( */ 
+            /*     $periksa->tunai, */
+            /*     JurnalUmum::where('nilai', $periksa->tunai)->count() */
+            /* ); */
+
 			DB::commit();
+
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -856,7 +866,7 @@ class CustomController extends Controller
 		return json_encode($terapis_baru);
 	}
 
-	private function biayaJasa($jenis_tarif_id, $biaya){
+	public function biayaJasa($jenis_tarif_id, $biaya){
 		if ($jenis_tarif_id == '104') {
 			return 20000;
 		} elseif($jenis_tarif_id == '105' || $jenis_tarif_id == '106'){

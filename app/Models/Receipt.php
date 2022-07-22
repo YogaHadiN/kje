@@ -9,5 +9,5 @@ use App\Traits\BelongsToTenant;
 class Receipt extends Model
 {
     use BelongsToTenant, HasFactory;
-    //
+	protected $guarded = [];
 }

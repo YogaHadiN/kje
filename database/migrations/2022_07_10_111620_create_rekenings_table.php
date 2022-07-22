@@ -14,7 +14,7 @@ class CreateRekeningsTable extends Migration
     public function up()
     {
         Schema::create('rekenings', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->bigInteger('id', true);
             $table->string('akun_bank_id');
             $table->dateTime('tanggal');
             $table->text('deskripsi');

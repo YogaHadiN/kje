@@ -16,7 +16,7 @@ class JurnalUmum extends Model{
 		// 'title' => 'required'
 	];
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 	protected $dates = ['created_at', 'updated_at'];
 
 

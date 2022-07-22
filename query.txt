@@ -472,8 +472,8 @@ UPDATE usgs set old_id = id;
 ALTER TABLE usgs DROP COLUMN id;
 ALTER TABLE usgs ADD id bigint auto_increment primary key first;
 
-ALTER TABLE akun_banks ADD old_id varchar(255) not null, add index(old_id);
-UPDATE akun_banks set old_id = id;
+ALTER TABLE akun_banks ADD kode_bank varchar(255) not null, add index(kode_bank);
+UPDATE akun_banks set kode_bank = id;
 ALTER TABLE akun_banks DROP COLUMN id;
 ALTER TABLE akun_banks ADD id bigint auto_increment primary key first;
 
@@ -484,7 +484,7 @@ ALTER TABLE rekenings DROP COLUMN old_id;
 ALTER TABLE rekenings ADD id bigint auto_increment primary key first;
 
 update abaikan_transaksis as t1 join rekenings as pa on t1.transaksi_id = pa.kode_transaksi set t1.transaksi_id = pa.id;
-update rekenings as t1 join akun_banks as pa on t1.akun_bank_id = pa.old_id set t1.akun_bank_id = pa.id;
+update rekenings as t1 join akun_banks as pa on t1.akun_bank_id = pa.kode_bank set t1.akun_bank_id = pa.id;
 Update jurnal_umums as t1 JOIN coas as co on t1.coa_id = co.kode_coa SET t1.coa_id = co.id;
 Update doses as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
 Update komposisis as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
@@ -966,6 +966,3 @@ alter table pph21s modify column pph21able_id bigint, add index(pph21able_id);
 alter table promos modify column promoable_id bigint, add index(promoable_id);
 alter table telpons modify column telponable_id bigint, add index(telponable_id);
 alter table users modify column surveyable_id bigint, add index(surveyable_id);
-
-
-delete from jurnal_umums where jurnalable_type= 'App\\\Models\Periksa' and jurnalable_id in('220720014','220720083','220720120');

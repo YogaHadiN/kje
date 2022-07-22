@@ -113,79 +113,75 @@ class PengeluaransController extends Controller
 	}
 
 	public function store() {
-		$messages          = array(
-			'required'    => ':attribute harus diisi terlebih dahulu',
-		);
-		$rules             = [
-			'staf_id'      => 'required',
-			'supplier_id'  => 'required',
-			'nilai'        => 'required',
-			'faktur_image' => 'required',
-			'tanggal'      => 'required|date_format:d-m-Y',
-			'sumber_uang'  => 'required',
-			'keterangan'   => 'required'
-		];
+        DB::beginTransaction();
+        try {
+            $messages          = array(
+                'required'    => ':attribute harus diisi terlebih dahulu',
+            );
+            $rules             = [
+                'staf_id'      => 'required',
+                'supplier_id'  => 'required',
+                'nilai'        => 'required',
+                'faktur_image' => 'required',
+                'tanggal'      => 'required|date_format:d-m-Y',
+                'sumber_uang'  => 'required',
+                'keterangan'   => 'required'
+            ];
 
-		$validator         = \Validator::make($data = Input::all(), $rules, $messages);
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator->messages())->withInput();
-		}
+            $validator         = \Validator::make($data = Input::all(), $rules, $messages);
+            if ($validator->fails())
+            {
+                return \Redirect::back()->withErrors($validator->messages())->withInput();
+            }
 
-		$staf_id           = Input::get('staf_id');
-		$supplier_id       = Input::get('supplier_id');
-		$nilai             = Yoga::clean( Input::get('nilai') );
-		$tanggal           = Input::get('tanggal');
-		$keterangan        = Input::get('keterangan');
+            $staf_id           = Input::get('staf_id');
+            $supplier_id       = Input::get('supplier_id');
+            $nilai             = Yoga::clean( Input::get('nilai') );
+            $tanggal           = Input::get('tanggal');
+            $keterangan        = Input::get('keterangan');
 
-		// insert tabel pengeluarans
-		$peng                 = new Pengeluaran;
-		$peng->staf_id        = $staf_id;
-		$peng->supplier_id    = $supplier_id;
-		$peng->nilai          = $nilai;
-		$peng->tanggal        = Yoga::datePrep( $tanggal );
-		$peng->sumber_uang_id = Input::get('sumber_uang');
-		$peng->keterangan     = $keterangan;
-		$peng->save();
-		$peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id);
-		$confirm              = $peng->save();
+            // insert tabel pengeluarans
+            $peng                 = new Pengeluaran;
+            $peng->staf_id        = $staf_id;
+            $peng->supplier_id    = $supplier_id;
+            $peng->nilai          = $nilai;
+            $peng->tanggal        = Yoga::datePrep( $tanggal );
+            $peng->sumber_uang_id = Input::get('sumber_uang');
+            $peng->keterangan     = $keterangan;
+            $peng->save();
 
-		if ($confirm) {
-			$jurnals = [];
-			$timestamp = $peng->created_at;
-			$jurnals[] = [
-				'jurnalable_id'   => $peng->id,
-				'jurnalable_type' => 'App\Models\Pengeluaran',
-				'debit'           => 1,
-				'coa_id'           => null,
-				'nilai'           => $peng->nilai,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
-			];
+            $peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id);
+            $confirm              = $peng->save();
 
-			$jurnals[] = [
-				'jurnalable_id'   => $peng->id,
-				'jurnalable_type' => 'App\Models\Pengeluaran',
-				'coa_id'          => Input::get('sumber_uang'),
-				'debit'           => 0,
-				'nilai'           => $peng->nilai,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
-			];
+            if ($confirm) {
+                $jurnals = [];
+                $timestamp = $peng->created_at;
+                $jurnals[] = [
+                    'debit'  => 1,
+                    'coa_id' => null,
+                    'nilai'  => $peng->nilai,
+                ];
 
-			//
-			// insert tabel jurnal_umums
-			JurnalUmum::insert($jurnals);
-		}
-		$nama_supplier = Supplier::find($supplier_id)->nama;
-		if ($confirm) {
-			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'))->withPrint($peng->id);
+                $jurnals[] = [
+                    'coa_id' => Input::get('sumber_uang'),
+                    'debit'  => 0,
+                    'nilai'  => $peng->nilai,
+                ];
+                $peng->jurnals()->createMany($jurnals);
+            }
+            $nama_supplier = Supplier::find($supplier_id)->nama;
+            DB::commit();
 
-		}else {
-			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::gagalFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> gagal dilakukan'));
-		}
+            if ($confirm) {
+                return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'))->withPrint($peng->id);
+
+            }else {
+                return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::gagalFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> gagal dilakukan'));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 	}
 
 	public function lists() {

@@ -22,6 +22,7 @@ class AkunBankFactory extends Factory
     public function definition(): array
     {
         return [
+            'kode_bank' => $this->faker->word,
             'akun' => $this->faker->word,
             'nomor_rekening' => $this->faker->word,
             'tenant_id' => \App\Models\Tenant::factory(),

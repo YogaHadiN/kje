@@ -27,7 +27,7 @@ class PembayaranAsuransiFactory extends Factory
             'akhir' => $this->faker->dateTime(),
             'pembayaran' => $this->faker->randomNumber(),
             'tanggal_dibayar' => $this->faker->dateTime(),
-            'kas_coa_id' => \App\Models\Coa::factory(),
+            'coa_id' => \App\Models\Coa::factory(),
             'staf_id' => \App\Models\Staf::factory(),
             'nota_jual_id' => $this->faker->word,
             'tenant_id' => \App\Models\Tenant::factory(),

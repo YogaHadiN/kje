@@ -69,13 +69,13 @@ class cekMutasi19Terakhir extends Command
 		foreach ($banks['data'] as $bank) {
 			$bank_id = $bank->bank_id;
 			$newBank = AkunBank::firstOrCreate([
-				'id' => $bank_id
+				'kode_bank' => $bank_id
 			],[
-				'id'             => $bank_id,
+				'kode_bank'             => $bank_id,
 				'nomor_rekening' => $bank->account_number,
 				'akun'           => $bank->bank_type
 			]);
-			$mutasis = Moota::mutation( $newBank->id )->latest(19)->toArray();
+			$mutasis = Moota::mutation( $newBank->kode_bank )->latest(19)->toArray();
 			$insertKredit = [];
 			foreach ($mutasis as $mutasi) {
 				if ( $mutasi->type == 'CR' ) {
@@ -83,14 +83,12 @@ class cekMutasi19Terakhir extends Command
 				} else {
 					$debet = 1;
 				}
-
 				$mutation_ids[] = $mutasi->mutation_id;
-				$newRekening    = Rekening::find($mutasi->mutation_id);
-				if ( !isset( $newRekening->id ) ) {
+                if (
+                    !Rekening::where('kode_transaksi', $mutasi->mutation_id)->exists()
+                ) {
 
 					$pembayaran_asuransi_id = null;
-					// cari kata asuransi yang cocok kata kunci nya sesuai deskripsi mutasi
-					//
 
 					if ($debet == 0) {
 						$desc[] = $mutasi->description;
@@ -124,7 +122,7 @@ class cekMutasi19Terakhir extends Command
 						$this->amount      = $mutasi->amount;
 						$this->created_at  = $mutasi->created_at;
 						$this->mutation_id = $mutasi->mutation_id;
-						$description = $mutasi->description;
+						$description       = $mutasi->description;
 
 						if (
 							count($data) == 1 //jika ditemukan 1 data
@@ -177,9 +175,8 @@ class cekMutasi19Terakhir extends Command
 						}
 					}
 
-
 					$insertMutasi[] = [
-						'kode_transaksi'                     => $mutasi->mutation_id,
+						'kode_transaksi'         => $mutasi->mutation_id,
 						'akun_bank_id'           => $newBank->id,
 						'tanggal'                => $mutasi->created_at,
 						'pembayaran_asuransi_id' => $pembayaran_asuransi_id,
