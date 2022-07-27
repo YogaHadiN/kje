@@ -22,15 +22,15 @@ class RekeningFactory extends Factory
     public function definition(): array
     {
         return [
-            'akun_bank_id' => \App\Models\AkunBank::factory(),
-            'tanggal' => $this->faker->dateTime(),
-            'deskripsi' => $this->faker->text,
-            'nilai' => $this->faker->randomFloat(),
-            'saldo_akhir' => $this->faker->randomFloat(),
-            'debet' => $this->faker->boolean,
+            'akun_bank_id'           => \App\Models\AkunBank::factory(),
+            'tanggal'                => $this->faker->dateTime(),
+            'deskripsi'              => $this->faker->text,
+            'nilai'                  => $this->faker->randomFloat(),
+            'saldo_akhir'            => $this->faker->randomFloat(),
+            'debet'                  => $this->faker->boolean,
             'pembayaran_asuransi_id' => \App\Models\PembayaranAsuransi::factory(),
-            'kode_transaksi' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
+            'kode_transaksi'         => $this->faker->word,
+            'tenant_id'              => \App\Models\Tenant::factory(),
         ];
     }
 }

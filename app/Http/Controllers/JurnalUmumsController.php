@@ -34,8 +34,6 @@ use DB;
 
 class JurnalUmumsController extends Controller
 {
-
-
 	public function __construct()
 	 {
 		 $this->middleware('super', ['only' => [
@@ -58,10 +56,6 @@ class JurnalUmumsController extends Controller
 	 *
 	 * @return Response
 	 */
-    public function index(){
-    	return view('jurnal_umums.index');
-    }
-    
 	public function show()
 	{
 
@@ -72,6 +66,7 @@ class JurnalUmumsController extends Controller
             ->orderBy('created_at', 'desc')
             ->where('created_at', 'like', $tahun . '-' . $bulan . '%')
             ->paginate(10);
+
 		return view('jurnal_umums.show', compact(
 			'bulan',
 			'tahun',
@@ -121,11 +116,22 @@ class JurnalUmumsController extends Controller
 			->get();
 
 		$jurnalumums = json_encode( $jurnalumums );
+
+        $coa_120001 = Coa::where("kode_coa", "120001")->first();
+        $coa_112001 = Coa::where("kode_coa", '112001')->first();
+        $coa_612345 = Coa::where("kode_coa", '612345')->first();
+        $coa_120010 = Coa::where("kode_coa", '120010')->first();
+
+			/* ['120001' => 'Belanja Peralatan'] + */
+			/* ['112001' => 'Persediaan Pulsa Go Pay'] + */
+			/* ['612345' => 'Biaya Operasional Gojek'] + */
+			/* ['120010' => 'Peralatan Bahan Bangunan'] + */
+
 		$bebanCoaList = [null => '-pilih-'] + 
-			['120001' => 'Belanja Peralatan'] +
-			['112001' => 'Persediaan Pulsa Go Pay'] +
-			['612345' => 'Biaya Operasional Gojek'] +
-			['120010' => 'Peralatan Bahan Bangunan'] +
+        [$coa_120001->id => $coa_120001->coa ] +
+        [$coa_112001->id => $coa_112001->coa] +
+        [$coa_612345->id => $coa_612345->coa] +
+        [$coa_120010->id => $coa_120010->coa] +
 		Coa::whereIn('kelompok_coa_id', [5,6,8])->where('coa', 'not like', '%penyusutan%')->pluck('coa', 'id')->all();
 		$pendapatanCoaList = [null => '-pilih-']+ Coa::whereIn('kelompok_coa_id', [4,7])->pluck('coa', 'id')->all();
         $kelompokCoaList = [ null => '- pilih -' ] + KelompokCoa::pluck('kelompok_coa', 'id')->all();
@@ -148,10 +154,6 @@ class JurnalUmumsController extends Controller
 	 */
 	public function coaPost()
 	{
-		//$p =  json_decode( Input::get('serviceAcTemp'), true ); 
-		//return dd ( $p[0]['ac_id'] );
-
-		//
 		$rules  = [
 			'temp'          => 'json|required',
 			'peralatanTemp' => 'json|required',
@@ -163,19 +165,22 @@ class JurnalUmumsController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+        //
 		// parse Temp
         $temp = Input::get('temp');
         $temp = json_decode($temp, true);
+        //
 		// parse peralatanTemp
         $peralatanTemp                = Input::get('peralatanTemp');
         $peralatanTemp                = json_decode($peralatanTemp, true);
+        //
 		//parse service Ac
 		$serviceAc = Input::get('serviceAcTemp');
 		$serviceAc = json_decode($serviceAc, true);
 
 		$timestamp               = date('Y-m-d H:i:s');
 		$confirm                 = '';
-		$gopays                 =[];
+		$gopays                  = [];
 		$confirmFbImage          = '';
 		$confirmFb               = '';
 		$confirmJurnalUmumUpdate = '';
@@ -191,7 +196,6 @@ class JurnalUmumsController extends Controller
 				$jurnalable_type      = $ju->jurnalable_type;
 				$jurnalable_id        = $ju->jurnalable_id;
 				if ($jurnalable_type == 'App\Models\Pengeluaran') {
-
 					$p                    = Pengeluaran::find($jurnalable_id);
 					$fb                   = new FakturBelanja;
 					$fb->tanggal          = $p->tanggal;
@@ -223,6 +227,7 @@ class JurnalUmumsController extends Controller
 									 'harga_satuan'			=> $alat['harga_satuan'],
 									 'jumlah'				=> $alat['jumlah'],
 									 'masa_pakai'			=> $alat['masa_pakai'],
+                                    'tenant_id'         => session()->get('tenant_id'),
 									 'created_at'			=> $timestamp,
 									 'updated_at'			=> $timestamp
 								];
@@ -233,7 +238,7 @@ class JurnalUmumsController extends Controller
 											'merek'             => $ac['merek'],
 											'keterangan'        => $ac['keterangan'],
 											'faktur_belanja_id' => $fb->id,
-							'tenant_id'  => session()->get('tenant_id'),
+                                            'tenant_id'         => session()->get('tenant_id'),
 											'created_at'        => $timestamp,
 											'updated_at'        => $timestamp
 										];
@@ -244,17 +249,17 @@ class JurnalUmumsController extends Controller
 						// Masukkan AC
 						//
 						$confirmAc = Ac::insert($acs);
+                        //
 						// Masukkan BelanjaPeralatan
 						$confirm     = BelanjaPeralatan::insert($alats);
 					} else if ( isset( $serviceAc[$k] ) ){
-							 
 						if ( $serviceAc[$k]['ac_id'] > 0 ) {
 							foreach ($serviceAc[$k]['ac_id'] as $ac_id) {
 								$service_acs[] = [
 									'ac_id'             => $ac_id,
 									'tanggal'           => $p->tanggal,
 									'faktur_belanja_id' => $fb->id,
-							'tenant_id'  => session()->get('tenant_id'),
+                                    'tenant_id'         => session()->get('tenant_id'),
 									'created_at'        => $timestamp,
 									'updated_at'        => $timestamp
 								];
@@ -352,7 +357,6 @@ class JurnalUmumsController extends Controller
 	public function destroy($id)
 	{
 		Jurnalumum::destroy($id);
-
 		return \Redirect::route('jurnalumums.index');
 	}
     public function coa_list(){
@@ -491,6 +495,7 @@ class JurnalUmumsController extends Controller
 		}
 		$penyusutan      = GolonganPeralatan::with('keteranganPenyusutan')->get();
 		$faktur_belanjas = $this->queryKonfirmasiPeralatan();
+
 		return view('jurnal_umums.konfirmasiPeralatan', compact(
 			'faktur_belanjas',
 			'penyusutan',
@@ -513,7 +518,6 @@ class JurnalUmumsController extends Controller
 		$penyusutans   = [];
 		$last_belanja_alat_id = BelanjaPeralatan::orderBy('id', 'desc')->first()->id;
 		foreach ($peralatans as $key => $alats) {
-
 			$timestamp                   = $alats[0]['created_at'];
 			$last_fb_id++;
 			$nama_file                   = 'faktur' . $last_fb_id . '.jpg';
@@ -548,7 +552,7 @@ class JurnalUmumsController extends Controller
 					'harga_satuan'      => $alat['harga_satuan'],
 					'faktur_belanja_id' => $last_fb_id,
 					'masa_pakai'        => $alat['masa_pakai'],
-							'tenant_id'  => session()->get('tenant_id'),
+                    'tenant_id'  => session()->get('tenant_id'),
 					'created_at'        => $timestamp,
 					'updated_at'        => $timestamp,
 					'jumlah'            => $alat['jumlah']
@@ -570,7 +574,6 @@ class JurnalUmumsController extends Controller
 					$bulan_penyusutan = date('Y-m', strtotime($tanggalSatu));
 
 					/* return $bulan_penyusutan; */
-
 					$jurnal = JurnalUmum::where('jurnalable_type', 'App\Models\RingkasanPenyusutan')
 							->where('created_at', 'like', $bulan_penyusutan . '%')
 							->where('debit', '0')

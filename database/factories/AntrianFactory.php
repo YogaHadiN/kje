@@ -15,7 +15,7 @@ class AntrianFactory extends Factory
     public function definition()
     {
         return [
-            'jenis_antrian_id'         => 1,
+            'jenis_antrian_id'         => \App\Models\JenisAntrian::factory(),
             'url'                      => null,
             'nomor'                    => $this->faker->numerify('##'),
             'antriable_id'             => null,

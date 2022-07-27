@@ -120,6 +120,97 @@ class AntrianPolisControllerTest extends TestCase
                 ->assertSee('untuk peserta asuransi harus dimasukkan terlebih dahulu');
     }
 
+
+    public function test_store(){
+
+        $user     = User::factory()->create([
+                'role_id' => 6
+            ]);
+        auth()->login($user);
+
+        /* sebelum kesini ke acting as dulu */
+        /* key mapping j */
+        /* dari bentuk '"nama"  => $nama,' */	
+        /* KE BENTUK */	
+        /* $nama = $this->faker->text */
+
+          $nama              = $this->faker->name;
+          $pasien_id         = \App\Models\Pasien::factory()->create()->id;
+          $poli_id           = \App\Models\Poli::factory()->create()->id;
+          $staf_id           = \App\Models\Staf::factory()->create()->id;
+          $asuransi_id       = \App\Models\Asuransi::factory()->create()->id;
+          $tanggal           = $this->faker->date('d-m-Y');
+          $bukan_peserta     = rand(0,1);
+          $pengantar_pasiens = "";
+
+        $this->withoutExceptionHandling();
+
+        /* key mapping k */
+        /* dari bentuk "nama	varchar(255)	NO		NULL" */	
+        /* KE BENTUK */	
+        /* "nama" => $nama, */
+
+        $inputAll = [
+            "nama"              => $nama,
+            "pasien_id"         => $pasien_id,
+            "poli_id"           => $poli_id,
+            "staf_id"           => $staf_id,
+            "asuransi_id"       => $asuransi_id,
+            "tanggal"           => $tanggal,
+            "bukan_peserta"     => $bukan_peserta,
+            "pengantar_pasiens" => $pengantar_pasiens,
+        ];
+
+        $response = $this->post('antrianpolis', $inputAll);
+
+        /* key mapping h */
+        /* dari bentuk '"nama"  => $nama,' */	
+        /* KE BENTUK */	
+        /* ->where("nama", $nama) */
+
+        $antrian_polis = AntrianPoli::query()
+            ->where("pasien_id", $pasien_id)
+            ->where("poli_id", $poli_id)
+            ->where("staf_id", $staf_id)
+            ->where("asuransi_id", $asuransi_id)
+            /* ->where("tanggal", Carbon::createFromFormat('d-m-Y', $tanggal)) */
+            /* ->where("bukan_peserta", $bukan_peserta) */
+        ->get();
+
+            if ( !$antrian_polis->count() ) {
+                $antrian_polis = AntrianPoli::all();
+                $antrian_poli_array = [];
+                foreach ($antrian_polis as $a) {
+                    $antrian_poli_array[] = [
+                        "nama"              => $a->nama,
+                        "pasien_id"         => $a->pasien_id,
+                        "poli_id"           => $a->poli_id,
+                        "staf_id"           => $a->staf_id,
+                        "asuransi_id"       => $a->asuransi_id,
+                        "tanggal"           => $a->tanggal,
+                        "bukan_peserta"     => $a->bukan_peserta,
+                        "pengantar_pasiens" => $a->pengantar_pasiens,
+                    ];
+                }
+                dd(  [
+                        "nama"             => $nama,
+                        "pasien_id"         => $pasien_id,
+                        "poli_id"           => $poli_id,
+                        "staf_id"           => $staf_id,
+                        "asuransi_id"       => $asuransi_id,
+                        "tanggal"           => Carbon::createFromFormat('d-m-Y', $tanggal)->format('Y-m-d'),
+                        "bukan_peserta"     => $bukan_peserta,
+                       "pengantar_pasiens" => $pengantar_pasiens,
+                    ],
+                    $antrian_poli_array
+                );
+            }
+
+        $this->assertCount(1, $antrian_polis);
+
+        $response->assertRedirect('antrianpolis');
+    }
+
     public function test_destroy(){
         $user     = User::factory()->create([
                 'role_id' => 6

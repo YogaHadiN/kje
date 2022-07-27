@@ -36,10 +36,11 @@ class NotaJual extends Model{
         return $this->morphMany('App\Models\JurnalUmum', 'jurnalable');
     }
 	public function getNilaiAttribute(){
-		return JurnalUmum::where('jurnalable_type', 'App\Models\NotaJual')
+		$ju =  JurnalUmum::where('jurnalable_type', 'App\\Models\\NotaJual')
 						->where('jurnalable_id', $this->id)
 						->where('debit', '1')
-						->first()['nilai'];
+						->first()->nilai;
+        return $ju;
 	}
 
 	public function getItemsAttribute(){

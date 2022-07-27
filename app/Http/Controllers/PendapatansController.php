@@ -368,7 +368,7 @@ class PendapatansController extends Controller
 	}
 	
     public function asuransi_bayar(Request $request){
-		/* dd(Input::all()); */ 
+		dd(Input::all()); 
 		DB::beginTransaction();
 		try {
 			$rules = [

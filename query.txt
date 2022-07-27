@@ -483,104 +483,98 @@ ALTER TABLE rekenings DROP COLUMN id;
 ALTER TABLE rekenings DROP COLUMN old_id;
 ALTER TABLE rekenings ADD id bigint auto_increment primary key first;
 
+update alergies as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update antrian_polis as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update riwayat_kehamilan_sebelumnyas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update update_rppt_pesertas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update home_visits as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update sms_jangans as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update periksas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update complains as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update register_hamils as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update sms_bpjs as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update facebook_daftars as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update kaburs as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update antrian_periksas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update pasien_rujuk_baliks as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update deleted_periksas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update sms_kontaks as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update sms_gagals as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update pasien_prolanis as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+update pembayaran_asuransis as t1 join nota_juals as st on t1.nota_jual_id = st.old_id set t1.nota_jual_id = st.id;
+update penjualans as t1 join nota_juals as st on t1.nota_jual_id = st.old_id set t1.nota_jual_id = st.id;
+update formulas as t1 join sediaans as st on t1.sediaan_id = st.old_id set t1.sediaan_id = st.id;
+update nota_belis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update pembelians as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update antrian_polis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update pengeluarans as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update cek_listriks as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update no_sales as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update complains as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update nota_juals as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update cek_obats as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update stok_opnames as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update lapor_pajaks as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update pembayaran_asuransis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update bayar_gajis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update pendapatans as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update penjualan_asets as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update saldos as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update input_hartas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update pembayaran_bpjs as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update kaburs as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update antrian_periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update deleted_periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update bayar_bonus as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update modals as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update cek_pulsas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update petugas_kirims as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update pembelians as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+update terapis as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+update dispensings as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+update bahan_habis_pakais as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+update penjualans as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+update raks as t1 join formulas as st on t1.formula_id = st.old_id set t1.formula_id = st.id;
+update komposisis as t1 join formulas as st on t1.formula_id = st.old_id set t1.formula_id = st.id;
+update doses as t1 join formulas as st on t1.formula_id = st.old_id set t1.formula_id = st.id;
+update antrian_polis as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+update poli_antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+update periksas as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+update facebook_daftars as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+update antrian_periksas as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+update antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+update receipts as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update pesan_keluars as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update kontrols as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update perbaikanreseps as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update terapis as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update pesan_masuks as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update whatsapp_registrations as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update surat_sakits as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update klaim_gdp_bpjs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update points as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update usgs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update bukan_pesertas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update antrian_apoteks as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update register_kbs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update kunjungan_sakits as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update antrian_kasirs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update rujukans as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update perbaikantrxs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update antrian_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update deleted_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update monitors as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update register_ancs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update piutang_dibayars as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+update transaksi_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
 update abaikan_transaksis as t1 join rekenings as pa on t1.transaksi_id = pa.kode_transaksi set t1.transaksi_id = pa.id;
 update rekenings as t1 join akun_banks as pa on t1.akun_bank_id = pa.kode_bank set t1.akun_bank_id = pa.id;
 Update jurnal_umums as t1 JOIN coas as co on t1.coa_id = co.kode_coa SET t1.coa_id = co.id;
-Update doses as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
-Update komposisis as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
-Update raks as t1 JOIN formulas as fo on t1.formula_id = fo.old_id SET t1.formula_id = fo.id;
 Update periksas as t1 JOIN invoices as iv on t1.invoice_id = iv.kode_invoice SET t1.invoice_id = iv.id;
-update invoices as t1 join kirim_berkas as ki on t1.kirim_berkas_id = ki.old_id set t1.kirim_berkas_id = ki.id;
-update petugas_kirims as t1 join kirim_berkas as ki on t1.kirim_berkas_id = ki.old_id set t1.kirim_berkas_id = ki.id;
-update invoices as t1 join kirim_berkas as ki on t1.kirim_berkas_id = ki.old_id set t1.kirim_berkas_id = ki.id;
-update petugas_kirims as t1 join kirim_berkas as ki on t1.kirim_berkas_id = ki.old_id set t1.kirim_berkas_id = ki.id;
-update pembayaran_asuransis as t1 join nota_juals as no on t1.nota_jual_id = no.old_id set t1.nota_jual_id = no.id;
-update penjualans as t1 join nota_juals as no on t1.nota_jual_id = no.old_id set t1.nota_jual_id = no.id;
-update alergies as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update antrian_periksas as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update antrian_polis as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update complains as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update deleted_periksas as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update facebook_daftars as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update home_visits as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update kaburs as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update pasien_prolanis as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update pasien_rujuk_baliks as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update periksas as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update register_hamils as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update sms_bpjs as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update sms_gagals as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update sms_jangans as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update sms_kontaks as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update update_rppt_pesertas as t1 join pasiens as pa on t1.pasien_id = pa.old_id set t1.pasien_id = pa.id;
-update antrian_apoteks as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update antrian_kasirs as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update antrian_periksas as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update bukan_pesertas as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update deleted_periksas as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update klaim_gdp_bpjs as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update kontrols as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update kunjungan_sakits as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update monitors as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update perbaikanreseps as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update perbaikantrxs as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update pesan_keluars as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update pesan_masuks as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update piutang_dibayars as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update points as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update receipts as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update register_ancs as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update register_kbs as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update rujukans as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update surat_sakits as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update terapis as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update transaksi_periksas as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update usgs as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update whatsapp_registrations as t1 join periksas as px on t1.periksa_id = px.old_id set t1.periksa_id = px.id;
-update antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
-update poli_antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
 update cek_obats as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
 update mereks as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
 update stok_opnames as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
-update antrian_periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update antrian_polis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update bayar_bonus as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update bayar_gajis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update cek_listriks as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update cek_obats as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update cek_pulsas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update complains as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update deleted_periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update input_hartas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update kaburs as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update lapor_pajaks as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update modals as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update nota_belis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update nota_juals as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update no_sales as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update pembayaran_asuransis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update pembayaran_bpjs as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update pembelians as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update pendapatans as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update pengeluarans as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update penjualan_asets as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update petugas_kirims as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update saldos as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-update stok_opnames as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
-Update pengantar_pasiens as t1 JOIN pasiens as ps on t1.pengantar_id = ps.old_id SET t1.pengantar_id = ps.id;
-Update bagi_gigis as t1 JOIN stafs as st on t1.petugas_id = st.old_id SET t1.petugas_id = st.id;
-Update bayar_gajis as t1 JOIN stafs as st on t1.petugas_id = st.old_id SET t1.petugas_id = st.id;
-Update faktur_belanjas as t1 JOIN stafs as st on t1.petugas_id = st.old_id SET t1.petugas_id = st.id;
-update bahan_habis_pakais as t1 JOIN mereks as mr on t1.merek_id = mr.old_id SET t1.merek_id = mr.id;
-
-
-
-update antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
-update poli_antrians as t1 join polis as po on t1.poli_id = po.old_id set t1.poli_id = po.id;
-update antrian_periksas as t1 join polis as po on t1.poli = po.old_id set t1.poli = po.id;
-update antrian_polis as t1 join polis as po on t1.poli = po.old_id set t1.poli = po.id;
-update periksas as t1 join polis as po on t1.poli = po.old_id set t1.poli = po.id;
 
 update periksas set poli = '1' where poli = 'kandungan';
 
@@ -966,3 +960,29 @@ alter table pph21s modify column pph21able_id bigint, add index(pph21able_id);
 alter table promos modify column promoable_id bigint, add index(promoable_id);
 alter table telpons modify column telponable_id bigint, add index(telponable_id);
 alter table users modify column surveyable_id bigint, add index(surveyable_id);
+
+select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like '%able_id%' order by TABLE_NAME
+
+
+SELECT count(id) as jumlah FROM rekenings WHERE debet = 0 AND deskripsi not like '%PURI WIDIYANI MARTIADEWI%' AND deskripsi not like '%Bunga Rekening%' AND id in ('136', '6008', '1497', '5751', '5257', '2185', '1930', '1941', '1952', '1974', '1419', '1430', '1452', '1386', '1330', '1341', '1297', '1353', '1963', '5302', '1541', '1652', '5302', '5024', '5013', '5113', '5124', '8603', '8521', '5424', '7685', '7696', '7949', '6373', '8639', '8610', '68', '6681', '6714', '8117', '8543', '7388', '610', '8477', '2712', '8204', '8405', '8225', '8128', '5335', '6825', '8420', '8488', '7036', '8460', '7641', '5500', '6647', '2030', '4168', '133', '4468', '3131', '4346', '4590', '8459', '3075', '3253', '8540', '3991', '4157', '4135', '4246', '4091', '4235', '3693', '9863', '8732', '150', '146', '9949', '2747', '8662', '9960', '9456', '9860', '10036', '9038', '9619', '1173', '9462', '9090', '9656', '10001', '1167', '9111', '8815', '3551', '9944', '157', '162', '185', '184', '5191', '8515', '2141', '4958', '9950', '2376', '173', '8903', '8658', '9556', '9980', '8849', '9682', '9764', '9733', '8790', '8443', '8473', '8643', '9885', '9525', '8887', '8761', '10034', '9965', '9942', '9131', '8933', '8679', '2354', '8863', '9180', '9415', '9484', '10032', '9688', '1209', '9940', '8551', '1205', '8871', '9662', '9262', '10007', '5651', '9405', '10052', '9897', '9444', '2399', '5650', '8916', '9195', '9404', '8718', '9312', '9896', '9535', '1234', '2754', '9149', '9971', '8905', '8967', '9358', '9541', '8919', '5654', '9191', '8999', '9274', '8801', '9581') AND (deskripsi like '%' and tanggal like '%') AND (nilai like '%' or '' = '') AND tenant_id = 1 ORDER BY tanggal desc, created_at desc;
+
+
+alter table kirim_berkas add tenant_id bigint not null, add index( tenant_id );
+
+| akun_banks   |
+| nota_belis   |
+| pasiens      |
+| raks         |
+| nota_juals   |
+
+| invoices     |
+| kirim_berkas |
+
+| sediaans     |
+| stafs        |
+| usgs         |
+| coas         |
+| mereks       |
+| formulas     |
+| polis        |
+| periksas     |

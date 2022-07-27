@@ -9,9 +9,6 @@ use App\Traits\BelongsToTenant;
 class Rekening extends Model
 {
     use BelongsToTenant, HasFactory;
-    protected $primaryKey = 'id';
-    public $incrementing = false;  // You most probably want this too
-    protected $keyType = 'string';
 	protected $dates = [
 		'tanggal'
 	];

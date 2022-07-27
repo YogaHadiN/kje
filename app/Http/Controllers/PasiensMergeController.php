@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\Pasien;
+use App\Models\JenisPeserta;
 use App\Models\DeletedPeriksa;
 use App\Models\PasienRujukBalik;
 use App\Models\Alergi;
@@ -33,7 +34,7 @@ class PasiensMergeController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan        = $ps->panggilan();
 		$asuransi         = Yoga::asuransiList();
-		$jenis_peserta    = $ps->jenisPeserta();
+		$jenis_peserta    = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf             = Yoga::stafList();
 		$poli             = Yoga::poliList();
 		$peserta          = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];

@@ -15,7 +15,7 @@ class CreateAbaikanTransaksisTable extends Migration
     {
         Schema::create('abaikan_transaksis', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('transaksi_id');
+            $table->string('rekening_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->bigInteger('tenant_id')->index();

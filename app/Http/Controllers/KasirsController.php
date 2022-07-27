@@ -13,6 +13,7 @@ use App\Console\Commands\scheduleBackup;
 use Moota;
 use DB;
 use App\Models\Saldo;
+use App\Models\Coa;
 use App\Models\DenominatorBpjs;
 use App\Models\CheckoutKasir;
 use App\Models\JurnalUmum;

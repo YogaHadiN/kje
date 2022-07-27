@@ -8,6 +8,7 @@ use App\Traits\BelongsToTenant;
 class Antrian extends Model
 {
     use BelongsToTenant,HasFactory;
+
 	protected $dates = [
 		'tanggal_lahir'
 	];

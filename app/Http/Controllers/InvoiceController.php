@@ -24,10 +24,10 @@ class InvoiceController extends Controller
 		$piutang       = Input::get('piutang');
 		$sudah_dibayar = Input::get('sudah_dibayar');
 		$sisa          = Input::get('sisa');
-		$invoice_id    = Input::get('invoice_id');
+		$kode_invoice  = Input::get('kode_invoice');
 
 		$query  = "SELECT ";
-		$query .= "invoice_id, ";
+		$query .= "kode_invoice, ";
 		$query .= "nama_asuransi, ";
 		$query .= "tanggal, ";
 		$query .= "sum(piutang) as total_piutang, ";
@@ -35,7 +35,7 @@ class InvoiceController extends Controller
 		$query .= "FROM ";
 		$query .= "(";
 		$query .= "SELECT ";
-		$query .= "inv.id as invoice_id, ";
+		$query .= "inv.kode_invoice as kode_invoice, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "kbs.tanggal as tanggal, ";
 		$query .= "prx.piutang as piutang, ";
@@ -52,12 +52,13 @@ class InvoiceController extends Controller
 		if (!empty($tanggal)) {
 			$query .= "AND kbs.tanggal like '{$tanggal}%' ";
 		}
-		if (!empty($invoice_id)) {
-			$query .= "AND inv.id like '%{$invoice_id}%' ";
+		if (!empty($kode_invoice)) {
+			$query .= "AND inv.kode_invoice like '%{$kode_invoice}%' ";
 		}
+		$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY prx.id ";
 		$query .= ") as bl ";
-		$query .= "GROUP BY invoice_id ";
+		$query .= "GROUP BY kode_invoice ";
 		$query .= "HAVING '' = '' ";
 		if (!empty($piutang)) {
 			$query .= "AND CAST(total_piutang as CHAR) LIKE '{$piutang}%' ";
@@ -68,7 +69,6 @@ class InvoiceController extends Controller
 		if (!empty($sisa)) {
 			$query .= "AND CAST(total_piutang - total_sudah_dibayar as CHAR) LIKE '{$sisa}%' ";
 		}
-		$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY tanggal desc ";
 		$query .= "LIMIT 0, 20";
 
@@ -77,7 +77,6 @@ class InvoiceController extends Controller
 	
 	
 	public function show($id){
-		$id       = str_replace('!', '/', $id);
 		$invoice  = Invoice::with(
 			'periksa.asuransi', 
 			'periksa.pasien', 
@@ -102,9 +101,7 @@ class InvoiceController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$search_id = str_replace('!', '/',  $id);
-
-		$invoice                        = Invoice::find($search_id);
+		$invoice                        = Invoice::find($id);
 		$invoice->received_verification = $this->imageUpload('invoice', 'received_verification', $id);
 		$invoice->save();
 
@@ -210,6 +207,5 @@ class InvoiceController extends Controller
 		$query .= "ORDER BY created_at asc ";
 		/* dd( DB::select($query) ); */
 		return DB::select($query);
-
 	}
 }

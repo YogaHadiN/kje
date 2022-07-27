@@ -115,7 +115,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $this->multi_tenancy();
+        $this->updateMultitenancy();
 	}
 	
 	/**
@@ -2010,5 +2010,55 @@ class testcommand extends Command
         \App\Models\Usg::factory()->create();
         \App\Models\VerifikasiProlanis::factory()->create();
         \App\Models\WhatsappRegistration::factory()->create();
+    }
+
+    private function updateMultitenancy(){
+        $array = [
+            'akun_banks',
+            'nota_belis',
+            'pasiens',
+            'raks',
+            'nota_juals',
+            'sediaans',
+            'sms_bpjs',
+            /* 'icd10s', */
+            'invoices',
+            'kirim_berkas',
+            'stafs',
+            'usgs',
+            'coas',
+            'mereks',
+            'formulas',
+            'polis',
+            'periksas',
+            'rekenings',
+        ];
+
+        $table_check = [];
+
+        /* $foreign_ids = []; */
+        $final_query = '';
+        foreach ($array as $arr) {
+            if (!in_array($arr, [
+                'rekenings',
+                'raks',
+                'invoices',
+                'coas',
+                'akun_banks'
+            ])) {
+                $foreign_id = substr( $arr, 0, -1) . '_id';
+                /* $foreign_ids[] = $foreign_id; */
+                $query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'jatielok' AND COLUMN_NAME = '" . $foreign_id. "'";
+                $tables = DB::select($query);
+                $table_names = [];
+                foreach ($tables as $table) {
+                    $table_names[] = $table->TABLE_NAME;
+                    $final_query .= "update " . $table->TABLE_NAME. " as t1 join " . $arr . " as st on t1." . $foreign_id. " = st.old_id set t1." . $foreign_id. " = st.id;";
+                    
+                    /* DB::statement($update_query); */
+                }
+            }
+        }
+        dd( $final_query );
     }
 }

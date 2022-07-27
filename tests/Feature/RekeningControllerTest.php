@@ -1,11 +1,10 @@
 <?php
-
 namespace Tests\Feature;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Tenant;
+use App\Models\AbaikanTransaksi;
 use App\Models\User;
 use App\Models\Rekening;
 use Illuminate\Http\Testing\File;
@@ -38,9 +37,7 @@ class RekeningControllerTest extends TestCase
         $response = $this->get('rekening_bank/' .$akun_bank->id);
         $response->assertStatus(200);
     }
-    /**
-     * @group failing
-     */
+
     public function test_search(){
         $user     = User::factory()->create([
                 'role_id' => 6
@@ -91,7 +88,8 @@ class RekeningControllerTest extends TestCase
                 'deskripsi' => $deskripsi,
             ]);
     }
-    public function test_store(){
+
+    public function test_ignore(){
         Storage::fake('s3');
         // make a request with file
 
@@ -101,11 +99,22 @@ class RekeningControllerTest extends TestCase
             ]);
         auth()->login($user);
 
-        /* sebelum kesini ke acting as dulu */
-        /* key mapping j */
-        /* dari bentuk '"nama"  => $nama,' */	
-        /* KE BENTUK */	
-        /* $nama = $this->faker->text */
+        $akun_bank = \App\Models\AkunBank::factory()->create();
+
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 110004
+        ]);
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 400045
+        ]);
+
+        \App\Models\Rekening::factory(30)->create([
+            'akun_bank_id' => $akun_bank
+        ]);
+
+        $rek = \App\Models\Rekening::factory()->create([
+            'akun_bank_id' => $akun_bank
+        ]);
 
         $this->withoutExceptionHandling();
 
@@ -114,19 +123,15 @@ class RekeningControllerTest extends TestCase
         /* KE BENTUK */	
         /* "nama" => $nama, */
 
-        $inputAll = [
-                "id"                        => $id,
-        ];
-
-        $response = $this->post('rekenings', $inputAll);
+        $response = $this->post('rekening_bank/ignore/' . $rek->id);
 
         /* key mapping h */
         /* dari bentuk '"nama"  => $nama,' */	
         /* KE BENTUK */	
         /* ->where("nama", $nama) */
 
-        $rekenings = Rekening::query()
-                ->where("nama", $nama)
+        $abaikan_transaksis = AbaikanTransaksi::query()
+                ->where("rekening_id", $rek->id)
         ->get();
 
             /* if ( !$asuransis->count() ) { */
@@ -144,48 +149,127 @@ class RekeningControllerTest extends TestCase
             /*     ); */
             /* } */
 
-        $this->assertCount(1, $rekenings);
-
-        $rekening = $rekenings->first();
-
-        // report was created and file was stored
-
-        /* key mapping g */
-        /* dari bentuk '"nama"  => $nama,' */	
-        /* KE BENTUK */	
-        /* $this->checkForUploadedFile($nama, $model->nama); */
-
-        checkForUploadedFile($image, $rekening->image);
-
-        $response->assertRedirect('rekenings');
+        $this->assertCount(1, $abaikan_transaksis);
+        $response->assertRedirect('/');
     }
-    public function test_show(){
+    public function test_ignoredList(){
         $user     = User::factory()->create([
                 'role_id' => 6
             ]);
         auth()->login($user);
-        $rekening = Rekening::factory()->create();
-        $response = $this->get('rekenings/' . $rekening->id);
+        $akun_bank = \App\Models\AkunBank::factory()->create();
+
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 110004
+        ]);
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 400045
+        ]);
+
+        \App\Models\Rekening::factory(30)->create([
+            'akun_bank_id' => $akun_bank
+        ]);
+
+        $rek = \App\Models\Rekening::factory()->create([
+            'akun_bank_id' => $akun_bank
+        ]);
+
+        \App\Models\AbaikanTransaksi::factory()->create([
+            'rekening_id' => $rek->id
+        ]);
+        $response = $this->get('rekening_bank/ignore');
         $response->assertStatus(200);
     }
-    public function test_edit(){
+    /**
+     * 
+     */
+    /* public function test_ignoredListAjax(){ */
+
+    /*     $user     = User::factory()->create([ */
+    /*             'role_id' => 6 */
+    /*         ]); */
+    /*     auth()->login($user); */
+
+    /*     $akun_bank = \App\Models\AkunBank::factory()->create(); */
+
+    /*     \App\Models\Coa::factory()->create([ */
+    /*         'kode_coa' => 110004 */
+    /*     ]); */
+    /*     \App\Models\Coa::factory()->create([ */
+    /*         'kode_coa' => 400045 */
+    /*     ]); */
+
+    /*     \App\Models\Rekening::factory(30)->create([ */
+    /*         'akun_bank_id' => $akun_bank */
+    /*     ]); */
+
+    /*     $name = $this->faker->name; */
+    /*     $date = $this->faker->date('Y-m-d'); */
+
+    /*     \App\Models\Rekening::factory(30)->create([ */
+    /*         'akun_bank_id' => $akun_bank, */
+    /*         'tanggal'      => $date, */
+    /*         'deskripsi'    => $name, */
+    /*         'pembayaran_asuransi_id'    => null, */
+    /*     ]); */
+
+    /*     $tanggal         = $date; */
+    /*     $displayed_rows  = 15; */
+    /*     $key             = 0; */
+    /*     $deskripsi       = $name; */
+    /*     $akun_bank_id    = $akun_bank->id; */
+    /*     $pembayaran_null = 1; */
+
+    /*     $response = $this->get('rekening_bank/search?' . Arr::query([ */
+    /*         'tanggal'         => $tanggal, */
+    /*         'displayed_rows'  => $displayed_rows, */
+    /*         'key'             => $key, */
+    /*         'deskripsi'       => $deskripsi, */
+    /*         'akun_bank_id'    => $akun_bank_id, */
+    /*         'pembayaran_null' => $pembayaran_null, */
+    /*     ])); */
+ 
+    /*     $response = $this->get('rekening_bank/ignoredList/ajax'); */
+
+    /*     $response */
+    /*         ->assertStatus(200) */
+    /*         ->assertJsonFragment([ */
+    /*             'deskripsi' => $deskripsi, */
+    /*         ]); */
+    /* } */
+
+    /**
+     * 
+     */
+    public function test_unignore(){
         $user     = User::factory()->create([
                 'role_id' => 6
             ]);
         auth()->login($user);
-        $rekening = Rekening::factory()->create();
-        $response = $this->get('rekenings/' . $rekening->id . '/edit');
-        $response->assertStatus(200);
-    }
-    public function test_destroy(){
-        $user     = User::factory()->create([
-                'role_id' => 6
-            ]);
-        auth()->login($user);
-        $rekening = Rekening::factory()->create();
-        $response = $this->delete('rekenings/' . $rekening->id);
-        $response->assertRedirect('rekenings');
-        $this->assertDeleted($rekening);
+
+        $akun_bank = \App\Models\AkunBank::factory()->create();
+
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 110004
+        ]);
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 400045
+        ]);
+
+        \App\Models\Rekening::factory(30)->create([
+            'akun_bank_id' => $akun_bank
+        ]);
+
+        $rek = \App\Models\Rekening::factory()->create([
+            'akun_bank_id' => $akun_bank
+        ]);
+
+        $abai = \App\Models\AbaikanTransaksi::factory()->create([
+            'rekening_id' => $rek->id
+        ]);
+        $response = $this->post("rekening_bank/unignore/" . $rek->id );
+        $response->assertRedirect('/');
+        $this->assertDeleted($abai);
     }
 
     public function test_a_user_can_only_see_rekening_in_the_same_tenant()
@@ -233,11 +317,5 @@ class RekeningControllerTest extends TestCase
     }
 }
 
-/* public function ignore($id) */
-/* public function ignoredList() */
 /* public function ignoredListAjax() */
-/* public function show($rekening_id) */
-/* public function unignore($id) */
-/* public function importCreate() */
-/* public function importPost() */
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\Pasien;
+use App\Models\JenisPeserta;
 use App\Models\Periksa;
 use App\Models\Asuransi;
 use App\Models\AntrianPeriksa;
@@ -194,7 +195,7 @@ class FacebookController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan = $ps->panggilan();
 		$asuransi = Yoga::asuransiList();
-		$jenis_peserta = $ps->jenisPeserta();
+		$jenis_peserta = JenisPeserta::pluck('jenis_peserta', 'id')
 		$staf = Yoga::stafList();
 		$poli = Yoga::poliList();
 
@@ -546,12 +547,12 @@ class FacebookController extends Controller
 		$pasien = new Pasien;
 
 		$statusPernikahan = $pasien->statusPernikahan();
-		$panggilan = $pasien->panggilan();
-		$asuransi = Yoga::asuransiList();
-		$jenis_peserta = $pasien->jenisPeserta();
-		$staf = Yoga::stafList();
-		$poli = Yoga::poliList();
-		$fb = FacebookDaftar::find($id);
+		$panggilan        = $pasien->panggilan();
+		$asuransi         = Yoga::asuransiList();
+		$jenis_peserta    = JenisPeserta::pluck('jenis_peserta', 'id');
+		$staf             = Yoga::stafList();
+		$poli             = Yoga::poliList();
+		$fb               = FacebookDaftar::find($id);
 
 		$fb->nama = $fb->nama_pasien;
 		$fb->alamat = $fb->alamat_pasien;

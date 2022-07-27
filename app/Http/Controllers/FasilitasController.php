@@ -13,6 +13,7 @@ use App\Http\Controllers\AntriansController;
 use App\Http\Controllers\AntrianPeriksasController;
 use App\Http\Requests;
 use App\Models\Fasilitas;
+use App\Models\Asuransi;
 use App\Models\Pasien;
 use App\Models\Antrian;
 use App\Models\Panggilan;
@@ -56,6 +57,7 @@ class FasilitasController extends Controller
     public function survey(){
 		return view('surveys.survey');
     }
+
 	public function input_telp(){
 		return view('fasilitas.input_telp');
 	}
@@ -102,20 +104,19 @@ class FasilitasController extends Controller
 			$antrianPoli
 		];
 
-        $asuransi = Asuransi::find($asuransi_id);
-		$antrian = (int)max($antrian) + 1; 
-		$ap       = new AntrianPoli;
-		$ap->poli_id   = $poli_id;
-		$ap->pasien_id   = $pasien_id;
-		if ($asuransi_id !='x') {
-			$ap->asuransi_id   = $asuransi_id;
+        $asuransi             = Asuransi::find($asuransi_id);
+		$antrian              = (int)max($antrian) + 1;
+		$ap                   = new AntrianPoli;
+		$ap->poli_id          = $poli_id;
+		$ap->pasien_id        = $pasien_id;
+		if ($asuransi_id     != 'x') {
+			$ap->asuransi_id  = $asuransi_id;
 		}
-		$ap->tanggal   = date('Y-m-d');
-		$ap->jam   = date('H:i:s');
-		$ap->self_register   = 1;
-		$ap->antrian   = $antrian;
+		$ap->tanggal       = date('Y-m-d');
+		$ap->jam           = date('H:i:s');
+		$ap->self_register = 1;
 		$ap->asuransi_id   = $asuransi_id;
-		$confirm = $ap->save();
+		$confirm           = $ap->save();
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash( '<strong>' . $ap->pasien->id . ' - ' . $ap->pasien->nama . '</strong> Berhasil masuk antrian' );
 			if ($asuransi_id != '0' && $asuransi->tipe_asuransi_id != 5) {
@@ -144,7 +145,7 @@ class FasilitasController extends Controller
 	
 	public function antrianPoliDestroy(){
 		$rules = [
-			'id' => 'required',
+			'id'        => 'required',
 			'pasien_id' => 'required',
 		];
 		
@@ -176,16 +177,12 @@ class FasilitasController extends Controller
 		$nama_pasien = $ap->pasien->nama;
 		$confirm     = $ap->delete();
 
-
 		if ($confirm) {
 			$pesan = Yoga::suksesFlash('<strong>' . $nama_pasien . '</strong> Berhasil dihapus dari Antrian');
 		} else {
 			$pesan = Yoga::gagalFlash('<strong>' . $nama_pasien . '</strong> Gagal dihapus dari Antrian');
 		}
-
 		return redirect()->back()->withPesan($pesan);
-
-
 	}
 	public function antrianPeriksaDestroy(){
 		$rules = [
@@ -216,6 +213,7 @@ class FasilitasController extends Controller
 		$pasien_id = $ap->pasien_id;
 		$nama_pasien = $ap->pasien->nama_pasien;
 
+
 		$kabur            = new Kabur;
 		$kabur->pasien_id = Input::get('pasien_id');
 		$kabur->staf_id   = Input::get('staf_id');
@@ -234,13 +232,13 @@ class FasilitasController extends Controller
 				}
 				$periksa_deleted_ids[] = $periksa->id;
 				$deleted_periksas[] = [
-					'staf_id'    => Input::get('staf_id'),
-					'pasien_id'  => $pasien_id,
-					'kabur_id'   => $last_kabur_id,
-					'periksa_id' => $periksa->id,
-							'tenant_id'  => session()->get('tenant_id'),
-					'created_at' => $timestamp,
-					'updated_at' => $timestamp
+                    'staf_id'    => Input::get('staf_id'),
+                    'pasien_id'  => $pasien_id,
+                    'kabur_id'   => $last_kabur_id,
+                    'periksa_id' => $periksa->id,
+                    'tenant_id'  => session()->get('tenant_id'),
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp
 				];
 			}
 			$kabur->save();
@@ -308,6 +306,7 @@ class FasilitasController extends Controller
 			->withPrint($antrian->id);
 	}
 	public function antrianAjax($id){
+
 		$antrian       = $this->antrianPost( $id );
 		$nomor_antrian = $antrian->jenis_antrian->prefix . $antrian->nomor;
 		$jenis_antrian = ucwords( $antrian->jenis_antrian->jenis_antrian );
@@ -389,11 +388,9 @@ class FasilitasController extends Controller
 		$antrian       = $this->antrianPost( $id );
 		$nomor_antrian = $antrian->jenis_antrian->prefix . $antrian->nomor;
 		$jenis_antrian = ucwords( $antrian->jenis_antrian->jenis_antrian );
-
 		$pesan         = Yoga::suksesFlash(
 			'Antrian baru <strong> ' . $nomor_antrian . '</strong> ke ' . $jenis_antrian . '	Berhasil ditambahkan'
 		);
-
 		return redirect()->back()->withPesan($pesan);
 	}
 }

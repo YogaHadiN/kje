@@ -1,7 +1,7 @@
 getData();
 function getData() {
     var asuransi_id = $("#asuransi_id").val();
-    var invoice_id = $("#invoice_id").val();
+    var kode_invoice = $("#kode_invoice").val();
     var tanggal = $("#tanggal").val();
     var piutang = $("#piutang").val();
     var sudah_dibayar = $("#sudah_dibayar").val();
@@ -15,7 +15,7 @@ function getData() {
             piutang: piutang,
             sudah_dibayar: sudah_dibayar,
             sisa: sisa,
-            invoice_id: invoice_id,
+            kode_invoice: kode_invoice,
         },
         function (data, textStatus, jqXHR) {
             var temp = "";
@@ -30,7 +30,7 @@ function getData() {
                 temp += data[i].tanggal;
                 temp += "</td>";
                 temp += "<td nowrap>";
-                temp += data[i].invoice_id;
+                temp += data[i].kode_invoice;
                 temp += "</td>";
                 temp += "<td nowrap>";
                 temp += data[i].nama_asuransi;
@@ -39,17 +39,17 @@ function getData() {
                 temp += data[i].total_piutang;
                 temp += "</td>";
                 temp += '<td class="uang">';
-                temp += sudah_dibayar;
+                temp += total_sudah_dibayar;
                 temp += "</td>";
                 temp += '<td class="uang">';
-                temp += data[i].total_piutang - data[i].total_sudah_dibayar;
+                temp += data[i].total_piutang - total_sudah_dibayar;
                 temp += "</td>";
                 temp += "<td nowrap>";
                 temp +=
                     '<a class="btn btn-info btn-sm" href="' +
                     base +
                     "/invoices/" +
-                    data[i].invoice_id.replace(/\//g, "!") +
+                    data[i].kode_invoice.replace(/\//g, "!") +
                     '" target="_blank">Show</a>';
                 temp += "</td>";
                 temp += "</tr>";

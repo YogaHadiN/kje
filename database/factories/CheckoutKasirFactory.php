@@ -22,17 +22,17 @@ class CheckoutKasirFactory extends Factory
     public function definition(): array
     {
         return [
-            'modal_awal' => $this->faker->randomNumber(),
-            'uang_keluar' => $this->faker->randomNumber(),
-            'uang_masuk' => $this->faker->randomNumber(),
-            'debit' => $this->faker->randomNumber(),
-            'jurnal_umum_id' => $this->faker->randomNumber(),
-            'uang_di_kasir' => $this->faker->randomNumber(),
-            'uang_di_tangan' => $this->faker->randomNumber(),
-            'detil_pengeluarans' => $this->faker->text,
-            'detil_modals' => $this->faker->text,
+            'modal_awal'               => $this->faker->randomNumber(),
+            'uang_keluar'              => $this->faker->randomNumber(),
+            'uang_masuk'               => $this->faker->randomNumber(),
+            'debit'                    => $this->faker->randomNumber(),
+            'jurnal_umum_id'           => \App\Models\JurnalUmum::factory(),
+            'uang_di_kasir'            => $this->faker->randomNumber(),
+            'uang_di_tangan'           => $this->faker->randomNumber(),
+            'detil_pengeluarans'       => $this->faker->text,
+            'detil_modals'             => $this->faker->text,
             'detil_pengeluaran_tangan' => $this->faker->text,
-            'tenant_id' => \App\Models\Tenant::factory(),
+            'tenant_id'                => \App\Models\Tenant::factory(),
         ];
     }
 }

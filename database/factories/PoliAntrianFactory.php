@@ -22,7 +22,7 @@ class PoliAntrianFactory extends Factory
     public function definition(): array
     {
         return [
-            'jenis_antrian_id' => $this->faker->word,
+            'jenis_antrian_id' => \App\Models\JenisAntrian::factory(),
             'poli_id' => \App\Models\Poli::factory(),
             'tenant_id' => \App\Models\Tenant::factory(),
         ];

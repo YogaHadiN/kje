@@ -320,9 +320,9 @@ class StafsController extends Controller
 		$query .= "tanggal as tanggal ";
 		$query .= "FROM periksas as prx ";
 		$query .= "WHERE staf_id = {$id} ";
-		$query .= "AND year(tanggal) = '{$tahun}' ";
+		$query .= "AND tanggal like '{$tahun}%' ";
 		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "GROUP BY tanggal asc ";
+		$query .= "GROUP BY tanggal";
 		return DB::select($query);
 	}
 	

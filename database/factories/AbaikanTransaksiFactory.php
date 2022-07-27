@@ -22,7 +22,7 @@ class AbaikanTransaksiFactory extends Factory
     public function definition(): array
     {
         return [
-            'transaksi_id' => $this->faker->word,
+            'rekening_id' => $this->faker->word,
             'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }

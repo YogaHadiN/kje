@@ -103,7 +103,7 @@ class PajaksController extends Controller
 
 		$query  = "SELECT ";
 		$query .= "bp.{$peralatan} as peralatan, ";
-		$query .= "DATE_FORMAT({$tanggal}, '%M %Y') as tanggal_perolehan, ";
+		/* $query .= "DATE_FORMAT({$tanggal}, '%M %Y') as tanggal_perolehan, "; */
 		$query .= "SUM(CASE WHEN pn.created_at < '{$first_date_of_the_previous_year}' THEN pn.nilai ELSE 0 END) AS susut_fiskal_tahun_lalu,";
 		$query .= "SUM(nilai) AS total_penyusutan, ";
 		if ($BelanjaPeralatan != 'App\\\Models\\\BahanBangunan') {

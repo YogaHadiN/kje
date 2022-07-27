@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
 use Moota;
 use Log;
@@ -71,11 +70,11 @@ class cekMutasi19Terakhir extends Command
 			$newBank = AkunBank::firstOrCreate([
 				'kode_bank' => $bank_id
 			],[
-				'kode_bank'             => $bank_id,
+				'kode_bank'      => $bank_id,
 				'nomor_rekening' => $bank->account_number,
-				'akun'           => $bank->bank_type
+				'akun'           => $bank->bank_type,
 			]);
-			$mutasis = Moota::mutation( $newBank->kode_bank )->latest(19)->toArray();
+			$mutasis      = Moota::mutation( $newBank->kode_bank )->latest(19)->toArray();
 			$insertKredit = [];
 			foreach ($mutasis as $mutasi) {
 				if ( $mutasi->type == 'CR' ) {
