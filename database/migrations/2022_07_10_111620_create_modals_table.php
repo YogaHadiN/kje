@@ -16,7 +16,7 @@ class CreateModalsTable extends Migration
         Schema::create('modals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('modal')->nullable();
-            $table->integer('coa_kas_id');
+            $table->integer('coa_id');
             $table->timestamp('created_at')->default('0000-00-00 00:00:00');
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->string('staf_id')->nullable();

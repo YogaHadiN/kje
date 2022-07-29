@@ -15,9 +15,6 @@ class ObatsControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
-    /**
-     * @group failing
-     */
     public function test_index(){
         $user     = User::factory()->create([
             'role_id' => 6

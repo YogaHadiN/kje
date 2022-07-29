@@ -23,7 +23,7 @@ class ModalFactory extends Factory
     {
         return [
             'modal' => $this->faker->randomNumber(),
-            'coa_kas_id' => \App\Models\Coa::factory(),
+            'coa_id' => \App\Models\Coa::factory(),
             'staf_id' => \App\Models\Staf::factory(),
             'keterangan' => $this->faker->word,
             'tenant_id' => \App\Models\Tenant::factory(),

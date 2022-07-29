@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\LaporanLabaRugisController;
 use App\Models\BelanjaPeralatan;
 use App\Models\BahanBangunan;
+use App\Models\Coa;
 use DB;
 use Input;
 

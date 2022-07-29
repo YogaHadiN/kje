@@ -279,7 +279,11 @@ class LaporanLabaRugisController extends Controller
 		$query .= "coa_id as coa_id, ";
 		$query .= "c.kode_coa as kode_coa, ";
 		$query .= "c.coa as coa, ";
-		$query .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai ";
+        if ( env("DB_ENVIRONMENT") == 'mysql' ) {
+            $query .= "abs( sum( if ( debit = 1, nilai, 0 ) ) - sum( if ( debit = 0, nilai, 0 ) ) ) as nilai ";
+        } else {
+            $query .= "abs( sum( iif ( debit = 1, nilai, 0 ) ) - sum( iif ( debit = 0, nilai, 0 ) ) ) as nilai ";
+        }
 		$query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
 		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
 		$query .= "where date(j.created_at) between '{$tanggal_awal} 00:00:00' and '{$tanggal_akhir} 23:59:59'  ";

@@ -37,16 +37,14 @@ class PembeliansAjaxController extends Controller
 		}
 
 		$data = [
-
-		'dijual_bebas' => $dijual_bebas,
-		'efek_samping' => $formula->efek_samping,
-		'sediaan' => $formula->sediaan,
-		'indikasi' => $formula->indikasi,
-		'kontraindikasi' => $formula->kontraindikasi,
-		'Komposisi' => $komposisis,
-		'endfix' => $formula->endfix,
-		'Merek' => $mereks
-
+            'dijual_bebas'   => $dijual_bebas,
+            'efek_samping'   => $formula->efek_samping,
+            'sediaan'        => $formula->sediaan,
+            'indikasi'       => $formula->indikasi,
+            'kontraindikasi' => $formula->kontraindikasi,
+            'Komposisi'      => $komposisis,
+            'endfix'         => $formula->endfix,
+            'Merek'          => $mereks
 		];
 
 		return json_encode($data);	

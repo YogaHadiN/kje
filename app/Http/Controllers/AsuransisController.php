@@ -1014,6 +1014,7 @@ class AsuransisController extends Controller
 		$query .="from periksas as px ";
 		$query .="LEFT JOIN piutang_dibayars as pd on pd.periksa_id = px.id ";
 		$query .="where px.asuransi_id = '{$this->input_asuransi_id}' ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .="group by px.id ";
 		$query .=") bl ";
 		$query .="group by bulan ";
@@ -1021,7 +1022,6 @@ class AsuransisController extends Controller
 		$query .="and (sudah_dibayar like '{$this->input_sudah_dibayar}%' or '{$this->input_sudah_dibayar}' = '') ";
 		$query .="and (bulan like '{$this->input_bulan}%' or '{$this->input_bulan}' = '') ";
 		$query .="and (sisa like '{$this->input_sisa}%' or '{$this->input_sisa}' = '') ";
-		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .="order by {$this->input_column_order} {$this->input_order} ";
 
 		$total_rows = count(DB::select($query));

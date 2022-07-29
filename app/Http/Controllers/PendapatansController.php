@@ -833,14 +833,31 @@ class PendapatansController extends Controller
 		$query .= "FROM pembayaran_asuransis as pa ";
 		$query .= "JOIN asuransis as asu on asu.id = pa.asuransi_id ";
 		$query .= "JOIN coas as co on co.id = pa.coa_id ";
-		$query .= "WHERE pa.id like '{$this->input_id}' ";
-		$query .= "AND pa.created_at like '{$this->input_created_at}' ";
-		$query .= "AND asu.nama like '{$this->input_nama_asuransi}' ";
-		$query .= "AND pa.mulai like '{$this->input_awal_periode}%' ";
-		$query .= "AND pa.akhir like '{$this->input_akhir_periode}%' ";
-		$query .= "AND pa.pembayaran like '{$this->input_pembayaran}' ";
-		$query .= "AND pa.tanggal_dibayar like '{$this->input_tanggal_pembayaran}' ";
-		$query .= "AND co.coa like '{$this->input_tujuan_kas}' ";
+        $query .= "WHERE 1 = 1 ";
+        /* if (!empty($this->input_id)) { */
+        /*     $query .= "AND pa.id like '{$this->input_id}' "; */
+        /* } */
+        /* if (!empty($this->input_created_at)) { */
+        /*     $query .= "AND pa.created_at like '{$this->input_created_at}' "; */
+        /* } */
+        /* if (!empty($this->input_nama_asuransi)) { */
+        /*     $query .= "AND asu.nama like '{$this->input_nama_asuransi}' "; */
+        /* } */
+        /* if (!empty($this->input_awal_periode)) { */
+        /*     $query .= "AND pa.mulai like '{$this->input_awal_periode}%' "; */
+        /* } */
+        /* if (!empty($this->input_akhir_periode)) { */
+        /*     $query .= "AND pa.akhir like '{$this->input_akhir_periode}%' "; */
+        /* } */
+        /* if (!empty($this->input_pembayaran)) { */
+        /*     $query .= "AND pa.pembayaran like '{$this->input_pembayaran}' "; */
+        /* } */
+        /* if (!empty($this->input_tanggal_pembayaran)) { */
+        /*     $query .= "AND pa.tanggal_dibayar like '{$this->input_tanggal_pembayaran}' "; */
+        /* } */
+        /* if (!empty($this->input_tujuan_kas)) { */
+        /*     $query .= "AND co.coa like '{$this->input_tujuan_kas}' "; */
+        /* } */
 		$query .= "AND pa.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY pa.id desc ";
 		if (!$count) {

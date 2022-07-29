@@ -10,6 +10,7 @@ use App\Models\Pembelian;
 use App\Models\BelanjaPeralatan;
 use App\Models\FakturBelanja;
 use App\Models\Merek;
+use App\Models\KelasObat;
 use App\Models\Supplier;
 use App\Models\Rak;
 use App\Models\Formula;
@@ -42,7 +43,7 @@ class PembeliansController extends Controller
 	public function create($id)
 	{
 		$fakturbelanja = FakturBelanja::find($id);
-		if ($fakturbelanja->pembelian->count() > 0) {
+		if ($fakturbelanja->pembelian->count() < 1) {
 			return redirect('pembelians/' . $id . '/edit');
 		}
 
@@ -79,13 +80,14 @@ class PembeliansController extends Controller
 
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
+        $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id');
 		return view('pembelians.create', compact(
 			'mereks'
 			, 'id' 
 			, 'fakturbelanja'
+			, 'kelas_obat_list'
 			, 'sediaan'
 			, 'generik'
-			, 'exist'
 			, 'dijual_bebas'
 			, 'signas'
 			, 'rak'
@@ -374,12 +376,14 @@ class PembeliansController extends Controller
 			];
 		}
 
+        $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id');
 		return view('pembelians.edit', compact(
 			'mereks'
 			, 'id' 
 			, 'fakturbelanja'
 			, 'sediaan'
 			, 'generik'
+			, 'kelas_obat_list'
 			, 'sumber_uang'
 			, 'exist'
 			, 'dijual_bebas'

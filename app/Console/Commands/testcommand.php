@@ -115,7 +115,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $this->updateMultitenancy();
+        $this->coa_id();
 	}
 	
 	/**
@@ -2061,4 +2061,24 @@ class testcommand extends Command
         }
         dd( $final_query );
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function coa_id()
+    {
+        $query  = "select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'jatielok' AND COLUMN_NAME like '%coa%id' order by TABLE_NAME ";
+        $error = [];
+        foreach (DB::select($query) as $data) {
+            $query  = "SELECT * from " . $data->TABLE_NAME . " ";
+            $query .= "WHERE ". $data->COLUMN_NAME . " > 600;";
+            if (count(DB::select($query))) {
+                $error[] = $data->TABLE_NAME;
+            }
+        }
+
+        dd( $error );
+    }
+    
 }

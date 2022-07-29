@@ -15,9 +15,6 @@ class PasienAjaxControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
-    /**
-     * @group failing
-     */
     public function test_cariPasien(){
         $user     = User::factory()->create([
             'role_id' => 6

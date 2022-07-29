@@ -28,18 +28,8 @@ class CustomControllerTest extends TestCase
             'role_id' => 6
         ]);
         auth()->login($user);
-        $periksa = \App\Models\Periksa::factory()->create();
-        $jenis_tarifs = \App\Models\JenisTarif::factory(3)->create();
-        $transaksis = [];
-        foreach ($jenis_tarifs as $jt) {
-            $transaksis[] = [
-                'jenis_tarif_id' => $jt->id,
-                'jenis_tarif'    => $jt->jenis_tarif,
-                'biaya'          => $this->faker->numerify('###')
-            ];
-        }
-
-        $periksa->transaksi = json_encode($transaksis);
+        $periksa            = \App\Models\Periksa::factory()->create();
+        $periksa->transaksi = $this->transaksis($periksa->asuransi_id);
         $periksa->save();
 
 
@@ -254,12 +244,6 @@ class CustomControllerTest extends TestCase
 
         $this->test_jurnal( 'Biaya Produksi : Bonus per pasien', $coa_50202, 1, 1530);
         $this->test_jurnal( 'Hutang Kepada Asisten Dokter', $coa_200002, 0, 1530);
-
-
-
-
-
-
             
         $response->assertRedirect('antriankasirs');
     }
@@ -274,4 +258,37 @@ class CustomControllerTest extends TestCase
             ->where('debit', $debit)->get();
         $this->assertCount(1, $jurnal_umums);
     }
+
+    public function transaksis($asuransi_id){
+        $jenis_tarifs = \App\Models\JenisTarif::factory(2)->create();
+        $transaksis = [];
+        foreach ($jenis_tarifs as $jt) {
+            $transaksis[] = [
+                'jenis_tarif_id' => $jt->id,
+                'jenis_tarif'    => $jt->jenis_tarif,
+                'biaya'          => 1000
+            ];
+            \App\Models\Tarif::factory()->create([
+                'jenis_tarif_id' => $jt->id,
+                'asuransi_id' => $asuransi_id
+            ]);
+        }
+
+        $jt_biaya_obat = \App\Models\JenisTarif::factory()->create([
+            'jenis_tarif' => 'Biaya Obat'
+        ]);
+
+        $transaksis[] = [
+            'jenis_tarif_id' => $jt_biaya_obat->id,
+            'jenis_tarif'    => $jt_biaya_obat->jenis_tarif,
+            'biaya'          => 1000
+        ];
+
+        \App\Models\Tarif::factory()->create([
+            'jenis_tarif_id' => $jt_biaya_obat->id,
+            'asuransi_id'    => $asuransi_id
+        ]);
+        return json_encode($transaksis);
+    }
+    
 }

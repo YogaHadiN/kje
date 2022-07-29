@@ -22,7 +22,7 @@ class PengeluaranFactory extends Factory
     public function definition(): array
     {
         return [
-            'staf_id' => $this->faker->word,
+            'staf_id' => \App\Models\Staf::factory(),
             'keterangan' => $this->faker->word,
             'nilai' => $this->faker->randomNumber(),
             'supplier_id' => \App\Models\Supplier::factory(),

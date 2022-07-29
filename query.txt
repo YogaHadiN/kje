@@ -78,7 +78,6 @@ alter table dispensings add tenant_id bigint not null, add index( tenant_id );
 alter table dms add tenant_id bigint not null, add index( tenant_id );
 alter table doses add tenant_id bigint not null, add index( tenant_id );
 alter table emails add tenant_id bigint not null, add index( tenant_id );
-alter table facebook_daftars add tenant_id bigint not null, add index( tenant_id );
 alter table failed_jobs add tenant_id bigint not null, add index( tenant_id );
 alter table faktur_belanjas add tenant_id bigint not null, add index( tenant_id );
 alter table fasilitas add tenant_id bigint not null, add index( tenant_id );
@@ -251,7 +250,6 @@ update dispensings set tenant_id = 1;
 update dms set tenant_id = 1;
 update doses set tenant_id = 1;
 update emails set tenant_id = 1;
-update facebook_daftars set tenant_id = 1;
 update failed_jobs set tenant_id = 1;
 update faktur_belanjas set tenant_id = 1;
 update fasilitas set tenant_id = 1;
@@ -484,103 +482,227 @@ ALTER TABLE rekenings DROP COLUMN old_id;
 ALTER TABLE rekenings ADD id bigint auto_increment primary key first;
 
 update alergies as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table alergies modify column pasien_id bigint, add index(pasien_id);
 update antrian_polis as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table antrian_polis modify column pasien_id bigint, add index(pasien_id);
+
+CREATE TABLE `riwayat_kehamilan_sebelumnyas` (
+  `id` bigint not null auto_increment,
+  `pasien_id` bigint not null,
+  `tenant_id` bigint not null,
+  `jenis_kelamin` int(1) not null,
+  `berat_lahir` int(11) not null,
+  `penolong_persalinan_id` int(1) not null,
+  `cara_persalinan_id` int(1) not null,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX( pasien_id, tenant_id )
+);
+
 update riwayat_kehamilan_sebelumnyas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table riwayat_kehamilan_sebelumnyas modify column pasien_id bigint, add index(pasien_id);
 update update_rppt_pesertas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table update_rppt_pesertas modify column pasien_id bigint, add index(pasien_id);
 update home_visits as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table home_visits modify column pasien_id bigint, add index(pasien_id);
 update sms_jangans as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table sms_jangans modify column pasien_id bigint, add index(pasien_id);
 update periksas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+
+delete px from periksas as px left join pasiens as ps on ps.id = px.pasien_id where ps.id is null;
+delete FROM periksas WHERE pasien_id NOT REGEXP '^[0-9]+$';
+alter table periksas modify column pasien_id bigint, add index(pasien_id);
 update complains as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table complains modify column pasien_id bigint, add index(pasien_id);
 update register_hamils as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table register_hamils modify column pasien_id bigint, add index(pasien_id);
 update sms_bpjs as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
-update facebook_daftars as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table sms_bpjs modify column pasien_id bigint, add index(pasien_id);
 update kaburs as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table kaburs modify column pasien_id bigint, add index(pasien_id);
 update antrian_periksas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table antrian_periksas modify column pasien_id bigint, add index(pasien_id);
 update pasien_rujuk_baliks as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table pasien_rujuk_baliks modify column pasien_id bigint, add index(pasien_id);
 update deleted_periksas as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table deleted_periksas modify column pasien_id bigint, add index(pasien_id);
 update sms_kontaks as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table sms_kontaks modify column pasien_id bigint, add index(pasien_id);
 update sms_gagals as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table sms_gagals modify column pasien_id bigint, add index(pasien_id);
 update pasien_prolanis as t1 join pasiens as st on t1.pasien_id = st.old_id set t1.pasien_id = st.id;
+alter table pasien_prolanis modify column pasien_id bigint, add index(pasien_id);
 update pembayaran_asuransis as t1 join nota_juals as st on t1.nota_jual_id = st.old_id set t1.nota_jual_id = st.id;
+alter table pembayaran_asuransis modify column nota_jual_id bigint, add index(nota_jual_id);
 update penjualans as t1 join nota_juals as st on t1.nota_jual_id = st.old_id set t1.nota_jual_id = st.id;
-update formulas as t1 join sediaans as st on t1.sediaan_id = st.old_id set t1.sediaan_id = st.id;
+alter table penjualans modify column nota_jual_id bigint, add index(nota_jual_id);
+
+
+update formulas as t1 join sediaans as pa on t1.sediaan = pa.old_id set t1.sediaan = pa.id;
+update formulas SET sediaan = 10 WHERE sediaan NOT REGEXP '^[0-9]+$';
+ALTER TABLE formulas CHANGE sediaan sediaan_id int(11) not null;
+
 update nota_belis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table nota_belis modify column staf_id bigint, add index(staf_id);
 update pembelians as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+update pembelians set staf_id = null where staf_id = "";
+alter table pembelians modify column staf_id bigint, add index(staf_id);
 update antrian_polis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table antrian_polis modify column staf_id bigint, add index(staf_id);
 update pengeluarans as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table pengeluarans modify column staf_id bigint, add index(staf_id);
 update cek_listriks as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table cek_listriks modify column staf_id bigint, add index(staf_id);
 update no_sales as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table no_sales modify column staf_id bigint, add index(staf_id);
 update periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+
+delete FROM periksas WHERE staf_id NOT REGEXP '^[0-9]+$';
+alter table periksas modify column staf_id bigint, add index(staf_id);
 update complains as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table complains modify column staf_id bigint, add index(staf_id);
 update nota_juals as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table nota_juals modify column staf_id bigint, add index(staf_id);
 update cek_obats as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table cek_obats modify column staf_id bigint, add index(staf_id);
 update stok_opnames as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table stok_opnames modify column staf_id bigint, add index(staf_id);
 update lapor_pajaks as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table lapor_pajaks modify column staf_id bigint, add index(staf_id);
 update pembayaran_asuransis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table pembayaran_asuransis modify column staf_id bigint, add index(staf_id);
 update bayar_gajis as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table bayar_gajis modify column staf_id bigint, add index(staf_id);
 update pendapatans as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table pendapatans modify column staf_id bigint, add index(staf_id);
 update penjualan_asets as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table penjualan_asets modify column staf_id bigint, add index(staf_id);
 update saldos as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table saldos modify column staf_id bigint, add index(staf_id);
 update input_hartas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table input_hartas modify column staf_id bigint, add index(staf_id);
 update pembayaran_bpjs as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table pembayaran_bpjs modify column staf_id bigint, add index(staf_id);
 update kaburs as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+
+delete FROM kaburs WHERE staf_id NOT REGEXP '^[0-9]+$';
+alter table kaburs modify column staf_id bigint, add index(staf_id);
 update antrian_periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table antrian_periksas modify column staf_id bigint, add index(staf_id);
 update deleted_periksas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table deleted_periksas modify column staf_id bigint, add index(staf_id);
 update bayar_bonus as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table bayar_bonus modify column staf_id bigint, add index(staf_id);
 update modals as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table modals modify column staf_id bigint, add index(staf_id);
 update cek_pulsas as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table cek_pulsas modify column staf_id bigint, add index(staf_id);
 update petugas_kirims as t1 join stafs as st on t1.staf_id = st.old_id set t1.staf_id = st.id;
+alter table petugas_kirims modify column staf_id bigint, add index(staf_id);
 update pembelians as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+alter table pembelians modify column merek_id bigint, add index(merek_id);
 update terapis as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+alter table terapis modify column merek_id bigint, add index(merek_id);
 update dispensings as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+alter table dispensings modify column merek_id bigint, add index(merek_id);
 update bahan_habis_pakais as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+alter table bahan_habis_pakais modify column merek_id bigint, add index(merek_id);
 update penjualans as t1 join mereks as st on t1.merek_id = st.old_id set t1.merek_id = st.id;
+alter table penjualans modify column merek_id bigint, add index(merek_id);
 update raks as t1 join formulas as st on t1.formula_id = st.old_id set t1.formula_id = st.id;
+alter table raks modify column formula_id bigint, add index(formula_id);
 update komposisis as t1 join formulas as st on t1.formula_id = st.old_id set t1.formula_id = st.id;
+alter table komposisis modify column formula_id bigint, add index(formula_id);
 update doses as t1 join formulas as st on t1.formula_id = st.old_id set t1.formula_id = st.id;
-update antrian_polis as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
-update poli_antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
-update periksas as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
-update facebook_daftars as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
-update antrian_periksas as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
-update antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
-update receipts as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update pesan_keluars as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update kontrols as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update perbaikanreseps as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update terapis as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update pesan_masuks as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update whatsapp_registrations as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update surat_sakits as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update klaim_gdp_bpjs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update points as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update usgs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update bukan_pesertas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update antrian_apoteks as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update register_kbs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update kunjungan_sakits as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update antrian_kasirs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update rujukans as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update perbaikantrxs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update antrian_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update deleted_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update monitors as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update register_ancs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update piutang_dibayars as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update transaksi_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
-update abaikan_transaksis as t1 join rekenings as pa on t1.transaksi_id = pa.kode_transaksi set t1.transaksi_id = pa.id;
-update rekenings as t1 join akun_banks as pa on t1.akun_bank_id = pa.kode_bank set t1.akun_bank_id = pa.id;
-Update jurnal_umums as t1 JOIN coas as co on t1.coa_id = co.kode_coa SET t1.coa_id = co.id;
-Update periksas as t1 JOIN invoices as iv on t1.invoice_id = iv.kode_invoice SET t1.invoice_id = iv.id;
-update cek_obats as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
-update mereks as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
-update stok_opnames as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
+alter table doses modify column formula_id bigint, add index(formula_id);
+
 
 update periksas set poli = '1' where poli = 'kandungan';
 
-ALTER TABLE antrian_periksas CHANGE poli poli_id bigint, add index( poli_id );
-ALTER TABLE antrian_polis CHANGE poli poli_id bigint, add index( poli_id );
+update periksas as t1 join polis as st on t1.poli = st.old_id set t1.poli = st.id;
+
 ALTER TABLE periksas CHANGE poli poli_id bigint, add index( poli_id );
+
+delete from antrian_polis;
+ALTER TABLE antrian_polis CHANGE poli poli_id bigint, add index( poli_id );
+update poli_antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+alter table poli_antrians modify column poli_id bigint, add index(poli_id);
+alter table periksas modify column poli_id bigint, add index(poli_id);
+
+
+
+
+drop table facebook_daftars;
+delete from antrian_periksas;
+ALTER TABLE antrian_periksas CHANGE poli poli_id bigint, add index( poli_id );
+alter table antrian_periksas modify column poli_id bigint, add index(poli_id);
+update antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
+alter table antrians modify column poli_id bigint, add index(poli_id);
+update receipts as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table receipts modify column periksa_id bigint, add index(periksa_id);
+update pesan_keluars as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table pesan_keluars modify column periksa_id bigint, add index(periksa_id);
+update kontrols as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table kontrols modify column periksa_id bigint, add index(periksa_id);
+update perbaikanreseps as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table perbaikanreseps modify column periksa_id bigint, add index(periksa_id);
+update terapis as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table terapis modify column periksa_id bigint, add index(periksa_id);
+update pesan_masuks as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table pesan_masuks modify column periksa_id bigint, add index(periksa_id);
+update whatsapp_registrations as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table whatsapp_registrations modify column periksa_id bigint, add index(periksa_id);
+update surat_sakits as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table surat_sakits modify column periksa_id bigint, add index(periksa_id);
+update klaim_gdp_bpjs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table klaim_gdp_bpjs modify column periksa_id bigint, add index(periksa_id);
+update points as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table points modify column periksa_id bigint, add index(periksa_id);
+update usgs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table usgs modify column periksa_id bigint, add index(periksa_id);
+update bukan_pesertas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table bukan_pesertas modify column periksa_id bigint, add index(periksa_id);
+update antrian_apoteks as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table antrian_apoteks modify column periksa_id bigint, add index(periksa_id);
+update register_kbs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table register_kbs modify column periksa_id bigint, add index(periksa_id);
+update kunjungan_sakits as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table kunjungan_sakits modify column periksa_id bigint, add index(periksa_id);
+update antrian_kasirs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table antrian_kasirs modify column periksa_id bigint, add index(periksa_id);
+update rujukans as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table rujukans modify column periksa_id bigint, add index(periksa_id);
+update perbaikantrxs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table perbaikantrxs modify column periksa_id bigint, add index(periksa_id);
+update antrian_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table antrian_periksas modify column periksa_id bigint, add index(periksa_id);
+update deleted_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table deleted_periksas modify column periksa_id bigint, add index(periksa_id);
+update monitors as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table monitors modify column periksa_id bigint, add index(periksa_id);
+update register_ancs as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table register_ancs modify column periksa_id bigint, add index(periksa_id);
+update piutang_dibayars as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table piutang_dibayars modify column periksa_id bigint, add index(periksa_id);
+update transaksi_periksas as t1 join periksas as st on t1.periksa_id = st.old_id set t1.periksa_id = st.id;
+alter table transaksi_periksas modify column periksa_id bigint, add index(periksa_id);
+update abaikan_transaksis as t1 join rekenings as pa on t1.transaksi_id = pa.kode_transaksi set t1.transaksi_id = pa.id;
+alter table abaikan_transaksis modify column transaksi_id bigint, add index(transaksi_id);
+update rekenings as t1 join akun_banks as pa on t1.akun_bank_id = pa.kode_bank set t1.akun_bank_id = pa.id;
+alter table rekenings modify column akun_bank_id bigint, add index(akun_bank_id);
+Update jurnal_umums as t1 JOIN coas as co on t1.coa_id = co.kode_coa SET t1.coa_id = co.id;
+alter table jurnal_umums modify column coa_id bigint, add index(coa_id);
+Update periksas as t1 JOIN invoices as iv on t1.invoice_id = iv.kode_invoice SET t1.invoice_id = iv.id;
+alter table periksas modify column invoice_id bigint, add index(invoice_id);
+update cek_obats as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
+alter table cek_obats modify column rak_id bigint, add index(rak_id);
+update mereks as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
+alter table mereks modify column rak_id bigint, add index(rak_id);
+update stok_opnames as t1 join raks as rk on t1.rak_id = rk.kode_rak set t1.rak_id = rk.id;
+delete FROM stok_opnames WHERE rak_id NOT REGEXP '^[0-9]+$';
+alter table stok_opnames modify column rak_id bigint, add index(rak_id);
+
 
 update pasiens set jenis_peserta = 1;
 ALTER TABLE pasiens CHANGE jenis_peserta jenis_peserta_id int(1);
@@ -603,19 +725,6 @@ INSERT INTO jenis_pesertas (`jenis_peserta`, `created_at`, `updated_at`) VALUES 
 ALTER TABLE pasiens DROP COLUMN riwayat_alergi_obat;
 ALTER TABLE pasiens DROP COLUMN riwayat_penyakit_dahulu;
 
-CREATE TABLE `riwayat_kehamilan_sebelumnyas` (
-  `id` bigint not null auto_increment,
-  `pasien_id` bigint not null,
-  `tenant_id` bigint not null,
-  `jenis_kelamin` int(1) not null,
-  `berat_lahir` int(11) not null,
-  `penolong_persalinan_id` int(1) not null,
-  `cara_persalinan_id` int(1) not null,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  INDEX( pasien_id, tenant_id )
-);
 
 CREATE TABLE `penolong_persalinans` (
   `id` bigint not null auto_increment,
@@ -663,13 +772,9 @@ drop table status_bpjs;
 
 ALTER TABLE users CHANGE role role_id int(1);
 
-update formulas as t1 join sediaans as pa on t1.sediaan = pa.old_id set t1.sediaan = pa.id;
-update formulas SET sediaan = 10 WHERE sediaan NOT REGEXP '^[0-9]+$';
-ALTER TABLE formulas CHANGE sediaan sediaan_id int(11) not null;
 
 update asuransis set tipe_asuransi = 3 where id = 150;
 ALTER TABLE asuransis CHANGE tipe_asuransi tipe_asuransi_id int(11);
-ALTER TABLE facebook_daftars CHANGE pilihan_poli poli_id int(11);
 ALTER TABLE modals CHANGE coa_kas_id coa_id int(11);
 ALTER TABLE pembayaran_asuransis CHANGE kas_coa_id coa_id int(11);
 ALTER TABLE abaikan_transaksis CHANGE transaksi_id rekening_id int(11);
@@ -740,15 +845,17 @@ alter table discount_asuransis modify column asuransi_id bigint, add index(asura
 alter table dispensings modify column merek_id bigint, add index(merek_id);
 alter table doses modify column berat_badan_id bigint, add index(berat_badan_id);
 alter table doses modify column formula_id bigint, add index(formula_id);
-alter table facebook_daftars modify column pasien_id bigint, add index(pasien_id);
-alter table facebook_daftars modify column facebook_id bigint, add index(facebook_id);
-alter table facebook_daftars modify column gender_id bigint, add index(gender_id);
 alter table faktur_belanjas modify column supplier_id bigint, add index(supplier_id);
 alter table fasilitas modify column rumah_sakit_id bigint, add index(rumah_sakit_id);
 alter table fasilitas modify column tujuan_rujuk_id bigint, add index(tujuan_rujuk_id);
 alter table go_pays modify column pengeluaran_id bigint, add index(pengeluaran_id);
 alter table home_visits modify column pasien_id bigint, add index(pasien_id);
 alter table input_hartas modify column staf_id bigint, add index(staf_id);
+
+
+
+
+update invoices as t1 join kirim_berkas as pa on t1.kirim_berkas_id = pa.old_id set t1.kirim_berkas_id = pa.id;
 alter table invoices modify column kirim_berkas_id bigint, add index(kirim_berkas_id);
 alter table invoices modify column pembayaran_asuransi_id bigint, add index(pembayaran_asuransi_id);
 alter table jenis_antrians modify column antrian_terakhir_id bigint, add index(antrian_terakhir_id);
@@ -828,6 +935,8 @@ alter table periksas modify column pasien_id bigint, add index(pasien_id);
 alter table pesan_keluars modify column periksa_id bigint, add index(periksa_id);
 alter table pesan_keluars modify column outbox_id bigint, add index(outbox_id);
 alter table pesan_masuks modify column periksa_id bigint, add index(periksa_id);
+
+update petugas_kirims as t1 join kirim_berkas as pa on t1.kirim_berkas_id = pa.old_id set t1.kirim_berkas_id = pa.id;
 alter table petugas_kirims modify column kirim_berkas_id bigint, add index(kirim_berkas_id);
 alter table petugas_kirims modify column role_pengiriman_id bigint, add index(role_pengiriman_id);
 alter table petugas_kirims modify column staf_id bigint, add index(staf_id);
@@ -961,13 +1070,25 @@ alter table promos modify column promoable_id bigint, add index(promoable_id);
 alter table telpons modify column telponable_id bigint, add index(telponable_id);
 alter table users modify column surveyable_id bigint, add index(surveyable_id);
 
-select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like '%able_id%' order by TABLE_NAME
 
+insert into rekenings value (null, 2, "2022-04-13 00:00:01", "INW.CN-SKN CR SA-MCS ACA - 046 DBS INV/10/KJE/P129/III/2022-SC 0307OP2012914159 2022041400", 1470000, 0, 0, now(), now(), null, 1, 'acak1');
 
-SELECT count(id) as jumlah FROM rekenings WHERE debet = 0 AND deskripsi not like '%PURI WIDIYANI MARTIADEWI%' AND deskripsi not like '%Bunga Rekening%' AND id in ('136', '6008', '1497', '5751', '5257', '2185', '1930', '1941', '1952', '1974', '1419', '1430', '1452', '1386', '1330', '1341', '1297', '1353', '1963', '5302', '1541', '1652', '5302', '5024', '5013', '5113', '5124', '8603', '8521', '5424', '7685', '7696', '7949', '6373', '8639', '8610', '68', '6681', '6714', '8117', '8543', '7388', '610', '8477', '2712', '8204', '8405', '8225', '8128', '5335', '6825', '8420', '8488', '7036', '8460', '7641', '5500', '6647', '2030', '4168', '133', '4468', '3131', '4346', '4590', '8459', '3075', '3253', '8540', '3991', '4157', '4135', '4246', '4091', '4235', '3693', '9863', '8732', '150', '146', '9949', '2747', '8662', '9960', '9456', '9860', '10036', '9038', '9619', '1173', '9462', '9090', '9656', '10001', '1167', '9111', '8815', '3551', '9944', '157', '162', '185', '184', '5191', '8515', '2141', '4958', '9950', '2376', '173', '8903', '8658', '9556', '9980', '8849', '9682', '9764', '9733', '8790', '8443', '8473', '8643', '9885', '9525', '8887', '8761', '10034', '9965', '9942', '9131', '8933', '8679', '2354', '8863', '9180', '9415', '9484', '10032', '9688', '1209', '9940', '8551', '1205', '8871', '9662', '9262', '10007', '5651', '9405', '10052', '9897', '9444', '2399', '5650', '8916', '9195', '9404', '8718', '9312', '9896', '9535', '1234', '2754', '9149', '9971', '8905', '8967', '9358', '9541', '8919', '5654', '9191', '8999', '9274', '8801', '9581') AND (deskripsi like '%' and tanggal like '%') AND (nilai like '%' or '' = '') AND tenant_id = 1 ORDER BY tanggal desc, created_at desc;
+insert into rekenings value (null, 2, "2022-04-13 00:00:01", "MCM InhouseTrf CS-CS INV/10/KJE/P172/II INV/10/KJE/P172/II", 380000, 0, 0, now(), now(), null, 1, 'acak2');
 
-
-alter table kirim_berkas add tenant_id bigint not null, add index( tenant_id );
+update asuransis as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
+alter table asuransis modify column coa_id bigint, add index(coa_id);
+update checkout_details as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
+alter table checkout_details modify column coa_id bigint, add index(coa_id);
+update input_hartas as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
+alter table input_hartas modify column coa_id bigint, add index(coa_id);
+update jenis_tarifs as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
+alter table jenis_tarifs modify column coa_id bigint, add index(coa_id);
+update jurnal_umums as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
+alter table jurnal_umums modify column coa_id bigint, add index(coa_id);
+update modals as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
+alter table modals modify column coa_id bigint, add index(coa_id);
+update pembayaran_asuransis as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
+alter table pembayaran_asuransis modify column coa_id bigint, add index(coa_id);
 
 | akun_banks   |
 | nota_belis   |

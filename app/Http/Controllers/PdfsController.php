@@ -20,6 +20,7 @@ use App\Models\Staf;
 use App\Models\Terapi;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
+use App\Models\JenisTarif;
 use App\Models\PesertaBpjsPerbulan;
 use App\Models\KirimBerkas;
 use App\Models\Pph21Dokter;
@@ -280,11 +281,11 @@ class PdfsController extends Controller
 		->setOption('margin-left', 0);
         return $pdf->stream();
     }
-	public function dispensing($rak_id, $mulai, $akhir){
+	public function dispensing($merek_id, $mulai, $akhir){
 
 		$query = "SELECT id, ";
 		$query .= "tanggal, ";
-		$query .= "rak_id, ";
+		$query .= "merek_id, ";
 		$query .= "sum(keluar) as keluar, ";
 		$query .= "sum(masuk) as masuk, ";
 		$query .= "dispensable_id, ";
@@ -293,19 +294,19 @@ class PdfsController extends Controller
 		$query .= "where tanggal <= '{$akhir}' ";
 		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND tanggal >= '{$mulai}' ";
-		$query .= "AND rak_id like '{$rak_id}' ";
+		$query .= "AND merek_id like '{$merek_id}' ";
 		$query .= "group by tanggal";
 
 		$dispensings = DB::select($query);
 		// $dispensings = Dispensing::where('tanggal', '>=', $mulai)->where('tanggal', '<=', $akhir)->where('rak_id', 'like', $rak_id)->groupBy('rak_id')->get();
-		$rak = Rak::find($rak_id);
+		$merek = Merek::find($merek_id);
 		$raks = Rak::all();
 
 
 
 		$pdf = pdf::loadview('pdfs.dispensing', compact(
 			'dispensings', 
-			'rak',  
+			'merek',  
 			'mulai',  
 			'akhir',  
 			'raks'
@@ -354,9 +355,8 @@ class PdfsController extends Controller
 		}
 
 		$transaksis = $periksa->transaksi;
-		$biaya = 0;
+		$biaya      = 0;
 		$transaksis = json_decode($transaksis, true);
-		// return $t
 		foreach ($transaksis as $transaksi) {
 			$biaya += $transaksi['biaya'];
 			if ( JenisTarif::where('jenis_tarif', 'Biaya Obat')->where('id', $transaksi['jenis_tarif_id'])->exists()) {
@@ -690,14 +690,12 @@ class PdfsController extends Controller
 		$pdf = PDF::loadView('pdfs.piutangAsuransiSudahDibayar', compact(
 			'asuransi',
 			'mulai',
-			'pembayaran_asuransi',
 			'total_piutang',
 			'total_tunai',
 			'total_sudah_dibayar',
 			'total_sisa_piutang',
 			'akhir',
 			'sudah_dibayars',
-			'total_pembayaran'
 		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
 		return $pdf->stream();
 	}

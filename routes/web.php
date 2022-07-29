@@ -317,10 +317,10 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('penjualans/obat_buat_karyawan', [\App\Http\Controllers\PenjualansController::class, 'obat_buat_karyawan']); //penjualan obat tanpa resep
 		Route::post('penjualans/obat_buat_karyawan', [\App\Http\Controllers\PenjualansController::class, 'obat_buat_karyawan_post']); //penjualan obat tanpa resep
 		Route::post('penjualans', [\App\Http\Controllers\PenjualansController::class, 'indexPost']); //penjualan obat tanpa resep
-		Route::get('pembelians', [\App\Http\Controllers\PembeliansController::class, 'index']);
-		Route::post('pembelians/ajax', [\App\Http\Controllers\PembeliansController::class, 'ajax']);
 		Route::post('pembelians/ajax/formulabyid', [\App\Http\Controllers\PembeliansAjaxController::class, 'formulabyid']);
 		Route::post('pembelians/ajax/rakbyid', [\App\Http\Controllers\PembeliansAjaxController::class, 'rakbyid']);
+		Route::get('pembelians', [\App\Http\Controllers\PembeliansController::class, 'index']);
+		Route::post('pembelians/ajax', [\App\Http\Controllers\PembeliansController::class, 'ajax']);
 		Route::post('pembelians', [\App\Http\Controllers\PembeliansController::class, 'store']);
 		Route::get('pembelians/show/{id}', [\App\Http\Controllers\PembeliansController::class, 'show']);
 		Route::get('pembelians/{faktur_beli_id}', [\App\Http\Controllers\PembeliansController::class, 'create']);
@@ -688,7 +688,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/dispensing/{rak_id}/{mulai}/{akhir}', [\App\Http\Controllers\PdfsController::class, 'dispensing']);
 	Route::get('pdfs/kuitansi/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'kuitansi']);
 	Route::get('pdfs/struk/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'struk']);
-	Route::get('pdfs/jasadokter/{bayar_dokter_id}', [\App\Http\Controllers\PdfsController::class, 'jasa_dokter']);
 	Route::get('pdfs/pembelian/{faktur_belanja_id}', [\App\Http\Controllers\PdfsController::class, 'pembelian']);
 	Route::get('pdfs/penjualan/{nota_jual_id}', [\App\Http\Controllers\PdfsController::class, 'penjualan']);
 	Route::get('pdfs/pendapatan/{nota_jual_id}', [\App\Http\Controllers\PdfsController::class, 'pendapatan']);
