@@ -99,12 +99,12 @@ class CustomController extends Controller
 		foreach ($bhps as $bhp) {
 			if (!isset($bhp['id'])) {
 				$input_bhps[] = [
-					'merek_id'       => $bhp['merek_id'],
-					'jumlah'         => $bhp['jumlah'],
-					'jenis_tarif_id' => $jenis_tarif_id,
-							'tenant_id'  => session()->get('tenant_id'),
-					'created_at'     => $timestamps,
-					'updated_at'     => $timestamps
+                    'merek_id'       => $bhp['merek_id'],
+                    'jumlah'         => $bhp['jumlah'],
+                    'jenis_tarif_id' => $jenis_tarif_id,
+                    'tenant_id'      => session()->get('tenant_id'),
+                    'created_at'     => $timestamps,
+                    'updated_at'     => $timestamps
 				];
 			}
 		}
@@ -867,12 +867,12 @@ class CustomController extends Controller
 	}
 
 	public function biayaJasa($jenis_tarif_id, $biaya){
-		if ($jenis_tarif_id == '104') {
+		if ($jenis_tarif_id == JenisTarif::where('jenis_tarif', 'Sirkumsisi Anak-anak')->first()->id) { //sirkumsisi anak-anak
 			return 20000;
-		} elseif($jenis_tarif_id == '105' || $jenis_tarif_id == '106'){
+		} elseif(JenisTarif::where('jenis_tarif', 'Sirkumsisi Dewasa')->first()->id || JenisTarif::where('jenis_tarif', 'Sirkumsisi Anak Gendut')->first()->id){
 			return 15000;
-		} elseif ($jenis_tarif_id == '102') {
-			return 5000;
+		} elseif (JenisTarif::where('jenis_tarif', 'Nebulizer Anak-anak')->first()->id) {
+			return 3000;
 		} else {
 			return $biaya * 0.1;
 		}

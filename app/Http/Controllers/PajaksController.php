@@ -225,8 +225,8 @@ class PajaksController extends Controller
 		$data_pendapatan_lain = [];
 		foreach ($akuns as $akun) {
 			if ( 
-				substr($akun->coa_id, 0, 1) == '4' ||
-				substr($akun->coa_id, 0, 1) == '7'
+				$akun->kelompok_coa_id == '4' ||
+				$akun->kelompok_coa_id == '7'
 			) {
 				if ( 
 					$bikinan 

@@ -185,11 +185,18 @@ class LaporansControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * 
+     */
     public function test_bayardokter(){
         $user     = User::factory()->create(['role_id' => 6]);
 
 		auth()->login($user);
         $staf = \App\Models\Staf::factory()->create();
+
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 200001
+        ]);
         $response = $this->get('laporans/bayardokter?'. Arr::query([
                 'id'    => $staf->id,
                 'mulai' => date('01-m-Y'),

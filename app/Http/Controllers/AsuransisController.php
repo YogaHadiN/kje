@@ -362,13 +362,14 @@ class AsuransisController extends Controller
 		$query .="COALESCE(sum(byr.pembayaran),0) as sudah_dibayar ";
 		$query .="FROM jurnal_umums as ju ";
 		$query .="join periksas as px on px.id = ju.jurnalable_id ";
+		$query .="join coas as co on co.id = ju.coa_id ";
 		$query .="join pasiens as ps on ps.id = px.pasien_id ";
 		$query .="join asuransis as asu on px.asuransi_id = asu.id ";
 		$query .="left join piutang_dibayars as byr on px.id = byr.periksa_id ";
 		$query .="where jurnalable_type = 'App\\\Models\\\Periksa' ";
 		$query .="AND px.created_at like '{$tahun}-{$bulan}%' ";
 		$query .="AND px.asuransi_id > 0 ";
-		$query .="AND ju.coa_id like '111%' ";
+		$query .="AND co.kode_coa like '111%' ";
 		$query .="AND ju.debit = '1' ";
 		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .="Group by ju.id) bl ";
@@ -797,13 +798,14 @@ class AsuransisController extends Controller
 		$query .= " ju.nilai as hutang,";
 		$query .= " COALESCE(sum(byr.pembayaran),0) as sudah_dibayar";
 		$query .= " FROM jurnal_umums as ju";
+		$query .= " join coas as co on co.id = ju.coa_id ";
 		$query .= " join periksas as px on px.id = ju.jurnalable_id";
 		$query .= " join pasiens as ps on ps.id = px.pasien_id";
 		$query .= " join asuransis as asu on px.asuransi_id = asu.id";
 		$query .= " left join piutang_dibayars as byr on px.id = byr.periksa_id";
 		$query .= " where jurnalable_type = 'App\\\Models\\\Periksa'";
 		$query .= " AND px.asuransi_id > 0";
-		$query .= " AND ju.coa_id like '111%'";
+		$query .= " AND co.kode_coa like '111%'";
 		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= " AND ju.debit = '1'";
 		if ( $waktu == 'tahun' ) {
@@ -876,23 +878,6 @@ class AsuransisController extends Controller
 			'total_sudah_dibayar',
 			'total_sisa_piutang',
 			'data'
-		));
-	}
-	public function cekSalahBayar(){
-		$query  = "select pmb.id, ";
-		$query .= "rke.tanggal as tanggal_dibayar, ";
-		$query .= "rke.nilai, ";
-		$query .= "pmb.pembayaran, ";
-		$query .= "asu.nama as nama_asuransi ";
-		$query .= "from pembayaran_asuransis as pmb ";
-		$query .= "join rekenings as rke on pmb.id = rke.pembayaran_asuransi_id ";
-		$query .= " join asuransis as asu on asu.id = pmb.asuransi_id ";
-		$query .= "where staf_id = '180411001' ";
-		$query .= "AND pmb.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and rke.nilai not like pmb.pembayaran ";
-		$pembayarans = DB::select($query);
-		return view('asuransis.cek_salah_bayar', compact(
-			'pembayarans'
 		));
 	}
 	public function getAsuransiCoaId(){

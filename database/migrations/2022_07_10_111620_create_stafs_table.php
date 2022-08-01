@@ -45,6 +45,7 @@ class CreateStafsTable extends Migration
             $table->string('nomor_rekening')->nullable();
             $table->string('bank')->nullable();
             $table->integer('gaji_tetap')->nullable();
+            $table->tinyInteger('owner')->default(0);
             $table->bigInteger('tenant_id')->index();
             $table->string('old_id')->index()->nullable();
         });

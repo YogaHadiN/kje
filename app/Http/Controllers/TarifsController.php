@@ -74,24 +74,24 @@ class TarifsController extends Controller
 				return Redirect::back()->withErrors($validator)->withInput();
 			}
 			//coa_id didapatkan dari coa_id dari JenisTarif yang memiiki nilai paling besar lalu ditambah 1;
-			$coa_id = (int) Coa::where('id', 'like', '4%')->orderBy('id', 'desc')->first()->id + 1;
+			$coa_id = (int) Coa::where('kelompok_coa_id', 4)->orderBy('id', 'desc')->first()->id + 1;
 
 			
 			$c = new Coa;
-			$c->id = $coa_id;
+			$c->id              = $coa_id;
 			$c->kelompok_coa_id = '4';
-			$c->coa = 'Pendapatan ' . Input::get('jenis_tarif');
+			$c->coa             = 'Pendapatan ' . Input::get('jenis_tarif');
 			$c->save();
 
 
 			//simpan JenisTarif baru;
-			$jenis_tarif = new JenisTarif;
-			$jenis_tarif->jenis_tarif = Input::get('jenis_tarif');
+			$jenis_tarif                           = new JenisTarif;
+			$jenis_tarif->jenis_tarif              = Input::get('jenis_tarif');
 			$jenis_tarif->tipe_laporan_admedika_id = Input::get('tipe_laporan_admedika_id');
-			$jenis_tarif->tipe_laporan_kasir_id = Input::get('tipe_laporan_kasir_id');
-			$jenis_tarif->coa_id = $coa_id;
-			$jenis_tarif->murni_jasa_dokter = Input::get('murni_jasa_dokter');
-			$confirm = $jenis_tarif->save();
+			$jenis_tarif->tipe_laporan_kasir_id    = Input::get('tipe_laporan_kasir_id');
+			$jenis_tarif->coa_id                   = $coa_id;
+			$jenis_tarif->murni_jasa_dokter        = Input::get('murni_jasa_dokter');
+			$confirm                               = $jenis_tarif->save();
 
 			//
 			//masukkan bahan habis pakai menurut jenis_tarifnya

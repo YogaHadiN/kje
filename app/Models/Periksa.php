@@ -1197,8 +1197,6 @@ class Periksa extends Model{
 		return $this->hasOne('App\Models\Kontrol');
 	}
 	public function getHutangDokterAttribute(){
-
-
 		$jurnals = $this->jurnals;
 		$hutang_dokter = 0;
 		foreach ($jurnals as $j) {
@@ -1232,22 +1230,25 @@ class Periksa extends Model{
         $bhp              = 0;
 
         foreach ($transaksis as $trx) {
-            if ($trx->jenis_tarif_id != 147 && $trx->jenis_tarif_id != 148) {
+            if (
+                $trx->jenisTarif->jenis_tarif != 'Pembayaran' && 
+                $trx->jenisTarif->jenis_tarif  != 'Kembalian'
+            ) {
                 $total_biaya += $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 147) {
+            if ($trx->jenisTarif->jenis_tarif == 'Pembayaran') {
                 $pembayaran = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 148) {
+            if ($trx->jenisTarif->jenis_tarif  == 'Kembalian') {
                 $kembalian = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 149) {
+            if ($trx->jenisTarif->jenis_tarif  == 'dibayar_asuransi') {
                 $dibayar_asuransi = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 150) {
+            if ($trx->jenisTarif->jenis_tarif  == 'dibayar_pasien') {
                 $dibayar_pasien = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 140) {
+            if ($trx->jenisTarif->jenis_tarif  == 'BHP') {
                 $bhp = $trx->biaya;
             }
         }

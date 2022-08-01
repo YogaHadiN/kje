@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Models\Supplier;
 use App\Models\Classes\Yoga;
 use App\Models\Belanja;
+use App\Models\KelasObat;
 use App\Models\Merek;
 use App\Models\Rak;
 use App\Models\Formula;
@@ -18,8 +19,8 @@ use App\Models\FakturBelanja;
 class SupplierBelanjasController extends Controller
 {
     public function belanja_obat(){
-		$rak = Rak::first();
-		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
+		$rak     = Rak::first();
+		$mereks  = Merek::with('rak.formula.komposisi.generik')->get();
 		$formula = Formula::first();
 
 
@@ -57,12 +58,14 @@ class SupplierBelanjasController extends Controller
 		$pembelians = FakturBelanja::where('belanja_id', '1')->latest()->paginate(10);
 
 
+        $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id');
 		return view('suppliers.belanja_obat', compact(
 			 'sediaan'
 			, 'generik'
 			, 'pembelians'
 			, 'mereks'
 			, 'dijual_bebas'
+			, 'kelas_obat_list'
 			, 'signas'
 			, 'rak'
 			, 'formula'

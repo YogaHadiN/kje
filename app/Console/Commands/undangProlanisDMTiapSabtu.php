@@ -136,7 +136,8 @@ class undangProlanisDMTiapSabtu extends Command
         $query .= "trp.keterangan_pemeriksaan as keterangan_pemeriksaan ";
         $query .= "FROM transaksi_periksas as trp ";
         $query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
-        $query .= "AND trp.jenis_tarif_id = 116 "; // Gula Darah
+        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trp.jenis_tarif_id ";
+        $query .= "AND jtf.jenis_tarif = 'Gula Darah' "; // Gula Darah
 		$query .= "AND trp.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
         $query .= "AND prx.pasien_id in "; 

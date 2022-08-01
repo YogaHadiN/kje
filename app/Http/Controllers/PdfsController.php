@@ -320,7 +320,7 @@ class PdfsController extends Controller
 	}
 	private function status_private($a, $periksa_id){
 		header ('Content-type: text/html; charset=utf-8');
-		$periksa    = Periksa::with('pasien', 'transaksii')->where('id', $periksa_id)->first();
+		$periksa    = Periksa::with('pasien', 'transaksii', 'asuransi')->where('id', $periksa_id)->first();
 
 		/* dd( $periksa->gdp_bpjs ); */
 
@@ -333,7 +333,7 @@ class PdfsController extends Controller
 
 		$bayarGDS   = false;
 		$transaksi_before = json_decode($periksa->transaksi, true);
-		if ($periksa->asuransi_id == 32) {
+		if ($periksa->asuransi->tipe_asuransi_id == 5) {
 			foreach ($transaksi_before as $key => $value) {
                 $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
 				if (($value['jenis_tarif_id'] == $jt_gula_darah->id)) {
@@ -446,8 +446,8 @@ class PdfsController extends Controller
 		return $pdf->stream();
 	}
 	
-	public function bukuBesar($bulan, $tahun, $coa_id){
-		$jurnalumums = JurnalUmum::where('coa_id', $coa_id)
+	public function bukuBesar($bulan, $tahun, $kode_coa){
+		$jurnalumums = JurnalUmum::where('kode_coa', $kode_coa)
 		->where('created_at', 'like', $tahun . '-' . $bulan . '%')
 		->get();
 

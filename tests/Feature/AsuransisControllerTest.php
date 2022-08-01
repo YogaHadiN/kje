@@ -13,7 +13,7 @@ use App\Models\User;
 use App\Models\Asuransi;
 use Carbon\Carbon;
 
-class AsuransiControllerTest extends TestCase
+class AsuransisControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
@@ -351,12 +351,6 @@ class AsuransiControllerTest extends TestCase
         $user     = User::factory()->create(['role_id' => 6]);
         auth()->login($user);
         $response = $this->get('tunggakan_asuransi/' . date('Y'));
-        $response->assertStatus(200);
-    }
-    public function test_cekSalahBayar(){
-        $user     = User::factory()->create(['role_id' => 6]);
-        auth()->login($user);
-        $response = $this->get('asuransis/cek_pembayaran');
         $response->assertStatus(200);
     }
 }

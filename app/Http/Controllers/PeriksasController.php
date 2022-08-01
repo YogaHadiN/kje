@@ -152,7 +152,9 @@ p */
 		//Bila asuransi adalah BPJS dan staf belum notified, maka buat notified = 1, supaya tidak muncul peringatan berulang2
 		//
 
-		if ( Input::get('asuransi_id') == '32' && Input::get('notified') == '0' ) {
+		$asuransi = Asuransi::find(Input::get('asuransi_id'));
+
+		if ( $asuransi->tipe_asuransi_id == 5 && Input::get('notified') == '0' ) {
 			$st       = Staf::find( Input::get('staf_id') );
 			$staf_updates[] = [
 				'collection' => $st,
@@ -162,9 +164,8 @@ p */
 			];
 		}
 
-		//Buat collection tabel asuransi
-		$asuransi = Asuransi::find(Input::get('asuransi_id'));
 
+		//Buat collection tabel asuransi
 		//UBAH RESEP MENURUT JENIS ASURANSI
 		//sebelum terapi dimasukkan ke dalam periksa, obat harus disesuaikan dahulu, menurut asuransi nya.
 		// untuk asuransi BPJS, obat akan dikonversi ke dalam merek yang paling murah yang memiliki formula yang sama
@@ -181,7 +182,7 @@ p */
 		if ((Input::get('jam') > '22:00:00' || Input::get('jam') < '06:00:00') && ($asuransi->id == 0 || $asuransi->tipe_asuransi_id == '3')) {
 			//tambahkan komponen jam malam sebesar 10 ribu
 			$plus = [
-				'jenis_tarif_id' => '120',
+				'jenis_tarif_id' => JenisTarif::where('jenis_tarif', 'Jam Malam')->first()->id,
 				'jenis_tarif'    => 'Jam Malam',
 				'biaya'          => 20000
 			];
@@ -780,7 +781,7 @@ p */
 		$transaksis = json_decode($transaksi, true);
 		if(!empty($transaksi) && $transaksi != '[]'){
 			$transaksis[] = [
-				"jenis_tarif_id" => '140',
+				"jenis_tarif_id" => JenisTarif::where('jenis_tarif', 'BHP')->first()->id,
 				"jenis_tarif" => 'BHP',
 				"biaya"	=> '0'
 			];
@@ -1363,6 +1364,7 @@ p */
 		$query .= "FROM periksas as prx ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
+		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		//asuransi = bpjs
 		$query .= "WHERE asu.tipe_asuransi_id =  5 ";
@@ -1370,7 +1372,7 @@ p */
 		$query .= "AND prx.tanggal between '" . $tanggal_object->format('Y-m-01') . "' and  '" . date("Y-m-t", strtotime($tanggal_object->format('Y-m-t') )) . "' ";
 		//pemeriksaan terflagging prolanis_dm
 		$query .= "AND prx.prolanis_dm = '1'";
-		$query .= "AND trx.jenis_tarif_id = '116' ";
+		$query .= "AND jtf.jenis_tarif = 'Gula Darah' ";
 		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "AND CAST(trx.keterangan_pemeriksaan AS UNSIGNED) between 80 and 130 "; */
 		$query .= "GROUP BY pasien_id ";
@@ -1505,7 +1507,7 @@ p */
                 if (
                     $biaya < 30000 && 
                     str_contains($asuransi->nama, 'Cibadak') &&
-                    $asuransi->tenant_id = 1
+                    $asuransi->tenant_id == 1
                 ) {
                     $biaya = 30000;
                 } else {

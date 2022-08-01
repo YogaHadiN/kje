@@ -220,7 +220,7 @@ class LaporanLabaRugisController extends Controller
 			$query         .= "where j.created_at like '{$tahun}%' ";
 		}
 
-		$query             .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query             .= "and ( c.kelompok_coa_id between 4 and 8 ) ";
 		$query             .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
 		$query             .= "group by coa_id ";
 
@@ -284,10 +284,11 @@ class LaporanLabaRugisController extends Controller
         } else {
             $query .= "abs( sum( iif ( debit = 1, nilai, 0 ) ) - sum( iif ( debit = 0, nilai, 0 ) ) ) as nilai ";
         }
-		$query .= "from jurnal_umums as j join coas as c on c.id = j.coa_id ";
+        $query .= "from jurnal_umums as j ";
+        $query .= "join coas as c on c.id = j.coa_id ";
 		$query .= "left join periksas as px on px.id = j.jurnalable_id ";
 		$query .= "where date(j.created_at) between '{$tanggal_awal} 00:00:00' and '{$tanggal_akhir} 23:59:59'  ";
-		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query .= "and ( c.kelompok_coa_id between 4 and 8 ) ";
 		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by coa_id ";
         $akuns  = db::select($query);
@@ -372,6 +373,7 @@ class LaporanLabaRugisController extends Controller
 		$query .= "j.jurnalable_type as jurnalable_type, ";
 		$query .= "coa_id as coa_id, ";
 		$query .= "co.kode_coa as kode_coa, ";
+		$query .= "co.kelompok_coa_id as kelompok_coa_id, ";
 		$query .= "debit as debit, ";
 		$query .= "c.coa as coa, ";
 		$query .= "j.created_at as created_at, ";
@@ -384,7 +386,7 @@ class LaporanLabaRugisController extends Controller
 		} else {
 			$query .= "WHERE j.created_at between '{$tanggal_awal} 00:00:00' and '{$tanggal_akhir} 23:59:59'";
 		}
-		$query .= "and ( co.kode_coa like '4%' or co.kode_coa like '5%' or co.kode_coa like '6%' or co.kode_coa like '7%' or co.kode_coa like '8%' ) ";
+		$query .= "and ( co.kelompok_coa_id between 4 and 8 ) ";
 		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "group by coa_id "; */
         return DB::select($query);

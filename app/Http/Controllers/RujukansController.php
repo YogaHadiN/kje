@@ -64,21 +64,16 @@ class RujukansController extends Controller
 		}
 
 		$specs = TujuanRujuk::all(['tujuan_rujuk']);
-  		$tujuan_rujuks = [];
-  
-  		foreach ($specs as $sp) {
-  			$tujuan_rujuks[] = $sp->tujuan_rujuk;
-  		}
   		
 		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
             return Diagnosa::with('icd10')->get()->pluck('diagnosa_icd', 'id')->all();
 		});
-  		$tujuan_rujuks = json_encode($tujuan_rujuks);
 		$ss            = new SuratSakitsController;
 		$poli          = $ss->poli($poli);
+        $tujuan_rujuk_list = TujuanRujuk::pluck('tujuan_rujuk', 'id');
 		return view('rujukans.create', compact(
 			'periksa', 
-			'tujuan_rujuks', 
+			'tujuan_rujuk_list', 
 			'isHamil', 
 			'g', 
 			'p', 
@@ -98,7 +93,7 @@ class RujukansController extends Controller
 	{
 		$rujuk = new Rujukan;
 		$rules =[
-			'tujuan_rujuk' => 'required',
+			'tujuan_rujuk_id' => 'required',
 			'rumah_sakit'  => 'required',
 			'periksa_id'   => 'required',
 			'diagnosa_id'   => 'required'
@@ -121,30 +116,8 @@ class RujukansController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-
-
-
 		$periksa                   = Periksa::with('antrian', 'pasien')->where('id', Input::get('periksa_id'))->first();
-		// INPUT RUJUKAN 
-		// cek apakah rujukannya rujukan baru atay lama
-		$tujuan_rujuk              = str_replace(' ', '', preg_replace('/\\\\/', '', Input::get('tujuan_rujuk')));
-		$query = "SELECT * ";
-		$query .= "FROM tujuan_rujuks ";
-		$query .= "WHERE replace(tujuan_rujuk,' ','') = '" . $tujuan_rujuk . "'";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
-		$query                     = DB::select($query);
-		//jika rujukan cocok dengan rujukan yang lama, maka masukkan rujukan yang cocok
-		if(count($query) > 0){
-			$id                        = $query[0]->id;
-		//jika tidak ada rujukan yang cocok, buat rujukan baru
-		} else {
-			//INPUT TUJUAN RUJUK BARU
-			$tujuan_baru               = new TujuanRujuk;
-			$tujuan_baru->tujuan_rujuk = Input::get('tujuan_rujuk');
-			$tujuan_baru->save();
-			$id                        = $tujuan_baru->id;
-		}
-		$rujuk->tujuan_rujuk_id = $id;
+		$rujuk->tujuan_rujuk_id = Input::get('tujuan_rujuk_id');
 		$rujuk->complication    = Input::get('complication');
 		if ( !empty( Input::get('time') ) ) {
 			$rujuk->time = Input::get('time');
@@ -159,27 +132,6 @@ class RujukansController extends Controller
 		}
 		$rujuk->complication    = Input::get('complication');
 		$rujuk->periksa_id      = $periksa->id;
-		// cek apakah rumah sakit baru atau lama 
-		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));
-
-		$query  = "SELECT * ";
-		$query .= "FROM rumah_sakits ";
-		$query .= "WHERE replace(nama,' ','') = '" . $rumah_sakit . "'";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
-		$query = DB::select($query);
-
-		if(count($query) > 0){
-			$id = $query[0]->id;
-		//jika tidak ada rujukan yang cocok, buat rujukan baru
-		} else {
-			//INPUT RUMAH SAKIT BARU
-			$rs_baru                    = new RumahSakit;
-			$rs_baru->nama              = Input::get('rumah_sakit');
-			$rs_baru->jenis_rumah_sakit = Input::get('jenis_rumah_sakit_id');
-			$rs_baru->save();
-
-			$id = $rs_baru->id;
-		}
 		$rujuk->rumah_sakit_id = $id;
 
 		if (Input::get('hamil_id') == '1'){

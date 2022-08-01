@@ -124,7 +124,7 @@ class Pasien extends Model{
 		$pemeriksaan_gulas = '';
 		foreach ($this->periksa as $px) {
 			foreach ($px->transaksii as $trx) {
-				if ( $trx->jenis_tarif_id == '116' ) {
+				if ( $trx->jenis_tarif_id ==  JenisTarif::where('jenis_tarif', 'Gula Darah')->first()->id) {
 					$pemeriksaan_gulas .= '<li>' . $px->pemeriksaan_penunjang . '</li>';
 					break;
 				}

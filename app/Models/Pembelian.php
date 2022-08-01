@@ -15,7 +15,7 @@ class Pembelian extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 	public function merek(){
 

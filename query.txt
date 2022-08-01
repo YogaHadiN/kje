@@ -624,7 +624,6 @@ update periksas as t1 join polis as st on t1.poli = st.old_id set t1.poli = st.i
 
 ALTER TABLE periksas CHANGE poli poli_id bigint, add index( poli_id );
 
-delete from antrian_polis;
 ALTER TABLE antrian_polis CHANGE poli poli_id bigint, add index( poli_id );
 update poli_antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
 alter table poli_antrians modify column poli_id bigint, add index(poli_id);
@@ -634,7 +633,6 @@ alter table periksas modify column poli_id bigint, add index(poli_id);
 
 
 drop table facebook_daftars;
-delete from antrian_periksas;
 ALTER TABLE antrian_periksas CHANGE poli poli_id bigint, add index( poli_id );
 alter table antrian_periksas modify column poli_id bigint, add index(poli_id);
 update antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
@@ -1090,20 +1088,134 @@ alter table modals modify column coa_id bigint, add index(coa_id);
 update pembayaran_asuransis as t1 join coas as pa on t1.coa_id = pa.kode_coa set t1.coa_id = pa.id;
 alter table pembayaran_asuransis modify column coa_id bigint, add index(coa_id);
 
-| akun_banks   |
-| nota_belis   |
-| pasiens      |
-| raks         |
-| nota_juals   |
+alter table stafs add owner int(1) default 0;
 
-| invoices     |
-| kirim_berkas |
+update stafs set owner = 1 where id = 11;
 
-| sediaans     |
-| stafs        |
-| usgs         |
-| coas         |
-| mereks       |
-| formulas     |
-| polis        |
-| periksas     |
+insert into tipe_asuransis value (1, 'Biaya Pribadi', now(), now(), 1);
+
+-- spog
+update rujukans set tujuan_rujuk_id = 24 where tujuan_rujuk_id in ( 64, 71, 78, 95, 111, 120, 133, 134, 151, 183, 189, 204, 218, 226, 228, 229);
+delete from tujuan_rujuks where id in ( 64, 71, 78, 95, 111, 120, 133, 134, 151, 183, 189, 204, 218, 226, 228, 229);
+
+-- sppd
+update rujukans set tujuan_rujuk_id = 32 where tujuan_rujuk_id in (191,146,139,62,117, 142, 155, 156, 162, 163, 57, 61, 77, 90, 108, 112, 113, 128, 130, 160, 167, 181, 212, 215, 225, 227,117, 162, 222, 223, 224);
+
+delete from tujuan_rujuks where id in (191,146,139,62,117, 142, 155, 156, 162, 163, 57, 61, 77, 90, 108, 112, 113, 128, 130, 160, 167, 181, 212, 215, 225, 227,117, 162, 222, 223, 224);
+
+-- kulit
+update rujukans set tujuan_rujuk_id = 19 where tujuan_rujuk_id in ( 85, 123, 185, 186, 209);
+delete from tujuan_rujuks where id in (85,  123, 185, 186, 209);
+
+-- bedah
+update rujukans set tujuan_rujuk_id = 5 where tujuan_rujuk_id in (109,217, 56, 65, 75, 118, 144, 176, 202);
+delete from tujuan_rujuks where id in (109,217, 56, 65, 75, 118, 144, 176, 202);
+
+-- tht
+update rujukans set tujuan_rujuk_id = 40 where tujuan_rujuk_id in ( 63, 79, 86, 105, 114, 132, 170);
+delete from tujuan_rujuks where id in ( 63, 79, 86, 105, 114, 132, 170);
+
+-- urologi
+update rujukans set tujuan_rujuk_id = 41 where tujuan_rujuk_id in (121,106, 73, 99, 152, 182);
+delete from tujuan_rujuks where id in (121,106, 73, 99, 152, 182);
+
+-- jantung
+update rujukans set tujuan_rujuk_id = 14 where tujuan_rujuk_id in (159, 67, 69, 94, 103, 173);
+delete from tujuan_rujuks where id in (159, 67, 69, 94, 103, 173);
+
+-- mata
+update rujukans set tujuan_rujuk_id = 22 where tujuan_rujuk_id in (150, 74, 122, 161, 206, 216);
+delete from tujuan_rujuks where id in (150, 74, 122, 161, 206, 216);
+
+-- anak
+update rujukans set tujuan_rujuk_id = 2 where tujuan_rujuk_id in (210,180, 207,72, 76, 127, 129, 154);
+delete from tujuan_rujuks where id in (210,180, 207,72, 76, 127, 129, 154);
+
+-- paru
+
+update rujukans set tujuan_rujuk_id = 29 where tujuan_rujuk_id in (80, 91, 124, 141, 145, 164, 203);
+delete from tujuan_rujuks where id in (80, 91, 124, 141, 145, 164, 203);
+
+-- saraf
+
+update rujukans set tujuan_rujuk_id = 39 where tujuan_rujuk_id in (135,136,153,82, 110, 147, 165, 213, 220);
+delete from tujuan_rujuks where id in (135,136,153,82, 110, 147, 165, 213, 220);
+
+-- ugd
+
+update rujukans set tujuan_rujuk_id = 1 where tujuan_rujuk_id in (88, 96, 97, 125, 131);
+delete from tujuan_rujuks where id in (88, 96, 97, 125, 131);
+
+-- ortopedi
+
+update rujukans set tujuan_rujuk_id = 28 where tujuan_rujuk_id in (184,190,104, 214);
+delete from tujuan_rujuks where id in (184,190,104, 214);
+
+-- psikiatri
+update rujukans set tujuan_rujuk_id = 18 where tujuan_rujuk_id in ( 219, 81);
+delete from tujuan_rujuks where id in ( 219, 81);
+
+
+-- andrologi
+update rujukans set tujuan_rujuk_id = 4 where tujuan_rujuk_id in ( 83);
+delete from tujuan_rujuks where id in ( 83);
+
+-- bedah mulut
+
+update rujukans set tujuan_rujuk_id = 7 where tujuan_rujuk_id in (158,102, 188);
+delete from tujuan_rujuks where id in (158,102, 188);
+
+-- bedah anak
+
+update rujukans set tujuan_rujuk_id = 6 where tujuan_rujuk_id in (171);
+delete from tujuan_rujuks where id in (171);
+
+
+-- rehab medik
+
+update rujukans set tujuan_rujuk_id = 37 where tujuan_rujuk_id in (168, 205);
+delete from tujuan_rujuks where id in (168, 205);
+
+-- gizi klinik
+update tujuan_rujuks set tujuan_rujuk = 'Sp.GK - Spesialis Gizi Klinik' where id = 211;
+
+-- bedah plastik
+
+update rujukans set tujuan_rujuk_id = 9 where tujuan_rujuk_id in (166);
+delete from tujuan_rujuks where id in (166);
+
+-- btkv
+
+update rujukans set tujuan_rujuk_id = 8 where tujuan_rujuk_id in (194);
+delete from tujuan_rujuks where id in (194);
+
+delete from rujukans where tujuan_rujuk_id in (137, 179,140,68, 87, 89, 92, 93, 98, 107, 119, 126, 172, 174, 175, 177, 178, 196, 197, 198, 200, 221);
+delete from tujuan_rujuks where id in (137, 179,140,68, 87, 89, 92, 93, 98, 107, 119, 126, 172, 174, 175, 177, 178, 196, 197, 198, 200, 221);
+
+-- dokter gigi
+update tujuan_rujuks set tujuan_rujuk = 'Dokter Gigi' where id = 60;
+
+update rujukans set tujuan_rujuk_id = 60 where tujuan_rujuk_id in (84, 138, 143);
+delete from tujuan_rujuks where id in (84, 138, 143);
+
+-- bedah saraf
+
+update rujukans set tujuan_rujuk_id = 10 where tujuan_rujuk_id in (149);
+delete from tujuan_rujuks where id in (149);
+
+update tujuan_rujuks set tujuan_rujuk = 'Sp.KGA - Kedokteran Gigi Anak' where id = 148;
+
+update rujukans set tujuan_rujuk_id = 148 where tujuan_rujuk_id in (192, 195, 199, 208,169);
+delete from tujuan_rujuks where id in (192, 195, 199, 208,169);
+
+update tujuan_rujuks set tujuan_rujuk = 'Sp.Pros - Dokter Gigi Spesialis Prostodonsia' where id = 115;
+
+update tujuan_rujuks set tujuan_rujuk = 'SpKG - Spesialis konservasi gigi' where id = 187;
+
+update rujukans set tujuan_rujuk_id = 187 where tujuan_rujuk_id in (193);
+delete from tujuan_rujuks where id in (193);
+
+
+update tujuan_rujuks set tujuan_rujuk = 'spesialis periodonti (Sp.Perio)' where id = 201;
+
+ALTER TABLE faktur_belanjas MODIFY faktur_image varchar(255) NULL;

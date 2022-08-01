@@ -312,68 +312,11 @@ class testcommand extends Command
 		DB::statement("delete from pengeluarans where id = 5182;");
 	}
 
-	public function resetPembayaranAsuransis($pembayaran_asuransi_ids){
-
-		foreach ($pembayaran_asuransi_ids as $pembayaran_asuransi_id) {
-			$this->resetPembayaranAsuransi($pembayaran_asuransi_id);
-		}
-
-		/* dd( */
-		/* 	'piutang_asuransis = ' . $this->jumlah_piutang_asuransi, */
-		/* 	'invoice = ' .$this->jumlah_invoice, */
-		/* 	'rekening = ' .$this->jumlah_rekening, */
-		/* 	'nota_jual = ' .$this->jumlah_nota_jual, */
-		/* 	'jurnal_umum = ' .$this->jumlah_jurnal_umum, */
-		/* 	'piutang_dibayar = ' .$this->jumlah_piutang_dibayar, */
-		/* 	'pembayaran_asuransi = ' .$this->jumlah_pembayaran_asuransi, */
-		/* 	json_encode( $this->akumulasi_periksa_ids ) */
-		/* ); */
-
-	}
 	/**
 	* undocumented function
 	*
 	* @return void
 	*/
-	public function resetPembayaranAsuransi($pembayaran_asuransi_id)
-	{
-		$pembayaran_asuransi = PembayaranAsuransi::find( $pembayaran_asuransi_id );
-
-		$piutang_dibayars    = PiutangDibayar::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->get();
-
-		$periksa_ids         = [];
-
-		foreach ($piutang_dibayars as $piutang) {
-			$this->akumulasi_periksa_ids[] = $piutang->periksa_id;
-			$periksa_ids[]                 = $piutang->periksa_id;
-		}
-
-		//
-		// piutang dibayar di delete
-		$this->jumlah_invoice = $this->jumlah_invoice + Invoice::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->update([
-			'pembayaran_asuransi_id' => null
-		]);
-
-		// update rekenings
-		$this->jumlah_rekening = $this->jumlah_rekening + Rekening::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->update([
-			'pembayaran_asuransi_id' => null
-		]);
-
-		// delete nota_jual
-		if ( !isset( $pembayaran_asuransi->nota_jual_id ) ) {
-			dd( $pembayaran_asuransi->id );
-		}
-		$this->jumlah_nota_jual = $this->jumlah_nota_jual + NotaJual::destroy( $pembayaran_asuransi->nota_jual_id );
-
-		// delete jurnal_umum
-		$this->jumlah_jurnal_umum = $this->jumlah_jurnal_umum + JurnalUmum::where('jurnalable_id', $pembayaran_asuransi->nota_jual_id)
-					->where('jurnalable_type', 'App\\Models\\NotaJual')
-					->delete();
-
-		$this->jumlah_piutang_dibayar = $this->jumlah_piutang_dibayar + PiutangDibayar::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->delete();
-
-		$this->jumlah_pembayaran_asuransi = $this->jumlah_pembayaran_asuransi + $pembayaran_asuransi->delete();
-	}
 	/**
 	* undocumented function
 	*
@@ -384,23 +327,6 @@ class testcommand extends Command
 		 dd( [ null => 'Tidak' ] + Asuransi::list() );
 		 /* dd(Asuransi::where('aktif', 1)->pluck('nama', 'id')); */
 		 /* dd(Asuransi::pluck('nama', 'id')->all()); */
-	}
-	private function updatePC2020(){
-
-		$periksas = Periksa::with('pasien')
-							->where('asuransi_id', '200216001')
-							->orWhere('asuransi_id', '200216001')
-							->orWhere('asuransi_id', '200312001')
-							->orWhere('asuransi_id', '200312002')
-							->orWhere('asuransi_id', '37')
-							->get();
-
-		foreach ($periksas as $periksa) {
-			$periksa->asuransi_id = $periksa->pasien->asuransi_id;
-			$periksa->save();
-		}
-
-
 	}
 	/**
 	* undocumented function
@@ -462,7 +388,7 @@ class testcommand extends Command
 			if ( !empty ( $gaji->petugas_id )) {
 				$petugas_id = $gaji->petugas_id;
 			} else {
-				$petugas_id = 16;
+				$petugas_id = Staf::owner()->id;
 			}
 			$datas[] = [ 
 				'staf_id'              => $gaji->staf_id,
@@ -483,7 +409,7 @@ class testcommand extends Command
 			if ( !empty ( $gaji->petugas_id )) {
 				$petugas_id = $gaji->petugas_id;
 			} else {
-				$petugas_id = 16;
+				$petugas_id = Staf::owner()->id;
 			}
 			$datas[] = [ 
 				'staf_id'              => $gaji->staf_id,
@@ -798,32 +724,6 @@ class testcommand extends Command
 		Artisan::call('task:multiPenyusutan');
 	}
 	
-	public function normalisasiPajakPenghasilan(){
-		DB::statement("Update jurnal_umums set created_at = '2019-12-01', updated_at ='2019-12-01' where jurnalable_id = '5230' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-11-01', updated_at ='2019-11-01' where jurnalable_id = '5231' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-10-01', updated_at ='2019-10-01' where jurnalable_id = '5232' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-09-01', updated_at ='2019-09-01' where jurnalable_id = '5233' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-08-01', updated_at ='2019-08-01' where jurnalable_id = '5234' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-07-01', updated_at ='2019-07-01' where jurnalable_id = '5235' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-06-01', updated_at ='2019-06-01' where jurnalable_id = '5236' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-05-01', updated_at ='2019-05-01' where jurnalable_id = '5237' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-04-01', updated_at ='2019-04-01' where jurnalable_id = '5238' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-03-01', updated_at ='2019-03-01' where jurnalable_id = '5239' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-02-01', updated_at ='2019-02-01' where jurnalable_id = '5240' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-01-01', updated_at ='2019-01-01' where jurnalable_id = '5241' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-05-01', updated_at ='2018-05-01' where jurnalable_id = '5242' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-12-01', updated_at ='2018-12-01' where jurnalable_id = '5243' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-11-01', updated_at ='2018-11-01' where jurnalable_id = '5244' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-10-01', updated_at ='2018-10-01' where jurnalable_id = '5245' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-09-01', updated_at ='2018-09-01' where jurnalable_id = '5246' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-08-01', updated_at ='2018-08-01' where jurnalable_id = '5247' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-07-01', updated_at ='2018-07-01' where jurnalable_id = '5248' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-06-01', updated_at ='2018-06-01' where jurnalable_id = '5249' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-04-01', updated_at ='2018-04-01' where jurnalable_id = '5250' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-01-01', updated_at ='2018-01-01' where jurnalable_id = '5251' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-03-01', updated_at ='2018-03-01' where jurnalable_id = '5252' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-02-01', updated_at ='2018-02-01' where jurnalable_id = '5253' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-	}
 	/**
 	* undocumented function
 	*
@@ -958,17 +858,6 @@ class testcommand extends Command
 		]);
 	}
 
-	private function generateKataKunci(){
-
-		$query  = "SELECT * ";
-		$query .= "FROM pembayaran_asuransis as pasu ";
-		$query .= "INNER JOIN rekenings as rek on pasu.id = rek.pembayaran_asuransi_id ";
-		$query .= "WHERE pasu.asuransi_id = '200216001' ";
-		$query .= "AND pasu.tenant_id = " . session()->get('tenant_id') . " ";
-		$data = DB::select($query);
-		dd( $data );
-
-	}
 
 	/**
 	* undocumented function

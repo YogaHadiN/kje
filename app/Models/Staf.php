@@ -74,4 +74,7 @@ class Staf extends Model{
 	public function isDokter() {
 	   return trim($this->titel) == 'dr';
 	}
+    public static function owner(){
+        return Staf::where('owner', 1)->first();
+    }
 }

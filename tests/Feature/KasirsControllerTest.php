@@ -25,6 +25,9 @@ class KasirsControllerTest extends TestCase
 
     }
 
+    /**
+     * 
+     */
     public function test_saldoPost(){
         Storage::fake('s3');
         // make a request with file
@@ -60,6 +63,13 @@ class KasirsControllerTest extends TestCase
             "saldo"   => $saldo,
             "staf_id" => $staf_id,
         ];
+
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 301000
+        ]);
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 110004
+        ]);
 
         $response = $this->post('kasirs/saldo', $inputAll);
 

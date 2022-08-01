@@ -756,7 +756,8 @@ class JurnalUmumsController extends Controller
 		$query .= "FROM jurnal_umums as ju ";
 		$query .= "LEFT OUTER JOIN periksas as px on px.id = ju.jurnalable_id ";
 		$query .= "INNER JOIN polis as po on po.id = px.poli_id ";
-		$query .= "WHERE ( coa_id like '4%' ) ";
+		$query .= "INNER JOIN coas as co on co.id = ju.coa_id ";
+		$query .= "WHERE ( co.kelompok_coa_id = 4 ) ";
 		$query .= "AND ( px.asuransi_id > 0 or px.asuransi_id is null) ";
 		$query .= "AND ( po.poli not like 'Poli Estetika' or poli is null) ";
 		$query .= "AND ju.jurnalable_type not like 'App\\\Models\\\NotaJual' ";

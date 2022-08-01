@@ -222,7 +222,7 @@ class BayarGajiController extends Controller
 	   }
    }
     public function bayar_gaji_karyawan(){
-        $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('id', 'like', '110%')->where('id', 'not like', '110000')->pluck('coa', 'id')->all();
+        $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('kode_coa', 'like', '110%')->where('kode_coa', 'not like', '110000')->pluck('coa', 'id')->all();
         $pembayarans      = $this->query("(stf.titel not like 'dr' and stf.titel not like 'drg')");
 		return view('pengeluarans.bayar_gaji_karyawan', compact(  
 			'pembayarans', 
@@ -470,13 +470,14 @@ class BayarGajiController extends Controller
 		$query .= "piutang, ";
 		$query .= "nilai ";
 		$query .= "from jurnal_umums as ju ";
+		$query .= "join coas as co on co.id=ju.coa_id ";
 		$query .= "join periksas as p on p.id=ju.jurnalable_id ";
 		$query .= "join stafs as st on st.id= p.staf_id ";
 		$query .= "join pasiens as ps on ps.id=p.pasien_id ";
 		$query .= "join asuransis as asu on asu.id=p.asuransi_id ";
 		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
 		$query .= "and p.staf_id='{$id}' ";
-		$query .= "and ju.coa_id=200001 ";
+		$query .= "and co.kode_coa = 200001 ";
 		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "where date(p.tanggal) between '{$tanggal_mulai}' and '{$tanggal_akhir}' ";
         $hutangs = DB::select($query);

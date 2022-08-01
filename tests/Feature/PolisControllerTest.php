@@ -17,11 +17,9 @@ class PolisControllerTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /**
-     * @test
+     * 
      */
-
     public function test_poli(){
-        /* dd( \DB::select("SELECT DATE('now','-30 days');") ); */
         $user     = User::factory()->create([
             'role_id' => 6
         ]);
@@ -30,6 +28,9 @@ class PolisControllerTest extends TestCase
             'tipe_asuransi_id' => 5
         ]);
         $antrian_periksa = AntrianPeriksa::factory()->create();
+        \App\Models\JenisTarif::factory()->create([
+            'jenis_tarif' => 'Gula Darah'
+        ]);
         $response = $this->get('poli/' . $antrian_periksa->id);
         $response->assertStatus(200);
     }

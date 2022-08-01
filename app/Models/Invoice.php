@@ -57,11 +57,10 @@ class Invoice extends Model
 	}
 
 	public function getDetailInvoiceAttribute(){
-		$periksas = $this->periksa;
-		$jumlah_tagihan    = $periksas->count();
-		$total_tagihan     = 0;
-
-		$nama_asuransi     = $periksas->first()->asuransi->nama;
+		$periksas       = $this->periksa;
+		$jumlah_tagihan = $periksas->count();
+		$total_tagihan  = 0;
+		$nama_asuransi  = $periksas->first()->asuransi->nama;
 
 		foreach ($periksas as $pa) {
 			$total_tagihan += $pa->piutang - $pa->sudah_dibayar;

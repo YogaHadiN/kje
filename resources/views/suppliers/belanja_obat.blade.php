@@ -263,7 +263,11 @@
       <div class="modal-body">
         <form action="" id='create_new_rak'>
           <input type="hidden" name="_token" value="{{ Session::token() }}">
-          @include('raks.createForm', ['formula' => $formula , 'modal' => true])
+          @include('raks.createForm', [
+              'formula' => $formula ,
+              'modal'   => true,
+              'stokShow' => true
+          ])
         </form>
       </div> 
     </div>

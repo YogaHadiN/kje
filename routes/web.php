@@ -162,7 +162,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get( 'asuransis/get/coa_id' , [\App\Http\Controllers\AsuransisController::class, 'getAsuransiCoaId']);
 	Route::put('asuransis/{id}/upload', [\App\Http\Controllers\AsuransisController::class, 'uploadBerkas']);
 	Route::post('asuransis/berkas/hapus', [\App\Http\Controllers\AsuransisController::class, 'hapusBerkas']);
-	Route::get('asuransis/cek_pembayaran', [\App\Http\Controllers\AsuransisController::class, 'cekSalahBayar']);
 
 
 	Route::put('stafs/{id}/upload', [\App\Http\Controllers\StafsController::class, 'uploadBerkas']);
@@ -381,8 +380,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::post('pengeluarans/bayar_gaji_karyawan', [\App\Http\Controllers\BayarGajiController::class, 'bayar_gaji']);
 		Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', [\App\Http\Controllers\BayarGajiController::class, 'bayar_gaji']);
 
-		Route::get('pengeluarans/bayar_bonus_karyawan', [\App\Http\Controllers\PengeluaransController::class, 'bayar_bonus_karyawan']);
-		Route::get('pengeluarans/bayar_bonus_karyawan/{staf_id}', [\App\Http\Controllers\PengeluaransController::class, 'bayar_bonus_show']);
 		Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', [\App\Http\Controllers\PengeluaransController::class, 'bayar_bonus']);
 
 		Route::get('pengeluarans/bagi_hasil_gigi', [\App\Http\Controllers\PengeluaransController::class, 'bagiHasilGigi']);

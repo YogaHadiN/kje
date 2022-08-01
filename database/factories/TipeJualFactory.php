@@ -23,7 +23,6 @@ class TipeJualFactory extends Factory
     {
         return [
             'tipe_jual' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

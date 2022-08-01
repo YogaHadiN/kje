@@ -270,7 +270,7 @@ class AntrianPeriksasController extends Controller
 
 	private function periksaKosong($pasien_id, $staf_id, $asisten_id, $ap_id, $antrian, $jamdatang){
   		 $p       = new Periksa;
-		  $p->asuransi_id = "0";
+		  $p->asuransi_id = Asuransi::BiayaPribadi()->id;
 		  $p->pasien_id =$pasien_id;
 		  $p->berat_badan = "";
 		  $p->poli = Poli::where('poli', 'Poli Estetika')->first()->id;

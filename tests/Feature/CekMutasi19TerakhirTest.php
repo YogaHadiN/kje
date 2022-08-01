@@ -24,6 +24,10 @@ class CekMutasi19TerakhirTest extends TestCase
             'kode_coa' => 400045
         ]);
 
+        \App\Models\Staf::factory()->create([
+            'owner' => 1 
+        ]);
+
         $this->artisan('cek:mutasi20terakhir');
     }
 }

@@ -463,7 +463,7 @@ class PasiensController extends Controller
 			$prolanis[$d->periksa_id]['nomor_asuransi']             = $d->nomor_asuransi;
 			$prolanis[$d->periksa_id]['prolanis_ht_flagging_image'] = $d->prolanis_ht_flagging_image;
 			if ( 
-				$d->jenis_tarif_id == '116'
+				$d->jenis_tarif_id == JenisTarif::where('jenis_tarif', 'Gula Darah')->first()->id
 			) {
 				$prolanis[$d->periksa_id]['gula_darah'] = $d->keterangan_pemeriksaan;
 			}
@@ -690,12 +690,13 @@ class PasiensController extends Controller
 		$query .= "prx.tanggal as tanggal, ";
 		$query .= "trp.keterangan_pemeriksaan as gula_darah ";
 		$query .= "FROM transaksi_periksas as trp ";
+		$query .= "JOIN jenis_tarif as jtf on jtf.id = trp.jenis_tarif_id ";
 		$query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE ";
 		$query .= "prx.pasien_id = '{$id}' ";
 		$query .= "AND trp.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "AND trp.jenis_tarif_id = 116 "; // gula darah 
+		$query .= "AND jtf.jenis_tarif = 'Gula Darah' "; // gula darah 
 		$query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
 		$query .= "ORDER BY prx.id desc";  // keterangan_pemeriksaan berbentuk number
 		$data = DB::select($query);

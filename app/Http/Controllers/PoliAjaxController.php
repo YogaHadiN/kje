@@ -16,6 +16,7 @@ use App\Models\Generik;
 use App\Models\BahanHabisPakai;
 use App\Models\Rak;
 use App\Models\Alergi;
+use App\Models\Staf;
 use App\Models\Terapi;
 use App\Models\Tidakdirujuk;
 use App\Models\Icd10;
@@ -139,7 +140,7 @@ class PoliAjaxController extends Controller
 		$query .= "join terapis as trp on trp.periksa_id = p.id ";
 		$query .= "join mereks as mrk on mrk.id = trp.merek_id ";
 		$query .= "join raks as rk on rk.id = mrk.rak_id ";
-		$query .= "where (staf_id=? or staf_id='11' ) ";
+		$query .= "where (staf_id=? or staf_id='" . Staf::owner()->id . "' ) ";
 		$query    .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and {$parameter_asuransi} ";
 		$query .= "and d.icd10_id = '{$icd10}' ";
@@ -441,7 +442,7 @@ class PoliAjaxController extends Controller
 		} catch (\Exception $e) {
 		}
 
-		if ($asuransi_id == 32) {
+		if (Asuransi::find($asuransi_id)->tipe_asuransi_id == 5) {
 			try {
 				$ap                   = AntrianPeriksa::findOrFail($antrianperiksa_id);
 				$ap->asuransi_id      = $asuransi_id;

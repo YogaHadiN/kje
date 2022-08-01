@@ -29,6 +29,7 @@ class Coa extends Model{
 		$query .= "and debit=1 ";
 		$query .= "and tenant_id = " . session()->get('tenant_id') . " ";
 		$debit = DB::select($query )[0]->jumlah;
+
 		$query = "SELECT sum( nilai ) as jumlah ";
 		$query .= "from jurnal_umums ";
 		$query .= "where coa_id = '{$coa_id}' ";

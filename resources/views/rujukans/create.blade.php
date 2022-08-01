@@ -24,7 +24,6 @@
 		  'submit' => 'Submit', 
 		  'hari' => '1', 
 		  'delete' => false, 
-		  'tujuan_rujuk' => null,
 		  'jenis_rumah_sakit' => null,
 		  'rumah_sakit' => null,
 		  'register_hamil_id' => null, 
@@ -50,7 +49,6 @@
 <script>
 var base = '{{ url("/") }}';
 var asuransi_id = '{{$periksa->asuransi_id}}';
-var tujuan_rujuk_tags = {!! $tujuan_rujuks !!};
 </script>
   {!! HTML::script('js/rujukan.js')!!}
 <script src="{{ url('js/uk.js') }}" type="text/javascript"></script>

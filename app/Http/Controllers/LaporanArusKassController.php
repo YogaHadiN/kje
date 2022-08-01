@@ -22,7 +22,7 @@ class LaporanArusKassController extends Controller
         $query             .= "c.coa as coa ";
         $query             .= "from jurnal_umums as j ";
         $query             .= "join coas as c on c.id = j.coa_id ";
-        $query             .= "where j.coa_id like '4%' ";
+        $query             .= "where c.kelompok_coa_id = 4 ";
         $query             .= "and j.created_at like '{$tahun}-{$bulan}%' ";
 		$query             .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
         $query             .= "group by coa_id";
@@ -33,7 +33,7 @@ class LaporanArusKassController extends Controller
         $query .= "c.coa as coa ";
         $query .= "from jurnal_umums as j ";
         $query .= "join coas as c on c.id = j.coa_id ";
-        $query .= "where j.coa_id like '5%' ";
+        $query .= "where c.kelompok_coa_id = 5 ";
 		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "and j.created_at like '{$tahun}-{$bulan}%' ";
         $query .= "group by coa_id";
@@ -45,7 +45,7 @@ class LaporanArusKassController extends Controller
         $query  .= "c.coa as coa ";
         $query  .= "from jurnal_umums as j ";
         $query  .= "join coas as c on c.id = j.coa_id ";
-        $query  .= "where j.coa_id like '6%' ";
+        $query  .= "where c.kelompok_coa_id = 6 ";
 		$query  .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
         $query  .= "and j.created_at like '{$tahun}-{$bulan}%' ";
         $query  .= "group by coa_id";
@@ -57,7 +57,7 @@ class LaporanArusKassController extends Controller
         $query            .= "c.coa as coa ";
         $query            .= "from jurnal_umums as j ";
         $query            .= "join coas as c on c.id = j.coa_id ";
-        $query            .= "where j.coa_id like '7%' ";
+        $query            .= "where c.kelompok_coa_id = 7 ";
 		$query            .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
         $query            .= "and j.created_at like '{$tahun}-{$bulan}%' ";
         $query            .= "group by coa_id";
@@ -69,7 +69,7 @@ class LaporanArusKassController extends Controller
         $query  .= "c.coa as coa ";
         $query  .= "from jurnal_umums as j ";
         $query  .= "join coas as c on c.id = j.coa_id ";
-        $query  .= "where j.coa_id like '8%' ";
+        $query  .= "where c.kelompok_coa_id = 8 ";
 		$query  .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
         $query  .= "and j.created_at like '{$tahun}-{$bulan}%' ";
         $query  .= "group by coa_id";

@@ -458,14 +458,16 @@ class PasiensAjaxController extends Controller
 		$bulanThn = date('Y-m');
 		$query  = "SELECT count(*) as jumlah ";
 		$query .= "FROM periksas as prx ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "JOIN klaim_gdp_bpjs as kgd on kgd.periksa_id = prx.id ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "JOIN transaksi_periksas as trx on trx.periksa_id = prx.id ";
+		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
 		$query .= "WHERE prx.tanggal like '{$bulanThn}%' ";
 		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND psn.id = '{$this->input_pasien_id}' ";
-		$query .= "AND trx.jenis_tarif_id =116 "; //gula darah
-		$query .= "AND prx.asuransi_id =32 "; //bpjs
+		$query .= "AND jtf.jenis_tarif ='Gula Darah' "; //gula darah
+		$query .= "AND asu.tipe_asuransi_id =5 "; //bpjs
 		$data = DB::select($query);
 		return $data[0]->jumlah;
 	}

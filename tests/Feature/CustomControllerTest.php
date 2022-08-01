@@ -39,6 +39,9 @@ class CustomControllerTest extends TestCase
         $response = $this->get('update/surveys/' . $periksa->id);
         $response->assertStatus(200);
     }
+    /**
+     * 
+     */
     public function test_survey_post(){
         Storage::fake('s3');
         // make a request with file
@@ -118,6 +121,20 @@ class CustomControllerTest extends TestCase
 
         $jt_diskon = \App\Models\JenisTarif::factory()->create([
             'jenis_tarif' => 'Diskon'
+        ]);
+
+        \App\Models\Staf::factory()->create([
+            'owner' => 1
+        ]);
+
+        \App\Models\JenisTarif::factory()->create([
+            'jenis_tarif' =>  'Sirkumsisi Anak-anak'
+        ]);
+        \App\Models\JenisTarif::factory()->create([
+            'jenis_tarif' => 'Sirkumsisi Dewasa'
+        ]);
+        \App\Models\JenisTarif::factory()->create([
+            'jenis_tarif' => 'Nebulizer Anak-anak'
         ]);
     
         $this->withoutExceptionHandling();

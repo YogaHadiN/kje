@@ -4,18 +4,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToTenant; 
 
 class TujuanRujuk extends Model
 {
-    use BelongsToTenant, HasFactory;
+    use HasFactory;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 	public function rujukan(){
 

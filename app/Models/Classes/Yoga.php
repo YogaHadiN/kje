@@ -1852,7 +1852,7 @@ class Yoga {
 		foreach ($periksas as $k => $v) 
 		{
 			foreach ($v->transaksii as $key => $value) {
-			 	if ($value->jenis_tarif_id == '116' && $value->biaya == '0') {
+			 	if ($value->jenis_tarif_id ==  JenisTarif::where('jenis_tarif', 'Gula Darah')->first()->id && $value->biaya == '0') {
 			 		$bayar = true;
 			 		$sudahBulanIni = true;
 			 		$tanggal = $v->tanggal;
@@ -2030,13 +2030,12 @@ class Yoga {
 	}
 	
 	public static function sumberCoaList(){
-		return [ null => '-pilih-' ] + Coa::whereRaw('id between 110000 and 110004')->pluck('coa', 'id')->all();
+		return [ null => '-pilih-' ] + Coa::whereRaw('kode_coa between 110000 and 110004')->pluck('coa', 'id')->all();
 	}
 	public static function sumberuang(){
 		$sumber_uang[null] = '-Pilih-';
-		$sumber_uang[110000] = 'Uang yang diambil dari kasir';
-		$sumber_uang[110004] = 'Uang punya dokter Yoga';
-
+		$sumber_uang[ Coa::where('kode_coa', 110000)->first()->id ] = 'Uang yang diambil dari kasir';
+		$sumber_uang[ Coa::where('kode_coa', 110004)->first()->id ] = 'Uang punya dokter Yoga';
 
 		return $sumber_uang;
 	}
@@ -2090,9 +2089,10 @@ class Yoga {
 		$query .= "CURDATE()) as age, ";
 		$query .= "px.pemeriksaan_penunjang as lab ";
 		$query .= "from periksas as px ";
+		$query .= "join asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "where TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 ";
-		$query .= "and px.asuransi_id=32 ";
+		$query .= "and asu.tipe_asuransi_id=5 ";
 		$query .= "and px.sistolik not like '' ";
 		$query .= "and px.sistolik is not null ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
@@ -2115,12 +2115,14 @@ class Yoga {
 		$query .= "TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) as age, ";
 		$query .= "px.pemeriksaan_penunjang as lab ";
 		$query .= "from periksas as px ";
+		$query .= "join asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "join diagnosas as dg on dg.id = px.diagnosa_id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "join transaksi_periksas as trx on trx.periksa_id = px.id ";
-		$query .= "where px.asuransi_id=32 ";
+		$query .= "join jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
+		$query .= "where asu.tipe_asuransi_id= 5 ";
 		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 ";
-		$query .= "and trx.jenis_tarif_id = 116 ";
+		$query .= "and jtf.jenis_tarif = 'Gula Darah' ";
 		$query .= "and trx.keterangan_pemeriksaan not like '' ";
 		$query .= "and trx.keterangan_pemeriksaan is not null ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";

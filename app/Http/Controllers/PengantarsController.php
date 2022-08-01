@@ -203,7 +203,7 @@ class PengantarsController extends Controller
 		}
 
 		if (empty(trim(Input::get('asuransi_id')))) {
-			$asuransi_id = 0;
+			$asuransi_id = Asuransi::BiayaPribadi()->id;
 		} else {
 			$asuransi_id = Input::get('asuransi_id');
 		}

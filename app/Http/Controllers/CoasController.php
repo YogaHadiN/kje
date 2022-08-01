@@ -42,11 +42,11 @@ class CoasController extends Controller
 	 */
 	public function store()
 	{
-		$coa       = new Coa;
-		$coa->kode_coa   = Input::get('coa_id');
-		$coa->coa   = Input::get('coa');
-		$coa->kelompok_coa_id   = Input::get('kelompok_coa_id');
-		$confirm = $coa->save();
+		$coa                  = new Coa;
+		$coa->kode_coa        = Input::get('coa_id');
+		$coa->coa             = Input::get('coa');
+		$coa->kelompok_coa_id = Input::get('kelompok_coa_id');
+		$confirm              = $coa->save();
 		
 		if ($confirm) {
 			$pesan = Yoga::suksesFLash('Input Coa <strong>' . $coa->coa . '</strong> telah berhasil');
@@ -146,7 +146,7 @@ class CoasController extends Controller
 		$kode_coa_id = Input::get('kode_coa_id');
 		$coa_asal = Input::get('coa_asal');
 
-		if (Coa::where('id', $kode_coa_id)->where('id', '!=', $coa_asal)->count() == 0) {
+		if (Coa::where('kode_coa', $kode_coa_id)->where('kode_coa', '!=', $coa_asal)->count() == 0) {
 			return '0';
 		}
 

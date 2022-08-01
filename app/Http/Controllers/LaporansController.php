@@ -575,11 +575,12 @@ class LaporansController extends Controller
 		$query = "select count(*) as jumlah ";
 		$query .= "from ( ";
 		$query .= "SELECT count(pasien_id) as angka_kontak ";
-		$query .= "FROM periksas ";
-		$query .= "where asuransi_id=32 ";
-		$query .= "AND tanggal like '$tanggal%' ";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "group by pasien_id ";
+		$query .= "FROM periksas  as px ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
+		$query .= "where asu.tipe_asuransi_id=5 ";
+		$query .= "AND px.tanggal like '$tanggal%' ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "group by px.pasien_id ";
 		$query .= " ) as x";
 		$angka_kontak = DB::select($query)[0]->jumlah;
 
@@ -587,10 +588,11 @@ class LaporansController extends Controller
 		$query = "select count(*) as jumlah ";
 		$query .= "from ";
 		$query .= "( SELECT * ";
-		$query .= "FROM periksas ";
-		$query .= "where asuransi_id=32 ";
-		$query .= "AND tanggal like '$tanggal%' ";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "FROM periksas  as px ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
+		$query .= "where asu.tipe_asuransi_id=5 ";
+		$query .= "AND px.tanggal like '$tanggal%' ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= ") as x";
 		$angka_kunjungan = DB::select($query)[0]->jumlah;
 
@@ -911,7 +913,7 @@ class LaporansController extends Controller
 		$query .= "join icd10s as icd on icd.id=dg.icd10_id ";
 		$query .= "join tujuan_rujuks as tj on tj.id=rj.tujuan_rujuk_id ";
 		$query .= "join pasiens as ps on ps.id=px.pasien_id ";
-		$query .= "where rj.tujuan_rujuk_id = '24' ";
+		$query .= "where rj.tujuan_rujuk_id = 24 ";
 		$query .= "and rj.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and tanggal between '{$mulai}' and '{$akhir}'";
 		$rujukans = DB::select($query);
@@ -933,6 +935,7 @@ class LaporansController extends Controller
 		$mulai = Yoga::nowIfEmptyMulai($mulai);
 		$akhir = Yoga::nowIfEmptyAkhir($akhir);
          
+        $coa_id_200001 = Coa::where('kode_coa', 200001)->first()->id;
 		$query = "select p.tanggal as tanggal, ";
 		$query .= "st.nama as nama_staf, ";
 		$query .= "ps.id as pasien_id, ";
@@ -948,7 +951,7 @@ class LaporansController extends Controller
 		$query .= "join asuransis as asu on asu.id=p.asuransi_id ";
 		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
 		$query .= "and p.staf_id='{$id}' ";
-		$query .= "and ju.coa_id=200001 ";
+		$query .= "and ju.coa_id=  " . $coa_id_200001. " ";
 		$query .= "and ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and ( p.tanggal between '{$mulai}' and '{$akhir}' ) ";
         $hutangs = DB::select($query);
@@ -1021,9 +1024,10 @@ class LaporansController extends Controller
 		$query   .= " join stafs as st on st.id=px.staf_id";
 		$query   .= " join asuransis as asu on asu.id=px.asuransi_id";
 		$query   .= " join pasiens as ps on ps.id=px.pasien_id";
+		$query   .= " join diagnosas as diag on diag.id = px.diagnosa_id ";
 		$query   .= " where st.titel = 'bd' and tanggal like '{$tanggal}%' ";
-		$query   .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
-		$query   .= " and diagnosa_id in (19,941) ";
+		$query   .= " and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query   .= " and diag.diagnosa like '%kb%' ";
         $periksas_diagnosa_kb = DB::select($query);
 
 		$query           = "select min( st.nama ) as nama_staf, ";
@@ -1031,10 +1035,11 @@ class LaporansController extends Controller
 		$query          .= "from periksas as px ";
 		$query          .= "join stafs as st on st.id=px.staf_id ";
 		$query          .= "join pasiens as ps on ps.id=px.pasien_id ";
-		$query          .= "where st.titel = 'bd' ";
-		$query          .= "and tanggal like '{$tanggal}%' ";
-		$query          .= "and diagnosa_id in (19,941) ";
-		$query          .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query          .= " join diagnosas as diag on diag.id = px.diagnosa_id ";
+		$query          .= " where st.titel = 'bd' ";
+		$query          .= " and tanggal like '{$tanggal}%' ";
+		$query          .= " and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query          .= " and diag.diagnosa like '%kb%' ";
 		$query          .= "group by staf_id ";
         $group_by_stafs  = DB::select($query);
         

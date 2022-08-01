@@ -11,6 +11,7 @@ use App\Models\AntrianPeriksa;
 use App\Models\Antrian;
 use App\Models\Classes\Yoga;
 use App\Models\TujuanRujuk;
+use App\Models\JenisTarif;
 use App\Models\Periksa;
 use App\Models\Panggilan;
 use App\Models\Pasien;
@@ -181,7 +182,10 @@ class PolisController extends Controller
 						$Array = json_decode($key, true);
 						if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $transaksi['jenis_tarif_id'])->exists() ) {
 							 unset($tindakans[$key]);
-							$tindakans['{"tarif_id":5549,"jenis_tarif_id":"116","biaya":0}'] = 'Gula Darah';
+
+                             $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
+                             $tarif = Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', $jt_gula_darah->id)->first()->id;
+							$tindakans['{"tarif_id":' . $tarif->id. ',"jenis_tarif_id":"'. $jt_gula_darah->id. '","biaya":0}'] = 'Gula Darah';
 						}
 					}
 				}
@@ -440,10 +444,10 @@ class PolisController extends Controller
             $asuransi_bpjs = Asuransi::Bpjs();
 			if ($antrianperiksa->asuransi_id == $asuransi_bpjs->id) {
 				$sudahPernahUsg = false;
-				$counts = Periksa::where('pasien_id', $antrianperiksa->pasien_id)->where('tanggal', 'like', date('Y').'%')->get();
+				$counts = Periksa::with('transaksii.jenisTarif')->where('pasien_id', $antrianperiksa->pasien_id)->where('tanggal', 'like', date('Y').'%')->get();
 				foreach ($counts as $k => $periksa) {
 					foreach ($periksa->transaksii as $key => $value) {
-						if ($value->jenis_tarif_id == '111' && $value->biaya == '0') {
+						if ($value->jenisTarif->jenis_tarif == 'USG' && $value->biaya == '0') {
 							$sudahPernahUsg = true;
 							break;
 						}
@@ -506,7 +510,7 @@ class PolisController extends Controller
 
 		if ( !empty( $antrianperiksa->gds ) ) {
 			$transaksiusg[] = [
-				"jenis_tarif_id"      => "116",
+				"jenis_tarif_id"      => JenisTarif::where('jenis_tarif', 'Gula Darah')->first()->id,
 				"jenis_tarif"         => "Gula Darah",
 				"biaya"               => 0,
 				"keterangan_tindakan" => $antrianperiksa->gds

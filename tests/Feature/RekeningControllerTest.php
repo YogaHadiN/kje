@@ -14,7 +14,9 @@ use Arr;
 class RekeningControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
-
+        /**
+         * 
+         */
     public function test_index(){
         $user     = User::factory()->create([
             'role_id' => 6
@@ -31,6 +33,10 @@ class RekeningControllerTest extends TestCase
 
         \App\Models\Rekening::factory(30)->create([
             'akun_bank_id' => $akun_bank
+        ]);
+
+        \App\Models\Staf::factory()->create([
+            'owner' => 1
         ]);
 
 
@@ -152,6 +158,9 @@ class RekeningControllerTest extends TestCase
         $this->assertCount(1, $abaikan_transaksis);
         $response->assertRedirect('/');
     }
+    /**
+     * 
+     */
     public function test_ignoredList(){
         $user     = User::factory()->create([
                 'role_id' => 6

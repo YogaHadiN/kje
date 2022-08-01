@@ -39,6 +39,7 @@ class StafFactory extends Factory
         $bank             = $this->faker->text;
         $tenant_id        = Tenant::factory();
         $image            = null;
+        $owner            = 0;
         $ktp_image        = null;
         $str_image        = null;
         $sip_image        = null;
@@ -72,6 +73,7 @@ class StafFactory extends Factory
             "sip_image"        => $sip_image,
             "gambar_npwp"      => $gambar_npwp,
             "kartu_keluarga"   => $kartu_keluarga,
+            "owner"            => $owner,
             "tenant_id"        => $tenant_id,
         ];
     }

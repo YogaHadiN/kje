@@ -255,6 +255,7 @@ class LaporanNeracasController extends Controller
 			$query .= "px.asuransi_id as asuransi_id, ";
 		}
 		$query .= "coa_id as coa_id, ";
+		$query .= "c.kelompok_coa_id as kelompok_coa_id, ";
 		$query .= "j.jurnalable_type as jurnalable_type, ";
 		$query .= "c.coa as coa, ";
 		$query .= "sum(CASE WHEN debit = 1 THEN nilai ELSE 0 END) as debit, ";
@@ -264,7 +265,7 @@ class LaporanNeracasController extends Controller
 		$query .= "where j.created_at < '{$tahun}-01-01 00:00:00' ";
 		$query .= "and j.created_at > '2017-11-30 00:00:00' ";
 		$query .= "and j.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "and ( coa_id like '4%' or coa_id like '5%' or coa_id like '6%' or coa_id like '7%' or coa_id like '8%' ) ";
+		$query .= "and ( c.kelompok_coa_id between 4 and 8 ) ";
 
         $akuns = DB::select($query);
 
@@ -277,19 +278,19 @@ class LaporanNeracasController extends Controller
 		$bebans['total_nilai'] = 0;
 
 		foreach ($akuns as $a) {
-			if (substr($a->coa_id, 0, 1) === '4') {
+			if ($a->kelompok_coa_id == 4) {
 				$pendapatan_usahas['akuns'][] = $a;
 				$pendapatan_usahas['total_nilai'] += $a->kredit - $a->debit;
-			} else if( substr($a->coa_id, 0, 1) === '5' ){
+			} else if($a->kelompok_coa_id == 5){
 				$hpps['akuns'][] = $a;
 				$hpps['total_nilai'] += $a->debit-$a->kredit;
-			} else if( substr($a->coa_id, 0, 1) === '6' ){
+			} else if($a->kelompok_coa_id == 6){
 				$biayas['akuns'][] = $a;
 				$biayas['total_nilai'] += $a->debit-$a->kredit;
-			} else if( substr($a->coa_id, 0, 1) === '7' ){
+			} else if($a->kelompok_coa_id == 7){
 				$pendapatan_lains['akuns'][] = $a;
 				$pendapatan_lains['total_nilai'] += $a->kredit - $a->debit;
-			} else if( substr($a->coa_id, 0, 1) === '8' ){
+			} else if($a->kelompok_coa_id == 8){
 				$bebans['akuns'][] = $a;
 				$bebans['total_nilai'] += $a->debit - $a->kredit;
 			}

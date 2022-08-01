@@ -522,7 +522,7 @@ class FacebookController extends Controller
 			if ($pilihan_pembayaran == 1) {
 				$asuransi_id = $pasien->asuransi_id;
 			} else {
-				 $asuransi_id = 0;
+				 $asuransi_id = Asuransi::BiayaPribadi()->id;
 			}
 			$ap->asuransi_id = $asuransi_id;
 			$ap->pasien_id   = $pasien->id;
@@ -608,7 +608,7 @@ class FacebookController extends Controller
 			
 
 			if (empty(trim(Input::get('asuransi_id')))) {
-				$asuransi_id = 0;
+				$asuransi_id = Asuransi::BiayaPribadi()->id;
 			} else {
 				$asuransi_id = Input::get('asuransi_id');
 			}

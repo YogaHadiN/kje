@@ -7,6 +7,8 @@ use Log;
 use Carbon\Carbon;
 use DB;
 use App\Models\Rekening;
+use App\Models\Coa;
+use App\Models\Staf;
 use App\Models\Invoice;
 use App\Http\Controllers\PendapatansController;
 use App\Models\AkunBank;
@@ -165,7 +167,7 @@ class cekMutasi19Terakhir extends Command
 					) {
 						if ( $mutasi->amount > 100000000) {
 							$pendapatan                                = new PendapatansController;
-							$pendapatan->input_staf_id                 = '16';
+							$pendapatan->input_staf_id                 = Staf::where('owner', 1)->first()->id;
 							$pendapatan->input_nilai_clean             = $mutasi->amount;
 							$pendapatan->input_periode_bulan_bpjs      = Carbon::parse($mutasi->date)->subMonth()->format('Y-m');
 							$pendapatan->input_tanggal_pembayaran_bpjs = $mutasi->date;
@@ -223,12 +225,12 @@ class cekMutasi19Terakhir extends Command
 		$pend = new PendapatansController;
 		$pend->input_dibayar           = $this->amount;
 		$pend->input_mulai             = $periksas->first()->tanggal;
-		$pend->input_staf_id           = 16;
+		$pend->input_staf_id           = Staf::where('owner', 1)->first()->id;
 		$pend->input_akhir             = $periksas->last()->tanggal;
 		$pend->input_tanggal_dibayar   = Carbon::parse($this->created_at)->format('d-m-Y');
 		$pend->input_asuransi_id       = $periksas->first()->asuransi_id;
 		$pend->input_coa_id_asuransi   = $periksas->first()->asuransi->coa_id;
-		$pend->input_coa_id            = '110001';
+		$pend->input_coa_id            = Coa::where('kode_coa',  110001)->first()->id;
 		$pend->input_catatan_container = 'Done by system';
 		$pend->input_rekening_id       = $this->mutation_id;
 		$pend->input_invoice_id        = [$invoice_id];

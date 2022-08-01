@@ -7,7 +7,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Models\JurnalUmum;
+use App\Models\Classes\Yoga;
 use App\Models\Pembelian;
+use App\Models\Dispensing;
+use App\Models\Rak;
+use App\Models\FakturBelanja;
+use Carbon\Carbon;
 use Illuminate\Http\Testing\File;
 use Storage;
 
@@ -48,10 +54,6 @@ class PembeliansControllerTest extends TestCase
         $response = $this->get('pembelians/'. $fakturBelanja->id);
         $response->assertStatus(200);
     }
-    /**
-     * @group failing
-     */
-/* Route::get('pembelians/{faktur_beli_id}/edit', [\App\Http\Controllers\PembeliansController::class, 'edit']); */
     public function test_edit(){
         $user     = User::factory()->create([
                 'role_id' => 6
@@ -63,9 +65,21 @@ class PembeliansControllerTest extends TestCase
             'faktur_belanja_id' => $fakturBelanja->id
         ]);
 
+
+        \App\Models\Coa::factory()->create([
+            'kode_coa' =>110000 
+        ]);
+        \App\Models\Coa::factory()->create([
+            'kode_coa' =>110004
+        ]);
+
         $response = $this->get('pembelians/' . $fakturBelanja->id. '/edit');
         $response->assertStatus(200);
     }
+
+    /**
+     * 
+     */
     public function test_store(){
         Storage::fake('s3');
         // make a request with file
@@ -82,15 +96,33 @@ class PembeliansControllerTest extends TestCase
         /* KE BENTUK */	
         /* $nama = $this->faker->text */
 
-          $nama                        = $this->faker->name;
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 110000
+        ]);
+       $coa_112000 = \App\Models\Coa::factory()->create([
+            'kode_coa' => 112000
+        ]);
+        \App\Models\Coa::factory()->create([
+            'kode_coa' => 50204
+        ]);
 
+        $nama         = $this->faker->name;
+        $belanja_id   = 1;
+        $supplier_id  = \App\Models\Supplier::factory()->create()->id;
+        $sumber_uang = \App\Models\Coa::factory()->create([
+                            'kode_coa' => 110004
+                        ])->id;
+        $nomor_faktur = $this->faker->numerify('#########');
+        $tanggal      = $this->faker->date('d-m-Y');
+        $staf_id      = \App\Models\Staf::factory()->create()->id;
+        $diskon       = $this->faker->numerify('Rp. 0');
+        $class_rak    = 2;
+        $faktur_image = File::create('image.png', 100);
         /* sebelum kesini ke acting as dulu */
         /* key mapping l */
         /* dari bentuk '"nama"  => $nama,' */	
         /* KE BENTUK */	
         /* $nama = File::create('nama.png', 100) */
-
-        $image                      = File::create('image.png', 100);
 
         $this->withoutExceptionHandling();
 
@@ -99,60 +131,243 @@ class PembeliansControllerTest extends TestCase
         /* KE BENTUK */	
         /* "nama" => $nama, */
 
-        $inputAll = [
-                "nama"                        => $nama,
-        ];
+        /* "tempBeli" => "[{"merek":"Lanamol tablet 500 mg","merek_id":32,"harga_beli":"242","harga_jual":"800","harga_berubah":0,"exp_date":"26-08-2027","jumlah":"100"} */
 
-        $response = $this->post('model_singulars', $inputAll);
+        $merek = \App\Models\Merek::factory()->create();
+
+
+        $tempBeli = [];
+
+        $mereks = \App\Models\Merek::factory(20)->create();
+        foreach ($mereks as $merek) {
+            $tempBeli[] = [
+                'merek'         => $merek->merek,
+                'rak_id'      => $merek->rak_id,
+                'merek_id'      => $merek->id,
+                'harga_beli'    => $merek->rak->harga_beli,
+                'harga_jual'    => $merek->rak->harga_beli,
+                'harga_berubah' => 0,
+                'exp_date'      => $this->faker->date('d-m-Y'),
+                'jumlah'        => $this->faker->numerify('###')
+            ];
+        }
+
+        $inputAll = [
+            "belanja_id"   => $belanja_id,
+            "supplier_id"  => $supplier_id,
+            "sumber_uang"  => $sumber_uang,
+            "nomor_faktur" => $nomor_faktur,
+            "tanggal"      => $tanggal,
+            "staf_id"      => $staf_id,
+            "diskon"       => $diskon,
+            "class_rak"    => $class_rak,
+            "tempBeli"     => json_encode($tempBeli),
+            "faktur_image" => $faktur_image,
+        ];
+        $response = $this->post('pembelians', $inputAll);
 
         /* key mapping h */
         /* dari bentuk '"nama"  => $nama,' */	
         /* KE BENTUK */	
         /* ->where("nama", $nama) */
 
-        $model_singulars = Pembelian::query()
-                ->where("nama", $nama)
+        $faktur_belanjas = FakturBelanja::query()
+                ->where("nomor_faktur", $nomor_faktur)
+                ->where("belanja_id", $belanja_id)
+                ->where("supplier_id", $supplier_id)
+                ->where("sumber_uang_id", $sumber_uang)
+                ->where("petugas_id", $staf_id)
+                ->where("diskon", Yoga::clean($diskon))
         ->get();
 
-            /* if ( !$asuransis->count() ) { */
-            /*     $model_singulars = Pembelian::all(); */
-            /*     $model_singular_array = []; */
-            /*     foreach ($model_singulars as $a) { */
-            /*         $model_singular_array[] = [ */
-            /*             "nama"             => $a->nama, */
-            /*         ]; */
-            /*     } */
-            /*     dd(  [ */
-            /*             "nama"             => $nama, */
-            /*         ], */
-            /*         $asu_array */
-            /*     ); */
-            /* } */
+        if ( !$faktur_belanjas->count() ) {
+            $faktur_belanjas = FakturBelanja::all();
+            $faktur_belanja_array = [];
+            foreach ($faktur_belanjas as $a) {
+                $faktur_belanja_array[] = [
+                    "nomor_faktur"   => $a->nomor_faktur,
+                    "belanja_id"     => $a->belanja_id,
+                    "supplier_id"    => $a->supplier_id,
+                    "sumber_uang_id" => $a->sumber_uang_id,
+                    "staf_id"        => $a->petugas_id,
+                    "diskon"         => $a->diskon,
+                ];
+            }
+            dd(  [
+                    "nomor_faktur" => $nomor_faktur,
+                    "belanja_id"   => $belanja_id,
+                    "supplier_id"  => $supplier_id,
+                    "sumber_uang"  => $sumber_uang,
+                    "staf_id"      => $staf_id,
+                    "diskon"       => Yoga::clean($diskon),
+                ],
+                $faktur_belanja_array, 'ok'
+            );
+        }
+        $this->assertCount(1, $faktur_belanjas);
 
-        $this->assertCount(1, $model_singulars);
+        $total_pembelian    = 0;
+        foreach ($tempBeli as $tB) {
 
-        $model_singular = $model_singulars->first();
+            $total_pembelian += $tB['harga_beli']* $tB['jumlah'];
 
-        // report was created and file was stored
+            $raks = Rak::query()
+                ->where("id", $tB["rak_id"])
+                ->where("harga_beli", $tB["harga_beli"])
+                ->where("harga_jual", $tB["harga_jual"])
+                /* ->where("jumlah", $tB["jumlah"]) */
+            ->get();
 
-        /* key mapping g */
-        /* dari bentuk '"nama"  => $nama,' */	
-        /* KE BENTUK */	
-        /* $this->checkForUploadedFile($nama, $model->nama); */
+            if ( !$raks->count() ) {
+                $raks = Rak::all();
+                $rak_array = [];
+                foreach ($raks as $a) {
+                    $rak_array[] = [
+                        "rak_id"   => $a->id,
+                        "harga_beli" => $a->harga_beli,
+                        "harga_jual" => $a->harga_jual,
+                    ];
+                }
+                dd(  [
+                        "rak_id"   => $tB['rak_id'],
+                        "harga_beli" => $tB["harga_beli"],
+                        "harga_jual" => $tB["harga_jual"],
+                    ],
+                    $rak_array, 'Gak Oke nih'
+                );
+            }
+            $this->assertCount(1, $raks);
 
-        checkForUploadedFile($image, $model_singular->image);
 
-        $response->assertRedirect('model_singulars');
-    }
-    public function test_destroy(){
-        $user     = User::factory()->create([
-                'role_id' => 6
-            ]);
-        auth()->login($user);
-        $model_singular = Pembelian::factory()->create();
-        $response = $this->delete('model_singulars/' . $model_singular->id);
-        $response->assertRedirect('model_singulars');
-        $this->assertDeleted($model_singular);
+            $pembelians = Pembelian::query()
+                    ->where('harga_beli',$tB['harga_beli'])
+                    ->where('harga_jual',$tB['harga_jual'])
+                    ->where('merek_id',$tB['merek_id'])
+                    ->where('harga_naik',$tB['harga_berubah'])
+                    ->where('jumlah',$tB['jumlah'])
+            ->get();
+
+            if ( !$pembelians->count() ) {
+                $pembelians = Pembelian::all();
+                $pembelian_array = [];
+                foreach ($pembelians as $a) {
+                    $pembelian_array[] = [
+                        "harga_beli" => $a->harga_beli,
+                        "harga_jual" => $a->harga_jual,
+                        "merek_id"   => $a->merek_id,
+                        "harga_naik" => $a->harga_naik,
+                        "jumlah"     => $a->jumlah,
+                    ];
+                }
+                dd(  [
+                        "harga_beli" => $tB["harga_beli"],
+                        "harga_jual" => $tB["harga_jual"],
+                        "merek_id"   => $tB["merek_id"],
+                        "harga_naik" => $tB["harga_naik"],
+                        "jumlah"     => $tB["jumlah"],
+                    ],
+                    $pembelian_array, 'Gak Oke nih'
+                );
+            }
+            $this->assertCount(1, $pembelians);
+
+            $pembelian = $pembelians->first();
+
+                    /* 'tanggal'  => Yoga::datePrep( Input::get('tanggal') ), */
+                    /* 'merek_id' => $dt['merek_id'], */
+                    /* 'masuk'    => $dt['jumlah'], */
+            $dispensings = Dispensing::query()
+                    ->where('merek_id',$tB['merek_id'])
+                    ->where('masuk',$tB['jumlah'])
+            ->get();
+
+            if ( !$dispensings->count() ) {
+                $dispensings = Dispensing::all();
+                $dispensing_array = [];
+                foreach ($dispensings as $a) {
+                    $dispensing_array[] = [
+                        'merek_id' => $a->merek_id,
+                        'masuk'    => $a->masuk,
+                    ];
+                }
+                dd(  [
+                        'merek_id' => $tB['merek_id'],
+                        'masuk'    => $tB['jumlah'],
+                    ],
+                    $dispensing_array, 'Gak Oke nih'
+                );
+            }
+            $this->assertCount(1, $dispensings);
+        }
+
+        $jurnal_umums = JurnalUmum::query()
+            ->where("jurnalable_id", $faktur_belanjas->first()->id)
+            ->where("debit", 1)
+            ->where("nilai", $total_pembelian)
+            ->where("coa_id", $coa_112000->id)
+            ->where("jurnalable_type", 'App\Models\FakturBelanja')
+        ->get();
+
+        if ( !$jurnal_umums->count() ) {
+            $jurnal_umums = JurnalUmum::all();
+            $jurnal_umum_array = [];
+            foreach ($jurnal_umums as $a) {
+                $jurnal_umum_array[] = [
+                    "jurnalable_id"   => $a->jurnalable_id,
+                    "debit"           => $a->debit,
+                    "nilai"           => $a->nilai,
+                    "coa_id"          => $a->coa_id,
+                    "jurnalable_type" => $a->jurnalable_type,
+                ];
+            }
+            dd(  [
+                    "jurnalable_id"   => $faktur_belanjas->first()->id,
+                    "debit"           => 1,
+                    "nilai"           => $total_pembelian,
+                    "coa_id"          => $coa_112000->id,
+                    "jurnalable_type" => 'App\Models\FakturBelanja',
+                ],
+                $jurnal_umum_array, 'Gak Oke nih'
+            );
+        }
+
+        $this->assertCount(1, $jurnal_umums);
+
+        $jurnal_umums = JurnalUmum::query()
+            ->where("jurnalable_id", $faktur_belanjas->first()->id)
+            ->where("debit", 0)
+            ->where("nilai", $total_pembelian)
+            ->where("coa_id", $sumber_uang)
+            ->where("jurnalable_type", 'App\\Models\\FakturBelanja')
+        ->get();
+
+        if ( !$jurnal_umums->count() ) {
+            $jurnal_umums = JurnalUmum::all();
+            $jurnal_umum_array = [];
+            foreach ($jurnal_umums as $a) {
+                $jurnal_umum_array[] = [
+                    "jurnalable_id"   => $a->jurnalable_id,
+                    "debit"           => $a->debit,
+                    "nilai"           => $a->nilai,
+                    "coa_id"          => $a->coa_id,
+                    "jurnalable_type" => $a->jurnalable_type,
+                ];
+            }
+            dd(  [
+                    "jurnalable_id"   => $faktur_belanjas->first()->id,
+                    "debit"           => 0,
+                    "nilai"           => $total_pembelian,
+                    "coa_id"          => $sumber_uang,
+                    "jurnalable_type" => 'App\\Models\\FakturBelanja',
+                ],
+                $jurnal_umum_array, 'Gak Oke nih'
+            );
+        }
+
+        $this->assertCount(1, $jurnal_umums);
+
+
+        $response->assertRedirect('fakturbelanjas/obat');
     }
 
     public function test_a_user_can_only_see_model_singular_in_the_same_tenant()
@@ -201,6 +416,5 @@ class PembeliansControllerTest extends TestCase
     }
 }
 /* Route::post('pembelians/ajax', [\App\Http\Controllers\PembeliansController::class, 'ajax']); */
-/* Route::post('pembelians', [\App\Http\Controllers\PembeliansController::class, 'store']); */
 /* Route::post('pembelians/{id}', [\App\Http\Controllers\PembeliansController::class, 'update']); */
 /* Route::post('pembelians/cari/ajax', [\App\Http\Controllers\PembeliansController::class, 'cariObat']); */
