@@ -635,4 +635,11 @@ class PoliAjaxController extends Controller
 		$formula_id   = Merek::find($merek_id)->rak->formula_id;
 		return Komposisi::where('formula_id', $formula_id)->whereIn('generik_id', $generik_ids)->count() ;
 	}
+    public function getTipeAsuransiId(){
+        $asuransi_id = Input::get('asuransi_id');
+
+        return Asuransi::find($asuransi_id)->tipe_asuransi_id;
+        
+    }
+    
 }

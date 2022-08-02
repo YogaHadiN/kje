@@ -617,6 +617,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('poli/{id}/alergies', [\App\Http\Controllers\PoliAjaxController::class, 'alergiPost']);
 	Route::post('poli/ajax/alergies/delete', [\App\Http\Controllers\PoliAjaxController::class, 'alergiDelete']);
 	Route::get('poli/ajax/alergi/prevent', [\App\Http\Controllers\PoliAjaxController::class, 'alergiPrevent']);
+	Route::get( "get/tipe_asuransi_id/from/asuransi_id", [\App\Http\Controllers\PoliAjaxController::class, 'getTipeAsuransiId']);
+
 
 	Route::get('DdlMerek/alloption', [\App\Http\Controllers\DdlMerekController::class, 'alloption']);
 	Route::get('DdlMerek/alloption2', [\App\Http\Controllers\DdlMerekController::class, 'alloption2']);

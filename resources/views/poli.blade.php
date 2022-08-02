@@ -104,8 +104,6 @@
 @endif
 <script>
 var base  = '{!! url('/') !!}';
-var sound = $('#sound').val();
-sound     = JSON.parse(sound);
 {{-- pglPasien(sound); --}}
 </script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
