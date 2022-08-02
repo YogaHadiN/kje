@@ -198,7 +198,6 @@ alter table tipe_laporan_kasirs add tenant_id bigint not null, add index( tenant
 alter table tipe_pakets add tenant_id bigint not null, add index( tenant_id );
 alter table tipe_tindakans add tenant_id bigint not null, add index( tenant_id );
 alter table transaksi_periksas add tenant_id bigint not null, add index( tenant_id );
-alter table tujuan_rujuks add tenant_id bigint not null, add index( tenant_id );
 alter table update_rppt_pesertas add tenant_id bigint not null, add index( tenant_id );
 alter table users add tenant_id bigint not null, add index( tenant_id );
 alter table usgs add tenant_id bigint not null, add index( tenant_id );
@@ -370,7 +369,6 @@ update tipe_laporan_kasirs set tenant_id = 1;
 update tipe_pakets set tenant_id = 1;
 update tipe_tindakans set tenant_id = 1;
 update transaksi_periksas set tenant_id = 1;
-update tujuan_rujuks set tenant_id = 1;
 update update_rppt_pesertas set tenant_id = 1;
 update users set tenant_id = 1;
 update usgs set tenant_id = 1;
@@ -629,10 +627,10 @@ update poli_antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.pol
 alter table poli_antrians modify column poli_id bigint, add index(poli_id);
 alter table periksas modify column poli_id bigint, add index(poli_id);
 
-
-
-
 drop table facebook_daftars;
+
+delete from antrian_periksas;
+delete from antrian_polis;
 ALTER TABLE antrian_periksas CHANGE poli poli_id bigint, add index( poli_id );
 alter table antrian_periksas modify column poli_id bigint, add index(poli_id);
 update antrians as t1 join polis as st on t1.poli_id = st.old_id set t1.poli_id = st.id;
@@ -1216,6 +1214,6 @@ update rujukans set tujuan_rujuk_id = 187 where tujuan_rujuk_id in (193);
 delete from tujuan_rujuks where id in (193);
 
 
-update tujuan_rujuks set tujuan_rujuk = 'spesialis periodonti (Sp.Perio)' where id = 201;
+update tujuan_rujuks set tujuan_rujuk = 'Sp.Perio - Spesialis Periodonti' where id = 201;
 
 ALTER TABLE faktur_belanjas MODIFY faktur_image varchar(255) NULL;

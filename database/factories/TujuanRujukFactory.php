@@ -23,7 +23,6 @@ class TujuanRujukFactory extends Factory
     {
         return [
             'tujuan_rujuk' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }
