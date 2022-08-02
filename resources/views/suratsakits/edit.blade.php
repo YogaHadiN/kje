@@ -11,7 +11,7 @@
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li>
-          <a href="{{ url('ruangperiksas/' . $suratsakit->periksa->poli)}}">Antrian Periksa</a>
+          <a href="{{ url('ruangperiksas/' . $suratsakit->periksa->poli_id)}}">Antrian Periksa</a>
       </li>
       <li class="active">
           <strong>Edit Surat Sakit</strong>

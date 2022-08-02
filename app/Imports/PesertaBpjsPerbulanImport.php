@@ -77,6 +77,7 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
                         "prolanis"      => $c['prolanis'],
                         /* "club_prolanis" => $c['club_prolanis'], */
                         "periode"       => $firstdayofmonth,
+							'tenant_id'  => session()->get('tenant_id'),
                         'created_at'    => $timestamp,
                         'updated_at'    => $timestamp
                     ];
@@ -203,20 +204,21 @@ class PesertaBpjsPerbulanImport implements ToCollection, WithHeadingRow, WithVal
         $nama             = str_replace('.', '', $nama   );
         $nama             = str_replace('*', '%', $nama   );
 
-        $query            = "SELECT ";
-        $query           .= "id, ";
-        $query           .= "nama, ";
-        $query           .= "alamat, ";
-        $query           .= "nomor_asuransi_bpjs, ";
-        $query           .= "TIMESTAMPDIFF(YEAR, tanggal_lahir, '{$firstdayofmonth}') ";
-        $query           .= "FROM pasiens as psn ";
-        $query           .= "WHERE ";
-        $query           .= 'REPLACE(REPLACE(REPLACE(nama, "\'\'", ""), ".", ""), " ", "") like "' .$nama. '" ';
-        $query           .= "AND TIMESTAMPDIFF(YEAR, tanggal_lahir, '{$firstdayofmonth}') = {$usia} ";
-        $query           .= "AND nomor_asuransi_bpjs not like '' ";
-        $query           .= "AND nomor_asuransi_bpjs is not null ";
-        $query           .= "AND meninggal = 0 ";
-        $query           .= "ORDER BY prolanis_dm, prolanis_ht desc ";
+        $query  = "SELECT ";
+        $query .= "id, ";
+        $query .= "nama, ";
+        $query .= "alamat, ";
+        $query .= "nomor_asuransi_bpjs, ";
+        $query .= "TIMESTAMPDIFF(YEAR, tanggal_lahir, '{$firstdayofmonth}') ";
+        $query .= "FROM pasiens as psn ";
+        $query .= "WHERE ";
+        $query .= 'REPLACE(REPLACE(REPLACE(nama, "\'\'", ""), ".", ""), " ", "") like "' .$nama. '" ';
+        $query .= "AND TIMESTAMPDIFF(YEAR, tanggal_lahir, '{$firstdayofmonth}') = {$usia} ";
+        $query .= "AND nomor_asuransi_bpjs not like '' ";
+        $query .= "AND nomor_asuransi_bpjs is not null ";
+		$query .= "AND psn.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "AND meninggal = 0 ";
+        $query .= "ORDER BY prolanis_dm, prolanis_ht desc ";
 
         $this->nama[] = $nama;
 

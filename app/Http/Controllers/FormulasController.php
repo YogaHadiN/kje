@@ -11,6 +11,8 @@ use App\Http\Requests;
 use DB;
 use Response;
 use App\Models\Formula;
+use App\Http\Controllers\RaksController;
+use App\Models\KelasObat;
 use App\Models\Merek;
 use App\Models\Generik;
 use App\Models\Classes\Yoga;
@@ -42,7 +44,6 @@ class FormulasController extends Controller
 	 */
 	public function create()
 	{
-
 		if(Input::ajax()){
 			$json = Input::get('json');
 		//validasi merek jika ada merek yang sama gagalkan
@@ -86,127 +87,115 @@ class FormulasController extends Controller
 
 		} else {
 
-		$sediaan = [null=> '- pilih -'] + Sediaan::pluck('sediaan', 'id')->all();
+            $sediaan =  Sediaan::pluck('sediaan', 'id')->all();
 
-		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
+            $alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
-		$dijual_bebas = array(
-	                    null        => '- Pilih -',
-	                    '0'         => 'Tidak Dijual Bebas',
-	                    '1'         => 'Dijual Bebas'
-	                );
+            $dijual_bebas = array(
+                            null        => '- Pilih -',
+                            '0'         => 'Tidak Dijual Bebas',
+                            '1'         => 'Dijual Bebas'
+                        );
 
-		$generik = array(null => '- Pilih Generik -') + Generik::pluck('generik', 'id')->all();
+            $generik = array(null => '- Pilih Generik -') + Generik::pluck('generik', 'id')->all();
 
-		$signas = Yoga::signa_list();
-		$aturan_minums = Yoga::aturan_minum_list();
+            $signas        = Yoga::signa_list();
+            $aturan_minums = Yoga::aturan_minum_list();
 
-		$template = [];
+            $template = [];
 
-		$template['signa_kg6_7'] = null;
-		$template['jumlah_kg6_7'] =  null;
-		$template['jumlah_puyer_kg6_7'] = '3'; 
-		$template['jumlah_kg6_7_bpjs'] = null;
-
-
-		$template['signa_kg7_9'] = null;
-		$template['jumlah_kg7_9'] =  null;
-		$template['jumlah_puyer_kg7_9'] = '3'; 
-		$template['jumlah_kg7_9_bpjs'] = null;
-
-		$template['signa_kg9_13'] = null;
-		$template['jumlah_kg9_13'] =  null;
-		$template['jumlah_puyer_kg9_13'] = '4'; 
-		$template['jumlah_kg9_13_bpjs'] = null;
+            $template['signa_kg6_7'] = null;
+            $template['jumlah_kg6_7'] =  null;
+            $template['jumlah_puyer_kg6_7'] = '3'; 
+            $template['jumlah_kg6_7_bpjs'] = null;
 
 
-		$template['signa_kg13_15'] = null;
-		$template['jumlah_kg13_15'] =  null;
-		$template['jumlah_puyer_kg13_15'] = '5'; 
-		$template['jumlah_kg13_15_bpjs'] = null;
+            $template['signa_kg7_9'] = null;
+            $template['jumlah_kg7_9'] =  null;
+            $template['jumlah_puyer_kg7_9'] = '3'; 
+            $template['jumlah_kg7_9_bpjs'] = null;
+
+            $template['signa_kg9_13'] = null;
+            $template['jumlah_kg9_13'] =  null;
+            $template['jumlah_puyer_kg9_13'] = '4'; 
+            $template['jumlah_kg9_13_bpjs'] = null;
 
 
-		$template['signa_kg15_19'] ='4';
-		$template['jumlah_kg15_19'] = '6';
-		$template['jumlah_puyer_kg15_19'] = '6';
-		$template['jumlah_kg15_19_bpjs'] = '4';
+            $template['signa_kg13_15'] = null;
+            $template['jumlah_kg13_15'] =  null;
+            $template['jumlah_puyer_kg13_15'] = '5'; 
+            $template['jumlah_kg13_15_bpjs'] = null;
 
 
-		$template['signa_kg19_23'] ='4';
-		$template['jumlah_kg19_23'] = '6';
-		$template['jumlah_puyer_kg19_23'] = '7';
-		$template['jumlah_kg19_23_bpjs'] = '4';
+            $template['signa_kg15_19'] ='4';
+            $template['jumlah_kg15_19'] = '6';
+            $template['jumlah_puyer_kg15_19'] = '6';
+            $template['jumlah_kg15_19_bpjs'] = '4';
 
 
-		$template['signa_kg23_26'] ='4';
-		$template['jumlah_kg23_26'] = '6';
-		$template['jumlah_puyer_kg23_26'] = '8';
-		$template['jumlah_kg23_26_bpjs'] = '4';
+            $template['signa_kg19_23'] ='4';
+            $template['jumlah_kg19_23'] = '6';
+            $template['jumlah_puyer_kg19_23'] = '7';
+            $template['jumlah_kg19_23_bpjs'] = '4';
 
 
-		$template['signa_kg26_30'] ='12413';
-		$template['jumlah_kg26_30'] = '6';
-		$template['jumlah_puyer_kg26_30'] = '9';
-		$template['jumlah_kg26_30_bpjs'] = '4';
+            $template['signa_kg23_26'] ='4';
+            $template['jumlah_kg23_26'] = '6';
+            $template['jumlah_puyer_kg23_26'] = '8';
+            $template['jumlah_kg23_26_bpjs'] = '4';
 
 
-		$template['signa_kg30_37'] ='12413';
-		$template['jumlah_kg30_37'] = '6';
-		$template['jumlah_puyer_kg30_37'] = '10';
-		$template['jumlah_kg30_37_bpjs'] = '4';
+            $template['signa_kg26_30'] ='12413';
+            $template['jumlah_kg26_30'] = '6';
+            $template['jumlah_puyer_kg26_30'] = '9';
+            $template['jumlah_kg26_30_bpjs'] = '4';
 
 
-		$template['signa_kg37_45'] ='1';
-		$template['jumlah_kg37_45'] = '10';
-		$template['jumlah_puyer_kg37_45'] = '11';
-		$template['jumlah_kg37_45_bpjs'] = '6';
+            $template['signa_kg30_37'] ='12413';
+            $template['jumlah_kg30_37'] = '6';
+            $template['jumlah_puyer_kg30_37'] = '10';
+            $template['jumlah_kg30_37_bpjs'] = '4';
 
 
-		$template['signa_kg45_50'] = '1';
-		$template['jumlah_kg45_50'] = '10';
-		$template['jumlah_puyer_kg45_50'] = '12';
-		$template['jumlah_kg45_50_bpjs'] = '6';
+            $template['signa_kg37_45'] ='1';
+            $template['jumlah_kg37_45'] = '10';
+            $template['jumlah_puyer_kg37_45'] = '11';
+            $template['jumlah_kg37_45_bpjs'] = '6';
 
 
-		$template['signa_kg50'] = '1';
-		$template['jumlah_kg50'] = '10';
-		$template['jumlah_puyer_kg50'] = '12';
-		$template['jumlah_kg50_bpjs'] = '6';
+            $template['signa_kg45_50'] = '1';
+            $template['jumlah_kg45_50'] = '10';
+            $template['jumlah_puyer_kg45_50'] = '12';
+            $template['jumlah_kg45_50_bpjs'] = '6';
 
-		return view('formulas.create')
-				->withSediaan($sediaan)
-				->withGenerik($generik)
-				->with('dijual_bebas', $dijual_bebas)
-				->withSignas($signas)
-				->with('aturan_minums', $aturan_minums)
-				->withTemplate($template)
-				->with('alternatif_fornas', $alternatif_fornas);
-			}
+
+            $template['signa_kg50'] = '1';
+            $template['jumlah_kg50'] = '10';
+            $template['jumlah_puyer_kg50'] = '12';
+            $template['jumlah_kg50_bpjs'] = '6';
+            $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id')->all();
+
+            return view('formulas.create', compact( 'sediaan', 'generik', 'kelas_obat_list', 'dijual_bebas', 'signas', 'aturan_minums', 'template', 'alternatif_fornas'));
+        }
 	}
 
-	/**
-	 * Store a newly created formula in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
+        public function store() 
+        {
 		DB::beginTransaction();
 		try {
-			$formula_id = Yoga::customId('App\Models\Formula');
 			if(!Input::ajax()){
 				$rules = [
 					'merek'          => 'required',
 					'dijual_bebas'   => 'required',
 					'exp_date'       => 'date_format:d-m-Y',
-					'rak_id'         => 'required',
+					'kode_rak'         => 'required',
 					'indikasi'       => 'required',
 					'kontraindikasi' => 'required',
 					'efek_samping'   => 'required',
 					'harga_beli'     => 'numeric',
 					'harga_jual'     => 'required|numeric',
 					'fornas'         => 'required|numeric',
-					'sediaan'        => 'required'
+					'sediaan_id'        => 'required'
 				];
 
 				$validator = \Validator::make($data = Input::all(), $rules);
@@ -220,25 +209,28 @@ class FormulasController extends Controller
 
 				//isian formula
 				$formula                  = new Formula;
-				$formula->id              = $formula_id;
-				$formula->dijual_bebas    = Input::get('dijual_bebas'); 
-				$formula->efek_samping    = Input::get('efek_samping'); 
-				$formula->aturan_minum_id = Input::get('aturan_minum_id'); 
-				$formula->golongan_obat = Input::get('golongan_obat'); 
-				$formula->sediaan         = Input::get('sediaan'); 
-				$formula->indikasi        = Input::get('indikasi'); 
-				$formula->kontraindikasi  = Input::get('kontraindikasi'); 
+				$formula->dijual_bebas    = Input::get('dijual_bebas');
+				$formula->efek_samping    = Input::get('efek_samping');
+				$formula->aturan_minum_id = Input::get('aturan_minum_id');
+				$formula->sediaan_id      = Input::get('sediaan_id');
+				$formula->indikasi        = Input::get('indikasi');
+				$formula->kontraindikasi  = Input::get('kontraindikasi');
+				$formula->peringatan      = Input::get('peringatan');
+				$formula->boleh_dipuyer   = Input::get('boleh_dipuyer');
 				$formula->save();
 
 				//isian rak 
-				$rak = new Rak;
-				$rak->id                = Input::get('rak_id');
+				$rak                    = new Rak;
+				$rak->kode_rak          = Input::get('kode_rak');
 				$rak->alternatif_fornas = Input::get('alternatif_fornas');
+				$rak->kelas_obat_id     = Input::get('kelas_obat_id');
 				$rak->fornas            = Input::get('fornas');
+				$rak->stok              = Input::get('stok');
+				$rak->stok_minimal      = Input::get('stok_minimal');
 				$rak->harga_beli        = Input::get('harga_beli');
 				$rak->harga_jual        = Input::get('harga_jual');
 				$rak->exp_date          = Yoga::datePrep( Input::get('exp_date') );
-				$rak->formula_id        = $formula_id;
+				$rak->formula_id        = $formula->id;
 				$rak->save();
 
 
@@ -250,7 +242,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg6_7')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg6_7')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg6_7_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 				//isian dosis
 				$doses[] = [
@@ -259,7 +250,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg6_7')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg6_7')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg6_7_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -268,7 +258,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg7_9')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg7_9')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg7_9_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -277,7 +266,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg9_13')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg9_13')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg9_13_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -286,7 +274,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg13_15')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg13_15')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg13_15_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -295,7 +282,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg15_19')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg15_19')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg15_19_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -304,7 +290,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg19_23')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg19_23')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg19_23_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -313,7 +298,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg23_26')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg23_26')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg23_26_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -322,7 +306,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg26_30')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg26_30')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg26_30_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -331,7 +314,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg30_37')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg30_37')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg30_37_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -340,7 +322,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg37_45')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg37_45')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg37_45_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -349,7 +330,6 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg45_50')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg45_50')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg45_50_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
 				$doses[] = [
@@ -358,37 +338,33 @@ class FormulasController extends Controller
 					'jumlah'           => Yoga::returnNull(Input::get('jumlah_kg50')),
 					'jumlah_puyer_add' => Yoga::returnNull(Input::get('jumlah_puyer_kg50')),
 					'jumlah_bpjs'      => Yoga::returnNull(Input::get('jumlah_kg50_bpjs')),
-					'formula_id'       => $formula_id,
 				];
 
-				Dose::insert($doses);
-
+				$formula->dose()->createMany($doses);
 
 				$MyArray = json_decode(Input::get('json'), true);
 
 				$komposisis = [];
+                $timestamp = date('Y-m-d H:i:s');
 				if (isset($MyArray)) {
 					for($i = 0; $i < count($MyArray); $i++) {
 						$komposisis[] = [
-							'formula_id' => $formula_id,
-							'bobot' => $MyArray[$i]['bobot'],
+							'formula_id' => $formula->id,
+							'bobot'      => $MyArray[$i]['bobot'],
 							'generik_id' => $MyArray[$i]['generik_id'],
+                            'tenant_id' => session()->get('tenant_id'),
+                            'created_at' => $timestamp,
+                            'updated_at' => $timestamp
 						];
 					}
 				}
 
 				Komposisi::insert($komposisis);
 
-				$merek_id_custom = Yoga::customId('App\Models\Merek');;
 				$merek         = new Merek;
-				$merek->id     = $merek_id_custom;
-				$merek->rak_id = Input::get('rak_id');
-				if(isset($MyArray) && count($MyArray) == 1 ){
-					$merekCustom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('sediaan') . ' ' . $MyArray[0]['bobot'] ;
-				} else {
-					$merekCustom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('sediaan');
-				}
-				$merek->merek = $merekCustom;
+                $rc = new RaksController;
+				$merek->rak_id = $rak->id;
+				$merek->merek = $rc->customMerek($formula, Input::get('merek'));
 				$merek->save();
 				DB::commit();
 			} catch (\Exception $e) {
@@ -403,7 +379,7 @@ class FormulasController extends Controller
 			];
 			return json_encode($returnData);
 		} else {
-			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('Formula obat <strong>' . $formula_id . '</strong> telah <strong>BERHASIL</strong> dibuat'));
+			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('Formula obat <strong>' . $formula->id . '</strong> telah <strong>BERHASIL</strong> dibuat'));
 		}
 	}
 
@@ -439,8 +415,9 @@ class FormulasController extends Controller
 		$query .= "join raks as rk on rk.id = mr.rak_id ";
 		$query .= "join formulas as fr on fr.id = rk.formula_id ";
 		$query .= "where fr.id='{$id}' ";
+		$query .= "AND fr.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by supplier_id ";
-		$query .= "order by harga_beli asc;";
+		$query .= "order by pb.harga_beli asc ";
 		$supplierprices = DB::select($query);
 
 		return view('formulas.show', compact('formula', 'raks', 'supplierprices'));
@@ -581,8 +558,7 @@ class FormulasController extends Controller
 		$formula->dijual_bebas = Input::get('dijual_bebas'); 
 		$formula->efek_samping = Input::get('efek_samping'); 
 		$formula->aturan_minum_id = Input::get('aturan_minum_id'); 
-		$formula->sediaan = Input::get('sediaan'); 
-		$formula->golongan_obat = Input::get('golongan_obat'); 
+		$formula->sediaan_id = Input::get('sediaan_id'); 
 		$formula->indikasi = Input::get('indikasi'); 
 		$formula->kontraindikasi = Input::get('kontraindikasi'); 
 		$formula->save();

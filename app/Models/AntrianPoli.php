@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\AntrianPoli;
 use App\Http\Controllers\AntrianPolisController;
 use DateTime;
 
 class AntrianPoli extends Model{
+    use BelongsToTenant, HasFactory;
 		
-	public $incrementing = true;
-    protected $keyType = 'string';
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'
@@ -28,8 +29,11 @@ class AntrianPoli extends Model{
 	}
 
 	public function pasien(){
-
 		return $this->belongsTo('App\Models\Pasien');
+	}
+
+	public function poli(){
+		return $this->belongsTo('App\Models\Poli');
 	}
 
 	public function asuransi(){

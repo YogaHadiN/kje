@@ -3,18 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\BelongsToTenant; 
 use Session;
 use App\Models\Classes\Yoga;
 
 class Staf extends Model{
+    use BelongsToTenant,HasFactory;
 
 	protected $dates = [
 		'tanggal_lahir',
 		'tanggal_mulai',
 		'tanggal_lulus'
 	];
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	public static function boot(){
 		parent::boot();
@@ -73,4 +74,7 @@ class Staf extends Model{
 	public function isDokter() {
 	   return trim($this->titel) == 'dr';
 	}
+    public static function owner(){
+        return Staf::where('owner', 1)->first();
+    }
 }

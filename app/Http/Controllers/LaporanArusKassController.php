@@ -18,16 +18,63 @@ class LaporanArusKassController extends Controller
     	$bulan = Input::get('bulan');
     	$tahun = Input::get('tahun');
         
-        $pendapatan_usahas = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '4%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-        $pendapatan_usahas = Yoga::getSumCoa($pendapatan_usahas, $tahun, $bulan);
-        $hpps              = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '5%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-        $hpps = Yoga::getSumCoa($hpps, $tahun, $bulan);
-        $biayas            = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '6%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-        $biayas = Yoga::getSumCoa($biayas, $tahun, $bulan);
-        $pendapatan_lains  = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '7%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-        $pendapatan_lains = Yoga::getSumCoa($pendapatan_lains, $tahun, $bulan);
-        $bebans            = DB::select("SELECT coa_id as coa_id, c.coa as coa from jurnal_umums as j join coas as c on c.id = j.coa_id where j.coa_id like '8%' and j.created_at like '{$tahun}-{$bulan}%' group by coa_id");
-        $bebans = Yoga::getSumCoa($bebans, $tahun, $bulan);
+        $query              = "SELECT coa_id as coa_id, ";
+        $query             .= "c.coa as coa ";
+        $query             .= "from jurnal_umums as j ";
+        $query             .= "join coas as c on c.id = j.coa_id ";
+        $query             .= "where c.kelompok_coa_id = 4 ";
+        $query             .= "and j.created_at like '{$tahun}-{$bulan}%' ";
+		$query             .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
+        $query             .= "group by coa_id";
+        $pendapatan_usahas  = DB::select($query);
+        $pendapatan_usahas  = Yoga::getSumCoa($pendapatan_usahas, $tahun, $bulan);
+
+        $query  = "SELECT coa_id as coa_id, ";
+        $query .= "c.coa as coa ";
+        $query .= "from jurnal_umums as j ";
+        $query .= "join coas as c on c.id = j.coa_id ";
+        $query .= "where c.kelompok_coa_id = 5 ";
+		$query .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "and j.created_at like '{$tahun}-{$bulan}%' ";
+        $query .= "group by coa_id";
+        $hpps   = DB::select($query);
+        $hpps   = Yoga::getSumCoa($hpps, $tahun, $bulan);
+
+        $query   = "SELECT ";
+        $query  .= "coa_id as coa_id, ";
+        $query  .= "c.coa as coa ";
+        $query  .= "from jurnal_umums as j ";
+        $query  .= "join coas as c on c.id = j.coa_id ";
+        $query  .= "where c.kelompok_coa_id = 6 ";
+		$query  .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
+        $query  .= "and j.created_at like '{$tahun}-{$bulan}%' ";
+        $query  .= "group by coa_id";
+        $biayas  = DB::select($query);
+        $biayas  = Yoga::getSumCoa($biayas, $tahun, $bulan);
+
+        $query             = "SELECT ";
+        $query            .= "coa_id as coa_id, ";
+        $query            .= "c.coa as coa ";
+        $query            .= "from jurnal_umums as j ";
+        $query            .= "join coas as c on c.id = j.coa_id ";
+        $query            .= "where c.kelompok_coa_id = 7 ";
+		$query            .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
+        $query            .= "and j.created_at like '{$tahun}-{$bulan}%' ";
+        $query            .= "group by coa_id";
+        $pendapatan_lains  = DB::select($query);
+        $pendapatan_lains  = Yoga::getSumCoa($pendapatan_lains, $tahun, $bulan);
+
+
+        $query   = "SELECT coa_id as coa_id, ";
+        $query  .= "c.coa as coa ";
+        $query  .= "from jurnal_umums as j ";
+        $query  .= "join coas as c on c.id = j.coa_id ";
+        $query  .= "where c.kelompok_coa_id = 8 ";
+		$query  .= "AND j.tenant_id = " . session()->get('tenant_id') . " ";
+        $query  .= "and j.created_at like '{$tahun}-{$bulan}%' ";
+        $query  .= "group by coa_id";
+        $bebans  = DB::select($query);
+        $bebans  = Yoga::getSumCoa($bebans, $tahun, $bulan);
 
         // return $pendapatan_usahas;
 

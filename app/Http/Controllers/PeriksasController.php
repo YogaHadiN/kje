@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use DB;
 
 use App\Models\Promo;
+use App\Models\JenisTarif;
 use App\Models\DenominatorBpjs;
 use App\Models\Antrian;
 use App\Models\AntrianKasir;
@@ -49,6 +50,7 @@ p */
 	public $input_diastolik;
 	public $input_asuransi_id;
 	public $input_pasien_id;
+	public $input_kecelakaan_kerja;
 	public $input_prolanis_ht;
 	public $persenRpptTerkendali;
 	public $belum_ada_tekanan_darah_terkontrol;
@@ -57,13 +59,14 @@ p */
   public function __construct()
     {
         $this->middleware('selesaiPeriksa', ['only' => ['update']]);
-		$this->input_sistolik                     = Input::get('sistolik');
-		$this->input_diastolik                    = Input::get('diastolik');
-		$this->input_asuransi_id                  = Input::get('asuransi_id');
-		$this->input_tanggal                      = Input::get('tanggal');
-		$this->input_prolanis_ht                  = Input::get('prolanis_ht');
-		$this->input_pasien_id                    = Input::get('pasien_id');
-		$this->belum_ada_tekanan_darah_terkontrol = false;
+		$this->input_sistolik                        = Input::get('sistolik');
+		$this->input_diastolik                       = Input::get('diastolik');
+		$this->input_asuransi_id                     = Input::get('asuransi_id');
+		$this->input_tanggal                         = Input::get('tanggal');
+		$this->input_kecelakaan_kerja                = Input::get('kecelakaan_kerja');
+		$this->input_prolanis_ht                     = Input::get('prolanis_ht');
+		$this->input_pasien_id                       = Input::get('pasien_id');
+		$this->belum_ada_tekanan_darah_terkontrol    = false;
    }
 	public function index()
 	{
@@ -99,7 +102,7 @@ p */
 		  "jam"                => "required",
 		  "jam_periksa"        => "required",
 		  "tanggal"            => "required",
-		  "poli"               => "required",
+		  "poli_id"               => "required",
 		  "adatindakan"        => "required",
 		  "asisten_id"         => "required",
 		  "antrian_periksa_id" => "required",
@@ -108,7 +111,6 @@ p */
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);
-		
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
@@ -127,7 +129,6 @@ p */
 		//Jasa dokter ditambahkan ke transaksis
 		//Resep disesuaikan menurut formula dengan harga obat sesuai dengan jenis asuransi nya.
 		//
-		$periksa_id = Yoga::customId('App\Models\Periksa');
 		$periksa = new Periksa;
 
 
@@ -151,7 +152,9 @@ p */
 		//Bila asuransi adalah BPJS dan staf belum notified, maka buat notified = 1, supaya tidak muncul peringatan berulang2
 		//
 
-		if ( Input::get('asuransi_id') == '32' && Input::get('notified') == '0' ) {
+		$asuransi = Asuransi::find(Input::get('asuransi_id'));
+
+		if ( $asuransi->tipe_asuransi_id == 5 && Input::get('notified') == '0' ) {
 			$st       = Staf::find( Input::get('staf_id') );
 			$staf_updates[] = [
 				'collection' => $st,
@@ -161,9 +164,8 @@ p */
 			];
 		}
 
-		//Buat collection tabel asuransi
-		$asuransi = Asuransi::find(Input::get('asuransi_id'));
 
+		//Buat collection tabel asuransi
 		//UBAH RESEP MENURUT JENIS ASURANSI
 		//sebelum terapi dimasukkan ke dalam periksa, obat harus disesuaikan dahulu, menurut asuransi nya.
 		// untuk asuransi BPJS, obat akan dikonversi ke dalam merek yang paling murah yang memiliki formula yang sama
@@ -177,10 +179,10 @@ p */
 
 		//INPUT TRANSAKSI JAM MALAM
 		//JIKA PASIEN DATANG > JAM 10 MALAM, untuk pasien umum dan admedika, maka ditambah 10 ribu untuk jam malam
-		if ((Input::get('jam') > '22:00:00' || Input::get('jam') < '06:00:00') && ($asuransi->id == 0 || $asuransi->tipe_asuransi == '3')) {
+		if ((Input::get('jam') > '22:00:00' || Input::get('jam') < '06:00:00') && ($asuransi->id == 0 || $asuransi->tipe_asuransi_id == '3')) {
 			//tambahkan komponen jam malam sebesar 10 ribu
 			$plus = [
-				'jenis_tarif_id' => '120',
+				'jenis_tarif_id' => JenisTarif::where('jenis_tarif', 'Jam Malam')->first()->id,
 				'jenis_tarif'    => 'Jam Malam',
 				'biaya'          => 20000
 			];
@@ -198,19 +200,19 @@ p */
 
 		/* $this->belum_ada_tekanan_darah_terkontrol = */ 
 		//
-		$periksa->id                    = $periksa_id;
 		$periksa->anamnesa              = Input::get('anamnesa');
 		$periksa->asuransi_id           = $asuransi->id;
 		$periksa->diagnosa_id           = Input::get('diagnosa_id');
 		$periksa->pasien_id             = Input::get('pasien_id');
 		$periksa->berat_badan           = Input::get('berat_badan');
-		$periksa->poli                  = Input::get('poli');
+		$periksa->poli_id               = Input::get('poli_id');
 		$periksa->staf_id               = Input::get('staf_id');
 		$periksa->asisten_id            = Input::get('asisten_id');
 		$periksa->periksa_awal          = Input::get('periksa_awal');
 		$periksa->jam                   = Input::get('jam');
 		$periksa->jam_resep             = date('H:i:s');
 		$periksa->keterangan_diagnosa   = Input::get('keterangan_diagnosa');
+		$periksa->nomor_asuransi        = $pasien->nomor_asuransi;
 		$periksa->antrian_periksa_id    = Input::get('antrian_periksa_id');
 		$periksa->resepluar             = Input::get('resepluar');
 		$periksa->pemeriksaan_fisik     = Input::get('pemeriksaan_fisik');
@@ -221,11 +223,14 @@ p */
 		$periksa->terapi                = $this->terapisBaru($terapis);
 		$periksa->jam_periksa           = Input::get('jam_periksa');
 		$periksa->jam_selesai_periksa   = date('H:i:s');
+		$periksa->kecelakaan_kerja      = $this->input_kecelakaan_kerja;
 		$periksa->keterangan            = Input::get('keterangan_periksa');
 		$periksa->transaksi             = json_encode($transaksis);
 		$periksa->prolanis_dm           = $pasien->prolanis_dm;
 		$periksa->prolanis_ht           = $pasien->prolanis_ht;
 		$periksa->antrian_id            = $antrian_id;
+		$periksa->save();
+
 
 		$promo = Promo::where('promoable_type' , 'App\Models\AntrianPeriksa')->where('promoable_id', Input::get('antrian_periksa_id'))->first() ;
 		if ( $promo ) {
@@ -233,7 +238,7 @@ p */
 				'collection' => $promo,
 				'updates' => [
 					'promoable_type' => 'App\Models\Periksa',
-					'promoable_id'   => $periksa_id,
+					'promoable_id'   => $periksa->id,
 				]
 			];
 		}
@@ -241,8 +246,9 @@ p */
 		if ( Input::get('bukan_peserta') == '1' ) {
 
 			$bukan_pesertas[] = [
-				'periksa_id'         => $periksa_id,
+				'periksa_id'         => $periksa->id,
 				'antrian_periksa_id' => Input::get('antrian_periksa_id'),
+                        'tenant_id'  => session()->get('tenant_id'),
 				'created_at'         => $timestamp,
 				'updated_at'         => $timestamp,
 			];
@@ -269,20 +275,19 @@ p */
 				'aturan_minum'      => $t['aturan_minum'],
 				'jumlah'            => $t['jumlah'],
 				'periksa_id'        => $t['jumlah'],
-				'periksa_id'        => $periksa_id,
+				'periksa_id'        => $periksa->id,
 				'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,
 				'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'        => $timestamp,
 				'updated_at'        => $timestamp,
 			];
 		}
 
 	if(Input::get('poli') == 'usg'){
-		$usg_id = Yoga::customId('App\Models\Usg');
 		
 		$usgs[] = [
-			'id'             => $usg_id,
-			'periksa_id'     => $periksa_id,
+			'periksa_id'     => $periksa->id,
 			'perujuk_id'     => Input::get('perujuk_id'),
 			'hpht'           => Yoga::datePrep(Input::get('hpht')),
 			'umur_kehamilan' => Input::get('umur_kehamilan'),
@@ -374,7 +379,7 @@ p */
 			];
 		}
 		$register_ancs[] = [
-			'periksa_id'               => $periksa_id,
+			'periksa_id'               => $periksa->id,
 			'register_hamil_id'        => $last_register_hamil,
 			'td'                       => Input::get('td'),
 			'tfu'                      => Input::get('tfu'),
@@ -435,7 +440,9 @@ p */
 		$cs = new CustomController;
 
 		DB::beginTransaction();
+        $before_transact = Periksa::count();
 		try {
+
 			RegisterHamil::insert($register_hamils);
 			Terapi::insert($terapiInserts);
 			Usg::insert($usgs);
@@ -449,23 +456,21 @@ p */
 			$periksa->save();
 			$this->updateTemplate(
 				Input::get('antrian_periksa_id'), 
-				$periksa_id, 
+				$periksa->id, 
 				$periksa
 			);
 
-			if ( Input::get('asuransi_id') == '32' ) { // jika asuransi BPJS
+			if ( Asuransi::find(Input::get('asuransi_id'))->tipe_asuransi_id ==  5) { // jika asuransi BPJS
 				$pasien                          = $periksa->pasien;
 				$pasien->sudah_kontak_bulan_ini = 1;
 				$pasien->save();
 			}
 			DB::commit();
-			if($antrian){
-				$ruang_periksa_id = $antrian->jenis_antrian_id;
-			} else {
-				$ruang_periksa_id = 5;
-			}
+
+            $after_transact = Periksa::count();
+
 			$banner_button = $this->banner_button($periksa);
-			return redirect('ruangperiksa/' . $ruang_periksa_id)->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa ' . $banner_button ));
+			return redirect('ruangperiksa/' . $this->ruang_periksa($antrian))->withPesan(Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Selesai Diperiksa ' . $banner_button ));
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -481,9 +486,8 @@ p */
 	public function show($id)
 	{	
 		$periksa = Periksa::with('terapii.merek', 'jurnals.coa', 'transaksii.jenisTarif', 'berkas')->where('id',$id)->first();
-		/* return $periksa->pembayarans; */
-		$cs = new CustomController;
-		$warna = $cs->warna;
+		$cs      = new CustomController;
+		$warna   = $cs->warna;
 
 		return view('periksas.show', compact(
 			'warna',
@@ -588,6 +592,7 @@ p */
 						'periksa_id'        => $id,
 						'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,
 						'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'        => $timestamp,
 						'updated_at'        => $timestamp,
 					];
@@ -752,12 +757,6 @@ p */
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		Periksa::destroy($id);
-		Terapi::where('periksa_id', $id)->delete();
-		return \Redirect::route('periksas.index');
-	}
 
 	private function terapisBaru($terapis)
 	{
@@ -766,13 +765,13 @@ p */
 		foreach ($terapis as $k => $v) {
 			$merek_id   = $v['merek_id'];
 			$formula_id = Merek::find($merek_id)->rak->formula_id;
-			$signa = $v['signa'];
-			$jumlah = $v['jumlah'];
+			$signa      = $v['signa'];
+			$jumlah     = $v['jumlah'];
 
 			$terapis_baru[] = [
 				'formula_id' => $formula_id,
-				'signa' => $signa,
-				'jumlah' => $jumlah
+				'signa'      => $signa,
+				'jumlah'     => $jumlah
 			];
 		}
 		return json_encode($terapis_baru);
@@ -782,7 +781,7 @@ p */
 		$transaksis = json_decode($transaksi, true);
 		if(!empty($transaksi) && $transaksi != '[]'){
 			$transaksis[] = [
-				"jenis_tarif_id" => '140',
+				"jenis_tarif_id" => JenisTarif::where('jenis_tarif', 'BHP')->first()->id,
 				"jenis_tarif" => 'BHP',
 				"biaya"	=> '0'
 			];
@@ -794,12 +793,11 @@ p */
 
 
 	private function sesuaikanResep($terapis, $asuransi){
-		if($asuransi->id == '32' || $asuransi->tipe_asuransi == '4') { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
+		if($asuransi->tipe_asuransi_id ==  5|| $asuransi->tipe_asuransi_id == '4') { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
 			if ($terapis != '' && $terapis != '[]') {
 				$terapis = Yoga::sesuaikanResep($terapis, 'asc');
-				// return $terapis;
 			}
-		} elseif($asuransi->tipe_asuransi == '3'){ //tipe_asuransi 1 = admedika
+		} elseif($asuransi->tipe_asuransi_id == '3'){ //tipe_asuransi 1 = admedika
 			if ($terapis != '' && $terapis != '[]') {
 				$terapis = Yoga::sesuaikanResep($terapis, 'desc');
 			}
@@ -822,11 +820,11 @@ p */
 		}
 		if (!$paket_tindakan) {  // jika tidak ada transaksi paket tindakan, masukkan komponen transaksi jasa dokter
 
-			$tarif = Tarif::where('jenis_tarif_id', '1')->where('asuransi_id', $asuransi->id)->first();
+			$tarif = Tarif::queryTarif( $asuransi->id, 'Jasa Dokter');
 			// masukkan komponen jasa dokter di transaksi
 			$plus = [
 				'jenis_tarif_id' => $tarif->jenis_tarif_id,
-				'jenis_tarif'    => $tarif->jenisTarif->jenis_tarif,
+				'jenis_tarif'    => $tarif->jenis_tarif,
 				'biaya'          => $tarif->biaya
 			];
 
@@ -849,7 +847,8 @@ p */
 		}
 		// return $plafonFlat;
 		// return $plafon;
-		$transaksis = Yoga::kaliObat($transaksis, $terapis, $asuransi, $plafonFlat, $poli);
+		$transaksis = $this->kaliObat($transaksis, $terapis, $asuransi, $plafonFlat, $poli);
+
 		//INPUT TRANSAKSI JASA DOKTER
 		//jenis tarif id = 1 adalah jasa dokter
 		//jika ada tindakan surat keterangan sehat, maka jasa dokter adalah 0
@@ -986,7 +985,7 @@ p */
 	private function sesuaikanSistolikBPJS()
 	{
 		if ( 
-			$this->input_asuransi_id == '32' &&
+			Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id ==  5&&
 			$this->belum_ada_tekanan_darah_terkontrol
 	   	) {
 			$tanggal_object       = Carbon::parse( $this->input_tanggal );
@@ -1023,7 +1022,7 @@ p */
 	private function sesuaikanDiastolikBPJS()
 	{
 		if (
-			$this->input_asuransi_id == '32' &&
+			Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id ==  5&&
 			$this->belum_ada_tekanan_darah_terkontrol
 		) {
 			if ( 
@@ -1120,10 +1119,11 @@ p */
 
 		$query  = "SELECT * ";
 		$query .= "FROM periksas as prx ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		// dimana pasien ini
 		$query .= "WHERE pasien_id = '{$this->input_pasien_id}' ";
 		// dengan asuransi bpjs (32)
-		$query .= "AND asuransi_id = '32' ";
+		$query .= "AND asu.tipe_asuransi_id =  5 ";
 		// apabila pasien masuk dalam kategori prolanis_ht
 		$query .= "AND prolanis_ht = '1' ";
 		// dengan tanggal pemeriksaan bulan ini
@@ -1139,8 +1139,10 @@ p */
 		// dengan diastolik antara 70 hingga 79
 		$query .= "AND diastolik >= 70 and diastolik <= 79 ";
 		if ($id) {
-			$query .= "AND id not like '{$id}';";
+			$query .= "AND prx.id not like '{$id}' ";
 		}
+
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query);
 
 		if ( count($data) == 0 ) {
@@ -1157,7 +1159,7 @@ p */
 				return redirect()->back()->withPesan($pesan);
 			}
 			$antrian              = new AntrianPeriksa;
-			$antrian->poli        = $periksa->poli;
+			$antrian->poli_id        = $periksa->poli_id;
 			$antrian->periksa_id  = $periksa->periksa_id;
 			$antrian->staf_id     = $periksa->staf_id;
 			$antrian->asuransi_id = $periksa->asuransi_id;
@@ -1258,12 +1260,14 @@ p */
 		/* $query .= "CAST(trx.keterangan_pemeriksaan AS UNSIGNED) as gula_darah, "; */
 		$query .= "FROM periksas as prx ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		//asuransi = bpjs
-		$query .= "WHERE prx.asuransi_id = '32' ";
+		$query .= "WHERE asu.tipe_asuransi_id =  5 ";
 		//pada bulan dimana pemeriksaan dilakukan
 		$query .= "AND prx.tanggal between '" . $tanggal_object->format('Y-m-01'). "' and '" . $tanggal_object->format('Y-m-t'). "' ";
 		//pemeriksaan terflagging prolanis_ht
 		$query .= "AND prx.prolanis_ht = '1' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		// dengan diastolik antara 70 dan 79
 		/* $query .= "AND diastolik between 70 and 79 "; */
 		/* $query .= "AND (( "; */
@@ -1278,7 +1282,6 @@ p */
 		/* $query .= ")) "; */
 		$data_ht = DB::select($query);
 
-		/* dd( $data_ht ); */
 		$arr = [];
 		$acep = [];
 		foreach ($data_ht as $data) {
@@ -1318,7 +1321,6 @@ p */
 				 $arr[$data->pasien_id]['tanggal'] = $data->tanggal;
 			}
 		}
-		/* dd( $acep ); */
 		return collect($arr);
 	}
 
@@ -1362,16 +1364,19 @@ p */
 		$query .= "FROM periksas as prx ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
+		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		//asuransi = bpjs
-		$query .= "WHERE prx.asuransi_id = '32' ";
+		$query .= "WHERE asu.tipe_asuransi_id =  5 ";
 		//pada bulan dimana pemeriksaan dilakukan
 		$query .= "AND prx.tanggal between '" . $tanggal_object->format('Y-m-01') . "' and  '" . date("Y-m-t", strtotime($tanggal_object->format('Y-m-t') )) . "' ";
 		//pemeriksaan terflagging prolanis_dm
 		$query .= "AND prx.prolanis_dm = '1'";
-		$query .= "AND trx.jenis_tarif_id = '116' ";
+		$query .= "AND jtf.jenis_tarif = 'Gula Darah' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "AND CAST(trx.keterangan_pemeriksaan AS UNSIGNED) between 80 and 130 "; */
 		$query .= "GROUP BY pasien_id ";
-		$query .= "ORDER BY prx.id;";
+		$query .= "ORDER BY prx.id ";
 
 		$data_dm = DB::select($query);
 		$arr = [];
@@ -1444,18 +1449,107 @@ p */
 	private function banner_button($periksa)
 	{
 		if (is_null($periksa->suratSakit)) {
-			$banner_button = "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-success btn-sm\">Buat Surat Sakit</button> <a href=" . url('suratsakits/create/' . $periksa->id . '/' . $periksa->poli ) . " class=\"btn btn-success btn-sm rujukan hide\">Buat Surat Sakit2</a> </span>" ;
+			$banner_button = "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-success btn-sm\">Buat Surat Sakit</button> <a href=" . url('suratsakits/create/' . $periksa->id . '/' . $periksa->poli_id ) . " class=\"btn btn-success btn-sm rujukan hide\">Buat Surat Sakit2</a> </span>" ;
 		} else {
-			$banner_button = "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-warning btn-sm\">Edit Surat Sakit</button> <a href=" . url('suratsakits/' . $periksa->suratSakit->id . '/edit'. '/' . $periksa->poli ) . " class=\"btn btn-warning btn-sm rujukan hide\">Edit Surat Sakit</a> </span>" ;
+			$banner_button = "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-warning btn-sm\">Edit Surat Sakit</button> <a href=" . url('suratsakits/' . $periksa->suratSakit->id . '/edit'. '/' . $periksa->poli_id ) . " class=\"btn btn-warning btn-sm rujukan hide\">Edit Surat Sakit</a> </span>" ;
 		}
 
 		if (is_null($periksa->rujukan)) {
-			$banner_button .= "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-success btn-sm\">Buat Rujukan</button> <a href=". url('rujukans/create/' . $periksa->id . '/' . $periksa->poli ). " class=\"btn btn-success btn-sm rujukan hide\">Buat Rujukan2</a> </span>";
+			$banner_button .= "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-success btn-sm\">Buat Rujukan</button> <a href=". url('rujukans/create/' . $periksa->id . '/' . $periksa->poli_id ). " class=\"btn btn-success btn-sm rujukan hide\">Buat Rujukan2</a> </span>";
 		} else {
-			$banner_button .= " <span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-warning btn-sm\">Edit Rujukan</button> <a href=" . url('rujukans/' . $periksa->rujukan->id . '/edit/' . $periksa->poli )." class=\"btn btn-warning btn-sm rujukan hide\">Edit Rujukan2</a> </span>" ;
+			$banner_button .= " <span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-warning btn-sm\">Edit Rujukan</button> <a href=" . url('rujukans/' . $periksa->rujukan->id . '/edit/' . $periksa->poli_id )." class=\"btn btn-warning btn-sm rujukan hide\">Edit Rujukan2</a> </span>" ;
 		}
 		return $banner_button;
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public static function kaliObat($transaksis, $terapi, $asuransi, $plafon, $poli){
+        $transaksi_array = $transaksis;
+        $non_paket = true;
+        foreach ($transaksi_array as $k => $v) {
+            $tarif_ini = Tarif::where('jenis_tarif_id', $v['jenis_tarif_id'])->where('asuransi_id', $asuransi->id)->first();
+            if ($tarif_ini->tipe_tindakan_id == 2) {
+                $non_paket = false;
+                $tarif_ini = $v;
+                break;	
+            }
+        }
+        if ($non_paket) {
+            $tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
+            if($terapi != '' && $terapi != '[]'){
+                
+                /* $tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();//jenis tarif id = 9 adalah biaya obat */
+                $terapis = json_decode($terapi, true);
+                $merek = Merek::all();
+                $biaya = 0;
+                foreach ($terapis as $terapi) {
+                    if ($asuransi->tipe_asuransi_id == 5) { //pembayaran BPJS
+                        if ($terapi['fornas'] == '0') { // jika obat tidak tergolong fornas
+                            $biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'];
+                        } else {
+                            $biaya += 0;
+                        }
+                    } else {
+                        $biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'] * $asuransi->kali_obat;
+                    }
+                }
+                if ($asuransi->tipe_asuransi_id == 4) { //tipe asuransi pembayaran flat
+                    $selisihPlafon = $plafon - $biaya;
+                    if ( $selisihPlafon > 0) {
+                        $biaya = $tarif->biaya;
+                    } else {
+                        $biaya = $this->queryTarif($asuransi->id, 'Biaya Obat')->biaya - $selisihPlafon;
+                    }
+                }
+                if (
+                    $biaya < 30000 && 
+                    str_contains($asuransi->nama, 'Cibadak') &&
+                    $asuransi->tenant_id == 1
+                ) {
+                    $biaya = 30000;
+                } else {
+                    if ($poli != 'estetika') {
+                        $biaya = Yoga::rataAtas5000($biaya);
+                    }
+                }
+                $plus = [
+                    'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                    'jenis_tarif'    => $tarif->jenis_tarif,
+                    'biaya'          => $biaya
+                ];
+                array_unshift($transaksis, $plus);
+            } else {
+                $plus = [
+                    'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                    'jenis_tarif'    => $tarif->jenis_tarif,
+                    'biaya' => 0
+                ];
+                array_unshift($transaksis, $plus);
+            }
+        } else {
+            $plus = [
+                'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                'jenis_tarif'    => $tarif->jenis_tarif,
+                'biaya' => 0
+            ];
+            array_unshift($transaksis, $plus);
+        }
+        return $transaksis;
+    }
+    public function ruang_periksa($antrian){
+        if($antrian){
+            $ruang_periksa_id = $antrian->jenis_antrian_id;
+        } else {
+            $ruang_periksa_id = 5;
+        }
+        return $ruang_periksa_id;
+    }
+    
+    
+    
 	
 	/* public function kirimWaAntrianBerikutnya($periksa){ */
 	/* 	$antrianPeriksa = new AntrianPeriksasController; */

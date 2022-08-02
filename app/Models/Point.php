@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class Point extends Model{
+    use BelongsToTenant, HasFactory;
 
 	// Add your validation rules here
 	public static $rules = [
@@ -12,6 +15,6 @@ class Point extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 }

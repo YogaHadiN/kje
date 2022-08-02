@@ -113,77 +113,75 @@ class PengeluaransController extends Controller
 	}
 
 	public function store() {
-		$messages          = array(
-			'required'    => ':attribute harus diisi terlebih dahulu',
-		);
-		$rules             = [
-			'staf_id'      => 'required',
-			'supplier_id'  => 'required',
-			'nilai'        => 'required',
-			'faktur_image' => 'required',
-			'tanggal'      => 'required|date_format:d-m-Y',
-			'sumber_uang'  => 'required',
-			'keterangan'   => 'required'
-		];
+        DB::beginTransaction();
+        try {
+            $messages          = array(
+                'required'    => ':attribute harus diisi terlebih dahulu',
+            );
+            $rules             = [
+                'staf_id'      => 'required',
+                'supplier_id'  => 'required',
+                'nilai'        => 'required',
+                'faktur_image' => 'required',
+                'tanggal'      => 'required|date_format:d-m-Y',
+                'sumber_uang'  => 'required',
+                'keterangan'   => 'required'
+            ];
 
-		$validator         = \Validator::make($data = Input::all(), $rules, $messages);
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator->messages())->withInput();
-		}
+            $validator         = \Validator::make($data = Input::all(), $rules, $messages);
+            if ($validator->fails())
+            {
+                return \Redirect::back()->withErrors($validator->messages())->withInput();
+            }
 
-		$staf_id           = Input::get('staf_id');
-		$supplier_id       = Input::get('supplier_id');
-		$nilai             = Yoga::clean( Input::get('nilai') );
-		$tanggal           = Input::get('tanggal');
-		$keterangan        = Input::get('keterangan');
+            $staf_id           = Input::get('staf_id');
+            $supplier_id       = Input::get('supplier_id');
+            $nilai             = Yoga::clean( Input::get('nilai') );
+            $tanggal           = Input::get('tanggal');
+            $keterangan        = Input::get('keterangan');
 
-		// insert tabel pengeluarans
-		$peng                 = new Pengeluaran;
-		$peng->staf_id        = $staf_id;
-		$peng->supplier_id    = $supplier_id;
-		$peng->nilai          = $nilai;
-		$peng->tanggal        = Yoga::datePrep( $tanggal );
-		$peng->sumber_uang_id = Input::get('sumber_uang');
-		$peng->keterangan     = $keterangan;
-		$peng->save();
-		$peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id);
-		$confirm              = $peng->save();
+            // insert tabel pengeluarans
+            $peng                 = new Pengeluaran;
+            $peng->staf_id        = $staf_id;
+            $peng->supplier_id    = $supplier_id;
+            $peng->nilai          = $nilai;
+            $peng->tanggal        = Yoga::datePrep( $tanggal );
+            $peng->sumber_uang_id = Input::get('sumber_uang');
+            $peng->keterangan     = $keterangan;
+            $peng->save();
 
-		if ($confirm) {
-			$jurnals = [];
-			$timestamp = $peng->created_at;
-			$jurnals[] = [
-				'jurnalable_id'   => $peng->id,
-				'jurnalable_type' => 'App\Models\Pengeluaran',
-				'debit'           => 1,
-				'coa_id'           => null,
-				'nilai'           => $peng->nilai,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
-			];
+            $peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id);
+            $confirm              = $peng->save();
 
-			$jurnals[] = [
-				'jurnalable_id'   => $peng->id,
-				'jurnalable_type' => 'App\Models\Pengeluaran',
-				'coa_id'          => Input::get('sumber_uang'),
-				'debit'           => 0,
-				'nilai'           => $peng->nilai,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
-			];
+            if ($confirm) {
+                $jurnals = [];
+                $timestamp = $peng->created_at;
+                $jurnals[] = [
+                    'debit'  => 1,
+                    'coa_id' => null,
+                    'nilai'  => $peng->nilai,
+                ];
 
-			//
-			// insert tabel jurnal_umums
-			JurnalUmum::insert($jurnals);
-		}
-		$nama_supplier = Supplier::find($supplier_id)->nama;
-		if ($confirm) {
-			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'))->withPrint($peng->id);
+                $jurnals[] = [
+                    'coa_id' => Input::get('sumber_uang'),
+                    'debit'  => 0,
+                    'nilai'  => $peng->nilai,
+                ];
+                $peng->jurnals()->createMany($jurnals);
+            }
+            $nama_supplier = Supplier::find($supplier_id)->nama;
+            DB::commit();
 
-		}else {
-			return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::gagalFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> gagal dilakukan'));
-		}
+            if ($confirm) {
+                return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'))->withPrint($peng->id);
+
+            }else {
+                return redirect('suppliers/belanja_bukan_obat')->withPesan(Yoga::gagalFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> gagal dilakukan'));
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 	}
 
 	public function lists() {
@@ -240,8 +238,9 @@ class PengeluaransController extends Controller
 			$totalModal += $modal->modal;
 		}
 
+		$coa_id_110000 = Coa::where('kode_coa', '110000')->first()->id;
 		$pengeluarans = JurnalUmum::with('jurnalable')
-									->where('coa_id', 110000)
+									->where('coa_id', $coa_id_110000)
                                     ->where('debit', '0')
                                     ->where('id', '>=', $checkout->jurnal_umum_id)
                                     ->where('jurnalable_type', 'not like', 'App\\\Models\\\CheckoutKasir')
@@ -257,20 +256,20 @@ class PengeluaransController extends Controller
 
 		$uang_masuks = JurnalUmum::with('jurnalable')
 									->where('id', '>=', $checkout->jurnal_umum_id)
-									->where('coa_id', 110000)
+									->where('coa_id', $coa_id_110000)
 									->where('jurnalable_type', '!=', 'App\Models\Modal')
 									->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
 									->where('debit', '1')
 									->get();
 
         $modal_awals = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
-                                    ->where('coa_id', 110000)
+                                    ->where('coa_id', $coa_id_110000)
                                     ->where('jurnalable_type', 'App\Models\Modal')
                                     ->where('debit', '1')
                                     ->get();
 
         $uang_keluar = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
-                                    ->where('coa_id', 110000)
+                                    ->where('coa_id', $coa_id_110000)
                                     ->where('jurnalable_type', '!=', 'App\Models\Modal')
                                     ->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
                                     ->where('debit', '0')
@@ -302,12 +301,14 @@ class PengeluaransController extends Controller
 		$query .= "ps.nama as nama_pasien, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "p.id as periksa_id, ";
-		$query .= "p.poli as poli ";
+		$query .= "po.poli as poli ";
 		$query .= "FROM periksas as p ";
+		$query .= "JOIN polis as po on po.id = p.poli_id ";
 		$query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
 		$query .= "where p.created_at > '{$tanggal}' ";
-		$query .= "AND p.pembayaran is not null;";
+		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND p.pembayaran is not null ";
 
 		$periksas = DB::select($query);
 		$tunai_periksa = 0;
@@ -333,6 +334,7 @@ class PengeluaransController extends Controller
 					'jurnalable_type' => $plr->jurnalable_type,
 					'jurnalable_id'   => $plr->jurnalable_id,
 					'nilai'           => $plr->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $plr->created_at->format('d-m-Y H:i:s'),
 					'updated_at'      => $plr->updated_at->format('d-m-Y H:i:s')
 				];
@@ -384,10 +386,13 @@ class PengeluaransController extends Controller
 			$query .= "join periksas as px on px.id=tp.periksa_id ";
 			$query .= "join jenis_tarifs as jt on jt.id = tp.jenis_tarif_id ";
 			$query .= "where tp.created_at >= '{$tanggal}' ";
+			$query .= "AND tp.tenant_id = " . session()->get('tenant_id') . " ";
 			$query .= "group by tp.jenis_tarif_id ";
 			$transaksis = DB::select($query);
 
-			$pengeluarans = JurnalUmum::where('coa_id', 110000)
+			$coa_id_110000 = Coa::where('kode_coa', '110000')->first()->id;
+			$coa_id_110004 = Coa::where('kode_coa', '110004')->first()->id;
+			$pengeluarans = JurnalUmum::where('coa_id', $coa_id_110000)
 										->where('debit', '0')
 										->where('created_at', '>=', $tanggal)
 										->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
@@ -396,7 +401,7 @@ class PengeluaransController extends Controller
 			foreach ($pengeluarans as $peng) {
 				$detail_pengeluarans[] = $peng->id;
 			} 
-			$pengeluarans_tangan = JurnalUmum::where('coa_id', 110004)
+			$pengeluarans_tangan = JurnalUmum::where('coa_id', $coa_id_110004)
 										->where('debit', '0')
 										->where('created_at', '>=', $tanggal)
 										->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
@@ -428,11 +433,12 @@ class PengeluaransController extends Controller
 			$new_z->detil_modals             = json_encode($modal_ids);
 
 			$confirm = $new_z->save();
+            $coa_id_110004 = Coa::where('kode_coa', '110004')->first()->id;
 			if ($confirm) {
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $new_z->id;
 				$jurnal->jurnalable_type = 'App\Models\CheckoutKasir';
-				$jurnal->coa_id          = 110004; // Kas di tangan
+				$jurnal->coa_id          = $coa_id_110004; // Kas di tangan
 				$jurnal->debit           = 1;
 				$jurnal->nilai           = $uang_di_kasir;
 				$jurnal->save();
@@ -440,7 +446,7 @@ class PengeluaransController extends Controller
 				$jurnal                  = new JurnalUmum;
 				$jurnal->jurnalable_id   = $new_z->id;
 				$jurnal->jurnalable_type = 'App\Models\CheckoutKasir';
-				$jurnal->coa_id          = 110000; // Kas di kasir
+				$jurnal->coa_id          = $coa_id_110004; // Kas di kasir
 				$jurnal->debit           = 0;
 				$jurnal->nilai           = $uang_di_kasir;
 				$jurnal->save();
@@ -462,8 +468,8 @@ class PengeluaransController extends Controller
         $modals = Modal::with('coa')->latest()->paginate(20);
         $sumberUangList = [
             null => '-pilih-',
-            301000 => 'Modal',
-            110004 => 'Kas di tangan'
+            Coa::where('kode_coa', 301000)->first()->id => 'Modal',
+            Coa::where('kode_coa', 110004)->first()->id => 'Kas di tangan'
         ];
          return view('pengeluarans.rc', compact('modals', 'sumberUangList'));
     }
@@ -481,9 +487,9 @@ class PengeluaransController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-
+        $coa_id_110004     = Coa::where('kode_coa', '110004')->first()->id; // kas di tangan
         $modal             = new Modal;
-        $modal->coa_kas_id = 110004; // kas di tangan
+        $modal->coa_id     = $coa_id_110004; // kas di tangan
         $modal->modal      = Yoga::clean( Input::get('kas_masuk') );
         $modal->staf_id    = Input::get('staf_id');
         $modal->keterangan = Input::get('keterangan');
@@ -492,7 +498,7 @@ class PengeluaransController extends Controller
         $jurnal                  = new JurnalUmum;
         $jurnal->jurnalable_id   = $modal->id;
         $jurnal->jurnalable_type = 'App\Models\Modal';
-        $jurnal->coa_id          = 110000; // Kas di kasir
+        $jurnal->coa_id          = Coa::where('kode_coa', '110000')->first()->id; // Kas di kasir
         $jurnal->debit           = 1;
         $jurnal->nilai           = $modal->modal;
         $jurnal->save();
@@ -500,7 +506,7 @@ class PengeluaransController extends Controller
 		$jurnal                  = new JurnalUmum;
 		$jurnal->jurnalable_id   = $modal->id;
 		$jurnal->jurnalable_type = 'App\Models\Modal';
-		$jurnal->coa_id          = 110004; // kas di tangan
+		$jurnal->coa_id          = $coa_id_110004; // kas di tangan
 		$jurnal->debit           = 0;
 		$jurnal->nilai           = $modal->modal;
 		$jurnal->save();
@@ -512,15 +518,15 @@ class PengeluaransController extends Controller
 
     public function show_checkout($id){
 
-        $notaz = CheckoutKasir::find($id);
-		$buka_kasir = CheckoutKasir::find($id - 1)->created_at;
-        $detils = json_decode( $notaz->detil_pengeluarans, true );
-        $detils_tangan = json_decode( $notaz->detil_pengeluaran_tangan, true );
-        $modals = json_decode( $notaz->detil_modals, true );
-        $pengeluarans = JurnalUmum::whereIn('id', $detils)->get();
+        $notaz               = CheckoutKasir::find($id);
+		$buka_kasir          = CheckoutKasir::find($id - 1)->created_at;
+        $detils              = json_decode( $notaz->detil_pengeluarans, true );
+        $detils_tangan       = json_decode( $notaz->detil_pengeluaran_tangan, true );
+        $modals              = json_decode( $notaz->detil_modals, true );
+        $pengeluarans        = JurnalUmum::whereIn('id', $detils)->get();
         $pengeluarans_tangan = JurnalUmum::whereIn('id', $detils_tangan)->get();
-        $modals = JurnalUmum::whereIn('id', $modals)->get();
-		$total_modal = 0;
+        $modals              = JurnalUmum::whereIn('id', $modals)->get();
+		$total_modal         = 0;
 		foreach ($modals as $mdl) {
 			$total_modal += $mdl->nilai;
 		}
@@ -554,7 +560,24 @@ class PengeluaransController extends Controller
     
     private function hutangs($id, $mulai, $akhir){
          
-        $query = "select p.id as periksa_id, p.tanggal as tanggal, st.nama as nama_staf, ps.id as pasien_id, ps.nama as nama, asu.nama as nama_asuransi, tunai, piutang, nilai  from jurnal_umums as ju join periksas as p on p.id=ju.jurnalable_id join stafs as st on st.id= p.staf_id join pasiens as ps on ps.id=p.pasien_id join asuransis as asu on asu.id=p.asuransi_id where jurnalable_type='App\\\Models\\\Periksa' and p.staf_id='{$id}' and ju.coa_id=200001 and ( date(p.created_at) between '{$mulai}' and '{$akhir}' );";
+		$query = "select p.id as periksa_id, ";
+		$query .= "p.tanggal as tanggal, ";
+		$query .= "st.nama as nama_staf, ";
+		$query .= "ps.id as pasien_id, ";
+		$query .= "ps.nama as nama, ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "tunai, p";
+		$query .= "iutang, ";
+		$query .= "nilai ";
+		$query .= " from jurnal_umums as ju ";
+		$query .= "join periksas as p on p.id=ju.jurnalable_id ";
+		$query .= "join stafs as st on st.id= p.staf_id ";
+		$query .= "join pasiens as ps on ps.id=p.pasien_id ";
+		$query .= "join asuransis as asu on asu.id=p.asuransi_id ";
+		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and p.staf_id='{$id}' and ju.coa_id= " . Coa::where('kode_coa', 200001)->first()->id." ";
+		$query .= "and ( date(p.created_at) between '{$mulai}' and '{$akhir}' ) ";
         $hutangs = DB::select($query);
 
         return $hutangs;
@@ -588,32 +611,46 @@ class PengeluaransController extends Controller
     
     private function table($checkout){
         $jurnal_umum_id = $checkout->jurnal_umum_id;
+        $coa_id_110000 = Coa::where('kode_coa', 110000)->first()->id;
+
 		$query = "select jurnalable_type, jurnalable_id from jurnal_umums as ju ";
-		$query .= "where coa_id=110000 and ";
+		$query .= "where coa_id= '. $coa_id_110000.' and ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "debit = 1 and ";
 		$query .= "ju.id > {$jurnal_umum_id} ";
-		$query .= "group by jurnalable_type, jurnalable_id;";
+		$query .= "group by jurnalable_type, jurnalable_id ";
 		$type_and_id = DB::select($query);
-        $text = "select ju.debit, jurnalable_type, ju.id, ju.coa_id, co.coa, ju.nilai, ju.jurnalable_id from jurnal_umums as ju join coas as co on co.id = ju.coa_id where ju.id > {$jurnal_umum_id} ";
+
+		$query = "select ju.debit, ";
+		$query .= "jurnalable_type, ";
+		$query .= "ju.id, ";
+		$query .= "ju.coa_id, ";
+		$query .= "co.coa, ";
+		$query .= "ju.nilai, ";
+		$query .= "ju.jurnalable_id ";
+		$query .= "from jurnal_umums as ju ";
+		$query .= "join coas as co on co.id = ju.coa_id ";
+		$query .= "where ju.id > {$jurnal_umum_id} ";
+		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		if (count($type_and_id)) {
-			$text .= "and ( ";
+			$query .= "and ( ";
 		}
 		foreach ($type_and_id as $k => $value) {
 			$type = $value->jurnalable_type;
 			$type = explode("\\", $type);
 			$jurnalable_type = $type[0] . '\\\\\\' . $type[1];
 
-			$text .= "( jurnalable_type = '" . $jurnalable_type. "' and jurnalable_id = '" . $value->jurnalable_id. "' ) ";
+			$query .= "( jurnalable_type = '" . $jurnalable_type. "' and jurnalable_id = '" . $value->jurnalable_id. "' ) ";
 			if ($k < count($type_and_id) -1) {
-				$text .= "or ";
+				$query .= "or ";
 			}
 		}
 
 		if (count($type_and_id)) {
-			$text .= ")";
+			$query .= ")";
 		}
 
-        $rinci = DB::select($text);
+        $rinci = DB::select($query);
 		$array=[];
 		foreach ($rinci as $key => $r) {
 			$sama = false;
@@ -662,9 +699,9 @@ class PengeluaransController extends Controller
         foreach ($array as $rc) {
             $valid = false;
             foreach ($rc as $key => $ar) {
-				if (  $ar['coa_id'] == 110000 && $ar[ 'debit' ] == 1 ){
+				if (  $ar['coa_id'] == $coa_id_110000 && $ar[ 'debit' ] == 1 ){
                     $valid = true;
-				} else if(  $ar['coa_id'] != 110000 && $ar[ 'debit' ] == 1 ){
+				} else if(  $ar['coa_id'] != $coa_id_110000 && $ar[ 'debit' ] == 1 ){
                     $valid = false;
 				}
                 if ($valid && $ar['debit']== 0) {
@@ -697,7 +734,7 @@ class PengeluaransController extends Controller
                             ]
                         ]; 
                     }
-                } else if ($ar[ 'debit'  ]== 1 && $ar[ 'coa_id'  ]!= 110000 ) {
+                } else if ($ar[ 'debit'  ]== 1 && $ar[ 'coa_id'  ]!= $coa_id_110000 ) {
                         break;
                 }
             }
@@ -771,6 +808,7 @@ class PengeluaransController extends Controller
 				 'harga_satuan'      => $t['nilai'],
 				 'jumlah'            => $t['jumlah'],
 				 'masa_pakai'        => $t['masa_pakai'],
+							'tenant_id'  => session()->get('tenant_id'),
 				 'created_at'        => $timestamp,
 				 'updated_at'        => $timestamp
 			];
@@ -781,6 +819,7 @@ class PengeluaransController extends Controller
 					'merek'             => $ac['merek'],
 					'keterangan'        => $ac['keterangan_lokasi'],
 					'faktur_belanja_id' => $fb->id,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'        => $timestamp,
 					'updated_at'        => $timestamp
 
@@ -797,7 +836,7 @@ class PengeluaransController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $fb->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\Models\FakturBelanja';
-			$jurnal->coa_id          = 120001; // Peralatan
+			$jurnal->coa_id          = Coa::where('kode_coa', '120001')->first()->id; // Peralatan
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = $total_nilai;
 			$jurnal->save();
@@ -972,7 +1011,7 @@ class PengeluaransController extends Controller
 			$jurnal                  = new JurnalUmum;
 			$jurnal->jurnalable_id   = $gaji->id; // id referensi yang baru dibuat
 			$jurnal->jurnalable_type = 'App\Models\BagiGigi';
-			$jurnal->coa_id          = 610001; // biaya operasional bagi hasil pelayanan dokter gigi
+			$jurnal->coa_id          = Coa::where('kode_coa', '610001')->first()->id; // biaya operasional bagi hasil pelayanan dokter gigi
 			$jurnal->debit           = 1;
 			$jurnal->nilai           = $nilai;
 			$jurnal->created_at = $timestamp;
@@ -1135,7 +1174,7 @@ class PengeluaransController extends Controller
         $uang_di_tangan               = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal                      = $last_chekcout->created_at;
-        $jurnal_umums = JurnalUmum::whereRaw("id > $jurnal_umum_id_last_cehckout and jurnalable_type = 'App\\\Models\\\Modal' and debit = 0 and (coa_id = 301000 or coa_id=110004) ")
+        $jurnal_umums = JurnalUmum::whereRaw("id > {$jurnal_umum_id_last_cehckout} and jurnalable_type = 'App\\\Models\\\Modal' and debit = 0 and (coa_id = " . Coa::where('kode_coa', 301000)->first()->id . " or coa_id= " . Coa::where('kode_coa', 110004)->first()->id . " ) ")
 									->get();
         $modal_awal = 0;
 		$modal_ids = [];
@@ -1144,15 +1183,16 @@ class PengeluaransController extends Controller
 		   $modal_ids[] = $ju->id;
         }
 
+		$coa_id_110000 = Coa::where('kode_coa', '110000')->first()->id;
         $total_uang_masuk = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
-                                ->where('coa_id', 110000) 
+                                ->where('coa_id', $coa_id_110000) 
                                 ->where('jurnalable_type', '!=', 'App\Models\Modal')
 								->where('created_at', '>=', $last_chekcout->created_at)
                                 ->where('debit', '1')
                                 ->sum('nilai');
 
         $total_uang_keluar = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
-                                ->where('coa_id', 110000) 
+                                ->where('coa_id', $coa_id_110000) 
 								->where('created_at', '>=', $last_chekcout->created_at)
                                 ->where('jurnalable_type', '!=', 'App\Models\Modal')
                                 ->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
@@ -1218,7 +1258,7 @@ class PengeluaransController extends Controller
 		// 1. Insert coa_id, coa_penyusutan_id, coa_hutang_id
 		//
 	
-		$existing_id = (int)Coa::where('id', 'like', '12%')->orderBy('id', 'desc')->first()->id;
+		$existing_id = (int)Coa::where('kelompok_coa_id', 12)->orderBy('id', 'desc')->first()->id;
 		$coa_id = $existing_id + 1;
 		$coa_penyusutan_id =  $existing_id + 2;
 
@@ -1227,6 +1267,7 @@ class PengeluaransController extends Controller
 			'coa'             => Input::get('harta'),
 			'kelompok_coa_id' => 12,
 			'saldo_awal'      => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => date('Y-m-d H:i:s'),
 			'updated_at'      => date('Y-m-d H:i:s')
 		];
@@ -1235,11 +1276,12 @@ class PengeluaransController extends Controller
 			'coa'             => 'Akumulasi Penyusutan ' .Input::get('harta'),
 			'kelompok_coa_id' => 12,
 			'saldo_awal'      => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => date('Y-m-d H:i:s'),
 			'updated_at'      => date('Y-m-d H:i:s')
 		];
 
-		$existing_id = (int)Coa::where('id', 'like', '2%')->orderBy('id', 'desc')->first()->id;
+		$existing_id = (int)Coa::where('kelompok_coa_id', 2)->orderBy('id', 'desc')->first()->id;
 
 		$coa_hutang_id = (int)$existing_id + 1;
 
@@ -1248,6 +1290,7 @@ class PengeluaransController extends Controller
 			'coa'             => 'Hutang ' .Input::get('harta'),
 			'kelompok_coa_id' => 2,
 			'saldo_awal'      => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => date('Y-m-d H:i:s'),
 			'updated_at'      => date('Y-m-d H:i:s')
 		];
@@ -1289,11 +1332,13 @@ class PengeluaransController extends Controller
 			'debit'           => 1,
 			'nilai'           => $hargaClean,
 			'coa_id'          => $coa_id,
+							'tenant_id'  => session()->get('tenant_id'),
 			'created_at'      => $timestamp_that_day->format('Y-m-d'),
 			'updated_at'      => $timestamp_that_day->format('Y-m-d')
 		];
 
 		// hutang bertambah di kredit
+		$coa_id_110004 = Coa::where('kode_coa','110004')->first()->id;
 		if ( Input::get('metode_bayar_id') == '2' ) {
 			$hutangHarta                    = $hargaClean - $uangMukaClean;
 			$jurnals[]                      = [
@@ -1302,6 +1347,7 @@ class PengeluaransController extends Controller
 				'debit'                    => 0,
 				'nilai'                    => $hutangHarta,
 				'coa_id'                   => $coa_hutang_id,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'               => $timestamp_that_day->format('Y-m-d'),
 				'updated_at'               => $timestamp_that_day->format('Y-m-d')
 			];
@@ -1313,7 +1359,8 @@ class PengeluaransController extends Controller
 					'jurnalable_type'      => 'App\Models\InputHarta',
 					'debit'                => 0,
 					'nilai'                => $uangMukaClean,
-					'coa_id'               => 110004,
+					'coa_id'               => $coa_id_110004,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'           => $timestamp_that_day->format('Y-m-d'),
 					'updated_at'           => $timestamp_that_day->format('Y-m-d')
 				];
@@ -1326,7 +1373,8 @@ class PengeluaransController extends Controller
 				'jurnalable_type' => 'App\Models\InputHarta',
 				'debit'           => 0,
 				'nilai'           => $hargaClean,
-				'coa_id'          => 110004,
+				'coa_id'          => $coa_id_110004,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp_that_day->format('Y-m-d'),
 				'updated_at'      => $timestamp_that_day->format('Y-m-d')
 			];
@@ -1373,6 +1421,7 @@ class PengeluaransController extends Controller
 							'debit'           => 1,
 							'nilai'           => $bayarBulanIni,
 							'coa_id'          => $coa_hutang_id,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at'      => $timestamp->format('Y-m-d'),
 							'updated_at'      => $timestamp->format('Y-m-d')
 						];
@@ -1381,7 +1430,8 @@ class PengeluaransController extends Controller
 							'jurnalable_type' => 'App\Models\BayarHutangHarta',
 							'debit'           => 0,
 							'nilai'           => $bayarBulanIni,
-							'coa_id'          => 110004,
+							'coa_id'          => Coa::where('kode_coa', '110004')->first()->id,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at'      => $timestamp->format('Y-m-d'),
 							'updated_at'      => $timestamp->format('Y-m-d')
 						];
@@ -1424,6 +1474,7 @@ class PengeluaransController extends Controller
 						$last_ringkasan_penyustan_id++;
 						$ringkasan_penyusutans[] = [
 							'keterangan' => 'Penyusutan Harta bulan ' . $timestamp->format('M y'),
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at' =>  $timestamp_last_second_of_month,
 							'updated_at' =>  $timestamp_last_second_of_month
 						];
@@ -1434,7 +1485,8 @@ class PengeluaransController extends Controller
 						'jurnalable_type' => 'App\Models\RingkasanPenyusutan',
 						'debit'           => 1,
 						'nilai'           => $bayarPenyusutan,
-						'coa_id'          => 612312, // biaya penyusutan
+						'coa_id'          => Coa::where('kode_coa', '612312')->first()->id, // biaya penyusutan
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'      => $timestamp_last_second_of_month,
 						'updated_at'      => $timestamp_last_second_of_month
 					];
@@ -1444,6 +1496,7 @@ class PengeluaransController extends Controller
 						'debit'           => 0,
 						'nilai'           => $bayarPenyusutan,
 						'coa_id'          => $coa_penyusutan_id, // Akumulasi penyusutan harta
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'      => $timestamp_last_second_of_month,
 						'updated_at'      => $timestamp_last_second_of_month
 					];
@@ -1454,6 +1507,7 @@ class PengeluaransController extends Controller
 						'keterangan'              => 'Penyusutan ' . Input::get('harta') . ' bulan ' . $timestamp->format('M y'),
 						'susutable_type'          => 'App\Models\InputHarta',
 						'nilai'                   => $bayarPenyusutan,
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'              => $timestamp_last_second_of_month,
 						'updated_at'              => $timestamp_last_second_of_month
 					];
@@ -1474,13 +1528,17 @@ class PengeluaransController extends Controller
 					$pj->penyusutan = $penyusutanTerbayar;
 					$pj->staf_id    = Input::get('staf_id');
 					$confirm        = $pj->save();
+					$coa_id_110004 = Coa::where('kode_coa', '110004')->first()->id;
+					$coa_id_70100 = Coa::where('kode_coa', '70100')->first()->id;
+
 					if ($confirm) {
 						$jurnals[] = [
 							'jurnalable_id'   => $pj->id,
 							'jurnalable_type' => 'App\Models\PenjualanAset',
 							'debit'           => 1,
 							'nilai'           => $hargaJualClean,
-							'coa_id'          => 110004,
+							'coa_id'          => $coa_id_110004,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at'      => $timestamp,
 							'updated_at'      => $timestamp
 						];
@@ -1492,6 +1550,7 @@ class PengeluaransController extends Controller
 								'debit'           => 1,
 								'nilai'           => $penyusutanTerbayar,
 								'coa_id'          => $coa_penyusutan_id,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1505,6 +1564,7 @@ class PengeluaransController extends Controller
 								'debit'           => 0,
 								'nilai'           => $hargaClean,
 								'coa_id'          => $coa_id,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1516,7 +1576,8 @@ class PengeluaransController extends Controller
 								'jurnalable_type' => 'App\Models\PenjualanAset',
 								'debit'           => 0,
 								'nilai'           => $keuntungan,
-								'coa_id'          => 70100,
+								'coa_id'          => $coa_id_70100,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1526,7 +1587,8 @@ class PengeluaransController extends Controller
 								'jurnalable_type' => 'App\Models\PenjualanAset',
 								'debit'           => 1,
 								'nilai'           => abs( $keuntungan ),
-								'coa_id'          => 70100,
+								'coa_id'          => $coa_id_70100,
+							'tenant_id'  => session()->get('tenant_id'),
 								'created_at'      => $timestamp,
 								'updated_at'      => $timestamp
 							];
@@ -1568,11 +1630,12 @@ class PengeluaransController extends Controller
 	public function selsihUang($timestamp, $jurnals){
 
 		$kasJurnal = 0;
+		$coa_id_110004 = Coa::where('kode_coa', '110004')->first()->id;
 		foreach ($jurnals as $ju) {
-			if ($ju['coa_id'] == 110004 && $ju['debit'] == 1) {
+			if ($ju['coa_id'] == $coa_id_110004 && $ju['debit'] == 1) {
 				$kasJurnal += $ju['nilai'];
 			}
-			if ($ju['coa_id'] == 110004 && $ju['debit'] == 0) {
+			if ($ju['coa_id'] == $coa_id_110004 && $ju['debit'] == 0) {
 				$kasJurnal -= $ju['nilai'];
 			}
 		}
@@ -1581,7 +1644,8 @@ class PengeluaransController extends Controller
 		$query .= "sum(CASE WHEN debit = 0 THEN nilai ELSE 0 END) as kredit ";
 		$query .= "FROM jurnal_umums ";
 		$query .= "WHERE created_at <= '{$timestamp}' ";
-		$query .= "AND coa_id like '110004' ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND coa_id = " . $coa_id_110004 ;
 
 		$ju = DB::select($query)[0];
 
@@ -1604,34 +1668,37 @@ class PengeluaransController extends Controller
 		$selisih = $this->selsihUang($time, $jurnals);
 		if ($selisih <= 0) {
 			Log::info('Dibuat Modal');
-			$tambahanModal = (int)abs($selisih);
-			$modal = new Modal;
-			$modal->coa_kas_id = 301000;
-			$modal->modal = $tambahanModal;
-			$modal->staf_id = Input::get('staf_id');
+            $coa_id_301000     = Coa::where('kode_coa', '301000')->first()->id;
+			$tambahanModal     = (int)abs($selisih);
+			$modal             = new Modal;
+			$modal->coa_id     = $coa_id_301000;
+			$modal->modal      = $tambahanModal;
+			$modal->staf_id    = Input::get('staf_id');
 			$modal->keterangan = 'Modal untuk pembelian harta ' . Input::get('harta');
 			$modal->created_at = $time;
 			$modal->updated_at = $time;
 			$modal->save();
 
-			$jurnals[] = [
-				'jurnalable_id' => $modal->id,
-				'jurnalable_type' => 'App\Models\Modal',
-				'debit' => 1,
-				'nilai' => $tambahanModal,
-				'coa_id' => 110004,
-				'created_at' => $time,
-				'updated_at' => $time
-			];
+            $jurnals[] = [
+                'jurnalable_id'   => $modal->id,
+                'jurnalable_type' => 'App\Models\Modal',
+                'debit'           => 1,
+                'nilai'           => $tambahanModal,
+                'coa_id'          => Coa::where('kode_coa', '110004')->first()->id,
+                'tenant_id'       => session()->get('tenant_id'),
+                'created_at'      => $time,
+                'updated_at'      => $time
+            ];
 
 			$jurnals[] = [
-				'jurnalable_id' => $modal->id,
+				'jurnalable_id'   => $modal->id,
 				'jurnalable_type' => 'App\Models\Modal',
-				'debit' => 0,
-				'nilai' => $tambahanModal,
-				'coa_id' => 301000,
-				'created_at' => $time,
-				'updated_at' => $time
+				'debit'           => 0,
+				'nilai'           => $tambahanModal,
+				'coa_id'          => $coa_id_301000,
+                'tenant_id'       => session()->get('tenant_id'),
+				'created_at'      => $time,
+				'updated_at'      => $time
 			];
 			Log::info('===============================================================');
 			Log::info('seleisih = ' . $selisih);
@@ -1653,7 +1720,8 @@ class PengeluaransController extends Controller
 			$query  = "SELECT ";
 			$query .= "SUM(CASE WHEN menambah = '1' THEN nilai ELSE 0 END) AS menambah,";
 			$query .= "SUM(CASE WHEN menambah = '0' THEN nilai ELSE 0 END) AS mengurangi ";
-			$query .= "FROM go_pays";
+			$query .= "FROM go_pays ";
+			$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 
 			$menambah   = 0;
 			$mengurangi = 0;
@@ -1694,6 +1762,7 @@ class PengeluaransController extends Controller
 		$query .= "(pg.keterangan like ? or ? = '') ";
 		$query .= "AND (pg.tanggal like ? or ? = '') ";
 		$query .= "AND (sp.nama like ? or ? = '') ";
+		$query .= "AND pg.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY pg.created_at desc ";
 		if (!$count) {
 			$query .= "LIMIT {$pass}, {$displayed_rows} ";
@@ -1712,7 +1781,8 @@ class PengeluaransController extends Controller
 		$query  = "SELECT ";
 		$query .= "SUM(CASE WHEN menambah = '1' THEN nilai ELSE 0 END) AS menambah,";
 		$query .= "SUM(CASE WHEN menambah = '0' THEN nilai ELSE 0 END) AS mengurangi ";
-		$query .= "FROM go_pays";
+		$query .= "FROM go_pays ";
+		$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
 		$datas = DB::select($query);
 		$total = $datas[0]->menambah - $datas[0]->mengurangi;
 		$ggs = GoPay::latest()->paginate(15);
@@ -1749,8 +1819,9 @@ class PengeluaransController extends Controller
 				'jurnalable_id'   => $gg->id,
 				'jurnalable_type' => 'App\Models\GoPay',
 				'debit'           => 1,
-				'coa_id'          => '112001',
+				'coa_id'          =>Coa::where('kode_coa', '112001')->first()->id,
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1761,6 +1832,7 @@ class PengeluaransController extends Controller
 				'debit'           => 0,
 				'coa_id'          => Input::get('sumber_uang_id'),
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1801,8 +1873,9 @@ class PengeluaransController extends Controller
 				'jurnalable_id'   => $gg->id,
 				'jurnalable_type' => 'App\Models\GoPay',
 				'debit'           => 1,
-				'coa_id'          => '612345',
+				'coa_id'          =>Coa::where('kode_coa', '612345')->first()->id,
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1811,8 +1884,9 @@ class PengeluaransController extends Controller
 				'jurnalable_id'   => $gg->id,
 				'jurnalable_type' => 'App\Models\GoPay',
 				'debit'           => 0,
-				'coa_id'          => '112001',
+				'coa_id'          =>Coa::where('kode_coa', '112001')->first()->id,
 				'nilai'           => $gg->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $gg->tanggal->format('Y-m-d H:i:s'),
 				'updated_at'      => $gg->tanggal->format('Y-m-d H:i:s')
 			];
@@ -1852,6 +1926,7 @@ class PengeluaransController extends Controller
 		$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
 		$query .= "JOIN stafs as st on st.id = fb.petugas_id ";
 		$query .= "WHERE susutable_type= '{$model}' ";
+		$query .= "AND pn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY pn.susutable_id ";
 		$query .= "ORDER BY bp.id desc";
 		return DB::select($query);
@@ -1907,7 +1982,7 @@ class PengeluaransController extends Controller
 
 		/* $jurnal_umum_id = CheckoutKasir::latest()->limit(2)->first()->jurnal_umum_id; */
 		$jurnal_umums   = JurnalUmum::with('jurnalable')
-								  ->where('coa_id', '110000')
+								  ->where('coa_id', Coa::where('kode_coa',  '110000')->first()->id)
 								  ->where('id', '>', $jurnal_umum_id_before)
 								  ->where('id', '<=', $jurnal_umum_id_after)
 								  ->orderBy('id', 'desc')

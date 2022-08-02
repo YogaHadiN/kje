@@ -57,7 +57,6 @@ class PenjualansController extends Controller
 
 			$datas             = Input::get('tempBeli');
 			$datas             = json_decode($datas, true);
-			$nota_jual_id      = Yoga::customId('App\Models\NotaJual');
 			$biaya             = 0;
 			$biaya_obat        = 0;
 			$last_penjualan_id = Penjualan::orderBy('id', 'desc')->first()->id;
@@ -65,14 +64,21 @@ class PenjualansController extends Controller
 			$dispensings       = [];
 			$jurnals           = [];
 			$timestamp         = date('Y-m-d H:i:s');
+
+			$nj          = new NotaJual;
+			$nj->tanggal = Yoga::datePrep(Input::get('tanggal'));
+			$nj->staf_id = Input::get('staf_id');
+			$confirm     = $nj->save();
+
 			foreach ($datas as $data) {
 				$last_penjualan_id++;
 				$penjualans[]       = [
 					'id'           => $last_penjualan_id,
-					'nota_jual_id' => $nota_jual_id,
+					'nota_jual_id' => $nj->id,
 					'merek_id'     => $data['merek_id'],
 					'harga_jual'   => $data['harga_jual'],
 					'jumlah'       => $data['jumlah'],
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'   => $timestamp,
 					'updated_at'   => $timestamp
 				];
@@ -87,6 +93,7 @@ class PenjualansController extends Controller
 					'keluar'           => $data['jumlah'],
 					'dispensable_id'   => $last_penjualan_id,
 					'dispensable_type' => 'App\Models\Penjualan',
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'       => $timestamp,
 					'updated_at'       => $timestamp
 				];
@@ -95,53 +102,52 @@ class PenjualansController extends Controller
 				$biaya_obat += $data['harga_beli'] * $data['jumlah'];
 			}
 
-			$nj          = new NotaJual;
-			$nj->id      = $nota_jual_id;
-			$nj->tanggal = Yoga::datePrep(Input::get('tanggal'));
-			$nj->staf_id = Input::get('staf_id');
-			$confirm     = $nj->save();
 
 			$biaya = Input::get('total_harga');
 
 			if ($confirm) {
 
 				$jurnals[] = [
-					'jurnalable_id'   => $nota_jual_id,
+					'jurnalable_id'   => $nj->id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 110000,
+					'coa_id'          => Coa::where('kode_coa',  '110000')->first()->id,
 					'debit'           => 1,
 					'nilai'           => $biaya,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
 
 				$jurnals[] = [
-					'jurnalable_id'   => $nota_jual_id,
+					'jurnalable_id'   => $nj->id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 400002,
+					'coa_id'          => Coa::where('kode_coa',  '400002')->first()->id,
 					'debit'           => 0,
 					'nilai'           => $biaya,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
 				
 
 				$jurnals[] = [
-					'jurnalable_id'   => $nota_jual_id,
+					'jurnalable_id'   => $nj->id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 50200,
+					'coa_id'          => Coa::where('kode_coa',  '50200')->first()->id,
 					'debit'           => 1,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
 
 				$jurnals[] = [
-					'jurnalable_id'   => $nota_jual_id,
+					'jurnalable_id'   => $nj->id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 112000,
+					'coa_id'          => Coa::where('kode_coa',  '112000')->first()->id,
 					'debit'           => 0,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
@@ -153,7 +159,7 @@ class PenjualansController extends Controller
 			$pesan = '<strong>Transaksi Penjualan Tanpa Resep</strong> Berhasil dilakukan';
 			DB::commit();
 			return redirect('penjualans')->withPesan(Yoga::suksesFlash($pesan))
-				->withPrint($nota_jual_id);
+				->withPrint($nj->id);
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -194,9 +200,7 @@ class PenjualansController extends Controller
 				$tempBeli = Input::get('tempBeli');
 				$datas    = json_decode($tempBeli, true);
 
-				$nota_jual_id = Yoga::customId('App\Models\NotaJual');
 				$nj           = new NotaJual;
-				$nj->id       = $nota_jual_id;
 				$nj->tanggal  = Yoga::datePrep(Input::get('tanggal'));
 				$nj->staf_id  = $staf_id;
 				$nj->save();
@@ -210,10 +214,11 @@ class PenjualansController extends Controller
 					$last_penjualan_id++;
 					$penjualans[]       = [
 						'id'           => $last_penjualan_id,
-						'nota_jual_id' => $nota_jual_id,
+						'nota_jual_id' => $nj->id,
 						'merek_id'     => $data['merek_id'],
 						'harga_jual'   => $data['harga_jual'],
 						'jumlah'       => $data['jumlah'],
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'   => $timestamp,
 						'updated_at'   => $timestamp
 					];
@@ -230,6 +235,7 @@ class PenjualansController extends Controller
 						'keluar'           => $data['jumlah'],
 						'dispensable_id'   => $last_penjualan_id,
 						'dispensable_type' => 'App\Models\Penjualan',
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'       => $timestamp,
 						'updated_at'       => $timestamp
 					];
@@ -241,18 +247,20 @@ class PenjualansController extends Controller
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 50200, // Beban Biaya Obat
+					'coa_id'          => Coa::where('kode_coa',  '50200')->first()->id, // Beban Biaya Obat
 					'debit'           => 1,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];
 				$jurnals[] = [
 					'jurnalable_id'   => $nota_jual_id,
 					'jurnalable_type' => 'App\Models\NotaJual',
-					'coa_id'          => 112000, // Persediaan obat
+					'coa_id'          => Coa::where('kode_coa',  '112000')->first()->id, // Persediaan obat
 					'debit'           => 0,
 					'nilai'           => $biaya_obat,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'      => $timestamp,
 					'updated_at'      => $timestamp
 				];

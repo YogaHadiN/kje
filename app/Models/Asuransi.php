@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-
+use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Classes\Yoga;
 use App\Models\Asuransi;
 use DB;
 
 
 class Asuransi extends Model{
+    use BelongsToTenant,HasFactory;
 
 	// Add your validation rules here
 	public static $rules = [
@@ -110,14 +111,21 @@ class Asuransi extends Model{
 		return Yoga::emptyIfNull($string);
 	}
 	public function getBelumAttribute(){
-		$query = "SELECT count(px.id) as jumlah from periksas as px join pasiens as p on px.pasien_id = p.id join asuransis as asu on asu.id = px.asuransi_id where px.piutang > 0 and px.piutang > px.piutang_dibayar and px.asuransi_id = '{$this->id}';";
+		$query = "SELECT count(px.id) as jumlah ";
+		$query .= "from periksas as px ";
+		$query .= "join pasiens as p on px.pasien_id = p.id ";
+		$query .= "join asuransis as asu on asu.id = px.asuransi_id ";
+		$query .= "where px.piutang > 0 ";
+		$query .= "and px.piutang > px.piutang_dibayar ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and px.asuransi_id = '{$this->id}' ";
 		return DB::select($query)[0]->jumlah;
 	}
 	public static function list(){
 		return  Asuransi::where('aktif', 1)->pluck('nama', 'id');
 	}
 	public function tipe_asuransi(){
-		return $this->belongsTo('App\Models\TipeAsuransi', 'tipe_asuransi');
+		return $this->belongsTo('App\Models\TipeAsuransi');
 	}
 	
     public function telpons(){
@@ -127,4 +135,12 @@ class Asuransi extends Model{
     public function berkas(){
         return $this->morphMany('App\Models\Berkas', 'berkasable');
     }
+    public static function Bpjs(){
+        return Asuransi::where('tipe_asuransi_id', 5)->first();
+    }
+
+    public static function BiayaPribadi(){
+        return Asuransi::where('tipe_asuransi_id', 1)->first();
+    }
+    
 }

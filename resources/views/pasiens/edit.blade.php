@@ -31,7 +31,7 @@
           <input type="hidden" value="{{ $antrian_id }}" name="antrian_id" id="antrian_id"/>
           @include('pasiens.createForm', ['antrianpolis' => false])
       {!! Form::close() !!}
-      @if(\Auth::user()->role == '6')
+      @if(\Auth::user()->role_id == '6')
           {!! Form::open(array('url' => 'pasiens/' . $pasien->id, 'method' => 'DELETE'))!!} 
           <div class="row">
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">

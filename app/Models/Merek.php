@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Models\Terapi;
 use App\Models\Classes\Yoga;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Session;
 
 class Merek extends Model{
+    use BelongsToTenant,HasFactory;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($merek){
@@ -35,8 +38,6 @@ class Merek extends Model{
 			return true;
 		});
 	}
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	// Add your validation rules here
 	public static $rules = [

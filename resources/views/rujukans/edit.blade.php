@@ -11,7 +11,7 @@
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li>
-          <a href="{{ url('ruangperiksas/' . $rujukan->periksa->poli)}}">Antrian Periksa</a>
+          <a href="{{ url('ruangperiksas/' . $rujukan->periksa->poli_id)}}">Antrian Periksa</a>
       </li>
       <li class="active">
           <strong>Edit Rujukan</strong>
@@ -43,7 +43,6 @@
 <script>
 var base = '{{ url("/") }}';
 var asuransi_id = '{{$rujukan->periksa->asuransi_id}}';
-var tujuan_rujuk_tags = {!! $tujuan_rujuks !!};
 </script>
   {!! HTML::script('js/rujukan.js')!!}
 <script src="{{ url('js/uk.js') }}" type="text/javascript"></script>

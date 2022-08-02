@@ -1,19 +1,23 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Staf;
 
+use App\Traits\BelongsToTenant; 
 use Illuminate\Database\Eloquent\Model;
 
 class BayarGaji extends Model
 {
+    use BelongsToTenant, HasFactory;
 
 	protected $guarded = ['id'];
     public function staf(){
          return $this->belongsTo('App\Models\Staf');
     }
-    public function coa(){
-         return $this->belongsTo('App\Models\Coa', 'kas_coa_id');
+
+    public function sumberUang(){
+         return $this->belongsTo('App\Models\Coa', 'sumber_uang_id');
     }
     protected $morphClass = 'App\Models\BayarGaji';
     protected $dates = ['tanggal_dibayar', 'mulai', 'akhir'];

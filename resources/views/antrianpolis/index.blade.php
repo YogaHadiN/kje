@@ -138,8 +138,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label for="poli" id="lblPoli">Poli</label><br />
-        
-                                            {!! Form::select('poli', App\Models\Classes\Yoga::poliList(), null, ['id' => 'poli1', 'class' => 'form-control rq'])  !!}
+                                            {!! Form::select('poli_id', App\Models\Classes\Yoga::poliList(), null, ['id' => 'poli1', 'class' => 'form-control rq'])  !!}
                                             </select>
                                         </div>
                                     </div>

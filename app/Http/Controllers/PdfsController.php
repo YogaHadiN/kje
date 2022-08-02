@@ -20,6 +20,7 @@ use App\Models\Staf;
 use App\Models\Terapi;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
+use App\Models\JenisTarif;
 use App\Models\PesertaBpjsPerbulan;
 use App\Models\KirimBerkas;
 use App\Models\Pph21Dokter;
@@ -280,33 +281,32 @@ class PdfsController extends Controller
 		->setOption('margin-left', 0);
         return $pdf->stream();
     }
-	public function dispensing($rak_id, $mulai, $akhir){
+	public function dispensing($merek_id, $mulai, $akhir){
 
-		// return 'mulai = ' . $mulai . ' akhir = ' . $akhir . ' rak_id = ' . $rak_id . ' ';
-		//$dispensings = DB::select("SELECT id, tanggal, rak_id, sum(keluar) as keluar, sum(masuk) as masuk, dispensable_id FROM dispensings where tanggal <= '{$akhir}' AND tanggal >= '{$mulai}' AND rak_id like '{$rak_id}' group by tanggal");
 		$query = "SELECT id, ";
 		$query .= "tanggal, ";
-		$query .= "rak_id, ";
+		$query .= "merek_id, ";
 		$query .= "sum(keluar) as keluar, ";
 		$query .= "sum(masuk) as masuk, ";
 		$query .= "dispensable_id, ";
 		$query .= "dispensable_type ";
 		$query .= "FROM dispensings ";
 		$query .= "where tanggal <= '{$akhir}' ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND tanggal >= '{$mulai}' ";
-		$query .= "AND rak_id like '{$rak_id}' ";
+		$query .= "AND merek_id like '{$merek_id}' ";
 		$query .= "group by tanggal";
 
 		$dispensings = DB::select($query);
 		// $dispensings = Dispensing::where('tanggal', '>=', $mulai)->where('tanggal', '<=', $akhir)->where('rak_id', 'like', $rak_id)->groupBy('rak_id')->get();
-		$rak = Rak::find($rak_id);
+		$merek = Merek::find($merek_id);
 		$raks = Rak::all();
 
 
 
 		$pdf = pdf::loadview('pdfs.dispensing', compact(
 			'dispensings', 
-			'rak',  
+			'merek',  
 			'mulai',  
 			'akhir',  
 			'raks'
@@ -320,7 +320,7 @@ class PdfsController extends Controller
 	}
 	private function status_private($a, $periksa_id){
 		header ('Content-type: text/html; charset=utf-8');
-		$periksa    = Periksa::with('pasien', 'transaksii')->where('id', $periksa_id)->first();
+		$periksa    = Periksa::with('pasien', 'transaksii', 'asuransi')->where('id', $periksa_id)->first();
 
 		/* dd( $periksa->gdp_bpjs ); */
 
@@ -328,15 +328,15 @@ class PdfsController extends Controller
 		//
 		//
 		//
-		$tarifObatFlat = Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', '9')->first()->biaya;		
+		$tarifObatFlat = Tarif::queryTarif($periksa->asuransi_id, 'Biaya Obat')->biaya;		
 
 
 		$bayarGDS   = false;
 		$transaksi_before = json_decode($periksa->transaksi, true);
-		// return 'oke';
-		if ($periksa->asuransi_id == 32) {
+		if ($periksa->asuransi->tipe_asuransi_id == 5) {
 			foreach ($transaksi_before as $key => $value) {
-				if (($value['jenis_tarif_id'] == '116')) {
+                $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
+				if (($value['jenis_tarif_id'] == $jt_gula_darah->id)) {
 					$bayarGDS = Yoga::cekGDSBulanIni($periksa->pasien, $periksa)['bayar'];
 				}
 			}
@@ -355,12 +355,11 @@ class PdfsController extends Controller
 		}
 
 		$transaksis = $periksa->transaksi;
-		$biaya = 0;
+		$biaya      = 0;
 		$transaksis = json_decode($transaksis, true);
-		// return $t
 		foreach ($transaksis as $transaksi) {
 			$biaya += $transaksi['biaya'];
-			if ($transaksi['jenis_tarif_id'] == '9') {
+			if ( JenisTarif::where('jenis_tarif', 'Biaya Obat')->where('id', $transaksi['jenis_tarif_id'])->exists()) {
 				$biayaObat = $transaksi['biaya'];
 			}
 		}
@@ -447,8 +446,8 @@ class PdfsController extends Controller
 		return $pdf->stream();
 	}
 	
-	public function bukuBesar($bulan, $tahun, $coa_id){
-		$jurnalumums = JurnalUmum::where('coa_id', $coa_id)
+	public function bukuBesar($bulan, $tahun, $kode_coa){
+		$jurnalumums = JurnalUmum::where('kode_coa', $kode_coa)
 		->where('created_at', 'like', $tahun . '-' . $bulan . '%')
 		->get();
 
@@ -691,14 +690,12 @@ class PdfsController extends Controller
 		$pdf = PDF::loadView('pdfs.piutangAsuransiSudahDibayar', compact(
 			'asuransi',
 			'mulai',
-			'pembayaran_asuransi',
 			'total_piutang',
 			'total_tunai',
 			'total_sudah_dibayar',
 			'total_sisa_piutang',
 			'akhir',
 			'sudah_dibayars',
-			'total_pembayaran'
 		))->setPaper('a4')->setOrientation('portrait')->setWarnings(false);
 		return $pdf->stream();
 	}
@@ -830,7 +827,7 @@ class PdfsController extends Controller
 		$hasil = '';
 		/* dd( $periksa ); */
 		foreach (json_decode($periksa->transaksi, true) as $transaksi) {
-			if ( $transaksi['jenis_tarif_id'] == '404' ) {
+			if ( JenisTarif::where('jenis_tarif', 'rapid test antigen')->where('id', $transaksi['jenis_tarif_id'])->exists() ) {
 				$hasil = $transaksi['keterangan_tindakan'];
 			}
 		}
@@ -865,7 +862,7 @@ class PdfsController extends Controller
 		$periksa = Periksa::with('pasien')->where('id', $periksa_id)->first();
 		$hasil   = '';
 		foreach (json_decode($periksa->transaksi, true) as $transaksi) {
-			if ( $transaksi['jenis_tarif_id'] == '403' ) {
+			if ( JenisTarif::where('jenis_tarif', 'rapid test')->where('id', $transaksi['jenis_tarif_id'])->exists() ) {
 				$hasil = $transaksi['keterangan_tindakan'];
 			}
 		}

@@ -98,6 +98,7 @@ class PeriksaCustomController extends Controller
 						'debit'           => $j['debit'],
 						'coa_id'          => $j['coa_id'],
 						'nilai'           => $j['nilai'],
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'      => $prx->tanggal . ' 23:59:59',
 						'updated_at'      => $prx->tanggal . ' 23:59:59'
 					];
@@ -111,6 +112,7 @@ class PeriksaCustomController extends Controller
 						'debit'           => $t['debit'],
 						'coa_id'          => $t['coa_id'],
 						'nilai'           => $t['nilai'],
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'      => $prx->tanggal . ' 23:59:59',
 						'updated_at'      => $prx->tanggal . ' 23:59:59'
 					];

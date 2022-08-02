@@ -25,7 +25,6 @@ Route::get('fasilitas/antrian_pasien/tambah/{id}', [\App\Http\Controllers\Fasili
 
 Route::get('fasilitas/antrian_pasien/{poli}', [\App\Http\Controllers\FasilitasController::class, 'input_tgl_lahir']); //antrian pasien
 Route::post('fasilitas/antrian_pasien/{poli}/tanggal', [\App\Http\Controllers\FasilitasController::class, 'post_tgl_lahir']); //antrian pasien
-Route::get('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}', [\App\Http\Controllers\FasilitasController::class, 'cari_pasien']); //cari_pasien
 Route::post('fasilitas/antrian_pasien/{poli}/tanggal/{pasien_id}', [\App\Http\Controllers\FasilitasController::class, 'cari_asuransi']); //cari_pasien
 Route::get('fasilitas/antrian_pasien/{poli}/{tanggal_lahir}', [\App\Http\Controllers\FasilitasController::class, 'post_tgl_lahir']); //antrian pasien
 Route::get('fasilitas/input_telp', [\App\Http\Controllers\FasilitasController::class, 'input_telp']); //antrian pasien
@@ -52,9 +51,16 @@ Route::post('invoices/upload_verivication/{id}', [\App\Http\Controllers\InvoiceC
 Route::get('invoices/pendingReceivedVerification', [\App\Http\Controllers\InvoiceController::class, 'pendingReceivedVerification']);
 Route::resource('invoices', \App\Http\Controllers\InvoiceController::class);
 Route::resource('pasien_rujuk_baliks', \App\Http\Controllers\PasienRujukBalikController::class);
+Route::get('fasilitas/survey', [\App\Http\Controllers\FasilitasController::class, 'survey']); //survey kepuasan pelanggan
 
 Route::group(['middleware' => 'auth'], function(){
-	Route::get('fasilitas/survey', [\App\Http\Controllers\FasilitasController::class, 'survey']); //survey kepuasan pelanggan
+
+	Route::get('antrians/proses/{id}', [\App\Http\Controllers\FasilitasController::class, 'prosesAntrian']); //antrian pasien
+	Route::post('antrians/antrianpolis/{id}', [\App\Http\Controllers\FasilitasController::class, 'antrianPoliPost']); //antrian pasien
+	Route::get('antrians/{id}/pasiens/create', [\App\Http\Controllers\FasilitasController::class, 'createPasien']); //antrian pasien
+	Route::post('antrians/{id}/pasiens', [\App\Http\Controllers\FasilitasController::class, 'storePasien']); //antrian pasien
+	Route::get('antrians', [\App\Http\Controllers\FasilitasController::class, 'listAntrian']);
+	Route::delete('antrians/{id}', [\App\Http\Controllers\FasilitasController::class, 'deleteAntrian']);
 
 	Route::post('peserta_bpjs_perbulans/editDataPasien', [\App\Http\Controllers\PesertaBpjsPerbulanController::class, 'editDataPasien']);
 	Route::post('/peserta_bpjs_perbulans/update_data_pasien', [\App\Http\Controllers\PesertaBpjsPerbulanController::class, 'updateDataPasien']);
@@ -74,13 +80,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('antrianfarmasis/kembali/{id}', [\App\Http\Controllers\AntrianFarmasiController::class, 'kembali']); //antrian pasien
 	Route::delete('antrianfarmasis/{id}', [\App\Http\Controllers\AntrianFarmasiController::class, 'destroy']); //antrian pasien
 
-	Route::get('fasilitas/antrian/pdf/{id}', [\App\Http\Controllers\FasilitasController::class, 'antrian_pdf']); //antrian pasien
-	Route::get('antrians/proses/{id}', [\App\Http\Controllers\FasilitasController::class, 'prosesAntrian']); //antrian pasien
-	Route::post('antrians/antrianpolis/{id}', [\App\Http\Controllers\FasilitasController::class, 'antrianPoliPost']); //antrian pasien
-	Route::get('antrians/{id}/pasiens/create', [\App\Http\Controllers\FasilitasController::class, 'createPasien']); //antrian pasien
-	Route::post('antrians/{id}/pasiens', [\App\Http\Controllers\FasilitasController::class, 'storePasien']); //antrian pasien
-	Route::get('antrians', [\App\Http\Controllers\FasilitasController::class, 'listAntrian']);
-	Route::delete('antrians/{id}', [\App\Http\Controllers\FasilitasController::class, 'deleteAntrian']);
 	Route::get('transaksi/avail', [\App\Http\Controllers\RekeningController::class, 'available']);
 
 	Route::get('cek_list_harian/obat', [\App\Http\Controllers\CekListHariansController::class, 'obat']);
@@ -123,7 +122,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post( '/antrianperiksas/update/staf', [\App\Http\Controllers\AntrianPeriksasController::class, 'updateStaf']);
 	Route::post('antriankasirs/pengantar/{id}/edit', [\App\Http\Controllers\PengantarsController::class, 'antriankasirsUpdate']);
 	Route::post('laporans/pengantar', [\App\Http\Controllers\PengantarsController::class, 'submitPcare']);
-	Route::post('laporans/kunjungansakit', [\App\Http\Controllers\PengantarsController::class, 'postKunjunganSakit']);
 	Route::post('laporans/periksa/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'updatePengantarPeriksa']);
 
 
@@ -131,7 +129,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('laporans/omset_estetik', [\App\Http\Controllers\LaporansController::class, 'omsetEstetik']);
 	Route::get('laporans/jumlahPenyakitTBCTahunan', [\App\Http\Controllers\LaporansController::class, 'jumlahPenyakitTBCTahunan']);
-	Route::get('laporans/jumlahPenyakit_DM_HT', [\App\Http\Controllers\LaporansController::class, 'jumlahPenyakitDM_HT']);
 	Route::get('laporans/bpjs/hipertensi', [\App\Http\Controllers\LaporanBpjsController::class, 'hipertensi']);
 	Route::get('laporans/bpjs/dm', [\App\Http\Controllers\LaporanBpjsController::class, 'dm']);
 	Route::get('laporans/bpjs/diagnosa', [\App\Http\Controllers\LaporanBpjsController::class, 'diagnosa']);
@@ -165,7 +162,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get( 'asuransis/get/coa_id' , [\App\Http\Controllers\AsuransisController::class, 'getAsuransiCoaId']);
 	Route::put('asuransis/{id}/upload', [\App\Http\Controllers\AsuransisController::class, 'uploadBerkas']);
 	Route::post('asuransis/berkas/hapus', [\App\Http\Controllers\AsuransisController::class, 'hapusBerkas']);
-	Route::get('asuransis/cek_pembayaran', [\App\Http\Controllers\AsuransisController::class, 'cekSalahBayar']);
 
 
 	Route::put('stafs/{id}/upload', [\App\Http\Controllers\StafsController::class, 'uploadBerkas']);
@@ -189,7 +185,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('antriankasirs', \App\Http\Controllers\AntrianKasirsController::class);
 
 	Route::resource('antrianpolis', \App\Http\Controllers\AntrianPolisController::class);
-
 
 	Route::get('pasiens/{id}/alergi', [\App\Http\Controllers\PasiensController::class, 'alergi']);
 	Route::get('pasiens/{id}/alergi/create', [\App\Http\Controllers\PasiensController::class, 'alergiCreate']);
@@ -233,7 +228,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::post('rekenings/import', [\App\Http\Controllers\RekeningController::class, 'importPost']);
 		Route::get('rekenings/{id}', [\App\Http\Controllers\RekeningController::class, 'show']);
 
-		Route::get('jurnal_umums', [\App\Http\Controllers\JurnalUmumsController::class, 'index']);
 		Route::get('jurnal_umums/show', [\App\Http\Controllers\JurnalUmumsController::class, 'show']);
 		Route::get('jurnal_umums/penyusutan', [\App\Http\Controllers\JurnalUmumsController::class, 'penyusutan']);
 		Route::get('jurnal_umums/coa', [\App\Http\Controllers\JurnalUmumsController::class, 'coa']);
@@ -272,7 +266,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('stafs/{id}/jumlah_pasien', [\App\Http\Controllers\StafsController::class, 'jumlahPasien']);
 		Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}', [\App\Http\Controllers\StafsController::class, 'jumlahPasienPerTahun']);
-		Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}/pdf', [\App\Http\Controllers\PdfsController::class, 'jumlahPasienPerTahun']);
 
 		Route::resource('surats', \App\Http\Controllers\SuratController::class);
 		Route::resource('pelamars', \App\Http\Controllers\PelamarsController::class);
@@ -323,10 +316,10 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('penjualans/obat_buat_karyawan', [\App\Http\Controllers\PenjualansController::class, 'obat_buat_karyawan']); //penjualan obat tanpa resep
 		Route::post('penjualans/obat_buat_karyawan', [\App\Http\Controllers\PenjualansController::class, 'obat_buat_karyawan_post']); //penjualan obat tanpa resep
 		Route::post('penjualans', [\App\Http\Controllers\PenjualansController::class, 'indexPost']); //penjualan obat tanpa resep
-		Route::get('pembelians', [\App\Http\Controllers\PembeliansController::class, 'index']);
-		Route::post('pembelians/ajax', [\App\Http\Controllers\PembeliansController::class, 'ajax']);
 		Route::post('pembelians/ajax/formulabyid', [\App\Http\Controllers\PembeliansAjaxController::class, 'formulabyid']);
 		Route::post('pembelians/ajax/rakbyid', [\App\Http\Controllers\PembeliansAjaxController::class, 'rakbyid']);
+		Route::get('pembelians', [\App\Http\Controllers\PembeliansController::class, 'index']);
+		Route::post('pembelians/ajax', [\App\Http\Controllers\PembeliansController::class, 'ajax']);
 		Route::post('pembelians', [\App\Http\Controllers\PembeliansController::class, 'store']);
 		Route::get('pembelians/show/{id}', [\App\Http\Controllers\PembeliansController::class, 'show']);
 		Route::get('pembelians/{faktur_beli_id}', [\App\Http\Controllers\PembeliansController::class, 'create']);
@@ -387,8 +380,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::post('pengeluarans/bayar_gaji_karyawan', [\App\Http\Controllers\BayarGajiController::class, 'bayar_gaji']);
 		Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', [\App\Http\Controllers\BayarGajiController::class, 'bayar_gaji']);
 
-		Route::get('pengeluarans/bayar_bonus_karyawan', [\App\Http\Controllers\PengeluaransController::class, 'bayar_bonus_karyawan']);
-		Route::get('pengeluarans/bayar_bonus_karyawan/{staf_id}', [\App\Http\Controllers\PengeluaransController::class, 'bayar_bonus_show']);
 		Route::post('pengeluarans/bayar_bonus_karyawan/{staf_id}', [\App\Http\Controllers\PengeluaransController::class, 'bayar_bonus']);
 
 		Route::get('pengeluarans/bagi_hasil_gigi', [\App\Http\Controllers\PengeluaransController::class, 'bagiHasilGigi']);
@@ -477,8 +468,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pendapatans/pembayaran_asuransi/cari_pembayaran', [\App\Http\Controllers\PendapatansController::class, 'cariPembayaran']);
 		Route::get('pendapatans/pembayaran/asuransi/{id}', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_asuransi_rekening']);
 		Route::post('pengeluarans/pembayaran_asuransi/show ', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi']);
-		Route::post('pengeluarans/pembayaran_asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi_by_rekening']);
 
+		Route::post('pengeluarans/pembayaran_asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi_by_rekening']);
 		Route::get('pendapatans/pembayaran_bpjs ', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_bpjs']);
 		Route::post('pendapatans/pembayaran_bpjs', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_bpjs_post']);
 		Route::get('pendapatans/pembayaran/asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_asuransi_show']);
@@ -521,9 +512,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('laporans/jumlahIspa', [\App\Http\Controllers\LaporansController::class, 'jumlahIspa']);
 		Route::get('laporans/jumlahDiare', [\App\Http\Controllers\LaporansController::class, 'jumlahDiare']);
 		Route::get('laporans/hariandanjam', [\App\Http\Controllers\LaporansController::class, 'hariandanjam']);
-		Route::get('laporans/asuransi/detail/{asuransi_id}/{tanggal}', [\App\Http\Controllers\LaporansController::class, 'asuransi_detail']);
-		Route::get('laporans/contoh', [\App\Http\Controllers\LaporansController::class, 'contoh']);
-		Route::get('laporans/bpjs_tidak_terpakai', [\App\Http\Controllers\LaporansController::class, 'bpjsTidakTerpakai']);
+		Route::get('laporans/bpjs_tidak_terpakai/{bulanTahun}', [\App\Http\Controllers\LaporansController::class, 'bpjsTidakTerpakai']);
 		Route::get('laporans/sms/bpjs', [\App\Http\Controllers\LaporansController::class, 'smsBpjs']);
 
 		Route::get('pajaks/amortisasi', [\App\Http\Controllers\PajaksController::class, 'amortisasi']);
@@ -661,9 +650,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasiens/ajax/cari', [\App\Http\Controllers\PasiensAjaxController::class, 'cariPasien']);
 	Route::post('pasiens/ajax/cekantrian/tanggal', [\App\Http\Controllers\PasiensAjaxController::class, 'cekAntrianPerTanggal']);
 	Route::get('pasiens/ajax/cekPromo', [\App\Http\Controllers\PasiensAjaxController::class, 'cekPromo']);
+	Route::get('pasiens/ajax/status_cel_gds_bulan_ini', [\App\Http\Controllers\PasiensAjaxController::class, 'statusCekGDSBulanIni']);
 	Route::get('pasiens/ajax/cari/pasien', [\App\Http\Controllers\PasiensMergeController::class, 'cariPasien']);
 	Route::post('pasiens/ajax/cari/pasien', [\App\Http\Controllers\PasiensMergeController::class, 'cariPasienPost']);
-	Route::get('pasiens/ajax/status_cel_gds_bulan_ini', [\App\Http\Controllers\PasiensAjaxController::class, 'statusCekGDSBulanIni']);
 
 
 	Route::get('pasiens/gabungkan/pasien/ganda', [\App\Http\Controllers\PasiensMergeController::class, 'index']);
@@ -685,6 +674,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('home_visit/create/pasien/{id}', [\App\Http\Controllers\HomeVisitController::class, 'createPasien']);
 
 	Route::resource('home_visits', \App\Http\Controllers\HomeVisitController::class);
+
+    Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}/pdf', [\App\Http\Controllers\PdfsController::class, 'jumlahPasienPerTahun']);
 	Route::get('pdfs/amortisasi/{tahun}', [\App\Http\Controllers\PdfsController::class, 'amortisasi']);
 	Route::get('pdfs/peredaranBruto/{tahun}', [\App\Http\Controllers\PdfsController::class, 'peredaranBruto']);
 	Route::get('pdfs/status/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'status']);
@@ -694,7 +685,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/dispensing/{rak_id}/{mulai}/{akhir}', [\App\Http\Controllers\PdfsController::class, 'dispensing']);
 	Route::get('pdfs/kuitansi/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'kuitansi']);
 	Route::get('pdfs/struk/{periksa_id}', [\App\Http\Controllers\PdfsController::class, 'struk']);
-	Route::get('pdfs/jasadokter/{bayar_dokter_id}', [\App\Http\Controllers\PdfsController::class, 'jasa_dokter']);
 	Route::get('pdfs/pembelian/{faktur_belanja_id}', [\App\Http\Controllers\PdfsController::class, 'pembelian']);
 	Route::get('pdfs/penjualan/{nota_jual_id}', [\App\Http\Controllers\PdfsController::class, 'penjualan']);
 	Route::get('pdfs/pendapatan/{nota_jual_id}', [\App\Http\Controllers\PdfsController::class, 'pendapatan']);

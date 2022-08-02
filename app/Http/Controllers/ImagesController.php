@@ -34,6 +34,7 @@ class ImagesController extends Controller
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id' => $id,
 						 'gambarable_type' => 'App\Models\Periksa',
+							'tenant_id'  => session()->get('tenant_id'),
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];
@@ -83,6 +84,7 @@ class ImagesController extends Controller
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id' => $id,
 						 'gambarable_type' => 'App\Models\Periksa',
+							'tenant_id'  => session()->get('tenant_id'),
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];

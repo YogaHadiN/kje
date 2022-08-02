@@ -55,11 +55,11 @@
     </div>
 </div>
 @if( 
-	\App\Models\User::find(\Auth::id())->role == '2' ||
-	\App\Models\User::find(\Auth::id())->role == '3' ||
-	\App\Models\User::find(\Auth::id())->role == '4' ||
-	\App\Models\User::find(\Auth::id())->role == '5' ||
-	\App\Models\User::find(\Auth::id())->role == '6' 
+	\App\Models\User::find(\Auth::id())->role_id == '2' ||
+	\App\Models\User::find(\Auth::id())->role_id == '3' ||
+	\App\Models\User::find(\Auth::id())->role_id == '4' ||
+	\App\Models\User::find(\Auth::id())->role_id == '5' ||
+	\App\Models\User::find(\Auth::id())->role_id == '6' 
 	)
 
 	<div class="row">
@@ -102,14 +102,7 @@
 										  <td class="hide tanggal">{!! $periksa->tanggal !!}</td>
 										  <td class="nama_pasien">{!! ucwords($periksa->nama_pasien) !!}</td>
 										  <td>{!! $periksa->nama_asuransi !!}</td>
-										  {{-- <td> --}}
-											  {{-- {!! Form::select('asuransi_id', $list_asuransi, $periksa->asuransi_id, [ --}}
-												  {{-- 'class' => 'form-control selectpick', --}}
-												  {{-- 'onchange' => 'updateAsuransiPeriksa(this);return false;', --}}
-												  {{-- 'data-live-search' => 'true' --}}
-											  {{-- ]) !!} --}}
-										  {{-- </td> --}}
-										  <td>{!! $periksa->poli !!}</td>
+                                          <td>{!! $periksa->poli !!}</td>
 										  <td class='uang'>{!! $periksa->tunai !!}</td>
 										  <td class='uang'>{!! $periksa->piutang !!}</td>
 										  <td>

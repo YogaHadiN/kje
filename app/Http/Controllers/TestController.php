@@ -76,6 +76,7 @@ class TestController extends Controller
 					'nilai'        => $e['nilai'],
 					'saldo_akhir'  => 0,
 					'debet'        => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];
@@ -93,7 +94,6 @@ class TestController extends Controller
 			11,12,13,14,15,16,17,18,19,110
 		];
 		foreach ($foos as $foo) {
-			/* Log::info('oke'); */
 			sendEmailJob::dispatch($foo)->delay(now()->addSeconds(1));
 		}
 		return 'sukses!!';

@@ -65,7 +65,12 @@
 						</div>
 					  <table class="table table-condensed">
 						<tbody>
-						  {!! $periksa->tindakan_html !!}
+                            @foreach ($periksa->transaksii as $t)
+                                <tr>
+                                    <td colspan="2">{{ $t->jenisTarif->jenis_tarif }}</td>
+                                    <td class="text-right uang">{{ $t->biaya }}</td>
+                                </tr>
+                            @endforeach
 						</tbody>
 						<tfoot>
 						  <tr class="b-top-bold-big">

@@ -78,12 +78,12 @@
                 <li role="presentation" class="active">
                     <a href="#status" aria-controls="status" role="tab" data-toggle="tab" id="tab-status">Status</a>
                 </li>
-                @if($antrianperiksa->poli == 'anc' || $antrianperiksa->poli == 'usg')
+                @if($antrianperiksa->poli->poli == 'Poli ANC' || $antrianperiksa->poli->poli == 'Poli USG Kebidanan')
                     <li role="presentation">
                         <a href="#anc" aria-controls="anc" role="tab" data-toggle="tab" id="tab-anc">ANC</a>
                     </li>
                 @endif
-                @if($antrianperiksa->poli == 'usg')
+                @if($antrianperiksa->poli->poli == 'Poli USG Kebidanan')
                     <li role="presentation">
                         <a href="#usg" aria-controls="usg" role="tab" data-toggle="tab" id="tab-usg">USG</a>
                     </li> 
@@ -108,7 +108,7 @@
                                 {!! Form::text('_token', Session::token(), ['class' => 'displayNone', 'id'=>'token']) !!}
                                 {!! Form::text('jam_periksa', date('H:i:s'), ['class' => 'displayNone']) !!}
                                 {!! Form::text('tanggal', $antrianperiksa->tanggal, ['class' => 'displayNone']) !!}
-                                {!! Form::text('poli', $antrianperiksa->poli, ['class' => 'displayNone']) !!}
+                                {!! Form::text('poli_id', $antrianperiksa->poli_id, ['class' => 'displayNone']) !!}
                                 {!! Form::text('adatindakan', $adatindakan, ['class' => 'hide', 'id' => 'adatindakan']) !!}
                                 {!! Form::text('asisten_id', $antrianperiksa->asisten_id, ['class' => 'hide']) !!}
                                 {!! Form::text('antrianperiksa_id', $antrianperiksa->id, ['class' => 'hide', 'id' => 'antrianperiksa_id']) !!}
@@ -366,7 +366,7 @@
                                 
                             </div>
                         </div>
-                        @if($antrianperiksa->asuransi->tipe_asuransi == '4')
+                        @if($antrianperiksa->asuransi->tipe_asuransi_id == '4')
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  id='bilaTipeFlat'>
                                     <div class="alert alert-success">
@@ -479,7 +479,7 @@
                         <button type="button" class="btn btn-success btn-lg btn-block" id="LinkButton2" >Submit</button>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli )!!}" class="btn btn-danger btn-lg btn-block">Cancel</a>
+                        <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli_id )!!}" class="btn btn-danger btn-lg btn-block">Cancel</a>
                     </div>
                 </div>
             </div>
@@ -506,7 +506,7 @@
                             <button type="button" class="btn btn-lg btn-success btn-block" onclick="fokusKeAnemnesa(); return false;">Benar</button>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli) !!}" class="btn btn-lg btn-danger btn-block">Tidak Benar</a>
+                            <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli_id) !!}" class="btn btn-lg btn-danger btn-block">Tidak Benar</a>
                         </div>
                     </div>
                 </div>

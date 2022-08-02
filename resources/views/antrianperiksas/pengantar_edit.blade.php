@@ -85,7 +85,7 @@
 		'edit' => true,
 		'antrianperiksa' => true,
 		'halamanAwal' => 'antrian_periksa_id',
-		'polii' => $ap->poli
+		'polii' => $ap->poli_id
 	])
 	@stop
 	@section('footer') 

@@ -47,30 +47,6 @@
 										</div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-											<div class="form-group @if($errors->has('umum'))has-error @endif">
-											  {!! Form::label('umum', 'Umum', ['class' => 'control-label']) !!}
-                                                {!! Form::textarea('umum', $umumstring, array(
-                                                    'class'         => 'form-control textareacustom',
-                                                    'placeholder'   => 'Umum'
-                                                    ))!!}
-											  @if($errors->has('umum'))<code>{{ $errors->first('umum') }}</code>@endif
-											</div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-												<div class="form-group @if($errors->has('gigi'))has-error @endif">
-												  {!! Form::label('gigi', 'Gigi', ['class' => 'control-label']) !!}
-                                                    {!! Form::textarea('gigi', $gigistring, array(
-                                                        'class'         => 'form-control textareacustom',
-                                                        'placeholder'   => 'Gigi'
-                                                        ))!!}
-												  @if($errors->has('gigi'))<code>{{ $errors->first('gigi') }}</code>@endif
-												</div>
-                                                </div>
-                                            </div>
 										<div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 												<div class="form-group @if($errors->has('kata_kunci'))has-error @endif">
@@ -165,13 +141,13 @@
 										</div>
 										<div class="row">
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-												<div class="form-group @if($errors->has('tipe_asuransi'))has-error @endif">
-												  {!! Form::label('tipe_asuransi', 'Tipe Asuransi', ['class' => 'control-label']) !!}
-													{!! Form::select('tipe_asuransi', $tipe_asuransi_list, null, array(
+												<div class="form-group @if($errors->has('tipe_asuransi_id'))has-error @endif">
+												  {!! Form::label('tipe_asuransi_id', 'Tipe Asuransi', ['class' => 'control-label']) !!}
+													{!! Form::select('tipe_asuransi_id', $tipe_asuransi_list, null, array(
 														'class'         => 'form-control rq',
 														'placeholder'   => '- Pilih Tipe Asuransi -'
 														))!!}
-												  @if($errors->has('tipe_asuransi'))<code>{{ $errors->first('tipe_asuransi') }}</code>@endif
+												  @if($errors->has('tipe_asuransi_id'))<code>{{ $errors->first('tipe_asuransi_id') }}</code>@endif
 												</div>
 											</div>
 											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -182,30 +158,6 @@
 														'placeholder'   => 'tanggal_berakhir'
 														))!!}
 												  @if($errors->has('tanggal_berakhir'))<code>{{ $errors->first('tanggal_berakhir') }}</code>@endif
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-												<div class="form-group @if($errors->has('penagihan'))has-error @endif">
-												  {!! Form::label('penagihan', 'Penagihan', ['class' => 'control-label']) !!}
-													{!! Form::textarea('penagihan', $penagihanstring, array(
-														'class'         => 'form-control textareacustom',
-														'placeholder'   => 'penagihan'
-														))!!}
-												  @if($errors->has('penagihan'))<code>{{ $errors->first('penagihan') }}</code>@endif
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-												<div class="form-group @if($errors->has('rujukan'))has-error @endif">
-												  {!! Form::label('rujukan', 'Rujukan', ['class' => 'control-label']) !!}
-													{!! Form::textarea('rujukan', $rujukanstring, array(
-														'class'         => 'form-control textareacustom',
-														'placeholder'   => 'Rujukan'
-														))!!}
-												  @if($errors->has('rujukan'))<code>{{ $errors->first('rujukan') }}</code>@endif
 												</div>
 											</div>
 										</div>

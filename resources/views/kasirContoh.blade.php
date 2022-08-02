@@ -135,7 +135,7 @@
 													<div class="input-group spinner"><label class="form-control">{!! $terapi->jumlah !!}</label><div class="input-group-btn-vertical"><button class="btn btn-white" onclick="tambah(this);" type="button"><i class="fa fa-caret-up"></i></button><button class="btn btn-white" onclick="kurang(this);" type="button"><i class="fa fa-caret-down"></i></button></div></div>
 												</td>
 												<td class='uang'>
-													@if($periksa->asuransi->tipe_asuransi == 5)
+													@if($periksa->asuransi->tipe_asuransi_id == 5)
 														@if($terapi->merek->rak->fornas == '0')
 															{!! App\Models\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
 														@else
@@ -146,7 +146,7 @@
 													@endif
 												</td>
 												<td class='uang'>
-													@if($periksa->asuransi->tipe_asuransi == 5)
+													@if($periksa->asuransi->tipe_asuransi_id == 5)
 														@if($terapi->merek->rak->fornas == '0')
 														{!! App\Models\Classes\Yoga::kasirHargaJualItem($terapi->merek->rak->harga_jual, $periksa)!!}
 														@else

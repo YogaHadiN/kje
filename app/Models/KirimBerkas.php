@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\BelongsToTenant; 
 class KirimBerkas extends Model
 {
-	public $incrementing = false;
-    protected $keyType = 'string';
+    use BelongsToTenant, HasFactory;
 	protected $dates = [
 		'tanggal'
 	];

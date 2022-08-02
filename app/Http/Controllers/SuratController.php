@@ -80,6 +80,7 @@ class SuratController extends Controller
 		$timestamp = date('Y-m-d H:i:s');
 		foreach ($results as $result) {
 			$surats[] = [
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			];

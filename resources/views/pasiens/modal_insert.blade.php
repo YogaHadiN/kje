@@ -124,10 +124,13 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-				<div class="form-group @if($errors->has('jenis_peserta'))has-error @endif">
-					{!! Form::label('jenis_peserta', 'Jenis Peserta', ['class' => 'control-label']) !!}
-					{!! Form::select('jenis_peserta', $jenis_peserta, null, ['class' => 'form-control tog hh'])!!}
-					@if($errors->has('jenis_peserta'))<code>{{ $errors->first('jenis_peserta') }}</code>@endif
+				<div class="form-group @if($errors->has('jenis_peserta_id'))has-error @endif">
+					{!! Form::label('jenis_peserta_id', 'Jenis Peserta', ['class' => 'control-label']) !!}
+					{!! Form::select('jenis_peserta_id', $jenis_peserta, null, [
+                        'class' => 'form-control tog hh',
+                        'placeholder' => 'Pilih Jenis Peserta'
+                    ])!!}
+					@if($errors->has('jenis_peserta_id'))<code>{{ $errors->first('jenis_peserta_id') }}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -362,13 +365,13 @@
 				</div>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="form-group @if($errors->has('poli'))has-error @endif">
-				  {!! Form::label('poli', 'Poli', ['class' => 'control-label']) !!}
-				  {!! Form::select('poli' , $poli, null, [
+				<div class="form-group @if($errors->has('poli_id'))has-error @endif">
+				  {!! Form::label('poli_id', 'Poli', ['class' => 'control-label']) !!}
+				  {!! Form::select('poli_id' , $poli, null, [
 					  'class'    => 'form-control rq',
 					  'onchange' => 'pilihPoli(this);return false;'
 				  ]) !!}
-				  @if($errors->has('poli'))<code>{{ $errors->first('poli') }}</code>@endif
+				  @if($errors->has('poli_id'))<code>{{ $errors->first('poli_id') }}</code>@endif
 				</div>
 			</div>
 		 </div>

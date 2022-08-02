@@ -20,37 +20,33 @@ use App\Imports\PembayaranImport;
 class RekeningController extends Controller
 {
 
-	private $input_tanggal;
-	private $input_displayed_rows;
-	private $input_key;
-	private $input_deskripsi;
-	private $input_akun_bank_id;
-	private $input_pembayaran_null;
+	public $test;
+	public $input_tanggal;
+	public $input_displayed_rows;
+	public $input_key;
+	public $input_deskripsi;
+	public $input_akun_bank_id;
+	public $input_pembayaran_null;
 
 
-   public function __construct()
-    {
-		$this->input_tanggal         = Input::get('tanggal') .  "%";
+   public function __construct(){
+		$this->input_tanggal         = Input::get('tanggal');
 		$this->input_displayed_rows  = Input::get('displayed_rows');
 		$this->input_key             = Input::get('key');
-		$this->input_nilai           = Input::get('nilai') . "%";
-		$this->input_deskripsi       = "%" . Input::get('deskripsi') . "%";
+		$this->input_nilai           = Input::get('nilai');
+		$this->input_deskripsi       = Input::get('deskripsi');
 		$this->input_akun_bank_id    = Input::get('akun_bank_id');
 		$this->input_pembayaran_null = Input::get('pembayaran_null');
         $this->middleware('super', ['only' => ['ignoredList', 'ignore']]);
         $this->middleware('admin', ['except' => []]);
+        $this->test = 0;
     }
 	public function index($id){
-		/* try { */
-			Artisan::call('cek:mutasi20terakhir');
-		/* } catch (\Exception $e) { */
-		/* 	$pesan = Yoga::gagalFlash('Mutasi Moota gagal'); */
-		/* 	session(['pesan' => $pesan]); */
-		/* } */
+
+        Artisan::call('cek:mutasi20terakhir');
 
 		$ignored_ids = $this->cariIgnoredIds();
 		$rekening    = $this->rekeningCari($id,$ignored_ids);
-		/* dd( 'oon', $rekening ); */
 
 		if ( is_null($rekening)) {
 			$pesan = Yoga::gagalFlash('Tidak ada data rekening yang bisa diambil');
@@ -75,10 +71,15 @@ class RekeningController extends Controller
 		$include_abaikan = false,
 		$count = false
 	){
-		$pass                  = $this->input_key * $this->input_displayed_rows;
-		$query  = "SELECT ";
+		$pass        = $this->input_key * $this->input_displayed_rows;
+        $ignored_ids = $this->ignoredId();
+		$query       = "SELECT ";
 		if (!$count) {
-			$query .= "str_to_date(tanggal, '%Y-%m-%d') as tanggal, ";
+            if (env("DB_CONNECTION") == 'mysql') {
+                $query .= "str_to_date(tanggal, '%Y-%m-%d') as tanggal, ";
+            } else {
+                $query .= "tanggal, ";
+            }
 			$query .= "deskripsi, ";
 			$query .= "id, ";
 			$query .= "pembayaran_asuransi_id, ";
@@ -95,11 +96,11 @@ class RekeningController extends Controller
 		$query .= "debet = 0 ";
 		$query .= "AND deskripsi not like '%PURI WIDIYANI MARTIADEWI%' ";
 		$query .= "AND deskripsi not like '%Bunga Rekening%' ";
-		if ( !empty($this->ignoredId()) ) {
+		if ( !empty($ignored_ids) ) {
 			if ( $include_abaikan ) {
-				$query .= "AND id in (" . $this->ignoredId() . ") ";
+				$query .= "AND id in ({$ignored_ids}) ";
 			} else {
-				$query .= "AND id not in (" . $this->ignoredId() . ") ";
+				$query .= "AND id not in ({$ignored_ids}) ";
 			}
 		}
 		if ( $this->input_pembayaran_null == '1' ) {
@@ -108,19 +109,26 @@ class RekeningController extends Controller
 			$query .= "AND (pembayaran_asuransi_id not like '' and pembayaran_asuransi_id is not null) ";
 		}
 		$query .= "AND ";
-		$query .= "(deskripsi like '{$this->input_deskripsi}' and tanggal like '{$this->input_tanggal}') ";
+		$query .= "(deskripsi like '{$this->input_deskripsi}%' and tanggal like '{$this->input_tanggal}%') ";
 		$query .= "AND ";
 		$query .= "(nilai like '{$this->input_nilai}%' or '{$this->input_nilai}' = '') ";
-		$query .= "ORDER BY tanggal desc, created_at desc ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "ORDER BY tanggal desc, created_at desc";
+
 		if (!$count) {
-			$query .= "LIMIT {$pass}, {$this->input_displayed_rows};";
+			$query .= " LIMIT {$pass}, {$this->input_displayed_rows}";
 		}
-		/* dd( $query ); */
-		if (!$count) {
-			return DB::select($query);
-		} else {
-			return DB::select($query)[0]->jumlah;
-		}
+        $query .= ";";
+
+        if (!empty( $this->input_displayed_rows )) {
+            $query_result = DB::select($query);
+
+            if (!$count) {
+                return $query_result;
+            } else {
+                return $query_result[0]->jumlah;
+            }
+        }
 	}
 	public function available(){
 		$id          = Input::get('id');
@@ -159,9 +167,9 @@ class RekeningController extends Controller
 		$abaikans = AbaikanTransaksi::all();
 		foreach ($abaikans as $k => $abaikan) {
 			if ($k == 0) {
-				$ignored_ids .= "'" . $abaikan->transaksi_id . "'" ;
+				$ignored_ids .= "'" . $abaikan->rekening_id . "'" ;
 			} else {
-				$ignored_ids .= ", '" . $abaikan->transaksi_id . "'";
+				$ignored_ids .= ", '" . $abaikan->rekening_id . "'";
 			}
 		}
 		return $ignored_ids;
@@ -169,7 +177,7 @@ class RekeningController extends Controller
 	public function ignore($id){
 
 		$abaikan               = new AbaikanTransaksi;
-		$abaikan->transaksi_id = $id;
+		$abaikan->rekening_id = $id;
 		$abaikan->save();
 
 		$rekening              = Rekening::find( $id );
@@ -181,15 +189,20 @@ class RekeningController extends Controller
 		
 	}
 	public function ignoredList(){
-
 		$ignored_ids = $this->cariIgnoredIds();
 		$rekening    = $this->rekeningCari(null,$ignored_ids);
 
+
+		if ( is_null($rekening)) {
+			$pesan = Yoga::gagalFlash('Tidak ada data rekening yang bisa diambil');
+			return redirect()->back()->withPesan($pesan);
+		}
 		return view('rekenings.abaikan', compact('rekening', 'ignored_ids'));
 	}
 	public function ignoredListAjax(){
 		$data  = $this->queryData( true);
 		$count = $this->queryData( true, true);
+
 		$pages = ceil( $count/ $this->input_displayed_rows );
 		return [
 			'data'  => $data,
@@ -226,7 +239,7 @@ class RekeningController extends Controller
 		$ignored     = AbaikanTransaksi::all();
 		$ignored_ids = [];
 		foreach ($ignored as $ignore) {
-			$ignored_ids[] = $ignore->transaksi_id;
+			$ignored_ids[] = $ignore->rekening_id;
 		}
 		return $ignored_ids;
 	}
@@ -253,7 +266,7 @@ class RekeningController extends Controller
 		));
 	}
 	public function unignore($id){
-		AbaikanTransaksi::where('transaksi_id', $id)->delete();
+		AbaikanTransaksi::where('rekening_id', $id)->delete();
 		$pesan = Yoga::suksesFlash('transaksi ' . $id . ' Berhasil Diunignore');
 		return redirect()->back()->withPesan($pesan);
 	}
@@ -309,6 +322,7 @@ class RekeningController extends Controller
 						'debet'                  => $debet,
 						'pembayaran_asuransi_id' => null,
 						'old_id'                 => null,
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'             => $timestamp,
 						'updated_at'             => $timestamp
 					];

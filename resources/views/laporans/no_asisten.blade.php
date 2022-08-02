@@ -50,7 +50,7 @@
 							<td>{!! $periksa->jam !!}</td>
 							<td>{!! $periksa->pasien->nama !!}</td>
 							<td>{!! $periksa->staf->nama !!}</td>
-							<td>{!! $periksa->poli !!}</td>
+                            <td>{!! $periksa->poli->poli !!}</td>
 							<td>{!! $periksa->anamnesa !!}</td>
 							<td>{!! $periksa->pemeriksaan_fisik !!}</td>
 						</tr>

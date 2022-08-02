@@ -63,7 +63,7 @@ function rowEntry(control) {
 
     riwayat = [];
     var ID_PASIEN = $(control).closest("tr").find(".pasien_id").html();
-    var ID_POLI = $(control).closest("tr").find(".poli").html();
+    var ID_POLI = $(control).closest("tr").find(".poli_id").html();
     var ID_STAF = $(control).closest("tr").find(".staf_id").html();
     var ID_ASURANSI = $(control).closest("tr").find(".asuransi_id").html();
     var namaPasien = $(control).closest("tr").find(".nama_pasien").html();

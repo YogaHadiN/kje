@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class AkunBank extends Model
 {
-    protected $primaryKey = 'id';
-    public $incrementing  = false;  // You most probably want this too
-    protected $keyType    = 'string';
+    use BelongsToTenant, HasFactory;
+    protected $guarded = [] ;
 
     public function rekening(){
         return $this->hasMany(Rekening::class);

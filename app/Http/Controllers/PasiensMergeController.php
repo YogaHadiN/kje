@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\Pasien;
+use App\Models\JenisPeserta;
 use App\Models\DeletedPeriksa;
 use App\Models\PasienRujukBalik;
 use App\Models\Alergi;
@@ -33,7 +34,7 @@ class PasiensMergeController extends Controller
 		$statusPernikahan = $ps->statusPernikahan();
 		$panggilan        = $ps->panggilan();
 		$asuransi         = Yoga::asuransiList();
-		$jenis_peserta    = $ps->jenisPeserta();
+		$jenis_peserta    = JenisPeserta::pluck('jenis_peserta', 'id');
 		$staf             = Yoga::stafList();
 		$poli             = Yoga::poliList();
 		$peserta          = [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik'];
@@ -69,7 +70,7 @@ class PasiensMergeController extends Controller
 			$query .= "ps.nama like '" . $params. "' or ";
 			$query .= "ps.alamat like '" . $params. "') AND ";
 		}
-		$query .= '1 = 1 ';
+		$query .= "AND ps.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= 'Limit 10';
 		$pasiens = DB::select($query);
 		$datas = [];
@@ -93,6 +94,7 @@ class PasiensMergeController extends Controller
 		$pasien_id = Input::get('pasien_id');
 		$query  = "SELECT * from pasiens ";
 		$query .= "WHERE id='" .$pasien_id . "' ";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query)[0];
 		
 		return json_encode( $data );
@@ -117,11 +119,13 @@ class PasiensMergeController extends Controller
 			$tables = DB::select($query);
 
 			foreach ($tables as $t) {
-				$query  = "UPDATE " . $t->TABLE_NAME . " set pasien_id = '{$pertahankanID}' where pasien_id in ({$deleteId});";
+				$query  = "UPDATE " . $t->TABLE_NAME . " set pasien_id = '{$pertahankanID}' where pasien_id in ({$deleteId}) ";
+                $query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 				DB::statement($query);
 			}
 
-			$query  = "UPDATE pengantar_pasiens set pengantar_id = '{$pertahankanID}' where pengantar_id in ({$deleteId});";
+			$query  = "UPDATE pengantar_pasiens set pengantar_id = '{$pertahankanID}' where pengantar_id in ({$deleteId}) ";
+            $query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 			DB::statement($query);
 
 			$confirm_pasien_hapus = Pasien::destroy($hapusId);

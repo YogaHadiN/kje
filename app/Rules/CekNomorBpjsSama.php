@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\Pasien;
+use App\Models\Asuransi;
 
 class CekNomorBpjsSama implements Rule
 {
@@ -31,8 +32,9 @@ class CekNomorBpjsSama implements Rule
     public function passes($attribute, $value)
     {
         $nomor_asuransi_bpjs       = '';
+        $asuransi_bpjs = Asuransi::Bpjs();
         if ( 
-            $this->dataNomorBpjs['asuransi_id'] == '32' 
+            $this->dataNomorBpjs['asuransi_id'] ==  $asuransi_bpjs->id
             && $this->dataNomorBpjs['nomor_asuransi'] != ''
             && $this->dataNomorBpjs['nomor_asuransi_bpjs'] == ''
         ) {

@@ -9,7 +9,7 @@
           <a href="{{ url('laporans')}}">Home</a>
       </li>
       <li>
-          <a href="{{ url('ruangperiksas/' . $periksa->poli)}}">Antrian Periksa</a>
+          <a href="{{ url('ruangperiksas/' . $periksa->poli_id)}}">Antrian Periksa</a>
       </li>
       <li class="active">
           <strong>Buat Rujukan</strong>
@@ -24,7 +24,6 @@
 		  'submit' => 'Submit', 
 		  'hari' => '1', 
 		  'delete' => false, 
-		  'tujuan_rujuk' => null,
 		  'jenis_rumah_sakit' => null,
 		  'rumah_sakit' => null,
 		  'register_hamil_id' => null, 
@@ -50,7 +49,6 @@
 <script>
 var base = '{{ url("/") }}';
 var asuransi_id = '{{$periksa->asuransi_id}}';
-var tujuan_rujuk_tags = {!! $tujuan_rujuks !!};
 </script>
   {!! HTML::script('js/rujukan.js')!!}
 <script src="{{ url('js/uk.js') }}" type="text/javascript"></script>

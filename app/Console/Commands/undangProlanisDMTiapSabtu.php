@@ -52,7 +52,8 @@ class undangProlanisDMTiapSabtu extends Command
 		$query .= "AND CHAR_LENGTH(no_telp) >9 ";
         $query .= "AND prolanis_dm = 1 ";
         $query .= "AND sudah_kontak_bulan_ini = 0 ";
-        $query .= "AND meninggal = 0;";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "AND meninggal = 0 ";
         $pasiens = DB::select($query);
 
         $data   = [];
@@ -135,7 +136,9 @@ class undangProlanisDMTiapSabtu extends Command
         $query .= "trp.keterangan_pemeriksaan as keterangan_pemeriksaan ";
         $query .= "FROM transaksi_periksas as trp ";
         $query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
-        $query .= "AND trp.jenis_tarif_id = 116 "; // Gula Darah
+        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trp.jenis_tarif_id ";
+        $query .= "AND jtf.jenis_tarif = 'Gula Darah' "; // Gula Darah
+		$query .= "AND trp.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
         $query .= "AND prx.pasien_id in "; 
         $query .= "( "; 
@@ -147,7 +150,7 @@ class undangProlanisDMTiapSabtu extends Command
             }
         }
         $query .= ") "; 
-        $query .= "ORDER BY prx.pasien_id, trp.keterangan_pemeriksaan * 1 asc;"; 
+        $query .= "ORDER BY prx.pasien_id, trp.keterangan_pemeriksaan * 1 asc "; 
         $data = DB::select($query);
 
         $data_gula_tertinggi_per_pasien = [];

@@ -884,7 +884,8 @@ class inputdata extends Command
 		$timestamp = date('Y-m-d H:i:s');
 		foreach ($data as $d) {
 			$datas[] = [
-				'no_telp' => $d,
+				'no_telp'    => $d,
+				'tenant_id'  => session()->get('tenant_id'),
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			];

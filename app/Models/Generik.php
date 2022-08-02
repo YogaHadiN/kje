@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class Generik extends Model{
+    use BelongsToTenant, HasFactory;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($generik){
@@ -12,7 +15,8 @@ class Generik extends Model{
 			$query .= "JOIN raks as rk on rk.id = mr.rak_id ";
 			$query .= "JOIN formulas as fo on fo.id = rk.formula_id ";
 			$query .= "JOIN komposisis as ko on fo.id = ko.formula_id ";
-			$query .= "WHERE ko.generik_id = " . $generik->id;
+			$query .= "WHERE ko.generik_id = " . $generik->id . " ";
+			$query .= "and mr.tenant_id = " . session()->get('tenant_id') . " ";
 			$data = DB::select($query);
 			
 			if ( count( $data ) > 0 ) {

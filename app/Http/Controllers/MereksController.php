@@ -37,6 +37,13 @@ class MereksController extends Controller
 		$mereks = Merek::with('rak.formula.komposisi.generik', 'rak.kelasObat')
 						->where('id', '>', '0')
 						->get();
+        foreach ($mereks as $m) {
+            try {
+                $m->rak->kelasObat->kelas_obat;
+            } catch (\Exception $e) {
+                dd( $m );
+            }
+        }
 		$raks_nol = Rak::with('merek')->where('harga_beli', '<', 1)->get();
 
 		return view('mereks.index', compact('mereks', 'raks_nol'));
@@ -70,11 +77,9 @@ class MereksController extends Controller
 			}
 		}
 
-		$merek_custom = ucwords(strtolower(Input::get('merek'))) . ' ' . Input::get('endfix');
+		$merek_custom = $this->merekCustom( Input::get('merek'), Input::get('endfix') );
 
-		$merek_id_custom = Yoga::customId('App\Models\Merek');
 		$merek = new Merek;
-		$merek->id= $merek_id_custom;
 		$merek->merek = $merek_custom;
 		$merek->rak_id = Input::get('rak_id');
 		$merek->save();
@@ -89,20 +94,8 @@ class MereksController extends Controller
 			return json_encode($returnData);
 
 		} else {
-			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('MEREK obat <strong>' . $merek_id_custom . ' - ' . $merek_custom . '</strong> telah <strong>BERHASIL</strong> dibuat'));
+			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('MEREK obat <strong>' . $merek->id . ' - ' . $merek_custom . '</strong> telah <strong>BERHASIL</strong> dibuat'));
 		}
-	}
-
-	/**
-	 * Display the specified merek.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$merek = Merek::findOrFail($id);
-		return view('mereks.show', compact('merek'));
 	}
 
 	/**
@@ -135,8 +128,9 @@ class MereksController extends Controller
 		$query .= "join mereks as mr on mr.id = pb.merek_id ";
 		$query .= "join raks as rk on rk.id = mr.rak_id ";
 		$query .= "where mr.id ='{$id}' ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by supplier_id ";
-		$query .= "order by harga_beli asc;";
+		$query .= "order by pb.harga_beli asc ";
 		$supplierprices = DB::select($query);
 
 		// return var_dump($supplierprices);
@@ -237,6 +231,7 @@ class MereksController extends Controller
 		$query .= "JOIN komposisis as ko on ko.formula_id = fr.id ";
 		$query .= "JOIN generiks as gr on gr.id = ko.generik_id ";
 		$query .= "WHERE gr.generik  like '{$param}' ";
+		$query .= "AND mr.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "OR mr.merek like '{$param}' ";
 		$query .= "GROUP BY mr.id limit 10";
 		$datas = DB::select($query);
@@ -261,6 +256,16 @@ class MereksController extends Controller
 		}
 		return json_encode($mereks);
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function merekCustom($merek, $endfix)
+    {
+        return ucwords(strtolower($merek)) . ' ' . $endfix;
+    }
+    
 	
 
 }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Session;
 use Storage;
 use DB;
@@ -12,6 +14,7 @@ use App\Models\Classes\Yoga;
 use Carbon\Carbon;
 
 class Pasien extends Model{
+    use BelongsToTenant,HasFactory;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($pasien){
@@ -26,9 +29,6 @@ class Pasien extends Model{
 		});
 	}
 	
-	public $incrementing = false; 
-
-    protected $keyType = 'string';
 	// Add your validation rules here
 
 	// Add your validation rules here
@@ -55,23 +55,6 @@ class Pasien extends Model{
 	}
 	public function registerHamil(){
 		return $this->hasMany('App\Models\RegisterHamil');
-	}
-	public function getNamaAttribute($nama){
-		return ucwords( strtolower($nama) );
-	}
-	public function getAlamatAttribute($alamat){
-		return ucwords( strtolower($alamat) );
-	}
-
-	public function setNamaAttribute($value) {
-
-		$this->attributes['nama'] = strtolower($value);
-
-	}
-	public function setAlamatAttribute($value) {
-
-		$this->attributes['alamat'] = strtolower($value);
-
 	}
 
 	public function getTensisAttribute(){
@@ -125,7 +108,12 @@ class Pasien extends Model{
 
 	public function getAdadmAttribute(){
 		$id = $this->id;
-		$query = "SELECT count(*) as jumlah FROM periksas as px join diagnosas as dg on dg.id = px.diagnosa_id where dg.diagnosa like '%dm tipe 2%' and px.pasien_id='{$id}'";
+		$query = "SELECT count(*) as jumlah ";
+		$query .= "FROM periksas as px ";
+		$query .= "join diagnosas as dg on dg.id = px.diagnosa_id ";
+		$query .= "where dg.diagnosa like '%dm tipe 2%' ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and px.pasien_id='{$id}'";
 		$jumlah = DB::select($query)[0]->jumlah;
 		if ($jumlah > 2) {
 			return 'golongan DM ' . 'didiagnosa dm sebanyak' . ' ' . $jumlah . ' kali';
@@ -136,7 +124,7 @@ class Pasien extends Model{
 		$pemeriksaan_gulas = '';
 		foreach ($this->periksa as $px) {
 			foreach ($px->transaksii as $trx) {
-				if ( $trx->jenis_tarif_id == '116' ) {
+				if ( $trx->jenis_tarif_id ==  JenisTarif::where('jenis_tarif', 'Gula Darah')->first()->id) {
 					$pemeriksaan_gulas .= '<li>' . $px->pemeriksaan_penunjang . '</li>';
 					break;
 				}
@@ -232,16 +220,6 @@ class Pasien extends Model{
 	
 	}
 	
-	public function jenisPeserta(){
-		return array(
-					null => ' - pilih asuransi -',  
-		            "P" => 'Peserta',
-		            "S" => 'Suami',
-		            "I" => 'Istri',
-		            "A" => 'Anak'
-		);
-	}
-
 	public function prolanis(){
         return $this->hasOne('App\Models\Prolanis', 'pasien_id');
 	}
@@ -265,4 +243,26 @@ class Pasien extends Model{
 	public function getTanggalLahirAttribute($nama){
 		return empty($nama)? Carbon::parse(date('Y-m-d')) : Carbon::parse($nama);
 	}
+
+	public function role(){
+		return $this->belongsTo('App\Models\Role');
+	}
+    public static function sudahPeriksaGDSBulanIniPakaiBPJS($pasien_id, $periksa_id = null){
+        $bulanIni = date('Y-m');
+        $query  = "SELECT pemeriksaan_penunjang ";
+        $query .= "FROM periksas as prx ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "WHERE tanggal like '{$bulanIni}%' ";
+        $query .= "AND prx.pasien_id  =  " . $pasien_id . " ";
+        if (isset ($periksa_id)) {
+            $query .= "AND prx.id < " . $periksa_id . " ";
+        }
+        $query .= "AND prx.pemeriksaan_penunjang like '%Gula Darah%';";
+        
+        if ( count( DB::select($query) ) ) {
+            return true;
+        }
+        return false;
+    }
+    
 }

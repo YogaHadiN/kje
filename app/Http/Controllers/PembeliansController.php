@@ -10,8 +10,10 @@ use App\Models\Pembelian;
 use App\Models\BelanjaPeralatan;
 use App\Models\FakturBelanja;
 use App\Models\Merek;
+use App\Models\KelasObat;
 use App\Models\Supplier;
 use App\Models\Rak;
+use App\Models\Coa;
 use App\Models\Formula;
 use App\Models\JurnalUmum;
 use App\Models\Classes\Yoga;
@@ -42,7 +44,7 @@ class PembeliansController extends Controller
 	public function create($id)
 	{
 		$fakturbelanja = FakturBelanja::find($id);
-		if ($fakturbelanja->pembelian->count() > 0) {
+		if ($fakturbelanja->pembelian->count() < 1) {
 			return redirect('pembelians/' . $id . '/edit');
 		}
 
@@ -79,13 +81,14 @@ class PembeliansController extends Controller
 
 		$signas = Yoga::signa_list();
 		$aturan_minums = Yoga::aturan_minum_list();
+        $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id');
 		return view('pembelians.create', compact(
 			'mereks'
 			, 'id' 
 			, 'fakturbelanja'
+			, 'kelas_obat_list'
 			, 'sediaan'
 			, 'generik'
-			, 'exist'
 			, 'dijual_bebas'
 			, 'signas'
 			, 'rak'
@@ -118,182 +121,113 @@ class PembeliansController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$data = Input::get('tempBeli');
-		$data = json_decode( $data, true );
-
-		$input = [
-			'data'          => $data,
-		];
-
-		$rules = [
-			'data.*.merek_id'      => 'required',
-			'data.*.jumlah'        => 'required|numeric',
-			'data.*.harga_beli'    => 'required|numeric',
-			'data.*.harga_jual'    => 'required|numeric',
-			'data.*.exp_date'      => 'required|date_format:d-m-Y',
-			'data.*.harga_berubah' => 'required',
-		];
-		
-		$validator = \Validator::make($input, $rules);
-		
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		try {
-			$faktur_belanja_id = (int)FakturBelanja::orderBy('id', 'desc')->firstOrFail()->id + 1;
-		} catch (\Exception $e) {
-			$faktur_belanja_id = 1;
-		}
-
-		$timestamp          = date('Y-m-d H:i:s');
-		$pembelians          = [];
-		$dispensings        = [];
-		$faktur_belanjas    = [];
-		$jurnals            = [];
-		$rak_updates        = [];
-		$last_dispensing_id = (int)Yoga::customId('App\Models\Dispensing') - 1;
-
-		$faktur_belanjas[]    = [
-			'id'             => $faktur_belanja_id,
-			'tanggal'        => Yoga::datePrep(Input::get('tanggal')),
-			'nomor_faktur'   => Input::get('nomor_faktur'),
-			'belanja_id'     => Input::get('belanja_id'),
-			'supplier_id'    => Input::get('supplier_id'),
-			'sumber_uang_id' => Input::get('sumber_uang'),
-			'petugas_id'     => Input::get('staf_id'),
-			'diskon'         => Yoga::clean( Input::get('diskon') ),
-			'submit'         => 1,
-			'faktur_image'   => $this->imageUpload('faktur','faktur_image', $faktur_belanja_id),
-			'created_at'     => $timestamp,
-			'updated_at'     => $timestamp
-		];
-
-
-		try {
-			$last_pembelian_id  = Pembelian::orderBy('id', 'desc')->firstOrFail()->id;
-		} catch (\Exception $e) {
-			$last_pembelian_id  = 0;
-		}
-
-		$total_pembelian    = 0;
-		foreach ($data as $dt) {
-			$last_pembelian_id++;
-			$pembelians[]            = [
-				'exp_date'          => Yoga::datePrep($dt['exp_date']),
-				'harga_beli'        => $dt['harga_beli'],
-				'harga_jual'        => $dt['harga_jual'],
-				'staf_id'           => Input::get('staf_id'),
-				'faktur_belanja_id' => $faktur_belanja_id,
-				'merek_id'          => $dt['merek_id'],
-				'harga_naik'        => $dt['harga_berubah'],
-				'jumlah'            => $dt['jumlah'],
-				'created_at'        => $timestamp,
-				'updated_at'        => $timestamp,
-				'id'                => $last_pembelian_id
-			];
-
-			$total_pembelian += $dt['harga_beli']* $dt['jumlah'];
-			$rak_id           = Merek::find($dt['merek_id'])->rak_id;
-
-			$query  = "SELECT *, ";
-			$query .= "p.exp_date as expiry ";
-			$query .= "FROM pembelians as p left join mereks as m on m.id=p.merek_id ";
-			$query .= "join raks as r on r.id=m.rak_id ";
-			$query .= "where r.id='{$rak_id}' ";
-			$query .= "AND p.exp_date > '" . date('Y-m-d') . "' ";
-			$query .= "order by p.exp_date asc;";
-
-			if (count(DB::select($query)) > 0) {
-				$exp_date = DB::select($query)[0]->expiry;
-			} else {
-				$exp_date = Yoga::datePrep($dt['exp_date']);
-			}
-
-			$rak               = Rak::find($rak_id);
-
-			if ($rak->exp_date < $exp_date) {
-				$exp_date = $rak->exp_date;
-			}
-			if (Yoga::datePrep($dt['exp_date']) < $exp_date) {
-				$exp_date = $dt['exp_date'];
-			}
-
-			$rak_updates[] = [
-				'collection' => $rak,
-				'updates' => [
-					'harga_beli'   => $dt['harga_beli'],
-					'harga_jual'   => $dt['harga_jual'],
-					'exp_date'     => $exp_date,
-					'stok'         => $rak->stok + $dt['jumlah']
-				]
-			];
-
-			// jika tanggal kadaluarsa obat yang sekarang lebih awal dari yang ada di rak,
-			// maka rubah tanggal kadaluarsa di rak menjadi lebih awal
-
-
-			$last_dispensing_id++;
-			$dispensings[] = [
-				'tanggal'          => Yoga::datePrep( Input::get('tanggal') ),
-				'merek_id'         => $dt['merek_id'],
-				'masuk'            => $dt['jumlah'],
-				'dispensable_id'   => $last_pembelian_id,
-				'dispensable_type' => 'App\Models\Pembelian',
-				'id'               => $last_dispensing_id,
-				'created_at'       => $timestamp,
-				'updated_at'       => $timestamp
-			];
-		}
-		$jurnals[] = [
-			'jurnalable_id'   => $faktur_belanja_id,
-			'jurnalable_type' => 'App\Models\FakturBelanja',
-			'coa_id'          => 112000, // persediaan obat
-			'debit'           => 1,
-			'nilai'           => $total_pembelian,
-			'created_at'      => $timestamp,
-			'updated_at'      => $timestamp
-		];
-		$jurnals[] = [
-			'jurnalable_id'   => $faktur_belanja_id,
-			'jurnalable_type' => 'App\Models\FakturBelanja',
-			'coa_id'          => Input::get('sumber_uang'),
-			'debit'           => 0,
-			'nilai'           => $total_pembelian - Yoga::clean( Input::get('diskon') ), // Kas di tangan,
-			'created_at'      => $timestamp,
-			'updated_at'      => $timestamp
-		];
-
-		if ( (int)Yoga::clean( Input::get('diskon') ) > 0 ) {
-			$jurnals[] = [
-				'jurnalable_id'   => $faktur_belanja_id,
-				'jurnalable_type' => 'App\Models\FakturBelanja',
-				'coa_id'          => 50204, // Biaya Produsi Obat (berkurang,
-				'debit'           => 0,
-				'nilai'           => Yoga::clean( Input::get('diskon') ), // Kas di tanga,
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
-			];
-		}
 		DB::beginTransaction();
 		try {
-			FakturBelanja::insert($faktur_belanjas);
-			$cs = new CustomController;
-			JurnalUmum::insert($jurnals);
-			Pembelian::insert($pembelians);
-			Dispensing::insert($dispensings);
-			$cs->massUpdate($rak_updates);
-			
+            $data = Input::get('tempBeli');
+            $data = json_decode( $data, true );
 
+            $input = [
+                'data'          => $data,
+            ];
+
+            $rules = [
+                'data.*.merek_id'      => 'required',
+                'data.*.jumlah'        => 'required|numeric',
+                'data.*.harga_beli'    => 'required|numeric',
+                'data.*.harga_jual'    => 'required|numeric',
+                'data.*.exp_date'      => 'required|date_format:d-m-Y',
+                'data.*.harga_berubah' => 'required',
+            ];
+            
+            $validator = \Validator::make($input, $rules);
+            
+            if ($validator->fails())
+            {
+                return \Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $timestamp          = date('Y-m-d H:i:s');
+            $jurnals            = [];
+            $rak_updates        = [];
+
+			$fb = FakturBelanja::create([
+                'tanggal'        => Yoga::datePrep(Input::get('tanggal')),
+                'nomor_faktur'   => Input::get('nomor_faktur'),
+                'belanja_id'     => Input::get('belanja_id'),
+                'supplier_id'    => Input::get('supplier_id'),
+                'sumber_uang_id' => Input::get('sumber_uang'),
+                'petugas_id'     => Input::get('staf_id'),
+                'diskon'         => Yoga::clean( Input::get('diskon') ),
+                'submit'         => 1,
+            ]);
+            $fb->faktur_image = $this->imageUpload('faktur','faktur_image', $fb->id);
+            $fb->save();
+
+            $total_pembelian    = 0;
+
+            foreach ($data as $dt) {
+                $pembelian = $fb->pembelian()->create([
+                    'exp_date'   => Yoga::datePrep($dt['exp_date']),
+                    'harga_beli' => $dt['harga_beli'],
+                    'harga_jual' => $dt['harga_jual'],
+                    'staf_id'    => Input::get('staf_id'),
+                    'merek_id'   => $dt['merek_id'],
+                    'harga_naik' => $dt['harga_berubah'],
+                    'jumlah'     => $dt['jumlah']
+                ]);
+
+                $total_pembelian += $dt['harga_beli']* $dt['jumlah'];
+                $merek           = Merek::with('rak')->where('id', $dt['merek_id'])->first();
+
+                $exp_date = Yoga::datePrep($dt['exp_date']);
+
+                if (strtotime($merek->rak->exp_date) < strtotime($exp_date)) {
+                    $exp_date = $merek->rak->exp_date;
+                }
+
+                $merek->rak->update([
+                    'harga_beli'   => $dt['harga_beli'],
+                    'harga_jual'   => $dt['harga_jual'],
+                    'exp_date'     => $exp_date,
+                    'stok'         => $merek->rak->stok + $dt['jumlah']
+                ]);
+
+                // jika tanggal kadaluarsa obat yang sekarang lebih awal dari yang ada di rak,
+                // maka rubah tanggal kadaluarsa di rak menjadi lebih awal
+
+                $pembelian->dispens()->create([
+                    'tanggal'  => Yoga::datePrep( Input::get('tanggal') ),
+                    'merek_id' => $dt['merek_id'],
+                    'masuk'    => $dt['jumlah'],
+                ]);
+            }
+            $jurnals[] = [
+                'coa_id'          => Coa::where('kode_coa', '112000')->first()->id, // persediaan obat
+                'debit'           => 1,
+                'nilai'           => $total_pembelian,
+            ];
+            $jurnals[] = [
+                'coa_id'          => Input::get('sumber_uang'),
+                'debit'           => 0,
+                'nilai'           => $total_pembelian - Yoga::clean( Input::get('diskon') ), // Kas di tangan,
+            ];
+
+            if ( (int)Yoga::clean( Input::get('diskon') ) > 0 ) {
+                $jurnals[] = [
+                    'coa_id'          => Coa::where('kode_coa', '50204')->first()->id, // Biaya Produsi Obat (berkurang,
+                    'debit'           => 0,
+                    'nilai'           => Yoga::clean( Input::get('diskon') ), // Kas di tanga,
+                ];
+            }
+			$fb->jurnals()->createMany($jurnals);
 			DB::commit();
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
 		}
 		return redirect('fakturbelanjas/obat')
-			->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $faktur_belanja_id . '</strong> di <strong>' . Supplier::find( Input::get('supplier_id'))->nama  . '</strong> telah berhasil'))
-			->withPrint($faktur_belanja_id);
+			->withPesan(Yoga::suksesFlash('Transaksi pembelian untuk struk <strong>' . $fb->id . '</strong> di <strong>' . Supplier::find( Input::get('supplier_id'))->nama  . '</strong> telah berhasil'))
+			->withPrint($fb->id);
 	}
 
 
@@ -362,16 +296,19 @@ class PembeliansController extends Controller
 				'harga_berubah' => $v->harga_naik,
 				'exp_date'      => $v->exp_date,
 				'jumlah'        => $v->jumlah,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'        => $v->created_at
 			];
 		}
 
+        $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id');
 		return view('pembelians.edit', compact(
 			'mereks'
 			, 'id' 
 			, 'fakturbelanja'
 			, 'sediaan'
 			, 'generik'
+			, 'kelas_obat_list'
 			, 'sumber_uang'
 			, 'exist'
 			, 'dijual_bebas'
@@ -471,7 +408,15 @@ class PembeliansController extends Controller
 			foreach ($data as $k => $dt) {
 				$rak_id = Merek::find($dt['merek_id'])->rak_id;
 				$rak    = Rak::find($rak_id);
-				$query = "SELECT *, p.exp_date as expiry FROM pembelians as p left join mereks as m on m.id=p.merek_id join raks as r on r.id=m.rak_id where r.id='{$rak_id}' AND p.exp_date > '" . date('Y-m-d') . "' order by p.exp_date asc;";
+				$query = "SELECT *, ";
+				$query .= "p.exp_date as expiry ";
+				$query .= "FROM pembelians as p ";
+				$query .= "left join mereks as m on m.id=p.merek_id ";
+				$query .= "join raks as r on r.id=m.rak_id ";
+				$query .= "where r.id='{$rak_id}' ";
+				$query .= "AND p.exp_date > '" . date('Y-m-d') . "' ";
+				$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+				$query .= "order by p.exp_date asc ";
 
 				if (count(DB::select($query)) > 0) {
 					$exp_date = DB::select($query)[0]->expiry;
@@ -492,6 +437,7 @@ class PembeliansController extends Controller
 						'merek_id'          => $dt['merek_id'],
 						'harga_naik'        => $dt['harga_berubah'],
 						'jumlah'            => $dt['jumlah'],
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'        => $timestamp,
 						'updated_at'        => $timestamp
 					];
@@ -512,6 +458,7 @@ class PembeliansController extends Controller
 						'masuk'            => $dt['jumlah'],
 						'dispensable_id'   => $last_pembelian_id,
 						'dispensable_type' => 'App\Models\Pembelian',
+							'tenant_id'  => session()->get('tenant_id'),
 						'created_at'       => $timestamp,
 						'updated_at'       => $timestamp,
 					];
@@ -558,9 +505,16 @@ class PembeliansController extends Controller
 
 			//ganti nilai persediaan
 
+			$coa_ids = [];
+
+			$coas = Coa::where('kode_coa', 'like',  '11000%')->get();
+
+			foreach ($coas as $c) {
+				$coa_ids[] = $c->id;
+			}
 			$ju = JurnalUmum::where('jurnalable_id', $faktur_belanja_id)
 				->where('jurnalable_type', 'App\Models\FakturBelanja')
-				->where('coa_id', 'like', '11000%') // 
+				->whereIn('coa_id', $coa_ids) // 
 				->where('debit', 0)
 				->first();
 			$ju->nilai =  ( $nilai_baru - Yoga::clean( Input::get('diskon') ));
@@ -568,9 +522,10 @@ class PembeliansController extends Controller
 			$ju->save();
 			//cari jurnal diskon
 			//
+			$coa_id_50204 = Coa::where('kode_coa', '50204')->first()->id;
 			$jurnalDiskon = JurnalUmum::where('jurnalable_type', 'App\Models\FakturBelanja')
 				->where('jurnalable_id', $faktur_belanja_id)
-				->where('coa_id', 50204)
+				->where('coa_id', $coa_id_50204 )
 				->where('debit', 0)
 				->first();
 
@@ -582,7 +537,7 @@ class PembeliansController extends Controller
 					$jrnl                  = new JurnalUmum;
 					$jrnl->jurnalable_id   = $faktur_belanja_id;
 					$jrnl->jurnalable_type = 'App\Models\FakturBelanja';
-					$jrnl->coa_id          = 50204; // Biaya Produsi Obat (berkurang)
+					$jrnl->coa_id          = $coa_id_50204; // Biaya Produsi Obat (berkurang)
 					$jrnl->debit           = 0;
 					$jrnl->nilai           = Yoga::clean( Input::get('diskon') ); // Kas di tangan
 					$jrnl->save();
@@ -590,7 +545,7 @@ class PembeliansController extends Controller
 			} else {
 				JurnalUmum::where('jurnalable_type', 'App\Models\FakturBelanja')
 					->where('jurnalable_id', $faktur_belanja_id)
-					->where('coa_id', 50204)
+					->where('coa_id', $coa_id_50204)
 					->where('debit', 0)
 					->delete();
 			}
@@ -691,6 +646,7 @@ class PembeliansController extends Controller
 		$query .= "AND (sp.nama like ? or ? = '') ";
 		$query .= "AND (fb.nomor_faktur like ? or ? = '') ";
 		$query .= "AND (st.nama like ? or ? = '') ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY pb.faktur_belanja_id ";
 		$query .= "ORDER BY pb.created_at ";
 		if (!$count) {
@@ -773,6 +729,7 @@ class PembeliansController extends Controller
 		$query .= "AND ( pb.harga_beli like ? or ? = '' ) ";
 		$query .= "AND ( pb.harga_jual like ? or ? = '' ) ";
 		$query .= "AND ( fb.tanggal like ? or ? = '' ) ";
+		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		if (!$count) {
 			$query .= "ORDER BY pb.created_at desc ";
 			$query .= "LIMIT {$pass}, {$displayed_rows}";

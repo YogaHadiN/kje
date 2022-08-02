@@ -25,7 +25,8 @@ class Pph21Controller extends Controller
         $query .= "JOIN stafs as st on st.id = bg.staf_id ";
         $query .= "WHERE pph21able_type = 'App\\\Models\\\BayarGaji' ";
         $query .= "AND bg.akhir like '{$bulanTahun}%' ";
-        $query .= "GROUP BY bg.staf_id;";
+		$query .= "AND bg.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "GROUP BY bg.staf_id ";
         $gajis  = DB::select($query);
 
         /* dd( $gajis ); */
@@ -37,6 +38,7 @@ class Pph21Controller extends Controller
         $query .= "JOIN pph21s as pph on pph.pph21able_id = bg.id ";
         $query .= "WHERE pph21able_type = 'App\\\Models\\\BagiGigi' ";
         $query .= "AND bg.akhir like '{$bulanTahun}%' ";
+		$query .= "AND bg.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "GROUP BY YEAR(bg.tanggal_dibayar), MONTH(bg.tanggal_dibayar)";
         $bagi_gigis = DB::select($query);
 
@@ -111,6 +113,7 @@ class Pph21Controller extends Controller
 
                 // Do insert here
 
+							'tenant_id'  => session()->get('tenant_id'),
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ];

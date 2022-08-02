@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class SmsBpjs extends Model
 {
+    use BelongsToTenant, HasFactory;
 	public function pasien(){
 		return $this->belongsTo('App\Models\Pasien');
 	}
@@ -31,8 +34,9 @@ class SmsBpjs extends Model
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran non bpjs
 		$query.= "OR id in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tanggal}%' and ks.pcare_submit = 1 ) ";
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
-		$query.= "OR id in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' )) ";
+		$query.= "OR id in( Select pasien_id from periksas as prx join asuransis as asu on asu.id = prx.asuransi_id where asu.tipe_asuransi_id = 5 and prx.created_at like '{$tanggal}%' )) ";
 		// Sehingga kita bisa mendapat angka kontak saat ini
+		$query .= "and tenant_id = " . session()->get('tenant_id') . " ";
 		return DB::select($query)[0]->jumlah;
 	}
 }

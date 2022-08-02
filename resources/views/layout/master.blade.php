@@ -72,9 +72,9 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element"> <span>
-                            @if(\Auth::user()->role == '1')
+                            @if(\Auth::user()->role_id == '1')
                                 <img alt="image" class="img-circle" width="75px" height="75px" src="{{ \Storage::disk('s3')->url('img/dokter_pria.jpeg') }}" />
-                            @elseif(\Auth::user()->role == '6')
+                            @elseif(\Auth::user()->role_id == '6')
                                 <img alt="image" class="img-circle" width="75px" height="75px" src="{{ \Storage::disk('s3')->url('img/profile_small.jpg') }}" />
                             @else
                                 <img alt="image" class="img-circle" width="75px" height="75px" src="{{ \Storage::disk('s3')->url('img/nurse.jpeg') }}" />
@@ -179,14 +179,14 @@
                             <li>{!! HTML::link('pajaks/lapor_pajaks', 'Lapor Pajak')!!}</li>
                         </ul>
                     </li>
-					@if( \Auth::user()->role >= '4')
+					@if( \Auth::user()->role_id >= '4')
 						<li>
 							<a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Rekening</span><span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								@foreach(App\Models\AkunBank::all() as $akun)	
 									<li>{!! HTML::link('rekening_bank/' . $akun->id, 'Akun Bank ' . $akun->akun)!!}</li>
 								@endforeach
-								@if( \Auth::user()->role == '6')
+								@if( \Auth::user()->role_id == '6')
 									<li>{!! HTML::link('rekening_bank/ignore', 'Tranasaksi Diabaikan')!!}</li>
 									<li>{!! HTML::link('rekenings/import', 'Import Transaksi')!!}</li>
 								@endif
@@ -270,8 +270,8 @@
                         </ul>
                     </li>
 					@if(
-						\Auth::user()->role == '6' ||
-						\Auth::user()->role == '5'
+						\Auth::user()->role_id == '6' ||
+						\Auth::user()->role_id == '5'
 						)
 						<li>
 							<a href="{{ url('mereks')}}"><i class="fa fa-flask"></i> <span class="nav-label">Gaji dan Bagi Hasil</span><span class="fa arrow"></span></a>

@@ -45,7 +45,7 @@
 				<div class="form-group @if($errors->has('jumlah_janin'))has-error @endif">
 				  {!! Form::label('jumlah_janin', 'Jumlah Janin', ['class' => 'control-label']) !!}
 					 <div class="input-group">
-					 	@if($antrianperiksa->poli == 'usg')
+                         @if($antrianperiksa->poli->poli == 'Poli USB Kebidanan')
 						{!! Form::text('jumlah_janin', $jumlah_janin, ['id' => 'jumlah_janin','class' => 'form-control panelRiwayat', 'aria-describedby' => 'addonjumlah_janin', 'dir' => 'rtl', 'readonly' => 'readonly'])!!}
 						@else
 						{!! Form::text('jumlah_janin', $jumlah_janin, ['id' => 'jumlah_janin','class' => 'form-control panelRiwayat', 'aria-describedby' => 'addonjumlah_janin', 'dir' => 'rtl'])!!}
@@ -228,7 +228,7 @@
 				<div class="form-group @if($errors->has('djj'))has-error @endif">
 				  {!! Form::label('djj', 'DJJ/FHR', ['class' => 'control-label']) !!}
 					 <div class="input-group">
-					 	@if($antrianperiksa->poli == 'usg')
+                         @if($antrianperiksa->poli->poli == 'Poli USG Kebidanan')
 						{!! Form::text('djj', $djj, ['class' => 'form-control', 'aria-describedby' => 'addOndjj', 'dir' => 'rtl', 'readonly' => 'readonly'])!!}
 						@else
 						{!! Form::text('djj', $djj, ['class' => 'form-control', 'aria-describedby' => 'addOndjj', 'dir' => 'rtl'])!!}
@@ -250,7 +250,7 @@
 				
 				<div class="form-group @if($errors->has('presentasi_id'))has-error @endif">
 				  {!! Form::label('presentasi_id', 'Presentasi', ['class' => 'control-label']) !!}
-					@if($antrianperiksa->poli == 'usg')
+                  @if($antrianperiksa->poli->poli == 'Poli USG Kebidanan')
 					{!! Form::select('presentasi_id', $presentasis, $presentasi_id, ['class' => 'form-control presentasi', 'disabled' => 'disabled'])!!}
 					{!! Form::hidden('presentasi_id', $presentasi_id, ['class' => 'form-control presentasi'])!!}
 					@else

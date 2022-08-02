@@ -4,9 +4,9 @@ use Illuminate\Console\Command;
 use Session;
 use App\Models\Outbox;
 use App\Models\Ht;
+use App\Models\Coa;
 use App\Models\AntrianKelengkapanDokumen;
 use App\Models\PembayaranBpjs;
-use App\Models\PiutangAsuransi;
 use App\Models\BelanjaPeralatan;
 use App\Models\Dm;
 use App\Models\HomeVisit;
@@ -115,121 +115,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-		// perhitungan jasa dokter lebih cepat
-		//
-		//
-		/* Session::put('ruangan', '1'); */
-		dd( Session::get('ruangan') );
-		/* $antrians = Antrian::where('created_at', 'like', '2022-02-14%') */
-		/* 					->where('antriable_type', 'App\\Models\\Periksa') */
-		/* 					->get(); */
-		/* $errors = []; */
-		/* foreach ($antrians as $antrian) { */
-		/* 	try { */
-		/* 		$asuransi_id = $antrian->antriable->asuransi_id; */
-		/* 	} catch (\Exception $e) { */
-		/* 		$errors[] = $antrian->id; */
-		/* 	} */
-		/* } */
-
-		/* dd( $errors ); */
-		/* $this->testWablasTemplate(); */
-		/* $this->encryptTest(); */
-
-		/* $this->testBulkMessage('hello there Puri'); */
-		/* $this->testSendWablas(); */
-		/* $this->bpjsDobel(); */
-		/* $this->testLog(); */
-		/* $this->testAudio(); */
-		/* $this->testButton(); */
-		/* $this->testSolo(); */
-		/* $this->removeBpjsFromAntrianKelengkapan(); */
-		/* $this->tuningPiutangdibayarSudahdibayar(); */
-		/* $this->cariTransaksi(); */
-		/* $this->apiBPJS(); */
-		/* $this->resetPembayaranAsuransiYangRekeningNull(); */
-		/* $this->normalisasi_coa_id_dan_nama_asuransi(); */
-		/* $this->normalisasi_jurnal_periksas(); */
-		/* $this->resetPembayaranAsuransis([ */
-		/* 	1124, */
-		/* 	1090, */
-		/* 	1241, */
-		/* 	1253, */
-		/* 	1251, */
-		/* 	1250, */
-		/* 	1236, */
-		/* 	1237, */
-		/* 	1245, */
-		/* 	915, */
-		/* 	1281, */
-		/* 	1275, */
-		/* 	1276, */
-		/* 	1174, */
-		/* 	921, */
-		/* 	1231, */
-		/* 	1186, */
-		/* 	1187, */
-		/* 	1271, */
-		/* 	1182, */
-		/* 	1185, */
-		/* 	1175, */
-		/* 	976, */
-		/* 	1181, */
-		/* 	961, */
-		/* 	884, */
-		/* 	1183, */
-		/* 	1189, */
-		/* 	1168, */
-		/* 	992, */
-		/* 	1188, */
-		/* 	1257, */
-		/* 	993, */
-		/* 	1012, */
-		/* 	1223, */
-		/* 	1184, */
-		/* 	885, */
-		/* 	999, */
-		/* 	895, */
-		/* 	1015, */
-		/* 	1051, */
-		/* 	1190, */
-		/* 	1191, */
-		/* 	1109, */
-		/* 	1155, */
-		/* 	1212, */
-		/* 	850, */
-		/* 	1192, */
-		/* 	881, */
-		/* 	882, */
-		/* 	1240, */
-		/* 	883, */
-		/* 	849, */
-		/* 	1017, */
-		/* 	1233, */
-		/* 	1180, */
-		/* 	1117, */
-		/* 	1176, */
-		/* 	1072, */
-		/* 	1200, */
-		/* 	1282, */
-		/* 	1177, */
-		/* 	1020, */
-		/* 	1205, */
-		/* 	1154, */
-		/* 	1234, */
-		/* 	1163, */
-		/* 	1213, */
-		/* 	1172, */
-		/* 	1266, */
-		/* 	1261, */
-		/* 	1280, */
-		/* 	1269, */
-		/* 	1267, */
-		/* 	1249, */
-		/* 	1244, */
-		/* 	1260, */
-		/* 	1217 */
-		/* ]); */
+        $this->coa_id();
 	}
 	
 	/**
@@ -426,68 +312,11 @@ class testcommand extends Command
 		DB::statement("delete from pengeluarans where id = 5182;");
 	}
 
-	public function resetPembayaranAsuransis($pembayaran_asuransi_ids){
-
-		foreach ($pembayaran_asuransi_ids as $pembayaran_asuransi_id) {
-			$this->resetPembayaranAsuransi($pembayaran_asuransi_id);
-		}
-
-		/* dd( */
-		/* 	'piutang_asuransis = ' . $this->jumlah_piutang_asuransi, */
-		/* 	'invoice = ' .$this->jumlah_invoice, */
-		/* 	'rekening = ' .$this->jumlah_rekening, */
-		/* 	'nota_jual = ' .$this->jumlah_nota_jual, */
-		/* 	'jurnal_umum = ' .$this->jumlah_jurnal_umum, */
-		/* 	'piutang_dibayar = ' .$this->jumlah_piutang_dibayar, */
-		/* 	'pembayaran_asuransi = ' .$this->jumlah_pembayaran_asuransi, */
-		/* 	json_encode( $this->akumulasi_periksa_ids ) */
-		/* ); */
-
-	}
 	/**
 	* undocumented function
 	*
 	* @return void
 	*/
-	public function resetPembayaranAsuransi($pembayaran_asuransi_id)
-	{
-		$pembayaran_asuransi = PembayaranAsuransi::find( $pembayaran_asuransi_id );
-
-		$piutang_dibayars    = PiutangDibayar::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->get();
-
-		$periksa_ids         = [];
-
-		foreach ($piutang_dibayars as $piutang) {
-			$this->akumulasi_periksa_ids[] = $piutang->periksa_id;
-			$periksa_ids[]                 = $piutang->periksa_id;
-		}
-
-		//
-		// piutang dibayar di delete
-		$this->jumlah_invoice = $this->jumlah_invoice + Invoice::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->update([
-			'pembayaran_asuransi_id' => null
-		]);
-
-		// update rekenings
-		$this->jumlah_rekening = $this->jumlah_rekening + Rekening::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->update([
-			'pembayaran_asuransi_id' => null
-		]);
-
-		// delete nota_jual
-		if ( !isset( $pembayaran_asuransi->nota_jual_id ) ) {
-			dd( $pembayaran_asuransi->id );
-		}
-		$this->jumlah_nota_jual = $this->jumlah_nota_jual + NotaJual::destroy( $pembayaran_asuransi->nota_jual_id );
-
-		// delete jurnal_umum
-		$this->jumlah_jurnal_umum = $this->jumlah_jurnal_umum + JurnalUmum::where('jurnalable_id', $pembayaran_asuransi->nota_jual_id)
-					->where('jurnalable_type', 'App\\Models\\NotaJual')
-					->delete();
-
-		$this->jumlah_piutang_dibayar = $this->jumlah_piutang_dibayar + PiutangDibayar::where('pembayaran_asuransi_id', $pembayaran_asuransi_id)->delete();
-
-		$this->jumlah_pembayaran_asuransi = $this->jumlah_pembayaran_asuransi + $pembayaran_asuransi->delete();
-	}
 	/**
 	* undocumented function
 	*
@@ -498,23 +327,6 @@ class testcommand extends Command
 		 dd( [ null => 'Tidak' ] + Asuransi::list() );
 		 /* dd(Asuransi::where('aktif', 1)->pluck('nama', 'id')); */
 		 /* dd(Asuransi::pluck('nama', 'id')->all()); */
-	}
-	private function updatePC2020(){
-
-		$periksas = Periksa::with('pasien')
-							->where('asuransi_id', '200216001')
-							->orWhere('asuransi_id', '200216001')
-							->orWhere('asuransi_id', '200312001')
-							->orWhere('asuransi_id', '200312002')
-							->orWhere('asuransi_id', '37')
-							->get();
-
-		foreach ($periksas as $periksa) {
-			$periksa->asuransi_id = $periksa->pasien->asuransi_id;
-			$periksa->save();
-		}
-
-
 	}
 	/**
 	* undocumented function
@@ -530,6 +342,7 @@ class testcommand extends Command
 		$query         .= "OR no_telp like '08%') ";
 		$query         .= "AND no_telp not like '%/%' ";
 		$query         .= "AND CHAR_LENGTH(no_telp) >9 ";
+		$query         .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query         .= "GROUP BY no_telp";
 		$data           = DB::select($query);
 		$duplikats      = DataDuplikat::all();
@@ -575,7 +388,7 @@ class testcommand extends Command
 			if ( !empty ( $gaji->petugas_id )) {
 				$petugas_id = $gaji->petugas_id;
 			} else {
-				$petugas_id = 16;
+				$petugas_id = Staf::owner()->id;
 			}
 			$datas[] = [ 
 				'staf_id'              => $gaji->staf_id,
@@ -585,6 +398,7 @@ class testcommand extends Command
 				'bonus'                => 0,
 				'tanggal_dibayar'      => $gaji->tanggal_dibayar,
 				'sumber_uang_id'       => $gaji->sumber_uang_id,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'           => $gaji->created_at,
 				'updated_at'           => $gaji->updated_at,
 				'petugas_id'           => $petugas_id,
@@ -595,7 +409,7 @@ class testcommand extends Command
 			if ( !empty ( $gaji->petugas_id )) {
 				$petugas_id = $gaji->petugas_id;
 			} else {
-				$petugas_id = 16;
+				$petugas_id = Staf::owner()->id;
 			}
 			$datas[] = [ 
 				'staf_id'              => $gaji->staf_id,
@@ -606,6 +420,7 @@ class testcommand extends Command
 				'tanggal_dibayar'      => $gaji->tanggal_dibayar,
 				'sumber_uang_id'       => 110000,
 				'petugas_id'           => $petugas_id,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'           => $gaji->created_at,
 				'updated_at'           => $gaji->updated_at,
 				'hutang'               => 0
@@ -640,12 +455,13 @@ class testcommand extends Command
 		$hitung = [];
 		$jurnal_umums  = JurnalUmum::where('jurnalable_type', 'App\\Models\\BayarDokter')->get();
 		foreach ($jurnal_umums as $ju) {
-			$created_at           = $ju->created_at;
-			$query                = "SELECT bg.id as id from bayar_gajis as bg ";
-			$query               .= "JOIN stafs as stf on stf.id = bg.staf_id ";
-			$query               .= "WHERE stf.titel = 'dr' ";
-			$query               .= "AND bg.created_at = '{$created_at}';";
-			$bayar_gaji           = DB::select($query);
+			$created_at  = $ju->created_at;
+			$query       = "SELECT bg.id as id from bayar_gajis as bg ";
+			$query      .= "JOIN stafs as stf on stf.id = bg.staf_id ";
+			$query      .= "WHERE stf.titel = 'dr' ";
+			$query      .= "AND bg.created_at = '{$created_at}' ";
+			$query      .= "AND stf.tenant_id = " . session()->get('tenant_id') . " ";
+			$bayar_gaji  = DB::select($query);
 			if ( count($bayar_gaji) ) {
 				$ju->jurnalable_id    = $bayar_gaji[0]->id;
 				$ju->jurnalable_type  = 'App\\Models\\BayarGaji';
@@ -654,11 +470,12 @@ class testcommand extends Command
 		}
 		$jurnal_umums  = JurnalUmum::where('jurnalable_type', 'App\\Models\\GajiGigi')->get();
 		foreach ($jurnal_umums as $ju) {
-			$query                = "SELECT bg.id as id from bayar_gajis as bg ";
-			$query               .= "JOIN stafs as stf on stf.id = bg.staf_id ";
-			$query               .= "WHERE stf.titel = 'drg' ";
-			$query               .= "AND bg.gaji_pokok = '{$ju->nilai}' ";
-			$query               .= "AND bg.created_at = '{$ju->created_at}';";
+			$query  = "SELECT bg.id as id from bayar_gajis as bg ";
+			$query .= "JOIN stafs as stf on stf.id = bg.staf_id ";
+			$query .= "WHERE stf.titel = 'drg' ";
+			$query .= "AND bg.gaji_pokok = '{$ju->nilai}' ";
+			$query .= "AND bg.created_at = '{$ju->created_at}' ";
+			$query .= "AND bg.tenant_id = " . session()->get('tenant_id') . " ";
 			$bayar_gaji           = DB::select($query);
 			if ( count($bayar_gaji) ) {
 				$ju->jurnalable_id    = $bayar_gaji[0]->id;
@@ -672,8 +489,9 @@ class testcommand extends Command
 		$hitung = [];
 		/* $jurnal_umums  = JurnalUmum::all(); */
 		$query  = "SELECT *";
-		$query .= "FROM jurnal_umums;";
-		$data = DB::select($query);
+		$query .= "FROM jurnal_umums ";
+		$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
+		$data   = DB::select($query);
 		dd('kil');
 		foreach ($jurnal_umums as $ju) {
 			dd( $ju );
@@ -825,6 +643,7 @@ class testcommand extends Command
 					'nilai'                  => $r->nilai,
 					'saldo_akhir'            => $r->saldo_akhir,
 					'debet'                  => $r->debet,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'             => $r->created_at->format('Y-m-d'),
 					'updated_at'             => $r->updated_at->format('Y-m-d'),
 					'pembayaran_asuransi_id' => $r->pembayaran_asuransi_id,
@@ -865,6 +684,7 @@ class testcommand extends Command
 				'nilai'                  => $add['nilai'],
 				'saldo_akhir'            => 0,
 				'debet'                  => 0,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'             => Carbon::now()->format('Y-m-d h:i:s'),
 				'updated_at'             => Carbon::now()->format('Y-m-d h:i:s'),
 				'pembayaran_asuransi_id' => null,
@@ -876,8 +696,8 @@ class testcommand extends Command
 		Rekening::whereNotIn('id', $dont_delete)->delete();
 		Rekening::insert($rek_temp);
 		foreach ($cont_abaikan_transaksis as $c) {
-			AbaikanTransaksi::where('transaksi_id', $c['old_id'])->update([
-				'transaksi_id' => $c['new_id']
+			AbaikanTransaksi::where('rekening_id', $c['old_id'])->update([
+				'rekening_id' => $c['new_id']
 			]);
 		}
 	}
@@ -904,32 +724,6 @@ class testcommand extends Command
 		Artisan::call('task:multiPenyusutan');
 	}
 	
-	public function normalisasiPajakPenghasilan(){
-		DB::statement("Update jurnal_umums set created_at = '2019-12-01', updated_at ='2019-12-01' where jurnalable_id = '5230' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-11-01', updated_at ='2019-11-01' where jurnalable_id = '5231' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-10-01', updated_at ='2019-10-01' where jurnalable_id = '5232' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-09-01', updated_at ='2019-09-01' where jurnalable_id = '5233' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-08-01', updated_at ='2019-08-01' where jurnalable_id = '5234' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-07-01', updated_at ='2019-07-01' where jurnalable_id = '5235' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-06-01', updated_at ='2019-06-01' where jurnalable_id = '5236' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-05-01', updated_at ='2019-05-01' where jurnalable_id = '5237' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-04-01', updated_at ='2019-04-01' where jurnalable_id = '5238' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-03-01', updated_at ='2019-03-01' where jurnalable_id = '5239' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-02-01', updated_at ='2019-02-01' where jurnalable_id = '5240' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2019-01-01', updated_at ='2019-01-01' where jurnalable_id = '5241' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-05-01', updated_at ='2018-05-01' where jurnalable_id = '5242' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-12-01', updated_at ='2018-12-01' where jurnalable_id = '5243' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-11-01', updated_at ='2018-11-01' where jurnalable_id = '5244' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-10-01', updated_at ='2018-10-01' where jurnalable_id = '5245' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-09-01', updated_at ='2018-09-01' where jurnalable_id = '5246' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-08-01', updated_at ='2018-08-01' where jurnalable_id = '5247' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-07-01', updated_at ='2018-07-01' where jurnalable_id = '5248' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-06-01', updated_at ='2018-06-01' where jurnalable_id = '5249' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-04-01', updated_at ='2018-04-01' where jurnalable_id = '5250' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-01-01', updated_at ='2018-01-01' where jurnalable_id = '5251' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-03-01', updated_at ='2018-03-01' where jurnalable_id = '5252' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-		DB::statement("Update jurnal_umums set created_at = '2018-02-01', updated_at ='2018-02-01' where jurnalable_id = '5253' and jurnalable_type = 'App\\\Models\\\Pengeluaran';");
-	}
 	/**
 	* undocumented function
 	*
@@ -1064,16 +858,6 @@ class testcommand extends Command
 		]);
 	}
 
-	private function generateKataKunci(){
-
-		$query  = "SELECT * ";
-		$query .= "FROM pembayaran_asuransis as pasu ";
-		$query .= "INNER JOIN rekenings as rek on pasu.id = rek.pembayaran_asuransi_id ";
-		$query .= "WHERE pasu.asuransi_id = '200216001'";
-		$data = DB::select($query);
-		dd( $data );
-
-	}
 
 	/**
 	* undocumented function
@@ -1113,7 +897,8 @@ class testcommand extends Command
 		$query .= "piu.periksa_id as periksa_id ";
 		$query .= "from piutang_asuransis as piu ";
 		$query .= "left join periksas as prx on prx.id = piu.periksa_id ";
-		$query .= "where prx.id is null;";
+		$query .= "where prx.id is null ";
+		$query .= "AND piu.tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query);
 		$periksa_ids = [];
 		foreach ($data as $d) {
@@ -1129,9 +914,10 @@ class testcommand extends Command
 		$query .= "left join piutang_asuransis as piu on piu.periksa_id = prx.id ";
 		$query .= "join asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "where asuransi_id not like 0 ";
-		$query .= "and asuransi_id not like 32 ";
+		$query .= "and asu.tipe_asuransi_id not like 5 ";
 		$query .= "and piu.id is null ";
-		$query .= "and prx.created_at >= '2016-06-11 09:55:49';";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and prx.created_at >= '2016-06-11 09:55:49' ";
 
 		$data = DB::select($query);
 		$piutang_asuransis = [];
@@ -1140,14 +926,12 @@ class testcommand extends Command
 				'periksa_id'    => $d->periksa_id,
 				'created_at'    => $d->created_at,
 				'updated_at'    => $d->updated_at,
+							'tenant_id'  => session()->get('tenant_id'),
 				'sudah_dibayar' => 0,
 				'invoice_id'    => null
 			];
 		}
 
-		PiutangAsuransi::insert($piutang_asuransis);
-
-		$piutang_asuransis = PiutangAsuransi::all();
 
 		$piutang_asuransi_ids = [];
 		foreach ($piutang_asuransis as $piu) {
@@ -1358,8 +1142,9 @@ class testcommand extends Command
 		$query .= "join piutang_dibayars as pdb on pdb.pembayaran_asuransi_id = pem.id ";
 		$query .= "left join rekenings as rek on rek.pembayaran_asuransi_id = pem.id ";
 		$query .= "where rek.id is not null ";
+		$query .= "AND pem.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by pem.id ";
-		$query .= "having pem_piut_db not like rek_nilai;";
+		$query .= "having pem_piut_db not like rek_nilai ";
 		$data = DB::select($query);
 
 		$pembayaran_asuransi_ids = [];
@@ -1502,9 +1287,9 @@ class testcommand extends Command
 		$new_id    = 91;
 		foreach ($asuransis as $a) {
 			if (
-				$a->id !== '32' &&
-				$a->id !== '3' &&
-				$a->id !== '0'
+				$a->tipe_asuransi_id !== 5 &&
+				$a->nama !== 'Inhealth' &&
+				$a->nama !== 'Biaya Pribadi'
 			) {
 				DB::statement("UPDATE asuransis set new_id = " . $new_id . " where id = '" . $a->id. "';");
 				$new_id++;
@@ -1513,14 +1298,19 @@ class testcommand extends Command
 
 		$asuransis = Asuransi::all();
 
-		$query  = "select table_name from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'asuransi_id' and table_schema = 'jatielok' group by table_name order by TABLE_NAME";
+		$query  = "select table_name ";
+		$query .= "from INFORMATION_SCHEMA.COLUMNS ";
+		$query .= "where ";
+		$query .= "COLUMN_NAME like 'asuransi_id' ";
+		$query .= "and table_schema = 'jatielok' ";
+		$query .= "group by table_name order by TABLE_NAME";
 		$data = DB::select($query);
 		
 		foreach ($asuransis as $asu) {
 			if (
-				$asu->id !== '32' &&
-				$asu->id !== '3' &&
-				$asu->id !== '0'
+				$a->tipe_asuransi_id !== 5 &&
+				$a->nama !== 'Inhealth' &&
+				$a->nama !== 'Biaya Pribadi'
 			) {
 				foreach ($data as $d) {
 					$query  = "UPDATE " . $d->table_name . " set asuransi_id = '{$asu->new_id}' where asuransi_id = '{$asu->id}' ";
@@ -1581,7 +1371,7 @@ class testcommand extends Command
 	{
 		$antrian_kelengkapan_dokumens = AntrianKelengkapanDokumen::all();
 		foreach ($antrian_kelengkapan_dokumens as $a) {
-			if ($a->periksa->asuransi_id == '32') {
+			if ($a->periksa->asuransi->tipe_asuransi_id == 5) {
 				$a->delete();
 			}
 		}
@@ -1831,6 +1621,7 @@ class testcommand extends Command
 		$query .= "trim(nomor_asuransi_bpjs) as nomor_asuransi_bpjs, ";
 		$query .= "count(trim(nomor_asuransi_bpjs)) ";
 		$query .= "FROM pasiens as psn ";
+		$query .= "WHERE psn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY trim(nomor_asuransi_bpjs) ";
 		$query .= "HAVING count(trim(nomor_asuransi_bpjs)) > 1";
 		$data   = DB::select($query);
@@ -1908,6 +1699,275 @@ class testcommand extends Command
 		/* dd( $data ); */
 		$wa->bulkSend($data);
 	}
-	
-	
+	/**
+	* undocumented function
+	*
+	* @return void
+	*/
+
+	private function multi_tenancy()
+    {
+        $query  = "select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'jatielok' AND COLUMN_NAME like '%able_type' order by TABLE_NAME ";
+        $data = DB::select($query);
+        $tables = [];
+        $query = '';
+        foreach ($data as $d) {
+            $qu  = "SELECT " . $d->COLUMN_NAME . " as morph FROM " . $d->TABLE_NAME . " WHERE " . $d->COLUMN_NAME ." is not null GROUP BY " . $d->COLUMN_NAME;
+            $morph_tables = DB::select($qu);
+            $column_type = $d->COLUMN_NAME;
+            $column_id = str_replace("_type","_id",$d->COLUMN_NAME);
+            foreach ($morph_tables as $tables) {
+                if (class_exists($tables->morph)) {
+                    $table_name = $tables->morph::query()->getQuery()->from;
+                    $q  ="SHOW COLUMNS FROM `" . $table_name. "` LIKE 'old_id'" ;
+                    $data = DB::select($q);
+                    if(count($data)) {
+                        $query  .= "UPDATE " . $d->TABLE_NAME . ' as fir join ' . $table_name . ' as sec on fir.' . $column_id . ' = sec.old_id ';
+                        $query  .= "SET fir." . $column_id . " = sec.id " ;
+                        $query  .= "WHERE " . $d->COLUMN_NAME . ' = "' . str_replace("\\","\\\\\\",$tables->morph) . '";';
+                    }
+                } 
+            }
+        }
+        dd( $query );
+
+
+	}
+
+    public function testFactory(){
+        \App\Models\AbaikanTransaksi::factory()->create();
+        \App\Models\Ac::factory()->create();
+        \App\Models\AkunBank::factory()->create();
+        \App\Models\Alergi::factory()->create();
+        \App\Models\Antrian::factory()->create();
+        \App\Models\AntrianApotek::factory()->create();
+        \App\Models\AntrianKasir::factory()->create();
+        \App\Models\AntrianPeriksa::factory()->create();
+        \App\Models\AntrianPoli::factory()->create();
+        \App\Models\Approve::factory()->create();
+        \App\Models\Asuransi::factory()->create();
+        \App\Models\AturanMinum::factory()->create();
+        \App\Models\BagiGigi::factory()->create();
+        \App\Models\BahanBangunan::factory()->create();
+        \App\Models\BahanHabisPakai::factory()->create();
+        \App\Models\BayarBonus::factory()->create();
+        \App\Models\BayarGaji::factory()->create();
+        \App\Models\BayarHutangHarta::factory()->create();
+        \App\Models\Belanja::factory()->create();
+        \App\Models\BelanjaPeralatan::factory()->create();
+        \App\Models\BeratBadan::factory()->create();
+        \App\Models\Berkas::factory()->create();
+        \App\Models\BpjsCenter::factory()->create();
+        \App\Models\BukanObat::factory()->create();
+        \App\Models\BukanPeserta::factory()->create();
+        \App\Models\Buku::factory()->create();
+        \App\Models\CekListrik::factory()->create();
+        \App\Models\CekObat::factory()->create();
+        \App\Models\CekPulsa::factory()->create();
+        \App\Models\CheckoutDetail::factory()->create();
+        \App\Models\CheckoutKasir::factory()->create();
+        \App\Models\Coa::factory()->create();
+        \App\Models\Complain::factory()->create();
+        \App\Models\Config::factory()->create();
+        \App\Models\Confirm::factory()->create();
+        \App\Models\DataDuplikat::factory()->create();
+        \App\Models\DeletedPeriksa::factory()->create();
+        \App\Models\DenominatorBpjs::factory()->create();
+        \App\Models\Diagnosa::factory()->create();
+        \App\Models\Discount::factory()->create();
+        \App\Models\DiscountAsuransi::factory()->create();
+        \App\Models\Dispensing::factory()->create();
+        \App\Models\Dm::factory()->create();
+        \App\Models\Dose::factory()->create();
+        \App\Models\Email::factory()->create();
+        \App\Models\FacebookDaftar::factory()->create();
+        \App\Models\FakturBelanja::factory()->create();
+        \App\Models\Fasilitas::factory()->create();
+        \App\Models\Formula::factory()->create();
+        \App\Models\GambarPeriksa::factory()->create();
+        \App\Models\Generik::factory()->create();
+        \App\Models\GoPay::factory()->create();
+        \App\Models\GolonganPeralatan::factory()->create();
+        \App\Models\HomeVisit::factory()->create();
+        \App\Models\Ht::factory()->create();
+        \App\Models\Icd10::factory()->create();
+        \App\Models\Inbox::factory()->create();
+        \App\Models\InputHarta::factory()->create();
+        \App\Models\Invoice::factory()->create();
+        \App\Models\JenisAntrian::factory()->create();
+        \App\Models\JenisPajak::factory()->create();
+        \App\Models\JenisPengeluaran::factory()->create();
+        \App\Models\JenisPeserta::factory()->create();
+        \App\Models\JenisRumahSakit::factory()->create();
+        \App\Models\JenisTarif::factory()->create();
+        \App\Models\JurnalUmum::factory()->create();
+        \App\Models\Kabur::factory()->create();
+        \App\Models\Keberatan::factory()->create();
+        \App\Models\KelasObat::factory()->create();
+        \App\Models\KelompokCoa::factory()->create();
+        \App\Models\KepalaTerhadapPap::factory()->create();
+        \App\Models\KeteranganPenyusutan::factory()->create();
+        \App\Models\KirimBerkas::factory()->create();
+        \App\Models\KlaimGdpBpjs::factory()->create();
+        \App\Models\Komposisi::factory()->create();
+        \App\Models\Kontrol::factory()->create();
+        \App\Models\KunjunganSakit::factory()->create();
+        \App\Models\LaporPajak::factory()->create();
+        \App\Models\Login::factory()->create();
+        \App\Models\Manual::factory()->create();
+        \App\Models\Merek::factory()->create();
+        \App\Models\MetodeBayar::factory()->create();
+        \App\Models\Modal::factory()->create();
+        \App\Models\Monitor::factory()->create();
+        \App\Models\NoSale::factory()->create();
+        \App\Models\NotaBeli::factory()->create();
+        \App\Models\NotaJual::factory()->create();
+        \App\Models\Outbox::factory()->create();
+        \App\Models\Pasien::factory()->create();
+        \App\Models\PasienProlanis::factory()->create();
+        \App\Models\PasienRujukBalik::factory()->create();
+        \App\Models\PcareSubmit::factory()->create();
+        \App\Models\PembayaranAsuransi::factory()->create();
+        \App\Models\PembayaranBpjs::factory()->create();
+        \App\Models\Pembelian::factory()->create();
+        \App\Models\Pendapatan::factory()->create();
+        \App\Models\PengantarPasien::factory()->create();
+        \App\Models\Pengeluaran::factory()->create();
+        \App\Models\Penjualan::factory()->create();
+        \App\Models\PenjualanAset::factory()->create();
+        \App\Models\Penyusutan::factory()->create();
+        \App\Models\Perbaikanresep::factory()->create();
+        \App\Models\Perbaikantrx::factory()->create();
+        \App\Models\Periksa::factory()->create();
+        \App\Models\Periode::factory()->create();
+        \App\Models\Perujuk::factory()->create();
+        \App\Models\PesanKeluar::factory()->create();
+        \App\Models\PesanMasuk::factory()->create();
+        \App\Models\PesertaBpjsPerbulan::factory()->create();
+        \App\Models\PetugasKirim::factory()->create();
+        \App\Models\Pic::factory()->create();
+        \App\Models\PiutangDibayar::factory()->create();
+        \App\Models\Point::factory()->create();
+        \App\Models\Poli::factory()->create();
+        \App\Models\PoliAntrian::factory()->create();
+        \App\Models\Pph21::factory()->create();
+        \App\Models\Presentasi::factory()->create();
+        \App\Models\Prolanis::factory()->create();
+        \App\Models\Promo::factory()->create();
+        \App\Models\Rak::factory()->create();
+        \App\Models\Rayon::factory()->create();
+        \App\Models\Receipt::factory()->create();
+        \App\Models\RefleksPatela::factory()->create();
+        \App\Models\RegisterAnc::factory()->create();
+        \App\Models\RegisterHamil::factory()->create();
+        \App\Models\Rekening::factory()->create();
+        \App\Models\RingkasanPenyusutan::factory()->create();
+        \App\Models\Role::factory()->create();
+        \App\Models\RolePengiriman::factory()->create();
+        \App\Models\Rujukan::factory()->create();
+        \App\Models\RumahSakit::factory()->create();
+        \App\Models\Saldo::factory()->create();
+        \App\Models\Sediaan::factory()->create();
+        \App\Models\ServiceAc::factory()->create();
+        \App\Models\Signa::factory()->create();
+        \App\Models\SmsBpjs::factory()->create();
+        \App\Models\SmsGagal::factory()->create();
+        \App\Models\SmsJangan::factory()->create();
+        \App\Models\SmsKirim::factory()->create();
+        \App\Models\SmsKontak::factory()->create();
+        \App\Models\Sop::factory()->create();
+        \App\Models\Staf::factory()->create();
+        \App\Models\StatusHarta::factory()->create();
+        \App\Models\StokOpname::factory()->create();
+        \App\Models\Supplier::factory()->create();
+        \App\Models\Surat::factory()->create();
+        \App\Models\SuratSakit::factory()->create();
+        \App\Models\Tarif::factory()->create();
+        \App\Models\Telpon::factory()->create();
+        \App\Models\Tenant::factory()->create();
+        \App\Models\Terapi::factory()->create();
+        \App\Models\Tidakdirujuk::factory()->create();
+        \App\Models\TipeAsuransi::factory()->create();
+        \App\Models\TipeJual::factory()->create();
+        \App\Models\TipeLaporanAdmedika::factory()->create();
+        \App\Models\TipeLaporanKasir::factory()->create();
+        \App\Models\TipeTindakan::factory()->create();
+        \App\Models\TransaksiPeriksa::factory()->create();
+        \App\Models\TujuanRujuk::factory()->create();
+        \App\Models\UpdateRpptPeserta::factory()->create();
+        \App\Models\User::factory()->create();
+        \App\Models\Usg::factory()->create();
+        \App\Models\VerifikasiProlanis::factory()->create();
+        \App\Models\WhatsappRegistration::factory()->create();
+    }
+
+    private function updateMultitenancy(){
+        $array = [
+            'akun_banks',
+            'nota_belis',
+            'pasiens',
+            'raks',
+            'nota_juals',
+            'sediaans',
+            'sms_bpjs',
+            /* 'icd10s', */
+            'invoices',
+            'kirim_berkas',
+            'stafs',
+            'usgs',
+            'coas',
+            'mereks',
+            'formulas',
+            'polis',
+            'periksas',
+            'rekenings',
+        ];
+
+        $table_check = [];
+
+        /* $foreign_ids = []; */
+        $final_query = '';
+        foreach ($array as $arr) {
+            if (!in_array($arr, [
+                'rekenings',
+                'raks',
+                'invoices',
+                'coas',
+                'akun_banks'
+            ])) {
+                $foreign_id = substr( $arr, 0, -1) . '_id';
+                /* $foreign_ids[] = $foreign_id; */
+                $query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'jatielok' AND COLUMN_NAME = '" . $foreign_id. "'";
+                $tables = DB::select($query);
+                $table_names = [];
+                foreach ($tables as $table) {
+                    $table_names[] = $table->TABLE_NAME;
+                    $final_query .= "update " . $table->TABLE_NAME. " as t1 join " . $arr . " as st on t1." . $foreign_id. " = st.old_id set t1." . $foreign_id. " = st.id;";
+                    
+                    /* DB::statement($update_query); */
+                }
+            }
+        }
+        dd( $final_query );
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function coa_id()
+    {
+        $query  = "select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'jatielok' AND COLUMN_NAME like '%coa%id' order by TABLE_NAME ";
+        $error = [];
+        foreach (DB::select($query) as $data) {
+            $query  = "SELECT * from " . $data->TABLE_NAME . " ";
+            $query .= "WHERE ". $data->COLUMN_NAME . " > 600;";
+            if (count(DB::select($query))) {
+                $error[] = $data->TABLE_NAME;
+            }
+        }
+
+        dd( $error );
+    }
+    
 }

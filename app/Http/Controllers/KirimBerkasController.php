@@ -37,11 +37,11 @@ class KirimBerkasController extends Controller
 			 'inputNotaPost',
 			 'update'
 		 ]]);
-		$this->input_tanggal          = Input::get('tanggal');
-		$this->input_alamat           = Input::get('alamat');
-		$this->input_staf_id          = Input::get('staf_id');
-		$this->input_role_pengiriman_id     = Input::get('role_pengiriman_id');;
-		$this->input_piutang_tercatat = Input::get('piutang_tercatat');
+		$this->input_tanggal            = Input::get('tanggal');
+		$this->input_alamat             = Input::get('alamat');
+		$this->input_staf_id            = Input::get('staf_id');
+		$this->input_role_pengiriman_id = Input::get('role_pengiriman_id');;
+		$this->input_piutang_tercatat   = Input::get('piutang_tercatat');
         $this->middleware('admin', ['except' => []]);
 	 }
 	public function index(){
@@ -62,6 +62,7 @@ class KirimBerkasController extends Controller
 		$date_to     = Yoga::datePrep(Input::get('date_to'));
 		$date_from   = Yoga::datePrep(Input::get('date_from'));
 		$asuransi_id = Input::get('asuransi_id');
+
 		$query  = "SELECT ";
 		$query .= "px.id as piutang_id, ";
 		$query .= "px.piutang as piutang, ";
@@ -77,6 +78,7 @@ class KirimBerkasController extends Controller
 		$query .= "LEFT JOIN invoices as inv on inv.id = px.invoice_id ";
 		$query .= "LEFT JOIN kirim_berkas as ks on ks.id = inv.kirim_berkas_id ";
 		$query .= "WHERE px.tanggal between '$date_from' and '$date_to' ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND px.asuransi_id = '$asuransi_id' ";
 		$query .= "GROUP BY px.id ";
 		$data = DB::select($query);
@@ -101,10 +103,11 @@ class KirimBerkasController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+
 		DB::beginTransaction();
 		try {
-			$kirim_berkas          = new KirimBerkas;
-			$kirim_berkas->id      = $this->nomorSurat();
+
+			$kirim_berkas = new KirimBerkas;
 			$kirim_berkas = $this->inputData($kirim_berkas);
 			
 			DB::commit();
@@ -112,6 +115,7 @@ class KirimBerkasController extends Controller
 			DB::rollback();
 			throw $e;
 		}
+
 		$pesan = Yoga::suksesFlash('Form Kirim Berkas Berhasil Dibuat');
 		return redirect('kirim_berkas')->withPesan($pesan);
 	}
@@ -211,6 +215,7 @@ class KirimBerkasController extends Controller
 				'debit'           => 1,
 				'coa_id'           => null,
 				'nilai'           => $peng->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -221,6 +226,7 @@ class KirimBerkasController extends Controller
 				'coa_id'          => Input::get('sumber_uang'),
 				'debit'           => 0,
 				'nilai'           => $peng->nilai,
+							'tenant_id'  => session()->get('tenant_id'),
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -281,7 +287,6 @@ class KirimBerkasController extends Controller
 		)->withPesan($pesan);
 	}
 	private function nomorSurat(){
-		/* INV/12/KJE/III/2019/1 */
 		$inv = 'INV/';
 		$bulan = Yoga::bulanKeRomawi(date('m'));
 		$tahun = date('Y');
@@ -303,6 +308,7 @@ class KirimBerkasController extends Controller
 		$kirim_berkas->alamat  = $this->input_alamat;
 		$kirim_berkas->save();
 
+
 		$staf_ids            = $this->input_staf_id;
 		$role_pengiriman_ids = $this->input_role_pengiriman_id;
 
@@ -320,6 +326,8 @@ class KirimBerkasController extends Controller
 			$piutang_tercatat_by_asuransi[$p->asuransi_id][] = $p;
 		}
 
+        $nomor_surat = $this->nomorSurat();
+
 		foreach ($piutang_tercatat_by_asuransi as $k => $piut) {
 			$periksa_ids = [];
 			foreach ($piut as $p) {
@@ -327,7 +335,7 @@ class KirimBerkasController extends Controller
 			}
 
 			$invoice                  = new Invoice;
-			$invoice->id              = $this->invoice_id($kirim_berkas->id, $k);
+			$invoice->kode_invoice    = $this->invoice_id($nomor_surat, $k);
 			$invoice->kirim_berkas_id = $kirim_berkas->id;
 			$invoice->save();
 
@@ -364,3 +372,4 @@ class KirimBerkasController extends Controller
 		return str_replace('!', '/', $id);
 	}
 }
+

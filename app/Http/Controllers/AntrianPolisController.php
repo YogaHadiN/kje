@@ -32,7 +32,7 @@ class AntrianPolisController extends Controller
 {
 	public $input_pasien_id;
 	public $input_asuransi_id;
-	public $input_poli;
+	public $input_poli_id;
 	public $input_staf_id;
 	public $input_tanggal;
 	public $input_jam;
@@ -40,14 +40,16 @@ class AntrianPolisController extends Controller
 	public $input_self_register;
 	public $input_bukan_peserta;
 	public $input_antrian_id;
+    public $asuransi_is_bpjs;
 
 	public function __construct() {
 		$this->input_pasien_id     = Input::get('pasien_id');
 		$this->input_asuransi_id   = Input::get('asuransi_id');
-		$this->input_poli          = Input::get('poli');
+		$this->input_poli_id       = Input::get('poli_id');
 		$this->input_staf_id       = Input::get('staf_id');
 		$this->input_tanggal       = Yoga::datePrep( Input::get('tanggal') );
 		$this->input_bukan_peserta = Input::get('bukan_peserta');
+        $this->asuransi_is_bpjs    = !empty( Input::get('asuransi_id') ) ? Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id == 5: false;
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
     }
 	/**
@@ -102,16 +104,6 @@ class AntrianPolisController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new antrianpoli
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		return view('antrianpolis.create');
-	}
-
-	/**
 	 * Store a newly created antrianpoli in storage.
 	 *
 	 * @return Response
@@ -120,8 +112,9 @@ class AntrianPolisController extends Controller
 	{
 		DB::beginTransaction();
 		try {
-			$pasien = Pasien::find(Input::get('pasien_id'));
+			$pasien           = Pasien::find(Input::get('pasien_id'));
 
+			/* Jika pasien belum difoto, arahkan ke search pasien */
 			if (
 				empty($pasien->image)
 			) {
@@ -129,16 +122,15 @@ class AntrianPolisController extends Controller
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
 					->withPesan($pesan);
 			}
-
 			/* Jika pasien memiliki KTP dan nomor ktp belum diisi */
 			if (
 				!is_null( $pasien->ktp_image )  	// jika ktp_image tidak null
 				&& !empty( $pasien->ktp_image ) 	// jika ktp_image tidak empty
-				&& Storage::disk('s3')->exists( $pasien->ktp_image ) // ditemukan di database
-				&& (empty($pasien->nomor_ktp) || is_null($pasien->nomor_ktp)) // dan nomor ktp masih kogong
+				&& Storage::disk('s3')->exists( $pasien->ktp_image )  // ditemukan di database
+				&& (empty($pasien->nomor_ktp) || is_null($pasien->nomor_ktp))  // dan nomor ktp masih kogong
 			) {
 				$pesan = Yoga::gagalFlash('Nomor KTP harus diisi terlebih dahulu sebelum dilanjutkan, gunakan foto KTP'); // Nomor KTP harus diisi
-				return redirect()->back()->withPesan($pesan);
+				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withPesan($pesan);
 			}
 
 			/* Jika pasien berusia kurang dari 15 tahun dan terakhir di update lebih dari satu tahun yang lalu, update foto pasien */
@@ -163,7 +155,7 @@ class AntrianPolisController extends Controller
 
 			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
 			if (
-				Input::get('asuransi_id') == '32' && // pasien bpjs
+				$this->asuransi_is_bpjs && // pasien bpjs
 				(empty($pasien->ktp_image) && $pasien->usia >= 18) // jika usia > 18 tahun tapi tidak bawa KTP
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>gambar KTP pasien (bila DEWASA) </strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
@@ -173,7 +165,7 @@ class AntrianPolisController extends Controller
 
 			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
 			if (
-				Input::get('asuransi_id') == '32' && // pasien bpjs
+				$this->asuransi_is_bpjs && // pasien bpjs
 				(empty($pasien->nomor_asuransi_bpjs) && is_null($pasien->nomor_asuransi_bpjs)) // jika usia > 18 tahun tapi tidak bawa KTP
 			) {
 				$pesan = Yoga::gagalFlash('Nomor Asuransi BPJS harus diisi');
@@ -183,7 +175,7 @@ class AntrianPolisController extends Controller
 
 			/* Jika pasien BPJS dan tidak membawa kartu BPJS */
 			if (
-				Input::get('asuransi_id') == '32' && // pasien bpjs
+				$this->asuransi_is_bpjs && // pasien bpjs
 				empty($pasien->bpjs_image) //jika kartu bpjs masih kosong
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>Kartu BPJS</strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
@@ -194,7 +186,7 @@ class AntrianPolisController extends Controller
 			$rules = [
 				'tanggal'   => 'required',
 				'pasien_id' => 'required',
-				'poli'      => 'required'
+				'poli_id'      => 'required'
 			];
 			
 			$validator = \Validator::make(Input::all(), $rules);
@@ -293,10 +285,9 @@ class AntrianPolisController extends Controller
 	 */
 	public function destroy($id)
 	{
-
 		$antrianpoli = AntrianPoli::find($id);
-		$pasien_id = $antrianpoli->pasien_id;
-		$nama = $antrianpoli->pasien->nama;
+		$pasien_id   = $antrianpoli->pasien_id;
+		$nama        = $antrianpoli->pasien->nama;
 
 		$kabur            = new Kabur;
 		$kabur->pasien_id = $pasien_id;
@@ -306,9 +297,6 @@ class AntrianPolisController extends Controller
 		if ($conf) {
 			$antrianpoli->delete();
 		}
-
-
-
 		return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('pasien <strong>' .$pasien_id . ' -  ' . $nama .'</strong> berhasil dihapus dari Antrian'));
 	}
 
@@ -389,9 +377,9 @@ class AntrianPolisController extends Controller
 		$ap                            = new AntrianPoli;
 		$ap->asuransi_id               = $this->input_asuransi_id;
 		$ap->pasien_id                 = $this->input_pasien_id;
-		$ap->poli                      = $this->input_poli;
+		$ap->poli_id                   = $this->input_poli_id;
 		$ap->staf_id                   = $this->input_staf_id;
-		if ( $this->input_asuransi_id == '32' ) {
+		if ( $this->asuransi_is_bpjs ) {
 			$ap->bukan_peserta         = $this->input_bukan_peserta;
 		}
 
@@ -416,19 +404,17 @@ class AntrianPolisController extends Controller
 		if (isset($an->whatsapp_registration)) {
 			$an->whatsapp_registration->delete();
 		}
-
 		return $ap;
-
 	}
 
 	public function arahkanAP($ap){
 		$pasien = Pasien::find($this->input_pasien_id);
 		$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
-		if ($this->input_asuransi_id == '32') {
+		if ($ap->asuransi->tipe_asuransi_id == 5) {
 			return redirect('antrianpolis/pengantar/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat'));
 		}
 
-		if ( $ap->poli == 'usg' ) {
+		if ( $ap->poli->poli == 'Poli USG Kebidanan' ) {
 			return redirect('antrianpolis')
 				->withPrint($ap)
 				->withPesan($pesan);

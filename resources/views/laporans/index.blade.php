@@ -86,7 +86,7 @@
 									<td><h1> {{ $angka_kontak_saat_ini }} </h1></td>
 									<td><h1> <a class="" href="{{ url('laporans/pengantar') }}">{{ $pengantar_belum_disubmit }}</a> </h1></td>
 									<td><h1><a class="" href="{{ url('laporans/angka_kontak_belum_terpenuhi') }}"> {{ $angka_kontak_belum_terpenuhi }} </a></h1></td>
-									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai?bulanTahun='. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
+									<td><h1> <a class="" href="{{ url('laporans/bpjs_tidak_terpakai/'. date('m-Y')) }}">{{ $kunjungan_sakit_belum_di_submit }}</a> </h1></td>
 								</tr>
 							</tbody>
 						</table>
@@ -185,7 +185,7 @@
 		</div>
 			<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					@if ($auth->role != '1')
+					@if ($auth->role_id != '1')
 						<div class="panel panel-success">
 							<div class="panel-heading">
 								Laporan Khusus
@@ -462,15 +462,6 @@
 												{!! Form::close() !!}
 											</tr>
 											<tr>
-												{!! Form::open(['url'=>'laporans/pembayaran/dokter', 'method'=> 'get']) !!} 
-												<td><input type="submit" class="btn btn-primary btn-sm" value="submit"/></td>
-												<td>Laporan Pembayaran Dokter </td>
-												<td></td>
-												<td> {!! Form::text('mulai', date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'mulai'])!!}</td>
-												<td> {!! Form::text('akhir',  date('d-m-Y'), ['class' => 'form-control tanggal', 'placeholder' => 'akhir'])!!}</td>
-												{!! Form::close() !!}
-											</tr>
-											<tr>
 												<form action="{{ url('laporans/no_asisten') }}" method="get">
 													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
 													<td>Laporan Tidak Ada Asisten</td>
@@ -543,15 +534,7 @@
 														</td>
 													</form>
 												</tr>
-												<tr>
-													<form action="{{ url('laporans/jumlahPenyakit_DM_HT') }}" method="get">
-														<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
-														<td>Laporan Bulanan DM HT</td>
-														<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
-														<td colspan="2"></td>
-													</form>
-												</tr>
-                                                @if( \Auth::user()->role == 6 )
+                                                @if( \Auth::user()->role_id == 6 )
                                                 <tr>
 													<form action="{{ url('laporans/pph21') }}" method="get">
 														<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>

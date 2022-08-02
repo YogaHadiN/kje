@@ -16,6 +16,7 @@ use App\Models\Generik;
 use App\Models\BahanHabisPakai;
 use App\Models\Rak;
 use App\Models\Alergi;
+use App\Models\Staf;
 use App\Models\Terapi;
 use App\Models\Tidakdirujuk;
 use App\Models\Icd10;
@@ -85,14 +86,14 @@ class PoliAjaxController extends Controller
         $staf_id               = input::get('staf_id');
         $icd10                 = Diagnosa::find($diagnosa_id)->icd10_id;
         $asuransi              = Asuransi::find($asuransi_id);
-        $tipe_asuransi         = $asuransi->tipe_asuransi;
+        $tipe_asuransi_id         = $asuransi->tipe_asuransi_id;
         $parameter_asuransi    = '';
         $parameter_berat_badan = '';
 
-        if ($tipe_asuransi > 3) {
-            $parameter_asuransi = "(asu.tipe_asuransi > 3)";
+        if ($tipe_asuransi_id > 3) {
+            $parameter_asuransi = "(asu.tipe_asuransi_id > 3)";
         } else {
-            $parameter_asuransi = "(asu.tipe_asuransi < 4)";
+            $parameter_asuransi = "(asu.tipe_asuransi_id < 4)";
         }
 
 		$alergies    = Alergi::where('pasien_id', $pasien_id)->get();
@@ -130,27 +131,32 @@ class PoliAjaxController extends Controller
            $parameter_berat_badan = "(p.berat_badan > 40 or p.berat_badan is null or p.berat_badan = 0)";
         }
 
-		$queryRaw = "select p.id as periksa_id, ";
-		$queryRaw .= "replace(p.terapi ,' ', '') as terapih, ";
-		$queryRaw .= "count(p.id) as jumlah ";
-		$queryRaw .= "from `periksas` as p ";
-		$queryRaw .= "join diagnosas as d on d.id = p.diagnosa_id ";
-		$queryRaw .= "join asuransis as asu on asu.id = p.asuransi_id ";
-		$queryRaw .= "where (staf_id=? or staf_id='16' ) ";
-		$queryRaw .= "and {$parameter_asuransi} ";
-		$queryRaw .= "and d.icd10_id = '{$icd10}' ";
-		$queryRaw .= "and {$parameter_berat_badan} ";
+		$query  = "select p.id as periksa_id, ";
+		$query .= "replace(p.terapi ,' ', '') as terapih, ";
+		$query .= "count(p.id) as jumlah ";
+		$query .= "from `periksas` as p ";
+		$query .= "join diagnosas as d on d.id = p.diagnosa_id ";
+		$query .= "join asuransis as asu on asu.id = p.asuransi_id ";
+		$query .= "join terapis as trp on trp.periksa_id = p.id ";
+		$query .= "join mereks as mrk on mrk.id = trp.merek_id ";
+		$query .= "join raks as rk on rk.id = mrk.rak_id ";
+		$query .= "where (staf_id=? or staf_id='" . Staf::owner()->id . "' ) ";
+		$query    .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and {$parameter_asuransi} ";
+		$query .= "and d.icd10_id = '{$icd10}' ";
+		$query .= "and {$parameter_berat_badan} ";
 		foreach ($formula_ids as $formula_id) {
-			$queryRaw .= "and p.terapi not like '%{$formula_id}%' ";
+			$query .= "and rk.formula_id not like {$formula_id} ";
 		}
-		$queryRaw .= "and p.created_at > '2016-01-22 18:15:04' ";
-		$queryRaw .= "group by terapih ";
-		$queryRaw .= "order by jumlah ";
-		$queryRaw .= "desc limit 10";
+		$query .= "and p.created_at > '2016-01-22 18:15:04' ";
+		$query .= "group by terapih ";
+		$query .= "order by jumlah ";
+		$query .= "desc limit 10";
 
-		$query = DB::select($queryRaw, [
+		$query = DB::select($query, [
 			$staf_id 
 		]);
+
 
 		if (count($query)) {
 			$periksa_ids = [];
@@ -252,7 +258,11 @@ class PoliAjaxController extends Controller
 		$id = '';
 		$temp = '';
 
-		if(count(DB::select("SELECT * FROM signas WHERE replace(signa,' ','') = '" . $signa . "'")) > 0){
+		$query = "SELECT * ";
+		$query .= "FROM signas ";
+		$query .= "WHERE replace(signa,' ','') = '" . $signa . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		if(count(DB::select($query)) > 0){
 			$warningSama = 'Signa ini sudah ada';
 		} else {
 			$sig = new Signa;
@@ -292,7 +302,11 @@ class PoliAjaxController extends Controller
 		$id = '';
 		$temp = '';
 
-		if(count(DB::select("SELECT * FROM aturan_minums WHERE replace(aturan_minum,' ','') = '" . $aturan . "'")) > 0){
+		$query = "SELECT * ";
+		$query .= "FROM aturan_minums ";
+		$query .= "WHERE replace(aturan_minum,' ','') = '" . $aturan . "'";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		if(count(DB::select($query)) > 0){
 			$warningSama = 'Aturan Minum ini sudah ada';
 		} else {
 			$atu = new AturanMinum;
@@ -428,7 +442,7 @@ class PoliAjaxController extends Controller
 		} catch (\Exception $e) {
 		}
 
-		if ($asuransi_id == 32) {
+		if (Asuransi::find($asuransi_id)->tipe_asuransi_id == 5) {
 			try {
 				$ap                   = AntrianPeriksa::findOrFail($antrianperiksa_id);
 				$ap->asuransi_id      = $asuransi_id;
@@ -460,11 +474,11 @@ class PoliAjaxController extends Controller
 
 
 	private function sesuaikanResep($terapis, $asuransi){
-		if($asuransi->id == '32' || $asuransi->tipe_asuransi == '4') { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
+		if($asuransi->tipe_asuransi_id ==  5 || $asuransi->tipe_asuransi_id == '4') { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
 			if ($terapis != '' && $terapis != '[]') {
 				$terapis = $this->sesuaikanResepYoga($terapis, 'asc');
 			}
-		} elseif($asuransi->tipe_asuransi == '3'){ //tipe_asuransi 1 = admedika
+		} elseif($asuransi->tipe_asuransi_id == '3'){ //tipe_asuransi 1 = admedika
 			if ($terapis != '' && $terapis != '[]') {
 				$terapis = $this->sesuaikanResepYoga($terapis, 'desc');
 			}

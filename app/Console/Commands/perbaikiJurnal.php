@@ -48,8 +48,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 1,
 			'nilai'           => 90000,
+			'tenant_id'       => session()->get('tenant_id'),
 			'created_at'      => $timestamp,
-			'coa_id'          => 110000, //Kas di tangan
+			'coa_id'          => Coa::where('kode_coa', 110000)->first()->id, //Kas di tangan
 			'updated_at'      => $timestamp,
 		];
 
@@ -57,8 +58,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 30000,
-			'coa_id'          => 400001, // Pendapatan Jasa Dokter
+			'coa_id'          => Coa::where('kode_coa', 400001)->first()->id, // Pendapatan Jasa Dokter
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -67,8 +69,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 50000,
-			'coa_id'          => 400002, // Pendapatan Biaya Obat
+			'coa_id'          => Coa::where('kode_coa', 400002)->first()->id, // Pendapatan Biaya Obat
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -77,8 +80,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 10000,
-			'coa_id'          => 400022, // Pendapatan Jam Malam
+			'coa_id'          => Coa::where('kode_coa', 400022)->first()->id,  // Pendapatan Jam Malam
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -87,8 +91,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 1,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 12000,
-			'coa_id'          => 50201, // Biaya Produksi Jasa Dokter
+			'coa_id'          => Coa::where('kode_coa', 50201)->first()->id,  // Biaya Produksi Jasa Dokter
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -97,8 +102,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 12000,
-			'coa_id'          => 200001, // Hutang Kepada Dokter
+			'coa_id'          => Coa::where('kode_coa', 200001)->first()->id, // Hutang Kepada Dokter
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -107,8 +113,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 1,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 10790,
-			'coa_id'          => 50204, // Biaya Produksi Obat
+			'coa_id'          => Coa::where('kode_coa', 50204)->first()->id, // Biaya Produksi Obat
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -117,8 +124,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 10790,
-			'coa_id'          => 112000, // Persediaan Obat
+			'coa_id'          => Coa::where('kode_coa', 112000)->first()->id, // Persediaan Obat
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -127,8 +135,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 1,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 1530,
-			'coa_id'          => 50202, // Biaya Produksi Bonus Per Pasien
+			'coa_id'          => Coa::where('kode_coa', 50202)->first()->id, // Biaya Produksi Bonus Per Pasien
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -137,8 +146,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213120',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 1530,
-			'coa_id'          => 200002, // Hutang Bonus Karyawan
+			'coa_id'          => Coa::where('kode_coa', 200002)->first()->id, // Hutang Bonus Karyawan
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -151,8 +161,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213121',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 1,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 5000,
-			'coa_id'          => 50201,
+			'coa_id'          => Coa::where('kode_coa', 50201)->first()->id,
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -160,8 +171,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213121',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 5000,
-			'coa_id'          => 200001,
+			'coa_id'          => Coa::where('kode_coa', 200001)->first()->id,
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -170,8 +182,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213121',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 1,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 5496,
-			'coa_id'          => 50204,
+			'coa_id'          => Coa::where('kode_coa', 50204)->first()->id,
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -180,7 +193,8 @@ class perbaikiJurnal extends Command
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
 			'nilai'           => 5496,
-			'coa_id'          => 112000,
+			'tenant_id'       => session()->get('tenant_id'),
+			'coa_id'          => Coa::where('kode_coa', 112000)->first()->id,
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -190,7 +204,8 @@ class perbaikiJurnal extends Command
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 1,
 			'nilai'           => 1530,
-			'coa_id'          => 50202,
+			'tenant_id'       => session()->get('tenant_id'),
+			'coa_id'          => Coa::where('kode_coa', 50202)->first()->id,
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];
@@ -198,8 +213,9 @@ class perbaikiJurnal extends Command
 			'jurnalable_id'   => '161213121',
 			'jurnalable_type' => 'App\Models\Periksa',
 			'debit'           => 0,
+			'tenant_id'       => session()->get('tenant_id'),
 			'nilai'           => 1530,
-			'coa_id'          => 200002,
+			'coa_id'          => Coa::where('kode_coa', 200002)->first()->id,
 			'created_at'      => $timestamp,
 			'updated_at'      => $timestamp,
 		];

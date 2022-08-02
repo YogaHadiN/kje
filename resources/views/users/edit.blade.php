@@ -35,7 +35,7 @@
             ))!!}
             @include('users.form', ['create'=> false])
             {!! Form::close() !!}
-              @if(\Auth::user()->role == '6')
+              @if(\Auth::user()->role_id == '6')
                   @if (\Auth::id() != $user->id)
                     {{-- expr --}}
                     {!! Form::open(['url' => 'users/' . $user->id, 'method' => 'delete'])!!}

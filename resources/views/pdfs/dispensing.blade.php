@@ -81,15 +81,10 @@ hr {
                         {{ env("ALAMAT_KLINIK") }} <br>
                         Telp : {{ env("TELPON_KLINIK") }}  
                     </h5>
-					<h2 class="border-top">Dispensing Rak {{ $rak->id }} mulai tanggal {{ App\Models\Classes\Yoga::updateDatePrep($mulai) }} s/d {{ App\Models\Classes\Yoga::updateDatePrep($akhir) }}</h2>
+					<h2 class="border-top">Dispensing Rak {{ $merek->merek }} mulai tanggal {{ App\Models\Classes\Yoga::updateDatePrep($mulai) }} s/d {{ App\Models\Classes\Yoga::updateDatePrep($akhir) }}</h2>
                 </div>
             <div>
-				<h2>Merek Terdaftar : </h2>
-				<ul>
-					@foreach($rak->merek as $merek)
-					<li>{{ $merek->merek }}</li>
-					@endforeach
-				</ul>
+                <h2>Merek Terdaftar : {{ $merek->merek }} </h2>
                 <div class="text-center">
                 <div class="text-center">
 					<table class="table bordered" id="tableAsuransi">
@@ -105,8 +100,8 @@ hr {
 							@foreach ($dispensings as $dispensing)
 								<tr>
 								<td>{!! App\Models\Classes\Yoga::updateDatePrep($dispensing->tanggal) !!}</td>
-								<td>{!! $dispensing->keluar !!} {{ $rak->formula->sediaan }}</td>
-								<td>{!! $dispensing->masuk !!} {{ $rak->formula->sediaan }}</td>
+                                <td>{!! $dispensing->keluar !!} {{ $merek->rak->formula->sediaan }}</td>
+                                <td>{!! $dispensing->masuk !!} {{ $merek->rak->formula->sediaan }}</td>
 								  {{--<td>{!! $dispensing->dispensable_type !!} {!! $dispensing->dispensable_id !!}</td>--}}
 							</tr>
 							@endforeach

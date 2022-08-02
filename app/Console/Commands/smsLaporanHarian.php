@@ -50,16 +50,20 @@ class smsLaporanHarian extends Command
 		$periksas = Periksa::where('tanggal',date('Y-m-d'))->get();
 
 		$jumlahPasienTotal = $periksas->count();
-		$jumlahPasienBPJS = Periksa::where('tanggal', 'like', date('Y-m-d'))
-							->where('asuransi_id', '32')
-							->count();
+        $hari_ini = date('Y-m-d');
+        $query  = "SELECT count(id)  as jumlah ";
+        $query .= "FROM periksas as prx ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "WHERE prx.tanggal = '{$hari_ini}' ";
+        $query .= "AND asu.tipe_asuransi_id = 5;";
+        $jumlahPasienBPJS = DB::select($query)->first()->jumlah ;
 		$tunai = 0;
 		$piutang = 0;
 		$estetika = 0;
 		foreach ($periksas as $v) {
 			$tunai += $v->tunai;
 			$piutang += $v->piutang;
-			if ($v->poli == 'estetika') {
+			if ($v->poli->poli == 'estetika') {
 				$estetika++;
 			}
 		}	

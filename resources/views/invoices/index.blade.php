@@ -31,10 +31,10 @@ Klinik Jati Elok | Invoices
 					</th>
 					<th>Invoice
 						<br>
-						{!! Form::text('invoice_id', null, [
+						{!! Form::text('kode_invoice', null, [
 							'class'   => 'form-control',
 							'onkeyup' => 'getData();return false;',
-							'id'      => 'invoice_id'
+							'id'      => 'kode_invoice'
 						]) !!}
 					</th>
 					<th>Asuransi

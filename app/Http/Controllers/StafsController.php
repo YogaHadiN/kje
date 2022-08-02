@@ -38,7 +38,7 @@ class StafsController extends Controller
 	public $input_universitas_asal;
 
 	  public function __construct() {
-		$this->input_nama             = ucwords(strtolower(Input::get('nama')));
+		$this->input_nama             = Input::get('nama');
 		$this->input_tanggal_lahir    = Input::get('tanggal_lahir');
 		$this->input_tanggal_lulus    = Input::get('tanggal_lulus');
 		$this->input_tanggal_mulai    = Input::get('tanggal_mulai');
@@ -99,7 +99,6 @@ class StafsController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 		$staf     = new Staf;
-		$staf->id = Yoga::customId('App\Models\Staf');
 		$staf     = $this->inputData($staf);
 
 
@@ -288,7 +287,8 @@ class StafsController extends Controller
 		$query .= "year(tanggal) as tahun ";
 		$query .= "FROM periksas as prx ";
 		$query .= "WHERE staf_id = {$id} ";
-		$query .= "GROUP BY YEAR(tanggal) asc;";
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY YEAR(tanggal) asc ";
 		$jumlah = DB::select($query);
 		$staf = Staf::find( $id );
 		$tahun = true;
@@ -320,8 +320,9 @@ class StafsController extends Controller
 		$query .= "tanggal as tanggal ";
 		$query .= "FROM periksas as prx ";
 		$query .= "WHERE staf_id = {$id} ";
-		$query .= "AND year(tanggal) = '{$tahun}' ";
-		$query .= "GROUP BY tanggal asc;";
+		$query .= "AND tanggal like '{$tahun}%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY tanggal";
 		return DB::select($query);
 	}
 	

@@ -51,6 +51,7 @@ class revisiPicAsuransi extends Command
 					'nama'          => $asu->pic,
 					'nomor_telepon' => $asu->hp_pic,
 					'asuransi_id'   => $asu->id,
+					'tenant_id'     => session()->get('tenant_id'),
 					'created_at'    => $timestamp,
 					'updated_at'    => $timestamp
 				];
@@ -59,9 +60,10 @@ class revisiPicAsuransi extends Command
 				$emails[] = [
 					'email'          => $asu->email,
 					'emailable_type' => 'App\\Models\\Asuransi',
+					'tenant_id'      => session()->get('tenant_id'),
 					'emailable_id'   => $asu->id,
-					'created_at' => $timestamp,
-					'updated_at' => $timestamp
+					'created_at'     => $timestamp,
+					'updated_at'     => $timestamp
 				];
 			}
 		}

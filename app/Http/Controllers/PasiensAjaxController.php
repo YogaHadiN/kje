@@ -93,7 +93,6 @@ class PasiensAjaxController extends Controller
 	public function create()
 	{
 		if(Input::ajax()){
-			$id = Yoga::customIdPasien();
 			// return Yoga::inputKtpIfNotEmpty(Input::get('ktp_image'), $id);
 			// return Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
 			// return Input::get('image');
@@ -112,20 +111,24 @@ class PasiensAjaxController extends Controller
 			$pasien->nama           = ucwords(strtolower(Input::get('nama')))  . ', ' . Input::get('panggilan');
 			$pasien->nama_peserta   = ucwords(strtolower(Input::get('nama_peserta')));
 			$pasien->nomor_asuransi = Input::get('nomor_asuransi');
-			if ($asuransi_id == '32') {
+            $asurnsi_bpjs = Asuransi::Bpjs();
+			if ($asuransi_id == $asurnsi_bpjs->id) {
 				$pasien->nomor_asuransi_bpjs = Input::get('nomor_asuransi');
 			}
 			$pasien->no_telp        = Input::get('no_telp');
 			$pasien->tanggal_lahir  = Yoga::datePrep(Input::get('tanggal_lahir'));
-			$pasien->id             = $id;
 			$pasien->bpjs_image     = $pasien->imageUpload('bpjs','bpjs_image', $id);
 			$pasien->ktp_image      = $pasien->imageUpload('ktp', 'ktp_image', $id);
 			$pasien->image          = Yoga::inputImageIfNotEmpty(Input::get('image'), $id);
 		
 			$pasien->save();
 
-			$query = "SELECT asu.nama as nama_asuransi, p.* FROM pasiens as p LEFT OUTER JOIN asuransis as asu on p.asuransi_id = asu.id WHERE p.id = '" . $id . "'";
-			
+			$query = "SELECT asu.nama as nama_asuransi, ";
+			$query .= "p.* ";
+			$query .= "FROM pasiens as p ";
+			$query .= "LEFT OUTER JOIN asuransis as asu on p.asuransi_id = asu.id ";
+			$query .= "WHERE p.id = '" . $pasien->id . "' ";
+			$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 			return DB::SELECT($query);
 
 		} else {
@@ -255,6 +258,7 @@ class PasiensAjaxController extends Controller
 		}
 
 		$query = substr($query, 0, -5);
+		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= ' limit 15;';
 			
 		$pasiens = DB::select($query);
@@ -396,6 +400,7 @@ class PasiensAjaxController extends Controller
 			$query .= "AND (p.nama_ibu like ? or ? = '') ";
 			$query .= "AND (p.nama_ayah like ? or ? = '') ";
 			$query .= "AND (p.sudah_kontak_bulan_ini like ? or ? = '') ";
+			$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
 			$query .= "ORDER BY p.created_at DESC ";
 			if (!$count) {
 				$query .= "LIMIT {$pass}, {$displayed_rows} ";
@@ -453,13 +458,16 @@ class PasiensAjaxController extends Controller
 		$bulanThn = date('Y-m');
 		$query  = "SELECT count(*) as jumlah ";
 		$query .= "FROM periksas as prx ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "JOIN klaim_gdp_bpjs as kgd on kgd.periksa_id = prx.id ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "JOIN transaksi_periksas as trx on trx.periksa_id = prx.id ";
+		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
 		$query .= "WHERE prx.tanggal like '{$bulanThn}%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND psn.id = '{$this->input_pasien_id}' ";
-		$query .= "AND trx.jenis_tarif_id =116 "; //gula darah
-		$query .= "AND prx.asuransi_id =32;"; //bpjs
+		$query .= "AND jtf.jenis_tarif ='Gula Darah' "; //gula darah
+		$query .= "AND asu.tipe_asuransi_id =5 "; //bpjs
 		$data = DB::select($query);
 		return $data[0]->jumlah;
 	}

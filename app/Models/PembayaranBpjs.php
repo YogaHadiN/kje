@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class PembayaranBpjs extends Model
 {
+    use BelongsToTenant, HasFactory;
 	
     protected $morphClass = 'App\Models\PembayaranBpjs';
 	protected $dates = ['tanggal_pembayaran', 'mulai_tanggal', 'akhir_tanggal'];

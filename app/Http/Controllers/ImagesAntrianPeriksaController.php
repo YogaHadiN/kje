@@ -41,6 +41,7 @@ class ImagesAntrianPeriksaController extends Controller
 						 'keterangan'      => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id'   => $id,
 						 'gambarable_type' => 'App\Models\AntrianPeriksa',
+							'tenant_id'  => session()->get('tenant_id'),
 						 'created_at'      => $timestamp,
 						 'updated_at'      => $timestamp
 					];
@@ -55,10 +56,10 @@ class ImagesAntrianPeriksaController extends Controller
 			$pesan = Yoga::gagalFlash('Gambar GAGAL di Update');
 		}
 
-		if ($periksa->poli == 'sks') {
-			$poli = 'umum';
+		if ($periksa->poli->poli == 'Poli Umum - Surat Keterangan Sehat') {
+			$poli = \App\Models\Poli::where('poli',  'Poli Umum - Konsul Dokter')->first()->id;
 		} else {
-			$poli = $periksa->poli;
+			$poli = $periksa->poli_id;
 		}
 		return redirect('images/result')->withPesan($pesan);
 	}
@@ -98,6 +99,7 @@ class ImagesAntrianPeriksaController extends Controller
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id' => $id,
 						 'gambarable_type' => 'App\Models\AntrianPeriksa',
+							'tenant_id'  => session()->get('tenant_id'),
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];

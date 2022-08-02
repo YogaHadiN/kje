@@ -37,7 +37,7 @@
 								</div> 
 							</div>
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<a class="btn btn-warning btn-block btn-lg" href="{{ url('ruangperiksa/' . $periksa->poli) }}">Cancel</a>
+							<a class="btn btn-warning btn-block btn-lg" href="{{ url('ruangperiksa/' . $periksa->poli_id) }}">Cancel</a>
 							</div>
 						</div>
 						

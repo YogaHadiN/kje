@@ -30,7 +30,12 @@
         "role"  => "form",
         "method"=> "post"
 ])}}
-      @include('raks.createForm', ['formula' => $formula, 'modal' => false, 'stokShow' => false ])
+<h1>post</h1>
+      @include('raks.createForm', [
+          'formula'  => $formula,
+          'modal'    => false,
+          'stokShow' => true
+      ])
 {{ Form::close() }}
 @stop
 @section('footer')

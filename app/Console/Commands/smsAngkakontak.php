@@ -73,8 +73,9 @@ class smsAngkakontak extends Command
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran non bpjs
 		$query.= "OR id in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tanggal}%' and ks.pcare_submit = 1 ) ";
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
-		$query.= "OR id in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' )) ";
+		$query.= "OR id in( Select pasien_id from periksas as prx join asuransis as asu on asu.id = prx.asuransi_id where asu.tipe_asuransi_id = 5 and prx.created_at like '{$tanggal}%' )) ";
 		// Sehingga kita bisa mendapat angka kontak saat ini
+		$query   .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$angka_kontak_saat_ini = DB::select($query)[0]->jumlah;
 
 		
@@ -124,13 +125,14 @@ class smsAngkakontak extends Command
 		// dikurangi pasien BPJS yang berobat sebagai pembayaran non BPJS yang berhasil kita masukkan di pcare
 		$query.= "AND id not in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at like '{$tanggal}%' and ks.pcare_submit = 1 ) ";
 		// dikurangi pasien BPJS yang berobat sebagai pembayaran BPJS yang berhasil kita masukkan di pcare
-		$query.= "AND id not in( Select pasien_id from periksas where asuransi_id = 32 and created_at like '{$tanggal}%' ) ";
+		$query.= "AND id not in( Select pasien_id from periksas as prx join asuransis as asu on asu.id = prx.asuransi_id where asu.tipe_asuransi_id = 5 and prx.created_at like '{$tanggal}%' ) ";
 		// dikurangi pasien BPJS yang terdaftar di tabel sms_jangans;
 		$query.= "AND id not in( Select pasien_id from sms_jangans ) ";
 		// pilih pasien yang memiliki no_telp dengan awalan 08 atau +62 
 		$query.= "AND ( no_telp like '08%' or no_telp like '+628%' ) ";
 		// kita order by menurut no_telp, jangan sampai no_telp yang sama di sms 2 kali
 		 $query.= "ORDER BY replace( no_telp, ' ', '' ) ";
+		$query   .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		// kita batasi sesuai target angka kontak hari ini supaya gak terlalu banyak yang disms dan memudahkan penginputan
 		$query.= "LIMIT {$angka_kontak_kurang} ";
 
@@ -184,7 +186,9 @@ class smsAngkakontak extends Command
 					foreach ($value['id'] as $val) {
 						$data[] = [ 
 							'pasien_id'  => $val,
+							'tenant_id'  => session()->get('tenant_id'),
 							'pesan'      => $pesan,
+							'tenant_id'  => session()->get('tenant_id'),
 							'created_at' => $timestamp,
 							'updated_at' => $timestamp
 						];
@@ -199,6 +203,7 @@ class smsAngkakontak extends Command
 						$gagal[] = [
 							'pasien_id'  => $val,
 							'pesan'      => $pesan,
+							'tenant_id'  => session()->get('tenant_id'),
 							'error'      => $e->getMessage(),
 							'created_at' => $timestamp,
 							'updated_at' => $timestamp

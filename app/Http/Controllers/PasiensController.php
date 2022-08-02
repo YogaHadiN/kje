@@ -7,6 +7,8 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AntrianPolisController;
 use App\Models\Classes\Yoga;
+use App\Models\Poli;
+use App\Models\Generik;
 use App\Models\DenominatorBpjs;
 use App\Rules\CekNomorBpjsSama;
 use App\Rules\CekNomorKtpSama;
@@ -14,6 +16,7 @@ use App\Models\Alergi;
 use App\Models\Periksa;
 use App\Models\VerifikasiProlanis;
 use App\Models\Pasien;
+use App\Models\JenisPeserta;
 use App\Models\Asuransi;
 use App\Models\AntrianPoli;
 use App\Models\Staf;
@@ -25,7 +28,7 @@ class PasiensController extends Controller
 	public $input_alamat;
 	public $input_asuransi_id;
 	public $input_sex;
-	public $input_jenis_peserta;
+	public $input_jenis_peserta_id;
 	public $input_nama_ayah;
 	public $input_nama_ibu;
 	public $input_nama;
@@ -36,7 +39,6 @@ class PasiensController extends Controller
 	public $input_no_telp;
 	public $input_tanggal_lahir;
 	public $input_jangan_disms;
-	public $input_id;
 	public $input_antrian_id;
 	public $input_punya_asuransi;
 	public $input_bpjs_image;
@@ -54,61 +56,57 @@ class PasiensController extends Controller
 	public $rules;
 
 
-   public function __construct()
-    {
-		$ps                                      = new Pasien;
-		$this->input_alamat                      = Input::get('alamat');
-		$this->input_asuransi_id                 = $this->asuransiId(Input::get('asuransi_id'));
-		$this->input_sex                         = Input::get('sex');
-		$this->input_jenis_peserta               = Input::get('jenis_peserta');
-		$this->input_nama_ayah                   = ucwords(strtolower(Input::get('nama_ayah')));;
-		$this->input_nama_ibu                    = ucwords(strtolower(Input::get('nama_ibu')));;
-		$this->input_nama                        = ucwords(strtolower(Input::get('nama')));
-		$this->input_nama_peserta                = ucwords(strtolower(Input::get('nama_peserta')));;
-		$this->input_nomor_asuransi              = Input::get('nomor_asuransi');
-		$this->input_punya_asuransi              = Input::get('punya_asuransi');
-		$this->input_nomor_ktp                   = Input::get('nomor_ktp');
-		$this->input_nomor_asuransi_bpjs         = !empty( Input::get('nomor_asuransi_bpjs') ) ? Input::get('nomor_asuransi_bpjs') : $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
-		$this->input_no_telp                     = Input::get('no_telp');
-		$this->input_tanggal_lahir               = Input::get('tanggal_lahir');
-		$this->input_jangan_disms                = Input::get('jangan_disms');
-		$this->input_prolanis_dm                 = Input::get('prolanis_dm');
-		$this->input_prolanis_ht                 = Input::get('prolanis_ht');
-		$this->input_verifikasi_prolanis_dm_id   = Input::get('verifikasi_prolanis_dm_id');
-		$this->input_verifikasi_prolanis_ht_id   = Input::get('verifikasi_prolanis_ht_id');
-		$this->input_meninggal                   = Input::get('meninggal');
-		$this->input_penangguhan_pembayaran_bpjs = Input::get('penangguhan_pembayaran_bpjs');
+   public function __construct(){
+		$ps                                       = new Pasien;
+		$this->input_alamat                       = Input::get('alamat');
+		$this->input_asuransi_id                  = $this->asuransiId(Input::get('asuransi_id'));
+		$this->input_sex                          = Input::get('sex');
+		$this->input_jenis_peserta_id             = Input::get('jenis_peserta_id');
+		$this->input_nama_ayah                    = Input::get('nama_ayah');
+		$this->input_nama_ibu                     = Input::get('nama_ibu');
+		$this->input_nama                         = Input::get('nama');
+		$this->input_nama_peserta                 = Input::get('nama_peserta');
+		$this->input_nomor_asuransi               = Input::get('nomor_asuransi');
+		$this->input_punya_asuransi               = Input::get('punya_asuransi');
+		$this->input_nomor_ktp                    = Input::get('nomor_ktp');
+		$this->input_nomor_asuransi_bpjs          = !empty( Input::get('nomor_asuransi_bpjs') ) ? Input::get('nomor_asuransi_bpjs') : $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
+		$this->input_no_telp                      = Input::get('no_telp');
+		$this->input_tanggal_lahir                = Input::get('tanggal_lahir');
+		$this->input_jangan_disms                 = Input::get('jangan_disms');
+		$this->input_prolanis_dm                  = Input::get('prolanis_dm');
+		$this->input_prolanis_ht                  = Input::get('prolanis_ht');
+		$this->input_verifikasi_prolanis_dm_id    = Input::get('verifikasi_prolanis_dm_id');
+		$this->input_verifikasi_prolanis_ht_id    = Input::get('verifikasi_prolanis_ht_id');
+		$this->input_meninggal                    = Input::get('meninggal');
+		$this->input_penangguhan_pembayaran_bpjs  = Input::get('penangguhan_pembayaran_bpjs');
 
-		/* dd( Input::get('penangguhan_pembayaran_bjps')); */
-
-		/* dd( 'dd', Input::get('penangguhan_pembayaran_bpjs') ); */
-
-		$this->dataIndexPasien = [
-			'statusPernikahan' => $ps->statusPernikahan(),
-			'asuransi'         => Yoga::asuransiList(),
-			'jenis_peserta'    => $ps->jenisPeserta(),
-			'staf'             => Yoga::stafList(),
-			'poli'             => [
-				null => '- Pilih Poli -',
-				'darurat' => 'Poli Gawat Darurat'
+		$poli_gawat_darurat = Poli::where('poli', 'Poli Gawat Darurat')->first();
+	
+		$this->dataIndexPasien                    = [
+			'statusPernikahan'                   => $ps->statusPernikahan(),
+			'asuransi'                           => Yoga::asuransiList(),
+			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
+			'staf'                               => Yoga::stafList(),
+			'poli'                               => [
+				null                    => '- Pilih Poli -',
+				$poli_gawat_darurat->id => $poli_gawat_darurat->poli
 			],
-			'peserta'          => [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik']
+			'peserta'                            => [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik']
 		];
-		$this->dataCreatePasien = [
-			'statusPernikahan' => $ps->statusPernikahan(),
-			'asuransi'         => Yoga::asuransiList(),
-			'jenis_peserta'    => $ps->jenisPeserta(),
-			'staf'             => Yoga::stafList(),
-			'poli'             => [
-				null => '- Pilih Poli -',
-				'darurat' => 'Poli Gawat Darurat'
+		$this->dataCreatePasien                   = [
+			'statusPernikahan'                   => $ps->statusPernikahan(),
+			'asuransi'                           => Yoga::asuransiList(),
+			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
+			'staf'                               => Yoga::stafList(),
+			'poli'                               => [
+				null                    => '- Pilih Poli -',
+				$poli_gawat_darurat->id => $poli_gawat_darurat->poli
 			],
-			'verifikasi_prolanis_options' =>  VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id'),
-			'pasienSurvey'          => $this->pasienSurvey()
+			'verifikasi_prolanis_options'        => VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id'),
+			'pasienSurvey'                       => $this->pasienSurvey()
 		];
 
-        /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
-        $this->middleware('super', ['only' => 'delete']);
+        $this->middleware('super', ['only'       => 'delete']);
 
 
 
@@ -148,10 +146,9 @@ class PasiensController extends Controller
 		}
 
 		$pasien         = new Pasien;
-		$this->input_id = Yoga::customId('App\Models\Pasien');
-		$pasien->id     = $this->input_id;
 		$pasien         = $this->inputDataPasien($pasien);
 		$ap             = $this->inputDataAntrianPoli($pasien);
+
 
 		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		return redirect('antrianpolis')
@@ -168,24 +165,24 @@ class PasiensController extends Controller
 	 */
 	public function show($id)
 	{
-		$periksas = Periksa::with(
-			'pasien', 
-			'staf' ,
-			'asuransi', 
-			'suratSakit', 
-			'gambars', 
-			'usg', 
-			'registerAnc', 
-			'rujukan.tujuanRujuk', 
-			'terapii.merek', 
-			'diagnosa.icd10'
-	   	)->where('pasien_id', $id)->orderBy('tanggal', 'desc')->paginate(10);
+            $periksas = Periksa::with(
+                'pasien', 
+                'staf' ,
+                'asuransi', 
+                'suratSakit', 
+                'gambars', 
+                'usg', 
+                'registerAnc', 
+                'rujukan.tujuanRujuk', 
+                'terapii.merek', 
+                'diagnosa.icd10'
+            )->where('pasien_id', $id)->orderBy('tanggal', 'desc')->paginate(10);
 
-		if($periksas->count() > 0){
-			return view('pasiens.show', compact('periksas'));
-		}else {
-			return redirect('pasiens')->withPesan(Yoga::gagalFlash('Tidak ada Riwayat Untuk Ditampilkan'));
-		}
+            if($periksas->count() > 0){
+                return view('pasiens.show', compact('periksas'));
+            }else {
+                return redirect('pasiens')->withPesan(Yoga::gagalFlash('Tidak ada Riwayat Untuk Ditampilkan'));
+            }
 	}
 
 	/**
@@ -279,8 +276,6 @@ class PasiensController extends Controller
 		}
 
 		$pasien         = Pasien::find($id);
-		$this->input_id = $id;
-		/* dd( $this->input_id ); */
 		$pasien         = $this->inputDataPasien($pasien);
 
 		$antrian_id =  Input::get('antrian_id');
@@ -341,12 +336,16 @@ class PasiensController extends Controller
 	}
 	public function inputDataPasien($pasien){
 
-		$this->input_bpjs_image                 = $this->imageUpload('bpjs','bpjs_image', $this->input_id);
-		$this->input_ktp_image                  = $this->imageUpload('ktp','ktp_image', $this->input_id);
-		$this->input_kartu_asuransi_image       = $this->imageUpload('kartu_asuransi','kartu_asuransi_image', $this->input_id);
-		$this->input_prolanis_dm_flagging_image = $this->imageUpload('prolanis_dm','prolanis_dm_flagging_image', $this->input_id);
-		$this->input_prolanis_ht_flagging_image = $this->imageUpload('prolanis_ht','prolanis_ht_flagging_image', $this->input_id);
-		$this->input_image                      = $this->imageUploadWajah('img', 'image', $this->input_id);
+        /* dd( [ */
+        /*     $this->input_sex, */
+        /*     $this->input_jangan_disms, */
+        /*     $this->input_prolanis_ht, */
+        /*     $this->input_prolanis_dm, */
+        /*     $this->input_verifikasi_prolanis_dm_id, */
+        /*     $this->input_verifikasi_prolanis_ht_id, */
+        /*     $this->input_meninggal, */
+        /*     $this->input_penangguhan_pembayaran_bpjs */
+        /* ] ); */
 
 
 		$pasien->alamat                      = $this->input_alamat;
@@ -354,7 +353,7 @@ class PasiensController extends Controller
 		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
 		$pasien->asuransi_id                 = $this->input_asuransi_id;
 		$pasien->sex                         = $this->input_sex;
-		$pasien->jenis_peserta               = $this->input_jenis_peserta;
+		$pasien->jenis_peserta_id            = $this->input_jenis_peserta_id;
 		$pasien->nama_ayah                   = $this->input_nama_ayah;
 		$pasien->nama_ibu                    = $this->input_nama_ibu;
 		$pasien->nama                        = $this->input_nama;
@@ -369,6 +368,16 @@ class PasiensController extends Controller
 		$pasien->penangguhan_pembayaran_bpjs = $this->input_penangguhan_pembayaran_bpjs;
 		$pasien->tanggal_lahir               = Yoga::datePrep($this->input_tanggal_lahir);
 		$pasien->jangan_disms                = $this->input_jangan_disms;
+		$pasien->save();
+
+
+		$this->input_bpjs_image                 = $this->imageUpload('bpjs','bpjs_image', $pasien->id);
+		$this->input_ktp_image                  = $this->imageUpload('ktp','ktp_image', $pasien->id);
+		$this->input_kartu_asuransi_image       = $this->imageUpload('kartu_asuransi','kartu_asuransi_image', $pasien->id);
+		$this->input_prolanis_dm_flagging_image = $this->imageUpload('prolanis_dm','prolanis_dm_flagging_image', $pasien->id);
+		$this->input_prolanis_ht_flagging_image = $this->imageUpload('prolanis_ht','prolanis_ht_flagging_image', $pasien->id);
+		$this->input_image                      = $this->imageUploadWajah('img', 'image', $pasien->id);
+
 		if (!empty( $this->input_bpjs_image )) {
 			$pasien->bpjs_image          = $this->input_bpjs_image;
 		}
@@ -400,12 +409,11 @@ class PasiensController extends Controller
 		return $asuransi_id;
 	}
 	public function nomorAsuransiBpjs($nomor_asuransi, $asur_id){
-		if ($asur_id == '32') {
+        $asuransi_bpjs = Asuransi::Bpjs();
+		if ($asur_id == $asuransi_bpjs->id) {
 			return Input::get('nomor_asuransi');
 		}
 		return null;
-	}
-	public function pc2020(){
 	}
 	public function prolanisTerkendali(){
 		return view('pasiens.prolanis_terkendali');
@@ -455,7 +463,7 @@ class PasiensController extends Controller
 			$prolanis[$d->periksa_id]['nomor_asuransi']             = $d->nomor_asuransi;
 			$prolanis[$d->periksa_id]['prolanis_ht_flagging_image'] = $d->prolanis_ht_flagging_image;
 			if ( 
-				$d->jenis_tarif_id == '116'
+				$d->jenis_tarif_id == JenisTarif::where('jenis_tarif', 'Gula Darah')->first()->id
 			) {
 				$prolanis[$d->periksa_id]['gula_darah'] = $d->keterangan_pemeriksaan;
 			}
@@ -508,11 +516,12 @@ class PasiensController extends Controller
 		$query .= "LEFT JOIN transaksi_periksas as trx on prx.id = trx.periksa_id ";
 		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
 		$query .= "WHERE prx.tanggal like '{$tahunBulan}%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND (prx.prolanis_ht = 1 or prx.prolanis_dm = 1) ";
-		$query .= "AND prx.asuransi_id = 32 ";
+		$query .= "AND asu.tipe_asuransi_id = 5 ";
 		$query .= "ORDER BY ";
 		$query .= "prx.sistolik DESC, ";
-		$query .= "prx.diastolik DESC;";
+		$query .= "prx.diastolik DESC ";
 		return DB::select($query);
 
 	}
@@ -543,36 +552,9 @@ class PasiensController extends Controller
 			'prolanis'
 		));
 	}
-	private function imageUpload($pre, $fieldName, $id){
+	public function imageUpload($pre, $fieldName, $id){
 		if(Input::hasFile($fieldName)) {
-
-			$upload_cover = Input::file($fieldName);
-			/* dd( $upload_cover ); */
-			//mengambil extension
-			$extension = $upload_cover->getClientOriginalExtension();
-
-			/* $upload_cover = Image::make($upload_cover); */
-			/* $upload_cover->resize(1000, null, function ($constraint) { */
-			/* 	$constraint->aspectRatio(); */
-			/* 	$constraint->upsize(); */
-			/* }); */
-
-			//membuat nama file random + extension
-			$filename =	 $pre . $id . '_' .  time().'.' . $extension;
-
-			//menyimpan bpjs_image ke folder public/img
-			$destination_path =  'img/pasien/';
-
-			//destinasi s3
-			//
-			Storage::disk('s3')->put($destination_path. $filename, file_get_contents($upload_cover));
-			// Mengambil file yang di upload
-
-			/* $upload_cover->save($destination_path . '/' . $filename); */
-			
-			//mengisi field bpjs_image di book dengan filename yang baru dibuat
-			return 'img/pasien/'. $filename;
-			
+            return $this->fileNameUploaded($pre, Input::file($fieldName), $id);
 		} else {
 			return null;
 		}
@@ -633,6 +615,7 @@ class PasiensController extends Controller
 		$query .= "JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "WHERE (asu.nama like '%{$nama_asuransi}%' or '{$nama_asuransi}' = '') ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND (prx.piutang like '{$piutang}%' or '{$piutang}' = '') ";
 		$query .= "AND (prx.tunai like '{$tunai}%' or '{$tunai}' = '') ";
 		$query .= "AND (prx.tanggal like '{$tanggal}%' or '{$tanggal}' = '') ";
@@ -651,6 +634,7 @@ class PasiensController extends Controller
 		$query .= "count(nomor_asuransi_bpjs) ";
 		$query .= "FROM pasiens as psn ";
 		$query .= "WHERE nomor_asuransi_bpjs not like '' ";
+		$query .= "AND psn.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND nomor_asuransi_bpjs is not null ";
 		$query .= "AND LENGTH(nomor_asuransi_bpjs) > 11 ";
 		$query .= "GROUP BY nomor_asuransi_bpjs ";
@@ -706,19 +690,58 @@ class PasiensController extends Controller
 		$query .= "prx.tanggal as tanggal, ";
 		$query .= "trp.keterangan_pemeriksaan as gula_darah ";
 		$query .= "FROM transaksi_periksas as trp ";
+		$query .= "JOIN jenis_tarif as jtf on jtf.id = trp.jenis_tarif_id ";
 		$query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE ";
 		$query .= "prx.pasien_id = '{$id}' ";
-		$query .= "AND trp.jenis_tarif_id = 116 "; // gula darah 
+		$query .= "AND trp.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND jtf.jenis_tarif = 'Gula Darah' "; // gula darah 
 		$query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
 		$query .= "ORDER BY prx.id desc";  // keterangan_pemeriksaan berbentuk number
 		$data = DB::select($query);
 
+        $pasien = Pasien::find($id);
+
 		return view('pasiens.riwayat_pemeriksaan_gula_darah', compact(
-			'data'
+            'data',
+            'pasien'
 		));
 	}
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function fileNameUploaded($pre, $upload_cover, $id)
+    {
+			//mengambil extension
+			$extension = $upload_cover->getClientOriginalExtension();
+
+			/* $upload_cover = Image::make($upload_cover); */
+			/* $upload_cover->resize(1000, null, function ($constraint) { */
+			/* 	$constraint->aspectRatio(); */
+			/* 	$constraint->upsize(); */
+			/* }); */
+
+			//membuat nama file random + extension
+			$filename =	 $pre . $id . '_' .  time().'.' . $extension;
+
+			//menyimpan bpjs_image ke folder public/img
+			$destination_path =  'img/pasien/';
+
+			//destinasi s3
+			//
+			Storage::disk('s3')->put($destination_path. $filename, file_get_contents($upload_cover));
+			// Mengambil file yang di upload
+
+			/* $upload_cover->save($destination_path . '/' . $filename); */
+			
+			//mengisi field bpjs_image di book dengan filename yang baru dibuat
+			return 'img/pasien/'. $filename;
+    }
+    
 			
 	
 	

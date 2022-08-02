@@ -23,6 +23,7 @@ use App\Models\Diagnosa;
 class RujukansController extends Controller
 {
 
+    public $periksa;
 	public function __construct()
 	{
 		$this->middleware('inhealthTidakBisaDirujukKalauAdaObat', ['only' => ['create', 'store', 'edit', 'update']]);
@@ -64,21 +65,16 @@ class RujukansController extends Controller
 		}
 
 		$specs = TujuanRujuk::all(['tujuan_rujuk']);
-  		$tujuan_rujuks = [];
-  
-  		foreach ($specs as $sp) {
-  			$tujuan_rujuks[] = $sp->tujuan_rujuk;
-  		}
   		
 		$diagnosa     = \Cache::remember('diagnosa', 60, function(){
             return Diagnosa::with('icd10')->get()->pluck('diagnosa_icd', 'id')->all();
 		});
-  		$tujuan_rujuks = json_encode($tujuan_rujuks);
 		$ss            = new SuratSakitsController;
 		$poli          = $ss->poli($poli);
+        $tujuan_rujuk_list = TujuanRujuk::pluck('tujuan_rujuk', 'id');
 		return view('rujukans.create', compact(
 			'periksa', 
-			'tujuan_rujuks', 
+			'tujuan_rujuk_list', 
 			'isHamil', 
 			'g', 
 			'p', 
@@ -98,7 +94,7 @@ class RujukansController extends Controller
 	{
 		$rujuk = new Rujukan;
 		$rules =[
-			'tujuan_rujuk' => 'required',
+			'tujuan_rujuk_id' => 'required',
 			'rumah_sakit'  => 'required',
 			'periksa_id'   => 'required',
 			'diagnosa_id'   => 'required'
@@ -121,98 +117,18 @@ class RujukansController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-
-
-
-		$periksa                   = Periksa::with('antrian', 'pasien')->where('id', Input::get('periksa_id'))->first();
-		// INPUT RUJUKAN 
-		// cek apakah rujukannya rujukan baru atay lama
-		$tujuan_rujuk              = str_replace(' ', '', preg_replace('/\\\\/', '', Input::get('tujuan_rujuk')));
-		$query                     = DB::select("SELECT * FROM tujuan_rujuks WHERE replace(tujuan_rujuk,' ','') = '" . $tujuan_rujuk . "'");
-		//jika rujukan cocok dengan rujukan yang lama, maka masukkan rujukan yang cocok
-		if(count($query) > 0){
-			$id                        = $query[0]->id;
-		//jika tidak ada rujukan yang cocok, buat rujukan baru
-		} else {
-			//INPUT TUJUAN RUJUK BARU
-			$tujuan_baru               = new TujuanRujuk;
-			$tujuan_baru->tujuan_rujuk = Input::get('tujuan_rujuk');
-			$tujuan_baru->save();
-			$id                        = $tujuan_baru->id;
-		}
-		$rujuk->tujuan_rujuk_id = $id;
-		$rujuk->complication    = Input::get('complication');
-		if ( !empty( Input::get('time') ) ) {
-			$rujuk->time = Input::get('time');
-		}
-
-		if ( !empty( Input::get('age') ) ) {
-			$rujuk->age = Input::get('age');
-		}
-
-		if ( !empty( Input::get('comorbidity') ) ) {
-			$rujuk->comorbidity = Input::get('comorbidity');
-		}
-		$rujuk->complication    = Input::get('complication');
-		$rujuk->periksa_id      = $periksa->id;
-		// cek apakah rumah sakit baru atau lama 
-		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));
-		$query = DB::select("SELECT * FROM rumah_sakits WHERE replace(nama,' ','') = '" . $rumah_sakit . "'");
-		if(count($query) > 0){
-			$id = $query[0]->id;
-		//jika tidak ada rujukan yang cocok, buat rujukan baru
-		} else {
-			//INPUT RUMAH SAKIT BARU
-			$rs_baru                    = new RumahSakit;
-			$rs_baru->nama              = Input::get('rumah_sakit');
-			$rs_baru->jenis_rumah_sakit = Input::get('jenis_rumah_sakit_id');
-			$rs_baru->save();
-
-			$id = $rs_baru->id;
-		}
-		$rujuk->rumah_sakit_id = $id;
-
-		if (Input::get('hamil_id') == '1'){
-			try {
-				$cek = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', $periksa->pasien_id)->firstOrFail();
-				$regUpdate            = RegisterHamil::find($cek->id);
-				$regUpdate->hpht      = Yoga::datePrep(Input::get('hpht'));
-				$regUpdate->g         = Input::get('G');
-				$regUpdate->p         = Input::get('P');
-				$regUpdate->a         = Input::get('A');
-				$regUpdate->pasien_id = $periksa->pasien_id;
-				$regUpdate->save();
-
-				$id = $cek->id;
-				
-			} catch (\Exception $e) {
-				$hamil            = new RegisterHamil;
-				$hamil->hpht      = Yoga::datePrep(Input::get('hpht'));
-				$hamil->g         = Input::get('G');
-				$hamil->p         = Input::get('P');
-				$hamil->a         = Input::get('A');
-				$hamil->pasien_id = $periksa->pasien_id;
-				$hamil->save();
-
-				$id = $hamil->id;
-			}
-
-			$rujuk->register_hamil_id = $id;
-		}
-
-		$rujuk->diagnosa_id = Input::get('diagnosa_id');
-		$confirm = $rujuk->save();
+        $confirm = $this->inputData($rujuk);
 		if ($confirm) {
 			$this->updateInfoRS(Input::get('rumah_sakit_telepon'), Input::get('rumah_sakit_alamat'), Input::get('rumah_sakit_ugd'), $rujuk->rumah_sakit_id);
 		}
 
 		$jenis_antrian_id = 6;
-		if (!is_null($periksa->antrian)) {
-			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
+		if (!is_null($this->periksa->antrian)) {
+			$jenis_antrian_id = $this->periksa->antrian->jenis_antrian_id;
 		}
 
 		$ss = new SuratSakitsController;
-		return redirect('ruangperiksa/' . $ss->jenis_antrian_id($poli))->withPesan(Yoga::suksesFlash('rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil dibuat'));
+		return redirect('ruangperiksa/' . $ss->jenis_antrian_id($poli))->withPesan(Yoga::suksesFlash('rujukan untuk <strong>' .$this->periksa->id. ' - ' .$this->periksa->pasien->nama. '</strong> berhasil dibuat'));
 	}
 
 	/**
@@ -262,12 +178,7 @@ class RujukansController extends Controller
 			$hpht = $rujukan->registerHamil->hpht;
 		}
   
-  		$tujuan_rujuk = [];
-  
-  		foreach ($specs as $sp) {
-  			$tujuan_rujuk[] = $sp->tujuan_rujuk;
-  		}
-  		$tujuan_rujuks = json_encode($tujuan_rujuk);
+        $tujuan_rujuk_list = TujuanRujuk::pluck('tujuan_rujuk', 'id');
 
   		if ($rujukan->register_hamil_id != null) {
   			$hamil = '1';
@@ -283,7 +194,7 @@ class RujukansController extends Controller
 
 		return view('rujukans.edit', compact(
 			'rujukan', 
-			'tujuan_rujuks', 
+			'tujuan_rujuk_list', 
 			'hamil', 
 			'poli', 
 			'g', 
@@ -305,7 +216,7 @@ class RujukansController extends Controller
 
 		$rujuk = Rujukan::find($id);
 		$rules =[
-			'tujuan_rujuk' => 'required',
+			'tujuan_rujuk_id' => 'required',
 			'rumah_sakit'  => 'required',
 			'periksa_id'   => 'required'
 		];
@@ -326,84 +237,16 @@ class RujukansController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$periksa                   = Periksa::find(Input::get('periksa_id'));
-		// INPUT RUJUKAN 
-		// cek apakah rujukannya rujukan baru atay lama
-		$tujuan_rujuk              = str_replace(' ', '', preg_replace('/\\\\/', '', Input::get('tujuan_rujuk')));
-		$query                     = DB::select("SELECT * FROM tujuan_rujuks WHERE replace(tujuan_rujuk,' ','') = '" . $tujuan_rujuk . "'");
-		//jika rujukan cocok dengan rujukan yang lama, maka masukkan rujukan yang cocok
-		if(count($query) > 0){
-			$id                        = $query[0]->id;
-		//jika tidak ada rujukan yang cocok, buat rujukan baru
-		} else {
-			//INPUT TUJUAN RUJUK BARU
-			$tujuan_baru               = new TujuanRujuk;
-			$tujuan_baru->tujuan_rujuk = Input::get('tujuan_rujuk');
-			$tujuan_baru->save();
-			$id                        = $tujuan_baru->id;
-		}
-		$rujuk->tujuan_rujuk_id = $id;
-		$rujuk->complication    = Input::get('complication');
-		$rujuk->age    = Input::get('age');
-		$rujuk->time    = Input::get('time');
-		$rujuk->comorbidity    = Input::get('comorbidity');
-		$rujuk->periksa_id      = $periksa->id;
-		// cek apakah rumah sakit baru atau lama 
-		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));
-		$query = DB::select("SELECT * FROM rumah_sakits WHERE replace(nama,' ','') = '" . $rumah_sakit . "'");
-		if(count($query) > 0){
-			$id = $query[0]->id;
-		//jika tidak ada rujukan yang cocok, buat rujukan baru
-		} else {
-			//INPUT RUMAH SAKIT BARU
-			$rs_baru                    = new RumahSakit;
-			$rs_baru->nama              = Input::get('rumah_sakit');
-			$rs_baru->jenis_rumah_sakit = Input::get('jenis_rumah_sakit_id');
-			$rs_baru->save();
-
-			$id = $rs_baru->id;
-		}
-		$rujuk->rumah_sakit_id = $id;
-
-		if (Input::get('hamil_id') == '1'){
-			$cek = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', $periksa->pasien_id)->first();
-			if (count($cek) > 0) {
-				// return $cek;
-				// tapi jika ketemu GPA yang sama dengan pasien_id yang sama, di update aja yang ketemu
-				$regUpdate            = RegisterHamil::find($cek->id);
-				$regUpdate->hpht      = Yoga::datePrep(Input::get('hpht'));
-				$regUpdate->g         = Input::get('G');
-				$regUpdate->p         = Input::get('P');
-				$regUpdate->a         = Input::get('A');
-				$regUpdate->pasien_id = $periksa->pasien_id;
-				$regUpdate->save();
-
-				$id = $cek->id;
-			}  else {
-				//kalo gak ketemu juga gpa dan pasien_id yang sama, buat saja yang baru
-				$hamil            = new RegisterHamil;
-				$hamil->hpht      = Yoga::datePrep(Input::get('hpht'));
-				$hamil->g         = Input::get('G');
-				$hamil->p         = Input::get('P');
-				$hamil->a         = Input::get('A');
-				$hamil->pasien_id = $periksa->pasien_id;
-				$hamil->save();
-
-				$id = $hamil->id;
-			}
-			$rujuk->register_hamil_id = $id;
-		}
-
-		$confirm = $rujuk->save();
+        $confirm = $this->inputData($rujuk);
 		if ($confirm) {
 			$this->updateInfoRS(Input::get('rumah_sakit_telepon'), Input::get('rumah_sakit_alamat'), Input::get('rumah_sakit_ugd'), $rujuk->rumah_sakit_id);
 		}
 		$jenis_antrian_id = '6';
-		if (!is_null($periksa->antrian)) {
-			$jenis_antrian_id = $periksa->antrian->jenis_antrian_id;
+		if (!is_null($this->periksa->antrian)) {
+			$jenis_antrian_id = $this->periksa->antrian->jenis_antrian_id;
 		}
 		$ss            = new SuratSakitsController;
-		return redirect('ruangperiksa/' . $ss->jenis_antrian_id($poli))->withPesan(Yoga::suksesFlash('Rujukan untuk <strong>' .$periksa->id. ' - ' .$periksa->pasien->nama. '</strong> berhasil diubah!'));
+		return redirect('ruangperiksa/' . $ss->jenis_antrian_id($poli))->withPesan(Yoga::suksesFlash('Rujukan untuk <strong>' .$this->periksa->id. ' - ' .$this->periksa->pasien->nama. '</strong> berhasil diubah!'));
 	}
 
 	/**
@@ -449,6 +292,80 @@ class RujukansController extends Controller
 		// return isset($periksa->rujukan->image);
 		return view('rujukans.ini', compact('periksa'));
 	}
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function inputData($rujuk)
+    {
+		$periksa                   = Periksa::with('antrian', 'pasien')->where('id', Input::get('periksa_id'))->first();
+        $this->periksa = $periksa;
+		$rujuk->tujuan_rujuk_id = Input::get('tujuan_rujuk_id');
+		$rujuk->complication    = Input::get('complication');
+		if ( !empty( Input::get('time') ) ) {
+			$rujuk->time = Input::get('time');
+		}
+
+		if ( !empty( Input::get('age') ) ) {
+			$rujuk->age = Input::get('age');
+		}
+
+		if ( !empty( Input::get('comorbidity') ) ) {
+			$rujuk->comorbidity = Input::get('comorbidity');
+		}
+		$rujuk->complication    = Input::get('complication');
+		$rujuk->periksa_id      = $periksa->id;
+
+		$rumah_sakit = str_replace(' ', '', Input::get('rumah_sakit'));
+		$query = DB::select("SELECT * FROM rumah_sakits WHERE replace(nama,' ','') = '" . $rumah_sakit . "'");
+		if(count($query) > 0){
+			$id = $query[0]->id;
+		//jika tidak ada rujukan yang cocok, buat rujukan baru
+		} else {
+			//INPUT RUMAH SAKIT BARU
+			$rs_baru                    = new RumahSakit;
+			$rs_baru->nama              = Input::get('rumah_sakit');
+			$rs_baru->jenis_rumah_sakit = Input::get('jenis_rumah_sakit_id');
+			$rs_baru->save();
+
+			$id = $rs_baru->id;
+		}
+		$rujuk->rumah_sakit_id = $id;
+
+		if (Input::get('hamil_id') == '1'){
+			try {
+				$cek = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', $periksa->pasien_id)->firstOrFail();
+				$regUpdate            = RegisterHamil::find($cek->id);
+				$regUpdate->hpht      = Yoga::datePrep(Input::get('hpht'));
+				$regUpdate->g         = Input::get('G');
+				$regUpdate->p         = Input::get('P');
+				$regUpdate->a         = Input::get('A');
+				$regUpdate->pasien_id = $periksa->pasien_id;
+				$regUpdate->save();
+
+				$id = $cek->id;
+				
+			} catch (\Exception $e) {
+				$hamil            = new RegisterHamil;
+				$hamil->hpht      = Yoga::datePrep(Input::get('hpht'));
+				$hamil->g         = Input::get('G');
+				$hamil->p         = Input::get('P');
+				$hamil->a         = Input::get('A');
+				$hamil->pasien_id = $periksa->pasien_id;
+				$hamil->save();
+
+				$id = $hamil->id;
+			}
+
+			$rujuk->register_hamil_id = $id;
+		}
+
+		$rujuk->diagnosa_id = Input::get('diagnosa_id');
+		return $rujuk->save();
+    }
+    
 
 
 }

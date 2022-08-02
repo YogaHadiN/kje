@@ -171,6 +171,7 @@ class SuratSakitsController extends Controller
 		$query .= "join icd10s as icd on icd.id = dg.icd10_id ";
 		$query .= "join asuransis as asu on px.asuransi_id = asu.id ";
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
+		$query .= "AND ss.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY px.created_at desc ";
 
 		return DB::select($query);
@@ -185,12 +186,17 @@ class SuratSakitsController extends Controller
 		$today = date('Y-m-d');
 		$query = "SELECT * ";
 		$query .= "FROM surat_sakits as ss join periksas as px on ss.periksa_id = px.id ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
-		$query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate() ";
+		$query .= "AND ss.tenant_id = " . session()->get('tenant_id') . " ";
+        if (env("DB_CONNECTION") == 'mysql') {
+            $query .= "AND px.tanggal between DATE_SUB(curdate(), INTERVAL 30 day) and curdate() ";
+        } else{
+            $query .= "AND px.tanggal between DATE('now', '-30 days') and DATE('now') ";
+        }
 		$query .= "AND px.tanggal not like '{$today}'";
-		$query .= "AND px.asuransi_id = 32;";
+		$query .= "AND asu.tipe_asuransi_id = 5 ";
 
-		/* $dikasih_dalam_2_bulan_terakhir = count(DB::select($query)); */
 		return count(DB::select($query));
 	}
 	/**

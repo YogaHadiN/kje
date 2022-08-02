@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Session;
 use App\Models\Classes\Yoga;
 use App\Models\Terapi;
@@ -13,6 +15,7 @@ use App\Models\Dispensing;
 use DB;
 
 class Formula extends Model{
+    use BelongsToTenant,HasFactory;
 	public static function boot(){
 		parent::boot();
 		self::deleting(function($formula){
@@ -34,6 +37,7 @@ class Formula extends Model{
 				$query .= "LEFT JOIN formulas as fx on fx.id = rk.formula_id ";
 				$query .= "WHERE fx.id = '" . $formula->id . "' ";
 				$query .= "AND mr.id in ";
+				$query .= "AND mr.tenant_id = " . session()->get('tenant_id') . " ";
 				$query .= "(Select merek_id from terapis)";
 				$mereks = DB::select($query);
 				$pesan = 'Tidak bisa menghapus karena ';
@@ -78,8 +82,6 @@ class Formula extends Model{
 		});
 	}
 
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	// Add your validation rules here
 	public static $rules = [
@@ -87,7 +89,7 @@ class Formula extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 	public function dose(){
 		return $this->hasMany('App\Models\Dose');
@@ -95,6 +97,9 @@ class Formula extends Model{
 	public function aturanMinum(){
 		return $this->belongsTo('App\Models\AturanMinum');
 	}
+    public function sediaan(){
+        return $this->belongsTo('App\Models\Sediaan');
+    }
 
 	public function komposisi(){
 		return $this->hasMany('App\Models\Komposisi');
@@ -105,7 +110,12 @@ class Formula extends Model{
 	}
 
 	public function existing_komposisi($id){
-		return DB::select("select * from komposisis as k left outer join generiks as g on g.id = k.generik_id where formula_id = $id");
+		$query = "select * ";
+		$query .= "from komposisis as k ";
+		$query .= "left outer join generiks as g on g.id = k.generik_id ";
+		$query .= "where formula_id = $id ";
+		$query .= "and k.tenant_id = " . session()->get('tenant_id') . " ";
+		return DB::select($query);
 	}
 
 	public function getEndfixAttribute(){

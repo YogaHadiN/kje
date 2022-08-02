@@ -2,10 +2,13 @@
 
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Traits\BelongsToTenant; 
 use Illuminate\Database\Eloquent\Model;
 
 class SuratSakit extends Model{
+    use BelongsToTenant, HasFactory;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'
@@ -32,8 +35,4 @@ class SuratSakit extends Model{
 
 		return $return;
 	}
-	public function diagnosa(){
-		return $this->belongsTo('App\Models\Diagnosa');
-	}
-
 }

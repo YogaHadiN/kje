@@ -8,6 +8,7 @@ use Log;
 use Carbon\Carbon;
 use App\Models\Rekening;
 use App\Models\Invoice;
+use App\Models\Coa;
 use App\Models\AkunBank;
 use App\Models\Asuransi;
 use App\Http\Controllers\PendapatansController;
@@ -80,15 +81,16 @@ class cekMutasi extends Command
 						'nilai'        => $mutasi->amount,
 						'saldo_akhir'  => $mutasi->balance,
 						'debet'        => $debet,
+						'tenant_id'    => session()->get('tenant_id'),
 						'created_at'   => $timestamp,
 						'updated_at'   => $timestamp
 					];
 
 					if (!$debet) {
 						$pendapatan->input_dibayar           = $mutasi->amount;
-						$pendapatan->input_staf_id           = 16;
+						$pendapatan->input_staf_id           = Staf::where('owner', 1 )->first()->id;
 						$pendapatan->input_tanggal_dibayar   = Carbon::createFromFormat('Y-m-d H:i:s', $mutasi->created_at)->format('d-m-Y');
-						$pendapatan->input_coa_id            = 110001;
+						$pendapatan->input_coa_id            = Coa::where('kode_coa', 110001)->first()->id;
 						$pendapatan->input_rekening_id       = $mutasi->mutation_id;
 						$this->checkIfMatchKeyWord($kata_kuncis, $mutasi->description, $mutasi->amount, $pendapatan);
 					}
@@ -128,7 +130,6 @@ class cekMutasi extends Command
 					$pendapatan->input_temp              = $this->tempInput($inv);
 					$pendapatan->input_akhir             = $inv->tanggal_akhir;
 					$pendapatan->input_catatan_container = '[]';
-
 					$pendapatan->inputData(); //validasi dan input pembayaran asuransi secara otomatis ke sistem bila kata kunci cocok dan ditemukan invoice dengan jumlah yang sesuai
 					Log::info('============================================');
 					Log::info('Otomatis pembayaran asuransi masuk ke sistem');

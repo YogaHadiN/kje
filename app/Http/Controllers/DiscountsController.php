@@ -75,6 +75,7 @@ class DiscountsController extends Controller
 				$data[]            = [
 					'discount_id' => $d->id,
 					'asuransi_id' => $v,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'  => $timestamp,
 					'updated_at'  => $timestamp
 				];
@@ -116,6 +117,7 @@ class DiscountsController extends Controller
 				$data[]            = [
 					'discount_id' => $d->id,
 					'asuransi_id' => $v,
+							'tenant_id'  => session()->get('tenant_id'),
 					'created_at'  => $timestamp,
 					'updated_at'  => $timestamp
 				];
@@ -137,7 +139,7 @@ class DiscountsController extends Controller
 	public function promoKtpPertahunPost(){
 		$rules = [
 			'no_ktp' => 'required',
-			'poli'   => 'required',
+			'poli_id'   => 'required',
 			'tahun'  => 'required'
 		];
 		
@@ -150,7 +152,7 @@ class DiscountsController extends Controller
 
 		$p         = new Promo;
 		$p->no_ktp = Input::get('no_ktp');
-		$p->poli   = Input::get('poli');
+		$p->poli_id   = Input::get('poli_id');
 		$p->tahun  = Input::get('tahun');
 		$confirm   = $p->save();
 

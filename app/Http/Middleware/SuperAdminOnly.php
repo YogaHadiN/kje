@@ -17,7 +17,7 @@ class SuperAdminOnly
      */
     public function handle($request, Closure $next, $guard = null)
     {
-         if (!(Auth::id() == '28' || Auth::id() == '3003' || Auth::id() == '3010' || Auth::user()->role > 3 )) {
+         if (!(Auth::id() == '28' || Auth::id() == '3003' || Auth::id() == '3010' || Auth::user()->role_id > 3 )) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {

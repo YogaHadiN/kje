@@ -47,7 +47,7 @@ class AntrianPeriksasController extends Controller
 	public $input_hamil;
 	public $input_asisten_id;
 	public $input_pasien_id;
-	public $input_poli;
+	public $input_poli_id;
 	public $input_staf_id;
 	public $input_jam;
 	public $input_menyusui;
@@ -62,6 +62,8 @@ class AntrianPeriksasController extends Controller
 	public $input_tinggi_badan;
 	public $input_gds;
 	public $input_tekanan_darah;
+	public $input_perujuk_id;
+	public $is_asuransi_bpjs;
 
 	public function __construct() {
 		$this->input_antrian_id          = Input::get('antrian_id');
@@ -74,7 +76,7 @@ class AntrianPeriksasController extends Controller
 		$this->input_hamil               = Input::get('hamil');
 		$this->input_asisten_id          = Input::get('asisten_id');
 		$this->input_pasien_id           = Input::get('pasien_id');
-		$this->input_poli                = Input::get('poli');
+		$this->input_poli_id                = Input::get('poli_id');
 		$this->input_staf_id             = Input::get('staf_id');
 		$this->input_jam                 = Input::get('jam');
 		$this->input_menyusui            = Input::get('menyusui');
@@ -89,11 +91,14 @@ class AntrianPeriksasController extends Controller
 		$this->input_tinggi_badan        = Input::get('tinggi_badan');
 		$this->input_gds                 = Input::get('gds');
 		$this->input_tekanan_darah       = Input::get('tekanan_darah');
+		$this->input_perujuk_id       = Input::get('perujuk_id');
+        $this->is_asuransi_bpjs = !empty(Input::get('asuransi_id')) ? Asuransi::find( Input::get('asuransi_id') )->tipe_asuransi_id == 5: false;
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
         /* $this->middleware('super', ['only' => ['delete','update']]); */
     }
 	public function index()
 	{
+        dd( 'o' );
 		$asu = array('0' => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
 
 		$jenis_peserta = array(
@@ -126,7 +131,6 @@ class AntrianPeriksasController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		/* dd(Input::all()); */ 
 		$rules = [
 			'staf_id'          => 'required',
 			'asisten_id'       => 'required',
@@ -135,11 +139,12 @@ class AntrianPeriksasController extends Controller
 			'staf_id'          => 'required',
 			'pasien_id'        => 'required',
 			'asuransi_id'      => 'required',
-			'poli'             => 'required'
+			'poli_id'             => 'required'
 		];
 
 		$validator = \Validator::make(Input::all(), $rules);
 
+        /* dd( $validator->errors()->first() ); */
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
@@ -166,17 +171,17 @@ class AntrianPeriksasController extends Controller
 		$ap->hamil               = $this->input_hamil;
 		$ap->asisten_id          = $this->input_asisten_id;
 		$ap->periksa_awal        = $periksa_awal;
-		if ($kecelakaan_kerja == '1' && $asuransi_id == '32') {
+		if ($kecelakaan_kerja == '1' && $this->is_asuransi_bpjs) {
 			$asuransi_id = '0';
 			$ap->keterangan = 'Pasien ini tadinya pakai asuransi BPJS tapi diganti menjadi Biaya Pribadi karena Kecelakaan Kerja / Kecelakaan Lalu Lintas tidak ditanggung BPJS, tpi PT. Jasa Raharja';
 		}
 		$ap->asuransi_id         = $asuransi_id;
 		$ap->pasien_id           = $this->input_pasien_id;
-		$ap->poli                = $this->input_poli;
+		$ap->poli_id                = $this->input_poli_id;
 		$ap->staf_id             = $this->input_staf_id;
 		$ap->jam                 = $this->input_jam;
 		$ap->menyusui            = $this->input_menyusui;
-		if ( $asuransi_id == '32' ) {
+		if ( $this->is_asuransi_bpjs ) {
 			$ap->bukan_peserta            = $this->input_bukan_peserta;
 		}
 		$ap->riwayat_alergi_obat = $this->input_riwayat_alergi_obat;
@@ -191,6 +196,7 @@ class AntrianPeriksasController extends Controller
 		$ap->diastolik           = $this->input_diastolik;
 		$ap->tinggi_badan        = $this->input_tinggi_badan;
 		$ap->gds                 = $this->input_gds;
+		$ap->perujuk_id                 = $this->input_perujuk_id;
 
 
 		$ap->save();
@@ -234,10 +240,7 @@ class AntrianPeriksasController extends Controller
 	public function destroy($id)
 	{
 		$ap               = AntrianPeriksa::with('antrian', 'pasien')->where('id',$id)->first();
-		$jenis_antrian_id = '6';
-		if (!is_null( $ap->antrian )) {
-			$jenis_antrian_id = $ap->antrian->jenis_antrian_id;
-		}
+        $jenis_antrian_id = $this->getJenisAntrianId($ap);
 		$pasien_id        = $ap->pasien_id;
 		$nama_pasien      = $ap->pasien->nama;
 
@@ -266,13 +269,11 @@ class AntrianPeriksasController extends Controller
 	}
 
 	private function periksaKosong($pasien_id, $staf_id, $asisten_id, $ap_id, $antrian, $jamdatang){
-		$periksa_id = Yoga::customId('App\Models\Periksa');
   		 $p       = new Periksa;
-		  $p->id = $periksa_id;
-		  $p->asuransi_id = "0";
+		  $p->asuransi_id = Asuransi::BiayaPribadi()->id;
 		  $p->pasien_id =$pasien_id;
 		  $p->berat_badan = "";
-		  $p->poli = "estetika";
+		  $p->poli = Poli::where('poli', 'Poli Estetika')->first()->id;
 		  $p->staf_id =$staf_id;
 		  $p->asisten_id =$asisten_id;
 		  $p->periksa_awal = "[]";
@@ -289,7 +290,9 @@ class AntrianPeriksasController extends Controller
 		  $p->jam_periksa =date('H:i:s');
 		  $p->jam_selesai_periksa =date('H:i:s');
 		  $p->keterangan = "";
-		  $p->transaksi = '[{"jenis_tarif_id":"1","jenis_tarif":"Jasa Dokter","biaya":0},{"jenis_tarif_id":"9","jenis_tarif":"Biaya Obat","biaya":0}]';
+          $jt_jasa_dokter = JenisTarif::where('jenis_tarif', 'Jasa Dokter')->first();
+          $jt_biaya_obat = JenisTarif::where('jenis_tarif', 'Biaya Obat')->first();
+		  $p->transaksi = '[{"jenis_tarif_id":"' . $jt_jasa_dokter->id. '","jenis_tarif":"Jasa Dokter","biaya":0},{"jenis_tarif_id":"' .$jt_biaya_obat->id. '","jenis_tarif":"Biaya Obat","biaya":0}]';
 		  $p->save();
 	}
 
@@ -303,7 +306,7 @@ class AntrianPeriksasController extends Controller
 		];
 
 		$rules = [
-			'poli' => 'required',
+			'poli_id' => 'required',
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules, $messages);
@@ -314,10 +317,10 @@ class AntrianPeriksasController extends Controller
 		}
 
 		$ap       = AntrianPeriksa::find( $id );
-		$ap->poli = Input::get('poli');
+		$ap->poli_id = Input::get('poli_id');
 		$ap->save();
 
-		$pesan = Yoga::suksesFlash('Pasien atas nama ' . $ap->pasien->nama . ' <strong>BERHASIL</strong> dipindah ke poli ' . $ap->poli);
+		$pesan = Yoga::suksesFlash('Pasien atas nama ' . $ap->pasien->nama . ' <strong>BERHASIL</strong> dipindah ke ' . $ap->poli->poli);
 		return redirect()->back()->withPesan($pesan);
 	}
 	public function updateStaf(){
@@ -328,4 +331,11 @@ class AntrianPeriksasController extends Controller
 		$antrianPeriksa->staf_id = $staf_id;
 		$antrianPeriksa->save();
 	}
+    public function getJenisAntrianId($ap){
+		$jenis_antrian_id = '6';
+		if (!is_null( $ap->antrian )) {
+			$jenis_antrian_id = $ap->antrian->jenis_antrian_id;
+		}
+    }
+    
 }

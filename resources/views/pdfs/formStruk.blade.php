@@ -84,7 +84,7 @@
                 </table>
 				<br />
 				<br />
-				@if($periksa->poli == 'estetika')
+                @if($periksa->poli->poli == 'Poli Estetika')
 					<h2 class="text-center border-bottom border-top">Detail Harga Obat</h2>
 					<table class="table table-bordered table-hover table-condensed">
 						<tbody>

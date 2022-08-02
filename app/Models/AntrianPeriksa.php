@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use App\Http\Controllers\AntrianPolisController;
 
 class AntrianPeriksa extends Model{
+    use BelongsToTenant, HasFactory;
 	// Add your validation rules here
 	public static $rules = [
 		'asuransi_id' => 'required',
@@ -19,8 +22,8 @@ class AntrianPeriksa extends Model{
 	public function asuransi() {
 		return $this->belongsTo('App\Models\Asuransi');
 	}
-	public function ispoli() {
-		return $this->belongsTo('App\Models\Poli', 'poli');
+	public function poli() {
+		return $this->belongsTo('App\Models\Poli');
 	}
 	public function antrian(){
         return $this->morphOne(Antrian::class, 'antriable');

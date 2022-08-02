@@ -3,19 +3,20 @@
 namespace App\Models;
 
 use App\Models\Classes\Yoga;
+use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use BelongsToTenant, HasFactory;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -29,17 +30,17 @@ class User extends Authenticatable
 
     public function getPeranAttribute(){
 
-        if($this->role == '1'){
+        if($this->role_id == '1'){
            return 'Dokter';
-        }elseif($this->role == '2'){
+        }elseif($this->role_id == '2'){
             return 'Kasir';
-        }elseif($this->role == '3'){
+        }elseif($this->role_id == '3'){
             return 'Bidan';
-        }elseif($this->role == '4'){
+        }elseif($this->role_id == '4'){
             return 'Admin';
-        }elseif($this->role == '5'){
+        }elseif($this->role_id == '5'){
             return 'Dokter Gigi';
-        }elseif($this->role == '6'){
+        }elseif($this->role_id == '6'){
             return 'Super Admin';
         }
     }

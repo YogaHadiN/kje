@@ -8,6 +8,7 @@ use Input;
 use PDF;
 use DB;
 use App\Models\Periksa;
+use App\Models\Asuransi;
 use App\Models\Classes\Yoga;
 use App\Http\Controllers\PdfsController;
 
@@ -39,8 +40,10 @@ class LaporanBpjsController extends Controller
 	}
 	
 	public function dm(){
+
+        $asurnsi_bpjs = Asuransi::Bpjs();
 		$periksas = Periksa::with('diagnosa.icd10', 'pasien')
-							->where('asuransi_id', '32')
+							->where('asuransi_id', $asurnsi_bpjs->id)
 							->whereRaw("tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%'" )
 							->get();
 		return view('laporans.bpjs.dm', [
@@ -79,12 +82,14 @@ class LaporanBpjsController extends Controller
 		$query .= "psn.nomor_asuransi_bpjs as nomor_asuransi_bpjs, ";
 		$query .= "concat( dgn.icd10_id, ' - ', icd.diagnosaICD ) as diagnosa ";
 		$query .= "FROM periksas as prx ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "JOIN diagnosas as dgn on dgn.id = prx.diagnosa_id ";
 		$query .= "JOIN icd10s as icd on icd.id = dgn.icd10_id ";
 		$query .= "RIGHT JOIN rujukans as rjk on rjk.periksa_id = prx.id ";
-		$query .= "WHERE prx.asuransi_id = 32 ";
-		$query .= "AND tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
+		$query .= "WHERE asu.tipe_asuransi_id = 5 ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND prx.tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
 		return DB::select($query);
 	}
 	/**
@@ -104,9 +109,11 @@ class LaporanBpjsController extends Controller
 		$query .= "TIMESTAMPDIFF(YEAR, psn.tanggal_lahir, CURDATE()) AS age ";
 		$query .= "FROM periksas as prx ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "RIGHT JOIN rujukans as rjk on rjk.periksa_id = prx.id ";
-		$query .= "WHERE prx.asuransi_id = 32 ";
-		$query .= "AND tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
+		$query .= "WHERE asu.tipe_asuransi_id = 5 ";
+		$query .= "AND prx.tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND prx.sistolik not like '' ";
 		$query .= "AND prx.diastolik not like '' ";
 		return DB::select($query);
@@ -131,6 +138,7 @@ class LaporanBpjsController extends Controller
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE psn.prolanis_dm=1 ";
 		$query .= "AND prx.tanggal like '" . $bulanThn. "%' ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY keterangan_pemeriksaan asc";
 		$dm = DB::select($query);
 

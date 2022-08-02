@@ -56,6 +56,7 @@ class pphDokter extends Command
 		$query .= "FROM periksas as px ";
 		$query .= "JOIN stafs as st on px.staf_id = st.id ";
 		$query .= "WHERE px.created_at like '" .$bulanLalu."%' ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND st.titel = 'dr' ";
 		$query .= "AND st.gaji_tetap = 0 ";
 		$query .= "GROUP BY px.staf_id ";
@@ -101,6 +102,7 @@ class pphDokter extends Command
 					'ptkp_dasar'                     => null,
 					'penghasilan_kena_pajak_setahun' => null,
 					'suami_bekerja'                  => $suami_bekerja,
+					'tenant_id'                      => session()->get('tenant_id'),
 					'created_at'                     => date('Y-m-d H:i:s'),
 					'updated_at'                     => date('Y-m-d H:i:s')
 				];
@@ -127,6 +129,7 @@ class pphDokter extends Command
 					'ptkp_dasar'                     => $pph21ini['ptkp_dasar'],
 					'penghasilan_kena_pajak_setahun' => $pph21ini['ptkp_setahun'],
 					'suami_bekerja'                  => $suami_bekerja,
+					'tenant_id'                      => session()->get('tenant_id'),
 					'created_at'                     => date('Y-m-d H:i:s'),
 					'updated_at'                     => date('Y-m-d H:i:s')
 				];

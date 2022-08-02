@@ -33,6 +33,7 @@ class DispensingsController extends Controller
 		$quer .= "where tanggal <= '{$akhir}' ";
 		$quer .= "AND tanggal >= '{$mulai}' ";
 		$quer .= "AND merek_id like '{$merek_id}' ";
+		$quer .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$quer .= "group by tanggal";
 
 		$dispensings = DB::select($quer);

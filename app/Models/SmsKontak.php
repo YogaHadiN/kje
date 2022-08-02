@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 use DB;
 
 class SmsKontak extends Model
 {
+    use BelongsToTenant, HasFactory;
 	protected $guarded = ['id'];
 	protected $dates = ['created_at'];
 	public function pasien(){
@@ -37,7 +40,8 @@ class SmsKontak extends Model
 		$query .= "join pasiens as ps on ps.id = pp.pengantar_id ";
 		$query .= "where pp.created_at between '{$first_date_of_month}' and '{$last_date_of_month}' ";
 		$query .= "and pcare_submit = 1 ";
-		$query .= "and nomor_asuransi_bpjs is not null;";
+		$query .= "and nomor_asuransi_bpjs is not null ";
+		$query .= "and pp.tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query);
 
 		foreach ($data as $d) {
@@ -50,8 +54,9 @@ class SmsKontak extends Model
 		$query  = "Select pasien_id as id , hv.created_at as created_at ";
 		$query .= "from home_visits as hv ";
 		$query .= "JOIN pasiens as ps on ps.id = hv.pasien_id ";
-		$query .= "where hv.created_at between '{$tahunBulan}-01 00:00:00' and concat(last_day('{$tahunBulan}'), ' 23:59:59') ";
-		$query .= "and nomor_asuransi_bpjs is not null;";
+		$query .= "where hv.created_at between '{$first_date_of_month} 00:00:00' and '{$last_date_of_month} 23:59:59' ";
+		$query .= "and nomor_asuransi_bpjs is not null ";
+		$query .= "and hv.tenant_id = " . session()->get('tenant_id') . " ";
 		$data = DB::select($query);
 
 		foreach ($data as $d) {
@@ -67,7 +72,8 @@ class SmsKontak extends Model
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "where px.tanggal between '{$first_date_of_month}' and '{$last_date_of_month}' ";
 		$query .= "and ks.pcare_submit = 1 ";
-		$query .= "and nomor_asuransi_bpjs is not null;";
+		$query .= "and ks.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and nomor_asuransi_bpjs is not null ";
 		$data = DB::select($query);
 
 		foreach ($data as $d) {
@@ -83,9 +89,11 @@ class SmsKontak extends Model
 		$query  = " Select pasien_id as id , px.created_at as created_at ";
 		$query .= "from periksas as px ";
 		$query .= "JOIN pasiens as ps on ps.id = px.pasien_id ";
-		$query .= "where px.asuransi_id = 32 ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
+		$query .= "where asu.tipe_asuransi_id = 5 ";
 		$query .= "and px.tanggal between '{$first_date_of_month}' and '{$last_date_of_month}' ";
-		$query .= "and nomor_asuransi_bpjs is not null;";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "and nomor_asuransi_bpjs is not null ";
 		$data = DB::select($query);
 
 		foreach ($data as $d) {
@@ -128,8 +136,9 @@ class SmsKontak extends Model
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran non bpjs
 		$query    .= "OR id in( Select px.pasien_id from kunjungan_sakits as ks join periksas as px on px.id = ks.periksa_id where ks.created_at between '{$tahunBulan}-01' and '{$hari_ini}' and ks.pcare_submit = 1 ) ";
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
-		$query    .= "OR id in( Select pasien_id from periksas where asuransi_id = 32 and created_at between '{$tahunBulan}-01' and '{$hari_ini}' )) ";
+		$query    .= "OR id in( Select pasien_id from periksas as prx join asuransis as asu on asu.id = prx.asuransi_id where prx.tipe_asuransi_id = 5  and prx.created_at between '{$tahunBulan}-01' and '{$hari_ini}' )) ";
 		// Sehingga kita bisa mendapat angka kontak saat ini
+		$query .= "and tenant_id = " . session()->get('tenant_id') . " ";
 		return DB::select($query)[0]->jumlah;
 	}
 }

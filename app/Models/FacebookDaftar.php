@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class FacebookDaftar extends Model
 {
+    use BelongsToTenant, HasFactory;
 	protected $dates = ['created_at', 'tanggal_lahir_pasien'];
 
 	public function poli(){
-		return $this->belongsTo('App\Models\Poli', 'pilihan_poli');
+		return $this->belongsTo('App\Models\Poli');
 	}
 	
 

@@ -1,19 +1,19 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Poli {!! ucfirst($antrianperiksa->poli)!!}
+    {{ env("NAMA_KLINIK") }} | Poli {!! ucfirst($antrianperiksa->poli->poli)!!}
 @stop
 @section('head')
     {{-- <link href="{!! asset('css/poli.css') !!}" rel="stylesheet"> --}}
 @stop
 @section('page-title') 
-     <h2>RUANG PERIKSA Poli {!! ucfirst($antrianperiksa->poli)!!}</h2>
+    <h2>RUANG PERIKSA Poli {!! ucfirst($antrianperiksa->poli->poli)!!}</h2>
      <ol class="breadcrumb">
           <li>
               <a href="{!! url('laporans')!!}">Home</a>
           </li>
           <li>
-              <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli)!!}">Poli {!! ucfirst($antrianperiksa->poli) !!}</a>
+              <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli->poli)!!}">Poli {!! ucfirst($antrianperiksa->poli->poli) !!}</a>
           </li>
           <li class="active">
               <strong>Ruang Periksa</strong>

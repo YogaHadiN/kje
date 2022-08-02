@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
 use Moota;
 use Log;
 use Carbon\Carbon;
 use DB;
 use App\Models\Rekening;
+use App\Models\Coa;
+use App\Models\Staf;
 use App\Models\Invoice;
 use App\Http\Controllers\PendapatansController;
 use App\Models\AkunBank;
@@ -69,13 +70,13 @@ class cekMutasi19Terakhir extends Command
 		foreach ($banks['data'] as $bank) {
 			$bank_id = $bank->bank_id;
 			$newBank = AkunBank::firstOrCreate([
-				'id' => $bank_id
+				'kode_bank' => $bank_id
 			],[
-				'id'             => $bank_id,
+				'kode_bank'      => $bank_id,
 				'nomor_rekening' => $bank->account_number,
-				'akun'           => $bank->bank_type
+				'akun'           => $bank->bank_type,
 			]);
-			$mutasis = Moota::mutation( $newBank->id )->latest(19)->toArray();
+			$mutasis      = Moota::mutation( $newBank->kode_bank )->latest(19)->toArray();
 			$insertKredit = [];
 			foreach ($mutasis as $mutasi) {
 				if ( $mutasi->type == 'CR' ) {
@@ -83,14 +84,12 @@ class cekMutasi19Terakhir extends Command
 				} else {
 					$debet = 1;
 				}
-
 				$mutation_ids[] = $mutasi->mutation_id;
-				$newRekening    = Rekening::find($mutasi->mutation_id);
-				if ( !isset( $newRekening->id ) ) {
+                if (
+                    !Rekening::where('kode_transaksi', $mutasi->mutation_id)->exists()
+                ) {
 
 					$pembayaran_asuransi_id = null;
-					// cari kata asuransi yang cocok kata kunci nya sesuai deskripsi mutasi
-					//
 
 					if ($debet == 0) {
 						$desc[] = $mutasi->description;
@@ -112,6 +111,7 @@ class cekMutasi19Terakhir extends Command
 						$query .= "AND kata_kunci not like '' ";
 						$query .= "AND krm.tanggal < '{$mutasi->created_at}' ";
 						$query .= "AND krm.tanggal >= '" . date("Y-m-d", strtotime("-6 months")). "' ";
+						$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
 						$query .= "group by prx.id ";
 						$query .= ") bl ";
 						$query .= "group by invoice_id ";
@@ -123,7 +123,7 @@ class cekMutasi19Terakhir extends Command
 						$this->amount      = $mutasi->amount;
 						$this->created_at  = $mutasi->created_at;
 						$this->mutation_id = $mutasi->mutation_id;
-						$description = $mutasi->description;
+						$description       = $mutasi->description;
 
 						if (
 							count($data) == 1 //jika ditemukan 1 data
@@ -148,6 +148,7 @@ class cekMutasi19Terakhir extends Command
 							$query .= "FROM asuransis asu ";
 							$query .= "WHERE INSTR('{$description}' , asu.kata_kunci ) ";
 							$query .= "AND kata_kunci not like '' ";
+							$query .= "AND asu.tenant_id = " . session()->get('tenant_id') . " ";
 							$matched_insurance = DB::select($query);
 
 							if (count($matched_insurance) > 0) {
@@ -166,7 +167,7 @@ class cekMutasi19Terakhir extends Command
 					) {
 						if ( $mutasi->amount > 100000000) {
 							$pendapatan                                = new PendapatansController;
-							$pendapatan->input_staf_id                 = '16';
+							$pendapatan->input_staf_id                 = Staf::where('owner', 1)->first()->id;
 							$pendapatan->input_nilai_clean             = $mutasi->amount;
 							$pendapatan->input_periode_bulan_bpjs      = Carbon::parse($mutasi->date)->subMonth()->format('Y-m');
 							$pendapatan->input_tanggal_pembayaran_bpjs = $mutasi->date;
@@ -175,16 +176,18 @@ class cekMutasi19Terakhir extends Command
 						}
 					}
 
-
 					$insertMutasi[] = [
-						'id'                     => $mutasi->mutation_id,
+						'kode_transaksi'         => $mutasi->mutation_id,
 						'akun_bank_id'           => $newBank->id,
 						'tanggal'                => $mutasi->created_at,
 						'pembayaran_asuransi_id' => $pembayaran_asuransi_id,
 						'deskripsi'              => $mutasi->description,
 						'nilai'                  => $mutasi->amount,
 						'saldo_akhir'            => $mutasi->balance,
-						'debet'                  => $debet
+						'debet'                  => $debet,
+						'tenant_id'              => session()->get('tenant_id'),
+						'created_at'             => $timestamp,
+						'updated_at'             => $timestamp
 					];
 				}
 			}
@@ -222,12 +225,12 @@ class cekMutasi19Terakhir extends Command
 		$pend = new PendapatansController;
 		$pend->input_dibayar           = $this->amount;
 		$pend->input_mulai             = $periksas->first()->tanggal;
-		$pend->input_staf_id           = 16;
+		$pend->input_staf_id           = Staf::where('owner', 1)->first()->id;
 		$pend->input_akhir             = $periksas->last()->tanggal;
 		$pend->input_tanggal_dibayar   = Carbon::parse($this->created_at)->format('d-m-Y');
 		$pend->input_asuransi_id       = $periksas->first()->asuransi_id;
 		$pend->input_coa_id_asuransi   = $periksas->first()->asuransi->coa_id;
-		$pend->input_coa_id            = '110001';
+		$pend->input_coa_id            = Coa::where('kode_coa',  110001)->first()->id;
 		$pend->input_catatan_container = 'Done by system';
 		$pend->input_rekening_id       = $this->mutation_id;
 		$pend->input_invoice_id        = [$invoice_id];

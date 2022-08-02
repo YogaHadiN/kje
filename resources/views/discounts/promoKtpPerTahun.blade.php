@@ -43,7 +43,7 @@
 											<td>{{ $p->id }}</td>
 											<td>{{ $p->no_ktp }}</td>
 											<td>{{ $p->periksa->pasien->nama }}</td>
-											<td>{{ $p->periksa->poli }}</td>
+                                            <td>{{ $p->periksa->poli->poli }}</td>
 											<td>{{ $p->tahun }}</td>
 											<td> <a class="btn btn-info btn-xs" href="{{ url('discounts/promo/' . $p->id) }}">Detail</a> </td>
 										</tr>

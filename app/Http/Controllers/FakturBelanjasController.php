@@ -47,8 +47,9 @@ class FakturBelanjasController extends Controller
 		$query .= "JOIN stafs as st on st.id = fb.petugas_id ";
 		$query .= "JOIN suppliers as sp on sp.id = fb.supplier_id ";
 		$query .= "JOIN coas as co on co.id = fb.sumber_uang_id ";
+		$query .= "WHERE pb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY pb.faktur_belanja_id ";
-		$query .= "ORDER BY fb.tanggal desc;";
+		$query .= "ORDER BY fb.tanggal desc ";
 		$fakturbelanjas = DB::select($query);
 
 		$year = date('Y');
@@ -56,7 +57,8 @@ class FakturBelanjasController extends Controller
 		$query .= "DATE_FORMAT(fb.tanggal, '%Y %M') as bulan ";
 		$query .= "FROM pembelians as pb ";
 		$query .= "JOIN faktur_belanjas as fb on fb.id = pb.faktur_belanja_id ";
-		$query .= "WHERE fb.tanggal like '$year%'";
+		$query .= "WHERE fb.tanggal like '$year%' ";
+		$query .= "AND fb.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "GROUP BY Year(fb.tanggal), Month(fb.tanggal)";
 		$query .= "ORDER BY fb.tanggal";
 		$akumulasi = DB::select($query);

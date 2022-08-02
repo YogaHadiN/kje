@@ -34,6 +34,7 @@ class ObatsController extends Controller
 		$query .= "join raks as rk on rk.id = mr.rak_id ";
 		$query .= "where date(tanggal) between '{$days_ago}' ";
 		$query .= "and '{$now}' ";
+		$query .= "AND r.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by rk.id";
 
 		$dispensings = DB::select($query);

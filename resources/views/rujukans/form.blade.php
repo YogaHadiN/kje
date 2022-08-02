@@ -36,9 +36,15 @@
 			  	 <div class="row">
 				  	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<div class="form-group @if($errors->has('tujuan_rujuk'))has-error @endif">
-						  {!! Form::label('tujuan_rujuk', 'Spesialis', ['class' => 'control-label']) !!}
-							{!! Form::text('tujuan_rujuk', $tujuan_rujuk, ['class' => 'form-control', 'placeholder' => 'Sebisa mungkin pilih yang ada', 'id' => 'tujuan_rujuk', 'onblur' => 'tujuanChange(this);return false;'])!!}
-						  @if($errors->has('tujuan_rujuk'))<code>{{ $errors->first('tujuan_rujuk') }}</code>@endif
+						  {!! Form::label('tujuan_rujuk_id', 'Spesialis', ['class' => 'control-label']) !!}
+							{!! Form::select('tujuan_rujuk_id', $tujuan_rujuk_list, null, [
+                                            'class'            => 'form-control selectpick',
+                                            'placeholder'      => 'Sebisa mungkin pilih yang ada',
+                                            'id'               => 'tujuan_rujuk',
+                                            'data-live-search' => 'true',
+                                            'onchange'           => 'tujuanChange(this);return false;'
+                                        ])!!}
+						  @if($errors->has('tujuan_rujuk_id'))<code>{{ $errors->first('tujuan_rujuk_id') }}</code>@endif
 						</div>
 				  	</div>
 				 </div>
@@ -146,7 +152,7 @@
 				 		{!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block hide', 'id' => 'submit'])!!}
 				 	</div>
 				 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				 		{!! HTML::link('ruangperiksa/' . $periksa->poli, 'Cancel', ['class' => 'btn btn-warning btn-block'])!!}
+				 		{!! HTML::link('ruangperiksa/' . $periksa->poli_id, 'Cancel', ['class' => 'btn btn-warning btn-block'])!!}
 				 	</div>
 				 </div>
 				 @if($periksa->asuransi_id == '3')

@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class BagiGigi extends Model
 {
+    use BelongsToTenant, HasFactory;
 	protected $dates = ['mulai', 'akhir', 'tanggal_dibayar'];
 	public function petugas(){
 		return $this->belongsTo('App\Models\Staf', 'petugas_id');

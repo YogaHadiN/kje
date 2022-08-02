@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\Classes\Yoga;
+use App\Traits\BelongsToTenant; 
 
 use Illuminate\Database\Eloquent\Model;
 
 class Pendapatan extends Model{
-	// public $incrementing = false;  // hapus saja kalo mau increment
+    use BelongsToTenant, HasFactory;
 
 	// Add your validation rules here
 	public static $rules = [

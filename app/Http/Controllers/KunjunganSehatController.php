@@ -68,6 +68,7 @@ class KunjunganSehatController extends Controller
 			$query .= "AND (pp.created_at like '{$bulan_ini}%')  ";
 		}
 		$query .= "AND (pcare_submit = '1') ";
+		$query .= "AND pp.tenant_id = " . session()->get('tenant_id') . " ";
 
 		/* dd($query); */
 		if (!$count) {

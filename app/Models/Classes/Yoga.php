@@ -530,19 +530,8 @@ class Yoga {
 			return $bulanThn;
 		}
 
-		public static function rataAtas5000($totalBiayaObat){
-
-		   if($totalBiayaObat == 0){
-			   	return 0;
-		   }
-
-		   $i = 0;
-		   while(($i - $totalBiayaObat) <5000){
-		        $total = $i;
-		        $i = $i + 5000;
-		   }
-
-		   return $total;
+		public static function rataAtas5000($n){
+            return round(($n+5000/2)/5000)*5000;
 		}
 
 		public static function alternatif_fornas(){
@@ -554,7 +543,6 @@ class Yoga {
 
 		public static function fornas(){
 			return [
-						
 						 null        => '- Pilih -',
 			            '0'         => 'Bukan Fornas',
 			            '1'         => 'Fornas'
@@ -563,7 +551,7 @@ class Yoga {
 
 		public static function merekAsli($merek_lama, $formula, $bobot){
 			if($formula->komposisi->count() == 1) {
-				$end = $formula->sediaan . ' ' . $bobot;
+				$end = $formula->sediaan->sediaan . ' ' . $bobot;
 				$merek = str_replace($end, '', $merek_lama);
 			} else {
 				$merek = str_replace($formula->sediaan, '', $merek_lama);
@@ -611,6 +599,7 @@ class Yoga {
 			$query .= "mr.merek as merek ";
 			$query .= "FROM raks as rk ";
 			$query .= "JOIN mereks as mr on mr.rak_id = rk.id ";
+			$query .= "WHERE rk.tenant_id = " . session()->get('tenant_id') . " ";
 			$raks = DB::select($query);
 
 			foreach ($raks as $rak) {
@@ -632,6 +621,7 @@ class Yoga {
     			$insert_id = "$substr_id" + 1;
     			$idCustom = date('ymd').sprintf("%03d", $insert_id);
     		}
+
     		return $idCustom; // id ke 100, tanggal 01-01-2016 mereturn 1601010100
 		}
 
@@ -852,16 +842,6 @@ class Yoga {
 
 		}
 
-		public static function tipe_asuransi(){
-			return array(
-                                null => '- Tipe Asuransi -',
-                                '1' => 'Admedika',
-                                '2' => 'Kapitasi',
-                                '3' => 'Perusahaan',
-                                '4' => 'Flat',
-                                '5' => 'BPJS',
-                        );
-		}
 
 		public static function biayaObatTotal($control){
 	   		$transaksis = json_decode($control, true);
@@ -872,73 +852,6 @@ class Yoga {
 	   		}
 		}
 
-		public static function kaliObat($transaksis, $terapi, $asuransi, $plafon, $poli){
-			$transaksi_array = $transaksis;
-			$non_paket = true;
-			foreach ($transaksi_array as $k => $v) {
-				$tarif_ini = Tarif::where('jenis_tarif_id', $v['jenis_tarif_id'])->where('asuransi_id', $asuransi->id)->first();
-				if ($tarif_ini->tipe_tindakan_id == 2) {
-					$non_paket = false;
-					$tarif_ini = $v;
-					break;	
-				}
-			}
-			if ($non_paket) {
-				if($terapi != '' && $terapi != '[]'){
-					$tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();//jenis tarif id = 9 adalah biaya obat
-					$terapis = json_decode($terapi, true);
-					$merek = Merek::all();
-					$biaya = 0;
-					foreach ($terapis as $terapi) {
-						if ($asuransi->tipe_asuransi == '5') { //pembayaran BPJS
-							if ($terapi['fornas'] == '0') { // jika obat tidak tergolong fornas
-								$biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'];
-							} else {
-								$biaya += 0;
-							}
-						} else {
-							$biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'] * $asuransi->kali_obat;
-						}
-					}
-					if ($asuransi->tipe_asuransi == 4) { //tipe asuransi pembayaran flat
-						$selisihPlafon = $plafon - $biaya;
-						if ( $selisihPlafon > 0) {
-							$biaya = $tarif->biaya;
-						} else {
-							$biaya = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya - $selisihPlafon;
-						}
-					}
-                    if ($biaya < 30000 && ( $asuransi->id == '151222001' || $asuransi->id == '10' )) {
-                        $biaya = 30000;
-                    } else {
-						if ($poli != 'estetika') {
-							$biaya = Yoga::rataAtas5000($biaya);
-						}
-                    }
-					$plus = [
-						'jenis_tarif_id' => $tarif->jenis_tarif_id,
-						'jenis_tarif' => $tarif->jenisTarif->jenis_tarif,
-						'biaya' => $biaya
-					];
-					array_unshift($transaksis, $plus);
-				} else {
-					$plus = [
-						'jenis_tarif_id' => 9,
-						'jenis_tarif' => 'Biaya Obat',
-						'biaya' => 0
-					];
-					array_unshift($transaksis, $plus);
-				}
-			} else {
-				$plus = [
-					'jenis_tarif_id' => 9,
-					'jenis_tarif' => 'Biaya Obat',
-					'biaya' => 0
-				];
-				array_unshift($transaksis, $plus);
-			}
-			return $transaksis;
-		}
 		public static function kaliObat2($transaksis, $terapis, $asuransi, $plafon){
 
 			$transaksi_array = $transaksis;
@@ -952,16 +865,14 @@ class Yoga {
 				}
 			}
 			if ($non_paket) {
-
 				if($terapis->count() > 0){
 				//jenis tarif id = 9 adalah biaya obat
-
-					$tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();
+					$tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
 					$merek = Merek::all();
 					$biaya = 0;
 
 					foreach ($terapis as $terapi) {
-						if ($asuransi->tipe_asuransi == '5') { //pembayaran BPJS
+						if ($asuransi->tipe_asuransi_id == 5) { //pembayaran BPJS
 							if ($terapi->merek->rak->fornas == '0') { // jika obat tidak tergolong fornas
 								$biaya += $terapi->merek->rak->harga_jual * $terapi->jumlah;
 							} else {
@@ -975,38 +886,30 @@ class Yoga {
 							}
 						}
 					}
-					if ($asuransi->tipe_asuransi == 4) { //tipe asuransi pembayaran flat
+					if ($asuransi->tipe_asuransi_id == 4) { //tipe asuransi pembayaran flat
 						$selisihPlafon = $plafon - $biaya;
-
-						if ( $selisihPlafon > 0) {
-							$biaya = $tarif->biaya;
-						} else {
-							$biaya = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya - $selisihPlafon;
-						}
 					}
 
 					$biaya = Yoga::rataAtas5000($biaya);
-
-
 					$plus = [
 						'jenis_tarif_id' => $tarif->jenis_tarif_id,
-						'jenis_tarif' => $tarif->jenisTarif->jenis_tarif,
-						'biaya' => $biaya
+						'jenis_tarif'    => $tarif->jenis_tarif,
+						'biaya'          => $biaya
 					];
 					array_unshift($transaksis, $plus);
 				} else {
 					$plus = [
-						'jenis_tarif_id' => 9,
-						'jenis_tarif' => 'Biaya Obat',
-						'biaya' => 0
+						'jenis_tarif_id' => $tarif->jenis_tarif_id,
+						'jenis_tarif'    => $tarif->jenis_tarif,
+						'biaya'          => 0
 					];
 					array_unshift($transaksis, $plus);
 				}
 			} else {
 				$plus = [
-					'jenis_tarif_id' => 9,
-					'jenis_tarif' => 'Biaya Obat',
-					'biaya' => 0
+                    'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                    'jenis_tarif'    => $tarif->jenis_tarif,
+					'biaya'          => 0
 				];
 				array_unshift($transaksis, $plus);
 			}
@@ -1029,15 +932,14 @@ class Yoga {
 			//Jika tipe_asuransi adalah 4 == flat, maka hitung plafon
 			//
 			
-			if ($asuransi->tipe_asuransi == '4') {
+			if ($asuransi->tipe_asuransi_id == 4) {
 
 				//
 				//plafon sekali berobat
 				//
 				
-				$plafonObatSekaliBerobat       = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '9')->first()->biaya;
-				$plafonJasaDokterSekaliBerobat = Tarif::where('asuransi_id', $asuransi->id)->where('jenis_tarif_id', '1')->first()->biaya;
-				//return $plafonObatSekaliBerobat;
+				$plafonObatSekaliBerobat       = Tarif::queryTarif($asuransi->id, 'Biaya Obat')->biaya;
+				$plafonJasaDokterSekaliBerobat = Tarif::queryTarif($asuransi->id, 'Jasa Dokter')->biaya;
 				$sisaPlafon = 0;
 
 				//
@@ -1105,7 +1007,8 @@ class Yoga {
 		public static function kasirHargaJualItem($terapi, $periksa, $bool = true){
 			if ($bool) {
 	            if($terapi->merek_id > 0){
-	            	if ($periksa->asuransi_id == '32') {
+                    $asuransi_bpjs = Asuransi::Bpjs();
+	            	if ($periksa->asuransi_id == $asuransi_bpjs->id) {
 		            	if ($terapi->merek->rak_id == 'D7' && $terapi->signa == 'Puyer') {
 		            		return '0';
 		            	} else {
@@ -1124,7 +1027,8 @@ class Yoga {
 		        }
 			} else {
         		$merek = Merek::find($terapi['merek_id']);
-            	if ($periksa->asuransi_id == '32') {
+                $asuransi_bpjs = Asuransi::Bpjs();
+            	if ($periksa->asuransi_id == $asuransi_bpjs->id) {
             		$fornas = $terapi['fornas'];
             		if ($fornas == '1') {
             			$harga_jual = 0;
@@ -1142,7 +1046,12 @@ class Yoga {
          	
      	   	$modalObat = 0;
 
-     	   	$query = "SELECT sum(tr.harga_beli_satuan * tr.jumlah) as modal_obat FROM terapis as tr join periksas as px on px.id = tr.periksa_id where px.tanggal like '{$tanggal}%' and px.asuransi_id like '{$asuransi_id}'";
+			$query = "SELECT sum(tr.harga_beli_satuan * tr.jumlah) as modal_obat ";
+			$query .= "FROM terapis as tr ";
+			$query .= "join periksas as px on px.id = tr.periksa_id ";
+			$query .= "where px.tanggal like '{$tanggal}%' ";
+			$query .= "and tr.tenant_id = " . session()->get('tenant_id') . " ";
+			$query .= "and px.asuransi_id like '{$asuransi_id}'";
 
      	    return DB::select($query)[0]->modal_obat;
 
@@ -1266,11 +1175,9 @@ class Yoga {
 		public static function rincian($periksas){
 			$rincian = [];
 			$sama = false;
-			// return $periksas;
 			foreach ($periksas as $key => $px) {
 				$transaksi = $px->transaksi;
 				$transaksi = json_decode($transaksi,true);
-				// return $px-;
 				foreach ($transaksi as $ky => $tr) {
 					if (count($rincian) == 0) {
 						$rincian[] = $tr['jenis_tarif'];
@@ -1287,8 +1194,8 @@ class Yoga {
 						$sama = false;
 					}
 				}
-				return $rincian;
 			}
+			return $rincian;
 		}
 
 		public static function laporanRinci($rincian, $periksa){
@@ -1677,7 +1584,18 @@ class Yoga {
 
 		public static function soOption(){
 			$date = date('Y-m');
-			$query = "SELECT m.merek as merek, r.id as rak_id, m.id as merek_id, r.stok as stok from mereks as m join raks as r on r.id = m.rak_id where r.id not in (select rak_id from stok_opnames where created_at like '{$date}%')";
+			$query = "SELECT m.merek as merek, ";
+			$query .= "r.id as rak_id, ";
+			$query .= "m.id as merek_id, ";
+			$query .= "r.stok as stok ";
+			$query .= "from mereks as m ";
+			$query .= "join raks as r on r.id = m.rak_id ";
+			$query .= "where r.id not in (";
+				$query .= "select rak_id ";
+				$query .= "from stok_opnames ";
+				$query .= "where created_at like '{$date}%'";
+			$query .= ")";
+			$query .= "and m.tenant_id = " . session()->get('tenant_id') . " ";
 			$mereks = DB::select($query);
 
 			return $mereks;
@@ -1767,14 +1685,14 @@ class Yoga {
 			return $temp;
 		}
 		public static function suksesFlash($text){
-			$temp = '<div class="alert alert-success text-left">';
+			$temp = '<div class="text-left alert alert-success">';
 			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>SUKSES!!  </strong>';
 			$temp .= $text;
 			$temp .= '</div>';
 			return $temp;
 		}
 		public static function infoFlash($text){
-			$temp = '<div class="alert alert-info text-left">';
+			$temp = '<div class="text-left alert alert-info">';
 			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>PETUNJUK :  </strong>';
 			$temp .= $text;
 			$temp .= '</div>';
@@ -1782,13 +1700,13 @@ class Yoga {
 		}
 
 		public static function Flash($text){
-			$temp = '<div class="alert alert-success text-left">';
+			$temp = '<div class="text-left alert alert-success">';
 			$temp .= $text;
 			$temp .= '</div>';
 			return $temp;
 		}
 		public static function gagalFlash($text){
-			$temp = '<div class="alert alert-danger text-left">';
+			$temp = '<div class="text-left alert alert-danger">';
 			$temp .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>GAGAL !! </strong>';
 			$temp .= $text;
 			$temp .= '</div>';
@@ -1797,7 +1715,7 @@ class Yoga {
 
 		public static function hargaJualSatuan($asuransi, $merek_id){
 			$merek = Merek::with('rak')->where('id', $merek_id)->first();
-			if ($asuransi->tipe_asuransi == 5) { //asuransi bpjs
+			if ($asuransi->tipe_asuransi_id == 5) { //asuransi bpjs
 				$fornas = $merek->rak->fornas;
 				if ($fornas == '1') {
 					$harga_jual_satuan = 0;
@@ -1934,7 +1852,7 @@ class Yoga {
 		foreach ($periksas as $k => $v) 
 		{
 			foreach ($v->transaksii as $key => $value) {
-			 	if ($value->jenis_tarif_id == '116' && $value->biaya == '0') {
+			 	if ($value->jenis_tarif_id ==  JenisTarif::where('jenis_tarif', 'Gula Darah')->first()->id && $value->biaya == '0') {
 			 		$bayar = true;
 			 		$sudahBulanIni = true;
 			 		$tanggal = $v->tanggal;
@@ -1964,7 +1882,6 @@ class Yoga {
 					$pernahDiagnosaDM = true;		
 				}
 			}
-
 
 			//---------------------
 			// coba
@@ -2004,7 +1921,8 @@ class Yoga {
 
 	public static function pakaiBayarPribadi($asuransi_id, $pasien_id, $pemeriksaanTerakhir = null){
 		$pakai_bayar_pribadi = false;
-		if ($asuransi_id == '32')  {
+        $asuransi_bpjs = Asuransi::Bpjs();
+		if ($asuransi_id == $asuransi_bpjs->id)  {
 			//cek pemeriksaan dalam 3 minggu terakhir yang memakai biaya pribadi
 			$periksa3mingguTerakhirPakaiBiayaPribadi = Periksa::where('pasien_id', $pasien_id)
 			->whereRaw("date(tanggal) between '" . date( 'Y-m-d', strtotime( date('Y-m-d') . ' -21 day' ) ) . "' and '" .date('Y-m-d'). "'")
@@ -2014,7 +1932,7 @@ class Yoga {
 			//Cek Pemeriksaan terakhir
 			//
 			if($pemeriksaanTerakhir != null){
-				if ($pemeriksaanTerakhir->asuransi_id == '32') {
+				if ($pemeriksaanTerakhir->asuransi_id == $asuransi_bpjs->id) {
 					$periksaTerakhirGakPakaiBPJS = false;
 				} else {
 					$periksaTerakhirGakPakaiBPJS = true;
@@ -2050,7 +1968,14 @@ class Yoga {
 		return array('' => '- Pilih Dokter Spesialis -') + TujuanRujuk::pluck('tujuan_rujuk', 'id')->all();
     }
     public static function hitungTindakan($asuransi_id, $jenis_tarif_id, $tanggal){
-        $query = "SELECT * FROM transaksi_periksas as tp join periksas as px on px.id = tp.periksa_id join jenis_tarifs as jt on jt.id=tp.jenis_tarif_id where tp.created_at >= '{$tanggal}' and tp.jenis_tarif_id = {$jenis_tarif_id} and px.asuransi_id = '{$asuransi_id}';";
+		$query = "SELECT * ";
+		$query .= "FROM transaksi_periksas as tp ";
+		$query .= "join periksas as px on px.id = tp.periksa_id ";
+		$query .= "join jenis_tarifs as jt on jt.id=tp.jenis_tarif_id ";
+		$query .= "where tp.created_at >= '{$tanggal}' ";
+		$query .= "and tp.jenis_tarif_id = {$jenis_tarif_id} ";
+		$query .= "and px.asuransi_id = '{$asuransi_id}' ";
+		$query .= "and tp.tenant_id = " . session()->get('tenant_id') . " ";
         $biaya = 0;
         foreach (DB::select($query) as $trx) {
             $biaya += $trx->biaya;
@@ -2104,13 +2029,12 @@ class Yoga {
 	}
 	
 	public static function sumberCoaList(){
-		return [ null => '-pilih-' ] + Coa::whereRaw('id between 110000 and 110004')->pluck('coa', 'id')->all();
+		return [ null => '-pilih-' ] + Coa::whereRaw('kode_coa between 110000 and 110004')->pluck('coa', 'id')->all();
 	}
 	public static function sumberuang(){
 		$sumber_uang[null] = '-Pilih-';
-		$sumber_uang[110000] = 'Uang yang diambil dari kasir';
-		$sumber_uang[110004] = 'Uang punya dokter Yoga';
-
+		$sumber_uang[ Coa::where('kode_coa', 110000)->first()->id ] = 'Uang yang diambil dari kasir';
+		$sumber_uang[ Coa::where('kode_coa', 110004)->first()->id ] = 'Uang punya dokter Yoga';
 
 		return $sumber_uang;
 	}
@@ -2164,13 +2088,15 @@ class Yoga {
 		$query .= "CURDATE()) as age, ";
 		$query .= "px.pemeriksaan_penunjang as lab ";
 		$query .= "from periksas as px ";
+		$query .= "join asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "where TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 ";
-		$query .= "and px.asuransi_id=32 ";
+		$query .= "and asu.tipe_asuransi_id=5 ";
 		$query .= "and px.sistolik not like '' ";
 		$query .= "and px.sistolik is not null ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by ps.id ";
-		$query .= "having sum( px.sistolik ) / count( px.id ) >139;";
+		$query .= "having sum( px.sistolik ) / count( px.id ) >139 ";
 
 		$datas = DB::select($query);
 
@@ -2188,16 +2114,19 @@ class Yoga {
 		$query .= "TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) as age, ";
 		$query .= "px.pemeriksaan_penunjang as lab ";
 		$query .= "from periksas as px ";
+		$query .= "join asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "join diagnosas as dg on dg.id = px.diagnosa_id ";
 		$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 		$query .= "join transaksi_periksas as trx on trx.periksa_id = px.id ";
-		$query .= "where px.asuransi_id=32 ";
+		$query .= "join jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
+		$query .= "where asu.tipe_asuransi_id= 5 ";
 		$query .= "and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 ";
-		$query .= "and trx.jenis_tarif_id = 116 ";
+		$query .= "and jtf.jenis_tarif = 'Gula Darah' ";
 		$query .= "and trx.keterangan_pemeriksaan not like '' ";
 		$query .= "and trx.keterangan_pemeriksaan is not null ";
+		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by ps.id ";
-		$query .= "having sum( cast(trx.keterangan_pemeriksaan as unsigned) ) / count( trx.id ) > 210;";
+		$query .= "having sum( cast(trx.keterangan_pemeriksaan as unsigned) ) / count( trx.id ) > 210 ";
 
 		$dms = DB::select($query);
 		$pasien_dm = [];
@@ -2213,46 +2142,6 @@ class Yoga {
 		];
 	}
 	
-	//public static function Prolanis(){
-		
-		//$pasien_ids = [];
-		//// Dapatkan pasien hipertensi lebih dari 3 x pemerikssaan dengan usia diatas 49 tahun
-		//$query = "select ps.id as pasien_id, count(*) as jumlah, ps.nama as nama_pasien, px.pemeriksaan_fisik as pf, ps.alamat as alamat, ps.no_telp as no_hp, TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) as age, px.pemeriksaan_penunjang as lab from periksas as px join pasiens as ps on ps.id = px.pasien_id where TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 and px.asuransi_id=32 and ((  pemeriksaan_fisik like '%mmHg%' and pemeriksaan_fisik like '%/%'  ) or (px.pemeriksaan_penunjang like '%gds%') ) group by pasien_id;";
-		//$datas = DB::select($query);
-		//$prolanis = [];
-		//foreach ($datas as $data) {
-			//$riwayats = Pasien::find($data->pasien_id)->periksa;
-			//$jumlah = 0;
-			//foreach ($riwayats as $rw) {
-				//$pretd    = explode("mmHg",$rw->pf)[0];
-				//$sistolik = filter_var(explode("/",$pretd)[0], FILTER_SANITIZE_NUMBER_INT);
-				//if ( $sistolik > 139) {
-					//$jumlah++;
-				//}
-			//}
-			//if ($jumlah > 2) {
-				//$pasien_ids[]=$data->pasien_id;
-			//}
-		//}
-   //[>     foreach ($datas as $data) {<]
-			////$pretd = explode("mmHg",$data->pf)[0];
-			////$sistolik = filter_var(explode("/",$pretd)[0], FILTER_SANITIZE_NUMBER_INT);
-			////if (( $sistolik > 139 and $data->jumlah >2 ) or strpos($data->lab, 'gds')) {
-				////$pasien_ids[] = $data->pasien_id;
-			////}
-		//[>}<]
-		//// Dapatkan pasien hipertensi lebih dari 3 x pemerikssaan dengan usia diatas 49 tahun
-		//$query = "select ps.id as pasien_id, count(*) as jumlah, ps.nama as nama_pasien, px.pemeriksaan_fisik as pf, ps.alamat as alamat, ps.no_telp as no_hp, TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) as age, px.pemeriksaan_penunjang as lab from periksas as px join diagnosas as dg on dg.id = px.diagnosa_id join pasiens as ps on ps.id = px.pasien_id where px.asuransi_id=32 and TIMESTAMPDIFF(YEAR, ps.tanggal_lahir, CURDATE()) > 49 and dg.diagnosa like '%dm tipe 2%' group by ps.id;";
-
-		//$dms = DB::select($query);
-
-		//foreach ($dms as $data) {
-			//if ($data->jumlah > 2) {
-				//$pasien_ids[] = $data->pasien_id;
-			//}
-		//}
-		//return  array_unique($pasien_ids);
-	//}
 	public static function imageBPJSFromBrowser($image, $id){
 		$filename = null;
 		if (!empty( $image )) {
@@ -2404,7 +2293,8 @@ class Yoga {
 		$query .= "WHERE px.pasien_id = '{$pasien_id}' ";
 		$query .= "AND ks.created_at like '{$bulanTahun}%' ";
 		$query .= "AND ks.pcare_submit = 0 ";
-		$query .= "ORDER BY ks.created_at desc;";
+		$query .= "and ks.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "ORDER BY ks.created_at desc ";
 		return DB::select($query);
 	}
 	public static function even($number){

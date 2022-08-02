@@ -64,12 +64,14 @@ class AngkaKontakController extends Controller
 		}
 		$query .= "FROM periksas as px ";
 		$query .= "JOIN pasiens as ps on ps.id = px.pasien_id ";
+		$query .= "JOIN asuransis as asu on asu.id = px.asuransi_id ";
 		$query .= "WHERE ";
 		$query .= "(px.tanggal like '%{$this->input_tanggal}%') ";
 		$query .= "AND (ps.nama like '%{$this->input_nama}%') ";
 		$query .= "AND (ps.no_telp like '%{$this->input_no_telp}%') ";
 		$query .= "AND (ps.nomor_asuransi_bpjs like '%{$this->input_nomor_asuransi_bpjs}%') ";
-		$query .= "AND (px.asuransi_id = 32) ";
+		$query .= "AND (asu.tipe_asuransi_id = 5) ";
+		$query .= "AND px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND (px.tanggal like '{$bulan_ini}%')  ";
 		if ($count) {
 			$query .= ") a ";

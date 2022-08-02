@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Session;
 use App\Models\Classes\Yoga;
 use App\Models\Formula;
 use DB;
 
 class Rak extends Model{
+    use BelongsToTenant,HasFactory;
 
 
 	public static function boot(){
@@ -29,6 +31,8 @@ class Rak extends Model{
 				$query .= "WHERE rk.id = '" . $rak->id . "' ";
 				$query .= "AND mr.id in ";
 				$query .= "(Select merek_id from terapis)";
+				$query .= "and mr.tenant_id = " . session()->get('tenant_id') . " ";
+
 				$mereks = DB::select($query);
 				$pesan = 'Tidak bisa menghapus karena ';
 				$pesan .= '<ul>';
@@ -59,8 +63,6 @@ class Rak extends Model{
 		});
 	}
 	// Add your validation rules here
-	public $incrementing = false; 
-    protected $keyType = 'string';
 
 	// Don't forget to fill this array
 	protected $guarded = [];

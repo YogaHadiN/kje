@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Models\Classes\Yoga;
+use App\Traits\BelongsToTenant; 
 use Carbon\Carbon;
 use DB;
 use Image;
@@ -11,9 +13,7 @@ use Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class Periksa extends Model{
-    public $incrementing = false; 
-    // In Laravel 6.0+ make sure to also set $keyType
-    protected $keyType = 'string';
+    use BelongsToTenant, HasFactory;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'
@@ -27,6 +27,9 @@ class Periksa extends Model{
 	public function asuransi(){
 		return $this->belongsTo('App\Models\Asuransi');
 	}
+    public function poli(){
+        return $this->belongsTo('App\Models\Poli');
+    }
 	public function diagnosa(){
 		return $this->belongsTo('App\Models\Diagnosa');
 	}
@@ -37,9 +40,10 @@ class Periksa extends Model{
 
 	public function getGdpBpjsAttribute(){
         /* dd(  json_decode($this->transaksi,true)  ); */
-        if ( $this->asuransi_id == '32' ) { //BPJS
+        $asuransi_bpjs = Asuransi::Bpjs();
+        if ( $this->asuransi_id ==  $asuransi_bpjs->id) { //BPJS
             foreach (  json_decode($this->transaksi,true)   as $trx) {
-                if ( $trx['jenis_tarif_id'] == '116' ) {
+                if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $trx['jenis_tarif_id'])->exists() ) {
                     return $trx['keterangan_tindakan'];
                 }
             }
@@ -52,10 +56,6 @@ class Periksa extends Model{
     }
     public function staf(){
         return $this->belongsTo('App\Models\Staf');      
-    }
-    public function jenisTarif(){
-
-        return $this->belongsTo('App\Models\JenisTarif');      
     }
     public function merek(){
         return $this->belongsTo('App\Models\Merek');      
@@ -1133,7 +1133,8 @@ class Periksa extends Model{
 			$temp .= '<br> karena ';
 			$temp .= $this->rujukan->complication;
 			$temp .= '<br>';
-			if($this->asuransi_id == '32'){
+            $asuransi_bpjs = Asuransi::Bpjs();
+			if($this->asuransi_id == $asuransi_bpjs->id){
 				$temp .= '<a href="'.url('rujukans/' . $this->id ).'" class="btn btn-success">Lihat Rujukan</a>';
 			}else {
 				$temp .= '<a href="'.url('pdfs/status/' . $this->id ).'" target="_blank" class="btn btn-success">Lihat Rujukan</a>';
@@ -1153,11 +1154,13 @@ class Periksa extends Model{
         $query .= "ps.nama as nama_pasien, ";
         $query .= "asu.nama as nama_asuransi, ";
         $query .= "p.id as periksa_id, ";
-        $query .= "p.poli as poli ";
+        $query .= "po.poli as poli ";
         $query .= "FROM periksas as p ";
+        $query .= "JOIN polis as po on po.id = p.poli_id ";
         $query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
         $query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
         $query .= "where p.tanggal like '{$tanggal}' ";
+		$query .= "and p.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "AND p.asuransi_id like '{$asuransi_id}'";
 
 		$periksas = DB::select($query);
@@ -1194,12 +1197,10 @@ class Periksa extends Model{
 		return $this->hasOne('App\Models\Kontrol');
 	}
 	public function getHutangDokterAttribute(){
-
-
 		$jurnals = $this->jurnals;
 		$hutang_dokter = 0;
 		foreach ($jurnals as $j) {
-			if ($j->coa_id == 200001) {
+			if ($j->coa_id == Coa::where('kode_coa', '200001')->first()->id) {
 				$hutang_dokter = $j->nilai;
 				break;
 			}
@@ -1229,33 +1230,38 @@ class Periksa extends Model{
         $bhp              = 0;
 
         foreach ($transaksis as $trx) {
-            if ($trx->jenis_tarif_id != 147 && $trx->jenis_tarif_id != 148) {
+            if (
+                $trx->jenisTarif->jenis_tarif != 'Pembayaran' && 
+                $trx->jenisTarif->jenis_tarif  != 'Kembalian'
+            ) {
                 $total_biaya += $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 147) {
+            if ($trx->jenisTarif->jenis_tarif == 'Pembayaran') {
                 $pembayaran = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 148) {
+            if ($trx->jenisTarif->jenis_tarif  == 'Kembalian') {
                 $kembalian = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 149) {
+            if ($trx->jenisTarif->jenis_tarif  == 'dibayar_asuransi') {
                 $dibayar_asuransi = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 150) {
+            if ($trx->jenisTarif->jenis_tarif  == 'dibayar_pasien') {
                 $dibayar_pasien = $trx->biaya;
             }
-            if ($trx->jenis_tarif_id == 140) {
+            if ($trx->jenisTarif->jenis_tarif  == 'BHP') {
                 $bhp = $trx->biaya;
             }
         }
         $trxa = json_encode($transaksis);
         $trxa = json_decode($trxa, true);
+        $jt_biaya_obat = JenisTarif::where('jenis_tarif', 'Biaya Obat')->first();
+        $jt_bhp = JenisTarif::where('jenis_tarif', 'BHP')->first();
         foreach ($trxa as $k=>$trx) {
-            if ($trx['jenis_tarif_id'] == 9) {
+            if ($trx['jenis_tarif_id'] == $jt_biaya_obat->id) {
                 $trxa[$k]['biaya'] = Yoga::buatrp($trx['biaya'] + $bhp);
                 $trxa[$k]['jenis_tarif'] = $transaksis[$k]->jenisTarif->jenis_tarif;
 
-            }else if($trx['jenis_tarif_id'] == 140){
+            }else if($trx['jenis_tarif_id'] == $jt_bhp->id){
                 unset($trxa[$k]);
             } else {
                 $trxa[$k]['biaya'] = Yoga::buatrp($trx['biaya']);
@@ -1277,12 +1283,14 @@ class Periksa extends Model{
         $trxa = json_encode($transaksis);
         $trxa = json_decode($trxa, true);
 		$bhp = $this->struk['bhp'];
+        $jt_biaya_obat = JenisTarif::where('jenis_tarif', 'Biaya Obat')->first();
+        $jt_bhp = JenisTarif::where('jenis_tarif', 'BHP')->first();
         foreach ($trxa as $k=>$trx) {
-            if ($trx['jenis_tarif_id'] == 9) {
+            if ($trx['jenis_tarif_id'] == $jt_biaya_obat->id) {
                 $trxa[$k]['biaya'] = Yoga::buatrp($trx['biaya'] + $bhp);
                 $trxa[$k]['jenis_tarif'] = $transaksis[$k]->jenisTarif->jenis_tarif;
 
-            }else if($trx['jenis_tarif_id'] == 140){
+            }else if($trx['jenis_tarif_id'] == $jt_bhp->id){
                 unset($trxa[$k]);
             } else {
                 $trxa[$k]['biaya'] = Yoga::buatrp($trx['biaya']);
@@ -1294,6 +1302,17 @@ class Periksa extends Model{
 	public function pembayarans(){
 		return $this->hasMany('App\Models\PiutangDibayar');
 	}
+    public function points(){
+        return $this->hasMany('App\Models\Point');
+    }
+
+    public function receipts(){
+        return $this->hasMany('App\Models\Receipt');
+    }
+
+    public function perbaikans(){
+        return $this->hasMany('App\Models\Perbaikantrx');
+    }
 	
     public function berkas(){
         return $this->morphMany('App\Models\Berkas', 'berkasable');
@@ -1315,9 +1334,9 @@ class Periksa extends Model{
 	}
 
 	public function getAdaHasilRapidAntigenAttribute(){
-        $transaksi = $this->transaksi;
-        foreach (json_decode($transaksi, true) as $trx) {
-            if ($trx['jenis_tarif_id'] == '404') {
+        $transaksi = $this->transaksii;
+        foreach ($transaksi as $trx) {
+            if ($trx->jenisTarif->jenis_tarif == 'rapid test antigen') {
                 return true;
                 break;
             }
@@ -1325,9 +1344,9 @@ class Periksa extends Model{
         return false;
 	}
 	public function getAdaHasilRapidAntibodiAttribute(){
-        $transaksi = $this->transaksi;
-        foreach (json_decode($transaksi, true) as $trx) {
-            if ($trx['jenis_tarif_id'] == '403') {
+        $transaksi = $this->transaksii;
+        foreach ($transaksi as $trx) {
+            if ($trx->jenisTarif->jenis_tarif == 'rapid test') {
                 return true;
                 break;
             }
@@ -1336,8 +1355,9 @@ class Periksa extends Model{
 	}
 
 	public function getPesertaBpjsRppt(){
+        $asuransi_bpjs = Asuransi::Bpjs();
         if (
-            $this->asuransi_id == '32' &&
+            $this->asuransi_id ==  $asuransi_bpjs->id &&
             ($this->prolanis_ht || $this->prolanis_dm)
         ) {
             return true;
@@ -1352,10 +1372,21 @@ class Periksa extends Model{
             $this->asuransi_id == '114' ||
             $this->asuransi_id == '144' ||
             $this->asuransi_id == '151' ||
-            $this->asuransi->tipe_asuransi == '3' //asuransi admedika
+            $this->asuransi->tipe_asuransi_id == 3 //asuransi admedika
         ) { 
             return true;
         }
         return false;
 	}
+    public function periksaBulanIni($pasien_id, $periksa_id){
+        $query  = "SELECT * ";
+        $query .= "FROM periksas as prx ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "WHERE asu.tipe_asuransi_id =  5 ";
+        $query .= "AND prx.tanggal like '{$bulanIni}%' ";
+        $query .= "AND prx.pasien_id = {$pasien_id} ";
+        $query .= "AND prx.id < {$periksa_id} ";
+        return DB::select($query);
+    }
+    
 }
