@@ -275,18 +275,21 @@ class FasilitasController extends Controller
 	public function antrianPost($id){
 		$antrians = Antrian::with('jenis_antrian')->where('created_at', 'like', date('Y-m-d') . '%')
 							->where('jenis_antrian_id',$id)
+							->where('tenant_id', 1)
 							->orderBy('nomor', 'desc')
 							->first();
 
 		if ( is_null( $antrians ) ) {
 			$antrian                   = new Antrian;
 			$antrian->nomor            = 1 ;
+			$antrian->tenant_id        = 1 ;
 			$antrian->nomor_bpjs       = $this->input_nomor_bpjs;
 			$antrian->jenis_antrian_id = $id ;
 
 		} else {
 			$antrian_terakhir          = $antrians->nomor + 1;
 			$antrian                   = new Antrian;
+			$antrian->tenant_id        = 1 ;
 			$antrian->nomor            = $antrian_terakhir ;
 			$antrian->nomor_bpjs       = $this->input_nomor_bpjs;
 			$antrian->jenis_antrian_id = $id ;
