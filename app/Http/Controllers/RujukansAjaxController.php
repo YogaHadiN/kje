@@ -39,12 +39,10 @@ class RujukansAjaxController extends Controller
 			if ($asuransi_id == $asuransi_bpjs->id) {
 				$query = "SELECT rs.nama as nama, ry.rayon as rayon, jrs.jenis_rumah_sakit, rs.tipe_rumah_sakit FROM tujuan_rujuks as tr join fasilitas as fs on fs.tujuan_rujuk_id = tr.id join rumah_sakits as rs on rs.id=fs.rumah_sakit_id join rayons as ry on ry.id = rs.rayon_id join jenis_rumah_sakits as jrs on jrs.id = rs.jenis_rumah_sakit WHERE ";
 				$query .= "tr.id = '{$tujuan_rujuk_id}' and rs.bpjs = 1 ";
-				$query .= "AND tr.tenant_id = " . session()->get('tenant_id') . " ";
 				$query .= ' order by rs.rayon_id asc, rs.tipe_rumah_sakit desc;';
 			} else {
 				$query = "SELECT rs.nama as nama, ry.rayon as rayon, jrs.jenis_rumah_sakit, rs.tipe_rumah_sakit FROM tujuan_rujuks as tr join fasilitas as fs on fs.tujuan_rujuk_id = tr.id join rumah_sakits as rs on rs.id=fs.rumah_sakit_id join rayons as ry on ry.id = rs.rayon_id join jenis_rumah_sakits as jrs on jrs.id = rs.jenis_rumah_sakit WHERE ";
 				$query .= "tr.id = '{$tujuan_rujuk_id}' ";
-				$query .= "AND tr.tenant_id = " . session()->get('tenant_id') . " ";
 				$query .= ' order by rs.rayon_id asc, rs.tipe_rumah_sakit desc;';
 			}
 			return DB::select($query);

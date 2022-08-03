@@ -180,7 +180,7 @@ class PolisController extends Controller
 				foreach ($tindakans as $key => $tindakan) {
 					if ($key !== '') {
 						$Array = json_decode($key, true);
-						if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $transaksi['jenis_tarif_id'])->exists() ) {
+						if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $tindakan['jenis_tarif_id'])->exists() ) {
 							 unset($tindakans[$key]);
 
                              $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();

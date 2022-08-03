@@ -805,8 +805,8 @@ class AsuransisController extends Controller
 		$query .= " left join piutang_dibayars as byr on px.id = byr.periksa_id";
 		$query .= " where jurnalable_type = 'App\\\Models\\\Periksa'";
 		$query .= " AND px.asuransi_id > 0";
-		$query .= " AND co.kode_coa like '111%'";
-		$query .= "AND ju.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= " AND co.kode_coa like '111%' ";
+		$query .= " AND ju.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= " AND ju.debit = '1'";
 		if ( $waktu == 'tahun' ) {
 			$query .= " AND px.tanggal like '{$param}%' ";
