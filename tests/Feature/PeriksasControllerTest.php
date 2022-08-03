@@ -370,15 +370,18 @@ class PeriksasControllerTest extends TestCase
         $pc = new PeriksasController;
         $response->assertRedirect('ruangperiksa/' . $pc->ruang_periksa(null));
     }
-    /**
-     * 
-     */
+
     public function test_show(){
         $user     = User::factory()->create([
                 'role_id' => 6
             ]);
         auth()->login($user);
         $periksa = Periksa::factory()->create();
+
+        $ct = new CustomControllerTest;
+        $periksa->transaksi = $ct->transaksis($periksa->asuransi_id);
+        $periksa->save();
+
         $response = $this->get('periksas/' . $periksa->id);
         $response->assertStatus(200);
     }

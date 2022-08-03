@@ -28,6 +28,7 @@ use App\Models\BukanPeserta;
 use App\Models\AntrianPeriksa;
 use App\Models\Asuransi;
 use App\Models\Terapi;
+use App\Models\Poli;
 use App\Models\Staf;
 use App\Models\Usg;
 use App\Models\RegisterAnc;

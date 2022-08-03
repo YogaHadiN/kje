@@ -17,7 +17,7 @@ class PolisControllerTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /**
-     * 
+     * @group failing
      */
     public function test_poli(){
         $user     = User::factory()->create([
