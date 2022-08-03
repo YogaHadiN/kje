@@ -133,7 +133,7 @@ class KasirBaseController extends Controller
 			//
 			//
 			if ($prx->poli->poli != 'Poli Estetika') {
-				$hargaTotalObat = Yoga::rataAtas5000( $hargaObat );
+				$hargaObat = Yoga::rataAtas5000( $hargaObat );
 			}
 
 			$transaksi = $prx->transaksi;
@@ -141,7 +141,7 @@ class KasirBaseController extends Controller
 
 			foreach ($transaksi as $k=> $tr) {
 				if ($tr['jenis_tarif'] == 'Biaya Obat') {
-					$transaksi[$k]['biaya'] = $hargaTotalObat;
+					$transaksi[$k]['biaya'] = $hargaObat;
 				}
 			}
 

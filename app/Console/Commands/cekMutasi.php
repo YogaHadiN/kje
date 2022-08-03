@@ -47,9 +47,7 @@ class cekMutasi extends Command
      */
     public function handle()
     {
-
 		$pendapatan = new PendapatansController;
-
 		$banks       = Moota::banks();
 		$kata_kuncis = $this->kata_kuncis();
 		$timestamp = date('Y-m-d H:i:s');
@@ -81,7 +79,8 @@ class cekMutasi extends Command
 						'nilai'        => $mutasi->amount,
 						'saldo_akhir'  => $mutasi->balance,
 						'debet'        => $debet,
-						'tenant_id'    => session()->get('tenant_id'),
+						'tenant_id'    => 1,
+						/* 'tenant_id'    => session()->get('tenant_id'), */
 						'created_at'   => $timestamp,
 						'updated_at'   => $timestamp
 					];

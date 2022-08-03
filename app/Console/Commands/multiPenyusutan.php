@@ -145,7 +145,8 @@ class multiPenyusutan extends Command
 		$query    = "SELECT tanggal from belanja_peralatans as bp ";
 		$query   .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
 		$query   .= "ORDER BY tanggal limit 1";
-		$query   .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query   .= "AND tenant_id = 1 ";
+		/* $query   .= "AND tenant_id = " . session()->get('tenant_id') . " "; */
 		$tanggal  = DB::select($query)[0]->tanggal;
 		try {
 			$tanggal_beli      = InputHarta::orderBy('tanggal_beli', 'desc')->firstOrFail()->tanggal_beli;

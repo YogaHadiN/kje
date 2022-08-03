@@ -885,7 +885,7 @@ class inputdata extends Command
 		foreach ($data as $d) {
 			$datas[] = [
 				'no_telp'    => $d,
-				'tenant_id'  => session()->get('tenant_id'),
+				'tenant_id'  => 1,
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			];
