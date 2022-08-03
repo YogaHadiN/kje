@@ -50,7 +50,8 @@ class testNeraca extends Command
 		$date->modify('-1 day');
 		$query  = "SELECT sum(nilai) as nilai FROM jurnal_umums ";
 		$query .= "WHERE created_at like '" .$date->format('Y-m-d'). "' ";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND tenant_id = 1 ";
+		/* $query .= "AND tenant_id = " . session()->get('tenant_id') . " "; */
 		$query .= "AND debit = 1 ";
 		$data = DB::select($query);
 		$debit = 0;
@@ -59,7 +60,8 @@ class testNeraca extends Command
 		}
 		$query  = "SELECT sum(nilai) as nilai FROM jurnal_umums ";
 		$query .= "WHERE created_at like '" .$date->format('Y-m-d'). "' ";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND tenant_id = 1 ";
+		/* $query .= "AND tenant_id = " . session()->get('tenant_id') . " "; */
 		$query .= "AND debit = 0 ";
 		$data = DB::select($query);
 		$kredit = 0;

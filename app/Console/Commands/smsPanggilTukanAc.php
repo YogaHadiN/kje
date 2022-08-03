@@ -53,7 +53,8 @@ class smsPanggilTukanAc extends Command
 		$query  = "SELECT max(tanggal) as tanggal, ";
 		$query .= "ac_id ";
 		$query .= "FROM service_acs ";
-		$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "WHERE tenant_id = 1 ";
+		/* $query .= "WHERE tenant_id = " . session()->get('tenant_id') . " "; */
 		$query .= "GROUP BY ac_id ";
 		$query .= "ORDER BY tanggal desc ";
 		$data   = DB::select($query);

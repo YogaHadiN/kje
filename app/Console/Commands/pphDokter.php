@@ -129,7 +129,8 @@ class pphDokter extends Command
 					'ptkp_dasar'                     => $pph21ini['ptkp_dasar'],
 					'penghasilan_kena_pajak_setahun' => $pph21ini['ptkp_setahun'],
 					'suami_bekerja'                  => $suami_bekerja,
-					'tenant_id'                      => session()->get('tenant_id'),
+					'tenant_id'                      => 1,
+					/* 'tenant_id'                      => session()->get('tenant_id'), */
 					'created_at'                     => date('Y-m-d H:i:s'),
 					'updated_at'                     => date('Y-m-d H:i:s')
 				];
