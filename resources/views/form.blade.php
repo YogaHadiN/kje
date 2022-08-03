@@ -165,7 +165,7 @@
 									{!! Form::text('jam_periksa', date('H:i:s'), ['class' => 'displayNone']) !!}
 									{!! Form::text('tanggal', $antrianperiksa->tanggal, ['class' => 'displayNone']) !!}
 									{!! Form::text('bukan_peserta', $antrianperiksa->bukan_peserta, ['class' => 'displayNone']) !!}
-									{!! Form::text('poli_id', $antrianperiksa->poli_id, ['class' => '', 'id' => 'poli_id']) !!}
+									{!! Form::text('poli_id', $antrianperiksa->poli_id, ['class' => 'displayNone', 'id' => 'poli_id']) !!}
 									{!! Form::text('adatindakan', $adatindakan, ['class' => 'hide', 'id' => 'adatindakan']) !!}
 									{!! Form::text('asisten_id', $antrianperiksa->asisten_id, ['class' => 'hide']) !!}
 									{!! Form::text('periksa_awal', $antrianperiksa->periksa_awal, ['class' => 'hide']) !!}
