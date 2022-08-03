@@ -463,7 +463,8 @@ class PolisController extends Controller
 			}
             $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'USG');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => $tarif->id,
+
+				'jenis_tarif_id'      => $tarif->jenis_tarif_id,
 				'jenis_tarif'         => $tarif->jenis_tarif,
 				'biaya'               => $biayaUSG,
 				'keterangan_tindakan' => ''
@@ -472,7 +473,8 @@ class PolisController extends Controller
 		} else if($antrianperiksa->poli->poli == 'Poli Umum - Surat Keterangan Sehat'){
             $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'surat keterangan sehat');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => $tarif->id,
+
+				'jenis_tarif_id'      => $tarif->jenis_tarif_id,
 				'jenis_tarif'         => $tarif->jenis_tarif,
 				'biaya'               => $tarif->biaya,
 				'keterangan_tindakan' => ''
@@ -481,7 +483,8 @@ class PolisController extends Controller
 		} else if($antrianperiksa->poli->poli == 'Poli Kandungan - Suntik KB 1 Bulan'){
             $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'kb 1 bulan');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => $tarif->id,
+
+				'jenis_tarif_id'      => $tarif->jenis_tarif_id,
 				'jenis_tarif'         => $tarif->jenis_tarif,
 				'biaya'               => $tarif->biaya,
 				'keterangan_tindakan' => ''
@@ -490,7 +493,8 @@ class PolisController extends Controller
 		} else if($antrianperiksa->poli->poli == 'Poli Kandungan - Suntik KB 3 Bulan'){
             $tarif = Tarif::queryTarif($antrianperiksa->asuransi_id, 'kb 3 bulan');
 			$transaksiusg[] = [
-				'jenis_tarif_id'      => $tarif->id,
+
+				'jenis_tarif_id'      => $tarif->jenis_tarif_id,
 				'jenis_tarif'         => $tarif->jenis_tarif,
 				'biaya'               => $tarif->biaya,
 				'keterangan_tindakan' => ''

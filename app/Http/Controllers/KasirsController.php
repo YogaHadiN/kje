@@ -295,7 +295,7 @@ class KasirsController extends Controller
 		$saldo_saat_ini = 0;
 		$selisih        = 0;
 
-        $query  = "delete j from jurnal_umums j left join periksas as p on p.id = j.jurnalable_id where jurnalable_type='App\\\Models\\\Periksa' and p.id is null;";
+        $query  = "DELETE FROM jurnal_umums where id in (Select jur.id as id FROM jurnal_umums as jur left join periksas as prx on prx.id = jur.jurnalable_id where jurnalable_type = 'App\\\Models\\\Periksa' and prx.id is null);";
         $data = DB::statement($query);
 
 		$checkout       = new PengeluaransController;

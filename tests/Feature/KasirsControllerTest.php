@@ -26,7 +26,7 @@ class KasirsControllerTest extends TestCase
     }
 
     /**
-     * 
+     * @group failing
      */
     public function test_saldoPost(){
         Storage::fake('s3');

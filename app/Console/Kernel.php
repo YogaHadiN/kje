@@ -121,7 +121,7 @@ class Kernel extends ConsoleKernel
 				$date->modify('-90 day');
 				$query  = "SELECT max(created_at) as tanggal, ac_id ";
 				$query .= "FROM service_acs ";
-				$query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
+				/* $query .= "WHERE tenant_id = " . session()->get('tenant_id') . " "; */
 				$query .= "GROUP BY ac_id ";
 				$query .= "ORDER BY created_at desc";
 				$data   = DB::select($query);
@@ -142,10 +142,11 @@ class Kernel extends ConsoleKernel
 		 $schedule->command('sms:ingatkanHariIni')
 			 ->dailyAt('12:30')
 			 ->when(function(){
-				 $countAntrianPoli = AntrianPoli::where('poli', 'gigi')
+                 $poli_gigi_id = Poli::where('poli', 'poli gigi')->first()->id;
+				 $countAntrianPoli = AntrianPoli::where('poli_id', $poli_gigi_id)
 					 ->where('tanggal', date('Y-m-d'))
 					 ->count();
-				 $countAntrianPeriksa = AntrianPeriksa::where('poli', 'gigi')
+				 $countAntrianPeriksa = AntrianPeriksa::where('poli_id', $poli_gigi_id)
 					 ->where('tanggal', date('Y-m-d'))
 					 ->count();
 				return ( (int)$countAntrianPoli + (int)$countAntrianPeriksa ) > 0;
