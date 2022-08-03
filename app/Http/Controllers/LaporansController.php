@@ -153,6 +153,7 @@ class LaporansController extends Controller
 		$query .= "asu.nama as nama_asuransi ";
 		$query .= "FROM periksas as prx ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+		$query .= "JOIN polis as pol on pol.id = prx.poli_id ";
 		$query .= "WHERE prx.tanggal between '{$bulanIni}-01' and '" . date("Y-m-t", strtotime($bulanIni. "-01")) . "' ";
 		$query .= "and prx.tenant_id = " . session()->get('tenant_id') . " ";
 
@@ -190,6 +191,7 @@ class LaporansController extends Controller
 		$polis      = $getHariIni['polis'];
 
 
+        /* dd( $polis ); */
 		/* $periksa_polis = $this->periksaHarian(date('Y-m-d')); // sama kayak periksa_hari_ini */
 
 		$obat_minus             = Rak::where('stok', '<' , -1)->count();
@@ -2409,17 +2411,15 @@ class LaporansController extends Controller
 	*/
 	private function getHariIni($periksa_hari_ini)
 	{
-
 		$polis         = [];
 		foreach ($periksa_hari_ini as $prx) {
-			if (!isset($polis[$prx->poli_id])) {
-				$polis[$prx->poli_id] = 1;
+			if (!isset($polis[$prx->poli])) {
+				$polis[$prx->poli] = 1;
 			} else {
-				$polis[$prx->poli_id]++;
+				$polis[$prx->poli]++;
 			}
 		}
 		ksort($polis);
-
 		$hariinis = [];
 		foreach ($periksa_hari_ini as $prx) {
 			foreach ($polis as $k => $pl) {
@@ -2435,10 +2435,10 @@ class LaporansController extends Controller
 				$hariinis[ $prx->asuransi_id ]['jumlah_hari_ini']++;
 			}
 
-			if (!isset($hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli_id])) {
-				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli_id] = 1;
+			if (!isset($hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli])) {
+				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli] = 1;
 			} else {
-				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli_id]++;
+				$hariinis[ $prx->asuransi_id ]['by_poli'][$prx->poli]++;
 			}
 		}
 
