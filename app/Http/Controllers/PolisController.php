@@ -183,7 +183,7 @@ class PolisController extends Controller
 						if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $transaksi_periksa['jenis_tarif_id'])->exists() ) {
                             unset($tindakans[$key]);
                             $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
-                            $tarif         = Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', $jt_gula_darah->id)->first()->id;
+                            $tarif         = Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', $jt_gula_darah->id)->first();
                             $tindakans['{"tarif_id":' . $tarif->id. ',"jenis_tarif_id":"'. $jt_gula_darah->id. '","biaya":0}'] = 'Gula Darah';
 						}
 					}
