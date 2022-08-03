@@ -241,7 +241,7 @@
             </div>
             </div>
             {!! Form::close()!!}
-@if($periksa->asuransi_id == '32')
+@if($periksa->asuransi->tipe_asuransi_id == '5')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         @if($sudah)

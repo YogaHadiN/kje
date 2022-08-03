@@ -150,26 +150,27 @@ class LaporansController extends Controller
 		$id_bulan_ini       = date('ym');
 
 		$query  = "SELECT *, ";
-		$query .= "asu.nama as nama_asuransi ";
+		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "psn.created_at as created_at ";
 		$query .= "FROM periksas as prx ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "JOIN polis as pol on pol.id = prx.poli_id ";
+		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE prx.tanggal between '{$bulanIni}-01' and '" . date("Y-m-t", strtotime($bulanIni. "-01")) . "' ";
 		$query .= "and prx.tenant_id = " . session()->get('tenant_id') . " ";
 
 		$periksa_bulan_ini  = DB::select($query);
 
 		$periksa_hari_ini = [];
+		$jumlah_pasien_baru_bulan_ini = 0;
 		foreach ($periksa_bulan_ini as $prx) {
 			if (
 				$prx->tanggal == date('Y-m-d')
 			) {
 				$periksa_hari_ini[] = $prx;
 			}
-		}
-		$jumlah_pasien_baru_bulan_ini = 0;
-		foreach ($periksa_bulan_ini as $prx) {
-			if ( substr($prx->pasien_id, 0, 4) == date('ym') ) {
+
+			if ( Carbon::parse($prx->created_at)->format('Y-m') == date('Y-m') ) {
 				$jumlah_pasien_baru_bulan_ini++;
 			}
 		}
@@ -333,8 +334,13 @@ class LaporansController extends Controller
 		$polis      = $getHariIni['polis'];
 
 		// return $rincian;
-		$rincian = [];
-		$sama = false;
+		$rincian       = [];
+		$sama          = false;
+		$pasien_baru   = 0;
+		$jumlah        = 0;
+		$piutangJumlah = 0;
+		$tunaiJumlah   = 0;
+
 		foreach ($periksas as $key => $px) {
 			$transaksi = $px->transaksi;
 			$transaksi = json_decode($transaksi,true);
@@ -354,25 +360,16 @@ class LaporansController extends Controller
 					}
 					$sama = false;
 				}
+                //hitung jumlah pasien baru
 			}
-		}
-		$jumlah        = 0;
-		$piutangJumlah = 0;
-		$tunaiJumlah   = 0;
-		$id_hari_ini   = date('ymd', strtotime($tanggal));
-		foreach ($periksas as $periksa) {
-			$jumlah        += (int) $periksa->tunai + (int) $periksa->piutang;
-			$piutangJumlah  = (int) $periksa->piutang;
-			$tunaiJumlah    = (int) $periksa->tunai;
+            if ( Carbon::parse( $px->pasien_created_at )->format('Y-m-d') == date('Y-m-d') ) {
+                $pasien_baru++;
+            }
+			$jumlah        += (int) $px->tunai + (int) $px->piutang;
+			$piutangJumlah  = (int) $px->piutang;
+			$tunaiJumlah    = (int) $px->tunai;
 		}
 
-		$query  = "SELECT count(id) as jumlah_baru ";
-		$query .= "FROM pasiens ";
-		$query .= "WHERE id like '{$id_hari_ini}%' ";
-		$query .= "and tenant_id = " . session()->get('tenant_id') . " ";
-		$datas  = DB::select($query);
-
-		$pasien_baru = $datas[0]->jumlah_baru;
 		if (count($periksas)) {
 			$persen_baru = round( ( $pasien_baru / count($periksas) ) *100 );
 			$persen_lama = 100 - $persen_baru;
@@ -382,7 +379,6 @@ class LaporansController extends Controller
 		}
 		$pasien_lama = count($periksas) - $pasien_baru;
 		$list_asuransi = Asuransi::list();
-
 
 		return view('laporans.harian', compact(
 			'periksas',
@@ -2217,6 +2213,7 @@ class LaporansController extends Controller
 		$query .= "p.tanggal as tanggal, ";
 		$query .= "p.asuransi_id as asuransi_id, ";
 		$query .= "ps.nama as nama_pasien, ";
+		$query .= "ps.created_at as pasien_created_at, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "p.id as periksa_id, ";
 		$query .= "po.poli as poli ";

@@ -125,7 +125,7 @@
                 </div>
                 <div class="modal-body">
                     @include('tindakan', ['tindakans' => $tindakans])  
-                    @if($antrianperiksa->asuransi_id == '32')
+                    @if($antrianperiksa->asuransi->tipe_asuransi_id == 5)
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="alert alert-warning text-center" style="display:none;" id="option_bila_nebu_bpjs">

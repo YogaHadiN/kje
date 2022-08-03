@@ -1,7 +1,7 @@
 <div class="alert alert-success">
     <div class="row">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            @if($antrianperiksa->asuransi_id == '32')
+            @if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
                 <span  id="labelKecelakaanKerja" data-placement="top" title="Perhatian"  data-toggle="popover" title="Popover title" data-content="Jika Pasien Kecelakaan Kerja / Kecelakaan Lalulintas, Ganti Menjadi Kecelakaan Kerja"></span> Kecelakaan Kerja / Lalu Lintas :<br>
             @else
                 <span  id="labelKecelakaanKerja" data-placement="top"  data-toggle="popover" title="Popover title" data-content="Jika Pasien Kecelakaan Kerja, Ganti Menjadi Kecelakaan Kerja"></span> Kecelakaan Kerja :<br>
@@ -389,7 +389,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if($antrianperiksa->asuransi_id == '32')
+                        @if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  >
                                     <div class="panel panel-info">
@@ -489,7 +489,7 @@
         </div>
     </div>
 </div>
-@if($antrianperiksa->asuransi_id == '32')
+@if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
     <div class="modal" id="cekFoto">
         <div class="modal-dialog">
             <div class="modal-content">

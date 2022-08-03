@@ -101,7 +101,7 @@
 										{!! $periksa->rujukan->tujuanRujuk->tujuan_rujuk !!} <br>
 									@endif
 								  karena {!!$periksa->rujukan->complication !!} <br>
-								  @if($periksa->asuransi_id == '32')
+                                  @if($periksa->asuransi->tipe_asuransi_id == '5')
 								  <a href="{{ url('rujukans/' . $periksa->id ) }}" class="btn btn-success">Lihat Rujukan</a>
 								  @else
 									<a href="{{ url('pdfs/status/' . $periksa->id ) }}" target="_blank" class="btn btn-success">Lihat Rujukan</a>

@@ -38,6 +38,7 @@ class RuangPeriksaController extends Controller
 		$query .= "apx.asuransi_id as asuransi_id, ";
 		$query .= "jnt.prefix as prefix, ";
 		$query .= "asu.nama as nama_asuransi, ";
+		$query .= "asu.tipe_asuransi_id as tipe_asuransi_id, ";
 		$query .= "psn.id as pasien_id, ";
 		$query .= "count(pgn.id) as jumlah_pengantar, ";
 		$query .= "psn.nama as nama_pasien, ";

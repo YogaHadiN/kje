@@ -96,7 +96,7 @@
 									<td>Dibayar Asuransi</td>
 									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(event, this)" value="0"></td>
 								</tr>
-							@elseif($periksa->asuransi_id == 32)
+                            @elseif($periksa->asuransi->tipe_asuransi_id == 5)
 								<tr>
 									<td>Dibayar Asuransi</td>
 									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(event, this)" value="0" readonly></td>
@@ -214,7 +214,7 @@
 							  </div>
                           </div>
                     </div>
-					@if($periksa->rujukan && $periksa->asuransi_id == '32')
+                    @if($periksa->rujukan && $periksa->asuransi->tipe_asuransi_id == '5')
 					<div class="panel panel-success">
 						<div class="panel-heading">
 							<div class="panel-title">Panel Rujukan</div>

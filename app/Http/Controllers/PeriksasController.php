@@ -102,7 +102,7 @@ p */
 		  "jam"                => "required",
 		  "jam_periksa"        => "required",
 		  "tanggal"            => "required",
-		  "poli_id"               => "required",
+		  "poli_id"            => "required",
 		  "adatindakan"        => "required",
 		  "asisten_id"         => "required",
 		  "antrian_periksa_id" => "required",
@@ -175,7 +175,8 @@ p */
 		$terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
 		//sesuaikan Transaksi
 		//
-		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
+        $nama_poli = Poli::find( Input::get('poli_id') )->poli;
+		$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, $nama_poli);
 
 		//INPUT TRANSAKSI JAM MALAM
 		//JIKA PASIEN DATANG > JAM 10 MALAM, untuk pasien umum dan admedika, maka ditambah 10 ribu untuk jam malam
@@ -284,7 +285,7 @@ p */
 			];
 		}
 
-	if(Input::get('poli') == 'usg'){
+	if($nama_poli == 'Poli USG Kebidanan'){
 		
 		$usgs[] = [
 			'periksa_id'     => $periksa->id,
@@ -318,7 +319,7 @@ p */
 			]
 		];
 	}
-	if (Input::get('poli') == 'anc' || Input::get('poli') == 'usg') {
+	if ($nama_poli == 'Poli ANC' || $nama_poli == 'Poli USG Kebidanan') {
 		$hamil = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
 
 		if (!$hamil) {
@@ -431,12 +432,6 @@ p */
 		//
 		//
 
-		$poli = Input::get('poli');
-		if ($poli == 'sks' || $poli == 'luka') {
-			$poli = 'umum';
-		} else if ($poli == 'KB 1 Bulan' || $poli == 'KB 3 Bulan' ){
-			$poli='kandungan';
-		}
 		$cs = new CustomController;
 
 		DB::beginTransaction();
@@ -532,7 +527,7 @@ p */
 
 
 				//sesuaikan Transaksi
-				$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, Input::get('poli'));
+				$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, $nama_poli);
 			
 
 				// INPUT DATA PERIKSA FINAL!!!!!
@@ -598,7 +593,7 @@ p */
 					];
 				}
 
-				if(Input::get('poli') == 'usg'){
+				if($nama_poli == 'Poli USG Kebidanan'){
 					
 					$usg                 = Usg::where('periksa_id', $id)->first();
 					$usg->perujuk_id     = Input::get('perujuk_id');
@@ -629,7 +624,7 @@ p */
 
 				}
 
-				if (Input::get('poli') == 'anc' || Input::get('poli') == 'usg') {
+				if ($nama_poli == 'Poli ANC' || $nama_poli == 'Poli USG Kebidanan') {
 
 					if (RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->count() < 1) {
 						

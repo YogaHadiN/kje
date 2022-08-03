@@ -45,7 +45,7 @@
 			  </div>
 		</div>
 	</div>
-	@if ($dikasih_dalam_1_bulan_terakhir && $periksa->asuransi_id == '32')
+    @if ($dikasih_dalam_1_bulan_terakhir && $periksa->asuransi->tipe_asuransi_id == '5')
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 			<div class="alert alert-warning" role="alert">
 				<h3>Pasien sudah minta surat sakit sebanyak </h3>

@@ -106,7 +106,7 @@
                                         @endif
                                         @if(
                                             $periksa->tanggal <= date('Y-m-d 00:00:00') 
-                                            && $periksa->asuransi_id == '32'
+                                            && $periksa->tipe_asuransi_id == '5'
                                           )
                                               <a href="{{ url( 'antrianperiksas/pengantar/' . $periksa->id ) }}" class="btn btn-success btn-xs">{{ $periksa->jumlah_pengantar }} pengantar</a>		
                                         @endif

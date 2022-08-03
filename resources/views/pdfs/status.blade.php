@@ -348,7 +348,7 @@ border-spacing: -1px;
 						@endif
 						karena 
 
-						@if( $periksa->asuransi_id == '32' )
+                        @if( $periksa->asuransi->tipe_asuransi_id == '5' )
 							@if( !empty( $periksa->rujukan->time ) )
 								<strong>(Time)</strong>{!! $periksa->rujukan->time!!}
 							@endif	
@@ -374,7 +374,7 @@ border-spacing: -1px;
 							{{ $periksa->keterangan }}
 						</div>
 					@endif
-					@if($periksa->asuransi_id == '32' && $biaya > 0)
+                    @if($periksa->asuransi->tipe_asuransi_id == '5' && $biaya > 0)
 						<div class="alert alert-danger">
 							Pasien BPJS ada biaya tambahan sebesar <strong>Rp. {{ $biaya }},-</strong> <br>
 						</div>
@@ -429,15 +429,16 @@ border-spacing: -1px;
 								<table style="width:100%">
 									<tr>
 										<td nowrap class="bold">Nama Suami</td>
+                                        {!! dd($periksa->registerAnc) !!}
 										<td nowrap>{!! $periksa->registerAnc->registerHamil->nama_suami !!}</td>
 									</tr>
 									<tr>
 										<td nowrap class="bold">Buku</td>
 										<td nowrap>
 											@if(isset($periksa->registerAnc->registerHamil->buku->buku))
-											{!! $periksa->registerAnc->registerHamil->buku->buku !!}
+                                                {!! $periksa->registerAnc->registerHamil->buku->buku !!}
 											@else
-											Tidak Ada Buku
+                                                Tidak Ada Buku
 											@endif
 										</td>
 									</tr>
@@ -591,7 +592,7 @@ border-spacing: -1px;
 				</td>
 				<td>
 					@if($periksa->rujukan)
-						@if( $periksa->asuransi_id == '32' )
+                        @if( $periksa->asuransi->tipe_asuransi_id == '5' )
 							@if( !empty( $periksa->rujukan->time ) )
 								<strong>(Time)</strong>{!! $periksa->rujukan->time!!}
 							@endif	
@@ -693,7 +694,7 @@ border-spacing: -1px;
 									<td>:</td>
 									<td>
 										@if($periksa->rujukan)
-											@if( $periksa->asuransi_id == '32' )
+                                            @if( $periksa->asuransi->tipe_asuransi_id == '5' )
 												@if( !empty( $periksa->rujukan->time ) )
 													<strong>(Time)</strong>{!! $periksa->rujukan->time!!}
 												@endif	
@@ -743,7 +744,7 @@ border-spacing: -1px;
 												{!! $periksa->rujukan->rumahSakit->alamat !!}, {!! $periksa->rujukan->rumahSakit->telepon !!}, telp UGD : {!! $periksa->rujukan->rumahSakit->ugd !!}
 											@endif
 											</span>
-											@if($periksa->asuransi_id=='32')
+                                            @if($periksa->asuransi->tipe_asuransi_id=='5')
 											<br>BPJS Center :
 											<div class="font-smaller">
 												@if($periksa->rujukan->rumahSakit)

@@ -328,6 +328,7 @@ class PolisController extends Controller
 				$antrian_id = $antrianperiksa->antrian->id;
 			}
 
+            $asuransi_biaya_pribadi = Asuransi::BiayaPribadi();
 			 
 			//return $periksaExist->gambarPeriksa->count();
 			/* dd( $dikasiDalam1BulanTerakhir ); */
@@ -346,6 +347,7 @@ class PolisController extends Controller
 			->withConfirms($confirms)
 			->with('refleks_patelas', $refleks_patelas)
 			->with('kepala_terhadap_paps', $kepala_terhadap_paps)
+			->with('asuransi_biaya_pribadi', $asuransi_biaya_pribadi)
 			->withPresentasis($presentasis)
 			->withStafs($stafs)
 			->withSigna($signa)
@@ -529,6 +531,7 @@ class PolisController extends Controller
 		$penunjang = $penunjang_result;
 
 		/* return $pasien->alergies[0]->generik; */
+        $asuransi_biaya_pribadi = Asuransi::BiayaPribadi();
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
@@ -549,6 +552,7 @@ class PolisController extends Controller
 			->with('tujuan_rujuk', $tujuan_rujuk)
 			->withSigna($signa)
 			->withStafs($stafs)
+			->with('asuransi_biaya_pribadi', $asuransi_biaya_pribadi)
 			->with('generik_list', $generik_list)
 			->with('asuransi_list', $asuransi_list)
 			->withAturans($aturans)

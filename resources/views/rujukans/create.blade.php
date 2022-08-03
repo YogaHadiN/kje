@@ -35,7 +35,7 @@
 		  'hpht' => App\Models\Classes\Yoga::updateDatePrep($hpht)
 	  ])
 {!! Form::close()!!}
-@if($periksa->asuransi_id == '32')
+@if($periksa->asuransi->tipe_asuransi_id == '5')
     <div class="alert alert-danger">
         Pasien BPJS <strong>Laki-laki dewasa</strong>  tidak bisa dirujuk ke Sp.PD 
         di RSIA, harus ke RS tapi

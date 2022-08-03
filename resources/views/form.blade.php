@@ -47,7 +47,7 @@
 		<div class="alert alert-success">
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					@if($antrianperiksa->asuransi_id == '32')
+                    @if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
 						<span  id="labelKecelakaanKerja" data-placement="top" title="Perhatian"  data-toggle="popover" title="Popover title" data-content="Jika Pasien Kecelakaan Kerja / Kecelakaan Lalulintas, Ganti Menjadi Kecelakaan Kerja"></span> Kecelakaan Kerja / Lalu Lintas :<br>
 					@else
 						<span  id="labelKecelakaanKerja" data-placement="top"  data-toggle="popover" title="Popover title" data-content="Jika Pasien Kecelakaan Kerja, Ganti Menjadi Kecelakaan Kerja"></span> Kecelakaan Kerja :<br>
@@ -64,12 +64,12 @@
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					  Pembayaran : 
 					 <select name="asuransi_id" id="asuransi_id" class="form-control" onchange="asuransiIdChange(this);return false;">
-						@if($antrianperiksa->asuransi_id == '0' && $antrianperiksa->pasien->asuransi_id != '0')
-							<option value="0" selected>Biaya Pribadi</option>
-							<option value="{!! $antrianperiksa->pasien->asuransi_id !!}">{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
-						@elseif($antrianperiksa->asuransi_id != '0')
-							<option value="0">Biaya Pribadi</option>
-							<option value="{!! $antrianperiksa->asuransi_id !!}" selected>{!! $antrianperiksa->asuransi->nama !!}</option>
+						@if($antrianperiksa->asuransi_id ==  $asuransi_biaya_pribadi->id  && $antrianperiksa->pasien->asuransi_id != $asuransi_biaya_pribadi->id )
+                            <option data-tipe-asuransi="1" value="{{ $asuransi_biaya_pribadi->id }}" selected>Biaya Pribadi</option>
+							<option data-tipe-asuransi="{!! $antrianperiksa->asuransi->tipe_asuransi_id !!}" value="{!! $antrianperiksa->pasien->asuransi_id !!}">{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
+                        @elseif($antrianperiksa->asuransi_id != $asuransi_biaya_pribadi->id)
+                            <option data-tipe-asuransi="1" value="{{ $asuransi_biaya_pribadi->id }}">Biaya Pribadi</option>
+							<option data-tipe-asuransi="{!! $antrianperiksa->asuransi->tipe_asuransi_id !!}" value="{!! $antrianperiksa->asuransi_id !!}" selected>{!! $antrianperiksa->asuransi->nama !!}</option>
 						@else
 							<option value="0">Biaya Pribadi</option>
 						@endif                 
@@ -519,7 +519,7 @@
 									</div>
 								</div>
 							@endif
-							@if($antrianperiksa->asuransi_id == '32')
+                            @if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  >
 										<div class="panel panel-info">
@@ -617,7 +617,7 @@
         </div>
     </div>
 </div>
-@if($antrianperiksa->asuransi_id == '32')
+@if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
 	<div class="modal" id="cekFoto">
 		<div class="modal-dialog">
 			<div class="modal-content">

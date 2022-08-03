@@ -154,7 +154,7 @@
 													<input type="text" class="form-control angka" onkeyup="jumalhEdit(this);return false;" value="{!! $terapi->jumlah !!}">
 												</td>
 												<td class='uang harga_satuan'>
-													@if($periksa->asuransi_id == '32')
+                                                    @if($periksa->asuransi->tipe_asuransi_id == '5')
 														@if($terapi->merek->rak->fornas == '0')
 															{!! App\Models\Classes\Yoga::kasirHargaJual($terapi, $periksa)!!}
 														@else
@@ -212,7 +212,7 @@
                        </div>
                    </div>
 
-				   @if( $periksa->asuransi_id == '32' && isset( $periksa->rujukan ) )
+                   @if( $periksa->asuransi->tipe_asuransi_id == '5' && isset( $periksa->rujukan ) )
 					   <div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<div class="panel panel-success">
@@ -481,7 +481,7 @@
 		var temp = JSON.stringify(temp);
 		$('#terapi1').val(temp);
 		$('#terapi2').val(temp);
-		if ({!! $periksa->asuransi_id !!} == '32') {
+        if ({!! $periksa->asuransi->tipe_asuransi_id !!} == '5') {
 			if (fornas == 0) {
 				$(control).closest('tr').find('.harga_satuan').html(harga_jual *{!! $periksa->asuransi->kali_obat  !!});
 			} else {

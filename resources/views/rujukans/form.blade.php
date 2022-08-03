@@ -88,7 +88,7 @@
 
 					</div>
 				</div>
-				 @if( $periksa->asuransi_id == '32' )
+                @if( $periksa->asuransi->tipe_asuransi_id == '5' )
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -133,7 +133,7 @@
 				 <div class="row">
 				 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<div class="form-group @if($errors->has('complication'))has-error @endif">
-							@if($periksa->asuransi_id == '32')
+                            @if($periksa->asuransi->tipe_asuransi_id == '5')
 							  {!! Form::label('complication', 'Complication', ['class' => 'control-label']) !!}
 							  {!! Form::textarea('complication', null, ['class' => 'form-control tacustom2', 'placeholder' => 'Alasan beratnya penyakit  yang membuat pasien tidak bisa ditangani di klinik, Contoh : 1. Demam Berdarah, 2. Asma persisten, kambuh 3 x seminggu, 3. Gagal Jantung kronis tidak respon dengan pengobatan oral, 4. Tifoid fever tidak respons dengan pengobatan dengan Levofloxacine 1 x 500 mg 5 hari '])!!}
 						    @else

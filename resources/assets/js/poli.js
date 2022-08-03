@@ -96,7 +96,11 @@ jQuery(document).ready(function ($) {
     refresh();
 
     var notif = $("#notified").val();
-    if (notif == "0" && $("#asuransi_id").val() == "32") {
+    var tipe_asuransi_id = $("#asuransi_id option:selected").attr(
+        "data-tipe-asuransi"
+    );
+
+    if (notif == "0" && tipe_asuransi_id == "5") {
         Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -657,7 +661,9 @@ jQuery(document).ready(function ($) {
             }
         }
         //Munculkan peringatan kalau obat tidak ditanggung BPJS
-        if ($("#asuransi_id").val() == "32") {
+        if (
+            $("#asuransi_id option:selected").attr("data-tipe-asuransi") == "5"
+        ) {
             if ($(this).val() != "") {
                 //jika pilihan nama obat tidak kosong
                 var rak_id = getIdRak();
@@ -763,7 +769,7 @@ jQuery(document).ready(function ($) {
             $("#legendpop").popover("show");
         } else if (
             formula_id == "150802046" &&
-            $("#asuransi_id").val() == "32"
+            $("#asuransi_id option:selected").attr("data-tipe-asuransi") == "5"
         ) {
             $("#legendpop").attr({
                 title: "Levofloxacine tabet 500 mg",
@@ -2210,7 +2216,7 @@ function diagnosaChange() {
     var diagnosa_id = $("#ddlDiagnosa").val();
     var staf_id = $("#staf_id").val();
 
-    if (asuransi_id == "32") {
+    if ($("#asuransi_id option:selected").attr("data-tipe-asuransi") == "5") {
         $.post(
             base + "/poli/ajax/diagcha",
             {
@@ -2615,7 +2621,10 @@ function kecelakaanKerjaChange(control) {
     var asuransi_id = $("#asuransi_id").val();
     var kklkk = $(control).val();
     var antrianperiksa_id = $("#antrianperiksa_id").val();
-    if (asuransi_id == "32" && kklkk == "1") {
+    if (
+        $("#asuransi_id option:selected").attr("data-tipe-asuransi") == "5" &&
+        kklkk == "1"
+    ) {
         $("#pleaseWaitDialog").modal({ backdrop: "static", keyboard: false });
         $.ajax({
             url: base + "/poli/ajax/kkchange",
@@ -2657,7 +2666,7 @@ function asuransiIdChange(control) {
 }
 function bpjsBayar() {
     var asuransi_id = $("#asuransi_id").val();
-    if (asuransi_id == "32") {
+    if ($("#asuransi_id option:selected").attr("data-tipe-asuransi") == "5") {
         var tindakan = $("#TotalDibayarTindakanBPJS").html();
         var obat = $("#totalBilaTipeBPJS").html();
         if (obat == "Rp. ,-") {
@@ -2704,7 +2713,10 @@ function optionBilaNebuBpjs() {
             break;
         }
     }
-    if (ada_nebu && $("#asuransi_id").val() == "32") {
+    if (
+        ada_nebu &&
+        $("#asuransi_id option:selected").attr("data-tipe-asuransi") == "5"
+    ) {
         $("#option_bila_nebu_bpjs").hide().fadeIn(500);
     } else {
         $("#option_bila_nebu_bpjs").fadeOut(500);
