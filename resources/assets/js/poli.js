@@ -2071,13 +2071,14 @@ function submitTindakan() {
         });
     } else {
         if (valJsonAwal != "") {
+            console.log(dataTindakan);
             dataTindakan[dataTindakan.length] = {
                 jenis_tarif_id: jenis_tarif_id,
                 jenis_tarif: tarif,
                 biaya: biaya,
                 keterangan_tindakan: keterangan_tindakan,
             };
-
+            console.log(dataTindakan);
             var string = JSON.stringify(dataTindakan);
             $("#tindakan").val(string);
 

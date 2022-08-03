@@ -1468,6 +1468,7 @@ p */
      */
     public static function kaliObat($transaksis, $terapi, $asuransi, $plafon, $poli){
         $transaksi_array = $transaksis;
+        dd( $transaksi_array );
         $non_paket = true;
         foreach ($transaksi_array as $k => $v) {
             $tarif_ini = Tarif::where('jenis_tarif_id', $v['jenis_tarif_id'])->where('asuransi_id', $asuransi->id)->first();
@@ -1480,7 +1481,6 @@ p */
         if ($non_paket) {
             $tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
             if($terapi != '' && $terapi != '[]'){
-                
                 /* $tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();//jenis tarif id = 9 adalah biaya obat */
                 $terapis = json_decode($terapi, true);
                 $merek = Merek::all();
@@ -1501,7 +1501,7 @@ p */
                     if ( $selisihPlafon > 0) {
                         $biaya = $tarif->biaya;
                     } else {
-                        $biaya = $this->queryTarif($asuransi->id, 'Biaya Obat')->biaya - $selisihPlafon;
+                        $biaya = Tarif::queryTarif($asuransi->id, 'Biaya Obat')->biaya - $selisihPlafon;
                     }
                 }
                 if (

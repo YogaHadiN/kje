@@ -96,7 +96,7 @@
                 </div>
             </div>
             {!! Form::textarea('terapi', $terapiArray, ['class' => 'form-control hide', 'id' => 'terapi'])!!}
-            {!! Form::textarea('transaksi', $transaksi, ['class' => 'form-control hide', 'id' => 'tindakan'])!!}
+            {!! Form::textarea('transaksi', $transaksi, ['class' => 'form-control', 'id' => 'tindakan'])!!}
             @if($showSubmit)
             <br>
                 <div class="row">
