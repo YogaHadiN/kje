@@ -273,7 +273,7 @@ class AntrianPeriksasController extends Controller
 		  $p->asuransi_id = Asuransi::BiayaPribadi()->id;
 		  $p->pasien_id =$pasien_id;
 		  $p->berat_badan = "";
-		  $p->poli = Poli::where('poli', 'Poli Estetika')->first()->id;
+		  $p->poli_id = Poli::where('poli', 'Poli Estetika')->first()->id;
 		  $p->staf_id =$staf_id;
 		  $p->asisten_id =$asisten_id;
 		  $p->periksa_awal = "[]";

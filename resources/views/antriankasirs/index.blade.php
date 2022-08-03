@@ -71,7 +71,7 @@
 									 @include('antriankasirs.form_hasil_rapid', ['antriankasir' => $antriankasir->periksa])
 									@include('antrianpolis.pengantar_button', [
 										'antrianpoli'    => $antriankasir,
-										'asuransi_id'    => $antriankasir->periksa->asuransi_id,
+                                        'tipe_asuransi_id'    => $antriankasir->periksa->asuransi->tipe_asuransi_id,
 										'posisi_antrian' => 'antriankasirs'
 									])
 									  {!! Form::submit('Kembalikan', ['class' => 'btn btn-danger btn-xs', 'onclick' => 'return confirm("Anda Yakin mau mengembalikan ' . $antriankasir->periksa->pasien_id . ' - ' . $antriankasir->periksa->pasien->nama. ' ke Apotek?")']) !!}

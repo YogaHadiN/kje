@@ -74,8 +74,8 @@
 							{!! Form::hidden('pasien_id', $antrianpoli->pasien_id, ['class' => 'form-control'])!!}
 							<button type="button" class="btn btn-danger btn-xs" onclick="alas(this);return false;">Delete</button>
 							@include('antrianpolis.pengantar_button', [
-								'antrianpoli'    => $antrianpoli,
-								'asuransi_id'    => $antrianpoli->asuransi_id,
+                                'antrianpoli'    => $antrianpoli,
+                                'tipe_asuransi_id'    => $antrianpoli->periksa->asuransi->tipe_asuransi_id,
 								'posisi_antrian' => 'antrianpolis'
 							])
 						{!! Form::open(['url' => 'antrianpolis/' . $antrianpoli->id, 'method' => 'delete', 'class' => 'right'])!!}

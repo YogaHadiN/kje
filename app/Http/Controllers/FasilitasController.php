@@ -81,8 +81,8 @@ class FasilitasController extends Controller
 	}
 	public function cari_asuransi($poli, $pasien_id){
 		$tanggal = Input::get('tanggal');
-		$pasien = Pasien::find($pasien_id);
-		if ($poli == 'estetika') {
+		$pasien  = Pasien::find($pasien_id);
+		if (Poli::find($poli)->poli == 'Poli Estetika') {
 			$pesan = $this->postAntrianPoli($poli, $pasien_id, 0);
 			return redirect('fasilitas/antrian_pasien')->withPesan($pesan);
 		}

@@ -59,7 +59,7 @@
 								<a href="{{ url('kasir/' . $antrianapotek->periksa_id) }}" class="btn btn-primary btn-xs">Proses</a>
 								@include('antrianpolis.pengantar_button', [
 									'antrianpoli'    => $antrianapotek,
-									'asuransi_id'    => $antrianapotek->periksa->asuransi_id,
+                                    'tipe_asuransi_id'    => $antrianapotek->periksa->asuransi->tipe_asuransi_id,
 									'posisi_antrian' => 'antrianapoteks'
 								])
 								@include('antriankasirs.form_hasil_rapid', ['antriankasir' => $antrianapotek])

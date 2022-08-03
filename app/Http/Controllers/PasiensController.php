@@ -531,7 +531,7 @@ class PasiensController extends Controller
 		$ap->input_asuransi_id = $pasien->asuransi_id;
 		$ap->input_antrian_id  = $this->input_antrian_id;
 
-		$ap->input_poli        = 'darurat';
+		$ap->input_poli_id        = Poli::where('poli', 'Poli Gawat Darurat')->first()->id;
 		$ap->input_tanggal     = date('Y-m-d');
 		$ap->input_jam         = date("H:i:s");
 		return $ap->inputDataAntrianPoli();

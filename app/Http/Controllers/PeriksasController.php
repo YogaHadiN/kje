@@ -1505,7 +1505,7 @@ p */
                 ) {
                     $biaya = 30000;
                 } else {
-                    if ($poli != 'estetika') {
+                    if (Poli::find($poli)->poli != 'Poli Estetika') {
                         $biaya = Yoga::rataAtas5000($biaya);
                     }
                 }
