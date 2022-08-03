@@ -495,7 +495,7 @@ class CustomController extends Controller
 						]
 					];
 
-					$tp->dispen()->create([
+					$tp->dispens()->create([
                         'merek_id'         => $bhp->merek_id,
                         'keluar'           => $bhp->jumlah,
                         'tanggal'          => $periksa->tanggal,

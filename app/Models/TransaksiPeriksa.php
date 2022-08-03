@@ -26,5 +26,8 @@ class TransaksiPeriksa extends Model{
          return $this->created_at->format('d-m-Y');
     }
     
+    public function dispens(){
+        return $this->morphMany('App\Models\Dispensing', 'dispensable');
+    }
 
 }
