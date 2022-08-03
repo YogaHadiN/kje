@@ -179,13 +179,12 @@ class PolisController extends Controller
 			if (!$cekGdsBulanIni['bayar']) { 
 				foreach ($tindakans as $key => $tindakan) {
 					if ($key !== '') {
-						$Array = json_decode($key, true);
-						if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $tindakan['jenis_tarif_id'])->exists() ) {
-							 unset($tindakans[$key]);
-
-                             $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
-                             $tarif = Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', $jt_gula_darah->id)->first()->id;
-							$tindakans['{"tarif_id":' . $tarif->id. ',"jenis_tarif_id":"'. $jt_gula_darah->id. '","biaya":0}'] = 'Gula Darah';
+						$transaksi_periksa = json_decode($key, true);
+						if ( JenisTarif::where('jenis_tarif', 'Gula Darah')->where('id', $transaksi_periksa['jenis_tarif_id'])->exists() ) {
+                            unset($tindakans[$key]);
+                            $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
+                            $tarif         = Tarif::where('asuransi_id', $asuransi_id)->where('jenis_tarif_id', $jt_gula_darah->id)->first()->id;
+                            $tindakans['{"tarif_id":' . $tarif->id. ',"jenis_tarif_id":"'. $jt_gula_darah->id. '","biaya":0}'] = 'Gula Darah';
 						}
 					}
 				}
