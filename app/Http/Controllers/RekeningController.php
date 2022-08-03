@@ -108,10 +108,15 @@ class RekeningController extends Controller
 		} else if (   $this->input_pembayaran_null == '2' ){
 			$query .= "AND (pembayaran_asuransi_id not like '' and pembayaran_asuransi_id is not null) ";
 		}
-		$query .= "AND ";
-		$query .= "(deskripsi like '{$this->input_deskripsi}%' and tanggal like '{$this->input_tanggal}%') ";
-		$query .= "AND ";
-		$query .= "(nilai like '{$this->input_nilai}%' or '{$this->input_nilai}' = '') ";
+        if (!empty($this->input_deskripsi)) {
+            $query .= "AND deskripsi like '%{$this->input_deskripsi}%' ";
+        }
+        if (!empty($this->input_tanggal)) {
+            $query .= "AND tanggal like '%{$this->input_tanggal}%' ";
+        }
+        if (!empty($this->input_nilai)) {
+            $query .= "AND nilai like '{$this->input_nilai}%' ";
+        }
 		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "ORDER BY tanggal desc, created_at desc";
 
