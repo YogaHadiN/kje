@@ -19,7 +19,7 @@ class PasienFactory extends Factory
             "nama"                         => $this->faker->name,
             "nama_peserta"                 => $this->faker->name,
             "nomor_asuransi"               => $this->faker->numerify('################'),
-            "asuransi_id"                  => 32,
+            "asuransi_id"                  => \App\Models\Asuransi::factory(),
             "jenis_peserta_id"             => 1,
             "sex"                          => rand(0,1),
             "alamat"                       => $this->faker->address,
