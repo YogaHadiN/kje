@@ -463,9 +463,6 @@ class CustomController extends Controller
                     'keterangan_pemeriksaan' => null
                 ]);
 
-				if (isset( $transaksi['keterangan_tindakan'] )) {
-					$transaksi_periksas[ count( $transaksi_periksas ) -1 ]['keterangan_pemeriksaan'] = $transaksi['keterangan_tindakan'];
-				}
 
 				if ( !($transaksi['jenis_tarif_id'] ==  $jt_gula_darah->id || $transaksi['biaya'] == 0) ) {
 					$feeDokter += Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;
