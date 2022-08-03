@@ -1468,7 +1468,6 @@ p */
      */
     public static function kaliObat($transaksis, $terapi, $asuransi, $plafon, $poli){
         $transaksi_array = $transaksis;
-        dd( $transaksi_array );
         $non_paket = true;
         foreach ($transaksi_array as $k => $v) {
             $tarif_ini = Tarif::where('jenis_tarif_id', $v['jenis_tarif_id'])->where('asuransi_id', $asuransi->id)->first();
