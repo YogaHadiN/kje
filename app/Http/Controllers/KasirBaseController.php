@@ -153,7 +153,7 @@ class KasirBaseController extends Controller
             TransaksiPeriksa::where('periksa_id', $prx->id)
                             ->where('jenis_tarif_id', $jt_biaya_obat->id)
                             ->update([
-                                'biaya' => $hargaTotalObat
+                                'biaya' => $hargaObat
                             ]);
 
             if ( 
