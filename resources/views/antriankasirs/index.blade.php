@@ -66,7 +66,6 @@
 									 <a href="{{ url('update/surveys/' . $antriankasir->periksa_id) }}" class="btn btn-warning btn-xs displayNone">Lanjutlah</a>
 									 <a href="{{ url('pdfs/status/' . $antriankasir->periksa_id) }}" target="_blank" class="btn btn-info btn-xs">Print Status</a>
 									 <a href="{{ url('pdfs/label_obat/' . $antriankasir->periksa_id) }}" target="_blank" class="btn btn-success btn-xs">Sticker</a>
-
 									 {{ $adaRapidAntigen = false }}
 									 {{ $adaRapidAntibodi = false }}
 									 @include('antriankasirs.form_hasil_rapid', ['antriankasir' => $antriankasir->periksa])

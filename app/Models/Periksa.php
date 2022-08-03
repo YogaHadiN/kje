@@ -1334,9 +1334,10 @@ class Periksa extends Model{
 	}
 
 	public function getAdaHasilRapidAntigenAttribute(){
-        $transaksi = $this->transaksii;
+        $transaksi = $this->transaksi;
+        $transaksi = json_decode($transaksi, true);
         foreach ($transaksi as $trx) {
-            if ($trx->jenisTarif->jenis_tarif == 'rapid test antigen') {
+            if ($trx['jenis_tarif'] == 'rapid test antigen') {
                 return true;
                 break;
             }
@@ -1344,9 +1345,10 @@ class Periksa extends Model{
         return false;
 	}
 	public function getAdaHasilRapidAntibodiAttribute(){
-        $transaksi = $this->transaksii;
+        $transaksi = $this->transaksi;
+        $transaksi = json_decode($transaksi, true);
         foreach ($transaksi as $trx) {
-            if ($trx->jenisTarif->jenis_tarif == 'rapid test') {
+            if ($trx['jenis_tarif'] == 'rapid test') {
                 return true;
                 break;
             }
