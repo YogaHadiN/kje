@@ -1,2 +1,4 @@
 update asuransis set tipe_asuransi_id = 2 where id in (130, 141, 185, 189);
 update asuransis set tipe_asuransi_id = 3 where id in (127, 186);
+
+

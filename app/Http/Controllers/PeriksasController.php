@@ -95,6 +95,11 @@ p */
 	 */
 	public function store()
 	{
+        if ( in_array( Input::get('poli_id') , [ 1, 5, 6, 14, 15 ]) ) {
+            dd("TOLONG COPY PASTEKAN YANG ANDA LIHAT KE PAK YOGA LEWAT WHATSAPP",
+                Input::all()
+            ); 
+        }
 		DB::beginTransaction();
         $before_transact = Periksa::count();
 		try {
