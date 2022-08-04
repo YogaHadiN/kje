@@ -1043,7 +1043,6 @@ p */
         $register_hamils = [];
         $register_ancs   = [];
         $gambar_updates  = [];
-        $pasien_updates  = [];
         $hamil_updates   = [];
         $bukan_pesertas  = [];
         $terapiInserts   = [];
@@ -1136,18 +1135,18 @@ p */
             $promo->update([
                 'promoable_type' => 'App\Models\Periksa',
                 'promoable_id'   => $periksa->id,
-            );
+            ]);
         }
 
         // jika ada bukan peserta
-        if ($periksa->bukanPeserta->count()) {
-            $periksa->bukanPeserta()->delete()
+        if (!is_null($periksa->bukanPeserta)) {
+            $periksa->bukanPeserta()->delete();
         }
 
-        if ( Input::get('bukan_peserta') == '1' && $periksa->bukanPeserta->count() < 1) {
+        if ( Input::get('bukan_peserta') == '1' && is_null($periksa->bukanPeserta)) {
             $periksa->bukanPeserta()->create([
                 'antrian_periksa_id' => Input::get('antrian_periksa_id'),
-            ])
+            ]);
         } 
 
         //INPUT DATA UNTUK TERAPI
@@ -1177,74 +1176,66 @@ p */
                 'jumlah'            => $t['jumlah'],
                 'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,
                 'harga_jual_satuan' => Yoga::hargaJualSatuan($asuransi, $t['merek_id']),
-            ])
+            ]);
         }
 
-    if($nama_poli == 'Poli USG Kebidanan'){
-        if ($periksa->usg->count()) {
-            $periksa->usg()->delete();
-        }
-        $periksa->usg()->create([
-            'perujuk_id'     => Input::get('perujuk_id'),
-            'hpht'           => Yoga::datePrep(Input::get('hpht')),
-            'umur_kehamilan' => Input::get('umur_kehamilan'),
-            'gpa'            => Input::get('gpa'),
-            'bpd'            => Input::get('BPD_w') . 'w ' . Input::get('BPD_d') . 'd',
-            'hc'             => Input::get('HC_w') . 'w ' . Input::get('HC_d') . 'd',
-            'ltp'            => Input::get('LTP'),
-            'djj'            => Input::get('FHR'),
-            'ac'             => Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd',
-            'efw'            => Input::get('EFW') . ' gr',
-            'fl'             => Input::get('FL_w') . 'w ' . Input::get('FL_d') . 'd',
-            'bpd_mm'         => Input::get('BPD_mm'),
-            'ac_mm'          => Input::get('AC_mm'),
-            'FL_mm'          => Input::get('FL_mm'),
-            'HC_mm'          => Input::get('HC_mm'),
-            'sex'            => Input::get('Sex'),
-            'ica'            => Input::get('total_afi'),
-            'plasenta'       => Input::get('Plasenta'),
-            'presentasi'     => Input::get('presentasi'),
-            'kesimpulan'     => Input::get('kesimpulan'),
-            'saran'          => Input::get('saran'),
-        ]);
+        if($nama_poli == 'Poli USG Kebidanan'){
+            if ($periksa->usg->count()) {
+                $periksa->usg()->delete();
+            }
+            $periksa->usg()->create([
+                'perujuk_id'     => Input::get('perujuk_id'),
+                'hpht'           => Yoga::datePrep(Input::get('hpht')),
+                'umur_kehamilan' => Input::get('umur_kehamilan'),
+                'gpa'            => Input::get('gpa'),
+                'bpd'            => Input::get('BPD_w') . 'w ' . Input::get('BPD_d') . 'd',
+                'hc'             => Input::get('HC_w') . 'w ' . Input::get('HC_d') . 'd',
+                'ltp'            => Input::get('LTP'),
+                'djj'            => Input::get('FHR'),
+                'ac'             => Input::get('AC_w') . 'w ' . Input::get('AC_d') . 'd',
+                'efw'            => Input::get('EFW') . ' gr',
+                'fl'             => Input::get('FL_w') . 'w ' . Input::get('FL_d') . 'd',
+                'bpd_mm'         => Input::get('BPD_mm'),
+                'ac_mm'          => Input::get('AC_mm'),
+                'FL_mm'          => Input::get('FL_mm'),
+                'HC_mm'          => Input::get('HC_mm'),
+                'sex'            => Input::get('Sex'),
+                'ica'            => Input::get('total_afi'),
+                'plasenta'       => Input::get('Plasenta'),
+                'presentasi'     => Input::get('presentasi'),
+                'kesimpulan'     => Input::get('kesimpulan'),
+                'saran'          => Input::get('saran'),
+            ]);
 
-        $pasien->update([
-            'riwayat_kehamilan_sebelumnya' => Input::get('riwayat_kehamilan_sebelumnya')
-        ]);
-    }
-
-    if ($nama_poli == 'Poli ANC' || $nama_poli == 'Poli USG Kebidanan') {
-        $hamil = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
-
-        if (is_null($hamil)) {
-            $hamil = $pasien->registerHamil()->create($this->inputRegisterHamil());
-        } else {
-            $hamil->update($this->inputRegisterHamil());
+            $pasien->update([
+                'riwayat_kehamilan_sebelumnya' => Input::get('riwayat_kehamilan_sebelumnya')
+            ]);
         }
 
-        $anc = RegisterAnc::where('periksa_id', $periksa->id)->where('register_hamil_id', $hamil->id)->first();
+        if ($nama_poli == 'Poli ANC' || $nama_poli == 'Poli USG Kebidanan') {
+            $hamil = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
 
-        if ( is_null($anc) ) {
-            $hamil->registerAnc()->create( $this->inputRegisterAnc );
-        } else {
-            $anc->update( $this->inputRegisterAnc );
+            if (is_null($hamil)) {
+                $hamil = $pasien->registerHamil()->create($this->inputRegisterHamil());
+            } else {
+                $hamil->update($this->inputRegisterHamil());
+            }
+
+            $anc = RegisterAnc::where('periksa_id', $periksa->id)->where('register_hamil_id', $hamil->id)->first();
+
+            if ( is_null($anc) ) {
+                $hamil->registerAnc()->create( $this->inputRegisterAnc );
+            } else {
+                $anc->update( $this->inputRegisterAnc );
+            }
+
         }
-
-    }
 
         //UPDATE pengantar tambahkan periksa_id
         //
         //
 
-        $cs = new CustomController;
-
-        RegisterHamil::insert($register_hamils);
-        Terapi::insert($terapiInserts);
-        Usg::insert($usgs);
-        RegisterAnc::insert($register_ancs);
-        BukanPeserta::insert($bukan_pesertas);
         $this->antrian = $antrianperiksa->antrian;
-        $cs->massUpdate($pasien_updates);
         $periksa->save();
         $this->updateTemplate(
             Input::get('antrian_periksa_id'), 

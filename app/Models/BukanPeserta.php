@@ -9,6 +9,7 @@ use App\Traits\BelongsToTenant;
 class BukanPeserta extends Model
 {
     use BelongsToTenant, HasFactory;
+    protected $guarded = [];
 	public function periksa(){
 		return $this->belongsTo('App\Models\Periksa');
 	}

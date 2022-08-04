@@ -733,7 +733,7 @@ class PeriksasControllerTest extends TestCase
         $response->assertRedirect('ruangperiksa/' . $pc->ruang_periksa(null));
     }
 
-    public function test_store(){
+    public function test_store_if_anc(){
         $user     = User::factory()->create([
                         'role_id' => 6
                     ]);
@@ -1087,10 +1087,7 @@ class PeriksasControllerTest extends TestCase
         $response->assertRedirect('ruangperiksa/' . $pc->ruang_periksa(null));
     }
 
-    /**
-     * @group failing
-     */
-    public function test_update(){
+    public function test_update_if_anc(){
 
         $user     = User::factory()->create([
                         'role_id' => 6
