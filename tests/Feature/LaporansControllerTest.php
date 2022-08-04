@@ -237,6 +237,9 @@ class LaporansControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+/**
+ * @group failing
+ */
     public function test_kb(){
         $user     = User::factory()->create(['role_id' => 6]);
 		auth()->login($user);

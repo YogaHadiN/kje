@@ -51,7 +51,7 @@
 							<td>{!! $periksa->nama_pasien !!}</td>
 							<td>{!! $periksa->nama_asuransi !!}</td>
 							<td>{!! $periksa->nama_staf !!}</td>
-                            <td>{!! $periksa->poli->poli !!}</td>
+                            <td>{!! $periksa->poli !!}</td>
 							<td>{!! $periksa->pf !!}</td>
 						</tr>
 					@endforeach
