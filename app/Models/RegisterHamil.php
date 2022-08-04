@@ -72,7 +72,6 @@ class RegisterHamil extends Model{
         return $this->hasMany('App\Models\RegisterAnc');
     }
 
-	
 	public function buku(){
 		return $this->belongsTo('App\Models\Buku');
 	}

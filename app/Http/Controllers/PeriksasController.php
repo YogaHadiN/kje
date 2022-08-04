@@ -95,11 +95,6 @@ p */
 	 */
 	public function store()
 	{
-        if ( in_array( Input::get('poli_id') , [ 1, 5, 6, 14, 15 ]) ) {
-            dd("TOLONG COPY PASTEKAN YANG ANDA LIHAT KE PAK YOGA LEWAT WHATSAPP",
-                Input::all()
-            ); 
-        }
 		DB::beginTransaction();
         $before_transact = Periksa::count();
 		try {
@@ -1229,9 +1224,9 @@ p */
             $anc = RegisterAnc::where('periksa_id', $periksa->id)->where('register_hamil_id', $hamil->id)->first();
 
             if ( is_null($anc) ) {
-                $hamil->registerAnc()->create( $this->inputRegisterAnc );
+                $hamil->registerAnc()->create( $this->inputRegisterAnc($periksa) );
             } else {
-                $anc->update( $this->inputRegisterAnc );
+                $anc->update( $this->inputRegisterAnc($periksa) );
             }
 
         }
@@ -1292,7 +1287,7 @@ p */
      *
      * @return void
      */
-    private function inputRegisterAnc()
+    private function inputRegisterAnc($periksa)
     {
         return [
                 'periksa_id'               => $periksa->id,
