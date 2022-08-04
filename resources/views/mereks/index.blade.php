@@ -82,7 +82,7 @@
 						  </td>
 						  <td></td>
 							<td nowrap>
-								  <a href="raks/{!! $merek->rak->id !!}" class="">{!! $merek->rak->id !!}</a>
+								  <a href="raks/{!! $merek->rak->id !!}" class="">{!! $merek->rak->kode_rak !!}</a>
 							</td>
 							<td>
 								  <a href="formulas/{!! $merek->rak->formula_id !!}" class="">{!! $merek->rak->formula_id !!}</a> 

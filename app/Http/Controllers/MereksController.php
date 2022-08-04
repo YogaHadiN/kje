@@ -45,7 +45,6 @@ class MereksController extends Controller
             }
         }
 		$raks_nol = Rak::with('merek')->where('harga_beli', '<', 1)->get();
-
 		return view('mereks.index', compact('mereks', 'raks_nol'));
 	}
 

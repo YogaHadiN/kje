@@ -23,7 +23,6 @@ class BukanPesertaFactory extends Factory
     {
         return [
             'periksa_id' => \App\Models\Periksa::factory(),
-            'antrian_periksa_id' => $this->faker->word,
             'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
