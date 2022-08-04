@@ -127,7 +127,7 @@ class SuppliersControllerTest extends TestCase
         $response->assertRedirect('suppliers');
     }
     /**
-     * @group failing
+     * 
      */
     public function test_update(){
         Storage::fake('s3');

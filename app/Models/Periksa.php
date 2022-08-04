@@ -34,6 +34,10 @@ class Periksa extends Model{
 		return $this->belongsTo('App\Models\Diagnosa');
 	}
 
+	public function bukanPeserta(){
+		return $this->hasOne('App\Models\BukanPeserta');
+	}
+
 	public function klaim_gdp_bpjs(){
 		return $this->hasOne('App\Models\KlaimGdpBpjs');
 	}

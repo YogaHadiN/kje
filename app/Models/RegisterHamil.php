@@ -15,7 +15,7 @@ class RegisterHamil extends Model{
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 
 	public function pasien(){
@@ -67,6 +67,10 @@ class RegisterHamil extends Model{
 		return $temp;
 
 	}
+
+    public function registerAnc(){
+        return $this->hasMany('App\Models\RegisterAnc');
+    }
 
 	
 	public function buku(){
