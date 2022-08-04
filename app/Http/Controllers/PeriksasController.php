@@ -528,6 +528,8 @@ p */
 
 
 				//sesuaikan Transaksi
+
+                $nama_poli = Poli::find( Input::get('poli_id') )->poli;
 				$transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, $nama_poli);
 			
 

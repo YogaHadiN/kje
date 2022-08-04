@@ -58,7 +58,6 @@ class Kernel extends ConsoleKernel
 		 Commands\undangProlanisDMTiapSabtu::class,
 		 Commands\scheduleBackup::class,
 		 Commands\multiPenyusutan::class,
-		 Commands\cekMutasi::class,
 		 Commands\cekMutasi19Terakhir::class,
 		 Commands\susutDuaTahunLalu::class
 		 /* Commands\smsAngkakontak::class, */
@@ -72,8 +71,6 @@ class Kernel extends ConsoleKernel
 					->weekly()
 					->saturdays()
 					->at('10:00');
-		 $schedule->command('cek:mutasi')
-				  ->dailyAt('23:50');
 		 /* $schedule->command('cron:test') */
 				  /* ->everyMinute(); */
 		 $schedule->command('task:penyusutan')
