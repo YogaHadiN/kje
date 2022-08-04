@@ -1144,9 +1144,7 @@ p */
         }
 
         if ( Input::get('bukan_peserta') == '1' && is_null($periksa->bukanPeserta)) {
-            $periksa->bukanPeserta()->create([
-                'antrian_periksa_id' => Input::get('antrian_periksa_id'),
-            ]);
+            $periksa->bukanPeserta()->create();
         } 
 
         //INPUT DATA UNTUK TERAPI
