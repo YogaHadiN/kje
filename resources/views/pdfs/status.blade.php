@@ -429,7 +429,6 @@ border-spacing: -1px;
 								<table style="width:100%">
 									<tr>
 										<td nowrap class="bold">Nama Suami</td>
-                                        {!! dd($periksa->registerAnc) !!}
 										<td nowrap>{!! $periksa->registerAnc->registerHamil->nama_suami !!}</td>
 									</tr>
 									<tr>

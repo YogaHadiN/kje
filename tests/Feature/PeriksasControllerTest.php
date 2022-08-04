@@ -1219,15 +1219,18 @@ class PeriksasControllerTest extends TestCase
         $response->assertRedirect('ruangperiksa/' . $pc->ruang_periksa(null));
     }
 
+    /**
+     * @group failing
+     */ 
     public function test_update_if_anc(){
 
         $user     = User::factory()->create([
                         'role_id' => 6
                     ]);
+
         auth()->login($user);
 
         $jumlahPeriksaSebelumnya = Periksa::count();
-
 
         $jt_jasa_dokter = \App\Models\JenisTarif::factory()->create([
             'jenis_tarif' => 'Jasa Dokter'
@@ -1243,9 +1246,9 @@ class PeriksasControllerTest extends TestCase
         /* KE BENTUK */	
         /* $nama = $this->faker->text */
 
-        $asuransi = \App\Models\Asuransi::factory()->create();
+        $asuransi       = \App\Models\Asuransi::factory()->create();
         $tr_jasa_dokter = \App\Models\Tarif::factory()->create([
-            'asuransi_id' => $asuransi->id,
+            'asuransi_id'    => $asuransi->id,
             'jenis_tarif_id' => $jt_jasa_dokter->id
         ]);
 
@@ -1254,11 +1257,28 @@ class PeriksasControllerTest extends TestCase
             'jenis_tarif_id' => $jt_biaya_obat->id
         ]);
 
+        $terapi = [];
+
+        for ($i = 0; $i < 5; $i++) {
+            $merek = \App\Models\Merek::factory()->create();
+            $terapi[] = [
+                'jumlah'         => $this->faker->numerify('#'),
+                'merek_id'       => $merek->id,
+                'rak_id'         => $merek->rak_id,
+                'harga_jual_ini' => $merek->rak->harga_jual,
+                'formula_id'     => $merek->rak->formula_id,
+                'merek_obat'     => $merek->merek,
+                'fornas'         => $merek->rak->formula->fornas,
+                'signa'          => \App\Models\Signa::factory()->create()->signa,
+                'aturan_minum'   => \App\Models\AturanMinum::factory()->create()->aturan_minum,
+            ];
+        }
+
         $kecelakaan_kerja            = rand(0,1);
         $asuransi_id                 = $asuransi->id;
         $hamil                       = rand(0,1);
         $staf_id                     = \App\Models\Staf::factory()->create()->id;
-        $kali_obat                   = 1;
+        $kali_obat                   = '1.25';
         $pasien = \App\Models\Pasien::factory()->create();
         $pasien_id                   = $pasien->id;
         $jam                         = $this->faker->date('H:i:s');
@@ -1266,7 +1286,9 @@ class PeriksasControllerTest extends TestCase
         $jam_periksa                 = $this->faker->date('H:i:s');
         $tanggal                     = $this->faker->date('Y-m-d');
         $bukan_peserta               = rand(0,1);
-        $poli_id                     = \App\Models\Poli::factory()->create()->id;
+        $poli_id                     = \App\Models\Poli::factory()->create([
+            'poli' => 'Poli ANC'
+        ])->id;
         $adatindakan                 = rand(0,1);
         $asisten_id                  = \App\Models\Staf::factory()->create()->id;
         $periksa_awal                = $this->faker->word;
@@ -1283,88 +1305,89 @@ class PeriksasControllerTest extends TestCase
         $diagnosa_id                 = \App\Models\Diagnosa::factory()->create()->id;
         $keterangan_diagnosa         = "";
         $presentasi                  = $this->faker->sentence;
-        $BPD_w                       = "";
-        $BPD_d                       = "";
-        $BPD_mm                      = "";
-        $HC_w                        = "";
-        $HC_d                        = "";
-        $HC_mm                       = "";
-        $LTP                         = "";
-        $FHR                         = "";
-        $AC_w                        = "";
-        $AC_d                        = "";
-        $AC_mm                       = "";
-        $EFW                         = "";
-        $FL_w                        = "";
-        $FL_d                        = "";
-        $FL_mm                       = "";
-        $Sex                         = $this->faker->sentence;
-        $Plasenta                    = "fundus grade 2 -3 tidak menutupi jalan lahir";
-        $total_afi                   = "0 cm";
-        $kesimpulan                  = "Janin presentasi kepala tunggal hidup intrauterine, denyut jantung janin normal  x/mnt,  lilitan tali pusat, perikiraan berat janin  gr, umur kehamilan menurut  ?";
-        $saran                       = "periksa lagi 4 minggu lagi";
-        $ddlNamaObat                 = "";
-        $ddlsigna                    = "";
-        $ddlAturanMinum              = "";
-        $transaksi                   = "[]";
-        $resepluar                   = "";
-        $G                           = "";
-        $P                           = "";
-        $A                           = "";
-        $GPA                         = "";
-        $hpht                        = "";
-        $uk                          = "";
-        $tb                          = "";
-        $jumlah_janin                = "";
-        $nama_suami                  = "";
-        $bb_sebelum_hamil            = "";
-        $tanggal_lahir_anak_terakhir = "";
-        $golongan_darah              = "";
-        $rencana_penolong            = "";
-        $rencana_tempat              = "";
-        $rencana_pendamping          = "";
-        $rencana_transportasi        = "";
-        $rencana_pendonor            = "";
-        $inputBeratLahir             = "";
-        $inputTahunLahir             = "";
-        $riwayat_kehamilan           = "";
-        $td                          = "120/80";
-        $bb                          = "";
-        $tfu                         = "";
-        $lila                        = "";
-        $refleks_patela              = "6";
-        $djj                         = "";
-        $kepala_terhadap_pap_id      = "7";
-        $presentasi_id               = "2";
-        $perujuk_id                  = "";
-        $catat_di_kia                = "1";
-        $inj_tt                      = "2";
-        $fe_tablet                   = "2";
-        $periksa_hb                  = "2";
-        $protein_urin                = "2";
-        $gula_darah                  = "2";
-        $thalasemia                  = "2";
-        $sifilis                     = "2";
-        $hbsag                       = "2";
-        $komplikasi_hdk              = "2";
-        $komplikasi_abortus          = "2";
-        $komplikasi_perdarahan       = "2";
-        $komplikasi_infeksi          = "2";
-        $komplikasi_kpd              = "2";
-        $komplikasi_lain_lain        = "";
-        $pmtct_konseling             = "2";
-        $pmtct_periksa_darah         = "2";
-        $pmtct_serologi              = "2";
-        $pmtct_arv                   = "2";
-        $malaria_periksa_darah       = "2";
-        $malaria_positif             = "2";
-        $malaria_dikasih_obat        = "2";
-        $malaria_dikasih_kelambu     = "2";
-        $tbc_periksa_dahak           = "2";
-        $tbc_positif                 = "2";
-        $tbc_dikasih_obat            = "2";
-        $terapi                      = '[]';
-
+        $BPD_w                       = '';
+        $BPD_d                       = '';
+        $BPD_mm                      = '';
+        $HC_w                        = '';
+        $HC_d                        = '';
+        $HC_mm                       = '';
+        $LTP                         = '';
+        $FHR                         = '';
+        $AC_w                        = '';
+        $AC_d                        = '';
+        $AC_mm                       = '';
+        $EFW                         = '';
+        $FL_w                        = '';
+        $FL_d                        = '';
+        $FL_mm                       = '';
+        $Sex                         = 'tak dpt dinilai';
+        $Plasenta                    = 'fundus grade 2 -3 tidak menutupi jalan lahir';
+        $total_afi                   = '0 cm';
+        $kesimpulan                  = 'Janin presentasi kepala tunggal hidup intrauterine, denyut jantung janin normal  x/mnt,  lilitan tali pusat, perikiraan berat janin  gr, umur kehamilan menurut USG saat ini = , jenis kelamin tak dpt dinilai, plasenta di fundus grade 2 -3 tidak menutupi jalan lahir, cairan ketuban 1 kantong terdalam 0 cm, kurang, GPAH, Janin presentasi kepala tunggal hidup intrauterine, oligohydramnion, ?';
+        $saran                       = 'periksa lagi 4 minggu lagi';
+        $ddlNamaObat                 = '';
+        $ddlsigna                    = '';
+        $ddlAturanMinum              = '';
+        $terapi                      = json_encode($terapi);
+        $transaksi                   = '[]';
+        $resepluar                   = '';
+        $G                           = '2';
+        $P                           = '1';
+        $A                           = '0';
+        $GPA                         = '';
+        $hpht                        = '11-01-2022';
+        $uk                          = '29 minggu 2 hari';
+        $tb                          = '170';
+        $jumlah_janin                = '1';
+        $status_imunisasi_tt_id      = '3';
+        $nama_suami                  = 'Suparjo';
+        $buku                        = '2';
+        $bb_sebelum_hamil            = '90';
+        $tanggal_lahir_anak_terakhir = '10-06-2019';
+        $golongan_darah              = 'B';
+        $rencana_penolong            = 'Bidan';
+        $rencana_tempat              = 'Praktek Bidan';
+        $rencana_pendamping          = 'Suami';
+        $rencana_transportasi        = 'Mobil';
+        $rencana_pendonor            = 'Suami';
+        $inputBeratLahir             = '';
+        $inputTahunLahir             = '';
+        $riwayat_kehamilan           = '[{"jenis_kelamin":"Laki-laki","berat_lahir":"2800 gr","tahun_lahir":"1999","lahir_di":"Bidan","spontan_sc":"Spontan"},{"jenis_kelamin":"Perempuan","berat_lahir":"2900 gr","tahun_lahir":"1998","lahir_di":"Bidan","spontan_sc":"Spontan"}]';
+        $td                          = '100/80';
+        $bb                          = '60.9';
+        $tfu                         = '42';
+        $lila                        = '90';
+        $refleks_patela              = '3';
+        $djj                         = '160';
+        $kepala_terhadap_pap_id      = '5';
+        $presentasi_id               = '2';
+        $perujuk_id                  = '1';
+        $catat_di_kia                = '3';
+        $inj_tt                      = '3';
+        $fe_tablet                   = '3';
+        $periksa_hb                  = '2';
+        $protein_urin                = '2';
+        $gula_darah                  = '2';
+        $thalasemia                  = '2';
+        $sifilis                     = '2';
+        $hbsag                       = '2';
+        $komplikasi_hdk              = '2';
+        $komplikasi_abortus          = '2';
+        $komplikasi_perdarahan       = '2';
+        $komplikasi_infeksi          = '2';
+        $komplikasi_kpd              = '2';
+        $komplikasi_lain_lain        = '';
+        $pmtct_konseling             = '2';
+        $pmtct_periksa_darah         = '2';
+        $pmtct_serologi              = '2';
+        $pmtct_arv                   = '2';
+        $malaria_periksa_darah       = '2';
+        $malaria_positif             = '2';
+        $malaria_dikasih_obat        = '2';
+        $malaria_dikasih_kelambu     = '2';
+        $tbc_periksa_dahak           = '2';
+        $tbc_positif                 = '2';
+        $tbc_dikasih_obat            = '2';
 
         $this->withoutExceptionHandling();
 
@@ -1394,6 +1417,7 @@ class PeriksasControllerTest extends TestCase
             "keterangan_periksa"          => $keterangan_periksa,
             "dibantu"                     => $dibantu,
             "berat_badan"                 => $berat_badan,
+            "status_imunisasi_tt_id"                 => $status_imunisasi_tt_id,
             "anamnesa"                    => $anamnesa,
             "sistolik"                    => $sistolik,
             "diastolik"                   => $diastolik,
@@ -1428,6 +1452,7 @@ class PeriksasControllerTest extends TestCase
             "terapi"                      => $terapi,
             "transaksi"                   => $transaksi,
             "resepluar"                   => $resepluar,
+            "buku"                           => $buku,
             "G"                           => $G,
             "P"                           => $P,
             "A"                           => $A,
@@ -1486,9 +1511,8 @@ class PeriksasControllerTest extends TestCase
         ];
 
         $periksa = \App\Models\Periksa::factory()->create();
-        $response = $this->put('periksas/' . $periksa->id , $inputAll);
+        $response = $this->put('periksas/' . $periksa->id, $inputAll);
 
-        $periksa = Periksa::first();
         /* dd( */
         /*     [ */
         /*         'periksa first' => [ */
@@ -1543,6 +1567,17 @@ class PeriksasControllerTest extends TestCase
         /*    ] */
         /* ]); */
 
+        $terapi_json = [];
+
+        foreach (json_decode($terapi, true) as $t) {
+            $terapi_json[] = [
+                'formula_id' => Merek::find($t['merek_id'])->rak->formula_id,
+                'signa'      => $t['signa'],
+                'jumlah'     => $t['jumlah'],
+            ];
+        }
+        $terapi_json = json_encode($terapi_json);
+
         $periksas = Periksa::query()
                 ->where("tanggal", $tanggal)
                 ->where("asuransi_id", $asuransi_id)
@@ -1553,7 +1588,7 @@ class PeriksasControllerTest extends TestCase
                 ->where("pemeriksaan_penunjang", $pemeriksaan_penunjang)
                 ->where("diagnosa_id", $diagnosa_id)
                 ->where("keterangan_diagnosa", $keterangan_diagnosa)
-                ->where("terapi", $terapi)
+                ->where("terapi", $terapi_json)
                 ->where("poli_id", $poli_id)
                 ->where("jam", $jam)
                 ->where("berat_badan", $berat_badan)
@@ -1568,9 +1603,96 @@ class PeriksasControllerTest extends TestCase
                 ->where("prolanis_dm", $pasien->prolanis_dm)
                 ->where("prolanis_ht", $pasien->prolanis_ht)
         ->get();
+        /* if ( !$periksas->count() ) { */
+        /*     $periksas = Periksa::all(); */
+        /*     $periksa_array = []; */
+        /*     foreach ($periksas as $a) { */
+        /*         $_array[] = [ */
+        /*             "nama"             => $a->nama, */
+        /*         ]; */
+        /*     } */
+        /*     dd(  [ */
+        /*             "nama"             => $nama, */
+        /*         ], */
+        /*         $periksa_array */
+        /*     ); */
+        /* } */
         $this->assertCount(1, $periksas);
         $periksa = $periksas->first();
-        // report was created and file was stored
+
+        foreach (json_decode($terapi, true) as $k => $t) {
+            $terapis = Terapi::query()
+                ->where("merek_id", $t['merek_id'])
+                ->where("signa", $t["signa"])
+                ->where("aturan_minum", $t["aturan_minum"])
+                ->where("jumlah", $t["jumlah"])
+                ->where("periksa_id", $periksa->id)
+            ->get();
+            $this->assertCount(1, $terapis);
+        }
+
+        $register_hamils = RegisterHamil::query()
+                ->where('nama_suami', $nama_suami)
+                ->where('tb', $tb)
+                ->where('buku_id', $buku)
+                ->where('golongan_darah', $golongan_darah)
+                ->where('tinggi_badan', $tb)
+                ->where('bb_sebelum_hamil', $bb_sebelum_hamil)
+                ->where('g', $G)
+                ->where('p', $P)
+                ->where('a', $A)
+                ->where('riwayat_persalinan_sebelumnya', $riwayat_kehamilan)
+                ->where('hpht', Carbon::createFromFormat('d-m-Y', $hpht)->format('Y-m-d'))
+                ->where('status_imunisasi_tt_id', $status_imunisasi_tt_id)
+                ->where('rencana_penolong', $rencana_penolong)
+                ->where('jumlah_janin', $jumlah_janin)
+                ->where('rencana_tempat', $rencana_tempat)
+                ->where('rencana_pendamping', $rencana_pendamping)
+                ->where('rencana_transportasi', $rencana_transportasi)
+                ->where('rencana_pendonor', $rencana_pendonor)
+                ->where('tanggal_lahir_anak_terakhir', Carbon::createFromFormat('d-m-Y', $tanggal_lahir_anak_terakhir)->format('Y-m-d'))
+        ->get();
+        $this->assertCount(1, $register_hamils);
+
+        $register_ancs = RegisterAnc::query()
+                ->where('periksa_id', $periksa->id)
+                ->where('td', $td)
+                ->where('tfu', $tfu)
+                ->where('lila', $lila)
+                ->where('bb', $bb)
+                ->where('refleks_patela_id', $refleks_patela)
+                ->where('djj', $djj)
+                ->where('kepala_terhadap_pap_id', $kepala_terhadap_pap_id)
+                ->where('presentasi_id', $presentasi_id)
+                ->where('catat_di_kia', $catat_di_kia)
+                ->where('inj_tt', $inj_tt)
+                ->where('fe_tablet', $fe_tablet)
+                ->where('periksa_hb', $periksa_hb)
+                ->where('protein_urin', $protein_urin)
+                ->where('gula_darah', $gula_darah)
+                ->where('thalasemia', $thalasemia)
+                ->where('sifilis', $sifilis)
+                ->where('hbsag', $hbsag)
+                ->where('pmtct_konseling', $pmtct_konseling)
+                ->where('pmtct_periksa_darah', $pmtct_periksa_darah)
+                ->where('pmtct_serologi', $pmtct_serologi)
+                ->where('pmtct_arv', $pmtct_arv)
+                ->where('malaria_periksa_darah', $malaria_periksa_darah)
+                ->where('malaria_positif', $malaria_positif)
+                ->where('malaria_dikasih_obat', $malaria_dikasih_obat)
+                ->where('malaria_dikasih_kelambu', $malaria_dikasih_kelambu)
+                ->where('tbc_periksa_dahak', $tbc_periksa_dahak)
+                ->where('tbc_positif', $tbc_positif)
+                ->where('tbc_dikasih_obat', $tbc_dikasih_obat)
+                ->where('komplikasi_hdk', $komplikasi_hdk)
+                ->where('komplikasi_abortus', $komplikasi_abortus)
+                ->where('komplikasi_perdarahan', $komplikasi_perdarahan)
+                ->where('komplikasi_infeksi', $komplikasi_infeksi)
+                ->where('komplikasi_kpd', $komplikasi_kpd)
+                ->where('komplikasi_lain_lain', $komplikasi_lain_lain)
+        ->get();
+        $this->assertCount(1, $register_ancs);
+
         $pc = new PeriksasController;
         $response->assertRedirect('ruangperiksa/' . $pc->ruang_periksa(null));
     }
