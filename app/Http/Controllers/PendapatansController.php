@@ -761,7 +761,7 @@ class PendapatansController extends Controller
 					'periksa_id'             => $tmp['periksa_id'],
 					'pembayaran'             => $tmp['akan_dibayar'],
 					'pembayaran_asuransi_id' => $pb->id,
-							'tenant_id'  => session()->get('tenant_id'),
+                    'tenant_id'              => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
 					'created_at'             => date('Y-m-d H:i:s'),
 					'updated_at'             => date('Y-m-d H:i:s')
 				];

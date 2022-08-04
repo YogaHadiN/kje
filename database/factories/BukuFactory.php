@@ -23,7 +23,6 @@ class BukuFactory extends Factory
     {
         return [
             'buku' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

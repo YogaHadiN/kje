@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
 use App\Models\AntrianPoli;
+use App\Models\Poli;
 use App\Http\Controllers\AntrianPolisController;
 use DateTime;
 
@@ -52,7 +53,7 @@ class AntrianPoli extends Model{
 
 		return AntrianPoli::with('pasien')
 						->where('tanggal', $besok)
-						->where('poli', 'gigi')
+						->where('poli_id', Poli::where('poli', 'Poli Gigi')->first()->id)
 						->get();
 	}
 

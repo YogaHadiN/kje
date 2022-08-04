@@ -1223,11 +1223,9 @@ class PeriksasControllerTest extends TestCase
      * @group failing
      */ 
     public function test_update_if_anc(){
-
         $user     = User::factory()->create([
                         'role_id' => 6
                     ]);
-
         auth()->login($user);
 
         $jumlahPeriksaSebelumnya = Periksa::count();
@@ -1253,7 +1251,7 @@ class PeriksasControllerTest extends TestCase
         ]);
 
         $tr_biaya_obat = \App\Models\Tarif::factory()->create([
-            'asuransi_id' => $asuransi->id,
+            'asuransi_id'    => $asuransi->id,
             'jenis_tarif_id' => $jt_biaya_obat->id
         ]);
 
@@ -1755,142 +1753,89 @@ class PeriksasControllerTest extends TestCase
 
         $this->assertTrue($createdPeriksa->tenant_id == $user1->tenant_id);
     }
+
+    public function test_a_user_can_only_see_register_hamil_in_the_same_tenant()
+    {
+        $tenant1 = Tenant::factory()->create();
+        $tenant2 = Tenant::factory()->create();;
+
+        $user1 = User::factory()->create([
+        'tenant_id' => $tenant1,
+        ]);
+
+        for ($x = 0; $x < 10; $x++) {
+        RegisterHamil::factory()->create([
+                        'tenant_id' => $tenant1,
+        ]);
+        }
+
+        for ($x = 0; $x < 11; $x++) {
+        RegisterHamil::factory()->create([
+                        'tenant_id' => $tenant2,
+        ]);
+        }
+
+        auth()->login($user1);
+
+        $this->assertEquals(10, RegisterHamil::count());
+    }
+
+    public function test_a_user_can_only_create_a_register_hamil_in_his_tenant_even_if_other_tenant_is_provided()
+    {
+        $tenant1 = Tenant::factory()->create();
+        $tenant2 = Tenant::factory()->create();
+
+        $user1 = User::factory()->create([
+            'tenant_id' => $tenant1,
+        ]);
+
+        auth()->login($user1);
+
+        $createdPeriksa = RegisterHamil::factory()->create();
+
+        $this->assertTrue($createdPeriksa->tenant_id == $user1->tenant_id);
+    }
+
+    public function test_a_user_can_only_see_register_anc_in_the_same_tenant()
+    {
+        $tenant1 = Tenant::factory()->create();
+        $tenant2 = Tenant::factory()->create();;
+
+        $user1 = User::factory()->create([
+        'tenant_id' => $tenant1,
+        ]);
+
+        for ($x = 0; $x < 10; $x++) {
+        RegisterAnc::factory()->create([
+                        'tenant_id' => $tenant1,
+        ]);
+        }
+
+        for ($x = 0; $x < 11; $x++) {
+        RegisterAnc::factory()->create([
+                        'tenant_id' => $tenant2,
+        ]);
+        }
+
+        auth()->login($user1);
+
+        $this->assertEquals(10, RegisterAnc::count());
+    }
+
+    public function test_a_user_can_only_create_a_register_anc_in_his_tenant_even_if_other_tenant_is_provided()
+    {
+        $tenant1 = Tenant::factory()->create();
+        $tenant2 = Tenant::factory()->create();
+
+        $user1 = User::factory()->create([
+            'tenant_id' => $tenant1,
+        ]);
+
+        auth()->login($user1);
+
+        $createdPeriksa = RegisterAnc::factory()->create();
+
+        $this->assertTrue($createdPeriksa->tenant_id == $user1->tenant_id);
+    }
 }
-/* array:111 [? */
-/*   "_token" => "WPvl5iLu0fVaL6eZbIaYKVQzzmOYSYZRZQupNvVG" */
-/*   "kecelakaan_kerja" => "1" */
-/*   "asuransi_id" => "0" */
-/*   "hamil" => "0" */
-/*   "staf_id" => "11" */
-/*   "kali_obat" => "1.25" */
-/*   "pasien_id" => "63448" */
-/*   "jam" => "18:01:30" */
-/*   "notified" => "" */
-/*   "jam_periksa" => "12:38:12" */
-/*   "tanggal" => "2022-07-15" */
-/*   "bukan_peserta" => "0" */
-/*   "poli_id" => "13" */
-/*   "adatindakan" => "0" */
-/*   "asisten_id" => "11" */
-/*   "periksa_awal" => "{"tekanan_darah":"120\/80 mmHg","berat_badan":"","suhu":"","tinggi_badan":""}" */
-/*   "antrian_periksa_id" => "203281" */
-/*   "antrian_id" => "92772" */
-/*   "keterangan_periksa" => "" */
-/*   "dibantu" => "1" */
-/*   "antrian" => "{"id":92772,"created_at":"2022-07-15T11:01:30.000000Z","updated_at":"2022-07-15T11:02:00.000000Z","jenis_antrian_id":1,"url":null,"nomor":131,"antriable_id":203 ?" */
-/*   "berat_badan" => "" */
-/*   "anamnesa" => "batuk pilek demam 3 hari" */
-/*   "sistolik" => "120" */
-/*   "diastolik" => "80" */
-/*   "pemeriksaan_fisik" => "" */
-/*   "pemeriksaan_penunjang" => "" */
-/*   "diagnosa_id" => "10" */
-/*   "keterangan_diagnosa" => "" */
-/*   "presentasi" => "kepala tunggal hidup intrauterine" */
-/*   "BPD_w" => "" */
-/*   "BPD_d" => "" */
-/*   "BPD_mm" => "" */
-/*   "HC_w" => "" */
-/*   "HC_d" => "" */
-/*   "HC_mm" => "" */
-/*   "LTP" => "" */
-/*   "FHR" => "" */
-/*   "AC_w" => "" */
-/*   "AC_d" => "" */
-/*   "AC_mm" => "" */
-/*   "EFW" => "" */
-/*   "FL_w" => "" */
-/*   "FL_d" => "" */
-/*   "FL_mm" => "" */
-/*   "Sex" => "tak dpt dinilai" */
-/*   "Plasenta" => "fundus grade 2 -3 tidak menutupi jalan lahir" */
-/*   "total_afi" => "0 cm" */
-/*   "kesimpulan" => "Janin presentasi kepala tunggal hidup intrauterine, denyut jantung janin normal  x/mnt,  lilitan tali pusat, perikiraan berat janin  gr, umur kehamilan menurut  ?" */
-/*   "saran" => "periksa lagi 4 minggu lagi" */
-/*   "ddlNamaObat" => "" */
-/*   "ddlsigna" => "" */
-/*   "ddlAturanMinum" => "" */
-/*   "terapi" => "[{"merek_id":56,"signa":"2 x 1","aturan_minum":"Dihabiskan","jumlah":8,"periksa_id":56577,"rak_id":118,"merek_obat":"Mecoquin tablet 500 mg","harga_jual_ini":11 ?" */
-/*   "transaksi" => "[]" */
-/*   "resepluar" => "" */
-/*   "G" => "" */
-/*   "P" => "" */
-/*   "A" => "" */
-/*   "GPA" => "" */
-/*   "hpht" => "" */
-/*   "uk" => "" */
-/*   "tb" => "" */
-/*   "jumlah_janin" => "" */
-/*   "nama_suami" => "" */
-/*   "bb_sebelum_hamil" => "" */
-/*   "tanggal_lahir_anak_terakhir" => "" */
-/*   "golongan_darah" => "" */
-/*   "rencana_penolong" => "" */
-/*   "rencana_tempat" => "" */
-/*   "rencana_pendamping" => "" */
-/*   "rencana_transportasi" => "" */
-/*   "rencana_pendonor" => "" */
-/*   "inputBeratLahir" => "" */
-/*   "inputTahunLahir" => "" */
-/*   "riwayat_kehamilan" => "[]" */
-/*   "td" => "120/80" */
-/*   "bb" => "" */
-/*   "tfu" => "" */
-/*   "lila" => "" */
-/*   "refleks_patela" => "6" */
-/*   "djj" => "" */
-/*   "kepala_terhadap_pap_id" => "7" */
-/*   "presentasi_id" => "2" */
-/*   "perujuk_id" => "" */
-/*   "catat_di_kia" => "1" */
-/*   "inj_tt" => "2" */
-/*   "fe_tablet" => "2" */
-/*   "periksa_hb" => "2" */
-/*   "protein_urin" => "2" */
-/*   "gula_darah" => "2" */
-/*   "thalasemia" => "2" */
-/*   "sifilis" => "2" */
-/*   "hbsag" => "2" */
-/*   "komplikasi_hdk" => "2" */
-/*   "komplikasi_abortus" => "2" */
-/*   "komplikasi_perdarahan" => "2" */
-/*   "komplikasi_infeksi" => "2" */
-/*   "komplikasi_kpd" => "2" */
-/*   "komplikasi_lain_lain" => "" */
-/*   "pmtct_konseling" => "2" */
-/*   "pmtct_periksa_darah" => "2" */
-/*   "pmtct_serologi" => "2" */
-/*   "pmtct_arv" => "2" */
-/*   "malaria_periksa_darah" => "2" */
-/*   "malaria_positif" => "2" */
-/*   "malaria_dikasih_obat" => "2" */
-/*   "malaria_dikasih_kelambu" => "2" */
-/*   "tbc_periksa_dahak" => "2" */
-/*   "tbc_positif" => "2" */
-/*   "tbc_dikasih_obat" => "2" */
-/* ] */
-/* [ */
-/*     { */
-/*         "jumlah":"10", */
-/*         "merek_id":"56", */
-/*         "rak_id":"118", */
-/*         "harga_jual_ini":1100, */
-/*         "formula_id":"55", */
-/*         "merek_obat":"Mecoquin tablet 500 mg", */
-/*         "fornas":"1", */
-/*         "signa":"3 x 1", */
-/*         "aturan_minum":"Dihabiskan" */
-/*     }, */
-/*     { */
-/*         "jumlah":"10", */
-/*         "merek_id":"34", */
-/*         "rak_id":"78", */
-/*         "harga_jual_ini":1500, */
-/*         "formula_id":"119", */
-/*         "merek_obat":"Alpara tablet", */
-/*         "fornas":"0", */
-/*         "signa":"3 x 1", */
-/*         "aturan_minum":"Batuk pilek demam" */
-/*     } */
-/* ] */ 
 
