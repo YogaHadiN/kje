@@ -115,7 +115,7 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $this->coa_id();
+        $this->hapusPeriksa(310022);
 	}
 	
 	/**
@@ -1982,5 +1982,43 @@ class testcommand extends Command
 
         dd( $error );
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function hapusPeriksa($periksa_id)
+    {
+        $deleted = 0;
+        $query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' AND TABLE_SCHEMA = 'jatielok' order by TABLE_NAME ";
+        $data = DB::select($query);
+
+        foreach ($data as $d) {
+            $query = "DELETE from " . $d->TABLE_NAME . " WHERE periksa_id = " . $periksa_id;
+            $data  = DB::statement($query);
+            if ($data) {
+                $deleted++;
+            }
+        }
+
+        $query  = "select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like '%able_id' and TABLE_SCHEMA = 'jatielok' order by TABLE_NAME ";
+        $data = DB::select($query);
+
+        foreach ($data as $d) {
+            $column_able_type = str_replace('_id', '_type', $d->COLUMN_NAME);
+            $column_able_id   = $d->COLUMN_NAME;
+            $query  = "DELETE from " . $d->TABLE_NAME . " WHERE " . $column_able_type. " = 'App\\\Models\\\Periksa' and " . $column_able_id. "=" . $periksa_id;
+            $data = DB::statement($query);
+            if ($data) {
+                $deleted++;
+            }
+        }
+
+        if (Periksa::destroy($periksa_id)) {
+            $deleted++;
+        }
+        dd( $deleted );
+    }
+    
     
 }
