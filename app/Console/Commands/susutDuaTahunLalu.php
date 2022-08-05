@@ -47,8 +47,7 @@ class susutDuaTahunLalu extends Command
 			$susuts[] = [
 				'created_at'              => date('Y-m-d H:i:s', strtotime("-1 year " . $p->created_at )),
 				'updated_at'              => date('Y-m-d H:i:s', strtotime("-1 year " . $p->updated_at )),
-							'tenant_id'  => 1,
-							/* 'tenant_id'  => session()->get('tenant_id'), */
+							'tenant_id'  => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
 				'keterangan'              => $p->keterangan,
 				'susutable_id'            => $p->susutable_id,
 				'susutable_type'          => $p->susutable_type,

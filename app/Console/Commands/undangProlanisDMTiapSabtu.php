@@ -52,8 +52,7 @@ class undangProlanisDMTiapSabtu extends Command
 		$query .= "AND CHAR_LENGTH(no_telp) >9 ";
         $query .= "AND prolanis_dm = 1 ";
         $query .= "AND sudah_kontak_bulan_ini = 0 ";
-		$query .= "AND tenant_id = 1 ";
-		/* $query .= "AND tenant_id = " . session()->get('tenant_id') . " "; */
+		$query .= "AND tenant_id = " . is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id') . " ";
         $query .= "AND meninggal = 0 ";
         $pasiens = DB::select($query);
 
@@ -139,8 +138,7 @@ class undangProlanisDMTiapSabtu extends Command
         $query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
         $query .= "JOIN jenis_tarifs as jtf on jtf.id = trp.jenis_tarif_id ";
         $query .= "AND jtf.jenis_tarif = 'Gula Darah' "; // Gula Darah
-		$query .= "AND trp.tenant_id = 1 ";
-		/* $query .= "AND trp.tenant_id = " . session()->get('tenant_id') . " "; */
+		$query .= "AND trp.tenant_id = " . is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id') . " ";
         $query .= "AND trp.keterangan_pemeriksaan REGEXP '^[0-9]+$' ";  // keterangan_pemeriksaan berbentuk number
         $query .= "AND prx.pasien_id in "; 
         $query .= "( "; 

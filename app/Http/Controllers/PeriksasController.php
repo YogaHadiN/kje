@@ -1019,7 +1019,7 @@ p */
      *
      * @return void
      */
-    private function inputData($periksa)
+    private function inputData($periksa Periksa)
     {
         //jika pasien sudah hilang dari antrian periksa, mungkin dia sudah diproses ke apotek
         $antrianperiksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );

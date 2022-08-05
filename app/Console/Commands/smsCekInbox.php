@@ -76,8 +76,7 @@ class smsCekInbox extends Command
 					$query .= "join periksas as px on px.id = pk.periksa_id ";
 					$query .= "join pasiens as ps on ps.id = px.pasien_id ";
 					$query .= "where ps.no_telp ='" .$nomor. "' ";
-					$query .= "AND ps.tenant_id = 1 ";
-					/* $query .= "AND ps.tenant_id = " . session()->get('tenant_id') . " "; */
+					$query .= "AND ps.tenant_id = " . is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id') . " ";
 					$query .= "ORDER BY px.created_at desc ";
 					$query .= "LIMIT 1";
 					$periksa_id = DB::select($query)[0]->periksa_id;
@@ -90,8 +89,7 @@ class smsCekInbox extends Command
 					'pesan' => $message,
 					'no_telp' => $nomor,
 					'periksa_id' => $periksa_id,
-                    'tenant_id'  => 1,
-                    /* 'tenant_id'  => session()->get('tenant_id'), */
+                    'tenant_id'  => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp,
 				];
