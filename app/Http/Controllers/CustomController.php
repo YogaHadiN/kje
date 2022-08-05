@@ -723,9 +723,6 @@ class CustomController extends Controller
 			DB::rollback();
 			throw $e;
 		}
-		if ( !empty( Yoga::normalisasiNoHp( $periksa->pasien->no_telp ) ) ) {
-			Yoga::smsCenter(Yoga::normalisasiNoHp($periksa->pasien->no_telp), 'Mohon memberikan nilai kepuasan pengalaman layanan Klinik Jati Elok. Balas dengan nomor antara 1 sampai 5. 1 untuk sangat tidak puas dan 5 untuk sangat puas.');
-		}
 		return redirect('antriankasirs')
 			->withPesan(Yoga::suksesFlash('Transaksi pasien <strong>' . $periksa->pasien_id . '-' . $periksa->pasien->nama . '</strong> telah selesai' . $mess))
 			->withPrint($periksa->id);
