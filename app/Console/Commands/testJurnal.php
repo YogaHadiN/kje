@@ -45,7 +45,8 @@ class testJurnal extends Command
 		Log::info('Seharusnya muncul tiap hari jam 23:30');
 		$query  = "SELECT id from periksas ";
 		$query .= "where id not in(select jurnalable_id from jurnal_umums where jurnalable_type='App\\\Models\\\Periksa')  ";
-		$query .= "AND tenant_id = " . is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id') . " ";
+        $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
+		$query .= "AND tenant_id = " . $tenant_id  . " ";
 		$query .= "and created_at like '" . date('Y-m-d'). "%' ";
 		$data   = DB::select($query);
 		$text = 'Periksa yang tidak masuk jurnal ';
@@ -59,7 +60,8 @@ class testJurnal extends Command
 		$query  = "SELECT id ";
 		$query .= "from jurnal_umums ";
 		$query .= "where jurnalable_type='App\\\Models\\\Periksa' ";
-		$query .= "AND tenant_id = " . is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id') . " ";
+        $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
+		$query .= "AND tenant_id = " . $tenant_id  . " ";
 		$query .= "and created_at like '" . date('Y-m-d') . "%' ";
 		$query .= "and jurnalable_id not in (select id from periksas where created_at like '". date('Y-m-d') . "%') ";
 		$data = DB::select($query);

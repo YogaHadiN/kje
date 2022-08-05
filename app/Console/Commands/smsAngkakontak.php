@@ -75,7 +75,8 @@ class smsAngkakontak extends Command
 		// yang termsuk  pasien bpjs yang mengunakan Pembayaran bpjs
 		$query.= "OR id in( Select pasien_id from periksas as prx join asuransis as asu on asu.id = prx.asuransi_id where asu.tipe_asuransi_id = 5 and prx.created_at like '{$tanggal}%' )) ";
 		// Sehingga kita bisa mendapat angka kontak saat ini
-		$query   .= "AND tenant_id = " . is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id') . " ";
+        $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
+		$query   .= "AND tenant_id = " . $tenant_id . " ";
 		$angka_kontak_saat_ini = DB::select($query)[0]->jumlah;
 
 		
@@ -186,7 +187,7 @@ class smsAngkakontak extends Command
 					foreach ($value['id'] as $val) {
 						$data[] = [ 
 							'pasien_id'  => $val,
-							'tenant_id'  => session()->get('tenant_id'),
+							'tenant_id'  => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
 							'pesan'      => $pesan,
 							'created_at' => $timestamp,
 							'updated_at' => $timestamp

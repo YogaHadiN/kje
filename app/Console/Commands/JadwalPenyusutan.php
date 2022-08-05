@@ -90,7 +90,8 @@ class JadwalPenyusutan extends Command
 		$query .= "FROM belanja_peralatans as bp ";
 		$query .= "JOIN faktur_belanjas as fb on fb.id = bp.faktur_belanja_id ";
 		$query .= "WHERE tanggal <= '{$tanggal}' ";
-		$query .= "AND bp.tenant_id = " . is_null(session()->get('tenant_id')) ? 1: session()->get('tenant_id') . " ";
+        $tenant_id = is_null(session()->get('tenant_id')) ? 1: session()->get('tenant_id');
+		$query .= "AND bp.tenant_id = " . $tenant_id . " ";
 		$query .= "AND tanggal >= '2017-12-01 00:00:00' ";
 
 		$peralatans = DB::select($query);
@@ -126,10 +127,11 @@ class JadwalPenyusutan extends Command
 				
 				$nilai                          = $this->hitungPenyusutan($harga_perolehan, $p->masa_pakai, $selisih_perolehan_dengan_penyusutan);
 				$keterangan                     = 'Penyusutan ' . $p->peralatan . ' bulan ' . date('M y', strtotime($tanggal)) . ' sebanyak ' . $p->jumlah . ' pcs';
+                 $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 				$penyusutans[]                  = [
 					 'created_at'              => $timestamp,
 					 'updated_at'              => $timestamp,
-					'tenant_id'                => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+					'tenant_id'                => $tenant_id,
 					 'keterangan'              => $keterangan,
 					 'susutable_id'            => $p->belanja_peralatan_id,
 					 'susutable_type'          => 'App\Models\BelanjaPeralatan',
@@ -207,9 +209,10 @@ class JadwalPenyusutan extends Command
 				if ($selisih_perolehan_dengan_penyusutan > 0) {
 					$nilai                          = $this->hitungPenyusutan($harga_perolehan, $masa_pakai, $selisih_perolehan_dengan_penyusutan);
 					$keterangan                     = 'Penyusutan ' . $b->keterangan;
+                    $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 					$penyusutans[]                  = [
 						'created_at'              => $timestamp,
-						'tenant_id'               => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+						'tenant_id'               => $tenant_id,
 						'updated_at'              => $timestamp,
 						'keterangan'              => $keterangan,
 						'susutable_id'            => $b->id,
@@ -254,13 +257,14 @@ class JadwalPenyusutan extends Command
 	){
 		if ($total_penyusutan > 0) {
 			$ringkasanPenyusutan = $this->addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $last_ringkasan_penyustan_id, $keterangan);
+            $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 			$penyusutans[]                      = [
 				'nilai'                   => $total_penyusutan,
 				'keterangan'              => $keteranganPenyusutan,
 				'ringkasan_penyusutan_id' => $last_ringkasan_penyustan_id,
 				'susutable_id'            => $susutable_id,
 				'susutable_type'          => 'App\Models\InputHarta',
-				'tenant_id'               => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+				'tenant_id'               => $tenant_id,
 				'created_at'              => $timestamp,
 				'updated_at'              => $timestamp
 			];
@@ -270,7 +274,7 @@ class JadwalPenyusutan extends Command
 				'coa_id'          => Coa::where('kode_coa', 612312)->first()->id, //Biaya Penyusutan
 				'debit'           => 1,
 				'nilai'           => $total_penyusutan,
-				'tenant_id'       => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+				'tenant_id'       => $tenant_id,
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -280,7 +284,7 @@ class JadwalPenyusutan extends Command
 				'coa_id'          => Coa::where('kode_coa', $coa_id_akumulasi_penyusutan)->first()->id, // Akumulasi Penyusutan Peralatan
 				'debit'           => 0,
 				'nilai'           => $total_penyusutan,
-				'tenant_id'       => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+				'tenant_id'       => $tenant_id,
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -321,9 +325,10 @@ class JadwalPenyusutan extends Command
 		return min([ $yang_harusnya_disusutkan, $selisih_perolehan_dengan_penyusutan ]);
 	}
 	private function addRingkasanPenyusutanArray($ringkasanPenyusutan, $timestamp, $id, $keterangan = 'Peralatan'){
+         $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 		$ringkasanPenyusutan[] = [
 			 'id'         => $id,
-			'tenant_id'   => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+			'tenant_id'   => $tenant_id,
 			 'keterangan' => 'Penyusutan ' . $keterangan . ' bulan ' . date('M y', strtotime($timestamp)),
 			 'created_at' => $timestamp,
 			 'updated_at' => $timestamp
@@ -332,12 +337,13 @@ class JadwalPenyusutan extends Command
 	}
 	private function addJurnalPenyusutan($jurnals, $timestamp, $last_ringkasan_penyustan_id, $total_penyusutan_peralatan, $coa_id_penyusutan){
 		if ($total_penyusutan_peralatan > 0) {
+            $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 			$jurnals[] = [
 				'jurnalable_id'   => $last_ringkasan_penyustan_id,
 				'jurnalable_type' => 'App\Models\RingkasanPenyusutan',
 				'coa_id'          => 612312, //Biaya Penyusutan
 				'debit'           => 1,
-				'tenant_id'       => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+				'tenant_id'       => $tenant_id,
 				'nilai'           => $total_penyusutan_peralatan,
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
@@ -346,7 +352,7 @@ class JadwalPenyusutan extends Command
 				'jurnalable_id'   => $last_ringkasan_penyustan_id,
 				'jurnalable_type' => 'App\Models\RingkasanPenyusutan',
 				'coa_id'          => $coa_id_penyusutan, // Akumulasi Penyusutan Peralatan
-				'tenant_id'       => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+				'tenant_id'       => $tenant_id,
 				'debit'           => 0,
 				'nilai'           => $total_penyusutan_peralatan,
 				'created_at'      => $timestamp,

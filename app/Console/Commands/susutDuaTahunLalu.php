@@ -42,17 +42,18 @@ class susutDuaTahunLalu extends Command
 		$penyusutans = Penyusutan::all();
 		$last_ringkasan_penyusutan_id = RingkasanPenyusutan::orderBy('id', 'desc')->first()->id;
 		$susuts = [];
+        $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 		foreach ($penyusutans as $p) {
 			$last_ringkasan_penyusutan_id++;
 			$susuts[] = [
-				'created_at'              => date('Y-m-d H:i:s', strtotime("-1 year " . $p->created_at )),
-				'updated_at'              => date('Y-m-d H:i:s', strtotime("-1 year " . $p->updated_at )),
-							'tenant_id'  => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
-				'keterangan'              => $p->keterangan,
-				'susutable_id'            => $p->susutable_id,
-				'susutable_type'          => $p->susutable_type,
-				'nilai'                   => $p->nilai,
-				'ringkasan_penyusutan_id' => 123123
+                'created_at'              => date('Y-m-d H:i:s', strtotime("-1 year " . $p->created_at )),
+                'updated_at'              => date('Y-m-d H:i:s', strtotime("-1 year " . $p->updated_at )),
+                'tenant_id'               => $tenant_id ,
+                'keterangan'              => $p->keterangan,
+                'susutable_id'            => $p->susutable_id,
+                'susutable_type'          => $p->susutable_type,
+                'nilai'                   => $p->nilai,
+                'ringkasan_penyusutan_id' => 123123
 			];
 		}
 		Penyusutan::insert($susuts);

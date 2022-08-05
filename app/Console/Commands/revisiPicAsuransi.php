@@ -45,13 +45,14 @@ class revisiPicAsuransi extends Command
 		$pics      = [];
 		$timestamp = date('Y-m-d H:i:s');
 		$emails    = [];
+        $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 		foreach ($asuransis as $asu) {
 			if ( !empty( $asu->pic ) ||  !empty($asu->pic)  ) {
 				$pics[] = [
 					'nama'          => $asu->pic,
 					'nomor_telepon' => $asu->hp_pic,
 					'asuransi_id'   => $asu->id,
-					'tenant_id'     => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+					'tenant_id'     => $tenant_id,
 					'created_at'    => $timestamp,
 					'updated_at'    => $timestamp
 				];
@@ -60,7 +61,7 @@ class revisiPicAsuransi extends Command
 				$emails[] = [
 					'email'          => $asu->email,
 					'emailable_type' => 'App\\Models\\Asuransi',
-					'tenant_id'      => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
+					'tenant_id'      => $tenant_id,
 					'emailable_id'   => $asu->id,
 					'created_at'     => $timestamp,
 					'updated_at'     => $timestamp
