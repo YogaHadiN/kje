@@ -99,6 +99,7 @@ class LaporanBpjsController extends Controller
 	*/
 	private function queryHipertensi()
 	{
+        $bulanTahun = Carbon::createFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m');
 		$query  = "SELECT ";
 		$query .= "prx.tanggal as tanggal, ";
 		$query .= "psn.nama as nama_pasien, ";
@@ -112,7 +113,7 @@ class LaporanBpjsController extends Controller
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "RIGHT JOIN rujukans as rjk on rjk.periksa_id = prx.id ";
 		$query .= "WHERE asu.tipe_asuransi_id = 5 ";
-		$query .= "AND prx.tanggal like '{Carbon::CreateFromFormat('m-Y',Input::get('bulanTahun'))->format('Y-m')}%' ";
+		$query .= "AND prx.tanggal like '{$bulanTahun}%' ";
 		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND prx.sistolik not like '' ";
 		$query .= "AND prx.diastolik not like '' ";
