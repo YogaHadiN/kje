@@ -203,6 +203,10 @@ p */
             }
 
             $periksa = Periksa::find($id);
+            if (is_null($periksa)) {
+                $pesan = Yoga::gagalFlash('Mohon maaf pemeriksaan pasien tidak ditemukan, mohon dapat diulangi dari pendaftaran');
+                return redirect()->back()->withPesan($pesan);
+            }
             $periksa = $this->inputData($periksa);
             DB::commit();
 
