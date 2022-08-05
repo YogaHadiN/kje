@@ -405,16 +405,7 @@ class CustomController extends Controller
                 ]);
 			}
 
-			$mess                        = '';
-			$bp                          = BukanPeserta::where('periksa_id',  Input::get('periksa_id') )->first();
-			if ( $bp                    != null ) {
-				$bukan_peserta_updates[] = [
-					'collection'                 => $bp,
-					'updates' => [
-						'antrian_periksa_id' => null
-					]
-				];
-			}
+			$mess         = '';
 			$gammu_survey = false;
 			if ( 
 				$periksa->poli_id                                                  == Poli::where('poli', 'Poli Estetika')->first()->id &&

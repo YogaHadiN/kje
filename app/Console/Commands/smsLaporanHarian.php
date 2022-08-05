@@ -7,6 +7,7 @@ use App\Models\Periksa;
 use App\Models\Classes\Yoga;
 use App\Models\Sms;
 use Log;
+use DB;
 
 
 class smsLaporanHarian extends Command
@@ -56,10 +57,11 @@ class smsLaporanHarian extends Command
         $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
         $query .= "WHERE prx.tanggal = '{$hari_ini}' ";
         $query .= "AND asu.tipe_asuransi_id = 5;";
+        $query .= "AND prx.tenant_id = " . is_null( session()->get('tenant_id') ) ? 1 : session()->get('tenant_id'). ";";
         $jumlahPasienBPJS = DB::select($query)->first()->jumlah ;
-		$tunai = 0;
-		$piutang = 0;
-		$estetika = 0;
+		$tunai            = 0;
+		$piutang          = 0;
+		$estetika         = 0;
 		foreach ($periksas as $v) {
 			$tunai += $v->tunai;
 			$piutang += $v->piutang;
