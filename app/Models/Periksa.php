@@ -30,6 +30,9 @@ class Periksa extends Model{
     public function poli(){
         return $this->belongsTo('App\Models\Poli');
     }
+    public function invoice(){
+        return $this->belongsTo('App\Models\Invoice');
+    }
 	public function diagnosa(){
 		return $this->belongsTo('App\Models\Diagnosa');
 	}

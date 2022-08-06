@@ -38,9 +38,9 @@ class KirimBerkas extends Model
 				$total_tagihan += $d->piutang - $d->sudah_dibayar;
 			}
 			$data2[ $k ] = [
-				'nomor_invoice' => $d->invoice_id,
+				'nomor_invoice'  => $d->invoice->kode_invoice,
 				'jumlah_tagihan' => $jumlah_tagihan,
-				'total_tagihan' => $total_tagihan
+				'total_tagihan'  => $total_tagihan
 			];
 		}
 		return $data2;
