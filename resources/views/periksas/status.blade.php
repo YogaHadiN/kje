@@ -22,7 +22,7 @@
 						<strong>Periksa id</strong> <br>
 						{!! $periksa->id !!} <br></br>
 						<strong>Invoice Id</strong> <br>
-						<a href="{{ url('invoices/' .str_replace('/', '!', $periksa->invoice_id )  ) }}" target="_blank">
+						<a href="{{ url('invoices/' . $periksa->invoice_id   ) }}" target="_blank">
 							{!! $periksa->invoice_id !!}
 						</a>
 					</td>

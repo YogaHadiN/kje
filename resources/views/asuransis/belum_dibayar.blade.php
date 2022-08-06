@@ -46,7 +46,7 @@ Klinik Jati Elok | Piutang Asuransi Belum Dibayar
 						<tr>
 							<td>{{ $k +1 }}</td>
 							<td>
-								<a href="{{ url('invoices/' . str_replace('/', '!',  $belum->invoice_id )) }}" target="_blank">
+								<a href="{{ url('invoices/' .   $belum->invoice_id ) }}" target="_blank">
 									{{ $belum->invoice_id }}
 								</a>
 							</td>

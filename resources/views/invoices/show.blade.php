@@ -25,7 +25,7 @@ Klinik Jati Elok | Piutang Asuransi
 			</div>
 			<div class="panel-body">
 				{!! Form::open([
-					'url'    => 'invoices/upload_verivication/' . str_replace('/', '!',  $invoice->id ),
+					'url'    => 'invoices/upload_verivication/' . $invoice->id,
 					'method' => 'post',
 					"class"  => "m-t",
 					"role"   => "form",

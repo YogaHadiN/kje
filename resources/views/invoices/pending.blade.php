@@ -36,7 +36,7 @@ Klinik Jati Elok | Pending Received Verification
 							<td>{{ \Carbon\Carbon::parse($p->tanggal)->format('d M Y') }}</td>
 							<td>{{ $p->nama_asuransi }}</td>
 							<td nowrap class="autofit">
-								<a class="btn btn-info btn-sm" href="{{ url('invoices/' . str_replace('/',"!",$p->invoice_id) )}}" target="_blank"> <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Verifikasi</a>
+								<a class="btn btn-info btn-sm" href="{{ url('invoices/' . $p->invoice_id )}}" target="_blank"> <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Verifikasi</a>
 							</td>
 						</tr>
 					@endforeach

@@ -82,6 +82,7 @@ class InvoiceController extends Controller
 			'periksa.pasien', 
 			'periksa.pembayarans'
 		)->where('id', $id )->first();
+        dd( $invoice );
 		return view('invoices.show', compact(
 			'invoice'
 		));
