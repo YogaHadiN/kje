@@ -399,9 +399,10 @@ class LaporansController extends Controller
 
 	public function haridet()
 	{
+        dd( 'o' );
 		// return Input::all();
-		$tanggal = Yoga::datePrep(Input::get('tanggal'));
-		$asuransi_id = Input::get('asuransi_id');
+		$tanggal      = Yoga::datePrep(Input::get('tanggal'));
+		$asuransi_id  = Input::get('asuransi_id');
 		$jenis_tarifs = JenisTarif::all();
 		$query = "SELECT *, ";
 		$query .= "ps.nama as nama_pasien, ";
