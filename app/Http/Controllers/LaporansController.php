@@ -362,7 +362,7 @@ class LaporansController extends Controller
 				}
                 //hitung jumlah pasien baru
 			}
-            if ( Carbon::parse( $px->pasien_created_at )->format('Y-m-d') == date('Y-m-d') ) {
+            if ( Carbon::parse( $px->pasien_created_at )->format('Y-m-d') == $tanggal ) {
                 $pasien_baru++;
             }
 			$jumlah        += (int) $px->tunai + (int) $px->piutang;
@@ -399,7 +399,6 @@ class LaporansController extends Controller
 
 	public function haridet()
 	{
-        dd( 'o' );
 		// return Input::all();
 		$tanggal      = Yoga::datePrep(Input::get('tanggal'));
 		$asuransi_id  = Input::get('asuransi_id');
@@ -2218,7 +2217,8 @@ class LaporansController extends Controller
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "p.id as periksa_id, ";
 		$query .= "po.poli as poli ";
-		$query .= "FROM periksas as p LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
+        $query .= "FROM periksas as p ";
+        $query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
 		$query .= "INNER JOIN polis as po on po.id = p.poli_id ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
 		$query .= "where p.tanggal like '{$tanggal}' ";
