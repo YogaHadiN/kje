@@ -10,6 +10,7 @@ use Hash;
 use App\Models\Merek;
 use App\Models\User;
 use App\Models\Staf;
+use App\Models\Coa;
 use App\Models\Penjualan;
 use App\Models\Dispensing;
 use App\Models\NotaJual;

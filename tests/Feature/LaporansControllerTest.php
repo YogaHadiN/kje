@@ -238,7 +238,7 @@ class LaporansControllerTest extends TestCase
     }
 
 /**
- * @group failing
+ * 
  */
     public function test_kb(){
         $user     = User::factory()->create(['role_id' => 6]);

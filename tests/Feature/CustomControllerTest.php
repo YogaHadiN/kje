@@ -266,7 +266,7 @@ class CustomControllerTest extends TestCase
     }
 
     /**
-     * @group failing
+     * 
      */
     public function test_survey_post_if_bukan_peserta(){
         Storage::fake('s3');
