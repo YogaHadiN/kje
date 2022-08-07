@@ -174,3 +174,40 @@ if (!function_exists('checkForUploadedFile')) {
         Storage::disk('s3')->assertExists($path);
     }
 }
+
+if (!function_exists('uploadFile')) {
+    function uploadFile($pre, $field_name, $id, $destination_path){
+        if ( Input::hasFile( $field_name ) ) {
+            $upload_cover = Input::file($field_name);
+            $extension = $upload_cover->getClientOriginalExtension();
+
+            /* $upload_cover = Image::make($upload_cover); */
+            /* $upload_cover->resize(1000, null, function ($constraint) { */
+            /* 	$constraint->aspectRatio(); */
+            /* 	$constraint->upsize(); */
+            /* }); */
+
+            //membuat nama file random + extension
+            $filename =	 $pre . $id . '_' .  time().'.' . $extension;
+
+            //menyimpan bpjs_image ke folder public/img
+            if (!str_ends_with('/', $destination_path)) {
+                $destination_path =  $destination_path . '/';
+            }
+
+            //destinasi s3
+            //
+            \Storage::disk('s3')->put($destination_path. $filename, file_get_contents($upload_cover));
+            // Mengambil file yang di upload
+
+            /* $upload_cover->save($destination_path . '/' . $filename); */
+            
+            //mengisi field bpjs_image di book dengan filename yang baru dibuat
+            return $destination_path. $filename;
+            dd(  $destination_path. $filename);
+        } else {
+            return null;
+        }
+        //mengambil extension
+    }
+}

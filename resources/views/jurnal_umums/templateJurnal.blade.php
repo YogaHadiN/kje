@@ -16,7 +16,7 @@
 				   <tr>
 					   <td class="id hide"> {{ $jur->id }}</td>
 					   <td class="key hide"> {{ $k }}</td>
-					   <td class="name_{{ substr($jur->coa_id, 0, 3) }}">
+                       <td class="name_{{ substr($jur->coa->kode_coa, 0, 3) }}">
 						   {!! Form::select('coa_id', $coa_list, $jur->coa_id, [
 							   'class'            => 'form-control selectpick',
 							   'data-live-search' => 'true',

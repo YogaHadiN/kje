@@ -676,6 +676,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('home_visit/create/pasien/{id}', [\App\Http\Controllers\HomeVisitController::class, 'createPasien']);
 
 	Route::resource('home_visits', \App\Http\Controllers\HomeVisitController::class);
+	Route::resource('setor_tunais', \App\Http\Controllers\SetorTunaiController::class);
 
     Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}/pdf', [\App\Http\Controllers\PdfsController::class, 'jumlahPasienPerTahun']);
 	Route::get('pdfs/amortisasi/{tahun}', [\App\Http\Controllers\PdfsController::class, 'amortisasi']);

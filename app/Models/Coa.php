@@ -50,4 +50,8 @@ class Coa extends Model{
 	public static function list(){
 		return [ null => '-pilih-' ] + Coa::pluck('coa', 'id')->all();
 	}
+
+    public static function kasDiTangan(){
+		return Coa::where('kode_coa', '110000')->first();
+    }
 }
