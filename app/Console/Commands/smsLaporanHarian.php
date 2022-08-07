@@ -56,7 +56,7 @@ class smsLaporanHarian extends Command
         $query .= "FROM periksas as prx ";
         $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
         $query .= "WHERE prx.tanggal = '{$hari_ini}' ";
-        $query .= "AND asu.tipe_asuransi_id = 5;";
+        $query .= "AND asu.tipe_asuransi_id = 5 ";
         $tenant_id = is_null( session()->get('tenant_id') ) ? 1 : session()->get('tenant_id');
         $query .= "AND prx.tenant_id = " . $tenant_id . ";";
         $jumlahPasienBPJS = DB::select($query)->first()->jumlah ;
