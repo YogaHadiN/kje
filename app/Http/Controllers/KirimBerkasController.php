@@ -45,7 +45,7 @@ class KirimBerkasController extends Controller
         $this->middleware('admin', ['except' => []]);
 	 }
 	public function index(){
-		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'invoice.periksa.asuransi', 'petugas_kirim.role_pengiriman')
+		$kirim_berkas = KirimBerkas::with('petugas_kirim.staf', 'invoice.periksa.asuransi', 'petugas_kirim.role_pengiriman', 'invoice.periksa.pembayarans')
 									->orderBy('tanggal', 'desc')
 									->paginate(20);
 		return view('kirim_berkas.index', compact(

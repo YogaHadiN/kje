@@ -65,7 +65,7 @@ Klinik Jati Elok | Kirim Berkas
 												<tbody>
 													@foreach($kirim->rekap_tagihan as $k => $tagihan)	
 														<tr>
-															<td nowrap><a href="{{ url('invoices/' .  $tagihan['nomor_invoice']) }}">{{ $tagihan['nomor_invoice'] }}</a></td>
+															<td nowrap><a href="{{ url('invoices/' .  $tagihan['invoice_id']) }}">{{ $tagihan['nomor_invoice'] }}</a></td>
 															<td>{{ $k }}</td>
 															<td nowrap class="text-right">{{ $tagihan['jumlah_tagihan'] }} Tagihan</td>
 															<td nowrap class="text-right">{{ App\Models\Classes\Yoga::buatrp( $tagihan['total_tagihan'] ) }}</td>

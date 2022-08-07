@@ -38,11 +38,17 @@ class KirimBerkas extends Model
 				$total_tagihan += $d->piutang - $d->sudah_dibayar;
 			}
 			$data2[ $k ] = [
-				'nomor_invoice'  => $d->invoice->kode_invoice,
+				'invoice_id'     => $d->invoice_id,
 				'jumlah_tagihan' => $jumlah_tagihan,
 				'total_tagihan'  => $total_tagihan
 			];
 		}
+		foreach ($invoices as $invoice) {
+			foreach ($invoice->periksa as $piutang) {
+				$data2[ $piutang->asuransi->nama ]['nomor_invoice'] = $invoice->kode_invoice;
+			}
+		}
+
 		return $data2;
 	}
 	public function getPiutangTercatatAttribute(){
