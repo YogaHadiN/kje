@@ -126,7 +126,7 @@ function refreshTunaiPiutang() {
     var temp = parseTemp();
     var coa_tunai_tersedia = false;
     for (let i = 0, len = temp.length; i < len; i++) {
-        if (temp[i].coa_id.substring(0, 3) == "110") {
+        if (temp[i].coa.kode_coa.substring(0, 3) == "110") {
             coa_tunai_tersedia = true;
         }
     }
@@ -296,6 +296,7 @@ function hitung() {
     var debit = 0;
     var kredit = 0;
     var total_harta_masuk = 0;
+    console.log("jurnals", jurnals);
     for (var i = 0; i < jurnals.length; i++) {
         if (jurnals[i].debit == "1") {
             debit += parseInt(jurnals[i].nilai);
@@ -303,7 +304,7 @@ function hitung() {
             kredit += parseInt(jurnals[i].nilai);
         }
         if (
-            jurnals[i].coa_id.substring(0, 2) == "11" &&
+            jurnals[i].coa.kode_coa.substring(0, 2) == "11" &&
             jurnals[i].debit == "1"
         ) {
             total_harta_masuk += parseInt(jurnals[i].nilai);
@@ -315,7 +316,10 @@ function hitung() {
         } else {
             kredit += parseInt(temp[i].nilai);
         }
-        if (temp[i].coa_id.substring(0, 2) == "11" && temp[i].debit == "1") {
+        if (
+            temp[i].coa.kode_coa.substring(0, 2) == "11" &&
+            temp[i].debit == "1"
+        ) {
             total_harta_masuk += parseInt(temp[i].nilai);
         }
     }
@@ -400,7 +404,7 @@ function updatePeriksa(nilai, tipe) {
 function getKey(temp) {
     var key = "";
     for (let i = 0, len = temp.length; i < len; i++) {
-        if (temp[i].coa_id.substring(0, 3) == "110") {
+        if (temp[i].coa.kode_coa.substring(0, 3) == "110") {
             key = i;
             break;
         }

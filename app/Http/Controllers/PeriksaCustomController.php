@@ -35,7 +35,7 @@ class PeriksaCustomController extends Controller
 	}
 	
 	public function editTransaksiPeriksa($id){
-		$periksa       = Periksa::with('jurnals', 'transaksii')->where('id', $id)->first();
+		$periksa       = Periksa::with('jurnals.coa', 'transaksii')->where('id', $id)->first();
 		$coa_list      = Coa::list();
 		$list_asuransi = Asuransi::list();
 		return view('periksas.editTransaksiPeriksa', compact(
