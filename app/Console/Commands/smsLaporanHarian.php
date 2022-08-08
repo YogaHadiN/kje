@@ -52,7 +52,7 @@ class smsLaporanHarian extends Command
 
 		$jumlahPasienTotal = $periksas->count();
         $hari_ini = date('Y-m-d');
-        $query  = "SELECT count(id)  as jumlah ";
+        $query  = "SELECT count(prx.id)  as jumlah ";
         $query .= "FROM periksas as prx ";
         $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
         $query .= "WHERE prx.tanggal = '{$hari_ini}' ";
