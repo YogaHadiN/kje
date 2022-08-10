@@ -33,9 +33,6 @@ class PenjualansControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * @group failing
-     */
     public function test_store(){
         Storage::fake('s3');
         // make a request with file

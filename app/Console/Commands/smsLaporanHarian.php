@@ -59,7 +59,7 @@ class smsLaporanHarian extends Command
         $query .= "AND asu.tipe_asuransi_id = 5 ";
         $tenant_id = is_null( session()->get('tenant_id') ) ? 1 : session()->get('tenant_id');
         $query .= "AND prx.tenant_id = " . $tenant_id . ";";
-        $jumlahPasienBPJS = DB::select($query)->first()->jumlah ;
+        $jumlahPasienBPJS = DB::select($query)[0]->jumlah ;
 		$tunai            = 0;
 		$piutang          = 0;
 		$estetika         = 0;

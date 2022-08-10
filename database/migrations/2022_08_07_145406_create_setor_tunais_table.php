@@ -19,7 +19,7 @@ class CreateSetorTunaisTable extends Migration
             $table->bigInteger('staf_id')->index();
             $table->bigInteger('coa_id')->index();
             $table->integer('nominal');
-            $table->string('nota_image');
+            $table->string('nota_image')->nullable();
             $table->bigInteger('tenant_id')->index();
             $table->timestamps();
         });
