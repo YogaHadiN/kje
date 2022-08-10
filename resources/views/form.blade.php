@@ -65,13 +65,13 @@
 					  Pembayaran : 
 					 <select name="asuransi_id" id="asuransi_id" class="form-control" onchange="asuransiIdChange(this);return false;">
 						@if($antrianperiksa->asuransi_id ==  $asuransi_biaya_pribadi->id  && $antrianperiksa->pasien->asuransi_id != $asuransi_biaya_pribadi->id )
-                            <option data-tipe-asuransi="1" value="{{ $asuransi_biaya_pribadi->id }}" selected>Biaya Pribadi</option>
-							<option data-tipe-asuransi="{!! $antrianperiksa->asuransi->tipe_asuransi_id !!}" value="{!! $antrianperiksa->asuransi_id !!}">{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
+                            <option data-tipe-asuransi="{{ $asuransi_biaya_pribadi->tipe_asuransi_id }}" value="{{ $asuransi_biaya_pribadi->id }}" selected>Biaya Pribadi</option>
+                            <option data-tipe-asuransi="{!! $antrianperiksa->pasien->asuransi->tipe_asuransi_id !!}" value="{!! $antrianperiksa->pasien->asuransi_id !!}">{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
                         @elseif($antrianperiksa->asuransi_id != $asuransi_biaya_pribadi->id)
-                            <option data-tipe-asuransi="1" value="{{ $asuransi_biaya_pribadi->id }}">Biaya Pribadi</option>
-                            <option data-tipe-asuransi="{!! $antrianperiksa->asuransi->tipe_asuransi_id !!}" value="{!! $antrianperiksa->pasien->asuransi_id !!}" selected>{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
+                            <option data-tipe-asuransi="{{ $asuransi_biaya_pribadi->tipe_asuransi_id }}" value="{{ $asuransi_biaya_pribadi->id }}">Biaya Pribadi</option>
+                            <option data-tipe-asuransi="{!! $antrianperiksa->pasien->asuransi->tipe_asuransi_id !!}" value="{!! $antrianperiksa->pasien->asuransi_id !!}" selected>{!! $antrianperiksa->pasien->asuransi->nama !!}</option>
 						@else
-							<option value="0">Biaya Pribadi</option>
+                            <option data-tipe-asuransi="{{ $asuransi_biaya_pribadi->tipe_asuransi_id }}" value="{{ $asuransi_biaya_pribadi->id }}" seleceted>Biaya Pribadi</option>
 						@endif                 
 					 </select>
 				</div>

@@ -430,37 +430,36 @@ class PoliAjaxController extends Controller
 	public function asuridchange(){
 		$antrianperiksa_id = Input::get('antrianperiksa_id');
 		$asuransi_id       = Input::get('asuransi_id');
-		try {
-			$periksa = Periksa::where('antrian_periksa_id', $antrianperiksa_id)->firstOrFail();
-			if ($periksa->lewat_kasir2 == '1' ) {
-				$pesan = Yoga::gagalFlash('Pasien sudah selesai / sudah pulang tidak bisa diedit');
-				return redirect()->back()->withPesan($pesan);
-			} else if ($periksa->lewat_kasir == '1') {
-				$pesan = Yoga::gagalFlash('Pasien sudah dicetak statusnya, hubungi staf untuk mengembalikan dulu ke antrian periksa untuk merubah');
-				return redirect()->back()->withPesan($pesan);
-			}
-		} catch (\Exception $e) {
-		}
+        $periksa = Periksa::where('antrian_periksa_id', $antrianperiksa_id)->first();
+        if (!is_null($periksa)) {
+            if ($periksa->lewat_kasir2 == '1' ) {
+                $pesan = Yoga::gagalFlash('Pasien sudah selesai / sudah pulang tidak bisa diedit');
+                return redirect()->back()->withPesan($pesan);
+            } else if ($periksa->lewat_kasir == '1') {
+                $pesan = Yoga::gagalFlash('Pasien sudah dicetak statusnya, hubungi staf untuk mengembalikan dulu ke antrian periksa untuk merubah');
+                return redirect()->back()->withPesan($pesan);
+            }
+        }
 
 		if (Asuransi::find($asuransi_id)->tipe_asuransi_id == 5) {
-			try {
-				$ap                   = AntrianPeriksa::findOrFail($antrianperiksa_id);
-				$ap->asuransi_id      = $asuransi_id;
-				$ap->kecelakaan_kerja = 0;
-				$ap->save();
-			} catch (Exception $e) {
-				$pesan = Yoga::gagalFlash('Antrian Periksa Sudah Tidak Ditemukan, Hubungi Staf untuk kembalikan ke antrian periksa');
-				return redirect()->back()->withPesan($pesan);
-			}
+            $ap                   = AntrianPeriksa::findOrFail($antrianperiksa_id);
+            if (!is_null($ap)) {
+                $ap->asuransi_id      = $asuransi_id;
+                $ap->kecelakaan_kerja = 0;
+                $ap->save();
+            } else {
+                $pesan = Yoga::gagalFlash('Antrian Periksa Sudah Tidak Ditemukan, Hubungi Staf untuk kembalikan ke antrian periksa');
+                return redirect()->back()->withPesan($pesan);
+            }
 		} else {
-			try {
-				$ap              = AntrianPeriksa::findOrFail($antrianperiksa_id);
+            $ap              = AntrianPeriksa::findOrFail($antrianperiksa_id);
+            if (!is_null($ap)) {
 				$ap->asuransi_id = $asuransi_id;
 				$ap->save();
-			} catch (Exception $e) {
+            } else {
 				$pesan = Yoga::gagalFlash('Antrian Periksa Sudah Tidak Ditemukan, Hubungi Staf untuk kembalikan ke antrian periksa');
 				return redirect()->back()->withPesan($pesan);
-			}
+            }
 		}
 	}
 	public function asuridchange2(){

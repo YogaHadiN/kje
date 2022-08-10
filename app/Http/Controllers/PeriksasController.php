@@ -333,52 +333,26 @@ p */
 			!AntrianApotek::where('periksa_id', $periksa_id)->exists() &&
 			$antrianperiksa->exists()
 	   	) {
-			if (
-				$periksa->terapi !== '' &&
-				$periksa->terapi !== '[]'
-			) {
-				$antrianapotek             = new AntrianApotek;
-				$antrianapotek->periksa_id = $periksa_id;
-				$antrianapotek->jam        = date('H:i:s');
-				$antrianapotek->tanggal    = date('Y-m-d');
-				$antrianapotek->save();
+            $antrianapotek             = new AntrianApotek;
+            $antrianapotek->periksa_id = $periksa_id;
+            $antrianapotek->jam        = date('H:i:s');
+            $antrianapotek->tanggal    = date('Y-m-d');
+            $antrianapotek->save();
 
-				PengantarPasien::where('antarable_id', $antrian_periksa_id)
-					->where('antarable_type', 'App\Models\AntrianPeriksa')
-					->update([
-						'antarable_id' => $antrianapotek->id,
-						'antarable_type' => 'App\Models\AntrianApotek'
-					]);
+            PengantarPasien::where('antarable_id', $antrian_periksa_id)
+                ->where('antarable_type', 'App\Models\AntrianPeriksa')
+                ->update([
+                    'antarable_id' => $antrianapotek->id,
+                    'antarable_type' => 'App\Models\AntrianApotek'
+                ]);
 
-				Antrian::where('antriable_id', $antrian_periksa_id)
-					->where('antriable_type', 'App\Models\AntrianPeriksa')
-					->update([
-						'antriable_id' => $antrianapotek->id,
-						'antriable_type' => 'App\Models\AntrianApotek'
-					]);
+            Antrian::where('antriable_id', $antrian_periksa_id)
+                ->where('antriable_type', 'App\Models\AntrianPeriksa')
+                ->update([
+                    'antriable_id' => $antrianapotek->id,
+                    'antriable_type' => 'App\Models\AntrianApotek'
+                ]);
 
-			} else {
-
-				$antriankasir             = new AntrianKasir;
-				$antriankasir->periksa_id = $periksa_id;
-				$antriankasir->jam        = date('H:i:s');
-				$antriankasir->tanggal    = date('Y-m-d');
-				$antriankasir->save();
-
-				PengantarPasien::where('antarable_id', $antrian_periksa_id)
-					->where('antarable_type', 'App\Models\AntrianPeriksa')
-					->update([
-						'antarable_id' => $antriankasir->id,
-						'antarable_type' => 'App\Models\AntrianKasir'
-					]);
-
-				Antrian::where('antriable_id', $antrian_periksa_id)
-					->where('antriable_type', 'App\Models\AntrianPeriksa')
-					->update([
-						'antriable_id' => $antriankasir->id,
-						'antriable_type' => 'App\Models\AntrianKasir'
-					]);
-			}
 			$antrianperiksa->delete();
 		}
 		$apc = new AntrianPolisController;

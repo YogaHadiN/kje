@@ -2643,6 +2643,7 @@ function kecelakaanKerjaChange(control) {
 
 function asuransiIdChange(control) {
     var asuransi_id = $(control).val();
+    console.log("asuransi_id", asuransi_id);
     var antrianperiksa_id = $("#antrianperiksa_id").val();
     $("#pleaseWaitDialog").modal({ backdrop: "static", keyboard: false });
     $.ajax({
