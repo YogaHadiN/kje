@@ -26,6 +26,7 @@ class CreatePeriksasTable extends Migration
             $table->string('keterangan_diagnosa');
             $table->longText('terapi')->nullable();
             $table->integer('piutang')->nullable();
+            $table->tinyInteger('hamil')->default(0);
             $table->integer('tunai')->nullable();
             $table->bigInteger('poli_id')->nullable()->index();
             $table->time('jam');

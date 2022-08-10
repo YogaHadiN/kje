@@ -626,11 +626,12 @@ p */
 				return redirect()->back()->withPesan($pesan);
 			}
 			$antrian              = new AntrianPeriksa;
-			$antrian->poli_id        = $periksa->poli_id;
+			$antrian->poli_id     = $periksa->poli_id;
 			$antrian->periksa_id  = $periksa->periksa_id;
 			$antrian->staf_id     = $periksa->staf_id;
 			$antrian->asuransi_id = $periksa->asuransi_id;
 			$antrian->asisten_id  = $periksa->asisten_id;
+			$antrian->hamil       = $periksa->hamil;
 			$antrian->pasien_id   = $periksa->pasien_id;
 			$antrian->jam         = $periksa->jam;
 			$antrian->tanggal     = $periksa->tanggal;
@@ -1113,6 +1114,7 @@ p */
         $periksa->asisten_id            = Input::get('asisten_id');
         $periksa->periksa_awal          = Input::get('periksa_awal');
         $periksa->jam                   = Input::get('jam');
+        $periksa->hamil                 = Input::get('hamil');
         $periksa->jam_resep             = date('H:i:s');
         $periksa->keterangan_diagnosa   = Input::get('keterangan_diagnosa');
         $periksa->nomor_asuransi        = $pasien->nomor_asuransi;

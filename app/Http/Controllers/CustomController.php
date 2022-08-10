@@ -388,8 +388,8 @@ class CustomController extends Controller
 			$resep                 = $periksa->terapii;
 
 			foreach ($resep as $key => $value) {
-				$rak  = $value->merek->rak;
-				$stok = $rak->stok - $value->jumlah;
+				$rak    = $value->merek->rak;
+				$stok   = $rak->stok - $value->jumlah;
 				$rak_id = $rak->id;
 
 				$rak_updates[] = [
