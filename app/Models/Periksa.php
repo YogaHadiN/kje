@@ -162,7 +162,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;"  nowrap>' . $MyArray[$i]->aturan_minum . '</td>';
                     $temp .= '</tr>';
 
@@ -200,7 +200,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap><i>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
                     $temp .= '</tr>';
 
@@ -228,7 +228,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>' . $MyArray[$a]->aturan_minum . '</td>';
 
                    $puyer = false;
@@ -237,7 +237,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap>S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap><i>S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
 
                     $add = false;
@@ -347,7 +347,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;"  nowrap>' . $MyArray[$i]->aturan_minum . '</td>';
                     $temp .= '</tr>';
 
@@ -385,7 +385,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap><i>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
                     $temp .= '</tr>';
 
@@ -410,7 +410,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>' . $MyArray[$a]->aturan_minum . '</td>';
 
                    $puyer = false;
@@ -419,7 +419,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap >S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap ><i>S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
 
                     $add = false;
@@ -502,7 +502,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$i]->jumlah . '</td>';
                     $temp .= '</tr>';
 
@@ -517,7 +517,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$i]->jumlah . '</td>';
                     $temp .= '</tr>';
 
@@ -527,11 +527,11 @@ class Periksa extends Model{
                        $puyer = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -1 || $MyArray[$i]->merek_id == -3) {
+                } else if ($MyArray[$i]->merek->merek == 'Kertas Puyer Biasa' || $MyArray[$i]->merek->merek == 'Kertas Puyer Sablon') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;"  nowrap>' . $MyArray[$i]->aturan_minum . '</td>';
                     $temp .= '</tr>';
 
@@ -565,11 +565,11 @@ class Periksa extends Model{
                         $add = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap><i>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
                     $temp .= '</tr>';
 
@@ -593,11 +593,11 @@ class Periksa extends Model{
                 $MyArray[$a]->merek->rak_id = Merek::find($MyArray[$a]->merek_id)->rak_id;
 
 
-                if ($MyArray[$a]->merek_id == -1 || $MyArray[$a]->merek_id == -3) {
+                if ($MyArray[$a]->merek->merek == 'Kertas Puyer Biasa' || $MyArray[$a]->merek->merek == 'Kertas Puyer Sablon') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>' . $MyArray[$a]->aturan_minum . '</td>';
 
                    $puyer = false;
@@ -606,7 +606,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap>S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap><i>S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
 
                     $add = false;
@@ -614,7 +614,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> fls No : ' . $MyArray[$a]->jumlah . '</td>';
                     $temp .= '</tr>';
                     $temp .= '<tr>';
@@ -627,7 +627,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$a]->jumlah . '</td>';
 
 
@@ -635,21 +635,21 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$a]->jumlah . '</td>';
 
                 } else if (substr($MyArray[$a]->signa, 0, 5) == "Puyer" && $puyer == true) {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$a]->jumlah . '</td>';
 
                 } else {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$a]->merek->merek. ' <strong>[  ' . $MyArray[$a]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$a]->jumlah . '</td>';
                     $temp .= '</tr><tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -940,7 +940,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$i]->jumlah . ' puyer ' . $MyArray[$i]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;"  nowrap>' . $MyArray[$i]->aturan_minum . '</td>';
                     $temp .= '</tr>';
 
@@ -978,7 +978,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap><i>S Masukkan ke dalam sirup ' . $MyArray[$i]->signa . ' </i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
                     $temp .= '</tr>';
 
@@ -1008,7 +1008,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek">Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>' . $MyArray[$a]->aturan_minum . '</td>';
 
                    $puyer = false;
@@ -1017,7 +1017,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap>S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</td>';
+                    $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap><i>S Masukkan ke dalam sirup ' . $MyArray[$a]->signa . '</i></td>';
                     $temp .= '<td style="border-bottom:1px solid #000;" nowrap>Dihabiskan</td>';
 
                     $add = false;
