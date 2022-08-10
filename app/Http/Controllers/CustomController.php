@@ -451,7 +451,7 @@ class CustomController extends Controller
                 $tp = $periksa->transaksii()->create([
                     'jenis_tarif_id'         => $transaksi['jenis_tarif_id'],
                     'biaya'                  => $transaksi['biaya'],
-                    'keterangan_pemeriksaan' => null
+                    'keterangan_pemeriksaan' => isset($transaksi['keterangan_tindakan'])?$transaksi['keterangan_tindakan']:null
                 ]);
 
 

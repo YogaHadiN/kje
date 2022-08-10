@@ -115,7 +115,29 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $this->hapusPeriksa(310022);
+        $query  = "SELECT ";
+        $query .= "prx.id as periksa_id, ";
+        $query .= "trx.id as transaksi_periksa_id, ";
+        $query .= "prx.transaksi as transaksi ";
+        $query .= "FROM periksas as prx ";
+        $query .= "JOIN transaksi_periksas as trx on trx.periksa_id = prx.id ";
+        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
+        $query .= "WHERE prx.tanggal > '2022-08-02' ";
+        $query .= "AND (trx.keterangan_pemeriksaan is null or trx.keterangan_pemeriksaan = '') ";
+        $data = DB::select($query);
+
+        foreach ($data as $d) {
+            $transaksi_json = $d->transaksi;
+            $transaksi_json = json_decode($transaksi_json, true);
+            foreach ($transaksi_json as $trx) {
+                if (isset($trx['keterangan_tindakan'])) {
+                    $transaksi_periksa = \App\Models\TransaksiPeriksa::find($d->transaksi_periksa_id);
+                    $transaksi_periksa->keterangan_pemeriksaan = $trx['keterangan_tindakan'];
+                    $transaksi_periksa->save();
+                }
+            }
+
+        }
 	}
 	
 	/**

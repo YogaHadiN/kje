@@ -846,6 +846,7 @@ p */
 		$query .= "ORDER BY prx.id ";
 
 		$data_dm = DB::select($query);
+
 		$arr = [];
 		foreach ($data_dm as $ddm) {
 			$arr[$ddm->pasien_id]["nama"] = $ddm->nama;
