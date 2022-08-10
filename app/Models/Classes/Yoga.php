@@ -531,7 +531,10 @@ class Yoga {
 		}
 
 		public static function rataAtas5000($n){
-            return round(($n+5000/2)/5000)*5000;
+            if ($n) {
+                return round(($n+5000/2)/5000)*5000;
+            }
+            return $n;
 		}
 
 		public static function alternatif_fornas(){
