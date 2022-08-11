@@ -16,7 +16,7 @@ class Usg extends Model
 	];
 
 	// Don't forget to fill this array
-	protected $fillable = [];
+	protected $guarded = [];
 
 	public function perujuk(){
 		return $this->belongsTo('App\Models\Perujuk');
