@@ -1159,7 +1159,7 @@ p */
         }
 
         if($nama_poli == 'Poli USG Kebidanan'){
-            if ($periksa->usg->count()) {
+            if (!is_null($periksa->usg)) {
                 $periksa->usg()->delete();
             }
             $periksa->usg()->create([

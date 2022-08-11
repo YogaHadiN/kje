@@ -295,6 +295,7 @@ class FasilitasController extends Controller
 			$antrian->jenis_antrian_id = $id ;
 		}
 		$antrian->antriable_id   = $antrian->id;
+		$antrian->kode_unik      = $this->kodeUnik();
 		$antrian->antriable_type = 'App\\Models\\Antrian';
 		$antrian->save();
 
@@ -312,9 +313,16 @@ class FasilitasController extends Controller
 
 		$antrian       = $this->antrianPost( $id );
 		$nomor_antrian = $antrian->jenis_antrian->prefix . $antrian->nomor;
+        $kode_unik     = $antrian->kode_unik;
 		$jenis_antrian = ucwords( $antrian->jenis_antrian->jenis_antrian );
-		$timestamp = date('Y-m-d H:i:s');
-		return compact('nomor_antrian', 'jenis_antrian', 'timestamp' );
+		$timestamp     = date('Y-m-d H:i:s');
+
+        return compact(
+            'nomor_antrian', 
+            'jenis_antrian', 
+            'timestamp',
+            'kode_unik'
+        );
 	}
 	
 	public function listAntrian(){
@@ -396,5 +404,19 @@ class FasilitasController extends Controller
 		);
 		return redirect()->back()->withPesan($pesan);
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function kodeUnik()
+    {
+        $kode_unik = substr(str_shuffle(MD5(microtime())), 0, 5);
+        while (Antrian::where('created_at', 'like', date('Y-m-d') . '%')->where('kode_unik', $kode_unik)->exists()) {
+            $kode_unik = substr(str_shuffle(MD5(microtime())), 0, 5);
+        }
+        return $kode_unik;
+    }
+    
 }
 

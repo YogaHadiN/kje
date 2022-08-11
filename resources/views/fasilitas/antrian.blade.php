@@ -193,6 +193,7 @@
                 </div>
 				<div class="text-center welcome_title" id="jenis_antrian">Poli Umum</div>
 				<div class="alamat_klinik text-center" id="timestamp">23 Nov 2021 12:00:09</div>
+                <div class="alamat_klinik text-center bold">Kode Unik : <span  id="kode_unik"></span></div>
 				<br />
 	  </section>
 	</div>

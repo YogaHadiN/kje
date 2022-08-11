@@ -1,1 +1,1 @@
-alter table periksas add column hamil int(1) default 0;
+alter table antrians add column kode_unik varchar(5) not null;

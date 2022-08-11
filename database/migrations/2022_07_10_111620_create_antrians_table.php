@@ -19,6 +19,7 @@ class CreateAntriansTable extends Migration
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->string('jenis_antrian_id')->nullable();
             $table->string('url')->nullable();
+            $table->string('kode_unik')->nullable();
             $table->integer('nomor')->nullable();
             $table->string('antriable_id', 30)->nullable()->index();
             $table->string('antriable_type', 30)->nullable()->index();
