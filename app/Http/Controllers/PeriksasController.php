@@ -889,7 +889,7 @@ p */
 	*
 	* @return void
 	*/
-	private function banner_button($periksa)
+	private function banner_button(Periksa $periksa)
 	{
 		if (is_null($periksa->suratSakit)) {
 			$banner_button = "<span> <button type=\"button\" onclick=\"cekMasihAda(this, " . $periksa->id. ");return false;\" class=\"btn btn-success btn-sm\">Buat Surat Sakit</button> <a href=" . url('suratsakits/create/' . $periksa->id . '/' . $periksa->poli_id ) . " class=\"btn btn-success btn-sm rujukan hide\">Buat Surat Sakit2</a> </span>" ;

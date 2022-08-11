@@ -690,7 +690,7 @@ class PasiensController extends Controller
 		$query .= "prx.tanggal as tanggal, ";
 		$query .= "trp.keterangan_pemeriksaan as gula_darah ";
 		$query .= "FROM transaksi_periksas as trp ";
-		$query .= "JOIN jenis_tarif as jtf on jtf.id = trp.jenis_tarif_id ";
+		$query .= "JOIN jenis_tarifs as jtf on jtf.id = trp.jenis_tarif_id ";
 		$query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
 		$query .= "WHERE ";
