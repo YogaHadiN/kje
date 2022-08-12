@@ -11,6 +11,7 @@ use App\Http\Controllers\PasiensController;
 use App\Http\Controllers\AntrianPolisController;
 use App\Http\Controllers\AntriansController;
 use App\Http\Controllers\AntrianPeriksasController;
+use App\Http\Controllers\QrCodeController;
 use App\Http\Requests;
 use App\Models\Fasilitas;
 use App\Models\Asuransi;
@@ -317,10 +318,16 @@ class FasilitasController extends Controller
 		$jenis_antrian = ucwords( $antrian->jenis_antrian->jenis_antrian );
 		$timestamp     = date('Y-m-d H:i:s');
 
+		$url    = url('/');
+		$qr     = new QrCodeController;
+        $qr_code = $qr->inPdf('https://wa.me/6281381912803?text=' . $kode_unik);
+
+
         return compact(
             'nomor_antrian', 
             'jenis_antrian', 
             'timestamp',
+            'qr_code',
             'kode_unik'
         );
 	}

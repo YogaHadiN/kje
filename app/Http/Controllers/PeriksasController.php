@@ -122,6 +122,8 @@ p */
                 return \Redirect::back()->withErrors($validator)->withInput();
             }
 
+            return $this->redirectBackIfAntrianPeriksaNotFound();
+
             $periksa = new Periksa;
             $periksa = $this->inputData($periksa);
 			DB::commit();
@@ -202,11 +204,14 @@ p */
                 return \Redirect::back()->withErrors($validator)->withInput();
             }
 
+            return $this->redirectBackIfAntrianPeriksaNotFound();
+
             $periksa = Periksa::find($id);
             if (is_null($periksa)) {
                 $pesan = Yoga::gagalFlash('Mohon maaf pemeriksaan pasien tidak ditemukan, mohon dapat diulangi dari pendaftaran');
                 return redirect()->back()->withPesan($pesan);
             }
+
             $periksa = $this->inputData($periksa);
             DB::commit();
 
@@ -998,11 +1003,6 @@ p */
     private function inputData(Periksa $periksa)
     {
         //jika pasien sudah hilang dari antrian periksa, mungkin dia sudah diproses ke apotek
-        $antrianperiksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
-        if( is_null( $antrianperiksa) ){
-            $pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrianperiksa, mungkin sudah dimasukkan atau buatlah antrian yang baru');
-            return redirect()->back()->withPesan($pesan);
-        }
         //
         // return var_dump(json_decode(Input::get('terapi'), true));
         //Pada tahap ini ada beberapa yang perlu ditambahkan
@@ -1315,6 +1315,19 @@ p */
                 'rujukan_tiba_meninggal'   => '1',
             ];
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function redirectBackIfAntrianPeriksaNotFound(){
+        $antrianperiksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
+        if( is_null( $antrianperiksa) ){
+            $pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrianperiksa, mungkin sudah dimasukkan atau buatlah antrian yang baru');
+            return redirect()->back()->withPesan($pesan);
+        }
+    }
+    
     
     
     

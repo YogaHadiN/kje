@@ -54,7 +54,7 @@
 
 		@media screen {
 			#section-to-print {
-				visibility: hidden;
+				visibility: visible;
 			}
 		} 
 		@media print {
@@ -107,6 +107,10 @@
 			font-size: 75px !important;
 			margin-bottom : 30px;
 		}
+
+        .small{
+			font-size: 25px !important;
+        }
 	</style>
 
 </head>
@@ -192,7 +196,11 @@
 							A50
                 </div>
 				<div class="text-center welcome_title" id="jenis_antrian">Poli Umum</div>
-                <div class="alamat_klinik text-center bold">Kode Unik : <span  id="kode_unik"></span></div>
+                {{-- <div class="alamat_klinik text-center bold">Kode Unik : <span  id="kode_unik"></span></div> --}}
+                {{-- <div class="text-center"> --}}
+                {{--     <img src="" id="qr_code" alt=""> --}}
+                {{-- </div> --}}
+				{{-- <div class="text-center alamat_klinik">Kirim kode unik di atas melalui whatsapp dan daftar secara online</div> --}}
 				<br />
 	  </section>
 	</div>

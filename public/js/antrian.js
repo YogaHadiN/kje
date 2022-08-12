@@ -14,11 +14,13 @@ function submitAntrian(control) {
             var nomor_antrian = data["nomor_antrian"];
             var jenis_antrian = data["jenis_antrian"];
             var kode_unik = data["kode_unik"];
+            var qr_code = data["qr_code"];
             var timestamp = data["timestamp"];
 
             $("#nomor_antrian").html(nomor_antrian);
             $("#jenis_antrian").html(jenis_antrian);
             $("#kode_unik").html(kode_unik);
+            $("#qr_code").attr("src", qr_code);
             $("#timestamp").html(timestamp);
 
             $(":button").prop("disabled", false);
@@ -30,6 +32,7 @@ function submitAntrian(control) {
                 showConfirmButton: false,
                 timer: 1500,
             });
+
             $("#nomor_bpjs").val("");
             $("#nomor_bpjs").focus();
         }

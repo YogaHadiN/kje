@@ -21,9 +21,6 @@ class Usg extends Model
 	public function perujuk(){
 		return $this->belongsTo('App\Models\Perujuk');
 	}
-	
-
-
 
 	public function getBpdwAttribute(){
 		$bpd = $this->bpd;
