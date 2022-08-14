@@ -33,6 +33,10 @@ class AntriansController extends Controller
 
 	public function destroy($id){
 		$antrian               = Antrian::with('jenis_antrian')->where('id', $id)->first();
+        if (is_null($antrian)) {
+            $pesan = Yoga::gagalFlash('Antrian tidak ditemukan');
+            return redirect()->back()->withPesan($pesan);
+        }
 		$nomor_antrian         = $antrian->nomor_antrian;
 		$pesan                 = Yoga::suksesFlash('Antrian ' . $nomor_antrian . ' BERHASIL dihapus');
 		$whatsapp_registration = $antrian->whatsapp_registration;

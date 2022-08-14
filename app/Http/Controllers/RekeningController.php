@@ -13,6 +13,7 @@ use DB;
 use App\Models\Rekening;
 use App\Models\Asuransi;
 use App\Models\PiutangDibayar;
+use App\Models\PembayaranAsuransi;
 use App\Models\AbaikanTransaksi;
 use App\Models\Classes\Yoga;
 use App\Imports\PembayaranImport;
@@ -255,12 +256,10 @@ class RekeningController extends Controller
 		$total_piutang       = 0;
 		$total_sudah_dibayar = 0;
 
-
-
 		foreach ($rekening->pembayaran_asuransi->piutang_dibayar as $piutang) {
-			$total_sudah_dibayar   += $piutang->pembayaran;
-			$total_tunai   += $piutang->periksa->tunai;
-			$total_piutang += $piutang->periksa->piutang;
+			$total_sudah_dibayar += $piutang->pembayaran;
+			$total_tunai         += $piutang->periksa->tunai;
+			$total_piutang       += $piutang->periksa->piutang;
 		}
 
 		return view('rekenings.show', compact(

@@ -1,1 +1,12 @@
-alter table antrians add column kode_unik varchar(5) not null;
+update pembayaran_asuransis set tenant_id = 1 where tenant_id = 0;
+update jurnal_umums set tenant_id = 1 where tenant_id = 0;
+delete from akun_banks where id = 3;
+delete from antrian_periksas where id = 206294;
+delete from antrians where id in (95676, 95679, 95680, 95682, 95687);
+update jurnal_umums set tenant_id = 1 where tenant_id = 0;
+update nota_juals set tenant_id = 1 where tenant_id = 0;
+update pasiens set tenant_id = 1 where tenant_id = 0;
+update pembayaran_asuransis set tenant_id = 1 where tenant_id = 0;
+update register_ancs set tenant_id = 1 where tenant_id = 0;
+update register_hamils set tenant_id = 1 where tenant_id = 0;
+

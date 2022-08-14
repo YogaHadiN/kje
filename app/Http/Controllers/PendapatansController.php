@@ -650,9 +650,10 @@ class PendapatansController extends Controller
 		$pb->staf_id         = $staf_id;
 		$pb->nota_jual_id    = $nj->id;
 		$pb->akhir           = $akhir;
+		$pb->tenant_id       = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 		$pb->pembayaran      = $dibayar;
 		$pb->tanggal_dibayar = $tanggal;
-		$pb->coa_id      = $coa_id;
+		$pb->coa_id          = $coa_id;
 		$confirm             = $pb->save();
 
 		//update rekening
@@ -733,7 +734,7 @@ class PendapatansController extends Controller
 				'coa_id'          => $coa_id, //coa_kas_di_bank_mandiri = 110001;
 				'debit'           => 1,
 				'nilai'           => $dibayar,
-							'tenant_id'  => session()->get('tenant_id'),
+                'tenant_id'       => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
 				'created_at'      => date('Y-m-d H:i:s'),
 				'updated_at'      => date('Y-m-d H:i:s')
 			];
@@ -744,7 +745,7 @@ class PendapatansController extends Controller
 				'coa_id'          => $coa_id_asuransi,
 				'debit'           => 0,
 				'nilai'           => $dibayar,
-							'tenant_id'  => session()->get('tenant_id'),
+                'tenant_id'       => is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id'),
 				'created_at'      => date('Y-m-d H:i:s'),
 				'updated_at'      => date('Y-m-d H:i:s')
 			];

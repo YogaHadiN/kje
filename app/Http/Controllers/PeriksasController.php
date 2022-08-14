@@ -57,10 +57,10 @@ p */
 	public $belum_ada_tekanan_darah_terkontrol;
     public $antrian;
     public $pasien;
+    public $antrianperiksa;
 	
 
-  public function __construct()
-    {
+  public function __construct(){
         $this->middleware('selesaiPeriksa', ['only' => ['update']]);
 		$this->input_sistolik                        = Input::get('sistolik');
 		$this->input_diastolik                       = Input::get('diastolik');
@@ -71,9 +71,9 @@ p */
 		$this->input_pasien_id                       = Input::get('pasien_id');
 		$this->belum_ada_tekanan_darah_terkontrol    = false;
    }
+
 	public function index()
 	{
-		
 		$periksas = Periksa::all();
 		return view('periksas.index', compact('periksas'));
 	}
@@ -122,7 +122,9 @@ p */
                 return \Redirect::back()->withErrors($validator)->withInput();
             }
 
-            return $this->redirectBackIfAntrianPeriksaNotFound();
+            if ($this->redirectBackIfAntrianPeriksaNotFound()) {
+                return $this->redirectBackIfAntrianPeriksaNotFound();
+            }
 
             $periksa = new Periksa;
             $periksa = $this->inputData($periksa);
@@ -204,7 +206,9 @@ p */
                 return \Redirect::back()->withErrors($validator)->withInput();
             }
 
-            return $this->redirectBackIfAntrianPeriksaNotFound();
+            if ($this->redirectBackIfAntrianPeriksaNotFound()) {
+                return $this->redirectBackIfAntrianPeriksaNotFound();
+            }
 
             $periksa = Periksa::find($id);
             if (is_null($periksa)) {
@@ -1214,7 +1218,7 @@ p */
         //
         //
 
-        $this->antrian = $antrianperiksa->antrian;
+        $this->antrian = $this->antrianperiksa->antrian;
         $periksa->save();
         $this->updateTemplate(
             Input::get('antrian_periksa_id'), 
@@ -1321,8 +1325,8 @@ p */
      * @return void
      */
     private function redirectBackIfAntrianPeriksaNotFound(){
-        $antrianperiksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
-        if( is_null( $antrianperiksa) ){
+        $this->antrianperiksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
+        if( is_null( $this->antrianperiksa) ){
             $pesan = Yoga::gagalFlash('Pasien sudah tidak ada di antrianperiksa, mungkin sudah dimasukkan atau buatlah antrian yang baru');
             return redirect()->back()->withPesan($pesan);
         }
