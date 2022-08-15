@@ -16,6 +16,10 @@ Route::post('woowa/webhook', [\App\Http\Controllers\WoowaController::class, 'web
 Route::post('wablas/webhook', [\App\Http\Controllers\WablasController::class, 'webhook']);
 Route::post('webhook', [\App\Http\Controllers\WablasController::class, 'webhook']);
 
+Route::post('logging/javascript', function()
+{
+	\Log::error('Javascript error:' . json_encode(Input::all()));
+});
 Route::resource('antrians', \App\Http\Controllers\AntriansController::class);
 
 Route::get('fasilitas/antrian_pasien', [\App\Http\Controllers\FasilitasController::class, 'antrian_pasien']); //antrian pasien

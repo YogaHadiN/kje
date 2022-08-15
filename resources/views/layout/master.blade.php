@@ -460,6 +460,31 @@
                 }
             );
         }
+
+        try {
+          window.onerror = function(err, url, line) {
+            //api url
+            var apiUrl = base + '/logging/javascript';
+
+            //suppress browser error messages
+            var suppressErrors = true;
+
+            $.ajax({
+              url: apiUrl,
+              type: 'POST',
+              data: {
+                errorMsg: err,
+                errorLine: line,
+                queryString: document.location.search,
+                url: document.location.pathname,
+                referrer: document.referrer,
+                userAgent: navigator.userAgent
+              }
+            });
+
+            return suppressErrors;
+          };
+        } catch(e) { }
 	</script>
 @yield('footer')
 </body>
