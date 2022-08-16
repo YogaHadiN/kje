@@ -72,7 +72,6 @@
 <script>
   var base = "{{ url('/') }}";
 </script>
-{!! HTML::script('js/plugins/webcam/photo.js')!!}
 {!! HTML::script('js/togglepanel.js')!!}
 {!! HTML::script('js/pasiens.js')!!}
 {!! HTML::script('js/rowEntryPasien.js')!!}

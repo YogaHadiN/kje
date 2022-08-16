@@ -482,7 +482,7 @@
               }
             });
 
-            return suppressErrors;
+            {{-- return suppressErrors; --}}
           };
         } catch(e) { }
 	</script>
