@@ -1,3 +1,4 @@
+console.log("this is spartaaaaa");
 var addSatu = false;
 var id_formula_sirup_add = "";
 var gen_presc_index = 0;

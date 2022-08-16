@@ -47,11 +47,13 @@ class PoliAjaxController extends Controller
 	}
 
 	public function pregsafe(){
-		$merek_id = Input::get('merek_id');
-		$merek = Merek::find($merek_id);
+		$merek_id   = Input::get('merek_id');
+        $merek      = Merek::with('rak.formula.komposisi', 'rak.formula.sediaan')
+                            ->where('id', $merek_id)
+                            ->first();
 		$komposisis = $merek->rak->formula->komposisi;
-		$sediaan = $merek->rak->formula->sediaan;
-		$result = [];
+		$sediaan    = $merek->rak->formula->sediaan->sediaan;
+		$result     = [];
 
 		foreach ($komposisis as $key => $komp) {
 			if(
