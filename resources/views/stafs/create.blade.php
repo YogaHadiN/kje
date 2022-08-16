@@ -32,6 +32,5 @@
 {!! Form::close() !!}
  @stop
  @section('footer') 
-{!! HTML::script('js/plugins/webcam/photo.js')!!}
 {!! HTML::script('js/togglepanel.js')!!}
  @stop

@@ -354,7 +354,6 @@
 <script src="{{ url('js/fotozoom.js') }}" type="text/javascript"></script>
 {!! HTML::script('js/togglepanel.js')!!}
 @if($periksa->rujukan)
-    {!! HTML::script('js/plugins/webcam/photo.js')!!}
 @endif
 	{!! HTML::script('js/kasir_index.js') !!}
 	{!! HTML::script('js/show_periksa.js') !!}

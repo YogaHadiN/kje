@@ -55,5 +55,4 @@
 	 </script>
 {!! HTML::script('js/togglepanel.js')!!}
 {!! HTML::script('js/asuransi_upload.js')!!}
-{!! HTML::script('js/plugins/webcam/photo.js')!!}
  @stop
