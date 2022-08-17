@@ -147,6 +147,7 @@
                             <li>{!! HTML::link('prolanis/denominator_ht', 'Denominator Hipertensi')!!}</li>
                             <li>{!! HTML::link('laporans/ht_terkendali/' . date('Y-m'), 'Data Kunjungan Prolanis HT')!!}</li>
                             <li>{!! HTML::link('laporans/dm_terkendali/' . date('Y-m'), 'Data Kunjungan Prolanis DM')!!}</li>
+                            <li>{!! HTML::link('laporans/bpjs/dispensing_obat', 'Dispensing Obat BPJS')!!}</li>
                             <li>{!! HTML::link('prolanis_terkendali', 'Laporan Rasio Prolanis Terkendali')!!}</li>
                             <li>{!! HTML::link('pasien_rujuk_baliks', 'Pasien Rujuk Balik')!!}</li>
                             <li>{!! HTML::link('pasien_dobel', 'Pasien Dobel')!!}</li>

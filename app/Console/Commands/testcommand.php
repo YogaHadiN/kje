@@ -115,24 +115,8 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $query  = "SHOW TABLES";
-        $data = DB::select($query);
-
-        $tables = [];
-        foreach ($data as $d) {
-            $query  = "SHOW COLUMNS FROM `" . $d->Tables_in_jatielok. "` LIKE 'tenant_id'";
-            $data = DB::select($query);
-            if (count($data)) {
-                $query  = "SELECT * ";
-                $query .= "FROM " . $d->Tables_in_jatielok . " ";
-                $query .= "WHERE tenant_id = 0 or tenant_id is null";
-                $data = DB::select($query);
-                if (count($data)) {
-                    $tables[] = $d->Tables_in_jatielok;
-                }
-            }
-        }
-        dd( $tables );
+        $wablas = new WablasController;
+        $wablas->sendButton();
 	}
 	
 	/**

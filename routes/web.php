@@ -134,6 +134,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('laporans/omset_estetik', [\App\Http\Controllers\LaporansController::class, 'omsetEstetik']);
 	Route::get('laporans/jumlahPenyakitTBCTahunan', [\App\Http\Controllers\LaporansController::class, 'jumlahPenyakitTBCTahunan']);
 	Route::get('laporans/bpjs/hipertensi', [\App\Http\Controllers\LaporanBpjsController::class, 'hipertensi']);
+	Route::get('laporans/bpjs/dispensing_obat', [\App\Http\Controllers\LaporanBpjsController::class, 'dispensingObat']);
+	Route::get('laporans/dispensing_obat_bpjs/get', [\App\Http\Controllers\LaporanBpjsController::class, 'dispensingObatGet']);
+	Route::get('laporans/dispensing_obat_bpjs/{staf_id}', [\App\Http\Controllers\LaporanBpjsController::class, 'dispensingObatPerDokter']);
+
 	Route::get('laporans/bpjs/dm', [\App\Http\Controllers\LaporanBpjsController::class, 'dm']);
 	Route::get('laporans/bpjs/diagnosa', [\App\Http\Controllers\LaporanBpjsController::class, 'diagnosa']);
 	Route::get('laporans/bpjs/data_kunjungan_prolanis_ht', [\App\Http\Controllers\LaporanBpjsController::class, 'dataKunjunganProlanisHT']);

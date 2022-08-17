@@ -195,4 +195,90 @@ class LaporanBpjsController extends Controller
 			'prolanis_ht'
 		));
 	}
+    public function dispensingObat(){
+        return view('laporans.dispensing_obat_bpjs');
+    }
+    public function dispensingObatGet(){
+        $bulanTahun = Input::get('bulanTahun');
+        $bulanTahun = Carbon::createFromFormat('m-Y', $bulanTahun)->format("Y-m");
+        return $this->queryDispensing($bulanTahun);
+    }
+    public function dispensingObatPerDokter($staf_id){
+
+        $this->staf_id = $staf_id;
+
+        $data = $this->queryDispensing();
+
+        return view('laporans.dispensing_obat_bpjs_by_dokter', compact(
+            'data'
+        ));
+
+
+        
+    }
+    
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function queryBulanan($bulanTahun)
+    {
+        return $this->queryDispensing($bulanTahun);
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function queryDispensing($bulanTahun = false)
+    {
+        $query  = "SELECT ";
+        $query .= "bl.tanggal, ";
+        $query .= "bl.nama_staf, ";
+        $query .= "bl.staf_id, ";
+        $query .= "sum(bl.hpp) as hpp, ";
+        $query .= "count(bl.periksa_id) as jumlah_pasien, ";
+        $query .= "cast(bl.hpp / count(bl.periksa_id) as int) as rerata ";
+        $query .= "FROM (";
+        $query .= "SELECT ";
+        $query .= "prx.tanggal as tanggal, ";
+        $query .= "stf.nama as nama_staf, ";
+        $query .= "stf.id as staf_id, ";
+        $query .= "sum(trp.harga_beli_satuan * trp.jumlah) as hpp, ";
+        $query .= "prx.id as periksa_id ";
+        $query .= "FROM periksas as prx ";
+        $query .= "JOIN terapis as trp on trp.periksa_id = prx.id ";
+        $query .= "JOIN stafs as stf on prx.staf_id = stf.id ";
+        $query .= "JOIN asuransis as asu on prx.asuransi_id = asu.id ";
+        if ($bulanTahun) {
+            $query .= "WHERE prx.tanggal like '{$bulanTahun}%' ";
+        } else {
+            $query .= "WHERE prx.staf_id = {$this->staf_id} ";
+        }
+        $query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "AND trp.harga_jual_satuan = 0 ";
+        $query .= "AND stf.titel = 'dr' ";
+        $query .= "AND asu.tipe_asuransi_id = 5 ";
+        $query .= "GROUP BY prx.id";
+        $query .= ") as bl ";
+        $query .= "GROUP BY bl.nama_staf, bl.tanggal ";
+        $query .= "ORDER BY bl.tanggal desc";
+
+        return DB::select($query);
+    }
+    public function arrayPaginator($array, $request) {
+        $page = Input::get('page', 1);
+        $perPage = 10;
+        $offset = ($page * $perPage) - $perPage;
+
+        return new LengthAwarePaginator(array_slice($array, $offset, $perPage, true), count($array), $perPage, $page,
+            ['path' => $request->url(), 'query' => $request->query()]);
+    }
+    
+    
+    
+    
+    
 }
