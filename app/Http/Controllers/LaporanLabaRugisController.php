@@ -348,8 +348,8 @@ class LaporanLabaRugisController extends Controller
 		
 		$query  = "SELECT year(created_at) as tahun ";
 		$query .= "FROM jurnal_umums ";
-		$query .= "GROUP BY year(created_at) ";
 		$query .= "WHERE j.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY year(created_at) ";
 		$data   = DB::select($query);
 
 		$tahun=[];
