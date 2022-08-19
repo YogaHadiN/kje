@@ -676,9 +676,9 @@ class WablasController extends Controller
                 [
                     'phone' => '6285721012351',
                     'message' => [
-                        'buttons' => ["button 1","button 2","button 3"],
-                        'content' => 'content',
-                        'footer' => 'footer',
+                        'buttons' => ["Biaya Pribadi","BPJS", "Lainnya"],
+                        'content' => 'Bisa dibantu sebutkan menggunakan Pembayaran apa?',
+                        'footer' => '',
                     ],
                 ]
             ]
