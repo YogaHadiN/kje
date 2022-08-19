@@ -194,7 +194,8 @@ class InvoiceController extends Controller
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
 		$query .= "WHERE asu.tipe_asuransi_id = 3 ";
 		$query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ;
-		$query .= "AND inv.tenant_id = " . session()->get('tenant_id') . " ";
+        $session = !is_null(session()->get('tenant_id')) ? session()->get('tenant_id') : 1;
+		$query .= "AND inv.tenant_id = " . $session . " ";
 		$query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) ";
 		$query .= "AND asu.id not in (";
 		$query .= "151";

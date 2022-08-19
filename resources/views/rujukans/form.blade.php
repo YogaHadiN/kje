@@ -76,7 +76,7 @@
 									'data-live-search'  => 'true',
 									'aria-describedby'  => 'showModal1',
 									'title'             => 'Perhatikan ICD 10',
-									'onchange'          => 'diagnosaChange();return false;',
+									{{-- 'onchange'          => 'diagnosaChange();return false;', --}}
 									'id'                => 'ddlDiagnosa'
 								]) !!}
 								<span class="input-group-addon anchor" id="showModal1" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
