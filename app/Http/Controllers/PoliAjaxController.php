@@ -142,8 +142,12 @@ class PoliAjaxController extends Controller
 		$query .= "join terapis as trp on trp.periksa_id = p.id ";
 		$query .= "join mereks as mrk on mrk.id = trp.merek_id ";
 		$query .= "join raks as rk on rk.id = mrk.rak_id ";
-		$query .= "where (staf_id=? or staf_id='" . Staf::owner()->id . "' ) ";
-		$query    .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "where (";
+        if ( $asuransi->tipe_asuransi_id != 5  ) {
+            $query .= "staf_id='?' or ";
+        }
+        $query .= "staf_id=" . Staf::owner()->id . " ) ";
+		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and {$parameter_asuransi} ";
 		$query .= "and d.icd10_id = '{$icd10}' ";
 		$query .= "and {$parameter_berat_badan} ";
@@ -155,9 +159,7 @@ class PoliAjaxController extends Controller
 		$query .= "order by jumlah ";
 		$query .= "desc limit 10";
 
-		$query = DB::select($query, [
-			$staf_id 
-		]);
+		$query =  $asuransi->tipe_asuransi_id == 5 ? DB::select($query) : DB::select($query, [ $staf_id ]);
 
 
 		if (count($query)) {

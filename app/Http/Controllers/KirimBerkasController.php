@@ -182,57 +182,51 @@ class KirimBerkasController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator->messages())->withInput();
 		}
-		$staf_id           = Input::get('staf_id');
-		$supplier_id       = Input::get('supplier_id');
-		$nilai             = Yoga::clean( Input::get('nilai') );
-		$tanggal           = Input::get('tanggal');
-		$keterangan        = Input::get('keterangan');
+        DB::beginTransaction();
+        try {
+            $staf_id           = Input::get('staf_id');
+            $supplier_id       = Input::get('supplier_id');
+            $nilai             = Yoga::clean( Input::get('nilai') );
+            $tanggal           = Input::get('tanggal');
+            $keterangan        = Input::get('keterangan');
 
-		$peng                 = new Pengeluaran;
-		$peng->staf_id        = $staf_id;
-		$peng->supplier_id    = $supplier_id;
-		$peng->nilai          = $nilai;
-		$peng->tanggal        = Yoga::datePrep( $tanggal );
-		$peng->sumber_uang_id = Input::get('sumber_uang');
-		$peng->keterangan     = $keterangan;
-		$peng->save();
-		$peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id,'img/belanja/lain');
-		$confirm              = $peng->save();
+            $peng                 = new Pengeluaran;
+            $peng->staf_id        = $staf_id;
+            $peng->supplier_id    = $supplier_id;
+            $peng->nilai          = $nilai;
+            $peng->tanggal        = Yoga::datePrep( $tanggal );
+            $peng->sumber_uang_id = Input::get('sumber_uang');
+            $peng->keterangan     = $keterangan;
+            $peng->save();
+            $peng->faktur_image   = $this->imageUpload('faktur', 'faktur_image', $peng->id,'img/belanja/lain');
+            $confirm              = $peng->save();
 
-		$kirim_berkas                        = KirimBerkas::find($id);
-		$kirim_berkas->foto_berkas_dan_bukti = $this->imageUpload('faktur', 'foto_berkas_dan_bukti', $kirim_berkas->id_view, 'img/foto_berkas_dan_bukti');
-		$kirim_berkas->pengeluaran_id        = $peng->id;
-		$kirim_berkas->save();
+            $kirim_berkas                        = KirimBerkas::find($id);
+            $kirim_berkas->foto_berkas_dan_bukti = $this->imageUpload('faktur', 'foto_berkas_dan_bukti', $kirim_berkas->id_view, 'img/foto_berkas_dan_bukti');
+            $kirim_berkas->pengeluaran_id        = $peng->id;
+            $kirim_berkas->save();
 
-
-
-		if ($confirm) {
-			$jurnals = [];
-			$timestamp = $peng->created_at;
-			$jurnals[] = [
-				'jurnalable_id'   => $peng->id,
-				'jurnalable_type' => 'App\Models\Pengeluaran',
-				'debit'           => 1,
-				'coa_id'           => null,
-				'nilai'           => $peng->nilai,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
-			];
-
-			$jurnals[] = [
-				'jurnalable_id'   => $peng->id,
-				'jurnalable_type' => 'App\Models\Pengeluaran',
-				'coa_id'          => Input::get('sumber_uang'),
-				'debit'           => 0,
-				'nilai'           => $peng->nilai,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
-			];
-			JurnalUmum::insert($jurnals);
-		}
-		$nama_supplier = Supplier::find($supplier_id)->nama;
+            if ($confirm) {
+                $jurnals = [
+                    [
+                        'debit'           => 1,
+                        'coa_id'          => null,
+                        'nilai'           => $peng->nilai,
+                    ],
+                    [
+                        'coa_id'          => Input::get('sumber_uang'),
+                        'debit'           => 0,
+                        'nilai'           => $peng->nilai,
+                    ]
+                ];
+                $peng->jurnals()->createMany($jurnals);
+            }
+            $nama_supplier = Supplier::find($supplier_id)->nama;
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 		return redirect('kirim_berkas')->withPesan(Yoga::suksesFlash('Transaksi Uang Keluar kepada ' . $nama_supplier . ' senilai <span class=uang>' . $nilai .'</span> berhasil dilakukan'))->withPrint($peng->id);
 
 	}
