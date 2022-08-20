@@ -237,36 +237,34 @@ class KasirsController extends Controller
 		// yang kolom received_verification nya null
 		//
 
-		/* $invC = new InvoiceController; */
-		/* $invoiceBelumDiterimaAdmedika = $invC->queryPendingReceivedVerification(); */
+		$invC = new InvoiceController;
+		$invoiceBelumDiterimaAdmedika = $invC->queryPendingReceivedVerification();
 
 
-		/* // Jika invoice terakhir sudah dikirim 1 minggu yang lalu, maka */ 
-		/* $validateReceivedVerification = 'primary'; */
-		/* if ( */ 
-		/* 	count($invoiceBelumDiterimaAdmedika)  && */
-		/* 	day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 7 */ 
-		/* ) { */
-		/* 	$status                      = 'warning'; */
-		/* 	$validateReceivedVerification = 'warning'; */
-		/* } */
+		// Jika invoice terakhir sudah dikirim 1 minggu yang lalu, maka 
+		$validateReceivedVerification = 'primary';
+		if ( 
+			count($invoiceBelumDiterimaAdmedika)  &&
+			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 7 
+		) {
+			$status                      = 'warning';
+			$validateReceivedVerification = 'warning';
+		}
 
 
-		/* if ( */
-		/* 	count($invoiceBelumDiterimaAdmedika)  && */
-		/* 	day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 */ 
-		/* ) { */
-		/* 	$status                      = 'danger'; */
-		/* 	$validateReceivedVerification = 'danger'; */
-		/* } */
-
-		/* dd( $status ); */
+		if (
+			count($invoiceBelumDiterimaAdmedika)  &&
+			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 
+		) {
+			$status                      = 'danger';
+			$validateReceivedVerification = 'danger';
+		}
 
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
-			/* 'invoiceBelumDiterimaAdmedika', */
-			/* 'validateReceivedVerification', */
+			'invoiceBelumDiterimaAdmedika',
+			'validateReceivedVerification',
 			'denominatorBpjsWarning',
 			/* 'validasiProlanisBpjsWarning', */
 			/* 'pasienProlanisBulanIniSudahDiupload', */

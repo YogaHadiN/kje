@@ -94,19 +94,21 @@
 	{{-- 		</div> --}}
 	{{-- 	</div> --}}
 	{{-- @endif --}}
-	{{-- <div class="panel panel-{{ $validateReceivedVerification }}"> --}}
-	{{-- 	<div class="panel-heading"> --}}
-	{{-- 		<h3 class="panel-title">Verifikasi Invoice Sudah Diterima Admeika</h3> --}}
-	{{-- 	</div> --}}
-	{{-- 	<div class="panel-body"> --}}
-	{{-- 		@if ( count($invoiceBelumDiterimaAdmedika) ) --}}
-	{{-- 			<p>Invoice Yang Belum Verifikasi Diterima Sebanyak  </p> --}}
-	{{-- 			<h1><a href="{{ url('invoices/pendingReceivedVerification') }}" target="_blank">{{ count($invoiceBelumDiterimaAdmedika) }} Berkas</a> </h1> --}}
-	{{-- 		@else --}}
-	{{-- 			<h3>Semua Invoice sudah diverifikasi</h3> --}}
-	{{-- 		@endif --}}
-	{{-- 	</div> --}}
-	{{-- </div> --}}
+
+	<div class="panel panel-{{ $validateReceivedVerification }}">
+		<div class="panel-heading">
+			<h3 class="panel-title">Verifikasi Invoice Sudah Diterima Admeika</h3>
+		</div>
+		<div class="panel-body">
+			@if ( count($invoiceBelumDiterimaAdmedika) )
+				<p>Invoice Yang Belum Verifikasi Diterima Sebanyak  </p>
+				<h1><a href="{{ url('invoices/pendingReceivedVerification') }}" target="_blank">{{ count($invoiceBelumDiterimaAdmedika) }} Berkas</a> </h1>
+			@else
+				<h3>Semua Invoice sudah diverifikasi</h3>
+			@endif
+		</div>
+	</div>
+
 	{{-- <div class="panel panel-{{ $vultrWarning }}"> --}}
 	{{-- 	<div class="panel-heading"> --}}
 	{{-- 		<h3 class="panel-title">Vultr</h3> --}}

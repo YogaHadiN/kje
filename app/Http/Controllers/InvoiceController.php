@@ -154,23 +154,6 @@ class InvoiceController extends Controller
 	}
 	public function queryPendingReceivedVerification(){
 
-		/* $query  = "SELECT "; */
-		/* $query .= "inv.id as invoice_id, "; */
-		/* $query .= "inv.created_at as created_at, "; */
-		/* $query .= "inv.created_at as tanggal, "; */
-		/* $query .= "sum(prx.piutang) as total_piutang, "; */
-		/* $query .= "sum(pdb.pembayaran) as total_pembayaran, "; */
-		/* $query .= "asu.nama as nama_asuransi "; */
-		/* $query .= "FROM invoices as inv "; */
-		/* $query .= "JOIN periksas as prx on prx.invoice_id = inv.id "; */
-		/* $query .= "JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id "; */
-		/* $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id "; */
-		/* $query .= "WHERE asu.tipe_asuransi = 3 "; */
-		/* $query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ; */
-		/* $query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) "; */
-		/* $query .= "GROUP BY inv.id "; */
-		/* $query .= "HAVING sum( prx.piutang ) - sum( pdb.pembayaran ) > 0 "; */
-		/* $query .= "ORDER BY inv.created_at asc "; */
 
 		$query  = "SELECT ";
 		$query .= "invoice_id, ";
@@ -192,8 +175,9 @@ class InvoiceController extends Controller
 		$query .= "JOIN periksas as prx on prx.invoice_id = inv.id ";
 		$query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
 		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+		$query .= "JOIN kirim_berkas as krb on krb.id = inv.kirim_berkas_id ";
 		$query .= "WHERE asu.tipe_asuransi_id = 3 ";
-		$query .= "AND inv.created_at > '" . date('Y-m', strtotime("-5 months", strtotime("NOW"))) . "-01 00:00:00' " ;
+		$query .= "AND krb.tanggal >= '" . date('Y-m-01', strtotime("-5 months", strtotime("NOW"))) . "' " ;
         $session = !is_null(session()->get('tenant_id')) ? session()->get('tenant_id') : 1;
 		$query .= "AND inv.tenant_id = " . $session . " ";
 		$query .= "AND ( inv.received_verification is null or inv.received_verification = '' ) ";
