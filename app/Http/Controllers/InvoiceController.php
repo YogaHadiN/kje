@@ -167,7 +167,7 @@ class InvoiceController extends Controller
 		$query .= "SELECT ";
 		$query .= "inv.id as invoice_id, ";
 		$query .= "inv.created_at as created_at, ";
-		$query .= "inv.created_at as tanggal, ";
+		$query .= "krb.tanggal as tanggal, ";
 		$query .= "prx.piutang as piutang, ";
 		$query .= "COALESCE(sum(pdb.pembayaran),0) as pembayaran, ";
 		$query .= "asu.nama as nama_asuransi ";
