@@ -177,18 +177,18 @@ class KasirsController extends Controller
 		// ==========================================================================================
 		//
 		//
-		$pasienProlanisBulanIniSudahDiupload  = PasienProlanis::where('created_at', 'like', date('Y-m') . '%')->exists();
-		$uploadDataPesertaBpjsWarning = 'primary';
+		/* $pasienProlanisBulanIniSudahDiupload  = PasienProlanis::where('created_at', 'like', date('Y-m') . '%')->exists(); */
+		/* $uploadDataPesertaBpjsWarning = 'primary'; */
 
-		if ( date('j') > 6 && !$pasienProlanisBulanIniSudahDiupload  ) {
-			$status                       = 'warning';
-			$uploadDataPesertaBpjsWarning = 'warning';
-		} 
+		/* if ( date('j') > 6 && !$pasienProlanisBulanIniSudahDiupload  ) { */
+		/* 	$status                       = 'warning'; */
+		/* 	$uploadDataPesertaBpjsWarning = 'warning'; */
+		/* } */ 
 
-		if ( date('j') > 14 && !$pasienProlanisBulanIniSudahDiupload ) {
-			$status                       = 'danger';
-			$uploadDataPesertaBpjsWarning = 'danger';
-		} 
+		/* if ( date('j') > 14 && !$pasienProlanisBulanIniSudahDiupload ) { */
+		/* 	$status                       = 'danger'; */
+		/* 	$uploadDataPesertaBpjsWarning = 'danger'; */
+		/* } */ 
 
 		/* dd( ' $pasienProlanisBulanIniSudahDiupload ', $pasienProlanisBulanIniSudahDiupload ); */
 
@@ -270,7 +270,7 @@ class KasirsController extends Controller
 			'denominatorBpjsWarning',
 			/* 'validasiProlanisBpjsWarning', */
 			/* 'pasienProlanisBulanIniSudahDiupload', */
-			'uploadDataPesertaBpjsWarning',
+			/* 'uploadDataPesertaBpjsWarning', */
 			'mootaWarning',
 			'status',
 			'pasien_pertama_belum_dikirim',
