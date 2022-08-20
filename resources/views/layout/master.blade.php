@@ -169,7 +169,7 @@
                             <li>{!! HTML::link('promo/kecantikan/ktp/pertahun', 'Promo KTP Per Tahun')!!}</li>
                             <li>{!! HTML::link('gopays', 'Go Pay')!!}</li>
                             <li>{!! HTML::link('pajaks/peredaran_bruto/bikinan', 'Laporan Peredaran Bruto')!!}</li>
-                            <li>{!! HTML::link('asuransis/cek_pembayaran', 'Cek Pembayaran Asuransi')!!}</li>
+                            {{-- <li>{!! HTML::link('asuransis/cek_pembayaran', 'Cek Pembayaran Asuransi')!!}</li> --}}
                         </ul>
                     </li>
                     <li>

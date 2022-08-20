@@ -197,33 +197,33 @@ class KasirsController extends Controller
 		// ==========================================================================================
 		//
 		//
-		$validasiProlanisBpjsWarning = 'primary';
+		/* $validasiProlanisBpjsWarning = 'primary'; */
 
 
-		// Jika data peserta bpjs sudah diupload
-		if ($pasienProlanisBulanIniSudahDiupload) {
+		/* // Jika data peserta bpjs sudah diupload */
+		/* if ($pasienProlanisBulanIniSudahDiupload) { */
 
-			// Cari pasien yang memiliki image kartu bpjs dan masuk dalam pasien_prolanis bulan ini
-			$bulanIni               = date('Y-m');
-			$query                  = "SELECT count(ppr.id) as count "; // cari semua
-			$query                 .= "FROM pasien_prolanis as ppr ";
-			$query                 .= "JOIN pasiens as psn on psn.id = ppr.pasien_id ";
-			$query                 .= "WHERE ppr.created_at like '{$bulanIni}%' ";
-			$query                 .= "AND ppr.tenant_id = " . session()->get('tenant_id') . " ";
-			$query                 .= "AND ( psn.verifikasi_prolanis_dm_id = 1 or psn.verifikasi_prolanis_ht_id = 1 )";
-			$query                 .= "AND ( psn.bpjs_image is not null and psn.bpjs_image not like '' ) ";
-			$pasienBelumDivalidasi  = DB::select($query);
+		/* 	// Cari pasien yang memiliki image kartu bpjs dan masuk dalam pasien_prolanis bulan ini */
+		/* 	$bulanIni               = date('Y-m'); */
+		/* 	$query                  = "SELECT count(ppr.id) as count "; // cari semua */
+		/* 	$query                 .= "FROM pasien_prolanis as ppr "; */
+		/* 	$query                 .= "JOIN pasiens as psn on psn.id = ppr.pasien_id "; */
+		/* 	$query                 .= "WHERE ppr.created_at like '{$bulanIni}%' "; */
+		/* 	$query                 .= "AND ppr.tenant_id = " . session()->get('tenant_id') . " "; */
+		/* 	$query                 .= "AND ( psn.verifikasi_prolanis_dm_id = 1 or psn.verifikasi_prolanis_ht_id = 1 )"; */
+		/* 	$query                 .= "AND ( psn.bpjs_image is not null and psn.bpjs_image not like '' ) "; */
+		/* 	$pasienBelumDivalidasi  = DB::select($query); */
 
-			if ( date('j') > 6 && count($pasienBelumDivalidasi) > 1) {
-				$status                      = 'warning';
-				$validasiProlanisBpjsWarning = 'warning';
-			} 
+		/* 	if ( date('j') > 6 && count($pasienBelumDivalidasi) > 1) { */
+		/* 		$status                      = 'warning'; */
+		/* 		$validasiProlanisBpjsWarning = 'warning'; */
+		/* 	} */ 
 
-			if ( date('j') > 14 && count($pasienBelumDivalidasi) > 1) {
-				$status                      = 'danger';
-				$validasiProlanisBpjsWarning = 'danger';
-			} 
-		}
+		/* 	if ( date('j') > 14 && count($pasienBelumDivalidasi) > 1) { */
+		/* 		$status                      = 'danger'; */
+		/* 		$validasiProlanisBpjsWarning = 'danger'; */
+		/* 	} */ 
+		/* } */
 
 		// ==========================================================================================
 		// VALIDASI Verifikasi kalau tagihan admedika sudah diterima
@@ -237,38 +237,38 @@ class KasirsController extends Controller
 		// yang kolom received_verification nya null
 		//
 
-		$invC = new InvoiceController;
-		$invoiceBelumDiterimaAdmedika = $invC->queryPendingReceivedVerification();
+		/* $invC = new InvoiceController; */
+		/* $invoiceBelumDiterimaAdmedika = $invC->queryPendingReceivedVerification(); */
 
 
-		// Jika invoice terakhir sudah dikirim 1 minggu yang lalu, maka 
-		$validateReceivedVerification = 'primary';
-		if ( 
-			count($invoiceBelumDiterimaAdmedika)  &&
-			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 7 
-		) {
-			$status                      = 'warning';
-			$validateReceivedVerification = 'warning';
-		}
+		/* // Jika invoice terakhir sudah dikirim 1 minggu yang lalu, maka */ 
+		/* $validateReceivedVerification = 'primary'; */
+		/* if ( */ 
+		/* 	count($invoiceBelumDiterimaAdmedika)  && */
+		/* 	day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 7 */ 
+		/* ) { */
+		/* 	$status                      = 'warning'; */
+		/* 	$validateReceivedVerification = 'warning'; */
+		/* } */
 
 
-		if (
-			count($invoiceBelumDiterimaAdmedika)  &&
-			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 
-		) {
-			$status                      = 'danger';
-			$validateReceivedVerification = 'danger';
-		}
+		/* if ( */
+		/* 	count($invoiceBelumDiterimaAdmedika)  && */
+		/* 	day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 14 */ 
+		/* ) { */
+		/* 	$status                      = 'danger'; */
+		/* 	$validateReceivedVerification = 'danger'; */
+		/* } */
 
 		/* dd( $status ); */
 
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
-			'invoiceBelumDiterimaAdmedika',
-			'validateReceivedVerification',
+			/* 'invoiceBelumDiterimaAdmedika', */
+			/* 'validateReceivedVerification', */
 			'denominatorBpjsWarning',
-			'validasiProlanisBpjsWarning',
+			/* 'validasiProlanisBpjsWarning', */
 			'pasienProlanisBulanIniSudahDiupload',
 			'uploadDataPesertaBpjsWarning',
 			'mootaWarning',

@@ -158,8 +158,4 @@ class CoasController extends Controller
 		$coa = Coa::where( 'kode_coa', $coa_id )->first();
 		return $coa->coa;
 	}
-	
-	
-	
-	
 }

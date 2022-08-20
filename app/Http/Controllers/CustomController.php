@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\Antrian;
 use App\Models\WhatsappRegistration;
+use App\Models\WablasController;
 use App\Models\Poli;
 use App\Models\Coa;
 use App\Models\KlaimGdpBpjs;
