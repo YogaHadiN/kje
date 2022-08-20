@@ -72,15 +72,15 @@
 		</div>
 	</div>
 
-	<div class="panel panel-{{ $uploadDataPesertaBpjsWarning }}">
-		<div class="panel-heading">
-			<h3 class="panel-title">Upload Data Peserta BPJS</h3>
-		</div>
-		<div class="panel-body">
-			<p>Data Peserta Bpjs Harus di Upload Antara tanggal 6 - 14 setiap bulannya</p>
-			<p> <a href="{{ url('prolanis') }}">Klik Disini</a> untuk melihat </p>
-		</div>
-	</div>
+	{{-- <div class="panel panel-{{ $uploadDataPesertaBpjsWarning }}"> --}}
+	{{-- 	<div class="panel-heading"> --}}
+	{{-- 		<h3 class="panel-title">Upload Data Peserta BPJS</h3> --}}
+	{{-- 	</div> --}}
+	{{-- 	<div class="panel-body"> --}}
+	{{-- 		<p>Data Peserta Bpjs Harus di Upload Antara tanggal 6 - 14 setiap bulannya</p> --}}
+	{{-- 		<p> <a href="{{ url('prolanis') }}">Klik Disini</a> untuk melihat </p> --}}
+	{{-- 	</div> --}}
+	{{-- </div> --}}
 
 	{{-- @if ($pasienProlanisBulanIniSudahDiupload) --}}
 	{{-- 	<div class="panel panel-{{ $validasiProlanisBpjsWarning }}"> --}}

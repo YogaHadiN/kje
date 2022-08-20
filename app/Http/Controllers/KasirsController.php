@@ -269,7 +269,7 @@ class KasirsController extends Controller
 			/* 'validateReceivedVerification', */
 			'denominatorBpjsWarning',
 			/* 'validasiProlanisBpjsWarning', */
-			'pasienProlanisBulanIniSudahDiupload',
+			/* 'pasienProlanisBulanIniSudahDiupload', */
 			'uploadDataPesertaBpjsWarning',
 			'mootaWarning',
 			'status',
