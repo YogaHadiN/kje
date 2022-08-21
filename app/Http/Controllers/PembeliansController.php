@@ -34,9 +34,9 @@ class PembeliansController extends Controller
 	
 	public function index(){
 
-		$pembelians = Pembelian::with('fakturbelanja')->latest()->paginate(10);
+		/* $pembelians = Pembelian::with('fakturbelanja')->latest()->paginate(10); */
 
-		return view('pembelians.index', compact('pembelians'));
+		return view('pembelians.index');
 
 	}
 
@@ -674,7 +674,9 @@ class PembeliansController extends Controller
 		$nama_supplier  = Input::get('nama_supplier');
 		$displayed_rows = Input::get('displayed_rows');
 		$key            = Input::get('key');
-		$tanggal            = Input::get('tanggal');
+		$tanggal        = Input::get('tanggal');
+		$kode_rak       = Input::get('kode_rak');
+		$formula_id     = Input::get('formula_id');
 
 
 		$psn           = new PasiensAjaxController;
@@ -687,8 +689,8 @@ class PembeliansController extends Controller
 
 		$pass = $key * $displayed_rows;
 
-		$datas = $this->queryAjax($tanggal,$nomor_faktur, $merek, $harga_beli, $harga_jual, $nama_supplier, $pass, $displayed_rows);
-		$counts = $this->queryAjax($tanggal,$nomor_faktur, $merek, $harga_beli, $harga_jual, $nama_supplier, $pass, $displayed_rows, true);
+		$datas = $this->queryAjax($formula_id, $kode_rak,$tanggal,$nomor_faktur, $merek, $harga_beli, $harga_jual, $nama_supplier, $pass, $displayed_rows);
+		$counts = $this->queryAjax($formula_id, $kode_rak,$tanggal,$nomor_faktur, $merek, $harga_beli, $harga_jual, $nama_supplier, $pass, $displayed_rows, true);
 
 		$count = $counts[0]->jumlah;
 
@@ -703,13 +705,15 @@ class PembeliansController extends Controller
 		];
 
 	}
-	private function queryAjax($tanggal,$nomor_faktur, $merek, $harga_beli, $harga_jual, $nama_supplier, $pass, $displayed_rows, $count = false){
+	private function queryAjax($formula_id, $kode_rak,$tanggal,$nomor_faktur, $merek, $harga_beli, $harga_jual, $nama_supplier, $pass, $displayed_rows, $count = false){
 
 		$query  = "SELECT ";
 		if ( !$count ) {
 			$query .= "pb.id as id, ";
 			$query .= "fb.tanggal as tanggal, ";
 			$query .= "mr.merek as merek, ";
+			$query .= "rk.kode_rak as kode_rak, ";
+			$query .= "rk.formula_id as formula_id, ";
 			$query .= "pb.harga_beli as harga_beli, ";
 			$query .= "pb.harga_jual as harga_jual, ";
 			$query .= "pb.exp_date as exp_date, ";
@@ -721,6 +725,7 @@ class PembeliansController extends Controller
 		}
 		$query .= "FROM pembelians as pb ";
 		$query .= "JOIN mereks as mr on mr.id = pb.merek_id ";
+		$query .= "JOIN raks as rk on rk.id = mr.rak_id ";
 		$query .= "JOIN faktur_belanjas as fb on fb.id = pb.faktur_belanja_id ";
 		$query .= "JOIN suppliers as sp on sp.id = fb.supplier_id ";
 		$query .= "WHERE ( mr.merek like ? or ? = '' ) ";
@@ -729,6 +734,8 @@ class PembeliansController extends Controller
 		$query .= "AND ( pb.harga_beli like ? or ? = '' ) ";
 		$query .= "AND ( pb.harga_jual like ? or ? = '' ) ";
 		$query .= "AND ( fb.tanggal like ? or ? = '' ) ";
+		$query .= "AND ( rk.kode_rak like ? or ? = '' ) ";
+		$query .= "AND ( rk.formula_id like ? or ? = '' ) ";
 		$query .= "AND pb.tenant_id = " . session()->get('tenant_id') . " ";
 		if (!$count) {
 			$query .= "ORDER BY pb.created_at desc ";
@@ -746,7 +753,11 @@ class PembeliansController extends Controller
 			'%' . $harga_jual . '%',
 			$harga_jual,
 			 $tanggal . '%',
-			$tanggal 
+			$tanggal ,
+			 $kode_rak . '%',
+			$kode_rak ,
+			 $formula_id . '%',
+			$formula_id ,
 		]);
 		return $data;
 

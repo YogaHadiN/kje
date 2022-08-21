@@ -417,7 +417,7 @@ class FormulasController extends Controller
 		$query .= "where fr.id='{$id}' ";
 		$query .= "AND fr.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by supplier_id ";
-		$query .= "order by pb.harga_beli asc ";
+		$query .= "order by fb.tanggal desc ";
 		$supplierprices = DB::select($query);
 
 		return view('formulas.show', compact('formula', 'raks', 'supplierprices'));
