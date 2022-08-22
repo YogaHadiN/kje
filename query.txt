@@ -1,12 +1,31 @@
-update pembayaran_asuransis set tenant_id = 1 where tenant_id = 0;
-update jurnal_umums set tenant_id = 1 where tenant_id = 0;
-delete from akun_banks where id = 3;
-delete from antrian_periksas where id = 206294;
-delete from antrians where id in (95676, 95679, 95680, 95682, 95687);
-update jurnal_umums set tenant_id = 1 where tenant_id = 0;
-update nota_juals set tenant_id = 1 where tenant_id = 0;
-update pasiens set tenant_id = 1 where tenant_id = 0;
-update pembayaran_asuransis set tenant_id = 1 where tenant_id = 0;
-update register_ancs set tenant_id = 1 where tenant_id = 0;
-update register_hamils set tenant_id = 1 where tenant_id = 0;
+ALTER TABLE tenants ADD COLUMN kode_unik VARCHAR(5);
+ALTER TABLE whatsapp_registrations ADD COLUMN nama VARCHAR(255);
+ALTER TABLE whatsapp_registrations ADD COLUMN registrasi_pembayaran_id int(1);
+ALTER TABLE whatsapp_registrations ADD COLUMN tanggal_lahir date;
+ALTER TABLE whatsapp_registrations ADD COLUMN registering_confirmation int(1) not null;
 
+ALTER TABLE antrians ADD COLUMN nama VARCHAR(255);
+ALTER TABLE antrians ADD COLUMN registrasi_pembayaran_id int(1);
+ALTER TABLE antrians ADD COLUMN tanggal_lahir date;
+
+CREATE TABLE registrasi_pembayarans (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    pembayaran varchar(255) ,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO registrasi_pembayarans VALUES (null, 'Biaya Pribadi', now(), now());
+INSERT INTO registrasi_pembayarans VALUES (null, 'BPJS', now(), now());
+INSERT INTO registrasi_pembayarans VALUES (null, 'Lainnya', now(), now());
+
+ALTER TABLE antrians
+    DROP COLUMN nomor_bpjs,
+    DROP COLUMN poli_id,
+    DROP COLUMN nama_asuransi,
+    DROP COLUMN nomor_asuransi,
+    DROP COLUMN konfirmasi_nomor_antrian,
+    DROP COLUMN alamat,
+    DROP COLUMN pembayaran;
+
+ALTER TABLE antrians ADD COLUMN registrasi_pembayaran_id varchar(255);
