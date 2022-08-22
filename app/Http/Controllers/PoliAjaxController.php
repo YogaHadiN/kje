@@ -88,7 +88,7 @@ class PoliAjaxController extends Controller
         $staf_id               = input::get('staf_id');
         $icd10                 = Diagnosa::find($diagnosa_id)->icd10_id;
         $asuransi              = Asuransi::find($asuransi_id);
-        $tipe_asuransi_id         = $asuransi->tipe_asuransi_id;
+        $tipe_asuransi_id      = $asuransi->tipe_asuransi_id;
         $parameter_asuransi    = '';
         $parameter_berat_badan = '';
 
@@ -144,7 +144,7 @@ class PoliAjaxController extends Controller
 		$query .= "join raks as rk on rk.id = mrk.rak_id ";
         $query .= "where (";
         if ( $asuransi->tipe_asuransi_id != 5  ) {
-            $query .= "staf_id='?' or ";
+            $query .= "staf_id= {$staf_id} or ";
         }
         $query .= "staf_id=" . Staf::owner()->id . " ) ";
 		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
@@ -157,10 +157,9 @@ class PoliAjaxController extends Controller
 		$query .= "and p.created_at > '2016-01-22 18:15:04' ";
 		$query .= "group by terapih ";
 		$query .= "order by jumlah ";
-		$query .= "desc limit 10";
+		$query .= "desc limit 10;";
 
-		$query =  $asuransi->tipe_asuransi_id == 5 ? DB::select($query) : DB::select($query, [ $staf_id ]);
-
+		$query =  DB::select($query);
 
 		if (count($query)) {
 			$periksa_ids = [];
@@ -168,10 +167,8 @@ class PoliAjaxController extends Controller
 				$periksa_ids[] = $q->periksa_id;
 			}
 
-
 			$terapi_terapi = Terapi::with('merek.rak.formula.rak.merek')->whereIn('periksa_id', $periksa_ids)->get(['merek_id', 'signa', 'aturan_minum', 'jumlah', 'periksa_id']);
 
-			//return $terapi_terapi; //161025028
 			$array = [];
 			foreach ($terapi_terapi as $t) {
 				$array[$t->periksa_id][] = $t;
@@ -180,10 +177,9 @@ class PoliAjaxController extends Controller
 			foreach ($query as $key => $q) {
 				$periksa_id = $q->periksa_id;
 				if (isset($array[$periksa_id])) {
-					$terapi = $array[$periksa_id];
-					$terapi = $this->sesuaikanResep($terapi, $asuransi);
-					$terapi = $this->masukLagi($terapi);
-					//terapih
+					$terapi  = $array[$periksa_id];
+					$terapi  = $this->sesuaikanResep($terapi, $asuransi);
+					$terapi  = $this->masukLagi($terapi);
 					$terapih = $q->terapih;
 					$terapih = json_decode($terapih, true);
 
@@ -191,7 +187,6 @@ class PoliAjaxController extends Controller
 					$query[$key]->terapi = $terapi;
 				}
 			}
-			//return $query;
 			return json_encode($query);
 		}
 	}
@@ -202,6 +197,7 @@ class PoliAjaxController extends Controller
 		$tidakdirujuk        = Tidakdirujuk::where('icd10_id', $icd10)->get();
 		$ganti_diagnosa      = 0;
 		$tidak_boleh_dirujuk = 0;
+
 		$pasien = Pasien::find( $pasien_id );
 
 		if (
@@ -257,12 +253,12 @@ class PoliAjaxController extends Controller
 
 	public function insigna(){
 
-		$signa = str_replace(' ', '', Input::get('signa'));
+		$signa       = str_replace(' ', '', Input::get('signa'));
 		$warningSama = '';
-		$id = '';
-		$temp = '';
+		$id          = '';
+		$temp        = '';
 
-		$query = "SELECT * ";
+		$query  = "SELECT * ";
 		$query .= "FROM signas ";
 		$query .= "WHERE replace(signa,' ','') = '" . $signa . "'";
 		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
