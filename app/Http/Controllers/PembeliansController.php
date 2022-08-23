@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use App\Http\Controllers\PasiensAjaxController;
 use App\Models\Pembelian;
+use App\Models\Sediaan;
 use App\Models\BelanjaPeralatan;
 use App\Models\FakturBelanja;
 use App\Models\Merek;
@@ -54,20 +55,7 @@ class PembeliansController extends Controller
 
 		$formula = Formula::first();
 		$fornas = Yoga::fornas();
-		$sediaan = [
-			null 				=> '- pilih -',
-			'tablet'  			=> 'tablet',
-			'syrup'  			=> 'syrup',
-			'drop'  			=> 'drop',
-			'capsul' 			=> 'capsul',
-			'ampul'  			=> 'ampul',
-			'vial'  			=> 'vial',
-			'tetes mata'  		=> 'tetes mata',
-			'tetes telinga' 	=> 'tetes telinga',
-			'salep'  			=> 'salep',
-			'gel'  				=> 'gel',
-			'tube'  			=> 'tube'
-		];
+        $sediaan_list = Sediaan::pluck('sediaan', 'id');
 
 		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
@@ -87,7 +75,7 @@ class PembeliansController extends Controller
 			, 'id' 
 			, 'fakturbelanja'
 			, 'kelas_obat_list'
-			, 'sediaan'
+			, 'sediaan_list'
 			, 'generik'
 			, 'dijual_bebas'
 			, 'signas'
@@ -258,20 +246,7 @@ class PembeliansController extends Controller
 		$formula = Formula::first();
 		$fornas = Yoga::fornas();
 		$alternatif_fornas = array('0' => '- Pilih Merek -') + $mereks->pluck('merek', 'id')->all();
-		$sediaan = [
-			null 				=> '- pilih -',
-			'tablet'  			=> 'tablet',
-			'syrup'  			=> 'syrup',
-			'drop'  			=> 'drop',
-			'capsul' 			=> 'capsul',
-			'ampul'  			=> 'ampul',
-			'vial'  			=> 'vial',
-			'tetes mata'  		=> 'tetes mata',
-			'tetes telinga' 	=> 'tetes telinga',
-			'salep'  			=> 'salep',
-			'gel'  				=> 'gel',
-			'tube'  			=> 'tube'
-		];
+        $sediaan_list = Sediaan::pluck('sediaan', 'id');
 
 		$alternatif_fornas = array('' => '- Pilih Merek -') + $mereks->pluck('merek', 'id')->all();
 		$dijual_bebas = array(
@@ -306,7 +281,7 @@ class PembeliansController extends Controller
 			'mereks'
 			, 'id' 
 			, 'fakturbelanja'
-			, 'sediaan'
+			, 'sediaan_list'
 			, 'generik'
 			, 'kelas_obat_list'
 			, 'sumber_uang'
