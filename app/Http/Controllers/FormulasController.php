@@ -7,7 +7,6 @@ use Input;
 
 use App\Http\Requests;
 
-
 use DB;
 use Response;
 use App\Models\Formula;
@@ -20,8 +19,6 @@ use App\Models\Rak;
 use App\Models\Dose;
 use App\Models\Komposisi;
 use App\Models\Sediaan;
-
-
 
 class FormulasController extends Controller
 {
@@ -88,7 +85,6 @@ class FormulasController extends Controller
 		} else {
 
             $sediaan_list =  Sediaan::pluck('sediaan', 'id');
-            dd( $sediaan_list );
 
             $alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
@@ -394,7 +390,6 @@ class FormulasController extends Controller
 	{
 		$formula = Formula::findOrFail($id);
 		$raks = Rak::where('formula_id', '=', $id)->get();
-		/* dd( $formula->dose ); */
 
 		// return $formula->dose;
 		$query = "SELECT mr.merek as merek, ";

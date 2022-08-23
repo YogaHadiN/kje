@@ -496,7 +496,7 @@ class Periksa extends Model{
           if (count($MyArray) > 0){
 
             for ($i = 0; $i < count($MyArray) - 1; $i++) {
-                $MyArray[$i]->merek->rak_id = Merek::find($MyArray[$i]->merek_id)->rak_id;
+j               $MyArray[$i]->merek->rak_id = Merek::find($MyArray[$i]->merek_id)->rak_id;
 
                 if (substr($MyArray[$i]->signa, 0, 5) == "Puyer" && $puyer == false ) {
 
@@ -541,7 +541,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> fls No : ' . $MyArray[$i]->jumlah . '</td>';
                     $temp .= '</tr>';
                     $temp .= '<tr>';
@@ -555,7 +555,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$i]->jumlah . '</td>';
                     $temp .= '</tr>';
 
@@ -579,7 +579,7 @@ class Periksa extends Model{
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
-                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak_id. '  ]</strong></td>';
+                    $temp .= '<td style="width:150px;text-align:left;" nowrap>' . $MyArray[$i]->merek->merek. ' <strong>[  ' . $MyArray[$i]->merek->rak->kode_rak. '  ]</strong></td>';
                     $temp .= '<td> No : ' . $MyArray[$i]->jumlah . '</td>';
                     $temp .= '</tr><tr>';
                     $temp .= '<td style="width:15px"></td>';
