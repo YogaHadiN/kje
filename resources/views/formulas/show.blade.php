@@ -115,7 +115,7 @@ Formula
 										@foreach ($rk->merek as $merek)
 											<tr>
 												<td>
-												{!! HTML::link("raks/" . $rk->id, $rk->id, ['class' => 'btn btn-primary btn-xs'])!!} 
+												{!! HTML::link("raks/" . $rk->id, $rk->kode_rak, ['class' => 'btn btn-primary btn-xs'])!!} 
 												</td>
 												<td>{!! $merek->merek !!}</td>
 												<td>{!! $rk->harga_beli !!}</td>

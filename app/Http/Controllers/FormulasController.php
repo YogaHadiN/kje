@@ -87,7 +87,8 @@ class FormulasController extends Controller
 
 		} else {
 
-            $sediaan =  Sediaan::pluck('sediaan', 'id')->all();
+            $sediaan_list =  Sediaan::pluck('sediaan', 'id');
+            dd( $sediaan_list );
 
             $alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
@@ -175,7 +176,7 @@ class FormulasController extends Controller
             $template['jumlah_kg50_bpjs'] = '6';
             $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id')->all();
 
-            return view('formulas.create', compact( 'sediaan', 'generik', 'kelas_obat_list', 'dijual_bebas', 'signas', 'aturan_minums', 'template', 'alternatif_fornas'));
+            return view('formulas.create', compact( 'sediaan_list', 'generik', 'kelas_obat_list', 'dijual_bebas', 'signas', 'aturan_minums', 'template', 'alternatif_fornas'));
         }
 	}
 
@@ -442,7 +443,7 @@ class FormulasController extends Controller
 
 		// return $formula;
 
-		$sediaan = Sediaan::pluck('id', 'sediaan');
+        $sediaan_list =  Sediaan::pluck('sediaan', 'id');
 
 		$dijual_bebas = array(
                         null        => '- Pilih -',
@@ -530,7 +531,7 @@ class FormulasController extends Controller
 		$formula->jumlah_puyer_kg50    = $doses[11]->jumlah_puyer_add;
 		$formula->jumlah_kg50_bpjs     = $doses[11]->jumlah_bpjs;
 
-		return view('formulas.edit', compact('formula', 'doses', 'sediaan', 'generik', 'json', 'dijual_bebas', 'signas', 'aturan_minums'));
+		return view('formulas.edit', compact('formula', 'doses', 'sediaan_list', 'generik', 'json', 'dijual_bebas', 'signas', 'aturan_minums'));
 	}
 
 	/**

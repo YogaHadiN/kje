@@ -107,7 +107,7 @@
                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <div class="form-group">
                                     {!!Form::label('sediaan')!!}<br />
-                                    {!!Form::select('sediaan', $sediaan, null, array(
+                                    {!!Form::select('sediaan', $sediaan_list, null, array(
                                         'class'         => 'form-control'
                                     ))
                                     !!}

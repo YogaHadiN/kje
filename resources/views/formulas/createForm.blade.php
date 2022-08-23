@@ -163,7 +163,7 @@
                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 							 <div class="form-group @if($errors->has('sediaan_id'))has-error @endif">
 							   {!! Form::label('sediaan_id', 'Sediaan', ['class' => 'control-label']) !!}
-                                {!!Form::select('sediaan_id', $sediaan, null, array(
+                                {!!Form::select('sediaan_id', $sediaan_list, null, array(
 										'class'       => 'form-control',
 										'placeholder' => 'Pilih Sediaan',
 										'id'          => 'sediaan_id'
