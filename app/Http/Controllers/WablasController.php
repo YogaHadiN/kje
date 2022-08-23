@@ -668,21 +668,10 @@ class WablasController extends Controller
 		print_r($result);	curl_close($curl);
 	}
 
-    public function sendButton(){
+    public function sendButton($payload){
         $curl = curl_init();
         $token = env('WABLAS_TOKEN');
-        $payload = [
-            "data" => [
-                [
-                    'phone' => '6285721012351',
-                    'message' => [
-                        'buttons' => ["Biaya Pribadi","BPJS", "Lainnya"],
-                        'content' => 'Bisa dibantu sebutkan menggunakan Pembayaran apa?',
-                        'footer' => '',
-                    ],
-                ]
-            ]
-        ];
+
         curl_setopt($curl, CURLOPT_HTTPHEADER,
             array(
                 "Authorization: $token",

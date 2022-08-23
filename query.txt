@@ -1,1 +1,1 @@
-ALTER TABLE antrians ADD COLUMN nomor_bpjs varchar(255);
+ALTER TABLE antrians ADD COLUMN satisfaction_index int(1);

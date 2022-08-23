@@ -115,8 +115,10 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $wablas = new WablasController;
-        $wablas->sendButton();
+        $json =  '[{"category":"button","message":{"buttons":["Biaya Pribadi","BPJS","Lainnya"],"content":"Bisa dibantu pembayaran menggunakan apa? ","footer":""}}]';
+
+        dd( json_decode($json, true)[0]['category'] );
+
 	}
 	
 	/**

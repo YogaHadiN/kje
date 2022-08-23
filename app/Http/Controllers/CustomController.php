@@ -661,40 +661,37 @@ class CustomController extends Controller
 				isset($antrian) &&
 				!is_null($antrian->no_telp)
 			) {
-				$whatsapp_registration             = new WhatsappRegistration;
-				$whatsapp_registration->no_telp    = $antrian->no_telp;
-				$whatsapp_registration->periksa_id = $antriankasir->periksa_id;
-				$whatsapp_registration->save();
 
-				$message = "Terima kasih telah berobat di Klinik Jati Elok";
+				$message = "*Klinik Jati Elok*";
 				$message .= PHP_EOL;
-				$message .= "=======================";
+				$message .= "===================";
 				$message .= PHP_EOL;
+				$message .= "Terima kasih telah mempercayakan kami sebagai tempat berobat Anda";
 				$message .= PHP_EOL;
 				$message .= "Mohon agar dapat memberikan penilaian pelayanan kami";
 				$message .= PHP_EOL;
-				$message .= PHP_EOL;
-				$message .= "Balas %1% jika %Sangat Baik%";
-				$message .= PHP_EOL;
-				$message .= "Balas %2% jika %Baik%";
-				$message .= PHP_EOL;
-				$message .= "Balas %3% jika %Biasa%";
-				$message .= PHP_EOL;
-				$message .= "Balas %4% jika %Buruk%";
-				$message .= PHP_EOL;
-				$message .= "Balas %5% jika %Sangat Buruk%";
-				$message .= PHP_EOL;
+				$message .= "Agar kami dapat melayani Anda dengan lebih baik lagi ke depannya";
 
-				$data = [
-					[
-						'phone'    => $antrian->no_telp,
-						'message'  => $message,
-						'secret'   => false, // or true
-						'priority' => false, // or true
-					]
-				];
+                $payload = [
+                    "data" => [
+                        [
+                            'phone' => $antrian->no_telp,
+                            'message' => [
+                                'buttons' => [
+                                    "Sangat Baik (PXID" . $antrian->id . ")",
+                                    "Baik (PXID" . $antrian->id . ")",
+                                    "Biasa (PXID" . $antrian->id . ")",
+                                    "Buruk (PXID" . $antrian->id . ")",
+                                    "Sangat Buruk (PXID" . $antrian->id . ")",
+                                ],
+                                'content' => $message,
+                                'footer' => '',
+                            ],
+                        ]
+                    ]
+                ];
 				$wa = new WablasController;
-				$wa->bulkSend($data);
+				$wa->sendButton($payload);
 			}
 			$antriankasir->delete();
 
