@@ -1,6 +1,8 @@
 refreshLaporan();
 function refreshLaporan() {
     var bulanTahun = $("#bulanTahun").val();
+    $("#body").next().remove();
+    loaderGif("#body");
     $.get(
         base + "/laporans/dispensing_obat_bpjs/get",
         {

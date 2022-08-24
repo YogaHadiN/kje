@@ -1,1 +1,21 @@
-ALTER TABLE antrians ADD COLUMN satisfaction_index int(1);
+ALTER TABLE stafs DROP COLUMN plafon_bpjs;
+ALTER TABLE stafs ADD COLUMN plafon_bpjs int(11) default 0;
+
+asuransis
+aturan_minums
+coas
+diagnosas
+generiks
+golongan_peralatans
+jenis_antrians
+jenis_pajaks
+jenis_pengeluarans
+jenis_pesertas
+jenis_rumah_sakits
+jenis_tarifs
+kelas_obats
+kelompok_coas
+pembayaran_asuransis
+sediaans
+signas
+tenants

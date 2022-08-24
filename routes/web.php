@@ -138,6 +138,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('laporans/dispensing_obat_bpjs/get', [\App\Http\Controllers\LaporanBpjsController::class, 'dispensingObatGet']);
 	Route::get('laporans/dispensing_obat_bpjs/{staf_id}', [\App\Http\Controllers\LaporanBpjsController::class, 'dispensingObatPerDokter']);
 
+
+
 	Route::get('laporans/bpjs/dm', [\App\Http\Controllers\LaporanBpjsController::class, 'dm']);
 	Route::get('laporans/bpjs/diagnosa', [\App\Http\Controllers\LaporanBpjsController::class, 'diagnosa']);
 	Route::get('laporans/bpjs/data_kunjungan_prolanis_ht', [\App\Http\Controllers\LaporanBpjsController::class, 'dataKunjunganProlanisHT']);
@@ -579,6 +581,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::put('piutang_dibayars/{id}', [\App\Http\Controllers\PiutangDibayarController::class, 'update']);
 
 	Route::get('obat/stokmin', [\App\Http\Controllers\ObatsController::class, 'index']);
+	Route::get('obat/fast_moving', [\App\Http\Controllers\ObatsController::class, 'fast_moving']);
+	Route::get("obat/fast_moving/ajax", [\App\Http\Controllers\ObatsController::class, 'fast_moving_ajax']);
 
 	//update tarif berdasarkan tarif_id
 	Route::post('delete/faktur_belis', [\App\Http\Controllers\CustomController::class, 'del_fak_beli']);

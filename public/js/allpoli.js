@@ -1,4 +1,3 @@
-console.log("this is spartaaaaa");
 var addSatu = false;
 var id_formula_sirup_add = "";
 var gen_presc_index = 0;
@@ -9,10 +8,13 @@ var length_sop_terapi = "";
 var i_sop_terapi = 0;
 
 var asuransi_id = $("#asuransi_id").val();
-console.log("asuransi_id", asuransi_id);
 var tipe_asuransi_id = getTipeAsuransiId(asuransi_id);
+var plafon_bpjs_ini = 0;
 
-console.log("tipe_asuransi_id", tipe_asuransi_id);
+var plafon_bpjs_ini =
+    tipe_asuransi_id == 5
+        ? parseInt($("#plafon_obat_bpjs_by_staf").val()) + 8000
+        : parseInt($("#plafon_obat_bpjs_by_staf").val());
 
 $("#LinkButton2").on("click", function () {
     validasiKeterangan();
@@ -26,7 +28,9 @@ $("#myModal").on("show.bs.modal", function () {
 
 if ($("#terapi").val() == "" || $("#terapi").val() == "[]") {
     var data = [];
+    updatePlafon(0);
 } else {
+    console.log("ada data");
     var data = JSON.parse($("#terapi").val());
     viewResep(resepJson($("#terapi").val())[1]);
 }
@@ -947,13 +951,6 @@ function table_ICD() {
     );
 }
 
-//----------------------================================================================
-//----------------------================================================================
-//----------------------================================================================
-//----------------------================================================================
-//----------------------================================================================
-//----------------------================================================================
-
 function insertTerapi() {
     var MER = $("#ddlNamaObat option:selected").text();
     var juml = $("#txtjumlah").val();
@@ -1342,6 +1339,8 @@ function insert() {
         merek_id: ID_MER,
         rak_id: ID_RAK,
         harga_jual_ini: harga_jual,
+        harga_beli_ini: getHargaBeli(),
+        harga_beli_satuan: getHargaBeli(),
         formula_id: ID_FOR,
         merek_obat: MER,
         fornas: fornas,
@@ -1403,6 +1402,15 @@ function customOption(dataMerek) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    "<strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
+            temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         } else {
             temp += '<option data-custom-value=\'{ "formula_id" : "';
@@ -1438,6 +1446,10 @@ function customOption(dataMerek) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         }
     }
@@ -1500,6 +1512,10 @@ function customOption2(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         } else {
             temp += "<option data-dose='";
@@ -1537,6 +1553,10 @@ function customOption2(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         }
     }
@@ -1604,6 +1624,10 @@ function customOption2a(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         } else {
             temp += "<option data-dose='";
@@ -1640,6 +1664,10 @@ function customOption2a(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         }
     }
@@ -1725,6 +1753,19 @@ function getHargaJual() {
         var harga_jual = "";
     }
     return harga_jual;
+}
+function getHargaBeli() {
+    var merek = $("#ddlNamaObat").val();
+    if (merek != "") {
+        var data_custom = $("#ddlNamaObat option:selected").attr(
+            "data-custom-value"
+        );
+        merek = JSON.parse(data_custom);
+        var harga_beli = merek.harga_beli;
+    } else {
+        var harga_beli = "";
+    }
+    return harga_beli;
 }
 function getAturanMinumId() {
     var merek = $("#ddlNamaObat").val();
@@ -2201,13 +2242,7 @@ function tabResepActive() {
 }
 
 function getTipeAsuransiId(asuransi_id) {
-    $.get(
-        base + "/get/tipe_asuransi_id/from/asuransi_id",
-        { asuransi_id: asuransi_id },
-        function (data) {
-            return data;
-        }
-    );
+    return $("#asuransi_id option:selected").attr("data-tipe-asuransi");
 }
 
 function diagnosaChange() {
@@ -2301,7 +2336,6 @@ function generatePerscription() {
 }
 
 function viewResep(control) {
-    console.log(viewResep);
     $("#ajax5").html(control);
     //bagian ini khusus untuk tipe_asuransi == 4 / flat
     if ($("#plafon").length > 0) {
@@ -2318,10 +2352,6 @@ function viewResep(control) {
             console.log("harga dari " + resep[i].merek + " = " + harga_jual);
         }
         var plafon = $("#plafon_total").val() - totalBiayaObat;
-        console.log("totalBiayaObat = " + totalBiayaObat);
-        console.log("plafon value = " + $("#plafon_total").val());
-        console.log("plafon = " + plafon);
-        console.log("plafon adalah = " + plafon);
         $("#plafon").html(plafon);
 
         if (plafon < 0) {
@@ -2338,26 +2368,49 @@ function viewResep(control) {
     }
 
     if ($("#bilaTipeBPJS").length > 0) {
+        var tempDibayarPasien = "";
         var tempDibayarBPJS = "";
         var totalBiaya = 0;
         var biaya_ini = 0;
+        var dibayar_bpjs = 0;
         for (var i = 0; i < data.length; i++) {
+            console.log("===================");
+            console.log("data[i]");
+            console.log(data[i]);
+            console.log("===================");
             if (data[i].fornas == "0") {
                 biaya_ini =
                     data[i].harga_jual_ini *
                     data[i].jumlah *
                     $("#kali_obat").val();
                 totalBiaya += biaya_ini;
+                tempDibayarPasien += "<tr>";
+                tempDibayarPasien += "<td>" + data[i].merek_obat + "</td>";
+                tempDibayarPasien += "<td>" + data[i].jumlah + "</td>";
+                tempDibayarPasien += "</tr>";
+            } else {
+                dibayar_bpjs +=
+                    parseInt(data[i].harga_beli_satuan) *
+                    parseInt(data[i].jumlah);
+
                 tempDibayarBPJS += "<tr>";
                 tempDibayarBPJS += "<td>" + data[i].merek_obat + "</td>";
-                tempDibayarBPJS += "<td>" + data[i].jumlah + "</td>";
+                tempDibayarBPJS +=
+                    "<td class='text-right'>" + data[i].jumlah + "</td>";
+                var total_per_item =
+                    parseInt(data[i].jumlah) *
+                    parseInt(data[i].harga_beli_satuan);
+                tempDibayarBPJS +=
+                    "<td class='text-right'>" + uang(total_per_item) + "</td>";
                 tempDibayarBPJS += "</tr>";
             }
         }
 
+        updatePlafon(dibayar_bpjs);
         totalBiaya = rataAtas5000(totalBiaya);
 
-        $("#bilaTipeBPJS").html(tempDibayarBPJS);
+        $("#bilaTipeBPJS").html(tempDibayarPasien);
+        $("#obat_dibayar_bpjs_container").html(tempDibayarBPJS);
         $("#totalBilaTipeBPJS").html(totalBiaya);
         rupiah();
         bpjsBayar();
@@ -3051,21 +3104,41 @@ function selectChange(control) {
     }
     $(control).closest("tr").find(".keteranganTindakan").html(html);
 }
-
-
-function showFotoZoom(){
-    $('#fotozoom').modal('show');
+function updatePlafon(dibayar_bpjs) {
+    var sisa_plafon = parseInt(plafon_bpjs_ini) - parseInt(dibayar_bpjs);
+    var used_in_existing_periksa = 8000 - parseInt(dibayar_bpjs);
+    if ($("#periksaex").length > 0) {
+        sisa_plafon = sisa_plafon - used_in_existing_periksa;
+    }
+    $("#plafon_obat_bpjs").html(uang(sisa_plafon));
+    $("#obat_dibayar_bpjs").val(sisa_plafon);
 }
-    $('.hide-panel').closest('.panel').find('.panel-heading').css('border', '3px border red');
-    $('.hide-panel').closest('.panel').find('.panel-heading').css('cursor', 'pointer');
-    $('.hide-panel').closest('.panel').find('.panel-heading').click(function(e) {
-        if ( $('#resepluar').val() ==  ''){
-            $(this).closest('.panel').find('.hide-panel').slideToggle(function(){
-                $(this).closest('.panel').find('.resepluar').focus(); 
-            });
+
+function showFotoZoom() {
+    $("#fotozoom").modal("show");
+}
+$(".hide-panel")
+    .closest(".panel")
+    .find(".panel-heading")
+    .css("border", "3px border red");
+$(".hide-panel")
+    .closest(".panel")
+    .find(".panel-heading")
+    .css("cursor", "pointer");
+$(".hide-panel")
+    .closest(".panel")
+    .find(".panel-heading")
+    .click(function (e) {
+        if ($("#resepluar").val() == "") {
+            $(this)
+                .closest(".panel")
+                .find(".hide-panel")
+                .slideToggle(function () {
+                    $(this).closest(".panel").find(".resepluar").focus();
+                });
             $('.unhide-panel:not([src="' + base + '/notfound.jpg"])').toggle();
         }
-    });;
+    });
 
 function resepJson(result) {
     if (result != "") {
@@ -4118,176 +4191,169 @@ function resepJson(result) {
     return [temp, temp2, temp3];
 }
 
+function informasi(control) {
+    var ID = $(control).data("value");
 
-function informasi(control){
-    var ID = $(control).data('value');
-
-
-    $.post( base + '/poli/ajax/ajxobat', { 'merek_id' : ID}, function(data) {
+    $.post(base + "/poli/ajax/ajxobat", { merek_id: ID }, function (data) {
         /*optional stuff to do after success */
         data = $.parseJSON(data);
         var MyArray = data.komposisis;
-        var temp = '';
+        var temp = "";
         if (MyArray.length > 0) {
             for (var i = 0; i < MyArray.length; i++) {
-                temp += '<tr>';
-                temp += '<td>' + MyArray[i].komposisi + '</td>';
-                temp += '<td>' + MyArray[i].pregnancy_safety_index + '</td>';
-                temp += '</tr>';
+                temp += "<tr>";
+                temp += "<td>" + MyArray[i].komposisi + "</td>";
+                temp += "<td>" + MyArray[i].pregnancy_safety_index + "</td>";
+                temp += "</tr>";
             }
         } else {
-                temp += '<tr>';
-                temp += '<td colspan="2" class="text-center">Komposisi Tidak Terdaftar</td>';
-                temp += '</tr>';
+            temp += "<tr>";
+            temp +=
+                '<td colspan="2" class="text-center">Komposisi Tidak Terdaftar</td>';
+            temp += "</tr>";
         }
 
-        $('#nama_obat').text($(control).text());
+        $("#nama_obat").text($(control).text());
 
-        $('#kontraindikasi').html(data.kontraindikasi);
-        $('#indikasi').html(data.indikasi);
-        $('#efek_samping').html(data.efek_samping);
-        $('#tabel_komposisi').html(temp);
-
+        $("#kontraindikasi").html(data.kontraindikasi);
+        $("#indikasi").html(data.indikasi);
+        $("#efek_samping").html(data.efek_samping);
+        $("#tabel_komposisi").html(temp);
     });
 }
 
 var riwayat = [];
 
-$('#input_riwayat').keydown(function(e) {
+$("#input_riwayat").keydown(function (e) {
     var key = e.keyCode || e.which;
     if (key == 9) {
-        $('#input_riwayat').click();
+        $("#input_riwayat").click();
         return false;
     }
 });
 
-function inputRiwayatKehamilan(control){
-        var riwayat = riwayat_obs();
-            if ($('#inputSpontanSC').val() != '') {
+function inputRiwayatKehamilan(control) {
+    var riwayat = riwayat_obs();
+    if ($("#inputSpontanSC").val() != "") {
+        var jenis_kelamin = $("#inputJenisKelamin").val();
+        var berat_lahir = $("#inputBeratLahir").val();
+        var tahun_lahir = $("#inputTahunLahir").val();
+        var lahir_di = $("#inputLahirDi").val();
+        var spontan_sc = $("#inputSpontanSC").val();
 
-                var jenis_kelamin = $('#inputJenisKelamin').val();
-                var berat_lahir = $('#inputBeratLahir').val();
-                var tahun_lahir = $('#inputTahunLahir').val();
-                var lahir_di = $('#inputLahirDi').val();
-                var spontan_sc = $('#inputSpontanSC').val();
+        riwayat[riwayat.length] = {
+            jenis_kelamin: jenis_kelamin,
+            berat_lahir: berat_lahir + " gr",
+            tahun_lahir: tahun_lahir,
+            lahir_di: lahir_di,
+            spontan_sc: spontan_sc,
+        };
+        string_obs(riwayat);
+        view();
+    } else {
+        validasi("#inputSpontanSC", "Hapus Diisi!!");
+    }
+}
 
-                riwayat[riwayat.length] = {
-                    'jenis_kelamin' : jenis_kelamin,
-                    'berat_lahir'   : berat_lahir + ' gr',
-                    'tahun_lahir'   : tahun_lahir,
-                    'lahir_di'      : lahir_di,
-                    'spontan_sc'    : spontan_sc
-                } 
-                string_obs(riwayat);
-               view();
-            } else {
-                validasi('#inputSpontanSC', 'Hapus Diisi!!');
-            }
+function rowDel(control) {
+    riwayat = riwayat_obs();
+    var i = $(control).closest("tr").find("td:first-child");
+    i = parseInt(i) - 1;
+
+    riwayat.splice(i, 1);
+    string_obs(riwayat);
+    view();
+}
+
+function viewNoFocus() {
+    var temp = "";
+    riwayat = riwayat_obs();
+    for (var i = 0; i < riwayat.length; i++) {
+        n = parseInt(i) + 1;
+
+        var maks = parseInt(riwayat.length) - 1;
+
+        temp += "<tr>";
+        temp += "<td>" + n + "</td>";
+        temp += "<td>" + riwayat[i].jenis_kelamin + "</td>";
+        temp += "<td>" + riwayat[i].berat_lahir + "</td>";
+        temp += "<td>" + riwayat[i].tahun_lahir + "</td>";
+        temp += "<td>" + riwayat[i].lahir_di + "</td>";
+        temp += "<td>" + riwayat[i].spontan_sc + "</td>";
+        if (i == maks) {
+            temp +=
+                "<td>" +
+                '<button type="button" class="btn btn-danger btn-xs" onclick="rowDel(this);return false;">hapus</button>' +
+                "</td>";
+        } else {
+            temp += "<td></td>";
         }
+        temp += "</tr>";
+    }
 
-        function rowDel(control){
+    var keyini = parseInt(riwayat.length) + 1;
 
-            riwayat = riwayat_obs();
-            var i = $(control).closest('tr').find('td:first-child');
-            i = parseInt(i) - 1 ;
+    temp += "<tr>";
+    temp += "<td>" + keyini + "</td>";
+    temp += "<td>ini<td>";
+    temp += "<td></td>";
+    temp += "<td></td>";
+    temp += "<td></td>";
+    temp += "<td></td>";
+    temp += "<td></td>";
+    temp += "</tr>";
 
-            riwayat.splice(i, 1);
-            string_obs(riwayat);
-            view();
-        }
+    $(".inp").val("");
+    $("#table_riwayat_kehamilan").html(temp);
 
-        function viewNoFocus(){
+    var string = JSON.stringify(riwayat);
+    $("#riwayat_kehamilan").val(string);
+}
+function view() {
+    viewNoFocus();
+    $("#inputJenisKelamin").focus();
+}
 
-            var temp = '';
-            riwayat = riwayat_obs();
-            for (var i = 0; i < riwayat.length; i++) {
-                n = parseInt(i) + 1;
+function riwayat_obs() {
+    riwayat = $("#riwayat_kehamilan").val();
+    if (riwayat == "") {
+        riwayat = "[]";
+    }
+    return JSON.parse(riwayat);
+}
 
-                var maks = parseInt(riwayat.length) - 1;
-
-                temp += '<tr>';
-                temp += '<td>' + n + '</td>';
-                temp += '<td>' + riwayat[i].jenis_kelamin + '</td>';
-                temp += '<td>' + riwayat[i].berat_lahir + '</td>';
-                temp += '<td>' + riwayat[i].tahun_lahir + '</td>';
-                temp += '<td>' + riwayat[i].lahir_di + '</td>';
-                temp += '<td>' + riwayat[i].spontan_sc + '</td>';
-                if(i == maks){
-                    temp += '<td>' + '<button type="button" class="btn btn-danger btn-xs" onclick="rowDel(this);return false;">hapus</button>' + '</td>';
-                } else {
-                    temp += '<td></td>';
-                }
-                temp += '</tr>';
-            }
-
-            var keyini = parseInt(riwayat.length) + 1
-
-            temp            +='<tr>';
-            temp            +='<td>' + keyini + '</td>';
-            temp            +='<td>ini<td>';
-            temp            +='<td></td>';
-            temp            +='<td></td>';
-            temp            +='<td></td>';
-            temp            +='<td></td>';
-            temp            +='<td></td>';
-            temp            +='</tr>';
-
-            $('.inp').val('');
-            $('#table_riwayat_kehamilan').html(temp);
-
-            var string = JSON.stringify(riwayat);
-            $('#riwayat_kehamilan').val(string);
-
-        }
-         function view(){
-
-            viewNoFocus();
-            $('#inputJenisKelamin').focus();    
-
-
-        }
-
-        function riwayat_obs(){
-            riwayat = $('#riwayat_kehamilan').val();
-            if (riwayat == '') {
-                riwayat = '[]';
-            }
-            return JSON.parse(riwayat);
-        }
-
-        function string_obs(riwayat){
-            riwayat = JSON.stringify(riwayat);
-            $('#riwayat_kehamilan').val(riwayat);
-        }
-
-
+function string_obs(riwayat) {
+    riwayat = JSON.stringify(riwayat);
+    $("#riwayat_kehamilan").val(riwayat);
+}
 
 function uk(umur_kehamilan, hari) {
+    $("#" + hari)
+        .datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "dd-mm-yyyy",
+        })
+        .on("changeDate", function (e) {
+            uk_exec(umur_kehamilan, hari);
+        });
 
-	$("#" + hari).datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true,
-        format: 'dd-mm-yyyy'
-	}).on("changeDate", function(e) {
-		uk_exec(umur_kehamilan, hari);
-	});
-
-	$('#' + umur_kehamilan).attr('readonly', 'readonly');
+    $("#" + umur_kehamilan).attr("readonly", "readonly");
 }
 
 function uk_exec(umur_kehamilan, hari) {
-	if ($('#' + hari).val() != '') {
-	    var HPHT =  $('#' + hari).val();
+    if ($("#" + hari).val() != "") {
+        var HPHT = $("#" + hari).val();
 
-	    $.post(base +"/anc/uk" , {'hpht': HPHT }, function(data) {
-	        data = $.trim(data);
-	        $('#' + umur_kehamilan).val(data); 
-	    });
-
-	} else {
-	    $('#' + umur_kehamilan).val(''); 
-	}
+        $.post(base + "/anc/uk", { hpht: HPHT }, function (data) {
+            data = $.trim(data);
+            $("#" + umur_kehamilan).val(data);
+        });
+    } else {
+        $("#" + umur_kehamilan).val("");
+    }
 }
+

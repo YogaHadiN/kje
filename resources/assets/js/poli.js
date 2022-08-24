@@ -1,4 +1,3 @@
-console.log("this is spartaaaaa");
 var addSatu = false;
 var id_formula_sirup_add = "";
 var gen_presc_index = 0;
@@ -9,10 +8,13 @@ var length_sop_terapi = "";
 var i_sop_terapi = 0;
 
 var asuransi_id = $("#asuransi_id").val();
-console.log("asuransi_id", asuransi_id);
 var tipe_asuransi_id = getTipeAsuransiId(asuransi_id);
+var plafon_bpjs_ini = 0;
 
-console.log("tipe_asuransi_id", tipe_asuransi_id);
+var plafon_bpjs_ini =
+    tipe_asuransi_id == 5
+        ? parseInt($("#plafon_obat_bpjs_by_staf").val()) + 8000
+        : parseInt($("#plafon_obat_bpjs_by_staf").val());
 
 $("#LinkButton2").on("click", function () {
     validasiKeterangan();
@@ -26,7 +28,9 @@ $("#myModal").on("show.bs.modal", function () {
 
 if ($("#terapi").val() == "" || $("#terapi").val() == "[]") {
     var data = [];
+    updatePlafon(0);
 } else {
+    console.log("ada data");
     var data = JSON.parse($("#terapi").val());
     viewResep(resepJson($("#terapi").val())[1]);
 }
@@ -1342,6 +1346,8 @@ function insert() {
         merek_id: ID_MER,
         rak_id: ID_RAK,
         harga_jual_ini: harga_jual,
+        harga_beli_ini: getHargaBeli(),
+        harga_beli_satuan: getHargaBeli(),
         formula_id: ID_FOR,
         merek_obat: MER,
         fornas: fornas,
@@ -1403,6 +1409,15 @@ function customOption(dataMerek) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    "<strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
+            temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         } else {
             temp += '<option data-custom-value=\'{ "formula_id" : "';
@@ -1438,6 +1453,10 @@ function customOption(dataMerek) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         }
     }
@@ -1500,6 +1519,10 @@ function customOption2(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         } else {
             temp += "<option data-dose='";
@@ -1537,6 +1560,10 @@ function customOption2(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         }
     }
@@ -1604,6 +1631,10 @@ function customOption2a(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         } else {
             temp += "<option data-dose='";
@@ -1640,6 +1671,10 @@ function customOption2a(dataMerek, berat_badan) {
             temp += dataMerek[i].alternatif;
             temp += "'>";
             temp += dataMerek[i].merek;
+            if (tipe_asuransi_id == 5) {
+                temp +=
+                    " <strong>(" + uang(dataMerek[i].harga_beli) + ")</strong>";
+            }
             temp += "</option>";
         }
     }
@@ -1725,6 +1760,19 @@ function getHargaJual() {
         var harga_jual = "";
     }
     return harga_jual;
+}
+function getHargaBeli() {
+    var merek = $("#ddlNamaObat").val();
+    if (merek != "") {
+        var data_custom = $("#ddlNamaObat option:selected").attr(
+            "data-custom-value"
+        );
+        merek = JSON.parse(data_custom);
+        var harga_beli = merek.harga_beli;
+    } else {
+        var harga_beli = "";
+    }
+    return harga_beli;
 }
 function getAturanMinumId() {
     var merek = $("#ddlNamaObat").val();
@@ -2201,13 +2249,7 @@ function tabResepActive() {
 }
 
 function getTipeAsuransiId(asuransi_id) {
-    $.get(
-        base + "/get/tipe_asuransi_id/from/asuransi_id",
-        { asuransi_id: asuransi_id },
-        function (data) {
-            return data;
-        }
-    );
+    return $("#asuransi_id option:selected").attr("data-tipe-asuransi");
 }
 
 function diagnosaChange() {
@@ -2301,7 +2343,6 @@ function generatePerscription() {
 }
 
 function viewResep(control) {
-    console.log(viewResep);
     $("#ajax5").html(control);
     //bagian ini khusus untuk tipe_asuransi == 4 / flat
     if ($("#plafon").length > 0) {
@@ -2318,10 +2359,6 @@ function viewResep(control) {
             console.log("harga dari " + resep[i].merek + " = " + harga_jual);
         }
         var plafon = $("#plafon_total").val() - totalBiayaObat;
-        console.log("totalBiayaObat = " + totalBiayaObat);
-        console.log("plafon value = " + $("#plafon_total").val());
-        console.log("plafon = " + plafon);
-        console.log("plafon adalah = " + plafon);
         $("#plafon").html(plafon);
 
         if (plafon < 0) {
@@ -2338,26 +2375,49 @@ function viewResep(control) {
     }
 
     if ($("#bilaTipeBPJS").length > 0) {
+        var tempDibayarPasien = "";
         var tempDibayarBPJS = "";
         var totalBiaya = 0;
         var biaya_ini = 0;
+        var dibayar_bpjs = 0;
         for (var i = 0; i < data.length; i++) {
+            console.log("===================");
+            console.log("data[i]");
+            console.log(data[i]);
+            console.log("===================");
             if (data[i].fornas == "0") {
                 biaya_ini =
                     data[i].harga_jual_ini *
                     data[i].jumlah *
                     $("#kali_obat").val();
                 totalBiaya += biaya_ini;
+                tempDibayarPasien += "<tr>";
+                tempDibayarPasien += "<td>" + data[i].merek_obat + "</td>";
+                tempDibayarPasien += "<td>" + data[i].jumlah + "</td>";
+                tempDibayarPasien += "</tr>";
+            } else {
+                dibayar_bpjs +=
+                    parseInt(data[i].harga_beli_satuan) *
+                    parseInt(data[i].jumlah);
+
                 tempDibayarBPJS += "<tr>";
                 tempDibayarBPJS += "<td>" + data[i].merek_obat + "</td>";
-                tempDibayarBPJS += "<td>" + data[i].jumlah + "</td>";
+                tempDibayarBPJS +=
+                    "<td class='text-right'>" + data[i].jumlah + "</td>";
+                var total_per_item =
+                    parseInt(data[i].jumlah) *
+                    parseInt(data[i].harga_beli_satuan);
+                tempDibayarBPJS +=
+                    "<td class='text-right'>" + uang(total_per_item) + "</td>";
                 tempDibayarBPJS += "</tr>";
             }
         }
 
+        updatePlafon(dibayar_bpjs);
         totalBiaya = rataAtas5000(totalBiaya);
 
-        $("#bilaTipeBPJS").html(tempDibayarBPJS);
+        $("#bilaTipeBPJS").html(tempDibayarPasien);
+        $("#obat_dibayar_bpjs_container").html(tempDibayarBPJS);
         $("#totalBilaTipeBPJS").html(totalBiaya);
         rupiah();
         bpjsBayar();
@@ -3050,4 +3110,13 @@ function selectChange(control) {
             '<input type="text" class="form-control" id="keteranganTindakan">';
     }
     $(control).closest("tr").find(".keteranganTindakan").html(html);
+}
+function updatePlafon(dibayar_bpjs) {
+    var sisa_plafon = parseInt(plafon_bpjs_ini) - parseInt(dibayar_bpjs);
+    var used_in_existing_periksa = 8000 - parseInt(dibayar_bpjs);
+    if ($("#periksaex").length > 0) {
+        sisa_plafon = sisa_plafon - used_in_existing_periksa;
+    }
+    $("#plafon_obat_bpjs").html(uang(sisa_plafon));
+    $("#obat_dibayar_bpjs").val(sisa_plafon);
 }

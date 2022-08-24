@@ -668,10 +668,21 @@ class WablasController extends Controller
 		print_r($result);	curl_close($curl);
 	}
 
-    public function sendButton($payload){
+    public function sendButton(){
         $curl = curl_init();
         $token = env('WABLAS_TOKEN');
-
+        $payload = [
+            "data" => [
+                [
+                    'phone' => '6282113781271',
+                    'message' => [
+                        'buttons' => ["button 1","button 2","button 3"],
+                        'content' => 'sending template message...',
+                        'footer' => 'footer template here',
+                    ],
+                ]
+            ]
+        ];
         curl_setopt($curl, CURLOPT_HTTPHEADER,
             array(
                 "Authorization: $token",
@@ -696,6 +707,82 @@ class WablasController extends Controller
         $token = env('WABLAS_TOKEN');
         $data = [
             'phone' => '6285721012351',
+            'message' => 'hello there',
+        ];
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+            array(
+                "Authorization: $token",
+            )
+        );
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/send-message");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        $result = curl_exec($curl);
+        curl_close($curl);
+        echo "<pre>";
+        print_r($result);
+    }
+    public function sendTemplate(){
+        $curl = curl_init();
+        $token = env("WABLAS_TOKEN");
+        $payload = [
+        "data" => [
+        [
+            'phone' => '6282113781271',
+            'message'=> [
+                'title' => [
+                    'type' => 'text',
+                    'content' => 'template text',
+                ],
+                'buttons' => [
+                    'url' => [
+                        'display' => 'wablas.com',
+                        'link' => 'https://wablas.com',
+                    ],
+                    'call' => [
+                        'display' => 'contact us',
+                        'link' => '081223644xxx',
+                    ],
+                    'quickReply' => [
+                        "reply 1",
+                        "reply 2",
+                        "reply 3",
+                        "reply 4",
+                    ],
+                ],
+                'content' => 'sending template message...',
+                'footer' => 'footer template here',
+            ],
+        ]
+        ]
+        ];
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+        "Authorization: $token",
+        "Content-Type: application/json"
+        )
+        );
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
+        curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/v2/send-template");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+        echo "<pre>";
+        print_r($result);
+    }
+
+    public function sendSingle(){
+        $curl = curl_init();
+        $token = env("WABLAS_TOKEN");
+        $data = [
+            'phone' => '6282113781271',
             'message' => 'hello there',
         ];
         curl_setopt($curl, CURLOPT_HTTPHEADER,

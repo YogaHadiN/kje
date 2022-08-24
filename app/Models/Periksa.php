@@ -126,11 +126,8 @@ class Periksa extends Model{
             $tempFirst = '<table width="100%" class="tabelTerapi">';
             $temp = $tempFirst;
           if (count($MyArray) > 0){
-
             for ($i = 0; $i < count($MyArray) - 1; $i++) {
-
                 if (substr($MyArray[$i]->signa, 0, 5) == "Puyer" && $puyer == false ) {
-
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
                     $temp .= '<td nowrap style="text-align:left; width:150px" ><a data-target=".bs-example-modal-lg" data-toggle="modal" data-value="' . $MyArray[$i]->merek_id . '" onclick="informasi(this); return false; " href="#" >' . $MyArray[$i]->merek->merek . '</a></td>';
@@ -196,7 +193,7 @@ class Periksa extends Model{
                         $add = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -223,9 +220,7 @@ class Periksa extends Model{
 
                 $a = count($MyArray) - 1;
 
-
-                if ($MyArray[$a]->merek_id == -1 || $MyArray[$a]->merek_id == -3) {
-
+                if ( str_contains( strtolower($MyArray[$a]->merek->merek), 'puyer') ) {
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
                     $temp .= '<td style="width:150px;border-bottom:1px solid #000;" nowrap class="merek"><i>S Buat Menjadi ' . $MyArray[$a]->jumlah . ' puyer ' . $MyArray[$a]->signa . '</i></td>';
@@ -381,7 +376,7 @@ class Periksa extends Model{
                         $add = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -406,7 +401,7 @@ class Periksa extends Model{
             }
 
                 $a = count($MyArray) - 1;
-                if ($MyArray[$a]->merek_id == -1 || $MyArray[$a]->merek_id == -3) {
+                if ( str_contains( strtolower($MyArray[$a]->merek->merek), 'puyer') ) {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -974,7 +969,7 @@ class Periksa extends Model{
                         $add = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -1004,7 +999,7 @@ class Periksa extends Model{
                 $MyArray[$a]->merek->rak_id = Merek::find($MyArray[$a]->merek_id)->rak_id;
 
 
-                if ($MyArray[$a]->merek_id == -1 || $MyArray[$a]->merek_id == -3) {
+                if ( str_contains( strtolower($MyArray[$a]->merek->merek), 'puyer') ) {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';

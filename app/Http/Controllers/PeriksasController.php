@@ -1039,8 +1039,8 @@ p */
 
         $asuransi = Asuransi::find(Input::get('asuransi_id'));
 
+        $st       = Staf::find( Input::get('staf_id') );
         if ( $asuransi->tipe_asuransi_id == 5 && Input::get('notified') == '0' ) {
-            $st       = Staf::find( Input::get('staf_id') );
             $st->notified = 1;
             $st->save();
         }
@@ -1226,11 +1226,18 @@ p */
             $periksa
         );
 
-        if ( Asuransi::find(Input::get('asuransi_id'))->tipe_asuransi_id ==  5) { // jika asuransi BPJS
+        if ( $asuransi->tipe_asuransi_id ==  5) { // jika asuransi BPJS
             $pasien                          = $periksa->pasien;
             $pasien->sudah_kontak_bulan_ini = 1;
             $pasien->save();
+            if (
+                !is_null( Input::get('obat_dibayar_bpjs') )
+            ) {
+                $st->plafon_bpjs = Input::get('obat_dibayar_bpjs');
+                $st->save();
+            }
         }
+
 
         return $periksa;
     }
