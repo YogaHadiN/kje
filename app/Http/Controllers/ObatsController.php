@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 
 use DB;
+use Carbon\Carbon;
 use App\Models\Rak;
 
 class ObatsController extends Controller
@@ -54,6 +55,40 @@ class ObatsController extends Controller
 
 		return view('Dispensings.stokmin')->withRaks($raks);
 	}
+    public function fast_moving(){
+        return view('mereks.fast_moving');
+    }
+    
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function fast_moving_ajax()
+    {
+        $bulanTahun = Input::get('bulanTahun');
+        $bulanTahun = Carbon::createFromFormat('m-Y', $bulanTahun)->format('Y-m');
+        $query  = "SELECT ";
+        $query .= "mrk.merek, ";
+        $query .= "rak.kode_rak, ";
+        $query .= "rak.harga_beli, ";
+        $query .= "rak.harga_jual, ";
+        $query .= "sum(trp.jumlah) as jumlah ";
+        $query .= "FROM terapis as trp ";
+        $query .= "JOIN mereks as mrk on mrk.id = trp.merek_id ";
+        $query .= "JOIN raks as rak on rak.id = mrk.rak_id ";
+        $query .= "JOIN periksas as prx on prx.id = trp.periksa_id ";
+        $query .= "WHERE prx.tanggal like '{$bulanTahun}%' ";
+        $query .= "AND mrk.merek not like '%Puyer%' ";
+        $query .= "AND mrk.merek not like 'Add Sirup' ";
+        $query .= "GROUP BY mrk.id ";
+        $query .= "ORDER BY sum(trp.jumlah) desc ";
+
+        $data = DB::select($query);
+        return $data;
+    }
+    
+    
 
 	/**
 	 * Show the form for creating a new resource.

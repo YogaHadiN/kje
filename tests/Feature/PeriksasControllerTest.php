@@ -204,6 +204,7 @@ class PeriksasControllerTest extends TestCase
             "pemeriksaan_penunjang"       => $pemeriksaan_penunjang,
             "diagnosa_id"                 => $diagnosa_id,
             "keterangan_diagnosa"         => $keterangan_diagnosa,
+            "obat_dibayar_bpjs"         => 6000,
             "presentasi"                  => $presentasi,
             "BPD_w"                       => $BPD_w,
             "BPD_d"                       => $BPD_d,

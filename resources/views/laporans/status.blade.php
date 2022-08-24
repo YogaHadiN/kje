@@ -66,26 +66,26 @@
 							  <strong>Pemeriksaan Fisik, Penunjang dan Tindakan :</strong> <br>
 							  {!! $periksa->pemeriksaan_fisik !!} <br>
 							  {!! $periksa->pemeriksaan_penunjang !!}<br>
-							  <h3>
-								 Transaksi 
-							  </h3>
-							  <table class="table table-bordered table-hover table-condensed ">
-								  <thead>
-									  <tr>
-										  <th colspan="2">Jenis Tarif</th>
-										  <th>Biaya</th>
-									  </tr>
-								  </thead>
-								  <tbody>
-									  {!! $periksa->tindakan_html !!}
-								  </tbody>
-								  <tfoot>
-									  <tr>
-										  <th colspan="2">Total</th>
-										  <th>{!! $periksa->total_transaksi !!}</th>
-									  </tr>
-								  </tfoot>
-							  </table>
+							  {{-- <h3> --}}
+								 {{-- Transaksi --}} 
+							  {{-- </h3> --}}
+							  {{-- <table class="table table-bordered table-hover table-condensed "> --}}
+								  {{-- <thead> --}}
+									  {{-- <tr> --}}
+										  {{-- <th colspan="2">Jenis Tarif</th> --}}
+										  {{-- <th>Biaya</th> --}}
+									  {{-- </tr> --}}
+								  {{-- </thead> --}}
+								  {{-- <tbody> --}}
+									  {{-- {!! $periksa->tindakan_html !!} --}}
+								  {{-- </tbody> --}}
+								  {{-- <tfoot> --}}
+									  {{-- <tr> --}}
+										  {{-- <th colspan="2">Total</th> --}}
+										  {{-- <th>{!! $periksa->total_transaksi !!}</th> --}}
+									  {{-- </tr> --}}
+								  {{-- </tfoot> --}}
+							  {{-- </table> --}}
 						  </td>
 						  <td>
 							<div class="row">
@@ -104,42 +104,42 @@
 							  </div>
 							</div>
 							{!! $periksa->terapi_html !!}
-							<div>
-								<h3>Jurnal Umum</h3>
-								<table class="table borderless table-condensed">
-									<thead>
-										<tr>
-											<th>Akun </th>
-											<th>Debet</th>
-											<th>Kredit</th>
-										</tr>
-									</thead>
-									<tbody>
-										  @if (count($periksa->jurnals) > 0)
-											@foreach($periksa->jurnals as $k=>$jur)
-												@if($jur->debit == 1)
-												   <tr>
-													   <td>{!! $jur->coa->coa !!}</td>
-													   <td class="uang">{!! $jur->nilai!!}</td>
-													   <td></td>
-												   </tr> 
-												   @else
-													<tr>
-													   <td class="text-right">{!! $jur->coa->coa !!}</td>
-													   <td></td>
-													   <td class="uang">{!! $jur->nilai!!}</td>
-													</tr>
-												@endif
+							{{-- <div> --}}
+							{{-- 	<h3>Jurnal Umum</h3> --}}
+							{{-- 	<table class="table borderless table-condensed"> --}}
+							{{-- 		<thead> --}}
+							{{-- 			<tr> --}}
+							{{-- 				<th>Akun </th> --}}
+							{{-- 				<th>Debet</th> --}}
+							{{-- 				<th>Kredit</th> --}}
+							{{-- 			</tr> --}}
+							{{-- 		</thead> --}}
+							{{-- 		<tbody> --}}
+							{{-- 			  @if (count($periksa->jurnals) > 0) --}}
+							{{-- 				@foreach($periksa->jurnals as $k=>$jur) --}}
+							{{-- 					@if($jur->debit == 1) --}}
+							{{-- 					   <tr> --}}
+							{{-- 						   <td>{!! $jur->coa->coa !!}</td> --}}
+							{{-- 						   <td class="uang">{!! $jur->nilai!!}</td> --}}
+							{{-- 						   <td></td> --}}
+							{{-- 					   </tr> --}} 
+							{{-- 					   @else --}}
+							{{-- 						<tr> --}}
+							{{-- 						   <td class="text-right">{!! $jur->coa->coa !!}</td> --}}
+							{{-- 						   <td></td> --}}
+							{{-- 						   <td class="uang">{!! $jur->nilai!!}</td> --}}
+							{{-- 						</tr> --}}
+							{{-- 					@endif --}}
 												
-											@endforeach
-										  @else
-											<tr>
-											  <td colspan="7" class="text-center">Tidak ada Data Untuk Ditampilkan :p</td>
-											</tr>
-										  @endif
-									</tbody>
-								</table>
-							</div>
+							{{-- 				@endforeach --}}
+							{{-- 			  @else --}}
+							{{-- 				<tr> --}}
+							{{-- 				  <td colspan="7" class="text-center">Tidak ada Data Untuk Ditampilkan :p</td> --}}
+							{{-- 				</tr> --}}
+							{{-- 			  @endif --}}
+							{{-- 		</tbody> --}}
+							{{-- 	</table> --}}
+							{{-- </div> --}}
 						  </td>
 						  <!--<td>-->
 							<!--<button type="button" class="btn btn-default btn-block"><i class="fa fa-question" onclick="unchecked(this)"></i></button>-->

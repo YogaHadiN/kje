@@ -222,6 +222,7 @@
                             <li>{!! HTML::link('obat/pesanobat', 'Pesan Obat')!!}</li>
                             <li>{!! HTML::link('generiks', 'Data Generik Obat')!!}</li>
                             <li>{!! HTML::link('sediaans', 'Data Sediaan Obat')!!}</li>
+                            <li>{!! HTML::link('obat/fast_moving', 'Obat Fast Moving')!!}</li>
                         </ul>
                     </li>
 					@if(\Auth::id() == 28)

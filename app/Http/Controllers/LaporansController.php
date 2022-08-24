@@ -844,7 +844,7 @@ class LaporansController extends Controller
 				'pasien',
 				'diagnosa.icd10'
 			)
-			->paginate(4);
+			->paginate(20);
 		return view('laporans.status', compact('periksas'));
 
 	}

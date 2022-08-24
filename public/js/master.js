@@ -340,3 +340,16 @@ $("form input").keydown(function (e) {
         return false;
     }
 });
+function loaderGif(selector) {
+    var colspan = $(selector)
+        .closest("table")
+        .find("thead tr")
+        .find("th:not(.displayNone)").length;
+    $(selector).html(
+        "<td colspan='" +
+            colspan +
+            "'><img class='loader' src='" +
+            base_s3 +
+            "/img/loader.gif' /></td>"
+    );
+}

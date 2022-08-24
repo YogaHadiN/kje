@@ -158,8 +158,12 @@
 								</div>
 								<div class="panel-body">
 									{!! Form::text('kali_obat', $antrianperiksa->asuransi->kali_obat, ['class' => 'hide', 'id' => 'kali_obat'])!!}
+                                    @if( isset($periksaex) )
+                                        {!! Form::text('periksaex', $periksaex->id, ['class' => 'hide', 'id' => 'periksaex'])!!}
+                                    @endif
 									{!! Form::text('pasien_id', $antrianperiksa->pasien_id, ['class' => 'displayNone', 'id' => 'pasien_id']) !!}
 									{!! Form::text('jam', $antrianperiksa->jam, ['class' => 'displayNone']) !!}
+                                    {!! Form::text('obat_dibayar_bpjs', null, ['class' => 'hide', 'id' => 'obat_dibayar_bpjs']) !!}
 									{!! Form::text('notified', $antrianperiksa->staf->notified, ['class' => 'displayNone', 'id' => 'notified']) !!}
 									{!! Form::text('_token', Session::token(), ['class' => 'displayNone', 'id'=>'token']) !!}
 									{!! Form::text('jam_periksa', date('H:i:s'), ['class' => 'displayNone']) !!}
@@ -170,6 +174,7 @@
 									{!! Form::text('asisten_id', $antrianperiksa->asisten_id, ['class' => 'hide']) !!}
 									{!! Form::text('periksa_awal', $antrianperiksa->periksa_awal, ['class' => 'hide']) !!}
 									{!! Form::text('antrian_periksa_id', $antrianperiksa->id, ['class' => 'displayNone', 'id' => 'antrianperiksa_id']) !!}
+                                    {!! Form::text('plafon_obat_bpjs_by_staf', $antrianperiksa->staf->plafon_bpjs, ['class' => 'hide', 'id' => 'plafon_obat_bpjs_by_staf']) !!}
 									{!! Form::text('antrian_id', $antrian_id, ['class' => 'displayNone', 'id' => 'antrian_id']) !!}
 									{!! Form::text('keterangan_periksa', $antrianperiksa->keterangan, ['class' => 'displayNone']) !!}
 									{!! Form::text('dibantu', '1', ['class' => 'form-control hide', 'id' => 'dibantu'])!!}
@@ -520,6 +525,29 @@
 								</div>
 							@endif
                             @if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Plafon Obat BPJS</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Merek</th>
+                                                            <th>Jumlah</th>
+                                                            <th>Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="obat_dibayar_bpjs_container">
+                                                    </tbody>
+                                                </table>
+                                                <strong><h1 id="plafon_obat_bpjs">Rp. 8.000</h1></strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 								<div class="row">
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  >
 										<div class="panel panel-info">
