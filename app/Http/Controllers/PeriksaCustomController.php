@@ -89,7 +89,6 @@ class PeriksaCustomController extends Controller
 					$prx->save();
 			} 
 
-			JurnalUmum::where('jurnalable_type', 'App\Models\Periksa')->where('jurnalable_id', $periksa['id'])->delete();
 			foreach ($jurnals as $j) {
 				if ( $j['nilai'] > 0 ) {
 					$jurnal[] = [
