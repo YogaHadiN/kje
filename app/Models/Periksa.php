@@ -155,7 +155,7 @@ class Periksa extends Model{
                        $puyer = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -1 || $MyArray[$i]->merek_id == -3) {
+                } else if ($MyArray[$i]->merek->merek == 'Kertas Puyer Biasa' || $MyArray[$i]->merek->merek == 'Kertas Puyer Sablon') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -228,7 +228,7 @@ class Periksa extends Model{
 
                    $puyer = false;
 
-                } else if ($MyArray[$a]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -338,7 +338,7 @@ class Periksa extends Model{
                        $puyer = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -1 || $MyArray[$i]->merek_id == -3) {
+                } else if ($MyArray[$i]->merek->merek == 'Kertas Puyer Biasa' || $MyArray[$i]->merek->merek == 'Kertas Puyer Sablon') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -410,7 +410,7 @@ class Periksa extends Model{
 
                    $puyer = false;
 
-                } else if ($MyArray[$a]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -597,7 +597,7 @@ class Periksa extends Model{
 
                    $puyer = false;
 
-                } else if ($MyArray[$a]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -931,7 +931,7 @@ class Periksa extends Model{
                        $puyer = false;
                     }
 
-                } else if ($MyArray[$i]->merek_id == -1 || $MyArray[$i]->merek_id == -3) {
+                } else if ($MyArray[$i]->merek->merek == 'Kertas Puyer Biasa' || $MyArray[$i]->merek->merek == 'Kertas Puyer Sablon') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
@@ -1008,7 +1008,7 @@ class Periksa extends Model{
 
                    $puyer = false;
 
-                } else if ($MyArray[$a]->merek_id == -2) {
+                } else if ($MyArray[$i]->merek->merek == 'Add Sirup') {
 
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px"></td>';
