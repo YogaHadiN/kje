@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Models\Supplier;
 use App\Models\Classes\Yoga;
 use App\Models\Belanja;
+use App\Models\Sediaan;
 use App\Models\KelasObat;
 use App\Models\Merek;
 use App\Models\Rak;
@@ -27,20 +28,7 @@ class SupplierBelanjasController extends Controller
 		$sumber_uang = Yoga::sumberuang();
 
 		$fornas = Yoga::fornas();
-		$sediaan = [
-			null 				=> '- pilih -',
-			'tablet'  			=> 'tablet',
-			'syrup'  			=> 'syrup',
-			'drop'  			=> 'drop',
-			'capsul' 			=> 'capsul',
-			'ampul'  			=> 'ampul',
-			'vial'  			=> 'vial',
-			'tetes mata'  		=> 'tetes mata',
-			'tetes telinga' 	=> 'tetes telinga',
-			'salep'  			=> 'salep',
-			'gel'  				=> 'gel',
-			'tube'  			=> 'tube'
-		];
+        $sediaan_list = Sediaan::pluck('sediaan', 'id');
 
 		$alternatif_fornas = array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 
@@ -60,7 +48,7 @@ class SupplierBelanjasController extends Controller
 
         $kelas_obat_list = KelasObat::pluck('kelas_obat', 'id');
 		return view('suppliers.belanja_obat', compact(
-			 'sediaan'
+			 'sediaan_list'
 			, 'generik'
 			, 'pembelians'
 			, 'mereks'
