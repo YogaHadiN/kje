@@ -1026,11 +1026,12 @@ class AsuransisController extends Controller
         $jenis_tarif_id = Input::get('jenis_tarif_id');
 
         $asuransi = Asuransi::find($asuransi_id);
+        $kode_coa_asuransi = $asuransi->coa->kode_coa;
         $kode_coa = JenisTarif::find($jenis_tarif_id)->coa->kode_coa;
 
         return [
             'tipe_asuransi_id' => $asuransi->tipe_asuransi_id,
-            /* 'coa_id_asuransi' => $asuransi->coa_id, */
+            'kode_coa_asuransi' => $kode_coa_asuransi,
             'kode_coa_jenis_tarif' => $kode_coa,
         ];
     }

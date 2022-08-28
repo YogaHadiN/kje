@@ -568,6 +568,7 @@ function hapusTransaksi(control) {
                 function (data, textStatus, jqXHR) {
                     var tipe_asuransi_id = data["tipe_asuransi_id"];
                     var kode_coa_jenis_tarif = data["kode_coa_jenis_tarif"];
+                    var kode_coa_asuransi = data["kode_coa_asuransi"];
                     console.log("kode_coa_jenis_tarif", kode_coa_jenis_tarif);
                     if (tipe_asuransi_id == 1) {
                         var totalTransaksiTunai = $("#totalTransaksiTunai").val();
@@ -581,7 +582,7 @@ function hapusTransaksi(control) {
                         var totalTransaksiPiutang = $("#totalTransaksiPiutang").val();
                         totalTransaksiPiutang = cleanUang(totalTransaksiPiutang);
                         totalTransaksiPiutang -= parseInt(biaya);
-                        $("#totalTransaksiTunai").autoNumeric(
+                        $("#totalTransaksiPiutang").autoNumeric(
                             "set",
                             totalTransaksiPiutang
                         );
@@ -611,7 +612,7 @@ function hapusTransaksi(control) {
                         } else if (
                             pleaseUpdateNilaiJurnal &&
                             typeof jurnals[i] !== "undefined" &&
-                            jurnals[i]["coa"]["kode_coa"] == kode_coa_jenis_tarif
+                            jurnals[i]["coa"]["kode_coa"] == kode_coa_asuransi
                         ) {
                             var nilai = jurnals[i]["nilai"];
                             nilai -= parseInt(biaya);
@@ -734,8 +735,12 @@ function viewJurnals() {
     var jurnals = getJurnalObject();
     let coa_list = $("#coa_list").val();
     coa_list = JSON.parse(coa_list);
-    console.log("jurnalssss", jurnals);
     var temp = "";
+    for (let i = 0, len = jurnals.length; i < len; i++) {
+        if (jurnals[i]['nilai'] == 0) {
+            jurnals.splice(i,1);
+        }
+    }
     for (let i = 0, len = jurnals.length; i < len; i++) {
         selected_coa_id = jurnals[i]["coa_id"];
         temp += "<tr>";
