@@ -1,4 +1,3 @@
-var hitung_refresh = "0";
 var coa_id = null;
 var text = "";
 var selected_coa_id = "";
@@ -6,7 +5,6 @@ temp = parseTemp();
 viewJurnals();
 render(temp);
 
-console.log("awal", hitung_refresh);
 
 viewTransaksiPeriksa();
 function dummySubmit(control) {
@@ -733,8 +731,6 @@ function reset(control) {
     $(control).closest("tr").find(".jenis_tarif").find(".btn-white").focus();
 }
 function viewJurnals() {
-    hitung_refresh++;
-    console.log("hitung_refresh", hitung_refresh);
     var jurnals = getJurnalObject();
     let coa_list = $("#coa_list").val();
     coa_list = JSON.parse(coa_list);
@@ -779,9 +775,7 @@ function viewJurnals() {
         }
         temp += "<td>";
         temp +=
-            "<button class='btn btn-xs btn-danger' onclick='delJurnal(this);return false;'>del " +
-            hitung_refresh +
-            "</button>";
+            "<button class='btn btn-xs btn-danger' onclick='delJurnal(this);return false;'>del</button>";
 
         temp += "</td>";
         temp += "</tr>";
