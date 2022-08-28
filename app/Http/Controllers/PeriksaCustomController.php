@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\TransaksiPeriksa;
 use App\Models\Pasien;
+use App\Models\JenisTarif;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
 use App\Models\Asuransi;
@@ -35,7 +36,7 @@ class PeriksaCustomController extends Controller
 	}
 	
 	public function editTransaksiPeriksa($id){
-		$periksa       = Periksa::with('jurnals.coa', 'transaksii')->where('id', $id)->first();
+		$periksa       = Periksa::with('jurnals.coa', 'transaksii.jenisTarif')->where('id', $id)->first();
 		$coa_list      = Coa::list();
 		$list_asuransi = Asuransi::list();
 		return view('periksas.editTransaksiPeriksa', compact(
@@ -119,4 +120,18 @@ class PeriksaCustomController extends Controller
 			throw $e;
 		}
 	}
+    public function getCoaId(){
+        $jenis_tarif = JenisTarif::with('coa')->where('id', Input::get('jenis_tarif_id') )->first();
+        $asuransi = Asuransi::find( Input::get('asuransi_id') );
+        return [
+            'coa_id'           => $jenis_tarif->coa_id,
+            'tipe_asuransi_id' => $asuransi->tipe_asuransi_id,
+            'coa_id_asuransi'  => $asuransi->coa_id,
+            'coa'              => $jenis_tarif->coa,
+        ];
+    }
+    public function getCoaList(){
+        return Coa::pluck('coa_id', 'coa');
+    }
+    
 }

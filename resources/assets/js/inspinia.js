@@ -315,7 +315,7 @@ function cleanUang(uang) {
     if (uang == 0) {
         uang = 0;
     }
-    return uang;
+    return parseInt(uang);
 }
 
 function validatePass() {

@@ -143,5 +143,8 @@ class Asuransi extends Model{
     public static function BiayaPribadi(){
         return Asuransi::where('tipe_asuransi_id', 1)->first();
     }
+    public function coa(){
+        return $this->belongsTo(Coa::class);
+    }
     
 }

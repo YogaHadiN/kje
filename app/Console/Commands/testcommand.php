@@ -116,7 +116,7 @@ class testcommand extends Command
     public function handle()
     {
         $wa = new WablasController;
-        $wa->sendTemplate();
+        $wa->sendButton();
 	}
 	
 	/**

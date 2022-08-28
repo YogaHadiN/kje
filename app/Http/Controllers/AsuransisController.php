@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Storage;
 use App\Models\Asuransi;
 use App\Models\Berkas;
+use App\Models\JenisTarif;
 use App\Models\Tarif;
 use App\Models\TipeAsuransi;
 use App\Models\Email;
@@ -1020,6 +1021,31 @@ class AsuransisController extends Controller
 			'result'     => $result
 		];
 	}
+    public function getTipeAsuransiId(){
+        $asuransi_id = Input::get('asuransi_id');
+        $jenis_tarif_id = Input::get('jenis_tarif_id');
+
+        $asuransi = Asuransi::find($asuransi_id);
+        $kode_coa = JenisTarif::find($jenis_tarif_id)->coa->kode_coa;
+
+        return [
+            'tipe_asuransi_id' => $asuransi->tipe_asuransi_id,
+            /* 'coa_id_asuransi' => $asuransi->coa_id, */
+            'kode_coa_jenis_tarif' => $kode_coa,
+        ];
+    }
+    public function refreshTunaiPiutang(){
+        $asuransi = Asuransi::find(Input::get('asuransi_id'));
+        $coa_tunai = Coa::where('kode_coa', 110000)->first();
+
+        return [
+            'tipe_asuransi_id'  => $asuransi->tipe_asuransi_id,
+            'kode_coa_asuransi' => $asuransi->coa->kode_coa,
+            'coa_tunai'         => $coa_tunai
+        ];
+    }
+    
+    
     /**
      * undocumented function
      *

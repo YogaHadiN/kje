@@ -674,7 +674,7 @@ class WablasController extends Controller
         $payload = [
             "data" => [
                 [
-                    'phone' => '6282113781271',
+                    'phone' => '6285721012351',
                     'message' => [
                         'buttons' => ["button 1","button 2","button 3"],
                         'content' => 'sending template message...',
@@ -731,7 +731,7 @@ class WablasController extends Controller
         $payload = [
         "data" => [
         [
-            'phone' => '6282113781271',
+            'phone' => '6285721012351',
             'message'=> [
                 'title' => [
                     'type' => 'text',

@@ -158,7 +158,10 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 	Route::get('periksas/cari/by_asuransi/{asuransi_id}/{from}/{until}', [\App\Http\Controllers\PeriksasController::class, 'cariByAsuransiByPeriode']);
+	Route::get('periksas/edit/transaksiPeriksa/get/coa_id', [\App\Http\Controllers\PeriksaCustomController::class, 'getCoaId']);
+	Route::get('periksas/edit/transaksiPeriksa/get/coa_list', [\App\Http\Controllers\PeriksaCustomController::class, 'getCoaList']);
 
+	Route::get('periksas/{id}/edit/transaksiPeriksa', [\App\Http\Controllers\PeriksaCustomController::class, 'editTransaksiPeriksa']);
 	Route::get('periksas/{id}/edit/transaksiPeriksa', [\App\Http\Controllers\PeriksaCustomController::class, 'editTransaksiPeriksa']);
 	Route::post('periksas/{id}/update/transaksiPeriksa', [\App\Http\Controllers\PeriksaCustomController::class, 'updateTransaksiPeriksa']);
 	Route::post('periksas/{id}/update/tunai', [\App\Http\Controllers\PeriksaCustomController::class, 'updateTunai']);
@@ -170,6 +173,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/periksas/cek_customer_survey_sudah_diisi', [\App\Http\Controllers\PeriksasController::class, 'cekCustomerServiceSudahDiisi']);
 
 	Route::get( 'asuransis/get/coa_id' , [\App\Http\Controllers\AsuransisController::class, 'getAsuransiCoaId']);
+	Route::get( 'asuransis/get/tipe_asuransi_id' , [\App\Http\Controllers\AsuransisController::class, 'getTipeAsuransiId']);
+	Route::get( 'periksas/edit/transaksiPeriksa/process/refreshTunaiPiutang' , [\App\Http\Controllers\AsuransisController::class, 'refreshTunaiPiutang']);
+
 	Route::put('asuransis/{id}/upload', [\App\Http\Controllers\AsuransisController::class, 'uploadBerkas']);
 	Route::post('asuransis/berkas/hapus', [\App\Http\Controllers\AsuransisController::class, 'hapusBerkas']);
 

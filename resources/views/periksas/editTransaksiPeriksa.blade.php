@@ -4,6 +4,13 @@
 {{ env("NAMA_KLINIK") }} | Edit Transaksi Periksa
 
 @stop
+@section('head')
+    <style type="text/css" media="screen">
+        .jenis_tarif {
+            width : 30%
+        }
+    </style>
+@stop
 @section('page-title') 
 <h2>Edit Transaksi Periksa</h2>
 <ol class="breadcrumb">
@@ -32,37 +39,42 @@
 							</div>
 							<div class="panel-body">
 								<div class="table-responsive">
-									<table class="table table-hover table-condensed">
+									<table id="table_transaksi_periksa" class="table table-hover table-condensed">
 										<thead>
 											<tr>
-												<th class="id">id</th>
-												<th class="coa_id">coa id</th>
-												<th>Jenis Tarif</th>
+												<th class="k hide">k</th>
+												<th class="coa_id hide">coa_id</th>
+												<th class="jenis_tarif">Jenis Tarif</th>
 												<th>Biaya</th>
+												<th>Keterangan</th>
+												<th>Action</th>
 											</tr>
 										</thead>
-										<tbody>
-											@if($periksa->transaksii->count() > 0)
-												@foreach($periksa->transaksii as $k => $t)
-													<tr>
-														<td class='id'>{{ $t->id }}</td>
-														<td class='coa_id'>{{ $t->jenisTarif->coa_id }}</td>
-														<td class='jenis_tarif'>{{ $t->jenisTarif->jenis_tarif }}</td>
-														<td class="nilai_transaksi_periksa">
-														   {!! Form::text('nilai', $t->biaya, [
-															   'class' => 'form-control uangInput text-right',
-															   'title' => $k,
-															   'onkeyup' => 'transaksiPeriksa(this);return false;'
-														   ]) !!}
-													   </td>
-													</tr>
-												@endforeach
-											@else
-												<tr>
-													<td class="text-center" colspan="4">Tidak Ada Data Untuk Ditampilkan :p</td>
-												</tr>
-											@endif
-										</tbody>
+										<tbody id="container_transaksi_periksa">
+
+                                        </tbody>
+                                        <tfoot>
+											<tr>
+												<td class="k hide">k</td>
+												<td class="coa_id hide">coa_id</td>
+												<td class="jenis_tarif">
+                                                    {!! Form::select('jenis_tarif_id', \App\Models\JenisTarif::pluck('jenis_tarif', 'id'), null , [
+                                                        'class' => 'form-control selectpick jenis_tarif_id', 
+                                                        'placeholder' => '- Pilih Transaksi -',
+                                                        'data-live-search' => 'true'
+                                                    ]) !!}
+                                                </td>
+												<td>
+                                                    {!! Form::text('biaya', null, ['class' => 'form-control uangInput biaya']) !!}
+                                                </td>
+												<td>
+                                                    {!! Form::text('keterangan_pemeriksaan', null, ['class' => 'form-control keterangan_pemeriksaan']) !!}
+                                                </td>
+												<td>
+                                                    <button class="btn btn-info btn-sm" onclick="tambahTransaksiPeriksa(this);return false">Tambah</button>
+                                                </td>
+											</tr>
+                                        </tfoot>
 									</table>
 								</div>
 							</div>
@@ -97,6 +109,7 @@
 												<td>
 													{!! Form::select('asuransi_id', $list_asuransi, $periksa->asuransi_id, [
 														'class'            => 'form-control selectpick',
+														'id'            => 'asuransi_id',
 														'onchange'         => 'changeAsuransi(this);return false;',
 														'data-live-search' => 'true'
 													]) !!}
@@ -149,7 +162,7 @@
 										<td>
 										   {!! Form::text('tunai', $periksa->tunai, [
 											   'class'   => 'form-control uangInput text-right tunai',
-											   'id'      => 'tunai',
+											   'id'      => 'totalTransaksiTunai',
 											   'onkeyup' => 'refreshTunaiPiutang();return false;'
 										   ]) !!}
 									   </td>
@@ -159,7 +172,7 @@
 										<td>
 										   {!! Form::text('piutang', $periksa->piutang, [
 											   'class'    => 'form-control uangInput text-right piutang',
-											   'id'       => 'piutang',
+											   'id'       => 'totalTransaksiPiutang',
 											   'disabled' => 'disabled'
 										   ]) !!}
 									   </td>
@@ -208,12 +221,20 @@
 				</h3>
 			</div>
 			<div class="panel-body">
-				@include('jurnal_umums.templateJurnal', [
-					'jurnals' => $periksa->jurnals,
-					'delete' => true,
-					'count' => $periksa->jurnals->count()
-				])
-			</div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Akun</th>
+                            <th>Debet</th>
+                            <th>Kredit</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="container_jurnals">
+
+                    </tbody>
+                </table>
+            </div>
 		</div>
 	</div>
 </div>
@@ -242,12 +263,16 @@
 	<div class="hide">
 		{!! Form::textarea('temp', '[]', ['class' => 'form-control textareacustom', 'id' => 'temp']) !!}
 	</div>
-	<div class="hide">
+	<div class="">
 		<h2>Jurnals</h2>
 		{!! Form::textarea('jurnals', $periksa->jurnals, ['class' => 'form-control textareacustom', 'id' => 'jurnals']) !!}
 	</div>
+	<div class="">
+		<h2>Coa List</h2>
+		{!! Form::textarea('coa_list', json_encode($coa_list), ['class' => 'form-control textareacustom', 'id' => 'coa_list']) !!}
+	</div>
 	<div>
-	<div class="hide">
+	<div class="">
 		<h2>Transaksis</h2>
 		{!! Form::textarea('transaksis', $periksa->transaksii, ['class' => 'form-control textareacustom', 'id' => 'transaksis']) !!}
 	</div>
