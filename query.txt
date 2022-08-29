@@ -1,11 +1,14 @@
 ALTER TABLE mereks DROP COLUMN unit_tiap_paket;
 
 asuransis
+    biaya_pribadi
+    bpjs
 aturan_minums
+    semua
 coas
+    semua kecuali asuransi
 diagnosas
-generiks
-golongan_peralatans
+    semua
 jenis_antrians
 jenis_pajaks
 jenis_pengeluarans
@@ -14,7 +17,5 @@ jenis_rumah_sakits
 jenis_tarifs
 kelas_obats
 kelompok_coas
-pembayaran_asuransis
 sediaans
 signas
-tenants
