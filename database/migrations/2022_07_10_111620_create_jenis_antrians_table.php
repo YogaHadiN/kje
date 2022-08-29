@@ -20,7 +20,6 @@ class CreateJenisAntriansTable extends Migration
             $table->string('antrian_terakhir_id')->nullable();
             $table->timestamp('created_at')->useCurrentOnUpdate()->useCurrent();
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
-            $table->bigInteger('tenant_id')->index();
         });
     }
 
