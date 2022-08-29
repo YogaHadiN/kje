@@ -39,16 +39,6 @@ class DdlMerekController extends Controller
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
-        if ($asuransi->tipe_asuransi_id == 5) {
-            $result = [];
-            foreach ($data as $d) {
-                $result[$d->formula_id] = $d;
-            }
-            $data = [];
-            foreach ($result as $r) {
-                $data[] = $r;
-            }
-        }
 		return $this->formatDdlNamaObat($data);
 	}
 	public function alloption2(){
@@ -83,17 +73,6 @@ class DdlMerekController extends Controller
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
-		$data =  DB::select($query);
-        if ($asuransi->tipe_asuransi_id == 5) {
-            $result = [];
-            foreach ($data as $d) {
-                $result[$d->formula_id] = $d;
-            }
-            $data = [];
-            foreach ($result as $r) {
-                $data[] = $r;
-            }
-        }
 		$data   = DB::select($query);
 		$i      = 0;
 		$bb     = Input::get('bb');
@@ -163,17 +142,6 @@ class DdlMerekController extends Controller
 		$query .= "or s.sediaan = 'tablet' ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
-        if ($asuransi->tipe_asuransi_id == 5) {
-            $result = [];
-            foreach ($data as $d) {
-                $result[$d->formula_id] = $d;
-            }
-            $data = [];
-            foreach ($result as $r) {
-                $data[] = $r;
-            }
-        }
-		$data =  DB::select($query);
 
 		return $this->formatDdlNamaObat($data);
 	}
@@ -204,33 +172,39 @@ class DdlMerekController extends Controller
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
-        if ($asuransi->tipe_asuransi_id == 5) {
-            $result = [];
-            foreach ($data as $d) {
-                $result[$d->formula_id] = $d;
-            }
-            $data = [];
-            foreach ($result as $r) {
-                $data[] = $r;
-            }
-        }
-		$data =  DB::select($query);
 		return $this->formatDdlNamaObat($data);
 	}
 	public function formatDdlNamaObat($data){
+        $asuransi = !is_null( Input::get('asuransi_id') ) ? Asuransi::find( Input::get('asuransi_id') ) : null;
 		$mereks = [];
 		$i = 0;
+
+        if (
+            !is_null($asuransi) &&
+            $asuransi->tipe_asuransi_id == 5
+        ) {
+            $khusus_bpjs = [];
+            foreach ($data as $da) {
+                $khusus_bpjs[$da->formula_id] = $da;
+            }
+        }
 		foreach ($data as $dt) {
 			$mereks[$dt->merek_id]['merek_id']        = $dt->merek_id;
 			$mereks[$dt->merek_id]['sediaan']         = $dt->sediaan;
 			$mereks[$dt->merek_id]['rak_id']          = $dt->rak_id;
 			$mereks[$dt->merek_id]['formula_id']      = $dt->formula_id;
 			$mereks[$dt->merek_id]['merek']           = $dt->merek;
-			$mereks[$dt->merek_id]['harga_beli']      = $dt->harga_beli;
 			$mereks[$dt->merek_id]['aturan_minum_id'] = $dt->aturan_minum_id;
 			$mereks[$dt->merek_id]['peringatan']      = $dt->peringatan;
-			$mereks[$dt->merek_id]['fornas']          = $dt->fornas;
-			$mereks[$dt->merek_id]['harga_jual']      = $dt->harga_jual;
+            if ( $asuransi->tipe_asuransi_id == 5 ) {
+                $mereks[$dt->merek_id]['fornas']          = $khusus_bpjs[$dt->formula_id]->fornas;
+                $mereks[$dt->merek_id]['harga_beli']      = $khusus_bpjs[$dt->formula_id]->harga_beli;
+                $mereks[$dt->merek_id]['harga_jual']      = $khusus_bpjs[$dt->formula_id]->harga_jual;
+            } else {
+                $mereks[$dt->merek_id]['fornas']          = $dt->fornas;
+                $mereks[$dt->merek_id]['harga_beli']      = $dt->harga_beli;
+                $mereks[$dt->merek_id]['harga_jual']      = $dt->harga_jual;
+            }
 			$mereks[$dt->merek_id]['ID_TERAPI']       = strval($i);
 			$mereks[$dt->merek_id]['komposisi'][]     = $dt->generik . ' ' . $dt->bobot;
 			$i++;	
