@@ -15,6 +15,7 @@ class DdlMerekController extends Controller
 {
 	public function alloption(){
 		$asuransi_id = Input::get('asuransi_id');
+        $asuransi = Asuransi::find($asuransi_id);
 		$query = 'SELECT f.boleh_dipuyer as boleh_dipuyer, ';
 		$query .= 'm.id as merek_id, ';
 		$query .= 's.sediaan as sediaan, ';
@@ -36,11 +37,13 @@ class DdlMerekController extends Controller
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= "WHERE m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= 'ORDER BY m.id ASC';
+		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
 		return $this->formatDdlNamaObat($data);
 	}
 	public function alloption2(){
+
+        $asuransi_id = Input::get('asuransi_id');
 
 		$query  = "SELECT f.boleh_dipuyer as boleh_dipuyer, ";
 		$query .= "r.harga_jual as harga_jual, ";
@@ -112,6 +115,8 @@ class DdlMerekController extends Controller
 	}
 
 	public function optionpuyer(){
+        $asuransi_id = Input::get('asuransi_id');
+
 		$query = "SELECT f.boleh_dipuyer as boleh_dipuyer, ";
 		$query .= "r.harga_jual as harga_jual, ";
 		$query .= "f.aturan_minum_id as aturan_minum_id, ";
@@ -141,6 +146,8 @@ class DdlMerekController extends Controller
 		return $this->formatDdlNamaObat($data);
 	}
 	public function optionsyrup(){
+        $asuransi_id = Input::get('asuransi_id');
+
 		$query = "SELECT f.boleh_dipuyer as boleh_dipuyer, ";
 		$query .= "r.harga_jual as harga_jual, ";
 		$query .= "m.id as merek_id, ";

@@ -201,13 +201,20 @@ jQuery(document).ready(function ($) {
         var bb = $("#bb_aktif").val();
         $("#berat_badan").val(bb);
 
-        $.get(base + "/DdlMerek/alloption2", { bb: bb }, function (data) {
-            data = $.parseJSON(data);
-            var berat_badan = data.berat_badan;
-            data = data.temp;
-            data = JSON.stringify(data);
-            customOption2a(data, berat_badan);
-        });
+        $.get(
+            base + "/DdlMerek/alloption2",
+            {
+                bb: bb,
+                asuransi_id: $("#asuransi_id").val(),
+            },
+            function (data) {
+                data = $.parseJSON(data);
+                var berat_badan = data.berat_badan;
+                data = data.temp;
+                data = JSON.stringify(data);
+                customOption2a(data, berat_badan);
+            }
+        );
     });
 
     $("#btn_auto_off").click(function (e) {
