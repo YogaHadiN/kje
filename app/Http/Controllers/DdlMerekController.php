@@ -39,6 +39,16 @@ class DdlMerekController extends Controller
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
+        if ($asuransi->tipe_asuransi_id == 5) {
+            $result = [];
+            foreach ($data as $d) {
+                $result[$d->formula_id] = $d;
+            }
+            $data = [];
+            foreach ($result as $r) {
+                $data[] = $r;
+            }
+        }
 		return $this->formatDdlNamaObat($data);
 	}
 	public function alloption2(){
@@ -72,7 +82,18 @@ class DdlMerekController extends Controller
 		$query .= "WHERE d.berat_badan_id = '{$berat_badan_id}'";
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "ORDER BY m.id ASC";
+		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
+		$data =  DB::select($query);
+        if ($asuransi->tipe_asuransi_id == 5) {
+            $result = [];
+            foreach ($data as $d) {
+                $result[$d->formula_id] = $d;
+            }
+            $data = [];
+            foreach ($result as $r) {
+                $data[] = $r;
+            }
+        }
 		$data   = DB::select($query);
 		$i      = 0;
 		$bb     = Input::get('bb');
@@ -140,7 +161,18 @@ class DdlMerekController extends Controller
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "or s.sediaan = 'tablet' ";
-		$query .= "ORDER BY m.id ASC";
+		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
+		$data =  DB::select($query);
+        if ($asuransi->tipe_asuransi_id == 5) {
+            $result = [];
+            foreach ($data as $d) {
+                $result[$d->formula_id] = $d;
+            }
+            $data = [];
+            foreach ($result as $r) {
+                $data[] = $r;
+            }
+        }
 		$data =  DB::select($query);
 
 		return $this->formatDdlNamaObat($data);
@@ -170,7 +202,18 @@ class DdlMerekController extends Controller
 		$query .= "WHERE s.sediaan like '%syrup%' ";
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "ORDER BY m.id ASC";
+		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
+		$data =  DB::select($query);
+        if ($asuransi->tipe_asuransi_id == 5) {
+            $result = [];
+            foreach ($data as $d) {
+                $result[$d->formula_id] = $d;
+            }
+            $data = [];
+            foreach ($result as $r) {
+                $data[] = $r;
+            }
+        }
 		$data =  DB::select($query);
 		return $this->formatDdlNamaObat($data);
 	}
