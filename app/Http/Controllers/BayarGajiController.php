@@ -446,6 +446,8 @@ class BayarGajiController extends Controller
 			JurnalUmum::insert($jurnals);
 			Pph21::create($pph);
 			DB::commit();
+            $this->staf->plafon_bpjs = 0;
+            $this->staf->save();
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;

@@ -329,6 +329,12 @@ class PolisController extends Controller
 			}
 
             $asuransi_biaya_pribadi = Asuransi::BiayaPribadi();
+
+            $dikembalikan = 0;
+            $terapiDikembalikan = $periksaExist->terapii;
+            foreach ($terapiDikembalikan as $tr) {
+                $dikembalikan += $tr->harga_beli_satuan * $tr->jumlah;
+            }
 			 
 			//return $periksaExist->gambarPeriksa->count();
 			/* dd( $dikasiDalam1BulanTerakhir ); */
@@ -343,6 +349,7 @@ class PolisController extends Controller
 			->withSignas($signas)
 			->with('generik_list',$generik_list)
 			->with('asuransi_list',$asuransi_list)
+			->with('dikembalikan',$dikembalikan)
 			->withBukus($bukus)
 			->withConfirms($confirms)
 			->with('refleks_patelas', $refleks_patelas)

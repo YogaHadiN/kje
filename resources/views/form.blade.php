@@ -160,6 +160,7 @@
 									{!! Form::text('kali_obat', $antrianperiksa->asuransi->kali_obat, ['class' => 'hide', 'id' => 'kali_obat'])!!}
                                     @if( isset($periksaex) )
                                         {!! Form::text('periksaex', $periksaex->id, ['class' => 'hide', 'id' => 'periksaex'])!!}
+                                        {!! Form::text('plafon_dikembalikan_karena_ngedit', $dikembalikan, ['class' => '', 'id' => 'plafon_dikembalikan_karena_ngedit'])!!}
                                     @endif
 									{!! Form::text('pasien_id', $antrianperiksa->pasien_id, ['class' => 'displayNone', 'id' => 'pasien_id']) !!}
 									{!! Form::text('jam', $antrianperiksa->jam, ['class' => 'displayNone']) !!}
@@ -542,8 +543,14 @@
                                                     </thead>
                                                     <tbody id="obat_dibayar_bpjs_container">
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th class="text-left" colspan='2'>Total Utilisasi</th>
+                                                            <th class="text-right" id="total_utilisasi_obat_bpjs"></th>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
-                                                <strong><h1 id="plafon_obat_bpjs">Rp. 8.000</h1></strong>
+                                                <strong><p id="plafon_obat_bpjs">Rp. 8.000</p></strong>
                                             </div>
                                         </div>
                                     </div>

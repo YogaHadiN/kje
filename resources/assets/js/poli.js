@@ -2388,10 +2388,6 @@ function viewResep(control) {
         var biaya_ini = 0;
         var dibayar_bpjs = 0;
         for (var i = 0; i < data.length; i++) {
-            console.log("===================");
-            console.log("data[i]");
-            console.log(data[i]);
-            console.log("===================");
             if (data[i].fornas == "0") {
                 biaya_ini =
                     data[i].harga_jual_ini *
@@ -3119,11 +3115,17 @@ function selectChange(control) {
     $(control).closest("tr").find(".keteranganTindakan").html(html);
 }
 function updatePlafon(dibayar_bpjs) {
-    var sisa_plafon = parseInt(plafon_bpjs_ini) - parseInt(dibayar_bpjs);
-    var used_in_existing_periksa = 8000 - parseInt(dibayar_bpjs);
     if ($("#periksaex").length > 0) {
-        sisa_plafon = sisa_plafon - used_in_existing_periksa;
+        plafon_bpjs_ini = parseInt($('#plafon_dikembalikan_karena_ngedit').val()) + parseInt($("#plafon_obat_bpjs_by_staf").val());
     }
-    $("#plafon_obat_bpjs").html(uang(sisa_plafon));
+    var sisa_plafon = parseInt(plafon_bpjs_ini) - parseInt(dibayar_bpjs);
+    $("#total_utilisasi_obat_bpjs").html( uang(dibayar_bpjs));
+    $("#plafon_obat_bpjs").html(
+        uang(plafon_bpjs_ini) +
+            " - " +
+            uang(dibayar_bpjs) +
+            " = <h1>" +
+            uang(sisa_plafon) + '</h1>'
+);
     $("#obat_dibayar_bpjs").val(sisa_plafon);
 }

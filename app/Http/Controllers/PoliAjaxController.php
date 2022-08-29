@@ -179,7 +179,7 @@ class PoliAjaxController extends Controller
 				if (isset($array[$periksa_id])) {
 					$terapi  = $array[$periksa_id];
 					$terapi  = $this->sesuaikanResep($terapi, $asuransi);
-					$terapi  = $this->masukLagi($terapi);
+					$terapi  = $this->masukLagi($terapi, $asuransi);
 					$terapih = $q->terapih;
 					$terapih = json_decode($terapih, true);
 
@@ -516,14 +516,24 @@ class PoliAjaxController extends Controller
         return $terapis;
     }
     
-    private function masukLagi($terapis){
+    private function masukLagi($terapis, $asuransi){
         //return $terapi;
+        $khususBpjs = [];
+        $is_bpjs =  $asuransi->tipe_asuransi_id == 5;
+        if ($is_bpjs) {
+            $raks = Rak::orderBy('kelas_obat_id', 'desc')->get();
+            foreach ($raks as $r) {
+                $khususBpjs[$r->formula_id] = $r;
+            }
+        }
         foreach ($terapis as $k => $terapi) {
             // return $merek->rak->harga_jual;
-            $terapis[$k]['harga_jual_ini'] = $terapi->merek->rak->harga_jual;
-            $terapis[$k]['merek_obat']     = $terapi->merek->merek;
+            $terapis[$k]['merek_obat']     = $is_bpjs?$terapi->merek->merek . " (".rupiah($khususBpjs[ $terapi->merek->rak->formula_id ]->harga_beli  ).")": $terapi->merek->merek;
             $terapis[$k]['rak_id']         = $terapi->merek->rak_id;
-            $terapis[$k]['harga_jual']     = $terapi->merek->rak->harga_jual;
+            $terapis[$k]['harga_jual_ini'] = $is_bpjs ? $khususBpjs[ $terapi->merek->rak->formula_id ]->harga_jual : $terapi->merek->rak->harga_jual;
+            $terapis[$k]['harga_jual']     = $is_bpjs ? $khususBpjs[ $terapi->merek->rak->formula_id ]->harga_jual : $terapi->merek->rak->harga_jual;
+            $terapis[$k]['harga_beli']     = $is_bpjs ? $khususBpjs[ $terapi->merek->rak->formula_id ]->harga_beli : $terapi->merek->rak->harga_beli;
+            $terapis[$k]['harga_beli_satuan'] = $is_bpjs ? $khususBpjs[ $terapi->merek->rak->formula_id ]->harga_beli : $terapi->merek->rak->harga_beli;
             $terapis[$k]['formula_id']     = $terapi->merek->rak->formula_id;
             if ($terapi->signa == 'Puyer' && $terapi->merek->rak_id == 'D7') {
                 $terapis[$k]['fornas']         = '1';
