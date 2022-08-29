@@ -74,11 +74,12 @@ class TarifsController extends Controller
 				return Redirect::back()->withErrors($validator)->withInput();
 			}
 			//coa_id didapatkan dari coa_id dari JenisTarif yang memiiki nilai paling besar lalu ditambah 1;
-			$coa_id = (int) Coa::where('kelompok_coa_id', 4)->orderBy('id', 'desc')->first()->id + 1;
+			$coa = Coa::where('kelompok_coa_id', 4)->orderBy('id', 'desc')->first();
+            $kode_coa = (int) $coa->kode_coa + 1;
 
 			
 			$c = new Coa;
-			$c->id              = $coa_id;
+			$c->kode_coa              = $kode_coa;
 			$c->kelompok_coa_id = '4';
 			$c->coa             = 'Pendapatan ' . Input::get('jenis_tarif');
 			$c->save();
@@ -89,7 +90,7 @@ class TarifsController extends Controller
 			$jenis_tarif->jenis_tarif              = Input::get('jenis_tarif');
 			$jenis_tarif->tipe_laporan_admedika_id = Input::get('tipe_laporan_admedika_id');
 			$jenis_tarif->tipe_laporan_kasir_id    = Input::get('tipe_laporan_kasir_id');
-			$jenis_tarif->coa_id                   = $coa_id;
+			$jenis_tarif->coa_id                   = $coa->id;
 			$jenis_tarif->murni_jasa_dokter        = Input::get('murni_jasa_dokter');
 			$confirm                               = $jenis_tarif->save();
 
@@ -103,33 +104,28 @@ class TarifsController extends Controller
 			foreach ($bhp_items as $bhp) {
 				$insert_bhps[] = [
 					 'merek_id'       => $bhp['merek_id'],
-					 'jumlah'         => $bhp['jumlah'],
-					 'jenis_tarif_id' => $jenis_tarif->id,
-							'tenant_id'  => session()->get('tenant_id'),
-					 'created_at'     => date('Y-m-d H:i:s'),
-					 'updated_at'     => date('Y-m-d H:i:s')
+					 'jumlah'         => $bhp['jumlah']
 				];
 			}
-			BahanHabisPakai::insert($insert_bhps);
+            $jenis_tarif->bhp()->createMany($insert_bhps);
 			//masukkan tarif2 menurut asuransinya.. 
 			$asuransis = Asuransi::all();
 			$asur = [];
 			$timestamps = date('Y-m-d H:i:s');
+            $confirm = true;
 			foreach ($asuransis as $asuransi) {
-				$asur[] = [
-					'biaya' =>  Input::get('biaya'), 
-					'asuransi_id' =>  $asuransi->id, 
-					'jenis_tarif_id' =>  $jenis_tarif->id, 
-					'tipe_tindakan_id' =>  Input::get('tipe_tindakan_id'), 
-					'jasa_dokter' =>  Input::get('jasa_dokter'), 
-					'jasa_dokter_tanpa_sip' =>  Input::get('jasa_dokter'), 
-					'bhp_items' =>  Input::get('bhp_items'), 
-							'tenant_id'  => session()->get('tenant_id'),
-					'created_at' =>  $timestamps, 
-					'updated_at' =>  $timestamps
-				];
+                $tarif = $asuransi->tarif()->create([
+					'biaya'                 => Input::get('biaya'),
+					'jenis_tarif_id'        => $jenis_tarif->id,
+					'tipe_tindakan_id'      => Input::get('tipe_tindakan_id'),
+					'jasa_dokter'           => Input::get('jasa_dokter'),
+					'jasa_dokter_tanpa_sip' => Input::get('jasa_dokter'),
+					'bhp_items'             => Input::get('bhp_items'),
+				]);
+                if (is_null($tarif)) {
+                    $confirm = false;
+                }
 			}
-			$confirm = Tarif::insert($asur);
 			if($confirm){
                 $kembali = [
                     'id' => Tarif::latest()->first()->id,
@@ -140,7 +136,6 @@ class TarifsController extends Controller
 			} else {
 				return '0';
 			}
-
 		}
 	}
 
