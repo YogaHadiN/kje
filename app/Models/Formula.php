@@ -120,7 +120,7 @@ class Formula extends Model{
 
 	public function getEndfixAttribute(){
 		$sumKomposisi = $this->komposisi->count();
-		$sediaan = $this->sediaan;
+		$sediaan = $this->sediaan->sediaan;
 
 		if($sumKomposisi == 1){
 			$bobot = $this->komposisi->first()->bobot;
