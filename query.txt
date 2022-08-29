@@ -1,5 +1,4 @@
-ALTER TABLE stafs DROP COLUMN plafon_bpjs;
-ALTER TABLE stafs ADD COLUMN plafon_bpjs int(11) default 0;
+ALTER TABLE mereks DROP COLUMN unit_tiap_paket;
 
 asuransis
 aturan_minums

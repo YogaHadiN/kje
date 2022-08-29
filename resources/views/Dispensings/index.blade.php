@@ -47,8 +47,8 @@
 						@foreach ($dispensings as $dispensing)
 							<tr>
 							<td>{!! App\Models\Classes\Yoga::updateDatePrep($dispensing->tanggal) !!}</td>
-							<td>{!! $dispensing->keluar !!} {{ $rak->formula->sediaan }}</td>
-							<td>{!! $dispensing->masuk !!} {{ $rak->formula->sediaan }}</td>
+                            <td>{!! $dispensing->keluar !!} {{ $rak->formula->sediaan->sediaan }}</td>
+                            <td>{!! $dispensing->masuk !!} {{ $rak->formula->sediaan->sediaan }}</td>
 							<td> <a class="btn btn-info btn-xs btn-block" href="{{ url('dispensings/' . $rak->id . '/' . $dispensing->tanggal) }}">Detail</a> </td>
 
 							  {{--<td>{!! $dispensing->dispensable_type !!} {!! $dispensing->dispensable_id !!}</td>--}}

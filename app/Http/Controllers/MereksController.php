@@ -65,7 +65,6 @@ class MereksController extends Controller
 	 */
 	public function store()
 	{
-
 		if (Input::ajax()) {
 		} else {
 			$validator = \Validator::make($data = Input::all(), Merek::$rules);

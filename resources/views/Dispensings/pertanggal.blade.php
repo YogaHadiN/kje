@@ -53,8 +53,8 @@
 									@endif
 
 								</td>
-								<td nowrap>{!! $dispensing->masuk !!} {{ $rak->formula->sediaan }}</td>
-								<td nowrap>{!! $dispensing->keluar !!} {{ $rak->formula->sediaan }}</td>
+                                <td nowrap>{!! $dispensing->masuk !!} {{ $rak->formula->sediaan->sediaan }}</td>
+                                <td nowrap>{!! $dispensing->keluar !!} {{ $rak->formula->sediaan->sediaan }}</td>
 						</tr>
 						@endforeach
 					</tbody>

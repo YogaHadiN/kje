@@ -154,7 +154,7 @@
 				  </tr>
 				  <tr>
 					<th>Sediaan</th>
-					<td>{!! $formula->sediaan !!}</td> 
+                    <td>{!! $formula->sediaan->sediaan !!}</td> 
 				  </tr>
 				  <tr>
 					<th>Indikasi</th>

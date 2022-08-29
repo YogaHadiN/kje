@@ -82,7 +82,7 @@
 				  </tr>
 				  <tr>
 					<th>sediaan</th>
-					<td>{{ $formula->sediaan }}</td> 
+                    <td>{{ $formula->sediaan->sediaan }}</td> 
 				  </tr>
 				  <tr>
 					<th>indikasi</th>

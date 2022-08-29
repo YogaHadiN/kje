@@ -82,25 +82,30 @@ class RaksController extends Controller
             'formula_id' => 'required'
         ];
         $validator = \Validator::make($data = Input::all(), $rules);
-        /* dd( $validator->errors()->first() ); */
+
         if ($validator->fails())
         {
             return \Redirect::back()->withErrors($validator)->withInput();
         }
 
+        DB::beginTransaction();
+        try {
+            $rak     = new Rak;
+            $rak     = $this->inputData($rak);
 
-		$rak     = new Rak;
-		$rak     = $this->inputData($rak);
+            $formula = Formula::find($rak->formula_id);
+            $sediaan = $formula->sediaan->sediaan;
+            $merek   = $this->customMerek($formula, Input::get('merek'));
 
-		$formula = Formula::find($rak->formula_id);
-		$sediaan = $formula->sediaan->sediaan;
-        $merek   = $this->customMerek($formula, Input::get('merek'));
+            $merek = $rak->merek()->create([
+                'merek'          => $merek
+            ]);
 
-
-		$mrk             = new Merek;
-		$mrk->rak_id     = $rak;
-		$mrk->merek      = $merek;
-		$mrk->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 
 		// return $merek_id_custom;
 
@@ -114,9 +119,8 @@ class RaksController extends Controller
 			return json_encode($returnData);
 
 		} else {
-			return \Redirect::route('mereks.index')->withPesan(Yoga::suksesFlash('RAK obat <strong>' . Input::get('id') . '</strong> telah <strong>BERHASIL</strong> dibuat'));
+            return redirect('mereks')->withPesan(Yoga::suksesFlash('RAK obat <strong>' . Input::get('id') . '</strong> telah <strong>BERHASIL</strong> dibuat'));
 		}
-		
 	}
 
 	/**

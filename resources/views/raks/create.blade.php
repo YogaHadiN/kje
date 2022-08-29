@@ -30,7 +30,6 @@
         "role"  => "form",
         "method"=> "post"
 ])}}
-<h1>post</h1>
       @include('raks.createForm', [
           'formula'  => $formula,
           'modal'    => false,

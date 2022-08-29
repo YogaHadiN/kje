@@ -61,7 +61,7 @@
 							  {!! $komp->generik->generik !!} {!!$komp->bobot!!}, <br>
 							  @endforeach
 							</td>
-							<td>{!! $formula->sediaan !!}</td>
+                            <td>{!! $formula->sediaan->sediaan !!}</td>
 							<td>{!! $formula->kontraindikasi !!}</td>
 							<td>
 								{!! HTML::link('formulas/'. $formula->id , "Show", ['class' => 'btn-sm btn btn-info btn-block'])!!}

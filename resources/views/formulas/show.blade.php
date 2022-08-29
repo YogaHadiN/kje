@@ -48,7 +48,7 @@ Formula
 								</tr>
 								<tr>
 									<th nowrap>Sediaan</th>
-									<td>{!! $formula->sediaan !!}</td> 
+                                    <td>{!! $formula->sediaan->sediaan !!}</td> 
 								</tr>
 								<tr>
 									<th nowrap>Indikasi</th>
