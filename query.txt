@@ -1,6 +1,7 @@
 alter table asuransis add column master_template int(1) default 0;
 alter table coas add column master_template int(1) default 0;
 alter table jenis_tarifs add column master_template int(1) default 0;
+alter table faktur_belanjas add column bukti_transfer varchar(255);
 
 update asuransis set master_template = 1 where nama in ('Biaya Pribadi', 'BPJS');
 update coas set master_template = 1 where coa not like 'Piutang%';
@@ -9,5 +10,70 @@ update jenis_tarifs set master_template = 1 where id not in ( 188, 189, 191, 194
 alter table aturan_minums drop column tenant_id;
 alter table diagnosas drop column tenant_id;
 alter table jenis_antrians drop column tenant_id;
-alter table jenis_tarifs drop column tenant_id;
 alter table signas drop column tenant_id;
+alter table berat_badans drop column tenant_id;
+alter table confirms drop column tenant_id;
+alter table pcare_submits drop column tenant_id;
+
+
+
+drop table cek_listriks;
+drop table discounts;
+drop table discount_asuransis;
+drop table lapor_pajaks;
+drop table sops;
+drop table tambah_kwhs;
+
+
+
+
+
+asuransis
+coas
+jenis_tarifs
+
+
+
+aturan_minums
+berat_badans
+bukus
+cara_persalinans
+confirms
+diagnosas
+generiks
+golongan_peralatans
+haris
+icd10s
+jenis_antrians
+jenis_pajaks
+jenis_pengeluarans
+jenis_pesertas
+jenis_rumah_sakits
+kelas_obats
+kelompok_coas
+kepala_terhadap_paps
+metode_bayars
+migrations
+pcare_submits
+penolong_persalinans
+polis
+presentasis
+refleks_patelas
+registrasi_pembayarans
+role_pengirimans
+roles
+rumah_sakits
+satisfaction_index
+sediaans
+signas
+status_hartas
+status_imunisasi_tts
+suppliers
+tidakdirujuks
+tipe_asuransis
+tipe_juals
+tipe_laporan_admedikas
+tipe_laporan_kasirs
+tipe_tindakans
+tujuan_rujuks
+verifikasi_prolanis

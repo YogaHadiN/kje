@@ -23,7 +23,6 @@ class TipeLaporanAdmedikaFactory extends Factory
     {
         return [
             'tipe_laporan_admedika' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

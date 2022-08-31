@@ -33,7 +33,6 @@ class GenerikFactory extends Factory
             'lingual' => $this->faker->word,
             'transdermal' => $this->faker->word,
             'nasal' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

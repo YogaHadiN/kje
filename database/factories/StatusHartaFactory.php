@@ -23,7 +23,6 @@ class StatusHartaFactory extends Factory
     {
         return [
             'status_harta' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

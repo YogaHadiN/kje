@@ -24,7 +24,6 @@ class JenisPajakFactory extends Factory
         return [
             'jenis_pajak' => $this->faker->word,
             'periode_id' => \App\Models\Periode::factory(),
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

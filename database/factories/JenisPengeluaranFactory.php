@@ -23,7 +23,6 @@ class JenisPengeluaranFactory extends Factory
     {
         return [
             'nama' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

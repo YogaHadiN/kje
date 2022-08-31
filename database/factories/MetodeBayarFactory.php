@@ -23,7 +23,6 @@ class MetodeBayarFactory extends Factory
     {
         return [
             'metode_bayar' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

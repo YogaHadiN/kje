@@ -24,7 +24,6 @@ class CreateSuppliersTable extends Migration
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->string('image')->nullable();
             $table->string('muka_image')->nullable();
-            $table->bigInteger('tenant_id')->index();
         });
     }
 

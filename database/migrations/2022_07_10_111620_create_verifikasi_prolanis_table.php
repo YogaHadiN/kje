@@ -18,7 +18,6 @@ class CreateVerifikasiProlanisTable extends Migration
             $table->string('verifikasi_prolanis');
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->timestamp('created_at')->default('0000-00-00 00:00:00');
-            $table->bigInteger('tenant_id')->index();
         });
     }
 

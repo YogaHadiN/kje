@@ -23,7 +23,6 @@ class RefleksPatelaFactory extends Factory
     {
         return [
             'refleks_patela' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

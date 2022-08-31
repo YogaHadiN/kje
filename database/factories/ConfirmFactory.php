@@ -23,7 +23,6 @@ class ConfirmFactory extends Factory
     {
         return [
             'confirm' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

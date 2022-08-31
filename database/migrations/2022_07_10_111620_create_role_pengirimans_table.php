@@ -18,7 +18,6 @@ class CreateRolePengirimansTable extends Migration
             $table->string('role_pengiriman', 30);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
-            $table->bigInteger('tenant_id')->index();
         });
     }
 

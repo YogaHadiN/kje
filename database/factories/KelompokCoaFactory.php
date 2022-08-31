@@ -23,7 +23,6 @@ class KelompokCoaFactory extends Factory
     {
         return [
             'kelompok_coa' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

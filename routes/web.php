@@ -435,6 +435,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('fakturbelanjas/alat', [\App\Http\Controllers\FakturBelanjasController::class, 'alat']);
 		Route::get('fakturbelanjas/serviceAc', [\App\Http\Controllers\FakturBelanjasController::class, 'serviceAc']);
 		Route::post('fakturbelanjas', [\App\Http\Controllers\FakturBelanjasController::class, 'store']);
+		Route::post('faktur_belanjas/upload_bukti_transfer/{id}', [\App\Http\Controllers\FakturBelanjasController::class, 'uploadBuktiTransfer']);
+
 
 
 

@@ -145,4 +145,27 @@ class FakturBelanjasController extends Controller
 	public function gojek(){
 		return view('belanjas.gojek');
 	}
+    public function uploadBuktiTransfer($id){
+		$messages = [
+			'required' => ':attribute Harus Diisi',
+		];
+		$rules = [
+			'bukti_transfer' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
+		];
+
+		$validator = \Validator::make(Input::all(), $rules, $messages);
+
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$faktur_belanja          = FakturBelanja::find($id);
+		$faktur_belanja->bukti_transfer = uploadFile('bukti_transfer', 'bukti_transfer', $id, 'img/belanja/obat');
+		$faktur_belanja->save();
+
+		$pesan = Yoga::suksesFlash('Bukti Transfer Berhasil di Upload');
+		return redirect()->back()->withPesan($pesan);
+        
+    }
 }

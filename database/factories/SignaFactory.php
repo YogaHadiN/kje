@@ -23,7 +23,6 @@ class SignaFactory extends Factory
     {
         return [
             'signa' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

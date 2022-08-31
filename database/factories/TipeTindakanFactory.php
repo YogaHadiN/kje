@@ -24,7 +24,6 @@ class TipeTindakanFactory extends Factory
         return [
             'tipe_tindakan' => $this->faker->word,
             'keterangan' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

@@ -238,49 +238,5 @@ class SuppliersControllerTest extends TestCase
         $response->assertRedirect('suppliers');
         $this->assertDeleted($supplier);
     }
-
-    public function test_a_user_can_only_see_supplier_in_the_same_tenant()
-    {
-        $tenant1 = Tenant::factory()->create();
-        $tenant2 = Tenant::factory()->create();;
-
-        $user1 = User::factory()->create([
-        'tenant_id' => $tenant1,
-        ]);
-
-        for ($x = 0; $x < 10; $x++) {
-        Supplier::factory()->create([
-                        'tenant_id' => $tenant1,
-        ]);
-        }
-
-        for ($x = 0; $x < 11; $x++) {
-        Supplier::factory()->create([
-                        'tenant_id' => $tenant2,
-        ]);
-        }
-
-        auth()->login($user1);
-
-        $this->assertEquals(10, Supplier::count());
-    }
-
-    public function test_a_user_can_only_create_a_supplier_in_his_tenant_even_if_other_tenant_is_provided()
-    {
-        $tenant1 = Tenant::factory()->create();
-        $tenant2 = Tenant::factory()->create();
-
-        $user1 = User::factory()->create([
-            'tenant_id' => $tenant1,
-        ]);
-
-        auth()->login($user1);
-
-        $createdSupplier = Supplier::factory()->create([
-            'tenant_id' => $tenant2,
-        ]);
-
-        $this->assertTrue($createdSupplier->tenant_id == $user1->tenant_id);
-    }
 }
 /* Route::resource('suppliers', \App\Http\Controllers\SuppliersController::class); */

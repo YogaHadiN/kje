@@ -14,7 +14,7 @@ class ClearTenantIdFromSession
      */
     public function __construct()
     {
-        session()->forget('tenant_id');
+
     }
 
     /**
@@ -25,6 +25,6 @@ class ClearTenantIdFromSession
      */
     public function handle($event)
     {
-        //
+        session()->forget('tenant_id');
     }
 }

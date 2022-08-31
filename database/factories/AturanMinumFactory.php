@@ -23,7 +23,6 @@ class AturanMinumFactory extends Factory
     {
         return [
             'aturan_minum' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

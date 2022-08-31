@@ -3,11 +3,10 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use App\Traits\BelongsToTenant; 
 use Illuminate\Database\Eloquent\Model;
 
 class TipeLaporanKasir extends Model{
-    use BelongsToTenant, HasFactory;
+    use HasFactory;
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'

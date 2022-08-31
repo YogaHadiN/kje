@@ -4,13 +4,14 @@ use Illuminate\Console\Command;
 use Session;
 use App\Models\Outbox;
 use App\Models\Ht;
+use App\Models\User;
+use App\Models\Tenant;
 use App\Models\Coa;
 use App\Models\AntrianKelengkapanDokumen;
 use App\Models\PembayaranBpjs;
 use App\Models\BelanjaPeralatan;
 use App\Models\Dm;
 use App\Models\HomeVisit;
-use App\Models\User;
 use App\Models\Pengeluaran;
 use App\Models\Woowa;
 use App\Models\Antrian;
@@ -53,6 +54,7 @@ use App\Http\Controllers\PeriksasController;
 use App\Http\Controllers\WablasController;
 use App\Http\Controllers\PasiensMergeController;
 use Mail;
+use Hash;
 use App\Mail\MailToInsuranceForDetails;
 use Carbon\Carbon;
 use Storage;
@@ -115,8 +117,22 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $wa = new WablasController;
-        $wa->sendButton();
+        $tenant = new Tenant;
+        $tenant->name = 'Suradita';
+        $tenant->kode_unik = 'Unik';
+        $tenant->save();
+
+        $user = new User;
+        $user->username = 'Siti Murwani';
+        $user->role_id = 1;
+        $user->password = Hash::make('11111');
+        $user->email = 'yogahn89@gmail.com';
+        $user->aktif = 1;
+        $user->created_at = date('Y-m-d H:i:s');
+        $user->updated_at = date('Y-m-d H:i:s');
+        $user->tenant_id = $tenant->id;
+        $user->save();
+
 	}
 	
 	/**

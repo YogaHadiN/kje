@@ -34,7 +34,6 @@ class RumahSakitFactory extends Factory
             'rayon_id' => $this->faker->randomNumber(),
             'bpjs' => $this->faker->randomNumber(),
             'ugd' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

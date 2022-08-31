@@ -20,7 +20,6 @@ class CreateBeratBadansTable extends Migration
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->integer('bb_min')->nullable();
             $table->integer('bb_max')->nullable();
-            $table->bigInteger('tenant_id')->index();
         });
     }
 

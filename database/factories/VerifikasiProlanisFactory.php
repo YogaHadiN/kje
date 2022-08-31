@@ -23,7 +23,6 @@ class VerifikasiProlanisFactory extends Factory
     {
         return [
             'verifikasi_prolanis' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

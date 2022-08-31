@@ -4,12 +4,11 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use App\Traits\BelongsToTenant; 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Supplier;
 
 class Supplier extends Model{
-    use BelongsToTenant, HasFactory;
+    use HasFactory;
 
 	// Add your validation rules here
 	public static $rules = [

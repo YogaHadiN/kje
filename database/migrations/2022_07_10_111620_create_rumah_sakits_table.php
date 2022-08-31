@@ -29,7 +29,6 @@ class CreateRumahSakitsTable extends Migration
             $table->integer('rayon_id')->nullable()->default(0);
             $table->integer('bpjs')->nullable()->default(0);
             $table->string('ugd')->nullable();
-            $table->bigInteger('tenant_id')->index();
         });
     }
 

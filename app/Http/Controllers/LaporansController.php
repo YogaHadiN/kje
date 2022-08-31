@@ -210,8 +210,8 @@ class LaporansController extends Controller
 																->where('kunjungan_sehat', '1')
 																->count();
 
-		$denominaor_bpjs     = DenominatorBpjs::orderBy('bulanTahun', 'desc')->first();
-		$jumlah_peserta_bpjs = $denominaor_bpjs->jumlah_peserta;
+		$denominator_bpjs     = DenominatorBpjs::orderBy('bulanTahun', 'desc')->first();
+		$jumlah_peserta_bpjs = !is_null($denominator_bpjs) ? $denominator_bpjs->jumlah_peserta : 0;
 		//target peserta bpjs bulan ini adalah 15% dari seluruh peserta
 		$target_jumlah_pasien_bpjs_bulan_ini = $jumlah_peserta_bpjs * 0.15;
 		// karena target harus dipenuhi tanggal 25 setiap bulannya;
@@ -229,8 +229,8 @@ class LaporansController extends Controller
 		$prx->input_tanggal       = date('Y-m-d');
 		$hitungRppt               = $prx->hitungPersentaseRppt();
 
-		$jumlah_denominator_dm    = $denominaor_bpjs->denominator_dm;
-		$jumlah_denominator_ht    = $denominaor_bpjs->denominator_ht;
+		$jumlah_denominator_dm    = !is_null($denominator_bpjs) ? $denominator_bpjs->denominator_dm : 0;
+		$jumlah_denominator_ht    = !is_null($denominator_bpjs) ? $denominator_bpjs->denominator_ht : 0;
 
 		$jumlah_ht_terkendali     = $hitungRppt['jumlah_ht_terkendali'];
 		$persentase_ht_terkendali = $hitungRppt['persentase_ht_terkendali'];

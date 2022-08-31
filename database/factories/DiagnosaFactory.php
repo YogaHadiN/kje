@@ -24,7 +24,6 @@ class DiagnosaFactory extends Factory
         return [
             'diagnosa' => $this->faker->word,
             'icd10_id' => \App\Models\Icd10::factory(),
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

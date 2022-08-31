@@ -25,7 +25,6 @@ class BeratBadanFactory extends Factory
             'berat_badan' => $this->faker->word,
             'bb_min' => $this->faker->randomNumber(),
             'bb_max' => $this->faker->randomNumber(),
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

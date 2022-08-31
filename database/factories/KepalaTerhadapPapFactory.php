@@ -23,7 +23,6 @@ class KepalaTerhadapPapFactory extends Factory
     {
         return [
             'kepala_terhadap_pap' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

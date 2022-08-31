@@ -25,7 +25,6 @@ class JenisAntrianFactory extends Factory
             'jenis_antrian' => $this->faker->word,
             'prefix' => $this->faker->word,
             'antrian_terakhir_id' => null, 
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

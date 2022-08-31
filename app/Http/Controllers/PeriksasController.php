@@ -510,17 +510,17 @@ p */
 		}
 		$denominaor_bpjs          = DenominatorBpjs::orderBy('bulanTahun', 'desc')->first();
 		$peserta_bpjs_perbulan    = PesertaBpjsPerbulan::orderBy('bulanTahun', 'desc')->latest()->first();
-		$jumlah_denominator_ht    = $denominaor_bpjs->denominator_ht;
-		$jumlah_denominator_dm    = $denominaor_bpjs->denominator_dm;
+		$jumlah_denominator_ht    = !is_null($denominaor_bpjs) ? $denominaor_bpjs->denominator_ht :0;
+		$jumlah_denominator_dm    = !is_null($denominaor_bpjs) ? $denominaor_bpjs->denominator_dm :0;;
 		$data_ht                  = $this->queryDataHt($tanggal_object);
 		$data_ht_terkendali       = $this->dataHtTerkendali($data_ht);
 		$jumlah_ht_terkendali     = count( $data_ht_terkendali );
-		$persentase_ht_terkendali = $jumlah_ht_terkendali / $jumlah_denominator_ht * 100;
+		$persentase_ht_terkendali = !is_null($denominaor_bpjs) ? $jumlah_ht_terkendali / $jumlah_denominator_ht * 100 : 0;
 
 		$data_dm                  = $this->queryDataDm($tanggal_object);
 		$data_dm_terkendali       = $this->dataDmTerkendali($data_dm);
 		$jumlah_dm_terkendali     = count($data_dm_terkendali);
-		$persentase_dm_terkendali = $jumlah_dm_terkendali / $jumlah_denominator_dm * 100;
+		$persentase_dm_terkendali = !is_null($denominaor_bpjs) ? $jumlah_dm_terkendali / $jumlah_denominator_dm * 100 : 0;
 		$this->persenRpptTerkendali = ($persentase_dm_terkendali + $persentase_ht_terkendali) /2;
 		return [
 			'rppt'                     => round($this->persenRpptTerkendali, 2),

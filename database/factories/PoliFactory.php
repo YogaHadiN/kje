@@ -23,7 +23,6 @@ class PoliFactory extends Factory
     {
         return [
             'poli' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
             'old_id' => $this->faker->word,
         ];
     }

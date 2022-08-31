@@ -225,10 +225,10 @@ class PembeliansController extends Controller
 		$peralatans    = BelanjaPeralatan::where('faktur_belanja_id', $faktur_belanja_id)->get();
 		$pembelians    = Pembelian::where('faktur_belanja_id', $faktur_belanja_id)->orderBy('harga_naik', 'asc')->get();
 		$jurnalumums   = JurnalUmum::where('jurnalable_type', 'App\Models\FakturBelanja')
-								->where('jurnalable_id', $faktur_belanja_id)
-								->groupBy('jurnalable_type')
-								->get();
-		/* return $fakturbelanja; */
+                                    ->where('jurnalable_id', $faktur_belanja_id)
+                                    ->groupBy('jurnalable_type')
+                                    ->get();
+
 		return view('pembelians.show', compact(
 			'pembelians', 
 			'peralatans', 

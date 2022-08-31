@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
 use App\Listeners\ClearTenantIdFromSession;
 use App\Listeners\RecordLogin;
 use App\Listeners\SetTenantIdInSession;

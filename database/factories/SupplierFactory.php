@@ -29,7 +29,6 @@ class SupplierFactory extends Factory
             'hp_pic' => $this->faker->word,
             'image' => $this->faker->word,
             'muka_image' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

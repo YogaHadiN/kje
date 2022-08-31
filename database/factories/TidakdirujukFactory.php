@@ -24,7 +24,6 @@ class TidakdirujukFactory extends Factory
         return [
             'icd10_id' => \App\Models\Icd10::factory(),
             'diagnosa' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }

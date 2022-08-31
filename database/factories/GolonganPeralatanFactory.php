@@ -25,7 +25,6 @@ class GolonganPeralatanFactory extends Factory
             'golongan_peralatan' => $this->faker->word,
             'masa_pakai' => $this->faker->randomNumber(),
             'keterangan' => $this->faker->word,
-            'tenant_id' => \App\Models\Tenant::factory(),
         ];
     }
 }
