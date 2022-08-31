@@ -188,7 +188,7 @@ class StokOpnamesController extends Controller
 		$query .= "where so.created_at like '{$date}%' ";
 		$query .= "AND so.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "group by so.id";
-		$data = DB::select($data);
+		$data = DB::select($query);
 		return $data;
 	}
 
