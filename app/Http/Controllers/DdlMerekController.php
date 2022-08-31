@@ -118,6 +118,7 @@ class DdlMerekController extends Controller
 
 	public function optionpuyer(){
         $asuransi_id = Input::get('asuransi_id');
+        $asuransi = Asuransi::find($asuransi_id);
 
 		$query = "SELECT f.boleh_dipuyer as boleh_dipuyer, ";
 		$query .= "r.harga_jual as harga_jual, ";
