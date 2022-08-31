@@ -206,41 +206,41 @@ class CustomController extends Controller
 			$jenisTarifDiskon[] = $t['jenis_tarif_id'];
 		}
 
-		$query  = "SELECT dc.id as discount_id, ";
-		$query .= "dc.diskon_persen as persen, ";
-		$query .= "dc.jenis_tarif_id as jenis_tarif_id ";
-		$query .= "from discounts as dc ";
-		$query .= "JOIN discount_asuransis as da ";
-		$query .= "WHERE dc.jenis_tarif_id in (";
-		$query .= $jenisTarifDiskon[0];
-		foreach ($jenisTarifDiskon as $jt) {
-			$query .=  ', ' . $jt;
-		}
-		$query .= ") AND da.asuransi_id = '" . $periksa->asuransi_id . "' ";
-		$query .= "AND dc.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "GROUP BY dc.id ";
-		$data = DB::select($query);
-		if ( count( $data )  > 0) {
-			$insterted = [];
-			foreach ($tindakanPeriksa as $k => $t) {
-				foreach ($data as $ky => $d) {
-					if ($d->jenis_tarif_id == $t['jenis_tarif_id']) {
-                        $jt_diskon = JenisTarif::where('jenis_tarif', 'Diskon')->first();
-						$inserted[] = [
-							'jenis_tarif_id'        => $jt_diskon->id,
-							'jenis_tarif'           => 'Diskon ' . $t['jenis_tarif'] . ' '. $d->persen . ' %',
-							'jenis_tarif_id_diskon' => $t['jenis_tarif_id'],
-							'keterangan'            => 'Diskon ' . $t['jenis_tarif'] . ' '. $d->persen . ' %',
-							'biaya'                 => -1 * abs( $d->persen * $t['biaya'] / 100 )
+		/* $query  = "SELECT dc.id as discount_id, "; */
+		/* $query .= "dc.diskon_persen as persen, "; */
+		/* $query .= "dc.jenis_tarif_id as jenis_tarif_id "; */
+		/* $query .= "from discounts as dc "; */
+		/* $query .= "JOIN discount_asuransis as da "; */
+		/* $query .= "WHERE dc.jenis_tarif_id in ("; */
+		/* $query .= $jenisTarifDiskon[0]; */
+		/* foreach ($jenisTarifDiskon as $jt) { */
+		/* 	$query .=  ', ' . $jt; */
+		/* } */
+		/* $query .= ") AND da.asuransi_id = '" . $periksa->asuransi_id . "' "; */
+		/* $query .= "AND dc.tenant_id = " . session()->get('tenant_id') . " "; */
+		/* $query .= "GROUP BY dc.id "; */
+		/* $data = DB::select($query); */
+		/* if ( count( $data )  > 0) { */
+		/* 	$insterted = []; */
+		/* 	foreach ($tindakanPeriksa as $k => $t) { */
+		/* 		foreach ($data as $ky => $d) { */
+		/* 			if ($d->jenis_tarif_id == $t['jenis_tarif_id']) { */
+                        /* $jt_diskon = JenisTarif::where('jenis_tarif', 'Diskon')->first(); */
+		/* 				$inserted[] = [ */
+		/* 					'jenis_tarif_id'        => $jt_diskon->id, */
+		/* 					'jenis_tarif'           => 'Diskon ' . $t['jenis_tarif'] . ' '. $d->persen . ' %', */
+		/* 					'jenis_tarif_id_diskon' => $t['jenis_tarif_id'], */
+		/* 					'keterangan'            => 'Diskon ' . $t['jenis_tarif'] . ' '. $d->persen . ' %', */
+		/* 					'biaya'                 => -1 * abs( $d->persen * $t['biaya'] / 100 ) */
 
-						];
-					}
-				}
-			}
-			foreach ($inserted as $i) {
-				array_push($tindakanPeriksa, $i);
-			}
-		}
+		/* 				]; */
+		/* 			} */
+		/* 		} */
+		/* 	} */
+		/* 	foreach ($inserted as $i) { */
+		/* 		array_push($tindakanPeriksa, $i); */
+		/* 	} */
+		/* } */
 		$tindakanPeriksa = json_encode( $tindakanPeriksa, true ); 
         $dibayar = null;
         if ( $periksa->asuransi->tipe_asuransi_id== '4') {
