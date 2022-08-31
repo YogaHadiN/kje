@@ -166,6 +166,7 @@
 
 		$.post(base + '/pembelians/cari/ajax', param, function(hasil) {
 			var data    = hasil.data;
+            var base_s3 = "{{ \Storage::disk('s3')->url('') }}"
 			var pages   = hasil.pages;
 			var key     = hasil.key;
 			var rows     = hasil.count;
@@ -177,8 +178,11 @@
 				 temp += '<td>' + data[i].nomor_faktur +  '</td>';
 				 temp += '<td nowrap class="text-right">' + uang( data[i].total_biaya ) +  '</td>';
 				 temp += '<td>';
-				 temp += '<a class="btn btn-info btn-xs" href="{{ url('pembelians/show') }}/' + data[i].faktur_belanja_id + '">Detail</a>';
-				 temp += ' <a class="btn btn-primary btn-xs" href="{{ url('pdfs/pembelian') }}/' + data[i].faktur_belanja_id + '" target="_blank">Struk</a>';
+				 temp += '<a class="btn btn-info btn-xs" href="{{ url('pembelians/show') }}/' + data[i].faktur_belanja_id + '">Detail</a> ';
+                if (data[i].bukti_transfer !== null) {
+                     temp += '<a class="btn btn-success btn-xs" target="_blank" href="' + base_s3 + data[i].bukti_transfer + '">Bukti TF</a> ';
+                }
+				 temp += '<a class="btn btn-primary btn-xs" href="{{ url('pdfs/pembelian') }}/' + data[i].faktur_belanja_id + '" target="_blank">Struk</a>';
 				 temp += '</td>';
 				 temp += '</tr>';
 			 }

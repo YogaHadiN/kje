@@ -331,6 +331,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('penjualans', [\App\Http\Controllers\PenjualansController::class, 'index']); //penjualan obat tanpa resep
 		Route::get('penjualans/obat_buat_karyawan', [\App\Http\Controllers\PenjualansController::class, 'obat_buat_karyawan']); //penjualan obat tanpa resep
 		Route::post('penjualans/obat_buat_karyawan', [\App\Http\Controllers\PenjualansController::class, 'obat_buat_karyawan_post']); //penjualan obat tanpa resep
+		Route::post('pembelians/cari/ajax', [\App\Http\Controllers\PembeliansController::class, 'cariObat']);
 		Route::post('penjualans', [\App\Http\Controllers\PenjualansController::class, 'indexPost']); //penjualan obat tanpa resep
 		Route::post('pembelians/ajax/formulabyid', [\App\Http\Controllers\PembeliansAjaxController::class, 'formulabyid']);
 		Route::post('pembelians/ajax/rakbyid', [\App\Http\Controllers\PembeliansAjaxController::class, 'rakbyid']);
@@ -341,7 +342,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pembelians/{faktur_beli_id}', [\App\Http\Controllers\PembeliansController::class, 'create']);
 		Route::get('pembelians/{faktur_beli_id}/edit', [\App\Http\Controllers\PembeliansController::class, 'edit']);
 		Route::post('pembelians/{id}', [\App\Http\Controllers\PembeliansController::class, 'update']);
-		Route::post('pembelians/cari/ajax', [\App\Http\Controllers\PembeliansController::class, 'cariObat']);
 
 		Route::get('coas/get/coa_name', [\App\Http\Controllers\CoasController::class, 'getCoaName']);
 		Route::get('coas', [\App\Http\Controllers\CoasController::class, 'index']);

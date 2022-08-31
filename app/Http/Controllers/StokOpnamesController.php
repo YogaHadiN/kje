@@ -176,7 +176,7 @@ class StokOpnamesController extends Controller
 	}
 
 	private function data($date){
-		$data = "SELECT so.id as so_id, ";
+		$query = "SELECT so.id as so_id, ";
 		$query .= "m.merek as merek, ";
 		$query .= "so.exp_date as exp_date, ";
 		$query .= "so.stok_komputer as stok_komputer, ";
