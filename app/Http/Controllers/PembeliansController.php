@@ -603,6 +603,7 @@ class PembeliansController extends Controller
 		$query  = "SELECT ";
 		if (!$count) {
 			$query .= "fb.tanggal as tanggal, ";
+			$query .= "fb.bukti_transfer as bukti_transfer, ";
 			$query .= "sp.nama as nama_supplier, ";
 			$query .= "fb.nomor_faktur as nomor_faktur, ";
 			$query .= "fb.id as faktur_belanja_id, ";
