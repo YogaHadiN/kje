@@ -353,12 +353,13 @@
                     <div class="form-group">
                         {!! Form::label('ruangan', 'Ruangan', ['class' => 'control-label']) !!}
                         {!! Form::select('ruangan', [
-                            ''                   => 'Pilih Ruangan',
-                            'loketsatu'            => 'Loket 1',
-                            'loketdua'            => 'Loket 2',
-                            'ruangperiksasatu'    => 'Ruang Periksa 1',
-                            'ruangperiksadua'    => 'Ruang Periksa 2',
-                            'ruangperiksagigi' => 'Ruang Periksa gigi'
+                            ''                 => 'Pilih Ruangan',
+                            'loketsatu'        => 'Loket 1',
+                            'loketdua'         => 'Loket 2',
+                            'ruangperiksasatu' => 'Ruang Periksa 1',
+                            'ruangperiksadua'  => 'Ruang Periksa 2',
+                            'ruangperiksagigi' => 'Ruang Periksa gigi',
+                            'ruangpf'          => 'Ruang Pemeriksaan Fisik',
                         ], \Session::get('ruangan') , [
                                 'onchange' => 'ruangan(this);return false',
                                 'id'       => 'ruangan',
