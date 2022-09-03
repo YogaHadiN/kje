@@ -910,13 +910,13 @@ class PendapatansController extends Controller
 		}
 	}
 
-	private function resetPembayaranAsuransis($pembayaran_asuransi_ids){
+	public function resetPembayaranAsuransis($pembayaran_asuransi_ids){
 		foreach ($pembayaran_asuransi_ids as $pembayaran_asuransi_id) {
 			$this->resetPembayaranAsuransi($pembayaran_asuransi_id);
 		}
 	}
 
-	private function resetPembayaranAsuransi($pembayaran_asuransi_id)
+	public function resetPembayaranAsuransi($pembayaran_asuransi_id)
 	{
 		$pembayaran_asuransi = PembayaranAsuransi::find( $pembayaran_asuransi_id );
 
