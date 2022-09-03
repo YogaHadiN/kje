@@ -17,7 +17,6 @@ class CekListHariansController extends Controller
 {
 
 	public function obat(){
-		
 		$cek_obats = CekObat::with('rak', 'staf')->latest()->get();
 		return view('cekListHarian.obat', compact('cek_obats'));
 	}
@@ -27,10 +26,10 @@ class CekListHariansController extends Controller
 		return view('cekListHarian.pulsa', compact('cek_pulsas'));
 	}
 
-	public function listrik(){
-		$cek_listriks = CekListrik::with('staf')->latest()->get();
-		return view('cekListHarian.listrik', compact('cek_listriks'));
-	}
+	/* public function listrik(){ */
+	/* 	$cek_listriks = CekListrik::with('staf')->latest()->get(); */
+	/* 	return view('cekListHarian.listrik', compact('cek_listriks')); */
+	/* } */
 
 	public function pulsaPost(){
 		$messages          = array(

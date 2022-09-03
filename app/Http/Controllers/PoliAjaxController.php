@@ -260,8 +260,7 @@ class PoliAjaxController extends Controller
 
 		$query  = "SELECT * ";
 		$query .= "FROM signas ";
-		$query .= "WHERE replace(signa,' ','') = '" . $signa . "'";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "WHERE replace(signa,' ','') = '" . $signa . "';";
 		if(count(DB::select($query)) > 0){
 			$warningSama = 'Signa ini sudah ada';
 		} else {
@@ -305,7 +304,6 @@ class PoliAjaxController extends Controller
 		$query = "SELECT * ";
 		$query .= "FROM aturan_minums ";
 		$query .= "WHERE replace(aturan_minum,' ','') = '" . $aturan . "'";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		if(count(DB::select($query)) > 0){
 			$warningSama = 'Aturan Minum ini sudah ada';
 		} else {

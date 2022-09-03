@@ -90,7 +90,7 @@
 						<tbody>
 							@foreach ($periksa->terapii as $t)
 								<tr>
-									<td colspan="4">{{ $t->merek->rak_id }} - {{ $t->merek->rak->formula->golongan_obat }}</td>
+                                    <td colspan="4">{{ $t->merek->rak->kode_rak }} - {{ $t->merek->rak->formula->golongan_obat }}</td>
 								</tr>
 								<tr class="border-bottom-dash">
 									<td nowrap class="text-left" colspan="2">

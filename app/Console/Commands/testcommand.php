@@ -1801,8 +1801,6 @@ class testcommand extends Command
         \App\Models\DeletedPeriksa::factory()->create();
         \App\Models\DenominatorBpjs::factory()->create();
         \App\Models\Diagnosa::factory()->create();
-        \App\Models\Discount::factory()->create();
-        \App\Models\DiscountAsuransi::factory()->create();
         \App\Models\Dispensing::factory()->create();
         \App\Models\Dm::factory()->create();
         \App\Models\Dose::factory()->create();

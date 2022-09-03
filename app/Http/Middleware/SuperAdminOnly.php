@@ -21,7 +21,8 @@ class SuperAdminOnly
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect('/jangan');
+                $pesan = Yoga::gagalFlash('Anda tidak memiliki hak akses');
+                return redirect()->back()->withPesan($pesan);
             }
         } 
         return $next($request);

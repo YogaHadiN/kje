@@ -9,7 +9,6 @@ Route::get('/', [\App\Http\Controllers\AuthController::class, 'index']);
 Route::get('login', [\App\Http\Controllers\AuthController::class, 'index'])->name('login');
 Route::get('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
-Route::get('jangan', [\App\Http\Controllers\PolisController::class, 'jangan']);
 Route::get('rekening/mandiri', [\App\Http\Controllers\MutasiBankController::class, 'info']);
 Route::post('moota/callback', [\App\Http\Controllers\MutasiBankController::class, 'mootaCallback']);
 Route::post('woowa/webhook', [\App\Http\Controllers\WoowaController::class, 'webhook']);
@@ -49,16 +48,16 @@ Route::post('antrianperiksa/{id}/images', [\App\Http\Controllers\ImagesAntrianPe
 Route::get('antrianperiksa/{id}/images/edit', [\App\Http\Controllers\ImagesAntrianPeriksaController::class, 'edit']);
 Route::put('antrianperiksa/{id}/images', [\App\Http\Controllers\ImagesAntrianPeriksaController::class, 'update']);
 Route::resource('users', \App\Http\Controllers\UsersController::class);
-Route::get('invoices/inv/{id}', [\App\Http\Controllers\InvoiceController::class, 'test']);
-Route::get('invoices/getData', [\App\Http\Controllers\InvoiceController::class, 'getData']);
-Route::post('invoices/upload_verivication/{id}', [\App\Http\Controllers\InvoiceController::class, 'upload_verivication']);
-Route::get('invoices/pendingReceivedVerification', [\App\Http\Controllers\InvoiceController::class, 'pendingReceivedVerification']);
-Route::resource('invoices', \App\Http\Controllers\InvoiceController::class);
 Route::resource('pasien_rujuk_baliks', \App\Http\Controllers\PasienRujukBalikController::class);
 Route::get('fasilitas/survey', [\App\Http\Controllers\FasilitasController::class, 'survey']); //survey kepuasan pelanggan
 
 Route::group(['middleware' => 'auth'], function(){
 
+    Route::get('invoices/inv/{id}', [\App\Http\Controllers\InvoiceController::class, 'test']);
+    Route::get('invoices/getData', [\App\Http\Controllers\InvoiceController::class, 'getData']);
+    Route::post('invoices/upload_verivication/{id}', [\App\Http\Controllers\InvoiceController::class, 'upload_verivication']);
+    Route::get('invoices/pendingReceivedVerification', [\App\Http\Controllers\InvoiceController::class, 'pendingReceivedVerification']);
+    Route::resource('invoices', \App\Http\Controllers\InvoiceController::class);
 	Route::get('antrians/proses/{id}', [\App\Http\Controllers\FasilitasController::class, 'prosesAntrian']); //antrian pasien
 	Route::post('antrians/antrianpolis/{id}', [\App\Http\Controllers\FasilitasController::class, 'antrianPoliPost']); //antrian pasien
 	Route::get('antrians/{id}/pasiens/create', [\App\Http\Controllers\FasilitasController::class, 'createPasien']); //antrian pasien
@@ -90,8 +89,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('cek_list_harian/obat', [\App\Http\Controllers\CekListHariansController::class, 'obatPost']);
 	Route::get('cek_list_harian/pulsa', [\App\Http\Controllers\CekListHariansController::class, 'pulsa']);
 	Route::post('cek_list_harian/pulsa', [\App\Http\Controllers\CekListHariansController::class, 'pulsaPost']);
-	Route::get('cek_list_harian/listrik', [\App\Http\Controllers\CekListHariansController::class, 'listrik']);
-	Route::post('cek_list_harian/listrik', [\App\Http\Controllers\CekListHariansController::class, 'listrikPost']);
+	/* Route::get('cek_list_harian/listrik', [\App\Http\Controllers\CekListHariansController::class, 'listrik']); */
+	/* Route::post('cek_list_harian/listrik', [\App\Http\Controllers\CekListHariansController::class, 'listrikPost']); */
 	Route::post('test', [\App\Http\Controllers\TestController::class, 'post']);
 	Route::get('test', [\App\Http\Controllers\TestController::class, 'index']);
 	Route::get('test/pusher', [\App\Http\Controllers\TestController::class, 'pusher']);

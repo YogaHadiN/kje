@@ -50,7 +50,6 @@ class pphDokter extends Command
 		$query .= "st.jenis_kelamin as jenis_kelamin, ";
 		$query .= "st.kartu_keluarga as kartu_keluarga, ";
 		$query .= "st.npwp as npwp, ";
-		$query .= "st.suami_bekerja as suami_bekerja, ";
 		$query .= "st.ada_penghasilan_lain as ada_penghasilan_lain, ";
 		$query .= "st.jumlah_anak as jumlah_anak ";
 		$query .= "FROM periksas as px ";

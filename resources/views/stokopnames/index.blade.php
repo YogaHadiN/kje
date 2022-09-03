@@ -188,7 +188,7 @@
   		var temp = '';
   		for (var i = 0; i < MyArray.length; i++) {
   			temp += '<tr>';
-  			temp += '<td><div>' + MyArray[i].merek +  ' -- ' + MyArray[i].rak_id + '</div></td>';
+  			temp += '<td><div>' + MyArray[i].merek +  ' -- ' + MyArray[i].kode_rak + '</div></td>';
   			temp += '<td class="hide"><div>' + MyArray[i].stok_komputer + '</div></td>';
   			temp += '<td><div>' + MyArray[i].stok_fisik + '</div></td>';
   			temp += '<td><div>' + tanggal(MyArray[i].exp_date) + '</div></td>';

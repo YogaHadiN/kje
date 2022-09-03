@@ -100,14 +100,14 @@
                     <li>
                         <a href="{{ url('laporans') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Home</span></a>
                     </li>
-					<li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Cek List Harian</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>{!! HTML::link('cek_list_harian/obat', 'Obat')!!}</li>
-                            <li>{!! HTML::link('cek_list_harian/pulsa', 'Pulsa')!!}</li>
-                            <li>{!! HTML::link('cek_list_harian/listrik', 'Listrik')!!}</li>
-                        </ul>
-                    </li>
+					{{-- <li> --}}
+                        {{-- <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Cek List Harian</span><span class="fa arrow"></span></a> --}}
+                        {{-- <ul class="nav nav-second-level"> --}}
+                            {{-- <li>{!! HTML::link('cek_list_harian/obat', 'Obat')!!}</li> --}}
+                            {{-- <li>{!! HTML::link('cek_list_harian/pulsa', 'Pulsa')!!}</li> --}}
+                            {{-- <li>{!! HTML::link('cek_list_harian/listrik', 'Listrik')!!}</li> --}}
+                        {{-- </ul> --}}
+                    {{-- </li> --}}
 					<li>
 						<a href="{{ url('antrians') }}"><i class="fa fa-star"></i> <span class="nav-label">Daftar Antrian</span> </a>
                     </li>

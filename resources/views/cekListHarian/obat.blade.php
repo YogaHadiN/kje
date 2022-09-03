@@ -117,7 +117,7 @@
 													{{ $co->created_at->format('H:i:s') }}
 												</td>
 
-												<td>{{ $co->rak_id }}</td>
+                                                <td>{{ $co->rak->kode_rak }}</td>
 												<td>{{ $co->staf->nama }}</td>
 												<td>
 													<ul>

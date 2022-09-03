@@ -40,7 +40,6 @@ class Kernel extends ConsoleKernel
 		 Commands\testJurnal::class,
 		 /* Commands\dbBackup::class, */
 		 Commands\refreshKunjunganPasien::class,
-		 Commands\dbHapusdiskon::class,
 		 Commands\sendMeLaravelLog::class,
 		 Commands\imageResize::class,
 		 Commands\imageAlat::class,
@@ -80,8 +79,6 @@ class Kernel extends ConsoleKernel
 				  ->monthlyOn(1, '01:00');
 		 /* $schedule->command('sms:promoUlangTahun') */
 				  /* ->monthlyOn('1', '14:00'); */
-		 $schedule->command('db:hapusDiskon')
-				  ->dailyAt('23:50');
 		 $schedule->command('refresh:antrian')
 				  ->dailyAt('23:59');
 		 $schedule->command('test:neraca')

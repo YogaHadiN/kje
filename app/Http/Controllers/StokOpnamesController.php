@@ -53,7 +53,9 @@ class StokOpnamesController extends Controller
 		$rak_id = Input::get('rak_id');
 
 		$query = "SELECT * ";
-		$query .= "FROM stok_opnames ";
+		$query .= ", r.kode_rak as kode_rak";
+		$query .= "FROM stok_opnames as sto ";
+		$query .= "JOIN raks as rak on rak.id = sto.rak_id ";
 		$query .= "where created_at like '{$date}%' ";
 		$query .= "and rak_id = '{$rak_id}'";
 		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
@@ -181,7 +183,8 @@ class StokOpnamesController extends Controller
 		$query .= "so.exp_date as exp_date, ";
 		$query .= "so.stok_komputer as stok_komputer, ";
 		$query .= "so.stok_fisik as stok_fisik, ";
-		$query .= "r.id as rak_id ";
+		$query .= "r.id as rak_id, ";
+		$query .= "r.kode_rak as kode_rak ";
 		$query .= "FROM stok_opnames as so ";
 		$query .= "join raks as r on r.id = so.rak_id ";
 		$query .= "join mereks as m on m.rak_id = r.id ";
@@ -195,6 +198,7 @@ class StokOpnamesController extends Controller
 	private function soOption($date){
 		$query = "SELECT m.merek as merek, ";
 		$query .= "r.id as rak_id, ";
+		$query .= "r.kode_rak as kode_rak, ";
 		$query .= "m.id as merek_id, ";
 		$query .= "r.stok as stok ";
 		$query .= "from mereks as m ";
@@ -215,7 +219,7 @@ class StokOpnamesController extends Controller
 		$option = '<option value="">- pilih -</option>';
 		$Array = $this->soOption($date);
 		foreach ($Array as $k => $v) {
-			$option .= '<option value="' . $v->rak_id . '">' . $v->rak_id . ' - ' .$v->merek . '</option>';
+			$option .= '<option value="' . $v->rak_id . '">' . $v->kode_rak . ' - ' .$v->merek . '</option>';
 		}
 
 		return $option;
