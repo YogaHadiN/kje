@@ -263,16 +263,16 @@
 	<div class="hide">
 		{!! Form::textarea('temp', '[]', ['class' => 'form-control textareacustom', 'id' => 'temp']) !!}
 	</div>
-	<div class="">
+	<div class="hide">
 		<h2>Jurnals</h2>
 		{!! Form::textarea('jurnals', $periksa->jurnals, ['class' => 'form-control textareacustom', 'id' => 'jurnals']) !!}
 	</div>
-	<div class="">
+	<div class="hide">
 		<h2>Coa List</h2>
 		{!! Form::textarea('coa_list', json_encode($coa_list), ['class' => 'form-control textareacustom', 'id' => 'coa_list']) !!}
 	</div>
 	<div>
-	<div class="">
+	<div class="hide">
 		<h2>Transaksis</h2>
 		{!! Form::textarea('transaksis', $periksa->transaksii, ['class' => 'form-control textareacustom', 'id' => 'transaksis']) !!}
 	</div>
@@ -301,4 +301,5 @@
 <script src="{!! asset('js/jurnalManual.js') !!}"></script>
 <script src="{!! asset('js/transaksiPeriksaEdit.js') !!}"></script>
 @stop
+
 	

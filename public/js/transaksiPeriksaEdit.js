@@ -7,44 +7,49 @@ render(temp);
 
 viewTransaksiPeriksa();
 function dummySubmit(control) {
-    var htg = hitung();
-    var kredit = htg.kredit;
-    var debit = htg.debit;
-    var biaya = htg.biaya;
-    var total_periksa = htg.total_periksa;
-    var total_harta_masuk = htg.total_harta_masuk;
-
-    callValue(htg);
-
-    if (
-        kredit == debit &&
-        biaya == total_periksa &&
-        biaya == total_harta_masuk
-    ) {
-        if (validatePass2(control)) {
-            $("#submit").click();
+    var jurnals = getJurnalObject();
+    var debit = 0;
+    var kredit = 0;
+    for (let i = 0, len = jurnals.length; i < len; i++) {
+        if (jurnals[i]["debit"] == 1) {
+            debit += jurnals[i]["nilai"];
+        } else {
+            kredit += jurnals[i]["nilai"];
         }
+    }
+    var jurnal_seimbang = debit == kredit;
+
+    var transaksis = getTransaksiArray();
+    var total_biaya = 0;
+    for (let i = 0, len = transaksis.length; i < len; i++) {
+        total_biaya += transaksis[i]["biaya"];
+    }
+    var tunai = cleanUang($("#totalTransaksiTunai").val());
+    var piutang = cleanUang($("#totalTransaksiPiutang").val());
+    var transaksi_sama = total_biaya == tunai + piutang;
+
+    if (!jurnal_seimbang) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+                "Jurnal Umum debit dan kredit tidak seimbang. Total debit = " +
+                uang(debit) +
+                " dan total kredit = " +
+                uang(kredit),
+        });
+    } else if (!transaksi_sama) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:
+                "Jumlah antara transaksi tunai/piutang dan transaksi pemeriksaan tidak sama. Total tunai dan piutang = " +
+                uang(tunai + piutang) +
+                ". Sedangkan total pemeriksaan transaksi = " +
+                uang(total_biaya),
+        });
     } else {
-        if (kredit != debit) {
-            alert(
-                "Jumlah Debit = " +
-                    uang(debit) +
-                    ", kredit = " +
-                    uang(kredit) +
-                    " , HARUS SAMA!"
-            );
-        }
-        if (biaya != total_periksa || biaya != total_harta_masuk) {
-            alert(
-                "Jumlah Biaya = " +
-                    uang(biaya) +
-                    ", Total Periksa = " +
-                    uang(total_periksa) +
-                    " Total Harta Yang Masuk = " +
-                    uang(total_harta_masuk) +
-                    ", HARUS SAMA!"
-            );
-        }
+        $("#submit").click();
     }
 }
 function nilaiTransaksi(control) {
@@ -249,26 +254,39 @@ function nilaiKeyUp(control) {
     callValue(htg);
 }
 function transaksiPeriksa(control) {
-    console.log("thhhhh");
-    var nilai = cleanUang($(control).val());
+    var nilai = $(control).closest("tr").find(".biaya").val();
+    console.log("nilai", nilai);
+    nilai = cleanUang(nilai);
+    console.log("nilai", nilai);
+    var keterangan_pemeriksaan = $(control)
+        .closest("tr")
+        .find(".keterangan_pemeriksaan")
+        .val();
     var key = $(control).closest("tr").find(".k").html();
 
     var transaksis = getTransaksiArray();
     transaksis[key].biaya = nilai;
+    transaksis[key].keterangan_pemeriksaan = keterangan_pemeriksaan;
     var total_biaya = 0;
     for (let i = 0, len = transaksis.length; i < len; i++) {
+        console.log("transaksis", transaksis);
         total_biaya += parseInt(transaksis[i]["biaya"]);
     }
     stringifyTransaksi(transaksis);
     var coa_id = $(control).closest("tr").find(".coa_id").html();
 
     var jurnals = getJurnalObject();
+    var total_diganti = true;
     for (let i = 0, len = jurnals.length; i < len; i++) {
         if (jurnals[i]["coa_id"] == coa_id) {
             jurnals[i]["nilai"] = nilai;
         }
-        if (jurnals[i]["coa"]["kode_coa"].substring(0, 2) == "11") {
+        if (
+            jurnals[i]["coa"]["kode_coa"].substring(0, 2) == "11" &&
+            total_diganti == true
+        ) {
             jurnals[i]["nilai"] = total_biaya;
+            total_diganti = false;
         }
     }
     stringifyJurnal(jurnals);
@@ -438,7 +456,7 @@ function viewTransaksiPeriksa() {
             "</td>";
         temp +=
             "<td>" +
-            '<input class="form-control uangInputTransaksiPeriksa text-right tunai" id="tunai" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
+            '<input class="form-control uangInputTransaksiPeriksa text-right biaya" id="tunai" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
             transaksiPeriksaArray[i]["biaya"] +
             '" autocomplete="off">' +
             "</td>";
@@ -448,7 +466,7 @@ function viewTransaksiPeriksa() {
                 : "";
         temp +=
             "<td>" +
-            '<input class="form-control text-right" id="" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
+            '<input class="form-control text-right keterangan_pemeriksaan" id="" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
             keterangan_pemeriksaan +
             '" autocomplete="off">' +
             "</td>";
