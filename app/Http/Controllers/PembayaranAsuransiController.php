@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\PembayaranAsuransi;
 use App\Console\Commands\testcommand;
+use App\Http\Controllers\PendapatansController;
 use DB;
 
 class PembayaranAsuransiController extends Controller
@@ -64,10 +65,10 @@ class PembayaranAsuransiController extends Controller
 		));
 	}
 	public function destroy($id){
-		$testCommand             = new TestCommand;
+		$pc                      = new PendapatansController;
 		$pembayaran_asuransi_ids = [$id];
-		$testCommand->resetPembayaranAsuransis( $pembayaran_asuransi_ids );
-		$pesan = Yoga::suksesFlash('Pembayaran Asuransi ' . $id . ' Berhasil dihapus');
+		$pc->resetPembayaranAsuransis( $pembayaran_asuransi_ids );
+		$pesan                   = Yoga::suksesFlash('Pembayaran Asuransi ' . $id . ' Berhasil dihapus');
 		return redirect('pendapatans/pembayaran/asuransi')->withPesan($pesan);
 	}
 	
