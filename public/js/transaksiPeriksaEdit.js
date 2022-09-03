@@ -5,7 +5,6 @@ temp = parseTemp();
 viewJurnals();
 render(temp);
 
-
 viewTransaksiPeriksa();
 function dummySubmit(control) {
     var htg = hitung();
@@ -60,52 +59,69 @@ function nilaiTransaksi(control) {
     $("#kredit_total").html(hitung().kredit);
 }
 
-function refreshTunaiPiutang() {
-    var asuransi_id = $('#asuransi_id').val();
-    $.get(base + '/periksas/edit/transaksiPeriksa/process/refreshTunaiPiutang',
+function refreshTunaiPiutang(control) {
+    var asuransi_id = $("#asuransi_id").val();
+    $.get(
+        base + "/periksas/edit/transaksiPeriksa/process/refreshTunaiPiutang",
         { asuransi_id: asuransi_id },
         function (data, textStatus, jqXHR) {
-            if (data['tipe_asuransi_id'] == 1) {
+            if (data["tipe_asuransi_id"] == 1) {
                 Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Data tidak bisa diubah'
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Data tidak bisa diubah",
                 });
             } else {
                 //update kolom piutang / tunai
+                //
                 var temp = parseTemp();
                 var total_transaksi = 0;
                 var transaksis = $("#transaksis").val();
                 transaksis = JSON.parse(transaksis);
+                console.log("transaksis", transaksis);
                 for (let i = 0, len = transaksis.length; i < len; i++) {
                     total_transaksi += parseInt(transaksis[i].biaya);
                 }
                 var tunai = cleanUang($("#totalTransaksiTunai").val());
-                var piutang = 0;
+                var piutang = cleanUang($("#totalTransaksiPiutang").val());
+                console.log(
+                    "tunai",
+                    tunai,
+                    "total_transaksi",
+                    total_transaksi,
+                    "piutang",
+                    piutang
+                );
                 if (tunai > total_transaksi) {
+                    console.log("triggered 1");
                     $("#totalTransaksiTunai").val(uang(total_transaksi));
                     piutang = 0;
                     $("#totalTransaksiPiutang").val(uang(piutang));
                 } else if (tunai == "") {
+                    console.log("triggered 2");
                     tunai = 0;
                     piutang = total_transaksi;
                     $("#totalTransaksiTunai").val(uang(tunai));
                     $("#totalTransaksiPiutang").val(uang(piutang));
                 } else {
+                    console.log("triggered 3");
                     piutang = total_transaksi - tunai;
                     $("#totalTransaksiPiutang").val(uang(piutang));
                 }
 
                 var jurnals = getJurnalObject();
-                if ( tunai > 0 ) {
+                if (tunai > 0) {
                     var jurnal_tunai_ditemukan = false;
                     for (let i = 0, len = jurnals.length; i < len; i++) {
-                        if (jurnals[i]['coa']['kode_coa'] == data['kode_coa_asuransi']) {
-                            jurnals[i]['nilai'] = piutang;
+                        if (
+                            jurnals[i]["coa"]["kode_coa"] ==
+                            data["kode_coa_asuransi"]
+                        ) {
+                            jurnals[i]["nilai"] = piutang;
                         }
 
-                        if (jurnals[i]['coa']['kode_coa'] == 110000) {
-                            jurnals[i]['nilai'] = tunai;
+                        if (jurnals[i]["coa"]["kode_coa"] == 110000) {
+                            jurnals[i]["nilai"] = tunai;
                             jurnal_tunai_ditemukan = true;
                         }
                     }
@@ -114,7 +130,7 @@ function refreshTunaiPiutang() {
                         for (let i = 0, len = jurnals.length; i < len; i++) {
                             if (
                                 silahkanTambahJurnal &&
-                                jurnals[i]['debit'] == 0 
+                                jurnals[i]["debit"] == 0
                             ) {
                                 var jurnalBaru = {
                                     jurnalable_id: null,
@@ -126,7 +142,7 @@ function refreshTunaiPiutang() {
                                     jurnalable_type: "App\\Models\\Periksa",
                                     coa: data["coa_tunai"],
                                 };
-                                jurnals.splice(i -1, 0, jurnalBaru);
+                                jurnals.splice(i - 1, 0, jurnalBaru);
                                 silahkanTambahJurnal = false;
                             }
                         }
@@ -134,9 +150,6 @@ function refreshTunaiPiutang() {
                 }
                 stringifyJurnal(jurnals);
                 viewJurnals();
-
-
-
 
                 // var asuransi_coa_id = $("#asuransi_coa_id").html();
                 // var key_by_coa = null;
@@ -209,7 +222,6 @@ function refreshTunaiPiutang() {
                 //     temp.splice(getKey(temp), 1);
                 //     render(temp);
                 // }
-
             }
         }
     );
@@ -237,113 +249,31 @@ function nilaiKeyUp(control) {
     callValue(htg);
 }
 function transaksiPeriksa(control) {
+    console.log("thhhhh");
     var nilai = cleanUang($(control).val());
-    var key = $(control).attr("title");
+    var key = $(control).closest("tr").find(".k").html();
 
-    var transaksis = $("#transaksis").val();
-    transaksis = JSON.parse(transaksis);
+    var transaksis = getTransaksiArray();
     transaksis[key].biaya = nilai;
-    transaksis = JSON.stringify(transaksis);
-
+    var total_biaya = 0;
+    for (let i = 0, len = transaksis.length; i < len; i++) {
+        total_biaya += parseInt(transaksis[i]["biaya"]);
+    }
+    stringifyTransaksi(transaksis);
     var coa_id = $(control).closest("tr").find(".coa_id").html();
-    var temp_coa_exist = false;
-    var key_by_coa = null;
 
-    for (let i = 0, len = temp.length; i < len; i++) {
-        if (temp[i].coa_id == coa_id) {
-            temp_coa_exist = true;
-            key_by_coa = i;
-            break;
+    var jurnals = getJurnalObject();
+    for (let i = 0, len = jurnals.length; i < len; i++) {
+        if (jurnals[i]["coa_id"] == coa_id) {
+            jurnals[i]["nilai"] = nilai;
+        }
+        if (jurnals[i]["coa"]["kode_coa"].substring(0, 2) == "11") {
+            jurnals[i]["nilai"] = total_biaya;
         }
     }
-    if ($("." + coa_id)[0]) {
-        $("." + coa_id)
-            .find("input")
-            .val(uang(nilai));
-        nilaiKeyUp($("." + coa_id).find("input"));
-    } else if (!$("." + coa_id)[0] && !temp_coa_exist) {
-        $.get(
-            base + "/coas/get/coa_name",
-            { coa_id: coa_id },
-            function (data, textStatus, jqXHR) {
-                var newElement = {
-                    coa: data,
-                    coa_id: coa_id,
-                    nilai: nilai,
-                    debit: 0,
-                };
-                temp.push(newElement);
-                render(temp);
-            }
-        );
-    } else if (!$("." + coa_id)[0] && temp_coa_exist && nilai > 0) {
-        temp[key_by_coa].nilai = nilai;
-        render(temp);
-    } else if (!$("." + coa_id)[0] && temp_coa_exist && nilai < 1) {
-        temp.splice(key_by_coa, 1);
-        render(temp);
-    }
-
-    var nilai_total_transaksi_periksa = 0;
-    $(".nilai_transaksi_periksa").each(function () {
-        var nilai_transaksi_periksa = $(this).find("input").val();
-        nilai_total_transaksi_periksa += parseInt(
-            cleanUang(nilai_transaksi_periksa)
-        );
-    });
-
-    var nilai_tunai = cleanUang($("#totalTransaksiTunai").val());
-    var nilai_piutang = cleanUang($("#totalTransaksiPiutang").val());
-    var nilai_total_piutang_tunai =
-        parseInt(nilai_tunai) + parseInt(nilai_piutang);
-
-    var selisih = nilai_total_transaksi_periksa - nilai_total_piutang_tunai;
-
-    nilai_piutang = parseInt(nilai_piutang) + parseInt(selisih);
-    $("#totalTransaksiPiutang").val(uang(nilai_piutang));
-    updatePeriksa(nilai_piutang, "piutang");
-
-    var asuransi_coa_id = $("#asuransi_coa_id").html();
-    key_by_coa = null;
-    temp_coa_exist = false;
-    for (let i = 0, len = temp.length; i < len; i++) {
-        if (temp[i].coa_id == asuransi_coa_id) {
-            temp_coa_exist = true;
-            key_by_coa = i;
-            break;
-        }
-    }
-    if ($("." + asuransi_coa_id)[0]) {
-        $("." + asuransi_coa_id)
-            .find("input")
-            .val(uang(nilai_piutang));
-        nilaiKeyUp($("." + asuransi_coa_id).find("input"));
-    } else if (!$("." + asuransi_coa_id)[0] && !temp_coa_exist) {
-        $.get(
-            base + "/coas/get/coa_name",
-            { coa_id: asuransi_coa_id },
-            function (data, textStatus, jqXHR) {
-                var newElement = {
-                    coa: data,
-                    coa_id: asuransi_coa_id,
-                    nilai: nilai,
-                    debit: 1,
-                };
-                temp.push(newElement);
-                render(temp);
-            }
-        );
-    } else if (!$("." + asuransi_coa_id)[0] && temp_coa_exist && nilai > 0) {
-        temp[key_by_coa].nilai = nilai;
-        render(temp);
-    } else if (!$("." + asuransi_coa_id)[0] && temp_coa_exist && nilai < 1) {
-        temp.splice(key_by_coa, 1);
-        render(temp);
-    }
-
-    $("#transaksis").val(transaksis);
+    stringifyJurnal(jurnals);
+    refreshTunaiPiutang();
     $("#biaya_total").html(hitung().biaya);
-
     var htg = hitung();
     callValue(htg);
 }
@@ -508,7 +438,7 @@ function viewTransaksiPeriksa() {
             "</td>";
         temp +=
             "<td>" +
-            '<input class="form-control uangInputTransaksiPeriksa text-right tunai" id="tunai" onkeyup="refreshTunaiPiutang();return false;" name="tunai" type="text" value="' +
+            '<input class="form-control uangInputTransaksiPeriksa text-right tunai" id="tunai" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
             transaksiPeriksaArray[i]["biaya"] +
             '" autocomplete="off">' +
             "</td>";
@@ -518,7 +448,7 @@ function viewTransaksiPeriksa() {
                 : "";
         temp +=
             "<td>" +
-            '<input class="form-control text-right" id="" onkeyup="refreshTunaiPiutang();return false;" name="tunai" type="text" value="' +
+            '<input class="form-control text-right" id="" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
             keterangan_pemeriksaan +
             '" autocomplete="off">' +
             "</td>";
@@ -539,7 +469,6 @@ function viewTransaksiPeriksa() {
     });
 }
 function hapusTransaksi(control) {
-
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -571,7 +500,9 @@ function hapusTransaksi(control) {
                     var kode_coa_asuransi = data["kode_coa_asuransi"];
                     console.log("kode_coa_jenis_tarif", kode_coa_jenis_tarif);
                     if (tipe_asuransi_id == 1) {
-                        var totalTransaksiTunai = $("#totalTransaksiTunai").val();
+                        var totalTransaksiTunai = $(
+                            "#totalTransaksiTunai"
+                        ).val();
                         totalTransaksiTunai = cleanUang(totalTransaksiTunai);
                         totalTransaksiTunai -= parseInt(biaya);
                         $("#totalTransaksiTunai").autoNumeric(
@@ -579,8 +510,12 @@ function hapusTransaksi(control) {
                             totalTransaksiTunai
                         );
                     } else {
-                        var totalTransaksiPiutang = $("#totalTransaksiPiutang").val();
-                        totalTransaksiPiutang = cleanUang(totalTransaksiPiutang);
+                        var totalTransaksiPiutang = $(
+                            "#totalTransaksiPiutang"
+                        ).val();
+                        totalTransaksiPiutang = cleanUang(
+                            totalTransaksiPiutang
+                        );
                         totalTransaksiPiutang -= parseInt(biaya);
                         $("#totalTransaksiPiutang").autoNumeric(
                             "set",
@@ -594,7 +529,8 @@ function hapusTransaksi(control) {
                         if (
                             pleaseDeleteJurnal &&
                             typeof jurnals[i] !== "undefined" &&
-                            jurnals[i]["coa"]["kode_coa"] == kode_coa_jenis_tarif
+                            jurnals[i]["coa"]["kode_coa"] ==
+                                kode_coa_jenis_tarif
                         ) {
                             jurnals.splice(i, 1);
                             pleaseDeleteJurnal = false;
@@ -631,7 +567,7 @@ function hapusTransaksi(control) {
 }
 function getTransaksiArray() {
     var transaksiPeriksaJson = $("#transaksis").val();
-    return (transaksiPeriksaArray = JSON.parse(transaksiPeriksaJson));
+    return JSON.parse(transaksiPeriksaJson);
 }
 function tambahTransaksiPeriksa(control) {
     var jenis_tarif_id = $(control).closest("tr").find(".jenis_tarif_id").val();
@@ -679,7 +615,7 @@ function tambahTransaksiPeriksa(control) {
                 var piutang = $("#totalTransaksiPiutang").val();
                 piutang = parseInt(cleanUang(piutang));
                 piutang += parseInt(biaya);
-                $("#totalTransaksiPiutang").autoNumeric("set", piutang);;
+                $("#totalTransaksiPiutang").autoNumeric("set", piutang);
             }
             var jurnals = getJurnalObject();
             var silahkanDitambahJurnalDiTransaksi = true;
@@ -737,8 +673,8 @@ function viewJurnals() {
     coa_list = JSON.parse(coa_list);
     var temp = "";
     for (let i = 0, len = jurnals.length; i < len; i++) {
-        if (jurnals[i]['nilai'] == 0) {
-            jurnals.splice(i,1);
+        if (jurnals[i]["nilai"] == 0) {
+            jurnals.splice(i, 1);
         }
     }
     for (let i = 0, len = jurnals.length; i < len; i++) {
@@ -749,6 +685,9 @@ function viewJurnals() {
         temp += "</td>";
         temp += "<td class='hide kode_coa'>";
         temp += jurnals[i]["coa"]["kode_coa"];
+        temp += "</td>";
+        temp += "<td class='hide coa_id'>";
+        temp += jurnals[i]["coa"]["id"];
         temp += "</td>";
         temp += "<td>";
         temp +=
@@ -830,4 +769,8 @@ function updateNilaiJurnal(control) {
 function getJurnalObject() {
     var jurnals = $("#jurnals").val();
     return JSON.parse(jurnals);
+}
+function stringifyTransaksi(transaksis) {
+    var transaksi = JSON.stringify(transaksis);
+    $("#transaksis").val(transaksi);
 }
