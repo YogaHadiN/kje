@@ -140,12 +140,10 @@ class DdlMerekController extends Controller
 		$query .= 'LEFT JOIN komposisis as k on f.id = k.formula_id ';
 		$query .= 'LEFT JOIN generiks as g on g.id = k.generik_id ';
 		$query .= 'LEFT JOIN sediaans as s on s.id = f.sediaan_id ';
-		$query .= "WHERE s.sediaan = 'capsul' ";
+		$query .= "WHERE (s.sediaan = 'capsul' or s.sediaan = 'tablet') ";
 		$query .= "AND f.sediaan_id not in ( 1, 8, 14 ) ";
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "AND f.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "or s.sediaan = 'tablet' ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
 
