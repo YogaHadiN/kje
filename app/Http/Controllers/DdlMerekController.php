@@ -10,6 +10,7 @@ use App\Models\Yoga;
 use App\Models\Dose;
 use App\Models\BeratBadan;
 use DB;
+use Log;
 
 class DdlMerekController extends Controller
 {
@@ -178,6 +179,10 @@ class DdlMerekController extends Controller
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
+        Log::info("==================================");
+        Log::info("data");
+        Log::info( $data );
+        Log::info("==================================");
 		return $this->formatDdlNamaObat($data);
 	}
 	public function formatDdlNamaObat($data){
