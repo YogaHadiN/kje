@@ -120,7 +120,53 @@ class testcommand extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(){
+
+        DB::delete("delete trf from tarifs as trf left join asuransis as asu on asu.id = trf.asuransi_id where asu.id is null;");
+        $tenant_id = 2;
+        Asuransi::where('tenant_id', 2)->delete();
+        JenisTarif::where('tenant_id', 2)->delete();
+        Tarif::where('tenant_id', 2)->delete();
+
+        $asuransis = Asuransi::where('tenant_id', 1)
+                            ->where('master_template', 1)
+                            ->get();
+        $asuransi_ids = [];
+        foreach ($asuransis as $asuransi) {
+            $newAsuransi = $asuransi->replicate();
+            $newAsuransi->tenant_id = $tenant_id;
+            $newAsuransi->save();
+        }
+
+        $jenis_tarifs = JenisTarif::where('tenant_id', 1)
+                            ->where('master_template', 1)
+                            ->get();
+        $tarifs = 0;
+        foreach ($jenis_tarifs as $jenis_tarif) {
+            $newJT = $jenis_tarif->replicate();
+            $newJT->tenant_id = $tenant_id;
+            $newJT->save();
+            foreach ($jenis_tarif->tarif as $tarif) {
+                $asuransis = Asuransi::where('tenant_id', 2)->get();
+                foreach ($asuransis as $asu) {
+                    if (
+                        $asu->nama == 
+                        $tarif->asuransi->nama
+                    ) {
+                        $tarifs++;
+                        $newTarif                 = $tarif->replicate();
+                        $newTarif->jenis_tarif_id = $newJT->id;
+                        $newTarif->asuransi_id    = $asu->id;
+                        $newTarif->tenant_id      = $tenant_id;
+                        $newTarif->save();
+                    }
+                }
+            }
+        }
+        dd( $tarifs );
+    }
+    
+    public function obatTenant()
     {
         $tenant_id = 2;
         Formula::where('tenant_id', 2)->delete();

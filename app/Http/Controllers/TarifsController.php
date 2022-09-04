@@ -36,10 +36,11 @@ class TarifsController extends Controller
 	
 	public function index()
 	{
+        $asuransi = Asuransi::where('tipe_asuransi_id', 1)->first(); // biaya_ptibadi
 		$tarifs = Tarif::with(
 			'jenisTarif.bhp.merek',
 			'tipeTindakan'
-		)->where('asuransi_id', '0')->get();
+		)->where('asuransi_id', $asuransi->id)->get();
 
 		$tipeTindakans = [
 			'1' => 'Non Paket',
@@ -48,7 +49,8 @@ class TarifsController extends Controller
 		];
 
 		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
-		return view('tarifs.index', compact('tarifs', 'tipeTindakans', 'mereks'));
+        $payload = compact('tarifs', 'tipeTindakans', 'mereks');
+		return view('tarifs.index', $payload);
 	}
 
 	/**

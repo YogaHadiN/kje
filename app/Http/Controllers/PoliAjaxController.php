@@ -32,14 +32,10 @@ class PoliAjaxController extends Controller
 {
 
 	public function ibusafe(){
-		$umur = explode(" ", trim(Input::get('umur')))[0];
+		$umur     = explode(" ", trim(Input::get('umur')))[0];
 		$merek_id = Input::get('merek_id');
-		$merek = Merek::find($merek_id);
-
-		if (
-			($merek->rak->formula_id == '150802011' && $umur == '0') ||
-			($merek->rak->formula_id == '150802068' && $umur == '0')
-		) {
+		$merek    = Merek::find($merek_id);
+		if ( $this->containsIbuprofen($merek) ) {
 			return '1';
 		} else {
 			return '0';
@@ -648,5 +644,21 @@ class PoliAjaxController extends Controller
         return Asuransi::find($asuransi_id)->tipe_asuransi_id;
         
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function containsIbuprofen($merek)
+    {
+        foreach ($merek->rak->formula->komposisi as $komposisi) {
+            if ( $komposisi->generik_id == '544' ) {
+                return true
+            }
+        }
+        return false;
+
+    }
+    
     
 }

@@ -33,9 +33,15 @@ class Tenant extends Model
                                 ->get();
             foreach ($jenis_tarifs as $jenis_tarif) {
                 $newJT = $jenis_tarif->replicate();
-                $newJT->push();
                 $newJT->tenant_id = $tenant->id;
                 $newJT->save();
+
+                foreach ($jenis_tarif->tarif as $tarif) {
+                    $newTarif = $tarif->replicate();
+                    $newTarif->jenis_tarif_id = $newJT->id;
+                    $newTarif->tenant_id = $tenant->id;
+                    $newTarif->save();
+                }
             }
             $coas = Coa::where('tenant_id', 1)
                         ->where('master_template', 1)
