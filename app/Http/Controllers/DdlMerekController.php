@@ -147,11 +147,6 @@ class DdlMerekController extends Controller
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
 
-        Log::info("==================================");
-        Log::info("data puyer");
-        Log::info( $query );
-        Log::info("==================================");
-        Log::info("End of data puyer");
 		return $this->formatDdlNamaObat($data);
 	}
 	public function optionsyrup(){
