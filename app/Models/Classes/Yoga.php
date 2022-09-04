@@ -659,6 +659,12 @@ class Yoga {
 			foreach ($terapis as $key => $terapi) {
 				$formula_id                  = $terapi['formula_id'];
 				$rak                         = Rak::with('merek')->where('formula_id', $formula_id)->orderBy('kelas_obat_id', $order)->first();
+                if (is_null($rak)) {
+                    Log::info("formula_id");
+                    Log::info("===============================================");
+                    Log::info($formula_id);
+                    Log::info("===============================================");
+                }
 				$terapis[$key]['merek_id']   = $rak->merek->first()->id;
 				$terapis[$key]['rak_id']     = $rak->id;
 				$terapis[$key]['merek_obat'] = $rak->merek->first()->merek;
