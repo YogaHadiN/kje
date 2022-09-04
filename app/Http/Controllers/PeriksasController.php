@@ -9,6 +9,7 @@ use App\Http\Requests;
 
 use Carbon\Carbon;
 use DB;
+use Log;
 
 use App\Models\Promo;
 use App\Models\JenisTarif;
