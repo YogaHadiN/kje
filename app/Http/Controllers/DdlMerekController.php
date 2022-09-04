@@ -179,21 +179,16 @@ class DdlMerekController extends Controller
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
-        Log::info("==================================");
-        Log::info("data");
-        Log::info( $data );
-        Log::info("==================================");
-
-        Log::info("==================================");
-        Log::info("tenant_id");
-        Log::info( session()->get('tenant_id') );
-        Log::info("==================================");
 		return $this->formatDdlNamaObat($data);
 	}
 	public function formatDdlNamaObat($data){
         $asuransi = !is_null( Input::get('asuransi_id') ) ? Asuransi::find( Input::get('asuransi_id') ) : null;
 		$mereks = [];
 		$i = 0;
+        Log::info("==================================");
+        Log::info("data");
+        Log::info( $data );
+        Log::info("==================================");
 
         if (
             !is_null($asuransi) &&
