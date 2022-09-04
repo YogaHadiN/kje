@@ -1055,6 +1055,10 @@ p */
         // untuk asuransi admedika, obat akan dikonversi ke dalam merek paling mahal dalam formula yang sama
         // return var_dump(json_decode(Input::get('terapi'), true));
         
+        Log::info("=====================================");
+        Log::info("TERAPI");
+        Log::info( Input::get('terapi') );
+        Log::info("=====================================");
         $terapis = $this->sesuaikanResep(Input::get('terapi'), $asuransi);
         //sesuaikan Transaksi
         //
