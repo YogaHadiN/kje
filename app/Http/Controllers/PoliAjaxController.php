@@ -653,7 +653,7 @@ class PoliAjaxController extends Controller
     {
         foreach ($merek->rak->formula->komposisi as $komposisi) {
             if ( $komposisi->generik_id == '544' ) {
-                return true
+                return true;
             }
         }
         return false;
