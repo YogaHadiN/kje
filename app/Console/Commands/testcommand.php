@@ -5,6 +5,11 @@ use Session;
 use App\Models\Outbox;
 use App\Models\Ht;
 use App\Models\User;
+use App\Models\Formula;
+use App\Models\Rak;
+use App\Models\Merek;
+use App\Models\Komposisi;
+use App\Models\Dose;
 use App\Models\Tenant;
 use App\Models\Coa;
 use App\Models\AntrianKelengkapanDokumen;
@@ -117,23 +122,71 @@ class testcommand extends Command
      */
     public function handle()
     {
-        $tenant = new Tenant;
-        $tenant->name = 'Suradita';
-        $tenant->kode_unik = 'Unik';
-        $tenant->save();
+        $tenant_id = 2;
+        Formula::where('tenant_id', 2)->delete();
+        Rak::where('tenant_id', 2)->delete();
+        Komposisi::where('tenant_id', 2)->delete();
+        Dose::where('tenant_id', 2)->delete();
 
-        $user = new User;
-        $user->username = 'Siti Murwani';
-        $user->role_id = 1;
-        $user->password = Hash::make('11111');
-        $user->email = 'yogahn89@gmail.com';
-        $user->aktif = 1;
-        $user->created_at = date('Y-m-d H:i:s');
-        $user->updated_at = date('Y-m-d H:i:s');
-        $user->tenant_id = $tenant->id;
-        $user->save();
+        DB::delete("delete ko from komposisis as ko left join formulas as fo on fo.id = ko.formula_id where fo.id is null; ");
+        DB::delete("delete do from doses as do left join formulas as fo on fo.id = do.formula_id where fo.id is null;");
+        foreach (Formula::where('tenant_id', 1)->get() as $formula) {
 
+            $newFormula = $formula->replicate();
+            $newFormula->push();
+            $newFormula->tenant_id = $tenant_id;
+            $newFormula->save();
+            $komposisis = $formula->komposisi;
+
+            foreach ($formula->rak as $rak) {
+
+                $newRak = $rak->replicate();
+                $newRak->formula_id = $newFormula->id;
+                $newRak->tenant_id = $tenant_id;
+                $newRak->save();
+
+                foreach ($rak->merek as $merek) {
+                    $newMerek = $merek->replicate();
+                    $newMerek->rak_id = $newRak->id;
+                    $newMerek->tenant_id = $tenant_id;
+                    $newMerek->save();
+                }
+            }
+            foreach ($komposisis as $k) {
+                $newKomposisi = $k->replicate();
+                $newKomposisi->formula_id = $newFormula->id;
+                $newKomposisi->tenant_id = $tenant_id;
+                $newKomposisi->save();
+            }
+
+            foreach ($formula->dose as $dose) {
+                $newDose = $dose->replicate();
+                $newDose->formula_id = $newFormula->id;
+                $newDose->tenant_id = $tenant_id;
+                $newDose->save();
+            }
+        }
+        $this->cekDobel();
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function cekDobel()
+    {
+        dd( 
+            DB::select("select count(*) as komposisis_tenant_1 from komposisis where tenant_id = 1;")[0],
+            DB::select("select count(*) as komposisis_tenant_2 from komposisis where tenant_id = 2;")[0],
+            DB::select("select count(*) mereks_tenant_1 from mereks where tenant_id = 1;")[0],
+            DB::select("select count(*) mereks_tenant_2 from mereks where tenant_id = 2;")[0],
+            DB::select("select count(*) raks_tenant_1 from raks where tenant_id = 1;")[0],
+            DB::select("select count(*) raks_tenant_2 from raks where tenant_id = 2;")[0],
+            DB::select("select count(*) doses_tenant_1 from doses where tenant_id = 1;")[0],
+            DB::select("select count(*) doses_tenant_2 from doses where tenant_id = 2;")[0],
+        );
+    }
+    
 	
 	/**
 	* undocumented function

@@ -58,6 +58,8 @@ p */
     public $antrian;
     public $pasien;
     public $antrianperiksa;
+    public $periksa;
+    public $asuransi;
 	
 
   public function __construct(){
@@ -210,7 +212,7 @@ p */
                 return $this->redirectBackIfAntrianPeriksaNotFound();
             }
 
-            $periksa = Periksa::find($id);
+            $periksa = Periksa::with('transaksii.jenisTarif')->where('id',$id)->first();
             if (is_null($periksa)) {
                 $pesan = Yoga::gagalFlash('Mohon maaf pemeriksaan pasien tidak ditemukan, mohon dapat diulangi dari pendaftaran');
                 return redirect()->back()->withPesan($pesan);
@@ -1060,13 +1062,15 @@ p */
         $transaksis = $this->sesuaikanTransaksi(Input::get('transaksi'), $asuransi, $terapis, $nama_poli);
 
         //INPUT TRANSAKSI JAM MALAM
-        //JIKA PASIEN DATANG > JAM 10 MALAM, untuk pasien umum dan admedika, maka ditambah 10 ribu untuk jam malam
-        if ((Input::get('jam') > '22:00:00' || Input::get('jam') < '06:00:00') && ($asuransi->id == 0 || $asuransi->tipe_asuransi_id == '3')) {
+        //JIKA PASIEN DATANG > JAM 11 MALAM, untuk pasien umum dan admedika, maka ditambah 10 ribu untuk jam malam
+        $this->periksa = $periksa;
+        $this->asuransi = $asuransi;
+        if ( $this->termasukPasienJamMalam()) {
             //tambahkan komponen jam malam sebesar 10 ribu
             $plus = [
                 'jenis_tarif_id' => JenisTarif::where('jenis_tarif', 'Jam Malam')->first()->id,
                 'jenis_tarif'    => 'Jam Malam',
-                'biaya'          => 20000
+                'biaya'          => 10000
             ];
             array_push($transaksis, $plus);
         }
@@ -1366,4 +1370,24 @@ p */
 
 	/* 	$antrianPeriksa->sendWaAntrian(); */
 	/* } */
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function termasukPasienJamMalam()
+    {
+        $jam_malam_belum_diinput = true;
+        foreach ($this->periksa->transaksii as $tr) {
+            if ( $tr->jenisTarif->jenis_tarif == 'Jam Malam' ) {
+                $jam_malam_belum_diinput = false;
+                break;
+            }
+        }
+
+        return Input::get('jam') > '23:00:00' || Input::get('jam') < '06:00:00' &&  // diantara jam 11 dan jam 6 pagi
+            ($this->asuransi->id == 0 || $this->asuransi->tipe_asuransi_id == '3') && // dengan tipe asuransi biaya pribadi dan admedika
+            $jam_malam_belum_diinput;
+    }
+    
 }

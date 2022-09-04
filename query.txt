@@ -26,7 +26,8 @@ drop table tambah_kwhs;
 
 
 
-
+delete do from doses as do left join formulas as fo on fo.id = do.formula_id where fo.id is null;
+delete ko from komposisis as ko left join formulas as fo on fo.id = ko.formula_id where fo.id is null;
 
 asuransis
 coas
