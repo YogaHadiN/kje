@@ -189,6 +189,7 @@ class DdlMerekController extends Controller
         Log::info("data");
         Log::info( $data );
         Log::info("==================================");
+        Log::info("End of data");
 
         if (
             !is_null($asuransi) &&
