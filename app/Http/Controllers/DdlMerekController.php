@@ -183,6 +183,11 @@ class DdlMerekController extends Controller
         Log::info("data");
         Log::info( $data );
         Log::info("==================================");
+
+        Log::info("==================================");
+        Log::info("tenant_id");
+        Log::info( session()->get('tenant_id') );
+        Log::info("==================================");
 		return $this->formatDdlNamaObat($data);
 	}
 	public function formatDdlNamaObat($data){
