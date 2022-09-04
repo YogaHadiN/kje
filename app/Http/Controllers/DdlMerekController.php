@@ -150,7 +150,7 @@ class DdlMerekController extends Controller
 
         Log::info("==================================");
         Log::info("data puyer");
-        Log::info( $data );
+        Log::info( $query );
         Log::info("==================================");
         Log::info("End of data puyer");
 		return $this->formatDdlNamaObat($data);
