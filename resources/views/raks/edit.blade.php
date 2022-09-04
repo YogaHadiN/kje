@@ -33,7 +33,7 @@
         "method"=> "put"
 ])}}
 
-@include('raks.form', ['disabled' => 'disabled', 'readonly' => 'readonly', 'stokShow' => true ])
+@include('raks.form', ['disabled' => 'disabled',  'stokShow' => true ])
   
             <div class="row">
 

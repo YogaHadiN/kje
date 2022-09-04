@@ -9,7 +9,7 @@
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				  <div class="form-group @if($errors->has('id'))has-error @endif">
 				    {!! Form::label('kode_rak', 'Kode Rak', ['class' => 'control-label']) !!}
-                    {{ Form::text('kode_rak', null, ['class' => 'form-control', $readonly => $readonly, 'id'=>'idOnRak' ])}}
+                    {{ Form::text('kode_rak', null, ['class' => 'form-control', 'id'=>'idOnRak' ])}}
 				    @if($errors->has('kode_rak'))<code>{{ $errors->first('kode_rak') }}</code>@endif
 				  </div>
               </div>
