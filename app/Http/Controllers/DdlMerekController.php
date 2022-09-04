@@ -144,6 +144,7 @@ class DdlMerekController extends Controller
 		$query .= "AND f.sediaan_id not in ( 1, 8, 14 ) ";
 		$query .= "AND m.discontinue = 0 ";
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND f.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "or s.sediaan = 'tablet' ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
 		$data =  DB::select($query);
