@@ -929,8 +929,8 @@ p */
                 break;	
             }
         }
+        $tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
         if ($non_paket) {
-            $tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
             if($terapi != '' && $terapi != '[]'){
                 /* $tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();//jenis tarif id = 9 adalah biaya obat */
                 $terapis = json_decode($terapi, true);
