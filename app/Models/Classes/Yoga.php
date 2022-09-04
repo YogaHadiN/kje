@@ -4,6 +4,7 @@ namespace App\Models\Classes;
 
 use Input;
 use DB;
+use Log;
 use DateTime;
 use App\Models\Rak;
 use App\Models\Poli;
