@@ -198,10 +198,6 @@ class DdlMerekController extends Controller
             foreach ($data as $da) {
                 $khusus_bpjs[$da->formula_id] = $da;
             }
-            /* Log::info("=================================="); */
-            /* Log::info("khusus_bpjs"); */
-            /* Log::info($khusus_bpjs); */
-            /* Log::info("=================================="); */
         }
 		foreach ($data as $dt) {
 			$mereks[$dt->merek_id]['merek_id']        = $dt->merek_id;
