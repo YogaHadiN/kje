@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Log;
 use Bitly;
 use App\Models\Asuransi;
+use App\Models\Generik;
 use App\Models\Staf;
+use App\Models\Poli;
 use App\Models\Promo;
 use App\Models\Sms;
 use App\Models\BukanPeserta;
@@ -26,8 +28,6 @@ use App\Models\PengantarPasien;
 use App\Models\SuratSakit;
 use App\Models\RegisterAnc;
 use App\Models\Usg;
-
-
 
 class AntrianPeriksasController extends Controller
 {
@@ -129,28 +129,27 @@ class AntrianPeriksasController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
-	{
+	public function store(Request $request, $id) {
 		$rules = [
-			'staf_id'          => 'required',
-			'asisten_id'       => 'required',
-			'kecelakaan_kerja' => 'required',
-			'hamil'            => 'required',
-			'staf_id'          => 'required',
-			'pasien_id'        => 'required',
-			'asuransi_id'      => 'required',
-			'poli_id'             => 'required'
+			'asisten_id'                  => 'required',
+			'kecelakaan_kerja'            => 'required',
+			'hamil'                       => 'required',
+			'menyusui'                    => 'required',
+			'peserta_klinik'              => 'required',
+			'verifikasi_wajah'            => 'required',
+			'sex'                         => 'required',
+			'verifikasi_alergi_obat'      => 'required',
 		];
 
 		$validator = \Validator::make(Input::all(), $rules);
 
-        /* dd( $validator->errors()->first() ); */
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		if (AntrianPoli::where( 'id',  $this->input_antrian_poli_id )->where('submitted', '0')->first() == null) {
+        $antrianpoli = AntrianPoli::where( 'id',  $id )->where('submitted', '0')->first();
+		if ($antrianpoli == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah hilang dari antrian poli, mungkin sudah dimasukkan sebelumnya');
 			return redirect()->back()->withPesan($pesan);
 		}
@@ -163,54 +162,47 @@ class AntrianPeriksasController extends Controller
 													);
 
 		$ap = new AntrianPeriksa;
-		
 		$kecelakaan_kerja = $this->input_kecelakaan_kerja;
 		$asuransi_id      = $this->input_asuransi_id;
 
 		$ap->berat_badan         = $this->input_berat_badan;
 		$ap->hamil               = $this->input_hamil;
+		$ap->menyusui               = Input::get('menyusui');
 		$ap->asisten_id          = $this->input_asisten_id;
 		$ap->periksa_awal        = $periksa_awal;
 		if ($kecelakaan_kerja == '1' && $this->is_asuransi_bpjs) {
-			$asuransi_id = '0';
+			$asuransi_id = Asuransi::where('tipe_asuransi_id', 1)->first()->id;
 			$ap->keterangan = 'Pasien ini tadinya pakai asuransi BPJS tapi diganti menjadi Biaya Pribadi karena Kecelakaan Kerja / Kecelakaan Lalu Lintas tidak ditanggung BPJS, tpi PT. Jasa Raharja';
 		}
-		$ap->asuransi_id         = $asuransi_id;
-		$ap->pasien_id           = $this->input_pasien_id;
-		$ap->poli_id                = $this->input_poli_id;
-		$ap->staf_id             = $this->input_staf_id;
-		$ap->jam                 = $this->input_jam;
-		$ap->menyusui            = $this->input_menyusui;
+		$ap->asuransi_id       = $antrianpoli->asuransi_id;
+		$ap->pasien_id         = $antrianpoli->pasien_id;
+		$ap->poli_id           = $antrianpoli->poli_id;
+		$ap->staf_id           = $antrianpoli->staf_id;
+		$ap->jam               = $antrianpoli->jam;
 		if ( $this->is_asuransi_bpjs ) {
-			$ap->bukan_peserta            = $this->input_bukan_peserta;
+			$ap->bukan_peserta = Input::get('peserta_klinik');
 		}
-		$ap->riwayat_alergi_obat = $this->input_riwayat_alergi_obat;
-		$ap->suhu                = $this->input_suhu;
-		$ap->g                   = Yoga::returnNull($this->input_G);
-		$ap->p                   = Yoga::returnNull($this->input_P);
-		$ap->a                   = Yoga::returnNull($this->input_A);
-		$ap->hpht                = Yoga::datePrep($this->input_hpht);
-		$ap->tanggal             = Yoga::datePrep( $this->input_tanggal );
-		$ap->kecelakaan_kerja    = $kecelakaan_kerja;
-		$ap->sistolik            = $this->input_sistolik;
-		$ap->diastolik           = $this->input_diastolik;
-		$ap->tinggi_badan        = $this->input_tinggi_badan;
-		$ap->gds                 = $this->input_gds;
-		$ap->perujuk_id                 = $this->input_perujuk_id;
-
-
+		$ap->suhu              = $this->input_suhu;
+		$ap->tanggal           = $antrianpoli->tanggal;
+		$ap->kecelakaan_kerja  = $kecelakaan_kerja;
+		$ap->sistolik          = $this->input_sistolik;
+		$ap->diastolik         = $this->input_diastolik;
+		$ap->tinggi_badan      = $this->input_tinggi_badan;
+		$ap->gds               = $this->input_gds;
+		$ap->previous_complaint_resolved               = Input::get('previous_complaint_resolved');
+		$ap->perujuk_id        = $this->input_perujuk_id;
 		$ap->save();
 
 		$antrian_poli_id         = $this->input_antrian_poli_id;
-		$pasien                  = Pasien::find($this->input_pasien_id);
+		$pasien                  = $antrianpoli->pasien;
 		$antrian_poli            = AntrianPoli::find($antrian_poli_id);
-		$antrian                 = $antrian_poli->antrian;
+		$antrian                 = $antrianpoli->antrian;
 		if(isset($antrian)){
 			$antrian->antriable_id   = $ap->id;
 			$antrian->antriable_type = 'App\\Models\\AntrianPeriksa';
 			$antrian->save();
 		}
-		$antrian_poli->delete();
+		$antrianpoli->delete();
 
 		$promo = Promo::where('promoable_type' , 'App\Models\AntrianPoli')->where('promoable_id', $antrian_poli_id)->first() ;
 		if ( $promo ) {
@@ -337,5 +329,23 @@ class AntrianPeriksasController extends Controller
 			$jenis_antrian_id = $ap->antrian->jenis_antrian_id;
 		}
     }
-    
+    public function create($id){
+        $antrian_poli = AntrianPoli::with('pasien')->where('id',$id)->first();
+        $asuransi_list = Asuransi::pluck('nama', 'id');
+        $staf_list = Staf::pluck('nama', 'id');
+        $poli_list = Poli::pluck('poli', 'id');
+        $kecelakaan_kerja_list = [
+            0 => 'Bukan Kecelakaan Kerja',
+            1 => 'Kecelakaan Kerja',
+        ];
+        $generik_list = Generik::pluck('generik', 'id');
+        return view('antrianperiksas.create', compact(
+            'antrian_poli',
+            'asuransi_list',
+            'generik_list',
+            'staf_list',
+            'kecelakaan_kerja_list',
+            'poli_list',
+        ));
+    }
 }

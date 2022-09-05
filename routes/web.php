@@ -195,6 +195,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasiens/pacific_cross/2020', [\App\Http\Controllers\PasiensController::class, 'pc2020']);
 
 
+	Route::get('antrianperiksas/create/{id}', [\App\Http\Controllers\AntrianPeriksasController::class, 'create']);
+	Route::post('antrianperiksas/{id}', [\App\Http\Controllers\AntrianPeriksasController::class, 'store']);
 	Route::resource('antrianperiksas', \App\Http\Controllers\AntrianPeriksasController::class);
 	Route::post('antriankasirs/kembali/{id}', [\App\Http\Controllers\AntrianKasirsController::class, 'kembali']);
 	Route::resource('antriankasirs', \App\Http\Controllers\AntrianKasirsController::class);
