@@ -40,9 +40,6 @@ class DdlMerekController extends Controller
 		$query .= "AND m.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND f.sediaan_id not in ( 1, 8, 14 ) ";
 		$query .= $asuransi->tipe_asuransi_id == 5 ? 'ORDER BY r.kelas_obat_id DESC':'ORDER BY m.id ASC';
-        Log::info("==============================================================");
-        Log::info($query);
-        Log::info("==============================================================");
 		$data =  DB::select($query);
 		return $this->formatDdlNamaObat($data);
 	}
