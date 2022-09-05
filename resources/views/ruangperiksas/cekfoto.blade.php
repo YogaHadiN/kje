@@ -10,12 +10,12 @@
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <button type="button" class="btn btn-lg btn-success btn-block" onclick="fokusKeAnemnesa(); return false;">Benar</button>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button type="button" class="btn btn-lg btn-danger btn-block" onclick="fokusKeAnemnesa(); return false;">Tutup</button>
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli_id) !!}" class="btn btn-lg btn-danger btn-block">Tidak Benar</a>
-                    </div>
+                    {{-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> --}}
+                    {{--     <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli_id) !!}" class="btn btn-lg btn-danger btn-block">Tidak Benar</a> --}}
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>
