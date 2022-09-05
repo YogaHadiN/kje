@@ -1,33 +1,7 @@
-alter table asuransis add column master_template int(1) default 0;
-alter table coas add column master_template int(1) default 0;
-alter table jenis_tarifs add column master_template int(1) default 0;
-alter table faktur_belanjas add column bukti_transfer varchar(255);
-
-update asuransis set master_template = 1 where nama in ('Biaya Pribadi', 'BPJS');
-update coas set master_template = 1 where coa not like 'Piutang%';
-update jenis_tarifs set master_template = 1 where id not in ( 188, 189, 191, 194, 195, 197, 198, 199, 200, 201, 202, 203, 204, 205, 207, 208, 209, 210, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 230, 232, 234, 235, 237, 266, 267, 268, 269, 270, 271, 275, 276, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 337, 397, 399, 405);
-
-alter table aturan_minums drop column tenant_id;
-alter table diagnosas drop column tenant_id;
-alter table jenis_antrians drop column tenant_id;
-alter table signas drop column tenant_id;
-alter table berat_badans drop column tenant_id;
-alter table confirms drop column tenant_id;
-alter table pcare_submits drop column tenant_id;
-
-
-
-drop table cek_listriks;
-drop table discounts;
-drop table discount_asuransis;
-drop table lapor_pajaks;
-drop table sops;
-drop table tambah_kwhs;
-
-
-
-delete do from doses as do left join formulas as fo on fo.id = do.formula_id where fo.id is null;
-delete ko from komposisis as ko left join formulas as fo on fo.id = ko.formula_id where fo.id is null;
+CREATE TABLE physical_examinations (
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 asuransis
 coas
