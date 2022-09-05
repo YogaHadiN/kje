@@ -287,6 +287,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
         <a class="btn btn-danger btn-block" href="{{ url('antrianpolis') }}">Cancel</a>
     </div>
 </div>
+@include('ruangperiksas.cekfoto', ['antrianperiksa' => $antrian_poli])
 {!! Form::close() !!}
 @stop
 @section('footer') 
@@ -300,6 +301,10 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
     {!! HTML::script('js/alergi.js')!!} 
     <script>
     var base  = '{!! url('/') !!}';
+    $("#cekFoto").modal({ backdrop: "static", keyboard: false });
+    function fokusKeAnemnesa(){
+        $("#cekFoto").modal("hide");
+    }
     </script>
      <script src="{!! asset('js/panggil.js') !!}"></script>
 @stop

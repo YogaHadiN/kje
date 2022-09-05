@@ -17,21 +17,14 @@ class AntrianPeriksasControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
-    /**
-     * @test
-     */
-    /**
-     * 
-     */
     public function test_store(){
         Storage::fake('s3');
         // make a request with file
-
-
         $user     = User::factory()->create([
                 'role_id' => 6
             ]);
         auth()->login($user);
+        $antrian_poli = \App\Models\AntrianPoli::factory()->create();
 
         /* sebelum kesini ke acting as dulu */
         /* key mapping j */
@@ -39,36 +32,21 @@ class AntrianPeriksasControllerTest extends TestCase
         /* KE BENTUK */	
         /* $nama = $this->faker->text */
 
-        $namaPasien       = $this->faker->name;
-        $pasien_id        = \App\Models\Pasien::factory()->create()->id;
-        $tanggal          = $this->faker->date('d-m-Y');
-        $antrian_poli_id  = \App\Models\AntrianPoli::factory()->create()->id;
-        $antrian          = $this->faker->word;
-        $pengantar        = $this->faker->word;
-        $prolanis_dm      = $this->faker->word;
-        $prolanis_ht      = $this->faker->word;
-        $no_telp          = $this->faker->word;
-        $asuransi_id      = \App\Models\Asuransi::factory()->create()->id;
-        $jam              = $this->faker->date("H:i:s");
-        $bukan_peserta    = $this->faker->word;
-        $staf_id          = \App\Models\Staf::factory()->create()->id;
-        $poli_id          = \App\Models\Poli::factory()->create()->id;
-        $sistolik         = $this->faker->word;
-        $diastolik        = $this->faker->word;
-        $berat_badan      = $this->faker->word;
-        $suhu             = $this->faker->word;
-        $tinggi_badan     = $this->faker->word;
-        $kecelakaan_kerja = $this->faker->word;
-        $asisten_id       = \App\Models\Staf::factory()->create()->id;
-        $hamil            = $this->faker->word;
-        $G                = $this->faker->word;
-        $P                = $this->faker->word;
-        $A                = $this->faker->word;
-        $GPA              = $this->faker->word;
-        $hpht             = $this->faker->date('d-m-Y');
-        $umur_kehamilan   = $this->faker->word;
-        $perujuk_id       = \App\Models\Perujuk::factory()->create()->id;
-        $gds              = $this->faker->word;
+        $sex                         = rand(0,1);
+        $peserta_klinik              = rand(0,1);
+        $verifikasi_wajah            = "on";
+        $previous_complaint_resolved = rand(0,1);
+        $verifikasi_alergi_obat      = "on";
+        $sistolik                    = $this->faker->numerify('###');
+        $diastolik                   = $this->faker->numerify('##');
+        $berat_badan                 = $this->faker->numerify('##');
+        $suhu                        = $this->faker->numerify('##');
+        $tinggi_badan                = $this->faker->numerify('##');
+        $kecelakaan_kerja            = rand(0,1);
+        $hamil                       = rand(0,1);
+        $menyusui                    = rand(0,1);
+        $gds                         = $this->faker->numerify('##');
+        $asisten_id                  = \App\Models\Staf::factory()->create()->id;
 
         $this->withoutExceptionHandling();
 
@@ -77,40 +55,26 @@ class AntrianPeriksasControllerTest extends TestCase
         /* KE BENTUK */	
         /* "nama" => $nama, */
 
-        $inputAll = [
-            'namaPasien'       => $namaPasien,
-            'pasien_id'        => $pasien_id,
-            'tanggal'          => $tanggal,
-            'antrian_poli_id'  => $antrian_poli_id,
-            'antrian'          => $antrian,
-            'pengantar'        => $pengantar,
-            'prolanis_dm'      => $prolanis_dm,
-            'prolanis_ht'      => $prolanis_ht,
-            'no_telp'          => $no_telp,
-            'asuransi_id'      => $asuransi_id,
-            'jam'              => $jam,
-            'bukan_peserta'    => $bukan_peserta,
-            'staf_id'          => $staf_id,
-            'poli_id'          => $poli_id,
-            'sistolik'         => $sistolik,
-            'diastolik'        => $diastolik,
-            'berat_badan'      => $berat_badan,
-            'suhu'             => $suhu,
-            'tinggi_badan'     => $tinggi_badan,
-            'kecelakaan_kerja' => $kecelakaan_kerja,
-            'asisten_id'       => $asisten_id,
-            'hamil'            => $hamil,
-            'G'                => $G,
-            'P'                => $P,
-            'A'                => $A,
-            'GPA'              => $GPA,
-            'hpht'             => $hpht,
-            'umur_kehamilan'   => $umur_kehamilan,
-            'perujuk_id'       => $perujuk_id,
-            'gds'              => $gds,
-        ];
+        $inputAll =
+            compact(
+                "sex",
+                "peserta_klinik",
+                "verifikasi_wajah",
+                "previous_complaint_resolved",
+                "verifikasi_alergi_obat",
+                "sistolik",
+                "diastolik",
+                "berat_badan",
+                "suhu",
+                "tinggi_badan",
+                "kecelakaan_kerja",
+                "hamil",
+                "menyusui",
+                "gds",
+                "asisten_id",
+            );
 
-        $response = $this->post('antrianperiksas', $inputAll);
+        $response = $this->post('antrianperiksas/' . $antrian_poli->id, $inputAll);
 
         /* key mapping h */
         /* dari bentuk '"nama"  => $nama,' */	
@@ -118,22 +82,17 @@ class AntrianPeriksasControllerTest extends TestCase
         /* ->where("nama", $nama) */
 
         $antrianperiksas = AntrianPeriksa::query()
-                ->where("asuransi_id", $asuransi_id)
-                ->where("poli_id", $poli_id)
-                ->where("pasien_id", $pasien_id)
-                ->where("staf_id", $staf_id)
-                ->where("tanggal", Carbon::createFromFormat('d-m-Y', $tanggal)->format('Y-m-d'))
-                ->where("jam", $jam)
+                ->where("asuransi_id", $antrian_poli->asuransi_id)
+                ->where("poli_id", $antrian_poli->poli_id)
+                ->where("pasien_id", $antrian_poli->pasien_id)
+                ->where("staf_id", $antrian_poli->staf_id)
+                ->where("tanggal", $antrian_poli->tanggal)
+                ->where("jam", $antrian_poli->jam)
                 ->where("hamil", $hamil)
                 ->where("tinggi_badan", $tinggi_badan)
                 ->where("suhu", $suhu)
                 ->where("berat_badan", $berat_badan)
-                ->where("perujuk_id", $perujuk_id)
                 ->where("asisten_id", $asisten_id)
-                ->where("g", $G)
-                ->where("p", $P)
-                ->where("a", $A)
-                ->where("hpht", Carbon::createFromFormat('d-m-Y', $hpht)->format('Y-m-d'))
                 ->where("kecelakaan_kerja", $kecelakaan_kerja)
                 /* ->where("bukan_peserta", $bukan_peserta) */
                 ->where("sistolik", $sistolik)
@@ -173,9 +132,9 @@ class AntrianPeriksasControllerTest extends TestCase
         $user     = User::factory()->create([
             'role_id' => 6
         ]);
-        $antrian_poli_id = \App\Models\AntrianPoli::factory()->create()->id;
         auth()->login($user);
-        $response = $this->get('antrianperiksas/create/' . $antrian_poli_id );
+        $antrian_poli = \App\Models\AntrianPoli::factory()->create();
+        $response = $this->get('antrianperiksas/create/' . $antrian_poli->id );
         $response->assertStatus(200);
     }
 
