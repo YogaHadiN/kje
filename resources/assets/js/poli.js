@@ -1902,7 +1902,7 @@ function rowdel(control) {
 function sesuaikanInputResep(ID_MER) {
     if (
         $("#tipeResep").val() == "0" &&
-        $("#ddlNamaObat option:selected").text() == "Add Sirup"
+        $("#ddlNamaObat option:selected").text().includes("Add Sirup")
     ) {
         $("#txtjumlah").val("").fadeIn(500);
         optionSemua(ID_MER);
@@ -3116,16 +3116,19 @@ function selectChange(control) {
 }
 function updatePlafon(dibayar_bpjs) {
     if ($("#periksaex").length > 0) {
-        plafon_bpjs_ini = parseInt($('#plafon_dikembalikan_karena_ngedit').val()) + parseInt($("#plafon_obat_bpjs_by_staf").val());
+        plafon_bpjs_ini =
+            parseInt($("#plafon_dikembalikan_karena_ngedit").val()) +
+            parseInt($("#plafon_obat_bpjs_by_staf").val());
     }
     var sisa_plafon = parseInt(plafon_bpjs_ini) - parseInt(dibayar_bpjs);
-    $("#total_utilisasi_obat_bpjs").html( uang(dibayar_bpjs));
+    $("#total_utilisasi_obat_bpjs").html(uang(dibayar_bpjs));
     $("#plafon_obat_bpjs").html(
         uang(plafon_bpjs_ini) +
             " - " +
             uang(dibayar_bpjs) +
             " = <h1>" +
-            uang(sisa_plafon) + '</h1>'
-);
+            uang(sisa_plafon) +
+            "</h1>"
+    );
     $("#obat_dibayar_bpjs").val(sisa_plafon);
 }
