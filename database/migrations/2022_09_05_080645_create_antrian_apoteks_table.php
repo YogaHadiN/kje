@@ -21,7 +21,7 @@ class CreateAntrianApoteksTable extends Migration
             $table->tinyInteger('dipanggil')->nullable()->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->dateTime('updated_at')->nullable()->useCurrent();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['periksa_id'], 'periksa_id');
         });

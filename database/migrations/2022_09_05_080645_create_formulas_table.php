@@ -25,7 +25,7 @@ class CreateFormulasTable extends Migration
             $table->timestamp('created_at')->default('0000-00-00 00:00:00');
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->integer('boleh_dipuyer')->nullable();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
             $table->string('old_id')->index('old_id');
         });
     }

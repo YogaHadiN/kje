@@ -20,7 +20,7 @@ class CreateFailedJobsTable extends Migration
             $table->longText('payload');
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

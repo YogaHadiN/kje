@@ -24,7 +24,7 @@ class CreateBahanBangunansTable extends Migration
             $table->string('keterangan')->nullable();
             $table->integer('harga_satuan')->nullable();
             $table->integer('jumlah')->nullable();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

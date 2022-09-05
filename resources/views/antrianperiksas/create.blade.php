@@ -28,59 +28,66 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
             </button>
         @endif
         @include('fotoPasien', ['pasien' => $antrian_poli->pasien])
-            <div class="table-responsive">
-                <table class="table table-hover table-condensed table-bordered">
-                    <tbody>
-                        <tr>
-                            <td>Nama Dokter</td>
-                            <td>{{ $antrian_poli->staf->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td>Pembayaran</td>
-                            <td>{{ $antrian_poli->asuransi->nama }}</td>
-                        </tr>
-                        <tr>
-                            <td>Nama Poli</td>
-                            <td>{{ $antrian_poli->poli->poli }}</td>
-                        </tr>
-                        <tr>
-                            <td>Jenis Kelamin</td>
-                            <td>
-                                <div class="form-group @if($errors->has('sex')) has-error @endif">
-                                  {!! Form::label('sex', 'Jenis Kelamin', ['class' => 'control-label']) !!}
-                                  {!! Form::select('sex',[
-                                      0 => 'Perempuan',
-                                      1 => 'Laki-Laki',
-                                  ] , $antrian_poli->pasien->sex, [
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Nama Dokter</td>
+                        <td>{{ $antrian_poli->staf->nama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Pembayaran</td>
+                        <td>{{ $antrian_poli->asuransi->nama }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nama Poli</td>
+                        <td>{{ $antrian_poli->poli->poli }}</td>
+                    </tr>
+                    @if( $antrian_poli->asuransi->tipe_asuransi_id == 5 )
+                    <tr>
+                        <td>Prolanis HT</td>
+                        <td>{{ $antrian_poli->pasien->prolanis_ht ? "Ya" : "Tidak" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Prolanis DM</td>
+                        <td>{{ $antrian_poli->pasien->prolanis_dm ? "Ya" : "Tidak" }}</td>
+                    </tr>
+                    @endif
+                    <tr>
+                        <td>Jenis Kelamin</td>
+                        <td>
+                            <div class="form-group @if($errors->has('sex')) has-error @endif">
+                              {!! Form::select('sex',[
+                                  0 => 'Perempuan',
+                                  1 => 'Laki-Laki',
+                              ] , $antrian_poli->pasien->sex, [
+                                'class' => 'form-control',
+                                'placeholder' => '- Pilih -',
+                              ]) !!}
+                              @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Bukan Peserta KJE
+                        </td>
+                        <td>
+                            <div class="form-group @if($errors->has('peserta_klinik')) has-error @endif">
+                                {!! Form::select('peserta_klinik', [
+                                    0 => 'Tidak',
+                                    1 => 'Ya',
+                                ] , $antrian_poli->bukan_peserta, [
                                     'class' => 'form-control',
-                                    'placeholder' => '- Pilih -',
+                                    'placeholder' => '- Pilih -'
                                   ]) !!}
-                                  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Bukan Peserta KJE
-                            </td>
-                            <td>
-                                <div class="form-group @if($errors->has('peserta_klinik')) has-error @endif">
-                                    {!! Form::select('peserta_klinik', [
-                                        0 => 'Tidak',
-                                        1 => 'Ya',
-                                    ] , $antrian_poli->bukan_peserta, [
-                                        'class' => 'form-control',
-                                        'placeholder' => '- Pilih -'
-                                      ]) !!}
-                                  @if($errors->has('peserta_klinik'))<code>{{ $errors->first('peserta_klinik') }}</code>@endif
-                                </div>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
+                              @if($errors->has('peserta_klinik'))<code>{{ $errors->first('peserta_klinik') }}</code>@endif
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
         <div class="table-responsive">
@@ -242,14 +249,27 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <div class="form-group @if($errors->has('asisten_id')) has-error @endif">
-                              {!! Form::label('asisten_id', 'Nama Asisten', ['class' => 'control-label']) !!}
-                              {!! Form::select('asisten_id', $staf_list , null, [
-                                'class'            => 'form-control selectpick',
-                                'data-live-search' => 'true',
-                                'placeholder'      => '- Pilih Asisten -'
-                              ]) !!}
-                              @if($errors->has('asisten_id'))<code>{{ $errors->first('asisten_id') }}</code>@endif
+                            <div class="row">
+                                @if( $cekGDSDiNurseStation )
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group @if($errors->has('gds')) has-error @endif">
+                                          {!! Form::label('gds', 'Gula Darah', ['class' => 'control-label']) !!}
+                                          {!! Form::text('gds' , null, ['class' => 'form-control']) !!}
+                                          @if($errors->has('gds'))<code>{{ $errors->first('gds') }}</code>@endif
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                                    <div class="form-group @if($errors->has('asisten_id')) has-error @endif">
+                                      {!! Form::label('asisten_id', 'Nama Asisten', ['class' => 'control-label']) !!}
+                                      {!! Form::select('asisten_id', $staf_list , null, [
+                                        'class'            => 'form-control selectpick',
+                                        'data-live-search' => 'true',
+                                        'placeholder'      => '- Pilih Asisten -'
+                                      ]) !!}
+                                      @if($errors->has('asisten_id'))<code>{{ $errors->first('asisten_id') }}</code>@endif
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>

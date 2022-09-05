@@ -22,7 +22,7 @@ class CreateHomeVisitsTable extends Migration
             $table->string('image')->nullable();
             $table->timestamp('created_at')->useCurrentOnUpdate()->useCurrent();
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['pasien_id'], 'pasien_id');
         });

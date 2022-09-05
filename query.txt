@@ -1,7 +1,4 @@
-CREATE TABLE physical_examinations (
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+
 
 asuransis
 coas
@@ -9,46 +6,46 @@ jenis_tarifs
 
 
 
-aturan_minums
-berat_badans
-bukus
-cara_persalinans
-confirms
-diagnosas
-generiks
-golongan_peralatans
-haris
-icd10s
-jenis_antrians
-jenis_pajaks
-jenis_pengeluarans
-jenis_pesertas
-jenis_rumah_sakits
-kelas_obats
-kelompok_coas
-kepala_terhadap_paps
-metode_bayars
-migrations
-pcare_submits
-penolong_persalinans
-polis
-presentasis
-refleks_patelas
-registrasi_pembayarans
-role_pengirimans
-roles
-rumah_sakits
-satisfaction_index
-sediaans
-signas
-status_hartas
-status_imunisasi_tts
-suppliers
-tidakdirujuks
-tipe_asuransis
-tipe_juals
-tipe_laporan_admedikas
-tipe_laporan_kasirs
-tipe_tindakans
-tujuan_rujuks
-verifikasi_prolanis
+alter table aturan_minums drop column tenant_id;
+alter table berat_badans drop column tenant_id;
+alter table bukus drop column tenant_id;
+alter table cara_persalinans drop column tenant_id;
+alter table confirms drop column tenant_id;
+alter table diagnosas drop column tenant_id;
+alter table generiks drop column tenant_id;
+alter table golongan_peralatans drop column tenant_id;
+alter table haris drop column tenant_id;
+alter table icd10s drop column tenant_id;
+alter table jenis_antrians drop column tenant_id;
+alter table jenis_pajaks drop column tenant_id;
+alter table jenis_pengeluarans drop column tenant_id;
+alter table jenis_pesertas drop column tenant_id;
+alter table jenis_rumah_sakits drop column tenant_id;
+alter table kelas_obats drop column tenant_id;
+alter table kelompok_coas drop column tenant_id;
+alter table kepala_terhadap_paps drop column tenant_id;
+alter table metode_bayars drop column tenant_id;
+alter table migrations drop column tenant_id;
+alter table pcare_submits drop column tenant_id;
+alter table penolong_persalinans drop column tenant_id;
+alter table polis drop column tenant_id;
+alter table presentasis drop column tenant_id;
+alter table refleks_patelas drop column tenant_id;
+alter table registrasi_pembayarans drop column tenant_id;
+alter table role_pengirimans drop column tenant_id;
+alter table roles drop column tenant_id;
+alter table rumah_sakits drop column tenant_id;
+alter table satisfaction_index drop column tenant_id;
+alter table sediaans drop column tenant_id;
+alter table signas drop column tenant_id;
+alter table status_hartas drop column tenant_id;
+alter table status_imunisasi_tts drop column tenant_id;
+alter table suppliers drop column tenant_id;
+alter table tidakdirujuks drop column tenant_id;
+alter table tipe_asuransis drop column tenant_id;
+alter table tipe_juals drop column tenant_id;
+alter table tipe_laporan_admedikas drop column tenant_id;
+alter table tipe_laporan_kasirs drop column tenant_id;
+alter table tipe_tindakans drop column tenant_id;
+alter table tujuan_rujuks drop column tenant_id;
+alter table verifikasi_prolanis drop column tenant_id;

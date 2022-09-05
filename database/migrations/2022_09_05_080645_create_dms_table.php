@@ -21,7 +21,7 @@ class CreateDmsTable extends Migration
             $table->string('jenis_kelamin');
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->timestamp('created_at')->useCurrent();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

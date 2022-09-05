@@ -28,7 +28,7 @@ class CreateAsuransisTable extends Migration
             $table->integer('pelunasan_tunai')->nullable()->default(0);
             $table->integer('new_id')->nullable();
             $table->string('old_id')->nullable();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
             $table->integer('master_template')->nullable()->default(0);
 
             $table->index(['coa_id'], 'coa_id');

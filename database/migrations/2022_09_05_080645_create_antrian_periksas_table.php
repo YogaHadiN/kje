@@ -45,7 +45,7 @@ class CreateAntrianPeriksasTable extends Migration
             $table->string('gds', 225)->nullable();
             $table->bigInteger('periksa_id')->nullable()->index('periksa_id_2');
             $table->tinyInteger('dipanggil')->nullable()->default(0);
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['staf_id'], 'staf_id_2');
             $table->index(['poli_id'], 'poli_id_2');

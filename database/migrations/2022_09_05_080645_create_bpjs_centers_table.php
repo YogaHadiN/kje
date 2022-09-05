@@ -20,7 +20,7 @@ class CreateBpjsCentersTable extends Migration
             $table->bigInteger('rumah_sakit_id')->nullable()->index('rumah_sakit_id');
             $table->timestamp('created_at')->default('0000-00-00 00:00:00');
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

@@ -23,7 +23,7 @@ class CreateDosesTable extends Migration
             $table->integer('jumlah_puyer_add')->nullable();
             $table->timestamp('created_at')->default('0000-00-00 00:00:00');
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['formula_id'], 'formula_id');
         });

@@ -27,7 +27,7 @@ class CreateCheckoutKasirsTable extends Migration
             $table->text('detil_pengeluarans')->nullable();
             $table->text('detil_modals')->nullable();
             $table->text('detil_pengeluaran_tangan')->nullable();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

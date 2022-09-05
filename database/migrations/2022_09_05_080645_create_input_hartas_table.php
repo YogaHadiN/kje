@@ -33,7 +33,7 @@ class CreateInputHartasTable extends Migration
             $table->timestamp('created_at')->default('0000-00-00 00:00:00');
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->integer('tax_amnesty')->default(0);
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['coa_id'], 'coa_id');
             $table->index(['staf_id'], 'staf_id');

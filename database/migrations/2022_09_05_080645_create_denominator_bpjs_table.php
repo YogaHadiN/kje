@@ -21,7 +21,7 @@ class CreateDenominatorBpjsTable extends Migration
             $table->integer('denominator_ht');
             $table->timestamp('created_at')->useCurrent();
             $table->dateTime('updated_at')->nullable()->useCurrent();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

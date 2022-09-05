@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGammuTable extends Migration
+class DropColumnTenantIdFromGeneriksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateGammuTable extends Migration
      */
     public function up()
     {
-        Schema::create('gammu', function (Blueprint $table) {
-            $table->integer('Version')->default(0)->primary();
-            $table->bigInteger('tenant_id')->index();
+        Schema::table('generiks', function (Blueprint $table) {
+            $table->dropColumn('tenant_id');
         });
     }
 
@@ -26,6 +25,8 @@ class CreateGammuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gammu');
+        Schema::table('generiks', function (Blueprint $table) {
+            $table->bigInteger('tenant_id')->index();
+        });
     }
 }

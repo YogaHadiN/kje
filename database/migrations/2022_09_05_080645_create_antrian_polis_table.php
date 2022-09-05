@@ -27,7 +27,7 @@ class CreateAntrianPolisTable extends Migration
             $table->integer('self_register')->nullable();
             $table->integer('bukan_peserta')->nullable()->default(0);
             $table->tinyInteger('submitted')->default(0);
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['staf_id'], 'staf_id_2');
             $table->index(['pasien_id'], 'pasien_id_2');

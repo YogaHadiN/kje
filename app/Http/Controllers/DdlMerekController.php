@@ -10,7 +10,6 @@ use App\Models\Yoga;
 use App\Models\Dose;
 use App\Models\BeratBadan;
 use DB;
-use Log;
 
 class DdlMerekController extends Controller
 {

@@ -19,7 +19,7 @@ class CreateAlergiesTable extends Migration
             $table->bigInteger('generik_id')->nullable()->index('generik_id');
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
             $table->timestamp('created_at')->useCurrentOnUpdate()->useCurrent();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['pasien_id'], 'pasien_id');
         });

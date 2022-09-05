@@ -21,7 +21,7 @@ class CreateDeletedPeriksasTable extends Migration
             $table->bigInteger('kabur_id')->nullable()->index('kabur_id');
             $table->timestamp('created_at')->default('0000-00-00 00:00:00');
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['staf_id'], 'staf_id_2');
             $table->index(['periksa_id'], 'periksa_id_2');

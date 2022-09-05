@@ -20,7 +20,7 @@ class CreateInvoicesTable extends Migration
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->bigInteger('pembayaran_asuransi_id')->nullable()->index('pembayaran_asuransi_id');
             $table->string('received_verification')->nullable();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
             $table->string('kode_invoice')->index('kode_invoice');
         });
     }

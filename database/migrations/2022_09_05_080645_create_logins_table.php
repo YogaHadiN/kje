@@ -16,7 +16,7 @@ class CreateLoginsTable extends Migration
         Schema::create('logins', function (Blueprint $table) {
             $table->bigInteger('id', true);
             $table->bigInteger('user_id')->nullable();
-            $table->bigInteger('tenant_id')->nullable();
+            $table->bigInteger('tenant_id')->index('tenant_id');
             $table->timestamp('created_at')->useCurrent();
             $table->dateTime('updated_at')->nullable()->useCurrent();
 

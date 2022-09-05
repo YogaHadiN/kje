@@ -27,7 +27,7 @@ class CreateAntriansTable extends Migration
             $table->string('no_telp')->nullable();
             $table->string('nama')->nullable();
             $table->date('tanggal_lahir')->nullable();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
             $table->string('kode_unik', 5);
             $table->integer('registrasi_pembayaran_id')->nullable();
             $table->string('nomor_bpjs')->nullable();

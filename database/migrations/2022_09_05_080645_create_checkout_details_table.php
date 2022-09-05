@@ -21,7 +21,7 @@ class CreateCheckoutDetailsTable extends Migration
             $table->timestamp('updated_at')->default('0000-00-00 00:00:00');
             $table->integer('nilai')->nullable();
             $table->bigInteger('coa_id')->nullable()->index('coa_id_2');
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['coa_id'], 'coa_id');
         });

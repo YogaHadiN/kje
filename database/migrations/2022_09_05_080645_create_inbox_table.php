@@ -26,7 +26,7 @@ class CreateInboxTable extends Migration
             $table->increments('ID');
             $table->text('RecipientID');
             $table->enum('Processed', ['false', 'true'])->default('false');
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

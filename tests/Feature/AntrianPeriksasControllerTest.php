@@ -166,6 +166,19 @@ class AntrianPeriksasControllerTest extends TestCase
         $this->assertDeleted($antrianperiksa);
     }
 
+        /**
+         * @group failing
+         */
+    public function test_create(){
+        $user     = User::factory()->create([
+            'role_id' => 6
+        ]);
+        $antrian_poli_id = \App\Models\AntrianPoli::factory()->create()->id;
+        auth()->login($user);
+        $response = $this->get('antrianperiksas/create/' . $antrian_poli_id );
+        $response->assertStatus(200);
+    }
+
     /**
      * 
      */

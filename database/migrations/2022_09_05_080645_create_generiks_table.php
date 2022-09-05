@@ -28,7 +28,6 @@ class CreateGeneriksTable extends Migration
             $table->string('lingual')->nullable();
             $table->string('transdermal')->nullable();
             $table->string('nasal')->nullable();
-            $table->bigInteger('tenant_id')->index('tenant_id');
         });
     }
 

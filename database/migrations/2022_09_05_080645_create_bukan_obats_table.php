@@ -21,7 +21,7 @@ class CreateBukanObatsTable extends Migration
             $table->integer('jenis_pengeluaran_id');
             $table->integer('harga_beli');
             $table->bigInteger('coa_id')->nullable()->index('coa_id');
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
         });
     }
 

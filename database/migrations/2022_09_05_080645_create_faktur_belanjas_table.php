@@ -26,7 +26,7 @@ class CreateFakturBelanjasTable extends Migration
             $table->string('faktur_image')->nullable();
             $table->bigInteger('petugas_id')->nullable()->index('petugas_id');
             $table->integer('diskon')->default(0);
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
             $table->string('bukti_transfer')->nullable();
         });
     }

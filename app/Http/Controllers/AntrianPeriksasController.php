@@ -6,9 +6,12 @@ use Input;
 
 use Illuminate\Http\Request;
 use Log;
+use DB;
 use Bitly;
 use App\Models\Asuransi;
+use App\Rules\cekGDSDiNurseStationRequired;
 use App\Models\Generik;
+use Rule;
 use App\Models\Staf;
 use App\Models\Poli;
 use App\Models\Promo;
@@ -98,7 +101,6 @@ class AntrianPeriksasController extends Controller
     }
 	public function index()
 	{
-        dd( 'o' );
 		$asu = array('0' => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
 
 		$jenis_peserta = array(
@@ -130,25 +132,32 @@ class AntrianPeriksasController extends Controller
 	 * @return Response
 	 */
 	public function store(Request $request, $id) {
+        $antrianpoli = AntrianPoli::with('pasien', 'asuransi')->where( 'id',  $id )->where('submitted', '0')->first();
 		$rules = [
-			'asisten_id'                  => 'required',
-			'kecelakaan_kerja'            => 'required',
-			'hamil'                       => 'required',
-			'menyusui'                    => 'required',
-			'peserta_klinik'              => 'required',
-			'verifikasi_wajah'            => 'required',
-			'sex'                         => 'required',
-			'verifikasi_alergi_obat'      => 'required',
+			'asisten_id'             => 'required',
+			'gds'                    => Rule::requiredIf( $this->cekGDSDiNurseStation($antrianpoli) ),
+            'sistolik'               => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
+            'diastolik'               => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
+			'kecelakaan_kerja'       => 'required',
+			'hamil'                  => 'required',
+			'menyusui'               => 'required',
+			'peserta_klinik'         => 'required',
+			'verifikasi_wajah'       => 'required',
+			'sex'                    => 'required',
+			'verifikasi_alergi_obat' => 'required',
 		];
 
-		$validator = \Validator::make(Input::all(), $rules);
+        $validator = \Validator::make(Input::all(), $rules, [
+            'gds.required' => 'Gula Darah Harus Diisi Karena pasien ini prolanis DM',
+            'sistolik.required' => 'Sistolik Harus Diisi Karena pasien ini prolanis HT',
+            'diastolik.required' => 'Diastolik Harus Diisi Karena pasien ini prolanis HT',
+        ]);
 
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-        $antrianpoli = AntrianPoli::where( 'id',  $id )->where('submitted', '0')->first();
 		if ($antrianpoli == null) {
 			$pesan = Yoga::gagalFlash('Pasien sudah hilang dari antrian poli, mungkin sudah dimasukkan sebelumnya');
 			return redirect()->back()->withPesan($pesan);
@@ -334,6 +343,9 @@ class AntrianPeriksasController extends Controller
         $asuransi_list = Asuransi::pluck('nama', 'id');
         $staf_list = Staf::pluck('nama', 'id');
         $poli_list = Poli::pluck('poli', 'id');
+
+        $cekGDSDiNurseStation = $this->cekGDSDiNurseStation($antrian_poli);
+
         $kecelakaan_kerja_list = [
             0 => 'Bukan Kecelakaan Kerja',
             1 => 'Kecelakaan Kerja',
@@ -341,6 +353,7 @@ class AntrianPeriksasController extends Controller
         $generik_list = Generik::pluck('generik', 'id');
         return view('antrianperiksas.create', compact(
             'antrian_poli',
+            'cekGDSDiNurseStation',
             'asuransi_list',
             'generik_list',
             'staf_list',
@@ -348,4 +361,39 @@ class AntrianPeriksasController extends Controller
             'poli_list',
         ));
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function cekGDSDiNurseStation($antrian_poli) {
+        if (
+            $antrian_poli->asuransi->tipe_asuransi_id != 5 || 
+            $antrian_poli->pasien->prolanis_dm < 1
+        ) {
+            return false;
+        }
+        $bulanIni = date('Y-m');
+        $query  = "SELECT * ";
+        $query .= "FROM transaksi_periksas as trx ";
+        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trx.jenis_tarif_id ";
+        $query .= "JOIN periksas as prx on prx.id = trx.periksa_id ";
+        $query .= "WHERE prx.pasien_id = {$antrian_poli->pasien_id} ";
+        $query .= "AND prx.tanggal like '{$bulanIni}%' " ;
+        $query .= "AND jtf.jenis_tarif = 'Gula Darah';" ;
+        $data = DB::select($query);
+
+        if (
+            $antrian_poli->pasien->prolanis_dm && 
+            $antrian_poli->asuransi->tipe_asuransi_id == 5 &&
+            count($data) < 1 
+        ){
+            return true;
+        }
+    }
+
+    public function harusCekTekananDarah($antrian_poli) {
+        return $antrian_poli->pasien->prolanis_ht > 0 && $antrian_poli->asuransi->tipe_asuransi_id == 5;
+    }
+    
 }

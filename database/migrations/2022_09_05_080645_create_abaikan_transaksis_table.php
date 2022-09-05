@@ -18,7 +18,7 @@ class CreateAbaikanTransaksisTable extends Migration
             $table->bigInteger('rekening_id')->nullable()->index('rekening_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
-            $table->bigInteger('tenant_id')->index('tenant_id');
+            $table->bigInteger('tenant_id')->index();
 
             $table->index(['rekening_id'], 'transaksi_id');
         });
