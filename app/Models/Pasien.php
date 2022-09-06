@@ -268,4 +268,7 @@ class Pasien extends Model{
     public function getPeriksaTerakhirAttribute(){
         return Periksa::where('pasien_id', $this->id)->orderBy('id', 'desc')->first();
     }
+    public function keluarga(){
+        return $this->belongsTo('App\Models\Keluarga');
+    }
 }

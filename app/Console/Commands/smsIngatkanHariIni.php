@@ -45,10 +45,10 @@ class smsIngatkanHariIni extends Command
 		Log::info('smsIngatkanHariIni');
 		Log::info('Saat ini ' . date('Y-m-d H:i:s'));
 		Log::info('Seharusnya muncul tiap hari jam 12:30');
-		$antrianpolis = AntrianPoli::where('poli', 'gigi')
+		$antrianpolis = AntrianPoli::where('poli_id', 4)
 					->where('tanggal', date('Y-m-d'))
 					->get();
-		$antrianperiksas = AntrianPeriksa::where('poli', 'gigi')
+		$antrianperiksas = AntrianPeriksa::where('poli_id',4)
 					->where('tanggal', date('Y-m-d'))
 					->get();
 		$pasiens = [];

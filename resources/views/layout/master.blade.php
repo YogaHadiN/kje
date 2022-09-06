@@ -391,6 +391,9 @@
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 @if (Session::has('pesan'))
                                     {!! Session::get('pesan')!!}
+                                    @php
+                                        session()->forget('pesan');
+                                    @endphp
                                 @endif
                             </div>
                         </div>

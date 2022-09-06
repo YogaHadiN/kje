@@ -33,6 +33,7 @@
 					]) !!}
 				</div>
 			  </div>
+              <br>
             <table class="table table-bordered table-hover" id="tablePasien">
                   <thead>
                     <tr>

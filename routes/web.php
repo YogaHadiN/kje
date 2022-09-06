@@ -197,6 +197,10 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('antrianperiksas/create/{id}', [\App\Http\Controllers\AntrianPeriksasController::class, 'create']);
 	Route::post('antrianperiksas/{id}', [\App\Http\Controllers\AntrianPeriksasController::class, 'store']);
+	Route::post('antrianperiksas/delete/antrian_poli/{id}', [\App\Http\Controllers\AntrianPeriksasController::class, 'salahIdentifikasiPasien']);
+	Route::post('antrianperiksas/update/foto_pasien', [\App\Http\Controllers\AntrianPeriksasController::class, 'updateFotoPasien']);
+
+
 	Route::resource('antrianperiksas', \App\Http\Controllers\AntrianPeriksasController::class);
 	Route::post('antriankasirs/kembali/{id}', [\App\Http\Controllers\AntrianKasirsController::class, 'kembali']);
 	Route::resource('antriankasirs', \App\Http\Controllers\AntrianKasirsController::class);
@@ -813,4 +817,5 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/pasiens/ajax/kunjungan_sakit_bpjs', [\App\Http\Controllers\KunjunganSakitController::class, 'searchAjax']);
 	Route::get('/pasiens/ajax/kunjungan_sehat_bpjs', [\App\Http\Controllers\KunjunganSehatController::class, 'searchAjax']);
 	Route::get('/pasiens/ajax/angka_kontak_bpjs_bulan_ini', [\App\Http\Controllers\AngkaKontakBpjsBulanIniController::class, 'searchAjax']);
+
 });
