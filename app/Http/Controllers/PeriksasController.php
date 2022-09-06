@@ -941,12 +941,12 @@ p */
                 foreach ($terapis as $terapi) {
                     if ($asuransi->tipe_asuransi_id == 5) { //pembayaran BPJS
                         if ($terapi['fornas'] == '0') { // jika obat tidak tergolong fornas
-                            $biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'];
+                            $biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * (int) $terapi['jumlah'];
                         } else {
                             $biaya += 0;
                         }
                     } else {
-                        $biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * $terapi['jumlah'] * $asuransi->kali_obat;
+                        $biaya += $merek->find($terapi['merek_id'])->rak->harga_jual * (int) $terapi['jumlah'] * (int) $asuransi->kali_obat;
                     }
                 }
                 if ($asuransi->tipe_asuransi_id == 4) { //tipe asuransi pembayaran flat
