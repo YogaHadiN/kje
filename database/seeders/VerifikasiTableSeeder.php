@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use DB;
 use App\Models\HubunganKeluarga;
 use App\Models\VerifikasiWajah;
 
@@ -18,44 +19,44 @@ class VerifikasiTableSeeder extends Seeder
         $timestamp = date('Y-m-d H:i:s');
         VerifikasiWajah::insert([
             [
-                'verifikasi' => 'Foto pasien di aplikasi sama dengan wajah pasien'
+                'verifikasi' => 'Foto pasien di aplikasi sama dengan wajah pasien',
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
-                'verifikasi' => 'Foto pasien tidak jelas'
+                'verifikasi' => 'Foto pasien tidak cukup jelas untuk identifikasi',
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
-                'verifikasi' => 'Foto pasien tidak sama dengan wajah pasien'
+                'verifikasi' => 'Foto pasien tidak sama dengan wajah pasien',
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
         ]);
         HubunganKeluarga::insert([
             [
-                'hubungan_keluarga' => 'Ayah'
+                'hubungan_keluarga' => 'Ayah',
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
-                'hubungan_keluarga' => 'Ibu'
+                'hubungan_keluarga' => 'Ibu',
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
-                'hubungan_keluarga' => 'Anak'
+                'hubungan_keluarga' => 'Anak',
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
             [
-                'hubungan_keluarga' => 'Lainnya'
+                'hubungan_keluarga' => 'Lainnya',
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
         ]);
-        DB::statement("Update pasiens set kepala_keluarga_id = id;")
-        DB::statement("Update pasiens set hubungan_keluarga_id = 4;")
+        DB::statement("Update pasiens set kepala_keluarga_id = id;");
+        DB::statement("Update pasiens set hubungan_keluarga_id = 4;");
     }
 }

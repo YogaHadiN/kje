@@ -410,9 +410,10 @@ class AntrianPolisController extends Controller
 	public function arahkanAP($ap){
 		$pasien = Pasien::find($this->input_pasien_id);
 		$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
-		if ($ap->asuransi->tipe_asuransi_id == 5) {
-			return redirect('antrianpolis/pengantar/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat'));
-		}
+        // comment dulu inputan pengantar pasien
+		/* if ($ap->asuransi->tipe_asuransi_id == 5) { */
+		/* 	return redirect('antrianpolis/pengantar/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat')); */
+		/* } */
 
 		if ( $ap->poli->poli == 'Poli USG Kebidanan' ) {
 			return redirect('antrianpolis')
