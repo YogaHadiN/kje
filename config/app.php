@@ -226,6 +226,7 @@ return [
         'Queue'        => Illuminate\Support\Facades\Queue::class,
         'RateLimiter'  => Illuminate\Support\Facades\RateLimiter::class,
         'Redirect'     => Illuminate\Support\Facades\Redirect::class,
+        'Rule'     => Illuminate\Validation\Rule::class,
         // 'Redis' => Illuminate\Support\Facades\Redis::class,
         'Form'         => Collective\Html\FormFacade::class,
         'HTML'         => Collective\Html\HtmlFacade::class,

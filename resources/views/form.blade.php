@@ -1,47 +1,6 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-		<div class="panel panel-danger">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<div class="panelLeft">
-						Daftar Alergi
-					</div>	
-					<div class="panelRight">
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Alergi Obat
-						</button>
-					</div>
-				</h3>
-			</div>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table table-hover table-condensed table-bordered">
-						<thead>
-							<tr>
-								<th>Alergi</th>
-								<th class="fit">Action</th>
-							</tr>
-						</thead>
-						<tbody id="alergy_body_table">
-							@if($pasien->alergies->count() > 0)
-								@foreach($pasien->alergies as $alergi)
-									<tr>
-										<td class="nama_obat">{{ $alergi->generik->generik }}</td>
-										<td nowrap class="fit">
-											<button class="btn btn-danger btn-sm" onclick="deleteAlergi('{{ $alergi->id }}', this);return false;" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
-										</td>
-									</tr>
-								@endforeach
-							@else
-								<tr>
-									<td colspan="2" class="text-center">Tidak ada data ditemukan</td>
-								</tr>
-							@endif
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		@include('alergi')
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="alert alert-success">
@@ -653,51 +612,7 @@
     </div>
 </div>
 @if($antrianperiksa->asuransi->tipe_asuransi_id == '5')
-	<div class="modal" id="cekFoto">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="text-center">{!! $antrianperiksa->pasien->nama!!}, {!! App\Models\Classes\Yoga::datediff($antrianperiksa->pasien->tanggal_lahir->format('Y-m-d'), date('Y-m-d'))!!}</h4>
-				</div>
-				<div class="modal-body text-center">
-					<img src="{{ \Storage::disk('s3')->url($antrianperiksa->pasien->image) }}" alt="" width="500px" height="375px">
-					<h4 class="text-center">Jika foto pasien tidak cocok, minta pasien untuk mendaftar lagi sebagai pasien umum</h4>
-				</div>
-				<div class="modal-footer">
-					<div class="row">
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<button type="button" class="btn btn-lg btn-success btn-block" onclick="fokusKeAnemnesa(); return false;">Benar</button>
-						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<a href="{!! url('ruangperiksa/' . $antrianperiksa->poli_id) !!}" class="btn btn-lg btn-danger btn-block">Tidak Benar</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	@include('ruangperiksas.cekfoto')
 @endif
 <div></div>
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-		  <div class="form-group @if($errors->has('gener')) has-error @endif">
-		    {!! Form::label('generik_id', 'Nama Generik', ['class' => 'control-label']) !!}
-			{!! Form::select('generik_id' , $generik_list, null, [ 'data-live-search' => 'true', 'class' => 'form-control selectpick', 'onchange' => 'generik_list_change();return false;', 'id' => 'generik_list_alergi']) !!}
-		    @if($errors->has('generik_id'))<code>{{ $errors->first('generik_id') }}</code>@endif
-		  </div>
-		  {{-- {!! Form::text('id_poli', $antrianperiksa->id, ['class' => 'form-control hide', 'id' => ]) !!} --}}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
-        <button type="button" class="btn submit_button btn-primary disabled" onclick="submitAlergi(this);return false;">Simpan Alergi Obat</button>
-      </div>
-    </div>
-  </div>
-</div>

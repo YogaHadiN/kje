@@ -24,7 +24,7 @@ class AntrianPoliFactory extends Factory
         return [
             'pasien_id'        => \App\Models\Pasien::factory(),
             'asuransi_id'      => \App\Models\Asuransi::factory(),
-            'poli_id'          => $this->faker->randomNumber(),
+            'poli_id'          => \App\Models\Poli::factory(),
             'staf_id'          => \App\Models\Staf::factory(),
             'tanggal'          => $this->faker->dateTime(),
             'jam'              => $this->faker->time(),

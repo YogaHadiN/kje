@@ -1,54 +1,203 @@
-CREATE TABLE physical_examinations (
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE verifikasi_wajahs (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    verifikasi varchar(255) not null,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-asuransis
-coas
-jenis_tarifs
 
+CREATE TABLE hubungan_keluargas (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    hubungan_keluarga varchar(255) not null,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
+insert into verifikasi_wajahs (verifikasi) values ('Foto pasien di aplikasi sama dengan wajah pasien');
+insert into verifikasi_wajahs (verifikasi) values ('Foto pasien tidak jelas');
+insert into verifikasi_wajahs (verifikasi) values ('Foto pasien tidak sama dengan wajah pasien');
+insert into hubungan_keluargas (hubungan_keluarga) values ('Ayah');
+insert into hubungan_keluargas (hubungan_keluarga) values ('Ibu');
+insert into hubungan_keluargas (hubungan_keluarga) values ('Anak');
+insert into hubungan_keluargas (hubungan_keluarga) values ('Lainnya');
 
-aturan_minums
-berat_badans
-bukus
-cara_persalinans
-confirms
-diagnosas
-generiks
-golongan_peralatans
-haris
-icd10s
-jenis_antrians
-jenis_pajaks
-jenis_pengeluarans
-jenis_pesertas
-jenis_rumah_sakits
-kelas_obats
-kelompok_coas
-kepala_terhadap_paps
-metode_bayars
-migrations
-pcare_submits
-penolong_persalinans
-polis
-presentasis
-refleks_patelas
-registrasi_pembayarans
-role_pengirimans
-roles
-rumah_sakits
-satisfaction_index
-sediaans
-signas
-status_hartas
-status_imunisasi_tts
-suppliers
-tidakdirujuks
-tipe_asuransis
-tipe_juals
-tipe_laporan_admedikas
-tipe_laporan_kasirs
-tipe_tindakans
-tujuan_rujuks
-verifikasi_prolanis
+CREATE TABLE keluargas (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_abaikan_transaksis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_acs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_akun_banks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_alergies_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_antrian_apoteks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_antrian_kasirs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_antrian_periksas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_antrian_polis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_antrians_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_approves_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_asuransis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_aturan_minums_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bagi_gigis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bahan_bangunans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bahan_habis_pakais_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bayar_bonus_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bayar_gajis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bayar_hutang_hartas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_belanja_peralatans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_belanjas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_berat_badans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_berkas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bpjs_centers_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bukan_obats_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bukan_pesertas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_bukus_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_cara_persalinans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_cek_obats_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_cek_pulsas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_checkout_details_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_checkout_kasirs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_coas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_complains_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_configs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_confirms_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_data_duplikats_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_deleted_periksas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_denominator_bpjs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_diagnosas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_dispensings_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_dms_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_doses_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_emails_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_failed_jobs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_faktur_belanjas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_fasilitas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_formulas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_gambar_periksas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_gammu_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_generiks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_go_pays_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_golongan_peralatans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_haris_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_home_visits_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_hts_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_icd10s_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_inbox_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_input_hartas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_invoices_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jenis_antrians_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jenis_pajaks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jenis_pengeluarans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jenis_pesertas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jenis_rumah_sakits_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jenis_tarifs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jobs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_jurnal_umums_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_kaburs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_keberatans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_kelas_obats_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_kelompok_coas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_kepala_terhadap_paps_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_keterangan_penyusutans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_kirim_berkas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_klaim_gdp_bpjs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_komposisis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_kontrols_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_kunjungan_sakits_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_listriks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_logins_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_manuals_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_mereks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_metode_bayars_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_modals_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_monitors_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_no_sales_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_nota_belis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_nota_juals_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_outbox_multipart_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_outbox_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pasien_prolanis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pasien_rujuk_baliks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pasiens_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pcare_submits_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pembayaran_asuransis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pembayaran_bpjs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pembelians_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pendapatans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pengantar_pasiens_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pengeluarans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_penjualan_asets_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_penjualans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_penolong_persalinans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_penyusutans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_perbaikanreseps_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_perbaikantrxs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_periksas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_periodes_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_perujuks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pesan_keluars_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pesan_masuks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_peserta_bpjs_perbulans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_petugas_kirims_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_phones_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pics_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_piutang_dibayars_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_points_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_poli_antrians_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_polis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_pph21s_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_presentasis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_prolanis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_promos_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_raks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_rayons_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_receipts_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_refleks_patelas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_register_ancs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_register_hamils_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_register_kbs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_registrasi_pembayarans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_rekenings_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_ringkasan_penyusutans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_riwayat_kehamilan_sebelumnyas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_role_pengirimans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_roles_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_rujukans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_rumah_sakits_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_saldos_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_satisfaction_index_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_sediaans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_sentitems_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_service_acs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_setor_tunais_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_signas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_sms_bpjs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_sms_gagals_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_sms_jangans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_sms_kirims_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_sms_kontaks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_stafs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_status_hartas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_status_imunisasi_tts_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_stok_opnames_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_suppliers_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_surat_sakits_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_surats_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tarifs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_telpons_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tenants_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_terapis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tidakdirujuks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tipe_asuransis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tipe_juals_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tipe_laporan_admedikas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tipe_laporan_kasirs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tipe_tindakans_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_transaksi_periksas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_tujuan_rujuks_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_update_rppt_pesertas_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_users_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_usgs_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_verifikasi_prolanis_table', 1);
+insert into migrations (migration, batch) values ('2022_09_05_170230_create_whatsapp_registrations_table', 1);

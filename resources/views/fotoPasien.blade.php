@@ -6,7 +6,7 @@
     @endif
     <br><br>
     <div class="alert alert-info">
-        <h3>{!! $pasien->nama !!}</h3> <span id="umur">{!! App\Models\Classes\Yoga::datediff($pasien->tanggal_lahir->format('Y-m-d'), date('Y-m-d')) !!}</span>
+        <h3>{!! $pasien->nama !!}  </h3> <span id="umur">{!! App\Models\Classes\Yoga::datediff($pasien->tanggal_lahir->format('Y-m-d'), date('Y-m-d')) !!}</span>
     </div>
 </div>
 
@@ -24,3 +24,8 @@
 		</div>
 	</div>
 </div>
+<script charset="utf-8">
+    function showFotoZoom() {
+        $("#fotozoom").modal("show");
+    }
+</script>
