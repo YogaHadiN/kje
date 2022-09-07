@@ -123,6 +123,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('antrianpolis/pengantar/{id}/edit', [\App\Http\Controllers\PengantarsController::class, 'pengantarUpdate']);
 	Route::put('{posisi_antrian}/pengantar/{id}/edit', [\App\Http\Controllers\PengantarsController::class, 'update']);
 	Route::post( '/antrianperiksas/update/staf', [\App\Http\Controllers\AntrianPeriksasController::class, 'updateStaf']);
+	Route::get( '/antrianperiksas/get/hubungan_keluarga_id', [\App\Http\Controllers\AntrianPeriksasController::class, 'getHubunganKeluargaId']);
+
 	Route::post('antriankasirs/pengantar/{id}/edit', [\App\Http\Controllers\PengantarsController::class, 'antriankasirsUpdate']);
 	Route::post('laporans/pengantar', [\App\Http\Controllers\PengantarsController::class, 'submitPcare']);
 	Route::post('laporans/periksa/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'updatePengantarPeriksa']);

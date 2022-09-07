@@ -1,3 +1,4 @@
+viewPengantar();
 function verifikasiWajahChange(control) {
     var verifikasi = $(control).val();
     if (verifikasi == 2) {
@@ -71,41 +72,12 @@ function rowEntry(control) {
         .find("td:eq(0)")
         .find("div")
         .html();
-    var pengatars = getPengantarObject();
     var nama_pengantar = $(control)
         .closest("tr")
         .find("td:eq(1)")
         .find("div")
         .html();
-    Swal.fire({
-        title: "Are you sure?",
-        text:
-            "Anda akan menambahkan " +
-            nama_pengantar +
-            " sebagai Pengantar Pasien BPJS",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Lanjutkan",
-    }).then((result) => {
-        $("#modalCariPengantar").modal("hide");
-        if (result.isConfirmed && tidakDobelPengantar(pengatars, pasien_id)) {
-            pengatars.push({
-                pasien_id: pasien_id,
-                nama_pengantar: nama_pengantar,
-                hubungan_keluarga_id: null,
-            });
-            stringifyPengantar(pengatars);
-        } else if (!tidakDobelPengantar(pengatars, pasien_id)) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: nama_pengantar + " sudah ada dalam daftar pengantar",
-                footer: '<a href="">Why do I have this issue?</a>',
-            });
-        }
-    });
+    finalActionToEnterPengantar(pasien_id, nama_pengantar);
 }
 function getPengantarObject() {
     var pengantars = $("#pengantars").val();
@@ -193,4 +165,58 @@ function viewPengantar() {
         temp += "</tr>";
     }
     $("#pengantar_container").html(temp);
+}
+function masukkanPengantar(control) {
+    var pasien_id = $(control).closest("tr").find(".id").html();
+    var nama_pengantar = $(control)
+        .closest("tr")
+        .find(".nama_anggota_keluarga")
+        .html();
+    finalActionToEnterPengantar(pasien_id, nama_pengantar);
+}
+
+function finalActionToEnterPengantar(pasien_id, nama_pengantar) {
+    var pengatars = getPengantarObject();
+    Swal.fire({
+        title: "Are you sure?",
+        text:
+            "Anda akan menambahkan " +
+            nama_pengantar +
+            " sebagai Pengantar Pasien BPJS",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Lanjutkan",
+    }).then((result) => {
+        $("#modalCariPengantar").modal("hide");
+
+        if (result.isConfirmed && tidakDobelPengantar(pengatars, pasien_id)) {
+            $.get(
+                base + "/antrianperiksas/get/hubungan_keluarga_id",
+                { pasien_id: pasien_id },
+                function (data, textStatus, jqXHR) {
+                    // data = JSON.parse(data);
+                    pengatars.push({
+                        pasien_id: pasien_id,
+                        nama_pengantar: nama_pengantar,
+                        hubungan_keluarga_id:
+                            data["hubungan_keluarga_id"] != 4 &&
+                            data["kepala_keluarga_id"] ==
+                                $("#kepala_keluarga_id").val()
+                                ? data["hubungan_keluarga_id"]
+                                : null,
+                    });
+                    stringifyPengantar(pengatars);
+                }
+            );
+        } else if (!tidakDobelPengantar(pengatars, pasien_id)) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: nama_pengantar + " sudah ada dalam daftar pengantar",
+                footer: '<a href="">Why do I have this issue?</a>',
+            });
+        }
+    });
 }

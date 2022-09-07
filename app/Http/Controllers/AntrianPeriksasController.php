@@ -477,5 +477,14 @@ class AntrianPeriksasController extends Controller
     public function updateFotoPasien(){
         Session::put('pesan',Yoga::gagalFlash( 'Foto pasien harus di update karena tidak jelas terlihat'));
     }
+    public function getHubunganKeluargaId(){
+        $pasien_id = Input::get('pasien_id');
+        $pasien = Pasien::find($pasien_id);
+        return [
+            'hubungan_keluarga_id' => $pasien->hubungan_keluarga_id,
+            'kepala_keluarga_id' => $pasien->kepala_keluarga_id
+        ];
+    }
+    
     
 }

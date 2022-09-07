@@ -20,6 +20,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
 @stop
 @section('content') 
     {!! Form::text('pasien_id', $antrian_poli->pasien_id, ['class' => 'form-control hide', 'id' =>'pasien_id']) !!}
+    {!! Form::text('kepala_keluarga_id', $antrian_poli->pasien->kepala_keluarga_id, ['class' => 'form-control hide', 'id' =>'kepala_keluarga_id']) !!}
     {!! Form::text('antrian_poli_id', $antrian_poli->id, ['class' => 'form-control hide', 'id' =>'antrian_poli_id']) !!}
     {!! Form::text('antrian_id', $antrian_poli->antrian->id, ['class' => 'form-control hide', 'id' =>'antrian_id']) !!}
     {!! Form::open(['url' => 'antrianperiksas/' . $antrian_poli->id, 'method' => 'post']) !!}
@@ -119,7 +120,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
         @endif
         @if ( $antrian_poli->pasien->alergies->count() )
             <div class="alert alert-danger">
-                <h2>Daftar Alergi Obat Pasien</h2>
+                <h2>Pasien alergi terhadap obat : </h2>
                 <ul>
                     @foreach($antrian_poli->pasien->alergies as $alergi)	
                         <li>{{ $alergi->generik->generik }}</li>
@@ -204,7 +205,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
                 <div class="form-group @if($errors->has('kecelakaan_kerja')) has-error @endif">
                   {!! Form::label('kecelakaan_kerja', 'Kecelakaan Kerja', ['class' => 'control-label']) !!}
                   {!! Form::select('kecelakaan_kerja', $kecelakaan_kerja_list , null, [
-                    'class' => 'form-control',
+                    'class' => 'form-control rq',
                     'placeholder' => '- Pilih -'
                   ]) !!}
                   @if($errors->has('kecelakaan_kerja'))<code>{{ $errors->first('kecelakaan_kerja') }}</code>@endif
@@ -217,7 +218,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
                         0 => 'Tidak Hamil',
                         1 => 'Hamil',
                     ] , $antrian_poli->pasien->sex == 1? 0 : null, [
-                        'class' => 'form-control',
+                        'class' => 'form-control rq',
                         'placeholder' => '- Pilih -'
                     ]) !!}
                     @if($errors->has('hamil'))<code>{{ $errors->first('hamil') }}</code>@endif
@@ -230,7 +231,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
                         0 => 'Tidak Menyusui',
                         1 => 'Menyusui',
                     ] , $antrian_poli->pasien->sex == 1? 0 : null, [
-                        'class' => 'form-control',
+                        'class' => 'form-control rq',
                         'placeholder' => '- Pilih -'
                     ]) !!}
                     @if($errors->has('menyusui'))<code>{{ $errors->first('menyusui') }}</code>@endif
@@ -307,6 +308,42 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
             <h4 class="modal-title">Cari Pengantar Pasien</h4>
         </div>
         <div class="modal-body">
+            {{-- @if( $antrian_poli->pasien->keluarga->count() ) --}}
+            @if( $antrian_poli->pasien->keluarga->count() > 1 )
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h2>Daftar Anggota Keluarga Pasien</h2>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-condensed table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Hubungan</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($antrian_poli->pasien->keluarga as $keluarga)
+                                        @if($antrian_poli->pasien_id != $keluarga->id)
+                                            <tr>
+                                                <td class="hide id">{{ $keluarga->id }}</td>
+                                                <td class="hide hubungan_keluarga_id">{{ $keluarga->hubungan_keluarga_id }}</td>
+                                                <td class="nama_anggota_keluarga">{{ $keluarga->nama }}</td>
+                                                <td>{{ $keluarga->hubunganKeluarga->hubungan_keluarga }}</td>
+                                                <td> 
+                                                    <button class="btn btn-success btn-sm" type="button" onclick="masukkanPengantar(this); return false;">
+                                                        <span class='glyphicon glyphicon-log-in' aria-hidden='true'></span>
+                                                    </button> 
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @include('pasiens.form', ['createLink' => false])
         </div>
     </div>
