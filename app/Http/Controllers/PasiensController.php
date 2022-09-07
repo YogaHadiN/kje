@@ -32,6 +32,7 @@ class PasiensController extends Controller
 	public $input_nama_ayah;
 	public $input_nama_ibu;
 	public $input_nama;
+	public $input_poli_id;
 	public $input_nama_peserta;
 	public $input_nomor_asuransi;
 	public $input_nomor_ktp;
@@ -59,6 +60,7 @@ class PasiensController extends Controller
    public function __construct(){
 		$ps                                       = new Pasien;
 		$this->input_alamat                       = Input::get('alamat');
+		$this->input_poli_id                       = Input::get('poli_id');
 		$this->input_asuransi_id                  = $this->asuransiId(Input::get('asuransi_id'));
 		$this->input_sex                          = Input::get('sex');
 		$this->input_jenis_peserta_id             = Input::get('jenis_peserta_id');
@@ -148,7 +150,6 @@ class PasiensController extends Controller
 		$pasien         = new Pasien;
 		$pasien         = $this->inputDataPasien($pasien);
 		$ap             = $this->inputDataAntrianPoli($pasien);
-
 
 		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 		return redirect('antrianpolis')
@@ -531,8 +532,7 @@ class PasiensController extends Controller
 		$ap->input_pasien_id   = $pasien->id;
 		$ap->input_asuransi_id = $pasien->asuransi_id;
 		$ap->input_antrian_id  = $this->input_antrian_id;
-
-		$ap->input_poli_id        = Poli::where('poli', 'Poli Gawat Darurat')->first()->id;
+		$ap->input_poli_id     = is_null( $this->input_poli_id ) ? Poli::where('poli', 'Poli Gawat Darurat')->first()->id : $this->input_poli_id;
 		$ap->input_tanggal     = date('Y-m-d');
 		$ap->input_jam         = date("H:i:s");
 		return $ap->inputDataAntrianPoli();

@@ -403,6 +403,7 @@ class FasilitasController extends Controller
 	public function storePasien(Request $request, $id){
 		$pc = new PasiensController;
 		$pc->input_antrian_id = $id;
+		$pc->input_poli_id = Input::get('poli_id');
 		return $pc->store($request);
 	}
 	public function getTambahAntrian($id){
