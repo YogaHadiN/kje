@@ -364,6 +364,7 @@ class PasiensController extends Controller
 		$pasien->no_telp                     = $this->input_no_telp;
 		$pasien->verifikasi_prolanis_dm_id   = $this->input_verifikasi_prolanis_dm_id;
 		$pasien->verifikasi_prolanis_ht_id   = $this->input_verifikasi_prolanis_ht_id;
+		$pasien->hubungan_keluarga_id   = 4;
 		$pasien->meninggal                   = $this->input_meninggal;
 		$pasien->penangguhan_pembayaran_bpjs = $this->input_penangguhan_pembayaran_bpjs;
 		$pasien->tanggal_lahir               = Yoga::datePrep($this->input_tanggal_lahir);
