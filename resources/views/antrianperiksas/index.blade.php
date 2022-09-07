@@ -63,7 +63,10 @@
 								</td>
                                 <td>
                                     {!! Form::open(['url' => 'antrianperiksas/' . $periksa->id .'/editPoli', 'method' => 'put'])!!}
-										{!! Form::select('poli', $poli_list, $periksa->poli_id, ['class' => 'form-control', 'onchange' => 'changePoli(this);return false;']) !!}
+                                    {!! Form::select('poli_id', $poli_list, $periksa->poli_id, [
+                                        'class'    => 'form-control',
+                                        'onchange' => 'changePoli(this);return false;'
+                                    ]) !!}
                                     {!! Form::close() !!}
 								</td>
                                 <td>{!! $periksa->nama_asuransi !!}</td>
