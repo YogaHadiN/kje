@@ -138,6 +138,10 @@ class AntrianPeriksasController extends Controller
         DB::beginTransaction();
         try {
             $antrianpoli = AntrianPoli::with('pasien', 'asuransi')->where( 'id',  $id )->where('submitted', '0')->first();
+            if (is_null($antrianpoli)) {
+                $pesan = Yoga::gagalFlash('Antrian sudah masuk antrian periksa');
+                return redirect()->back()->withPesan($pesan);
+            }
             $rules = [
                 'asisten_id'             => 'required',
                 'gds'                    => Rule::requiredIf( $this->cekGDSDiNurseStation($antrianpoli) ),

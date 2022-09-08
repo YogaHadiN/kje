@@ -2442,8 +2442,10 @@ function generate() {
 
     if ($("#hamil").val() != "1" && (terapi == "" || terapi == "[]")) {
         $.post(base + "/poli/ajax/sopterapi", dataEntry, function (result) {
-            console.log(result);
             result = $.trim(result);
+            if (!isJsonString(result)) {
+                console.log("ini lho errornya", result);
+            }
             var result_array = JSON.parse(result);
             temp_sop_terapi = result_array;
             length_sop_terapi = result_array.length;

@@ -630,3 +630,12 @@ function isNumeric(value) {
 function addslashes(str) {
     return (str + "").replace(/[\\"']/g, "\\$&").replace(/\u0000/g, "\\0");
 }
+
+function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}

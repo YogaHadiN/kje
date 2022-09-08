@@ -184,7 +184,9 @@ class PoliAjaxController extends Controller
 				}
 			}
 			return json_encode($query);
-		}
+        } else {
+			return json_encode([]);
+        }
 	}
 	public function diagcha(){
 		$diagnosa_id         = Input::get('diagnosa_id');
