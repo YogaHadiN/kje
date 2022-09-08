@@ -578,13 +578,7 @@
 				</div>
 @stop
 @section('footer') 
-
-
 <script>
-    $(document).ready(function() {
-        
-    });
 
 </script>
-
 @stop
