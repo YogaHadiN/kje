@@ -126,16 +126,14 @@ function search(key = 0) {
             $("#rek_container").html(temp);
             $("#rows").html(data.rows);
             pages = data.pages;
-            if (key > 0) {
-                $("#paging").twbsPagination({
-                    startPage: parseInt(key) + 1,
-                    totalPages: pages,
-                    visiblePages: 7,
-                    onPageClick: function (event, page) {
-                        search(parseInt(page) - 1);
-                    },
-                });
-            }
+            $("#paging").twbsPagination({
+                startPage: parseInt(key) + 1,
+                totalPages: pages,
+                visiblePages: 7,
+                onPageClick: function (event, page) {
+                    search(parseInt(page) - 1);
+                },
+            });
         }
     );
 }
