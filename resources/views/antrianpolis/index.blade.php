@@ -235,7 +235,7 @@
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 hide" id="divUsg">
                                         <div class="form-group">
                                             {!! Form::label('perujuk') !!}
-                                            {!! Form::select('perujuk_id', $perujuks_list, null, ['class' => 'form-control selectpick', 'id' => 'perujuk_id']) !!}
+                                            {!! Form::select('perujuk_id', \App\Models\Perujuk::pluck('nama','id'), null, ['class' => 'form-control selectpick', 'id' => 'perujuk_id']) !!}
                                             <a class="" data-toggle="modal" href='#buat_perujuk'>Perujuk Belum Dibuat</a>
                                         </div>
                                     </div>

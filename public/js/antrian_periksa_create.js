@@ -1,3 +1,61 @@
+uk("umur_kehamilan", "hpht");
+var ID_POLI = $("#poli_id").val();
+if (ID_POLI == "14") {
+    if ($("#divUsg").hasClass("hide")) {
+        $("#divUsg").removeClass("hide");
+    }
+    if (!$("#divUsg").hasClass("rq")) {
+        $("#divUsg").addClass("rq");
+    }
+
+    $(".divAnc").each(function (index, el) {
+        if ($(this).hasClass("hide")) {
+            $(this).removeClass("hide");
+        }
+        if (!$("#hamil").hasClass("rq")) {
+            $("#hamil").addClass("rq");
+        }
+        if (!$("#hpht").hasClass("rq")) {
+            $("#hpht").addClass("rq");
+        }
+        if (!$("#g").hasClass("rq")) {
+            $("#g").addClass("rq");
+        }
+        if (!$("#p").hasClass("rq")) {
+            $("#p").addClass("rq");
+        }
+        if (!$("#a").hasClass("rq")) {
+            $("#a").addClass("rq");
+        }
+    });
+    $("#hamil").val("1");
+} else if (ID_POLI == "1") {
+    $(".divAnc").each(function (index, el) {
+        if ($(this).hasClass("hide")) {
+            $(this).removeClass("hide");
+        }
+        if (!$(this).hasClass("rq")) {
+            $(this).addClass("rq");
+        }
+    });
+    if (!$("#divUsg").hasClass("hide")) {
+        $("#divUsg").addClass("hide");
+    }
+    if ($("#divUsg").hasClass("rq")) {
+        $("#divUsg").removeClass("rq");
+    }
+    $("#hamil").val("1");
+} else {
+    $(".divAnc").each(function (index, el) {
+        if (!$(this).hasClass("hide")) {
+            $(this).addClass("hide");
+        }
+    });
+    if (!$("#divUsg").hasClass("hide")) {
+        $("#divUsg").addClass("hide");
+    }
+    $("#hamil").val("");
+}
 viewPengantar();
 function verifikasiWajahChange(control) {
     var verifikasi = $(control).val();
@@ -219,4 +277,20 @@ function finalActionToEnterPengantar(pasien_id, nama_pengantar) {
             });
         }
     });
+}
+$("#hamil").change(function (e) {
+    if ($(this).val() == "1") {
+        $(".divAnc").removeClass("hide").hide().fadeIn(500);
+    } else if ($(this).val() == "0") {
+        empty();
+        $(".divAnc").fadeOut(500);
+    }
+});
+function empty() {
+    $(".gpa").val("");
+    $(".inputObs").val("");
+    $("#perujuk_id").val("");
+}
+function hphtChange(control) {
+    console.log($(control).val());
 }

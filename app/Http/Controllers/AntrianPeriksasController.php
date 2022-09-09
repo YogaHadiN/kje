@@ -7,6 +7,7 @@ use Input;
 use Illuminate\Http\Request;
 use Log;
 use Session;
+use Carbon\Carbon;
 use DB;
 use Bitly;
 use App\Models\Asuransi;
@@ -229,6 +230,10 @@ class AntrianPeriksasController extends Controller
             $ap->diastolik                   = $this->input_diastolik;
             $ap->tinggi_badan                = $this->input_tinggi_badan;
             $ap->gds                         = $this->input_gds;
+            $ap->g                           = Input::get('g');
+            $ap->p                           = Input::get('p');
+            $ap->a                           = Input::get('a');
+            $ap->hpht                        = Carbon::createFromFormat('d-m-Y', Input::get('hpht'))->format('Y-m-d');
             $ap->previous_complaint_resolved = Input::get('previous_complaint_resolved');
             $ap->perujuk_id                  = $this->input_perujuk_id;
             $ap->save();

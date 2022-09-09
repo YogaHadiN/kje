@@ -22,6 +22,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
     {!! Form::text('pasien_id', $antrian_poli->pasien_id, ['class' => 'form-control hide', 'id' =>'pasien_id']) !!}
     {!! Form::text('kepala_keluarga_id', $antrian_poli->pasien->kepala_keluarga_id, ['class' => 'form-control hide', 'id' =>'kepala_keluarga_id']) !!}
     {!! Form::text('antrian_poli_id', $antrian_poli->id, ['class' => 'form-control hide', 'id' =>'antrian_poli_id']) !!}
+    {!! Form::text('poli_id', $antrian_poli->poli_id, ['class' => 'form-control hide', 'id' =>'poli_id']) !!}
     {!! Form::text('antrian_id', $antrian_poli->antrian->id, ['class' => 'form-control hide', 'id' =>'antrian_id']) !!}
     {!! Form::open(['url' => 'antrianperiksas/' . $antrian_poli->id, 'method' => 'post']) !!}
 <div class="row">
@@ -238,6 +239,40 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
                 </div>
             </div>
         </div>
+    <div class="row hide divAnc">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            @include('antrianpolis.gpa', [
+                'g' => null,
+                'p' => null,
+                'a' => null
+            ])
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <label for="hpht" id="lblhamil">HPHT</label>
+            {!! Form::text('hpht',  null, [
+                'class' => 'form-control inputObs tanggal', 
+                'id' => 'hpht',
+                'onchange' => 'hphtChange(this);return false;',
+            ]) !!}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 divAnc">
+            <label for="hpht" id="lblhamil">Umur Kehamilan</label>
+            {!! Form::text('umur_kehamilan',  null, ['class' => 'form-control inputObs', 'id' => 'umur_kehamilan']) !!}
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="divUsg">
+            <div class="form-group">
+                {!! Form::label('perujuk') !!}
+                {!! Form::select('perujuk_id', \App\Models\Perujuk::pluck('nama','id'), null, [
+                    'class' => 'form-control selectpick', 
+                    'placeholder' => '- Pilih Perujuk -', 
+                    'id' => 'perujuk_id'
+                ]) !!}
+                <a class="" data-toggle="modal" href='#buat_perujuk'>Perujuk Belum Dibuat</a>
+            </div>
+        </div>
+    </div>
         <div class="row">
             @if( $cekGDSDiNurseStation )
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -353,6 +388,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
 @section('footer') 
      <script src="{!! asset('js/panggil.js') !!}"></script>
     {!! HTML::script('js/alergi.js')!!} 
+    {!! HTML::script('js/uk.js') !!}   
     {!! HTML::script('js/antrian_periksa_create.js')!!} 
 	{!! HTML::script('js/pasiens.js')!!}
 	{{-- {!! HTML::script('js/rowEntryPengantar.js')!!} --}}

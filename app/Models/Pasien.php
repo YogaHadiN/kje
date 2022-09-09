@@ -275,6 +275,4 @@ class Pasien extends Model{
     public function hubunganKeluarga(){
         return $this->belongsTo('App\Models\HubunganKeluarga');
     }
-    
-    
 }
