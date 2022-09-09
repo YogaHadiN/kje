@@ -142,14 +142,16 @@ function selectPasien(key = 0) {
             temp += "</tr>";
         }
         $("#ajax").html(temp);
-        $("#paging").twbsPagination({
-            startPage: parseInt(key) + 1,
-            totalPages: pages,
-            visiblePages: 7,
-            onPageClick: function (event, page) {
-                selectPasien(parseInt(page) - 1);
-            },
-        });
+        if (MyArray.length) {
+            $("#paging").twbsPagination({
+                startPage: parseInt(key) + 1,
+                totalPages: pages,
+                visiblePages: 7,
+                onPageClick: function (event, page) {
+                    selectPasien(parseInt(page) - 1);
+                },
+            });
+        }
         $("#rows").html(numeral(rows).format("0,0"));
     });
 }

@@ -477,8 +477,6 @@ function selectPasien(key = 0) {
 
     $.get(url, data, function (hasil) {
         var MyArray = hasil.data;
-        console.log("MyArray");
-        console.log(MyArray);
         var pages = hasil.pages;
         var rows = hasil.rows;
         var temp = "";
@@ -611,14 +609,16 @@ function selectPasien(key = 0) {
             temp += "</td></tr>";
         }
         $("#ajax").html(temp);
-        $("#paging").twbsPagination({
-            startPage: parseInt(key) + 1,
-            totalPages: pages,
-            visiblePages: 7,
-            onPageClick: function (event, page) {
-                selectPasien(parseInt(page) - 1);
-            },
-        });
+        if (MyArray.length > 0) {
+            $("#paging").twbsPagination({
+                startPage: parseInt(key) + 1,
+                totalPages: pages,
+                visiblePages: 7,
+                onPageClick: function (event, page) {
+                    selectPasien(parseInt(page) - 1);
+                },
+            });
+        }
         $("#rows").html(numeral(rows).format("0,0"));
         $(".ajax-error-pasien").fadeOut(500);
     })

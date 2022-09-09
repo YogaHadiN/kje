@@ -147,14 +147,16 @@ function getAsuransi(key = 0) {
                 });
             var visible_pages = 7;
             var total_pages = Math.ceil(total_rows / 8);
-            $("#pagination-twbs").twbsPagination({
-                startPage: parseInt(key) + 1,
-                totalPages: total_pages,
-                visiblePages: visible_pages,
-                onPageClick: function (event, page) {
-                    getAsuransi(parseInt(page) - 1);
-                },
-            });
+            if (data.length) {
+                $("#pagination-twbs").twbsPagination({
+                    startPage: parseInt(key) + 1,
+                    totalPages: total_pages,
+                    visiblePages: visible_pages,
+                    onPageClick: function (event, page) {
+                        getAsuransi(parseInt(page) - 1);
+                    },
+                });
+            }
         }
     );
 }
@@ -280,14 +282,16 @@ function getAsuransiBulanan(key = 0) {
                 });
             var visible_pages = 7;
             var total_pages = Math.ceil(total_rows / 8);
-            $("#pagination-twbs-bulanan").twbsPagination({
-                startPage: parseInt(key) + 1,
-                totalPages: total_pages,
-                visiblePages: visible_pages,
-                onPageClick: function (event, page) {
-                    getAsuransiBulanan(parseInt(page) - 1);
-                },
-            });
+            if (data.length) {
+                $("#pagination-twbs-bulanan").twbsPagination({
+                    startPage: parseInt(key) + 1,
+                    totalPages: total_pages,
+                    visiblePages: visible_pages,
+                    onPageClick: function (event, page) {
+                        getAsuransiBulanan(parseInt(page) - 1);
+                    },
+                });
+            }
         }
     );
 }

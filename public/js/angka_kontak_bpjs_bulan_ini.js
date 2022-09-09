@@ -63,7 +63,7 @@ function searchAjax(key = 0) {
                 temp += "</tr>";
             }
             $("#ajax_container").html(temp);
-            if (key > 0) {
+            if (data.length) {
                 $("#paging").twbsPagination({
                     startPage: parseInt(key) + 1,
                     totalPages: pages,
