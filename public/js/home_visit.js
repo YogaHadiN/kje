@@ -61,16 +61,14 @@ function searchAjax(key = 0) {
                 temp += "</tr>";
             }
             $("#ajax_container").html(temp);
-            if (key > 0) {
-                $("#paging").twbsPagination({
-                    startPage: parseInt(key) + 1,
-                    totalPages: pages,
-                    visiblePages: 7,
-                    onPageClick: function (event, page) {
-                        searchAjax(parseInt(page) - 1);
-                    },
-                });
-            }
+            $("#paging").twbsPagination({
+                startPage: parseInt(key) + 1,
+                totalPages: pages,
+                visiblePages: 7,
+                onPageClick: function (event, page) {
+                    searchAjax(parseInt(page) - 1);
+                },
+            });
             $("#rows").html(numeral(rows).format("0,0"));
         }
     );

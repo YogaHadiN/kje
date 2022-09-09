@@ -280,16 +280,14 @@ function getAsuransiBulanan(key = 0) {
                 });
             var visible_pages = 7;
             var total_pages = Math.ceil(total_rows / 8);
-            if (key > 0) {
-                $("#pagination-twbs-bulanan").twbsPagination({
-                    startPage: parseInt(key) + 1,
-                    totalPages: total_pages,
-                    visiblePages: visible_pages,
-                    onPageClick: function (event, page) {
-                        getAsuransiBulanan(parseInt(page) - 1);
-                    },
-                });
-            }
+            $("#pagination-twbs-bulanan").twbsPagination({
+                startPage: parseInt(key) + 1,
+                totalPages: total_pages,
+                visiblePages: visible_pages,
+                onPageClick: function (event, page) {
+                    getAsuransiBulanan(parseInt(page) - 1);
+                },
+            });
         }
     );
 }

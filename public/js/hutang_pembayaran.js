@@ -160,16 +160,14 @@ function getPembayaran(key = 0) {
             });
             var visible_pages = 7;
             var total_pages = Math.ceil(total_rows / displayed_rows);
-            if (key > 0) {
-                $("#pagination_pembayaran_asuransi").twbsPagination({
-                    startPage: parseInt(key) + 1,
-                    totalPages: total_pages,
-                    visiblePages: visible_pages,
-                    onPageClick: function (event, page) {
-                        getPembayaran(parseInt(page) - 1);
-                    },
-                });
-            }
+            $("#pagination_pembayaran_asuransi").twbsPagination({
+                startPage: parseInt(key) + 1,
+                totalPages: total_pages,
+                visiblePages: visible_pages,
+                onPageClick: function (event, page) {
+                    getPembayaran(parseInt(page) - 1);
+                },
+            });
         }
     );
 }
