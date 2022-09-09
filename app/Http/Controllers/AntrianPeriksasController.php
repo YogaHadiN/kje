@@ -146,9 +146,13 @@ class AntrianPeriksasController extends Controller
             $rules = [
                 'asisten_id'             => 'required',
                 'gds'                    => Rule::requiredIf( $this->cekGDSDiNurseStation($antrianpoli) ),
+                'g'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
+                'p'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
+                'a'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
+                'hpht'                   => Rule::requiredIf( Input::get('hamil') == 1  ),
                 'sistolik'               => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
                 'diastolik'              => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
-                'pengantars'              => Rule::requiredIf(  Input::get('pengantars') !== '[]'  ),
+                'pengantars'             => Rule::requiredIf(  Input::get('pengantars') !== '[]'  ),
                 'kecelakaan_kerja'       => 'required',
                 'hamil'                  => 'required',
                 'menyusui'               => 'required',
@@ -233,7 +237,7 @@ class AntrianPeriksasController extends Controller
             $ap->g                           = Input::get('g');
             $ap->p                           = Input::get('p');
             $ap->a                           = Input::get('a');
-            $ap->hpht                        = Carbon::createFromFormat('d-m-Y', Input::get('hpht'))->format('Y-m-d');
+            $ap->hpht                        = !empty( Input::get('hpht') ) ? Carbon::createFromFormat('d-m-Y', Input::get('hpht'))->format('Y-m-d') :null;
             $ap->previous_complaint_resolved = Input::get('previous_complaint_resolved');
             $ap->perujuk_id                  = $this->input_perujuk_id;
             $ap->save();
