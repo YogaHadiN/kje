@@ -136,7 +136,6 @@ class AntrianPeriksasController extends Controller
 	 * @return Response
 	 */
 	public function store(Request $request, $id) {
-        dd(Input::all()); 
         DB::beginTransaction();
         try {
             $antrianpoli = AntrianPoli::with('pasien', 'asuransi')->where( 'id',  $id )->where('submitted', '0')->first();
