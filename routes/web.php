@@ -250,7 +250,6 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('rekenings/import', [\App\Http\Controllers\RekeningController::class, 'importCreate']);
 		Route::post('rekenings/import', [\App\Http\Controllers\RekeningController::class, 'importPost']);
 		Route::get('rekenings/{id}', [\App\Http\Controllers\RekeningController::class, 'show']);
-
 		Route::get('jurnal_umums/show', [\App\Http\Controllers\JurnalUmumsController::class, 'show']);
 		Route::get('jurnal_umums/penyusutan', [\App\Http\Controllers\JurnalUmumsController::class, 'penyusutan']);
 		Route::get('jurnal_umums/coa', [\App\Http\Controllers\JurnalUmumsController::class, 'coa']);

@@ -555,6 +555,7 @@ class Yoga {
 
 		public static function merekAsli($merek_lama, $formula, $bobot){
 			if($formula->komposisi->count() == 1) {
+                dd( $formula->sediaan_id );
 				$end = $formula->sediaan->sediaan . ' ' . $bobot;
 				$merek = str_replace($end, '', $merek_lama);
 			} else {
