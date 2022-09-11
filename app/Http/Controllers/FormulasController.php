@@ -539,6 +539,7 @@ class FormulasController extends Controller
 	{
 
 
+        dd( 'id', $id );
 
 		$rules = [];
 
