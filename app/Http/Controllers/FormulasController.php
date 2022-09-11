@@ -537,10 +537,6 @@ class FormulasController extends Controller
 	 */
 	public function update($id)
 	{
-
-
-        dd( 'id', $id );
-
 		$rules = [];
 
 		$validator = \Validator::make($data = Input::all(), $rules);
@@ -551,13 +547,13 @@ class FormulasController extends Controller
 		}
 
 		//isian formula
-		$formula = Formula::find($id);
-		$formula->dijual_bebas = Input::get('dijual_bebas'); 
-		$formula->efek_samping = Input::get('efek_samping'); 
-		$formula->aturan_minum_id = Input::get('aturan_minum_id'); 
-		$formula->sediaan_id = Input::get('sediaan_id'); 
-		$formula->indikasi = Input::get('indikasi'); 
-		$formula->kontraindikasi = Input::get('kontraindikasi'); 
+		$formula                  = Formula::find($id);
+		$formula->dijual_bebas    = Input::get('dijual_bebas');
+		$formula->efek_samping    = Input::get('efek_samping');
+		$formula->aturan_minum_id = Input::get('aturan_minum_id');
+		$formula->sediaan_id      = Input::get('sediaan_id');
+		$formula->indikasi        = Input::get('indikasi');
+		$formula->kontraindikasi  = Input::get('kontraindikasi');
 		$formula->save();
 
 		//isian dosis

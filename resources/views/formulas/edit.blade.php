@@ -106,15 +106,14 @@
                         
                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <div class="form-group">
-                                    {!!Form::label('sediaan')!!}<br />
-                                    {!!Form::select('sediaan', $sediaan_list, null, array(
+                                    {!!Form::label('Sediaan')!!}<br />
+                                    {!!Form::select('sediaan_id', $sediaan_list, null, array(
                                         'class'         => 'form-control'
                                     ))
                                     !!}
-                                    @if($errors->first('sediaan'))
-                                    <code>{!! $errors->first('sediaan') !!}</code>
+                                    @if($errors->first('sediaan_id'))
+                                    <code>{!! $errors->first('sediaan_id') !!}</code>
                                     @endif
-                                    {!! Form::text('sediaan2', $formula->indikasi, array('class' => 'form-control displayNone'))!!}
                                 </div>
                             </div>
                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
