@@ -35,7 +35,7 @@ class PoliAjaxController extends Controller
 		$umur     = explode(" ", trim(Input::get('umur')))[0];
 		$merek_id = Input::get('merek_id');
 		$merek    = Merek::find($merek_id);
-		if ( $this->containsIbuprofen($merek) ) {
+		if ( $this->containsIbuprofen($merek) && $umur < 1 ) {
 			return '1';
 		} else {
 			return '0';
@@ -53,11 +53,12 @@ class PoliAjaxController extends Controller
 
 		foreach ($komposisis as $key => $komp) {
 			if(
-				($sediaan == 'tablet' ||
-				$sediaan == 'capsul' ||
-				$sediaan == 'syrup') && (
-				$komp->generik->peroral != 'a' &&
-				$komp->generik->peroral != 'b'
+                (
+                    $sediaan == 'tablet' ||
+                    $sediaan == 'capsul' ||
+                    $sediaan == 'syrup') && (
+                    $komp->generik->peroral != 'a' &&
+                    $komp->generik->peroral != 'b'
 				)
 			) {
 				foreach ($komposisis as $key => $komps) {
