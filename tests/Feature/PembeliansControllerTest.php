@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Tenant;
+use App\Models\Merek;
 use App\Models\User;
 use App\Models\JurnalUmum;
 use App\Models\Classes\Yoga;
@@ -207,8 +208,11 @@ class PembeliansControllerTest extends TestCase
         $this->assertCount(1, $faktur_belanjas);
 
         $total_pembelian    = 0;
+        $merek_updated_ids = [];
+        $rak_ids = [];
         foreach ($tempBeli as $tB) {
-
+            $merek_updated_ids[] = $tB['merek_id'];
+            $rak_ids[] = Merek::find($tB['merek_id'])->rak_id;
             $total_pembelian += $tB['harga_beli']* $tB['jumlah'];
 
             $raks = Rak::query()
@@ -247,6 +251,8 @@ class PembeliansControllerTest extends TestCase
                     ->where('jumlah',$tB['jumlah'])
             ->get();
 
+            $this->assertCount(1, $pembelians);
+
             if ( !$pembelians->count() ) {
                 $pembelians = Pembelian::all();
                 $pembelian_array = [];
@@ -258,6 +264,7 @@ class PembeliansControllerTest extends TestCase
                         "harga_naik" => $a->harga_naik,
                         "jumlah"     => $a->jumlah,
                     ];
+                    $merek_ids[] = $a->merek_id;
                 }
                 dd(  [
                         "harga_beli" => $tB["harga_beli"],
@@ -269,13 +276,7 @@ class PembeliansControllerTest extends TestCase
                     $pembelian_array, 'Gak Oke nih'
                 );
             }
-            $this->assertCount(1, $pembelians);
 
-            $pembelian = $pembelians->first();
-
-                    /* 'tanggal'  => Yoga::datePrep( Input::get('tanggal') ), */
-                    /* 'merek_id' => $dt['merek_id'], */
-                    /* 'masuk'    => $dt['jumlah'], */
             $dispensings = Dispensing::query()
                     ->where('merek_id',$tB['merek_id'])
                     ->where('masuk',$tB['jumlah'])
@@ -299,6 +300,22 @@ class PembeliansControllerTest extends TestCase
             }
             $this->assertCount(1, $dispensings);
         }
+        $merek_updated = Merek::whereIn('id', $merek_updated_ids)->count();
+        $merek_updated_is_default = Merek::whereIn('id', $merek_updated_ids)->where('default',1)->count();
+        $this->assertEquals($merek_updated, $merek_updated_is_default);
+
+        foreach (Rak::whereIn('id', $rak_ids)->get() as $rak) {
+            $jumlah_default = 0;
+            foreach ($rak->merek as $mrk) {
+                if ($mrk->default) {
+                    $jumlah_default++;
+                }
+            }
+            $this->assertEquals(1, $jumlah_default);
+        }
+
+        $pembelian = $pembelians->first();
+
 
         $jurnal_umums = JurnalUmum::query()
             ->where("jurnalable_id", $faktur_belanjas->first()->id)

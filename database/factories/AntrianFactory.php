@@ -23,15 +23,7 @@ class AntrianFactory extends Factory
             'whatsapp_registration_id' => null,
             'nomor_bpjs'               => null,
             'dipanggil'                => 0,
-            'no_telp'                  => null,
-            'poli_id'                  => null,
-            'nama_asuransi'            => null,
-            'nama'                     => null,
-            'tanggal_lahir'            => null,
-            'nomor_asuransi'           => null,
-            'pembayaran'               => null,
-            'konfirmasi_nomor_antrian' => null,
-            'alamat'                   => null,
+            'kode_unik'                => $this->faker->numerify('#####'),
             'tenant_id'                => Tenant::factory()
         ];
     }

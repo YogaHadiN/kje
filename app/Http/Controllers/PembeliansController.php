@@ -153,9 +153,17 @@ class PembeliansController extends Controller
 
             $total_pembelian    = 0;
 
-            $merek_ids = [];
+
+            $rak_ids = [];
             foreach ($data as $dat) {
-                $merek_ids[] = $dat['merek_id'];
+                $rak_ids[] = Merek::find($dat['merek_id'])->rak_id;
+            }
+
+            $merek_ids = [];
+            foreach (Rak::whereIn('id', $rak_ids)->get() as $rak) {
+                foreach ($rak->merek as $merek) {
+                    $merek_ids[] = $merek->id;
+                }
             }
 
             Merek::whereIn('id', $merek_ids)->update([

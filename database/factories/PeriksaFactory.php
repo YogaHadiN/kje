@@ -42,7 +42,6 @@ class PeriksaFactory extends Factory
             'approve_id'              => $this->faker->randomNumber(),
             'satisfaction_index'      => $this->faker->randomNumber(),
             'piutang_dibayar'         => $this->faker->randomNumber(),
-            'tanggal_piutang_dibayar' => $this->faker->date(),
             'asisten_id'              => $this->faker->word,
             'periksa_awal'            => $this->faker->text,
             'jam_periksa'             => $this->faker->time(),

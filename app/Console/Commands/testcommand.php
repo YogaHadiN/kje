@@ -4,6 +4,7 @@ use Illuminate\Console\Command;
 use Session;
 use App\Models\Outbox;
 use App\Models\Ht;
+use App\Models\Pembelian;
 use App\Models\User;
 use App\Models\Formula;
 use App\Models\Rak;
@@ -121,49 +122,19 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
+        $query  = "update mereks set `default` = 0;";
+        $data = DB::statement($query);
 
-        DB::delete("delete trf from tarifs as trf left join asuransis as asu on asu.id = trf.asuransi_id where asu.id is null;");
-        $tenant_id = 2;
-        Asuransi::where('tenant_id', 2)->delete();
-        JenisTarif::where('tenant_id', 2)->delete();
-        Tarif::where('tenant_id', 2)->delete();
+        $query  = " select rk.id as rak_id, pbl.merek_id, max(pbl.created_at) from `pembelians` as pbl join mereks as mrk on mrk.id = pbl.merek_id join raks as rk on rk.id = mrk.rak_id group by rk.id;";
+        $data = DB::select($query);
 
-        $asuransis = Asuransi::where('tenant_id', 1)
-                            ->where('master_template', 1)
-                            ->get();
-        $asuransi_ids = [];
-        foreach ($asuransis as $asuransi) {
-            $newAsuransi = $asuransi->replicate();
-            $newAsuransi->tenant_id = $tenant_id;
-            $newAsuransi->save();
+        foreach ($data as $d) {
+            $merek          = Merek::find($d->merek_id);
+            $merek->default = 1 ;
+            $merek->save();
         }
 
-        $jenis_tarifs = JenisTarif::where('tenant_id', 1)
-                            ->where('master_template', 1)
-                            ->get();
-        $tarifs = 0;
-        foreach ($jenis_tarifs as $jenis_tarif) {
-            $newJT = $jenis_tarif->replicate();
-            $newJT->tenant_id = $tenant_id;
-            $newJT->save();
-            foreach ($jenis_tarif->tarif as $tarif) {
-                $asuransis = Asuransi::where('tenant_id', 2)->get();
-                foreach ($asuransis as $asu) {
-                    if (
-                        $asu->nama == 
-                        $tarif->asuransi->nama
-                    ) {
-                        $tarifs++;
-                        $newTarif                 = $tarif->replicate();
-                        $newTarif->jenis_tarif_id = $newJT->id;
-                        $newTarif->asuransi_id    = $asu->id;
-                        $newTarif->tenant_id      = $tenant_id;
-                        $newTarif->save();
-                    }
-                }
-            }
-        }
-        dd( $tarifs );
+        dd('jumlah rak', Rak::count(), 'jumlah merek', Merek::count(), 'jumlah merek dengan default' , Merek::where('default', 1)->count());
     }
     
     public function obatTenant()

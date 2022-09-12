@@ -2354,6 +2354,9 @@ class PeriksasControllerTest extends TestCase
         $jt_jasa_dokter = \App\Models\JenisTarif::factory()->create([
             'jenis_tarif' => 'Jasa Dokter'
         ]);
+        $jt_jasa_dokter = \App\Models\JenisTarif::factory()->create([
+            'jenis_tarif' => 'Jam Malam'
+        ]);
 
         $jt_biaya_obat = \App\Models\JenisTarif::factory()->create([
             'jenis_tarif' => 'Biaya Obat'

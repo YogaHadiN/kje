@@ -1143,7 +1143,7 @@ p */
         foreach (json_decode($terapis, true) as $k => $t) {
             $merek_ids[] = $t['merek_id'];
         }
-        $merekArray = Merek::with('rak')->whereIn('id', $merek_ids)->get();
+        $merekArray = Merek::with('rak.merek')->whereIn('id', $merek_ids)->get();
 
         $array = [];
         foreach ($merekArray as $v) {
@@ -1156,8 +1156,9 @@ p */
         }
 
         foreach (json_decode($terapis, true) as $k => $t) {
+            $submitted_merek_id = !is_null($array[$t['merek_id']]->rak->merek_default_id) ? $array[$t['merek_id']]->rak->merek_default_id : $t['merek_id'];
             $periksa->terapii()->create([
-                'merek_id'          => $t['merek_id'],
+                'merek_id'          => $submitted_merek_id,
                 'signa'             => $t['signa'],
                 'aturan_minum'      => $t['aturan_minum'],
                 'jumlah'            => $t['jumlah'],

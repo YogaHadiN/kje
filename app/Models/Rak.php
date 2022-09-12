@@ -108,6 +108,16 @@ class Rak extends Model{
 	public function kelasObat(){
 		return $this->belongsTo('App\Models\KelasObat');
 	}
+    public function getMerekDefaultIdAttribute(){
+        foreach ($this->merek as $mrk) {
+            if ($mrk->default) {
+                return $mrk->id;
+                break;
+            }
+        }
+        return null;
+    }
+    
 	
 
 }
