@@ -4,12 +4,9 @@
 namespace App\Http\Controllers;
 
 use Input;
-
 use App\Http\Requests;
-
 use Carbon\Carbon;
 use DB;
-
 use App\Models\Promo;
 use App\Models\JenisTarif;
 use App\Models\DenominatorBpjs;
@@ -46,7 +43,7 @@ class PeriksasController extends Controller
 	 * Display a listing of periksas
 	 *
 	 * @return Response
-p */
+ */
 	public $input_sistolik;
 	public $input_diastolik;
 	public $input_asuransi_id;

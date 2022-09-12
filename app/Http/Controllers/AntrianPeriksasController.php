@@ -416,6 +416,10 @@ class AntrianPeriksasController extends Controller
     }
     public function create($id){
         $antrian_poli = AntrianPoli::with('pasien')->where('id',$id)->first();
+        if (is_null($antrian_poli)) {
+            $pesan = Yoga::gagalFlash('Nurse Station Poli Sudah dikerjakan dan sudah masuk antrian periksa');
+            return redirect()->back()->withPesan($pesan);
+        }
         $asuransi_list = Asuransi::pluck('nama', 'id');
         $staf_list = Staf::pluck('nama', 'id');
         $poli_list = Poli::pluck('poli', 'id');
