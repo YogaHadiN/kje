@@ -54,7 +54,6 @@ if (ID_POLI == "14") {
     if (!$("#divUsg").hasClass("hide")) {
         $("#divUsg").addClass("hide");
     }
-    $("#hamil").val("");
 }
 viewPengantar();
 function verifikasiWajahChange(control) {

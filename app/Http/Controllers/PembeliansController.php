@@ -153,6 +153,15 @@ class PembeliansController extends Controller
 
             $total_pembelian    = 0;
 
+            $merek_ids = [];
+            foreach ($data as $dat) {
+                $merek_ids[] = $dat['merek_id'];
+            }
+
+            Merek::whereIn('id', $merek_ids)->update([
+                'default' => 0
+            ]);
+
             foreach ($data as $dt) {
                 $pembelian = $fb->pembelian()->create([
                     'exp_date'   => Yoga::datePrep($dt['exp_date']),
@@ -180,6 +189,9 @@ class PembeliansController extends Controller
                     'stok'         => $merek->rak->stok + $dt['jumlah']
                 ]);
 
+                $merek->default = 1;
+                $merek->save();
+
                 // jika tanggal kadaluarsa obat yang sekarang lebih awal dari yang ada di rak,
                 // maka rubah tanggal kadaluarsa di rak menjadi lebih awal
 
@@ -189,6 +201,10 @@ class PembeliansController extends Controller
                     'masuk'    => $dt['jumlah'],
                 ]);
             }
+
+
+
+
             $jurnals[] = [
                 'coa_id'          => Coa::where('kode_coa', '112000')->first()->id, // persediaan obat
                 'debit'           => 1,

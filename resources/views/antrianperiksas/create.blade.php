@@ -27,11 +27,6 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
     {!! Form::open(['url' => 'antrianperiksas/' . $antrian_poli->id, 'method' => 'post']) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-        @if( $antrian_poli->antrian )
-            <button class="btn btn-success" type="button" onclick="panggil('{{ $antrian_poli->antrian->id }}', 'ruangpf');return false;">
-                <i class="fas fa-volume-up fa-3x"></i>
-            </button>
-        @endif
         @include('fotoPasien', ['pasien' => $antrian_poli->pasien])
         <div class="table-responsive">
             <table class="table table-hover table-condensed table-bordered">
@@ -218,7 +213,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
                     {!! Form::select('hamil',[
                         0 => 'Tidak Hamil',
                         1 => 'Hamil',
-                    ] , $antrian_poli->pasien->sex == 1? 0 : null, [
+                    ] , $antrian_poli->pasien->sex == '0' && $antrian_poli->pasien->usia > 10  ? null : 0, [
                         'class' => 'form-control rq',
                         'placeholder' => '- Pilih -'
                     ]) !!}
@@ -231,7 +226,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
                     {!! Form::select('menyusui',[
                         0 => 'Tidak Menyusui',
                         1 => 'Menyusui',
-                    ] , $antrian_poli->pasien->sex == 1? 0 : null, [
+                    ] , $antrian_poli->pasien->sex == '0' && $antrian_poli->pasien->usia > 10  ? null : 0, [
                         'class' => 'form-control rq',
                         'placeholder' => '- Pilih -'
                     ]) !!}

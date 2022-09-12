@@ -10,12 +10,16 @@
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                         <button type="button" class="btn btn-lg btn-danger btn-block" onclick="fokusKeAnemnesa(); return false;">Tutup</button>
                     </div>
-                    {{-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> --}}
-                    {{--     <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli_id) !!}" class="btn btn-lg btn-danger btn-block">Tidak Benar</a> --}}
-                    {{-- </div> --}}
+                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                        @if( $antrianperiksa->antrian )
+                            <button class="btn btn-success btn-sm btn-block" type="button" onclick="panggil('{{ $antrianperiksa->antrian->id }}', 'ruangpf');return false;">
+                                <i class="fas fa-volume-up fa-3x"></i>
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

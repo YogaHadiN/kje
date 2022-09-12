@@ -46,8 +46,6 @@ class CreateAntrianPeriksasTable extends Migration
             $table->bigInteger('periksa_id')->nullable()->index();
             $table->tinyInteger('dipanggil')->nullable()->default(0);
             $table->bigInteger('tenant_id')->index();
-            $table->integer('previous_complaint_resolved')->nullable();
-
         });
     }
 
