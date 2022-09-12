@@ -225,7 +225,7 @@ class AntrianPolisController extends Controller
 					$apx                            = new AntrianPeriksasController;
 					$apx->input_jam                 = date('H:i:s');
 					$apx->input_antrian_poli_id     = $ap->id;
-					return $apx->store($request);
+					return $apx->store($request, $ap->id);
 				}
 			}
 
