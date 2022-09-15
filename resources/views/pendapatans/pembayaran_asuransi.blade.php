@@ -25,7 +25,7 @@
 	'url'    => 'pengeluarans/pembayaran_asuransi/show/' . $rekening->id,
 	"class"  => "m-t",
 	"role"   => "form",
-	"method" => "post",
+	"method" => "get",
 	"files"  => "true"
 ]) !!}
 @include('pendapatans.memproses')

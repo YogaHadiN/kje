@@ -491,9 +491,9 @@ Route::group(['middleware' => 'auth'], function(){
  
 		Route::get('pendapatans/pembayaran_asuransi/cari_pembayaran', [\App\Http\Controllers\PendapatansController::class, 'cariPembayaran']);
 		Route::get('pendapatans/pembayaran/asuransi/{id}', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_asuransi_rekening']);
-		Route::post('pengeluarans/pembayaran_asuransi/show ', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi']);
+		Route::get('pengeluarans/pembayaran_asuransi/show ', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi']);
 
-		Route::post('pengeluarans/pembayaran_asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi_by_rekening']);
+		Route::get('pengeluarans/pembayaran_asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'lihat_pembayaran_asuransi_by_rekening']);
 		Route::get('pendapatans/pembayaran_bpjs ', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_bpjs']);
 		Route::post('pendapatans/pembayaran_bpjs', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_bpjs_post']);
 		Route::get('pendapatans/pembayaran/asuransi/show/{id}', [\App\Http\Controllers\PendapatansController::class, 'pembayaran_asuransi_show']);
