@@ -132,13 +132,13 @@ class Merek extends Model{
 
 	public function getCustidAttribute(){
 
-		$merek_id = $this->id;
+		$merek_id   = $this->id;
 		$harga_jual = $this->rak->harga_jual;
 		$harga_beli = $this->rak->harga_beli;
 		$formula_id = $this->rak->formula_id;
-		$exp_date = $this->rak->exp_date;
-		$class_rak = $this->rak->kelas_obat_id;
-		$sediaan = $this->rak->formula->sediaan;
+		$exp_date   = $this->rak->exp_date;
+		$class_rak  = $this->rak->kelas_obat_id;
+		$sediaan    = $this->rak->formula->sediaan;
 
 		$data = [
 			'merek_id' => $merek_id,

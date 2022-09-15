@@ -84,9 +84,9 @@ class MereksController extends Controller
 
 		if (Input::ajax()) {
 			$returnData = [
-				'merek_id' => $merek_id_custom,
-				'merek'	=> $merek_custom,
-				'custom_value' => Merek::find($merek_id_custom)->custid
+				'merek_id'     => $merek->id,
+				'merek'        => $merek_custom,
+				'custom_value' => Merek::find($merek->id)->custid
 			];
 
 			return json_encode($returnData);

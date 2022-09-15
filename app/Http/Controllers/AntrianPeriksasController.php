@@ -420,10 +420,10 @@ class AntrianPeriksasController extends Controller
             $pesan = Yoga::gagalFlash('Nurse Station Poli Sudah dikerjakan dan sudah masuk antrian periksa');
             return redirect()->back()->withPesan($pesan);
         }
-        $asuransi_list = Asuransi::pluck('nama', 'id');
-        $staf_list = Staf::pluck('nama', 'id');
-        $poli_list = Poli::pluck('poli', 'id');
-        $verifikasi_wajah_list = VerifikasiWajah::pluck('verifikasi', 'id');
+        $asuransi_list          = Asuransi::pluck('nama', 'id');
+        $staf_list              = Staf::pluck('nama', 'id');
+        $poli_list              = Poli::pluck('poli', 'id');
+        $verifikasi_wajah_list  = VerifikasiWajah::pluck('verifikasi', 'id');
         $hubungan_keluarga_list = HubunganKeluarga::all();
 
         $cekGDSDiNurseStation = $this->cekGDSDiNurseStation($antrian_poli);

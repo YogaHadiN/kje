@@ -140,7 +140,7 @@
 													<select name="" id="ddlMerekChange" class="form-control" onchange="ddlOnChange(this);return false;">
 														@foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
 															@if ($mrk_id == $terapi['merek_id'])
-																<option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
+                                                                <option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
 															@else
 																<option value='{!! $mereks->find($mrk_id)->merek_jual !!}'>{!!$mereks->find($mrk_id)->merek !!}</option>
 															@endif
@@ -370,7 +370,7 @@
 		data[i].merek_id = merek_id;
 		data[i].harga_beli_satuan = harga_beli;
 		data[i].harga_jual_satuan = harga_jual * {{ $periksa->asuransi->kali_obat }};
-		encodeTerapi(data,harga_jual,control,jumlah);
+		encodeTerapi(data,harga_jual,control,jumlah, fornas);
 		console.log('ddlOnChange');
     }
 
@@ -477,7 +477,7 @@
 		var temp = $('#terapi1').val();
 		return $.parseJSON(temp);
 	}
-	function encodeTerapi(temp, harga_jual, control, jumlah){
+	function encodeTerapi(temp, harga_jual, control, jumlah, fornas){
 		var temp = JSON.stringify(temp);
 		$('#terapi1').val(temp);
 		$('#terapi2').val(temp);
@@ -512,7 +512,7 @@
 		
 		var data = parseTerapi();
 		data[i].jumlah = jumlah;
-		encodeTerapi(data, harga_jual, control, jumlah);
+		encodeTerapi(data, harga_jual, control, jumlah, fornas);
 	}
 	function hargaJual(control){
 		var MyArray = $(control).closest('tr').find('select').val();
