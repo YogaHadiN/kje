@@ -102,8 +102,14 @@ function verifikasiWajahChange(control) {
                         $("#antrian_poli_id").val(),
                     {},
                     function (data, textStatus, jqXHR) {
-                        window.location =
-                            base + "/antrians/proses/" + $("#antrian_id").val();
+                        if ($("#antrian_id").val() !== null) {
+                            window.location =
+                                base +
+                                "/antrians/proses/" +
+                                $("#antrian_id").val();
+                        } else {
+                            window.location = base + "/pasiens";
+                        }
                     }
                 );
             } else {

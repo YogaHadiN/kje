@@ -23,7 +23,7 @@ Klinik Jati Elok | Ruang Pemeriksaan Fisik
     {!! Form::text('kepala_keluarga_id', $antrian_poli->pasien->kepala_keluarga_id, ['class' => 'form-control hide', 'id' =>'kepala_keluarga_id']) !!}
     {!! Form::text('antrian_poli_id', $antrian_poli->id, ['class' => 'form-control hide', 'id' =>'antrian_poli_id']) !!}
     {!! Form::text('poli_id', $antrian_poli->poli_id, ['class' => 'form-control hide', 'id' =>'poli_id']) !!}
-    {!! Form::text('antrian_id', $antrian_poli->antrian->id, ['class' => 'form-control hide', 'id' =>'antrian_id']) !!}
+    {!! Form::text('antrian_id', is_null($antrian_poli->antrian) ? null : $antrian_poli->antrian->id, ['class' => 'form-control hide', 'id' =>'antrian_id']) !!}
     {!! Form::open(['url' => 'antrianperiksas/' . $antrian_poli->id, 'method' => 'post']) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
