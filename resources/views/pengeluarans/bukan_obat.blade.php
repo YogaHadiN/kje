@@ -140,33 +140,37 @@
 				'key':            key
 			};
 			$.post(base + '/pengeluarans/data/ajax', param, function(hasil) {
-				var data    = hasil.data;
-				var pages   = hasil.pages;
-				var key     = hasil.key;
-				var rows     = hasil.rows;
-				var temp    = '';
-				 for (var i = 0; i < data.length; i++) {
-					 temp += '<tr>';
-					 temp += '<td>' + data[i].tanggal +  '</td>';
-					 temp += '<td>' + data[i].keterangan +  '</td>';
-					 temp += '<td> <a class="" href="{{ url('suppliers') }}/' + data[i].supplier_id + '" target="_blank"> ' + data[i].supplier +  '</a></td>';
-					 temp += '<td nowrap class="text-right">' + uang( data[i].nilai ) +  '</td>';
-					 temp += '<td nowrap>';
-					 temp += '<a class="btn btn-info btn-xs" href="{{ url('pengeluarans/show') }}/' + data[i].pg_id + '">Detail</a>';
-					 temp += ' <a class="btn btn-primary btn-xs" href="{{ url('pdfs/pengeluarans') }}/' + data[i].pg_id + '" target="_blank">Struk</a>';
-					 temp += '</td>';
-					 temp += '</tr>';
-				 }
-				$('#content').html(temp);
-				$('#paging').twbsPagination({
-					startPage: parseInt(key) +1,
-					totalPages: pages,
-					visiblePages: 7,
-					onPageClick: function (event, page) {
-						view(parseInt( page ) -1);
-					}
-				});
-				$('#rows_found').html(numeral( rows ).format('0,0'));
+                if( hasil.data.length ){
+                    var data    = hasil.data;
+                    var pages   = hasil.pages;
+                    var key     = hasil.key;
+                    var rows     = hasil.rows;
+                    var temp    = '';
+                     for (var i = 0; i < data.length; i++) {
+                         temp += '<tr>';
+                         temp += '<td nowrap>' + data[i].tanggal +  '</td>';
+                         temp += '<td>' + data[i].keterangan +  '</td>';
+                         temp += '<td> <a class="" href="{{ url('suppliers') }}/' + data[i].supplier_id + '" target="_blank"> ' + data[i].supplier +  '</a></td>';
+                         temp += '<td nowrap class="text-right">' + uang( data[i].nilai ) +  '</td>';
+                         temp += '<td nowrap>';
+                         temp += '<a class="btn btn-info btn-xs" href="{{ url('pengeluarans/show') }}/' + data[i].pg_id + '">Detail</a>';
+                         temp += ' <a class="btn btn-primary btn-xs" href="{{ url('pdfs/pengeluarans') }}/' + data[i].pg_id + '" target="_blank">Struk</a>';
+                         temp += '</td>';
+                         temp += '</tr>';
+                     }
+                    $('#content').html(temp);
+                    $('#paging').twbsPagination({
+                        startPage: parseInt(key) +1,
+                        totalPages: pages,
+                        visiblePages: 7,
+                        onPageClick: function (event, page) {
+                            view(parseInt( page ) -1);
+                        }
+                    });
+                    $('#rows_found').html(numeral( rows ).format('0,0'));
+                } else {
+                    $('#content').html( '<tr class="alert-warning"><td class="text-center" colspan="5">Tidak ada data ditemukan</td></tr>');
+                }
 			});
 
 		}
