@@ -337,10 +337,16 @@ function changeAsuransi(control) {
         base + "/asuransis/get/coa_id",
         { asuransi_id: asuransi_id },
         function (data, textStatus, jqXHR) {
-            data = $.trim(data);
-            $(".name_111").find("select").val(data);
-            $(".name_111").find("select").selectpicker("refresh");
-            coaChange($(".name_111").find("select"));
+            var jurnals = getJurnalObject();
+            for (let i = 0, len = jurnals.length; i < len; i++) {
+                if (jurnals[i].coa.kode_coa.substring(0, 3) == "111") {
+                    jurnals[i].coa_id = data.coa_id;
+                    jurnals[i].coa = data.coa;
+                    break;
+                }
+            }
+            stringifyJurnal(jurnals);
+            viewJurnals();
         }
     );
 }

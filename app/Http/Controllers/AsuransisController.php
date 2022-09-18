@@ -885,7 +885,10 @@ class AsuransisController extends Controller
 	public function getAsuransiCoaId(){
 		$asuransi_id = Input::get('asuransi_id');
 		$asuransi    = Asuransi::find($asuransi_id);
-		return $asuransi->coa_id;
+        return [
+            'coa' => $asuransi->coa,
+            'coa_id' => $asuransi->coa_id
+        ];
 	}
 	public function riwayatPembayaran($asuransi_id){
 		$pembayaran_asuransi_id = Input::get('pembayaran_asuransi_id');

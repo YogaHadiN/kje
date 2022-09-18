@@ -352,26 +352,10 @@
         var i = $(control).closest('tr').find('.key').html();
 		var data = parseTerapi();
 
-
-        console.log(jumlah);
-        console.log(js);
-        console.log(MyArray);
-        console.log(merek_id);
-        console.log(rak_id);
-        console.log(asuransi_id);
-        console.log(formula_id);
-        console.log(harga_jual);
-        console.log(harga_beli);
-        console.log(fornas);
-        console.log(id);
-        console.log(i);
-		console.log(data);
-
 		data[i].merek_id = merek_id;
 		data[i].harga_beli_satuan = harga_beli;
 		data[i].harga_jual_satuan = harga_jual * {{ $periksa->asuransi->kali_obat }};
 		encodeTerapi(data,harga_jual,control,jumlah, fornas);
-		console.log('ddlOnChange');
     }
 
     function tambah(control){

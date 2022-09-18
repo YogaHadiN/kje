@@ -263,7 +263,7 @@
 	<div class="hide">
 		{!! Form::textarea('temp', '[]', ['class' => 'form-control textareacustom', 'id' => 'temp']) !!}
 	</div>
-	<div class="hide">
+	<div class="">
 		<h2>Jurnals</h2>
 		{!! Form::textarea('jurnals', $periksa->jurnals, ['class' => 'form-control textareacustom', 'id' => 'jurnals']) !!}
 	</div>
