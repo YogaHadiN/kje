@@ -460,6 +460,11 @@ class PendapatansController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+        
+        if ( Rekening::find($id) ) {
+            $pesan = Yoga::gagalFlash('Transaksi tidak ditemukan');
+            return redirect()->back()->withPesan($pesan);
+        }
 
 		return $this->lihat_pembayaran_asuransi_template($id);
 	}

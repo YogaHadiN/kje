@@ -445,7 +445,6 @@
 <script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
   <script src="{!! url('js/master.js') !!}"></script>
 	<script>
-		{{-- alert('yuhuuu'); --}}
 		var base = "{{ url('/') }}";
 		var base_s3 = "{{ env('AWS_URL') }}";
 		$.ajaxSetup({
@@ -486,11 +485,16 @@
                 referrer: document.referrer,
                 userAgent: navigator.userAgent
               }
+            }).done(function(){
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Terjadi Error. Mohon jelaskan apa yang sedang anda lakukan ke dr. Yoga',
+                });
             });
-
-            {{-- return suppressErrors; --}}
           };
         } catch(e) { }
+        throw new Error('Exception message');
 	</script>
 @yield('footer')
 </body>

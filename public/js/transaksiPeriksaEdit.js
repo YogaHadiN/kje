@@ -160,7 +160,7 @@ function coaChange(control) {
     var coa_id = $(control).val();
     var data = $("#jurnals").val();
     data = JSON.parse(data);
-    console.log("data", data, "key", key);
+    console.log("data", data, "key", key, "coa_id", coa_id);
     data[key]["coa_id"] = coa_id;
     data = JSON.stringify(data);
     $("#jurnals").val(data);
