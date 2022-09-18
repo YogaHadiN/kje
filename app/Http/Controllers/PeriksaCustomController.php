@@ -46,17 +46,16 @@ class PeriksaCustomController extends Controller
 		));
 	}
 	public function updateTransaksiPeriksa(){
-
-		$transaksis = json_decode( Input::get('transaksis'), true );
-		$periksa    = json_decode( Input::get('periksa'), true );
-		$jurnals    = json_decode( Input::get('jurnals'), true );
-		$temp       = json_decode( Input::get('temp'), true );
-
-		$timestamp  = date('Y-m-d H:i:s');
-		$jurnal     = [];
-
 		DB::beginTransaction();
 		try {
+            $transaksis = json_decode( Input::get('transaksis'), true );
+            $periksa    = json_decode( Input::get('periksa'), true );
+            $jurnals    = json_decode( Input::get('jurnals'), true );
+            $temp       = json_decode( Input::get('temp'), true );
+
+            $timestamp  = date('Y-m-d H:i:s');
+            $jurnal     = [];
+
 			foreach ($transaksis as $t) {
 				$trans        = TransaksiPeriksa::find($t['id']);
 				$trans->biaya = $t['biaya'];
@@ -70,6 +69,12 @@ class PeriksaCustomController extends Controller
 				$pesan = Yoga::gagalFlash('Tidak boleh merubah nama asuransi menjadi biaya pribadi');
 				return \Redirect::back()->withPesan($pesan);
 			}
+            // jika jurnals memiliki kode coa dengan awalan 111 
+            // maka cocokkan dengan coa_id asuransi
+            if ( $this->coaIdPiutangAsuransiTidakCocokDenganJurnal($jurnals, $periksa)  ) {
+				$pesan = Yoga::gagalFlash('COA di jurnal tidak cocok dengan jenis asuransi');
+				return \Redirect::back()->withPesan($pesan);
+            }
 
 
 			$prx->tunai          = $periksa['tunai'];
@@ -133,5 +138,22 @@ class PeriksaCustomController extends Controller
     public function getCoaList(){
         return Coa::pluck('coa_id', 'coa');
     }
-    
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function coaIdPiutangAsuransiTidakCocokDenganJurnal($jurnals, $periksa) {
+        $asuransi = Asuransi::find($periksa['asuransi_id']);
+        foreach ($jurnals as $jurnal) {
+            if (
+                substr($jurnal['coa']['kode_coa'], 0, 3) == '111' &&// jika kode coa pada jurnal diawali dengan 111
+                $asuransi->coa_id != $jurnal['coa_id']
+            ) {
+                return true;
+                break;
+            } 
+        }
+        return false;
+    }
 }
