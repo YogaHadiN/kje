@@ -494,7 +494,6 @@
             });
           };
         } catch(e) { }
-        throw new Error('Exception message');
 	</script>
 @yield('footer')
 </body>
