@@ -122,19 +122,53 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
-        $query  = "update mereks set `default` = 0;";
-        $data = DB::statement($query);
-
-        $query  = " select rk.id as rak_id, pbl.merek_id, max(pbl.created_at) from `pembelians` as pbl join mereks as mrk on mrk.id = pbl.merek_id join raks as rk on rk.id = mrk.rak_id group by rk.id;";
-        $data = DB::select($query);
-
-        foreach ($data as $d) {
-            $merek          = Merek::find($d->merek_id);
-            $merek->default = 1 ;
-            $merek->save();
+        $jurnal_umums = JurnalUmum::where('jurnalable_type' , 'App\Models\Periksa')->where('created_at','like', '2022%')->get();
+        $data = [];
+        foreach ($jurnal_umums as $jurnal) {
+            $data[$jurnal->jurnalable_id][] = $jurnal;
         }
 
-        dd('jumlah rak', Rak::count(), 'jumlah merek', Merek::count(), 'jumlah merek dengan default' , Merek::where('default', 1)->count());
+        $error = [];
+        foreach ($data as $key => $dat) {
+            $periksa = Periksa::find($key);
+            $cao_id_asuransi = $periksa->asuransi->coa_id;
+            $found_coa_id = false;
+            foreach ($dat as $da) {
+                if ($da->coa_id == $cao_id_asuransi) {
+                    $found_coa_id = true;
+                    break;
+                }
+            }
+            if (!$found_coa_id && $periksa->piutang) {
+                $error[] = $key;
+            }
+        }
+
+        $jurnal_umums = JurnalUmum::with('coa')->where('jurnalable_type' , 'App\Models\Periksa')->whereIn('jurnalable_id', $error)->get();
+
+        $data = [];
+        foreach ($jurnal_umums as $jurnal) {
+            $data[ $jurnal->jurnalable_id ][] = $jurnal;
+        }
+
+        $error_jurnal_umum_id = [] ;
+        foreach ($data as $key => $dat) {
+            $periksa = Periksa::find($key);
+            $cao_id_asuransi = $periksa->asuransi->coa_id;
+            $jurnal_umum_id = null;
+            foreach ($dat as $da) {
+                if (substr( $da->coa->kode_coa , 0, 3) == '111') {
+                    $jurnal_umum_id = $da->id;
+                    $error_jurnal_umum_id[] = $da->id;
+                    break;
+                }
+            }
+            if ( !is_null( $jurnal_umum_id )  ) {
+                JurnalUmum::where('id', $jurnal_umum_id)->update([
+                    'coa_id' => $cao_id_asuransi
+                ]);
+            }
+        }
     }
     
     public function obatTenant()
