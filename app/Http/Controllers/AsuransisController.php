@@ -1041,10 +1041,12 @@ class AsuransisController extends Controller
     public function refreshTunaiPiutang(){
         $asuransi = Asuransi::find(Input::get('asuransi_id'));
         $coa_tunai = Coa::where('kode_coa', 110000)->first();
+        $coa_id_kas_di_kasir = $coa_tunai->id;
 
         return [
             'tipe_asuransi_id'  => $asuransi->tipe_asuransi_id,
             'kode_coa_asuransi' => $asuransi->coa->kode_coa,
+            'coa_id_kas_di_kasir' => $coa_id_kas_di_kasir,
             'coa_tunai'         => $coa_tunai
         ];
     }

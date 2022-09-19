@@ -131,7 +131,7 @@ function refreshTunaiPiutang(control) {
                                     jurnalable_id: null,
                                     debit: 1,
                                     nilai: tunai,
-                                    coa_id: 110000,
+                                    coa_id: data.coa_id_kas_di_kasir,
                                     created_at: null,
                                     updated_at: null,
                                     jurnalable_type: "App\\Models\\Periksa",
@@ -338,11 +338,22 @@ function changeAsuransi(control) {
         { asuransi_id: asuransi_id },
         function (data, textStatus, jqXHR) {
             var jurnals = getJurnalObject();
+            var coa_asuransi_tidak_ditemukan = true;
             for (let i = 0, len = jurnals.length; i < len; i++) {
                 if (jurnals[i].coa.kode_coa.substring(0, 3) == "111") {
                     jurnals[i].coa_id = data.coa_id;
                     jurnals[i].coa = data.coa;
+                    coa_asuransi_tidak_ditemukan = false;
                     break;
+                }
+            }
+            if (coa_asuransi_tidak_ditemukan) {
+                for (let i = 0, len = jurnals.length; i < len; i++) {
+                    if (jurnals[i].coa.kode_coa.substring(0, 3) == "110") {
+                        jurnals[i].coa_id = data.coa_id;
+                        jurnals[i].coa = data.coa;
+                        break;
+                    }
                 }
             }
             stringifyJurnal(jurnals);
