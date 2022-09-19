@@ -921,13 +921,13 @@ class AsuransisController extends Controller
 		$query .= "rek.deskripsi as deskripsi ";
 		$query .= "FROM pembayaran_asuransis as pem ";
 		$query .= "LEFT JOIN rekenings as rek on rek.pembayaran_asuransi_id = pem.id ";
-		$query .= "WHERE pem.id like '%{$pembayaran_asuransi_id}%'";
+		$query .= "WHERE pem.asuransi_id like '{$asuransi_id}' ";
 		$query .= "AND ( pem.tanggal_dibayar like '{$tanggal}%' or '{$tanggal}' = '' ) ";
 		$query .= "AND ( pem.pembayaran like '{$pembayaran}%' or '{$pembayaran}' = '' ) ";
 		$query .= "AND ( rek.nilai like '{$nilai}%' or '{$pembayaran}' = '' ) ";
 		$query .= "AND ( rek.deskripsi like '{$deskripsi}%' or '{$deskripsi}' = '' ) ";
 		$query .= "AND pem.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "AND pem.asuransi_id like '{$asuransi_id}' ";
+		$query .= "AND pem.id like '%{$pembayaran_asuransi_id}%' ";
 		$query .= "ORDER BY {$column_name} {$order} ";
 
 		$data = DB::select($query);

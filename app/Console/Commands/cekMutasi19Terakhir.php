@@ -64,7 +64,6 @@ class cekMutasi19Terakhir extends Command
 		$inserted_description = [];
 		$timestamp            = date('Y-m-d H:i:s');
 		$insertMutasi         = [];
-		/* dd( 'banks', $banks ); */
 		
 
 		foreach ($banks['data'] as $bank) {
@@ -135,7 +134,7 @@ class cekMutasi19Terakhir extends Command
 							str_contains( $description, ' INV/')	//deskripsi mengandung INV/
 						){
 							$invoice_description = $this->getInvoiceFromDescription($description);
-							$invoices             = Invoice::where('id', 'like', $invoice_description . '%')->get();
+							$invoices             = Invoice::where('kode_invoice', 'like', $invoice_description . '%')->get();
 							if (
 								$invoices->count() == 1 && //jika ditemukan 1 data
 								$invoices->first()->detail['total_tagihan'] == $this->amount // jumlah tagihannya sama
@@ -143,6 +142,38 @@ class cekMutasi19Terakhir extends Command
 								$invoice_id             = $invoices->first()->id;
 								$pembayaran_asuransi_id = $this->validatePembayaran($invoices->first()->id);
 							}
+						} else if(
+							str_contains( $description, '/P')	//deskripsi mengandung INV/
+						){
+							$asuransi_id = $this->getAsuransiIdFromDescription($description);
+                            $query  = "select ";
+                            $query .= "invoice_id, ";
+                            $query .= "sum(piutang) - sum(sudah_dibayar) as sisa ";
+                            $query .= "FROM (";
+                            $query .= "select ";
+                            $query .= "prx.piutang as piutang, ";
+                            $query .= "prx.invoice_id as invoice_id, ";
+                            $query .= "COALESCE(SUM(pdb.pembayaran),0) as sudah_dibayar ";
+                            $query .= "from periksas as prx ";
+                            $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+                            $query .= "JOIN invoices as inv on inv.id = prx.invoice_id ";
+                            $query .= "JOIN kirim_berkas as krm on krm.id = inv.kirim_berkas_id ";
+                            $query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
+                            $query .= "WHERE asu.id = '{$asuransi_id}' ";
+                            $query .= "AND krm.tanggal < '{$mutasi->created_at}' ";
+                            $query .= "AND inv.tenant_id = 1 ";
+                            $query .= "group by prx.id ";
+                            $query .= ") bl ";
+                            $query .= "group by invoice_id ";
+                            $query .= "HAVING sisa = {$mutasi->amount} ";
+                            $data   = DB::select($query);
+
+                            if ( count($data) == 1 ) {
+                                $data                   = $data[0];
+                                $invoice_id             = $data->invoice_id;
+                                $pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
+                            }
+
 						} else {
 							$query  = "SELECT * ";
 							$query .= "FROM asuransis asu ";
@@ -206,6 +237,7 @@ class cekMutasi19Terakhir extends Command
 		foreach ($words as $word) {
 			if (str_contains( $word, 'INV/')) {
 				return $word;
+                break;
 			}
 		}
 		return '';
@@ -255,4 +287,21 @@ class cekMutasi19Terakhir extends Command
 		$pembayaran_asuransi_id = $pb['pb']->id;
 		return $pembayaran_asuransi_id;
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function getAsuransiIdFromDescription($description)
+    {
+		$words = explode('/', $description);
+		foreach ($words as $word) {
+			if (substr($word, 0, 1) == 'P') {
+				return preg_replace('~\D~', '', $word);;
+                break;
+			}
+		}
+		return '';
+    }
+    
 }
