@@ -828,7 +828,7 @@ class Periksa extends Model{
         $pemeriksa = $this->staf->nama;
         $poli = $this->poli;
 
-        return 'Pasien ' . $pasien . ', diagnosa : ' . $diagnosis . ', pembayaran : ' . $pembayaran . ', Pemeriksa : ' . $pemeriksa . ' Poli: ' . $poli;
+        return 'Pasien ' . $pasien . ', diagnosa : ' . $diagnosis . ', pembayaran : ' . $pembayaran . ', Pemeriksa : ' . $pemeriksa . ' Poli: ' . $poli->poli;
 
     }
 

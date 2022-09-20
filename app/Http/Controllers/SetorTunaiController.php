@@ -86,21 +86,22 @@ class SetorTunaiController extends Controller
         }
 
 
+        $jurnal_created_at = $setor_tunai->jurnals()->first()->created_at;
+
         $jurnal_umums[] = [
             'coa_id'     => Input::get('coa_id'), // Tujuan transfer
             'debit'      => 1,
             'nilai'      => $setor_tunai->nominal,
-            'created_at' => $setor_tunai->created_at,
-            'updated_at' => $setor_tunai->updated_at
+            'created_at' => $jurnal_created_at
         ];
 
         $coa_110000 = Coa::kasDiTangan();
+
         $jurnal_umums[] = [
             'coa_id'     => $coa_110000->id, // Kas di tangan
             'debit'      => 0,
             'nilai'      => $setor_tunai->nominal,
-            'created_at' => $setor_tunai->created_at,
-            'updated_at' => $setor_tunai->updated_at
+            'created_at' => $jurnal_created_at
         ];
 
         $setor_tunai->jurnals()->delete();

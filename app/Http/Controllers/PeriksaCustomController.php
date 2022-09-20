@@ -100,14 +100,15 @@ class PeriksaCustomController extends Controller
 					$prx->save();
 			} 
 
+            $jurnal_created_at = $prx->jurnals()->first()->created_at;
+
 			foreach ($jurnals as $j) {
 				if ( $j['nilai'] > 0 ) {
 					$jurnal[] = [
 						'debit'      => $j['debit'],
 						'coa_id'     => $j['coa_id'],
                         'nilai'      => $j['nilai'],
-                        'created_at' => $prx->created_at,
-                        'updated_at' => $prx->updated_at,
+                        'created_at' => $jurnal_created_at
 					];
 				}
 			}
@@ -117,8 +118,7 @@ class PeriksaCustomController extends Controller
 						'debit'      => $t['debit'],
 						'coa_id'     => $t['coa_id'],
 						'nilai'      => $t['nilai'],
-                        'created_at' => $prx->created_at,
-                        'updated_at' => $prx->updated_at,
+                        'created_at' => $jurnal_created_at
 					];
 				}
 			}
