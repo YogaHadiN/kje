@@ -81,25 +81,21 @@ function refreshTunaiPiutang(control) {
                 var total_transaksi = 0;
                 var transaksis = $("#transaksis").val();
                 transaksis = JSON.parse(transaksis);
-                console.log("transaksis", transaksis);
                 for (let i = 0, len = transaksis.length; i < len; i++) {
                     total_transaksi += parseInt(transaksis[i].biaya);
                 }
                 var tunai = cleanUang($("#totalTransaksiTunai").val());
                 var piutang = cleanUang($("#totalTransaksiPiutang").val());
                 if (tunai > total_transaksi) {
-                    console.log("triggered 1");
                     $("#totalTransaksiTunai").val(uang(total_transaksi));
                     piutang = 0;
                     $("#totalTransaksiPiutang").val(uang(piutang));
                 } else if (tunai == "") {
-                    console.log("triggered 2");
                     tunai = 0;
                     piutang = total_transaksi;
                     $("#totalTransaksiTunai").val(uang(tunai));
                     $("#totalTransaksiPiutang").val(uang(piutang));
                 } else {
-                    console.log("triggered 3");
                     piutang = total_transaksi - tunai;
                     $("#totalTransaksiPiutang").val(uang(piutang));
                 }
