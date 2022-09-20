@@ -1174,7 +1174,7 @@ class PengeluaransController extends Controller
         $uang_di_tangan               = $last_chekcout->uang_di_tangan;
         $jurnal_umum_id_last_cehckout = $last_chekcout->jurnal_umum_id;
         $tanggal                      = $last_chekcout->created_at;
-        $jurnal_umums = JurnalUmum::whereRaw("id > {$jurnal_umum_id_last_cehckout} and jurnalable_type = 'App\\\Models\\\Modal' and debit = 0 and (coa_id = " . Coa::where('kode_coa', 301000)->first()->id . " or coa_id= " . Coa::where('kode_coa', 110004)->first()->id . " ) ")
+        $jurnal_umums = JurnalUmum::whereRaw("created_at > '{$tanggal}' and jurnalable_type = 'App\\\Models\\\Modal' and debit = 0 and (coa_id = " . Coa::where('kode_coa', 301000)->first()->id . " or coa_id= " . Coa::where('kode_coa', 110004)->first()->id . " ) ")
 									->get();
         $modal_awal = 0;
 		$modal_ids = [];
@@ -1184,15 +1184,13 @@ class PengeluaransController extends Controller
         }
 
 		$coa_id_110000 = Coa::where('kode_coa', '110000')->first()->id;
-        $total_uang_masuk = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
-                                ->where('coa_id', $coa_id_110000) 
+        $total_uang_masuk = JurnalUmum::where('coa_id', $coa_id_110000) 
                                 ->where('jurnalable_type', '!=', 'App\Models\Modal')
 								->where('created_at', '>=', $last_chekcout->created_at)
                                 ->where('debit', '1')
                                 ->sum('nilai');
 
-        $total_uang_keluar = JurnalUmum::where('id', '>', $jurnal_umum_id_last_cehckout)
-                                ->where('coa_id', $coa_id_110000) 
+        $total_uang_keluar = JurnalUmum::where('coa_id', $coa_id_110000) 
 								->where('created_at', '>=', $last_chekcout->created_at)
                                 ->where('jurnalable_type', '!=', 'App\Models\Modal')
                                 ->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
