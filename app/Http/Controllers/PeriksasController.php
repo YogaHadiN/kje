@@ -814,7 +814,7 @@ class PeriksasController extends Controller
 		$query .= "prx.tanggal as tanggal, ";
 		$query .= "prx.sistolik, ";
 		$query .= "prx.id as periksa_id, ";
-		$query .= "CAST(trx.keterangan_pemeriksaan AS UNSIGNED) as gula_darah, ";
+		$query .= "MIN(CAST(trx.keterangan_pemeriksaan AS UNSIGNED)) as gula_darah, ";
 		$query .= "prx.diastolik ";
 		$query .= "FROM periksas as prx ";
 		$query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
@@ -828,6 +828,7 @@ class PeriksasController extends Controller
 		//pemeriksaan terflagging prolanis_dm
 		$query .= "AND prx.prolanis_dm = '1'";
 		$query .= "AND jtf.jenis_tarif = 'Gula Darah' ";
+		$query .= "AND trx.keterangan_pemeriksaan > 0 ";
 		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
 		/* $query .= "AND CAST(trx.keterangan_pemeriksaan AS UNSIGNED) between 80 and 130 "; */
 		$query .= "GROUP BY pasien_id ";
