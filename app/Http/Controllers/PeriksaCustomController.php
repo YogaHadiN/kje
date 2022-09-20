@@ -75,6 +75,11 @@ class PeriksaCustomController extends Controller
 				return \Redirect::back()->withPesan($pesan);
             }
 
+            if ( $this->coa_id_asuransi_tidak_ditemukan_saat_piutang_periksa_tidak_nol($jurnals, $periksa)  ) {
+				$pesan = Yoga::gagalFlash('coa_id asuransi tidak ditemukan padahal piutang pemeriksaan tidak nol');
+				return \Redirect::back()->withPesan($pesan);
+            }
+
 
 			$prx->tunai          = $periksa['tunai'];
 			$prx->asuransi_id    = $periksa['asuransi_id'];
@@ -98,18 +103,22 @@ class PeriksaCustomController extends Controller
 			foreach ($jurnals as $j) {
 				if ( $j['nilai'] > 0 ) {
 					$jurnal[] = [
-						'debit'           => $j['debit'],
-						'coa_id'          => $j['coa_id'],
-						'nilai'           => $j['nilai']
+						'debit'      => $j['debit'],
+						'coa_id'     => $j['coa_id'],
+                        'nilai'      => $j['nilai'],
+                        'created_at' => $prx->created_at,
+                        'updated_at' => $prx->updated_at,
 					];
 				}
 			}
 			foreach ($temp as $t) {
 				if ( $t['nilai'] > 0 ) {
 					$jurnal[] = [
-						'debit'           => $t['debit'],
-						'coa_id'          => $t['coa_id'],
-						'nilai'           => $t['nilai'],
+						'debit'      => $t['debit'],
+						'coa_id'     => $t['coa_id'],
+						'nilai'      => $t['nilai'],
+                        'created_at' => $prx->created_at,
+                        'updated_at' => $prx->updated_at,
 					];
 				}
 			}
@@ -155,4 +164,20 @@ class PeriksaCustomController extends Controller
         }
         return false;
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function coa_id_asuransi_tidak_ditemukan_saat_piutang_periksa_tidak_nol($jurnals, $periksa) {
+        $asuransi = Asuransi::find($periksa['asuransi_id']);
+        foreach ($jurnals as $jurnal) {
+            if ( $jurnal['coa_id'] == $asuransi->coa_id) {
+                return false;
+                break;
+            } 
+        }
+        return true;
+    }
+    
 }

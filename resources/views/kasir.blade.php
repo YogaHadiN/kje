@@ -137,7 +137,7 @@
 											<tr>
 												<td class="hide key">{!! $key !!}</td>
 												<td>
-													<select name="" id="ddlMerekChange" class="form-control" onchange="ddlOnChange(this);return false;">
+													<select name="" id="ddlMerekChange" class="form-control merek_jual" onchange="ddlOnChange(this);return false;">
 														@foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
 															@if ($mrk_id == $terapi['merek_id'])
                                                                 <option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
@@ -484,6 +484,10 @@
 		var harga_jual = hargaJual(control);
 		var awal = $(control).closest('tr').find('.jumlah').html();
 		var id = $(control).closest('tr').find('.terapi_id').html();
+        var merek_jual = $(control).closest('tr').find('.merek_jual').val();
+        MyArray = JSON.parse(merek_jual);
+        var fornas = MyArray.fornas;
+
 
 		if (parseInt($(control).val()) > awal) {
 			var jumlah = awal;
