@@ -397,7 +397,7 @@ function viewTransaksiPeriksa() {
             "</td>";
         temp +=
             "<td>" +
-            '<input class="form-control uangInputTransaksiPeriksa text-right biaya" id="tunai" onkeyup="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
+            '<input class="form-control uangInputTransaksiPeriksa text-right biaya" id="tunai" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
             transaksiPeriksaArray[i]["biaya"] +
             '" autocomplete="off">' +
             "</td>";
