@@ -179,9 +179,7 @@ function nilaiKeyUp(control) {
 }
 function transaksiPeriksa(control) {
     var nilai = $(control).closest("tr").find(".biaya").val();
-    console.log("nilai", nilai);
     nilai = cleanUang(nilai);
-    console.log("nilai", nilai);
     var keterangan_pemeriksaan = $(control)
         .closest("tr")
         .find(".keterangan_pemeriksaan")
@@ -193,7 +191,6 @@ function transaksiPeriksa(control) {
     transaksis[key].keterangan_pemeriksaan = keterangan_pemeriksaan;
     var total_biaya = 0;
     for (let i = 0, len = transaksis.length; i < len; i++) {
-        console.log("transaksis", transaksis);
         total_biaya += parseInt(transaksis[i]["biaya"]);
     }
     stringifyTransaksi(transaksis);
@@ -407,7 +404,7 @@ function viewTransaksiPeriksa() {
                 : "";
         temp +=
             "<td>" +
-            '<input class="form-control text-right keterangan_pemeriksaan" id="" onkeyup="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
+            '<input class="form-control text-right keterangan_pemeriksaan" id="" onblur="transaksiPeriksa(this);return false;" name="tunai" type="text" value="' +
             keterangan_pemeriksaan +
             '" autocomplete="off">' +
             "</td>";
