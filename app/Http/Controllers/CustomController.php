@@ -614,6 +614,7 @@ class CustomController extends Controller
 				$antrian                 = $antriankasir->antrian;
 				$antrian->antriable_type = 'App\Models\Periksa' ;
 				$antrian->antriable_id   = $periksa->id;
+				$antrian->kode_unik      = null;
 				$antrian->save();
 			}
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\SuratSakitsController;
 use App\Events\updateMonitor;
 use App\Models\AntrianPeriksa;
+use App\Models\WablasController;
 use App\Models\Antrian;
 use App\Models\Classes\Yoga;
 use App\Models\TujuanRujuk;
@@ -712,6 +713,29 @@ class PolisController extends Controller
 
 		$apc                                = new AntrianPolisController;
 		$apc->updateJumlahAntrian($panggil_pasien, $ruangan);
+
+        $wa = new WablasController;
+        $wa->bulkSend( $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian) );
+
 		return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function ingatKanYangNgantriDiAntrianPeriksa($nomor_antrian)
+    {
+        $antrians = Antrian::where('antriable_type', 'App\Models\AntrianPeriksa')
+                            ->where('created_at', 'like', date('Y-m-d') . '%')
+                            ->get();
+        $data = [];
+        foreach ($antrians as $antrian) {
+            $data[] = [
+                'message' => 'Nomor Antrian ' . $nomor_antrian . ' Sudah dipanggil',
+                'phone' => $antrian->no_telp
+            ];
+        }
+        return $data;
+    }
 }
