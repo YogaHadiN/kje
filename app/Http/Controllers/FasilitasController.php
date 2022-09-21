@@ -320,7 +320,7 @@ class FasilitasController extends Controller
 
 		$url    = url('/');
 		$qr     = new QrCodeController;
-        $qr_code = $qr->inPdf('https://wa.me/6281381912803?text=' . $kode_unik);
+        $qr_code = $qr->inPdf('https://wa.me/6282113781271?text=' . $kode_unik);
 
 
         return compact(
