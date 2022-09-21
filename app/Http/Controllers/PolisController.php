@@ -728,6 +728,7 @@ class PolisController extends Controller
     {
         $antrians = Antrian::where('antriable_type', 'App\Models\AntrianPeriksa')
                             ->where('created_at', 'like', date('Y-m-d') . '%')
+                            ->whereNotNull('no_telp')
                             ->get();
         $data = [];
         foreach ($antrians as $antrian) {
