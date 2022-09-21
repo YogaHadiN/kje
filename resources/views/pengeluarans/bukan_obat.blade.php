@@ -159,14 +159,16 @@
                          temp += '</tr>';
                      }
                     $('#content').html(temp);
-                    $('#paging').twbsPagination({
-                        startPage: parseInt(key) +1,
-                        totalPages: pages,
-                        visiblePages: 7,
-                        onPageClick: function (event, page) {
-                            view(parseInt( page ) -1);
-                        }
-                    });
+                    if( data.length ){
+                        $('#paging').twbsPagination({
+                            startPage: parseInt(key) +1,
+                            totalPages: pages,
+                            visiblePages: 7,
+                            onPageClick: function (event, page) {
+                                view(parseInt( page ) -1);
+                            }
+                        });
+                    }
                     $('#rows_found').html(numeral( rows ).format('0,0'));
                 } else {
                     $('#content').html( '<tr class="alert-warning"><td class="text-center" colspan="5">Tidak ada data ditemukan</td></tr>');

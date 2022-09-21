@@ -188,14 +188,16 @@
 			 }
 			$('#content').html(temp);
 			$('#rows').html(rows);
-			$('#paging').twbsPagination({
-				startPage: parseInt(key) +1,
-				totalPages: pages,
-				visiblePages: 7,
-				onPageClick: function (event, page) {
-					view(parseInt( page ) -1);
-				}
-			});
+            if( data.length ){
+                $('#paging').twbsPagination({
+                    startPage: parseInt(key) +1,
+                    totalPages: pages,
+                    visiblePages: 7,
+                    onPageClick: function (event, page) {
+                        view(parseInt( page ) -1);
+                    }
+                });
+            }
 		});
 	}
 function clearAndView(key = 0){

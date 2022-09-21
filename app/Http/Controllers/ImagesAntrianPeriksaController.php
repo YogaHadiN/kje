@@ -34,6 +34,7 @@ class ImagesAntrianPeriksaController extends Controller
 			if (count( Input::file('foto_estetika') ) > 0 ) {
 				$timestamp = date('Y-m-d H:i:s');
 				$files = Input::file('foto_estetika');
+                $tenant_id = session()->has('tenant_id') ? session()->get('tenant_id') : 1;
 				foreach ($files as $k=>$file) {
 					$filename = $px->imageUpload($file, $id, $k); 
 					$data[] = [
@@ -41,7 +42,7 @@ class ImagesAntrianPeriksaController extends Controller
 						 'keterangan'      => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id'   => $id,
 						 'gambarable_type' => 'App\Models\AntrianPeriksa',
-							'tenant_id'  => session()->get('tenant_id'),
+							'tenant_id'    => $tenant_id,
 						 'created_at'      => $timestamp,
 						 'updated_at'      => $timestamp
 					];
