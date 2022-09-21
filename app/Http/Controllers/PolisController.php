@@ -734,7 +734,7 @@ class PolisController extends Controller
         foreach ($antrians as $antrian) {
             $data[] = [
                 'message' => 'Nomor Antrian ' . $nomor_antrian . ' Sudah dipanggil',
-                'phone' => $antrian->no_telp
+                'phone'   => $antrian->no_telp
             ];
         }
         return $data;
