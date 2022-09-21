@@ -75,7 +75,7 @@
 			  overflow: hidden;
 			}
 		  #section-to-print, #section-to-print * {
-			visibility: visible;
+			visibility: hidden;
 		  }
 		  #section-to-print {
 			position: absolute;
