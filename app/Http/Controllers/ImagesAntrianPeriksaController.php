@@ -88,6 +88,7 @@ class ImagesAntrianPeriksaController extends Controller
 
 		$start_input_key = count($sisa);
 		$confirm = GambarPeriksa::insert($sisa);
+        $tenant_id = session()->has('tenant_id')? session()->get('tenant_id') : 1;
 		if ( Input::hasFile('foto_estetika') ) {
 			if (count( Input::file('foto_estetika') ) > 0 ) {
 				$timestamp = date('Y-m-d H:i:s');
@@ -100,7 +101,7 @@ class ImagesAntrianPeriksaController extends Controller
 						 'keterangan' => Input::get('keterangan_gambar')[$k],
 						 'gambarable_id' => $id,
 						 'gambarable_type' => 'App\Models\AntrianPeriksa',
-							'tenant_id'  => session()->get('tenant_id'),
+							'tenant_id'  => $tenant_id,
 						 'created_at' => $timestamp,
 						 'updated_at' => $timestamp
 					];
