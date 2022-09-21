@@ -54,7 +54,7 @@
 
 		@media screen {
 			#section-to-print {
-				visibility: visible;
+				visibility: hidden;
 			}
 		} 
 		@media print {
@@ -75,7 +75,7 @@
 			  overflow: hidden;
 			}
 		  #section-to-print, #section-to-print * {
-			visibility: hidden;
+			visibility: visible;
 		  }
 		  #section-to-print {
 			position: absolute;
