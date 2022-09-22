@@ -9,7 +9,6 @@ use App\Http\Controllers\SuratSakitsController;
 use App\Http\Controllers\WablasController;
 use App\Events\updateMonitor;
 use App\Models\AntrianPeriksa;
-use App\Models\WablasController;
 use App\Models\Antrian;
 use App\Models\Classes\Yoga;
 use App\Models\TujuanRujuk;
