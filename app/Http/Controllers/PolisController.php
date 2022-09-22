@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\AntrianPolisController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\SuratSakitsController;
+use App\Http\Controllers\WablasController;
 use App\Events\updateMonitor;
 use App\Models\AntrianPeriksa;
 use App\Models\WablasController;
