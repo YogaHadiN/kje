@@ -131,19 +131,7 @@ class cekMutasi19Terakhir extends Command
 							$invoice_id             = $data->invoice_id;
 							$pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
 						} else if(
-							str_contains( $description, ' INV/')	//deskripsi mengandung INV/
-						){
-							$invoice_description = $this->getInvoiceFromDescription($description);
-							$invoices             = Invoice::where('kode_invoice', 'like', $invoice_description . '%')->get();
-							if (
-								$invoices->count() == 1 && //jika ditemukan 1 data
-								$invoices->first()->detail['total_tagihan'] == $this->amount // jumlah tagihannya sama
-							) {
-								$invoice_id             = $invoices->first()->id;
-								$pembayaran_asuransi_id = $this->validatePembayaran($invoices->first()->id);
-							}
-						} else if(
-							str_contains( $description, '/P')	//deskripsi mengandung INV/
+							str_contains( $description, '/P')	//deskripsi mengandung /P
 						){
 							$asuransi_id = $this->getAsuransiIdFromDescription($description);
                             $query  = "select ";

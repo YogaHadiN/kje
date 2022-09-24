@@ -34,7 +34,7 @@ class Invoice extends Model
 		return compact(
 			'nama_asuransi',
 			'jumlah_tagihan',
-			'total_tagihan'
+			'total_tagihan',
 		);
 	}
 	public function getTanggalAkhirAttribute(){

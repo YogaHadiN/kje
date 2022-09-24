@@ -27,6 +27,7 @@ class InvoiceController extends Controller
 		$kode_invoice  = Input::get('kode_invoice');
 
 		$query  = "SELECT ";
+		$query .= "id, ";
 		$query .= "kode_invoice, ";
 		$query .= "nama_asuransi, ";
 		$query .= "tanggal, ";
@@ -35,6 +36,7 @@ class InvoiceController extends Controller
 		$query .= "FROM ";
 		$query .= "(";
 		$query .= "SELECT ";
+		$query .= "inv.id as id, ";
 		$query .= "inv.kode_invoice as kode_invoice, ";
 		$query .= "asu.nama as nama_asuransi, ";
 		$query .= "kbs.tanggal as tanggal, ";

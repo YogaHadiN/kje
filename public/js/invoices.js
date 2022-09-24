@@ -49,7 +49,7 @@ function getData() {
                     '<a class="btn btn-info btn-sm" href="' +
                     base +
                     "/invoices/" +
-                    data[i].kode_invoice.replace(/\//g, "!") +
+                    data[i].id +
                     '" target="_blank">Show</a>';
                 temp += "</td>";
                 temp += "</tr>";
