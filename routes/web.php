@@ -239,6 +239,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('periksas', \App\Http\Controllers\PeriksasController::class);
 
 	Route::group(['middleware' =>[ 'admin']], function(){
+
+        Route::get('document/search', [\App\Http\Controllers\DocumentController::class, 'search']);
+        Route::post('document/ajax/delete', [\App\Http\Controllers\DocumentController::class, 'deleteAjax']);
+        Route::resource('documents', \App\Http\Controllers\DocumentController::class);
 		Route::delete('pengeluarans/{id}', [\App\Http\Controllers\PengeluaransController::class, 'destroy']);
 		Route::get('rekening_bank/search', [\App\Http\Controllers\RekeningController::class, 'search']);
 		Route::get('rekening_bank/ignore', [\App\Http\Controllers\RekeningController::class, 'ignoredList']);

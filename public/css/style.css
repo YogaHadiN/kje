@@ -5200,3 +5200,6 @@ table.tabelTerapi tr td {
     width: 1%;
     white-space: nowrap;
 }
+.pb-8 {
+    margin-bottom: 8px;
+}
