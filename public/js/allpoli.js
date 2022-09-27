@@ -2988,6 +2988,7 @@ function refresh() {
         $("#gambar").html(temp);
     });
 }
+
 function selectChange(control) {
     var html = "";
     var tindakan = $(control).val();

@@ -106,5 +106,6 @@
     var base = '{!! url("/") !!}'
 </script>
 {!! HTML::script('js/allpoli.js')!!} 
+{!! HTML::script('js/alergi.js')!!} 
 {!! HTML::script('js/gambar_periksa.js')!!} 
 @stop

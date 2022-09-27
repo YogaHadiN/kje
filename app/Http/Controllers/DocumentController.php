@@ -118,6 +118,7 @@ class DocumentController extends Controller
         return DB::select($query);
     }
     public function deleteAjax(){
-        dd(Input::all()); 
+        $id = Input::get('id');
+        Document::destroy($id);
     }
 }
