@@ -34,10 +34,21 @@ th:nth-child(3), td:nth-child(3){
 @stop
 @section('content') 
 <div class="table-responsive">
-    <div class="float-right pb-8">
-        <a href="{{ url( 'documents/create' ) }}" type="button" class="btn btn-success">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dokumen Baru
-        </a>
+    <div class="row">
+        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+            {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
+                'class' => 'form-control',
+                'onchange' => 'clearAndSelectPasien();return false;',
+                'id'    => 'displayed_rows'
+            ]) !!}
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <div class="float-right pb-8">
+                <a href="{{ url( 'documents/create' ) }}" type="button" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dokumen Baru
+                </a>
+            </div>
+        </div>
     </div>
     <table class="table table-hover table-condensed table-bordered">
         <thead>
@@ -47,7 +58,7 @@ th:nth-child(3), td:nth-child(3){
                    {!! Form::text('id', null, [
                         'class'   => 'form-control-inline form-control',
                         'id'      => 'id',
-                        'onkeyup' => 'documentKeyUp(this);return false;'
+                        'onkeyup' => 'documentKeyUp();return false;'
                    ])!!}
                 </th>
                 <th class="nama">
@@ -55,7 +66,7 @@ th:nth-child(3), td:nth-child(3){
                     {!! Form::text('nama', null, [
                         'class'   => 'form-control-inline form-control',
                         'id'      => 'nama',
-                        'onkeyup' => 'documentKeyUp(this);return false;'
+                        'onkeyup' => 'documentKeyUp();return false;'
                     ])!!}
                 </th>
                 <th class="tanggal">
@@ -63,7 +74,7 @@ th:nth-child(3), td:nth-child(3){
                    {!! Form::text('tanggal', null, [
                         'class'   => 'form-control-inline form-control',
                         'id'      => 'tanggal',
-                        'onkeyup' => 'documentKeyUp(this);return false;'
+                        'onkeyup' => 'documentKeyUp();return false;'
                     ])!!}
                 </th>
                 <th class="action">
@@ -75,6 +86,15 @@ th:nth-child(3), td:nth-child(3){
 
         </tbody>
     </table>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="page-box">
+                <nav class="text-right" aria-label="Page navigation" id="paging">
+                
+                </nav>
+            </div>
+        </div>
+    </div>
 </div>
 @stop
 @section('footer') 

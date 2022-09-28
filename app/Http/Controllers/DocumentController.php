@@ -100,10 +100,41 @@ class DocumentController extends Controller
         }
     }
     public function search(){
+        $count = $this->searchQuery(true)[0]->jumlah;
+        return [
+            'data'  => $this->searchQuery(false),
+            'pages' => ceil( $count/ Input::get('displayed_rows') ),
+            'key'   => Input::get('key'),
+            'rows'  => $count
+        ];
+    }
+    public function deleteAjax(){
+        $id = Input::get('id');
+        Input::merge(['id' => null]);
+        if (Document::destroy($id)) {
+            return 1;
+        }
+        return 0;
+
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function searchQuery($count)
+    {
+        $pass    = Input::get('key') * Input::get('displayed_rows');
         $nama    = Input::get('nama');
         $id      = Input::get('id');
         $tanggal = Input::get('tanggal');
-        $query  = "SELECT * ";
+
+        $query  = "SELECT ";
+        if (!$count) {
+            $query .= "* ";
+        } else {
+            $query .= "count(id) as jumlah ";
+        }
         $query .= "FROM documents ";
         $query .= "WHERE '' = '' ";
         if (!empty($tanggal)) {
@@ -113,12 +144,11 @@ class DocumentController extends Controller
             $query .= "AND id like '{$id}%' ";
         }
         if (!empty($nama)) {
-            $query .= "AND id like '%{$nama}%' ";
+            $query .= "AND nama like '%{$nama}%' ";
+        }
+        if (!$count) {
+            $query .= "LIMIT {$pass},  " . Input::get('displayed_rows');
         }
         return DB::select($query);
-    }
-    public function deleteAjax(){
-        $id = Input::get('id');
-        Document::destroy($id);
     }
 }
