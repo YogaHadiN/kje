@@ -30,6 +30,7 @@
         "league/flysystem-cached-adapter": "~1.0",
         "maatwebsite/excel": "^3.1",
         "malc0mn/vultr-api-client": "^1.1",
+        "midtrans/midtrans-php": "^2.5",
         "orangehill/iseed": "^3.0",
         "pda/pheanstalk": "^4.0.0",
         "predis/predis": "^1.1.1",

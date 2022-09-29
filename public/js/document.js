@@ -1,17 +1,13 @@
 renderDocuments();
 function renderDocuments(key = 0) {
-    var id = $("#id").val();
-    var nama = $("#nama").val();
-    var tanggal = $("#tanggal").val();
-    var displayed_rows = $("#displayed_rows").val();
-
     $.get(
         base + "/document/search",
         {
-            id: id,
-            nama: nama,
-            tanggal: tanggal,
-            displayed_rows: displayed_rows,
+            id: $("#id").val(),
+            nama: $("#nama").val(),
+            tanggal: $("#tanggal").val(),
+            displayed_rows: $("#displayed_rows").val(),
+            expiry_date: $("#expiry_date").val(),
             key: key,
         },
         function (data, textStatus, jqXHR) {
@@ -58,7 +54,10 @@ function view(data, key) {
             temp += "<td>";
             temp += data.data[i].tanggal;
             temp += "</td>";
-            temp += "<td>";
+            temp += "<td class='text-center'>";
+            temp += data.data[i].expiry_date ? data.data[i].expiry_date : "-";
+            temp += "</td>";
+            temp += "<td nowrap>";
             temp +=
                 "<a href='" +
                 loc +

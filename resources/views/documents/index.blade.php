@@ -11,10 +11,13 @@ th:first-child, td:first-child{
 }
 
 th:nth-child(2), td:nth-child(2){
-    width: 60%;
+    width: 50%;
 }
 th:nth-child(3), td:nth-child(3){
-    width: 20%;
+    width: 15%;
+}
+th:nth-child(3), td:nth-child(3){
+    width: 15%;
 }
 
     
@@ -74,6 +77,14 @@ th:nth-child(3), td:nth-child(3){
                    {!! Form::text('tanggal', null, [
                         'class'   => 'form-control-inline form-control',
                         'id'      => 'tanggal',
+                        'onkeyup' => 'documentKeyUp();return false;'
+                    ])!!}
+                </th>
+                <th class="expiry_date">
+                    Tanggal <br>
+                   {!! Form::text('expiry_date', null, [
+                        'class'   => 'form-control-inline form-control',
+                        'id'      => 'expiry_date',
                         'onkeyup' => 'documentKeyUp();return false;'
                     ])!!}
                 </th>

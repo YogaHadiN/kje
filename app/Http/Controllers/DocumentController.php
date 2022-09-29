@@ -115,7 +115,6 @@ class DocumentController extends Controller
             return 1;
         }
         return 0;
-
     }
     /**
      * undocumented function
@@ -128,6 +127,7 @@ class DocumentController extends Controller
         $nama    = Input::get('nama');
         $id      = Input::get('id');
         $tanggal = Input::get('tanggal');
+        $expiry_date = Input::get('expiry_date');
 
         $query  = "SELECT ";
         if (!$count) {
@@ -145,6 +145,9 @@ class DocumentController extends Controller
         }
         if (!empty($nama)) {
             $query .= "AND nama like '%{$nama}%' ";
+        }
+        if (!empty($expiry_date)) {
+            $query .= "AND nama like '%{$expiry_date}%' ";
         }
         if (!$count) {
             $query .= "LIMIT {$pass},  " . Input::get('displayed_rows');
