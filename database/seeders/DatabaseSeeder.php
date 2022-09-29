@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(VerifikasiTableSeeder::class);
+        $this->call(CunamTableSeeder::class);
+        /* $this->call(VerifikasiTableSeeder::class); */
     }
 }

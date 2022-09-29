@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="panel panel-warning">
                       <div class="panel-heading">
                            <div class="panelLeft">
@@ -126,6 +126,7 @@
 											<th>Merek Obat</th>
 											<th>Signa</th>
 											<th>Jumlah</th>
+											<th>Cunam</th>
 											<th>Satuan</th>
 											<th>Biaya</th>
 											<th class="hide">jumlah</th>
@@ -152,6 +153,17 @@
 												</td>
 												<td>
 													<input type="text" class="form-control angka" onkeyup="jumalhEdit(this);return false;" value="{!! $terapi->jumlah !!}">
+												</td>
+                                                <td>
+													<select name="" id="ddlCunam" class="form-control merek_jual" onchange="ddlOnChange(this);return false;">
+														@foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
+															@if ($mrk_id == $terapi['merek_id'])
+                                                                <option value='{!! $mereks->find($mrk_id)->merek_jual !!}' selected>{!!$mereks->find($mrk_id)->merek !!}</option>
+															@else
+																<option value='{!! $mereks->find($mrk_id)->merek_jual !!}'>{!!$mereks->find($mrk_id)->merek !!}</option>
+															@endif
+														@endforeach
+													</select>
 												</td>
 												<td class='uang harga_satuan'>
                                                     @if($periksa->asuransi->tipe_asuransi_id == '5')
@@ -290,15 +302,7 @@
                             {!! Form::submit('Submit', ['class' => 'btn btn-success btn-block btn-lg hide'])!!}
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-
                             <a href="{!! url('antriankasirs') !!}"  class="btn btn-danger btn-block btn-lg">Cancel</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            @include('fotoPasien', ['pasien' => $periksa->pasien])
                         </div>
                     </div>
                 </div>
