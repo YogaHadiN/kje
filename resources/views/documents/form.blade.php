@@ -1,71 +1,50 @@
-<div class="row hide">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group @if($errors->has('pasien_id')) has-error @endif">
-		  {!! Form::label('pasien_id', 'Pasien id', ['class' => 'control-label']) !!}
-		@if(isset($daftar))
-			{!! Form::text('pasien_id' , $daftar->pasien->id, ['class' => 'form-control rq']) !!}
-		@else
-		  {!! Form::text('pasien_id' , $pasien->id, ['class' => 'form-control rq']) !!}
-		@endif
-		  @if($errors->has('pasien_id'))<code>{{ $errors->first('pasien_id') }}</code>@endif
-		</div>
-	</div>
-</div>
-<div class="row hide">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group @if($errors->has('waktu')) has-error @endif">
-		  {!! Form::label('waktu', 'Waktu', ['class' => 'control-label']) !!}
-		  {!! Form::text('waktu' , date('Y-m-d H:i:s'), ['class' => 'form-control rq']) !!}
-		  @if($errors->has('waktu'))<code>{{ $errors->first('waktu') }}</code>@endif
-		</div>
-	</div>
-</div>
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
-		  {!! Form::label('asuransi_id', 'Pembayaran', ['class' => 'control-label']) !!}
-			{!! Form::select('asuransi_id', $asuransi_list, null, array(
-				'class'         => 'form-control rq'
-			))!!}
-		  @if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group @if($errors->has('poli_id')) has-error @endif">
-		  {!! Form::label('poli_id', 'Poli', ['class' => 'control-label']) !!}
-		  {!! Form::select('poli_id', $poli , null, ['class' => 'form-control rq']) !!}
-		  @if($errors->has('poli_id'))<code>{{ $errors->first('poli_id') }}</code>@endif
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group @if($errors->has('staf_id'))has-error @endif">
-		  {!! Form::label('staf_id', 'Pemeriksa', ['class' => 'control-label']) !!}
-			{!! Form::select('staf_id', $staf, null, array(
-				'class'         => 'form-control rq selectpick',
-				'data-live-search'         => 'true'
-			))!!}
-		  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		@if(isset($daftar))
-			<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Update</button>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<a class="btn btn-danger btn-block" href="{{ url('home/daftars') }}">Cancel</a>
-			</div>
-		@else
-			<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<a class="btn btn-danger btn-block" href="{{ url('home/pasiens') }}">Cancel</a>
-			</div>
-		@endif
-		{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
-</div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group @if($errors->has('nama')) has-error @endif">
+                      {!! Form::label('nama', 'Nama Dokumen', ['class' => 'control-label']) !!}
+                      {!! Form::text('nama' , null, ['class' => 'form-control']) !!}
+                      @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
+                    </div>
+                    <div class="form-group @if($errors->has('tanggal')) has-error @endif">
+                      {!! Form::label('tanggal', 'Tanggal Input', ['class' => 'control-label']) !!}
+                      {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal']) !!}
+                      @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
+                    </div>
+                    <div class="form-group @if($errors->has('expiry_date')) has-error @endif">
+                      {!! Form::label('expiry_date', 'Tanggal Kadaluarsa', ['class' => 'control-label']) !!}
+                      {!! Form::text('expiry_date' , null, ['class' => 'form-control tanggal']) !!}
+                      @if($errors->has('expiry_date'))<code>{{ $errors->first('expiry_date') }}</code>@endif
+                    </div>
+                    @if( isset($document) && !is_null($document->url) )
+                        <div class="row pb-8">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <a href="{{ \Storage::disk('s3')->url($document->url) }}" target="_blank" class="btn btn-info btn-sm">Download <span class="glyphicon glyphicon-download-alt"></span></a>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            @if(isset($update))
+                                <button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Update</button>
+                            @else
+                                <button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
+                            @endif
+                            {!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a class="btn btn-danger btn-block" href="{{ url('documents') }}">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
+                    {!! Form::label('url', 'Upload Dokumen Penting') !!}
+                    {!! Form::file('url') !!}
+                    {!! $errors->first('url', '<p class="help-block">:message</p>') !!}
+                </div>
+        </div>
+    </div>

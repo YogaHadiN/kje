@@ -63,7 +63,12 @@ function view(data, key) {
                 loc +
                 "' class='btn btn-success btn-sm' target='_blank'><span class='glyphicon glyphicon-download-alt'></span></a> ";
             temp +=
-                '<button onclick="del(this);return false;" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button>';
+                '<a href="' +
+                base +
+                "/documents/" +
+                data.data[i].id +
+                "/edit" +
+                '" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-edit"></span></a>';
             temp += "</td>";
             temp += "</tr>";
         }
