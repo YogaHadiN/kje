@@ -133,7 +133,7 @@ class cekMutasi19Terakhir extends Command
 						} else if(
 							str_contains( $description, '/P')	//deskripsi mengandung /P
 						){
-							$asuransi_id = $this->getAsuransiIdFromDescription($description);
+							$asuransi_id = getAsuransiIdFromDescription($description);
                             $query  = "select ";
                             $query .= "invoice_id, ";
                             $query .= "sum(piutang) - sum(sudah_dibayar) as sisa ";
@@ -280,16 +280,5 @@ class cekMutasi19Terakhir extends Command
      *
      * @return void
      */
-    private function getAsuransiIdFromDescription($description)
-    {
-		$words = explode('/', $description);
-		foreach ($words as $word) {
-			if (substr($word, 0, 1) == 'P') {
-				return preg_replace('~\D~', '', $word);;
-                break;
-			}
-		}
-		return '';
-    }
     
 }

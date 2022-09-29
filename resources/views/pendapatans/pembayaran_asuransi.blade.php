@@ -47,7 +47,7 @@
 				{!! Form::text('session_print', Session::get('print'), ['class' => 'form-control hide', 'id' => 'session_print']) !!}
 				<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
 				  {!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
-				  {!! Form::select('asuransi_id', $asuransi_list , null , [
+				  {!! Form::select('asuransi_id', $asuransi_list , isset($rekening) && $invoice_id_ada_di_deskripsi ? $asuransi_id_di_deksripsi : null  , [
 					  'class'            => 'selectpick form-control rq',
 					  'id'               => 'asuransi_id',
 					  'data-live-search' => 'true',
@@ -189,6 +189,12 @@
 	<script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
 	<script src="{!! url('js/pembayaran_asuransi.js') !!}"></script>
 	<script src="{!! url('js/get_transaksi_pembayaran_asuransi.js') !!}"></script>
+    <script charset="utf-8">
+        if( $('#asuransi_id').val() != '' ){
+            asuransiChange();
+            asuransiChangeBulanan();
+        }
+    </script>
 @stop
 
 

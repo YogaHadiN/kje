@@ -217,4 +217,18 @@ if (!function_exists('rupiah')) {
         return $hasil_rupiah;
     }
 }
+
+if (!function_exists('getAsuransiIdFromDescription')) {
+    function getAsuransiIdFromDescription($description)
+    {
+		$words = explode('/', $description);
+		foreach ($words as $word) {
+			if (substr($word, 0, 1) == 'P') {
+				return preg_replace('~\D~', '', $word);;
+                break;
+			}
+		}
+		return '';
+    }
+}
  

@@ -1,5 +1,5 @@
-<div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<div class="row">        
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group @if($errors->has('nama')) has-error @endif">
@@ -9,12 +9,16 @@
                     </div>
                     <div class="form-group @if($errors->has('tanggal')) has-error @endif">
                       {!! Form::label('tanggal', 'Tanggal Input', ['class' => 'control-label']) !!}
-                      {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal']) !!}
+                      {!! Form::text('tanggal' , 
+                          isset($document) && !empty($document->tanggal) ? \Carbon\Carbon::parse($document->tanggal)->format('d-m-Y') : null, 
+                      ['class' => 'form-control tanggal']) !!}
                       @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
                     </div>
                     <div class="form-group @if($errors->has('expiry_date')) has-error @endif">
                       {!! Form::label('expiry_date', 'Tanggal Kadaluarsa', ['class' => 'control-label']) !!}
-                      {!! Form::text('expiry_date' , null, ['class' => 'form-control tanggal']) !!}
+                      {!! Form::text('expiry_date' , 
+                          isset($document) && !empty($document->expiry_date) ? \Carbon\Carbon::parse($document->expiry_date)->format('d-m-Y') : null,
+                      ['class' => 'form-control tanggal']) !!}
                       @if($errors->has('expiry_date'))<code>{{ $errors->first('expiry_date') }}</code>@endif
                     </div>
                     @if( isset($document) && !is_null($document->url) )

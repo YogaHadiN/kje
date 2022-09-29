@@ -13,6 +13,8 @@ use App\Http\Requests;
 use App\Rules\noLaterThan;
 use App\Rules\FormatExcelBenar;
 use App\Rules\TanggalDibayarHarusLebihLamaDariPelayanan;
+use App\Rules\aturanValidasiPembayaran;
+use App\Rules\asuransiIdHarusSesuaiDenganDeskripsi;
 use App\Http\Controllers\AsuransisController;
 use App\Models\Pendapatan;
 use App\Models\PembayaranBpjs;
@@ -366,7 +368,8 @@ class PendapatansController extends Controller
 				 'akhir'           => ['date','required'],
 				 'staf_id'         => 'required',
 				 'dibayar'         => ['required', new pembayaranAsuransiHarusSama($request) ], 
-				 'asuransi_id'     => ['required'],
+				 'temp'         => ['required', new aturanValidasiPembayaran($request) ], 
+				 'asuransi_id'     => ['required', new asuransiIdHarusSesuaiDenganDeskripsi($request)],
 				 'coa_id'          => ['required']
 			];
 
@@ -443,15 +446,23 @@ class PendapatansController extends Controller
         $pembayarans   = PembayaranAsuransi::with('asuransi', 'coa')->latest()->paginate(10);
 		if ($id) {
 			$rekening = Rekening::find( $id );
-			return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans', 'rekening'));
+            $invoice_id_ada_di_deskripsi = str_contains( $rekening->deskripsi, '/P');
+            $asuransi_id_di_deksripsi = $invoice_id_ada_di_deskripsi ? getAsuransiIdFromDescription($rekening->deskripsi) : null;
+			return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans', 'rekening', 'invoice_id_ada_di_deskripsi', 'asuransi_id_di_deksripsi'));
 		} else {
 			return view('pendapatans.pembayaran_asuransi', compact('asuransi_list', 'pembayarans'));
 		}
 	}
 	public function lihat_pembayaran_asuransi_by_rekening($id, Request $request){
 
+        $req = [
+            'rekening_id' => $id,
+            'request' => $request
+        ];
+
 		$rules = [
-			'excel_pembayaran' => ['nullable', new FormatExcelBenar($request) ]
+			'excel_pembayaran' => ['nullable', new FormatExcelBenar($request) ],
+            'asuransi_id'     => ['required', new asuransiIdHarusSesuaiDenganDeskripsi($req)],
 		];
 
 		$validator = \Validator::make(Input::all(), $rules);
