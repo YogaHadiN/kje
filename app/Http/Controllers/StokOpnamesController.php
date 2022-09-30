@@ -58,7 +58,7 @@ class StokOpnamesController extends Controller
 		$query .= "JOIN raks as rak on rak.id = sto.rak_id ";
 		$query .= "where sto.created_at like '{$date}%' ";
 		$query .= "and rak_id = '{$rak_id}'";
-		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND sto.tenant_id = " . session()->get('tenant_id') . " ";
 		$count = count(DB::select($query));
 		if ($count < 1) {
 
