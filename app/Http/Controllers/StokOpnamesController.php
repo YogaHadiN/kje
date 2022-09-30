@@ -53,7 +53,7 @@ class StokOpnamesController extends Controller
 		$rak_id = Input::get('rak_id');
 
 		$query = "SELECT * ";
-		$query .= ", r.kode_rak as kode_rak";
+		$query .= ", r.kode_rak as kode_rak ";
 		$query .= "FROM stok_opnames as sto ";
 		$query .= "JOIN raks as rak on rak.id = sto.rak_id ";
 		$query .= "where created_at like '{$date}%' ";
@@ -108,7 +108,8 @@ class StokOpnamesController extends Controller
 	public function change()
 	{
 		$rak_id = Input::get('rak_id');
-		$stok = Rak::find($rak_id)->stok;
+        $rak = Rak::where('id',trim($rak_id))->first();
+		$stok = $rak->stok;
 		return $stok;
 	}
 
@@ -210,6 +211,7 @@ class StokOpnamesController extends Controller
 		$query .= "where created_at like '{$date}%'";
 		$query .= "AND tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= ") ";
+		$query .= "AND r.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "order by stok_minimal desc";
 		$mereks = DB::select($query);
 		return $mereks;
