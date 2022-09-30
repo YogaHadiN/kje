@@ -53,7 +53,7 @@ class StokOpnamesController extends Controller
 		$rak_id = Input::get('rak_id');
 
 		$query = "SELECT * ";
-		$query .= ", r.kode_rak as kode_rak ";
+		$query .= ", rak.kode_rak as kode_rak ";
 		$query .= "FROM stok_opnames as sto ";
 		$query .= "JOIN raks as rak on rak.id = sto.rak_id ";
 		$query .= "where created_at like '{$date}%' ";
