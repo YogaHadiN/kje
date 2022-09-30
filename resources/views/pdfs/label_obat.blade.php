@@ -67,7 +67,7 @@
 						<td colspan="2" class="aturan_minum text-center">{{ $terapi->aturan_minum }}</td>
 					</tr>
 					<tr>
-                        <td colspan="2" class="aturan_minum text-center">{{ $terapi->merek->rak->formula->cunam->cunam }}</td>
+                        <td colspan="2" class="aturan_minum text-center">{{ $terapi->merek->rak->formula->cunam?->cunam }}</td>
 					</tr>
 				</table>
 				@if (
