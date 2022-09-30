@@ -164,18 +164,20 @@ function parseTerapi() {
     return $.parseJSON(temp);
 }
 function encodeTerapi(temp, harga_jual, control, jumlah, fornas) {
+    console.log("harga_jual", harga_jual);
     var temp = JSON.stringify(temp);
     $("#terapi1").val(temp);
     $("#terapi2").val(temp);
     var tipe_asuransi_id = $("#tipe_asuransi_id").val();
     var kali_obat = $("#kali_obat").val();
+    console.log("kali_obat", kali_obat);
     if (tipe_asuransi_id == "5") {
         // BPJS
         if (fornas == 0) {
             $(control)
                 .closest("tr")
                 .find(".harga_satuan")
-                .html(harga_jual * kali_obat);
+                .html(Math.floor(harga_jual * kali_obat));
         } else {
             $(control).closest("tr").find(".harga_satuan").html("0");
         }
@@ -183,11 +185,11 @@ function encodeTerapi(temp, harga_jual, control, jumlah, fornas) {
         $(control)
             .closest("tr")
             .find(".harga_satuan")
-            .html(harga_jual * kali_obat);
+            .html(Math.floor(harga_jual * kali_obat));
         $(control)
             .closest("tr")
             .find(".total_satuan")
-            .html(harga_jual * kali_obat * jumlah);
+            .html(Math.floor(harga_jual * kali_obat * jumlah));
     }
     hitungTotal();
     rupiah();
@@ -222,6 +224,7 @@ function hargaJual(control) {
 }
 function cunamEdit(control) {
     var i = $(control).closest("tr").find(".key").html();
+    console.log(i);
     var data = parseTerapi();
     data[i].cunam_id = parseInt($(control).val());
     var harga_jual = hargaJual(control);

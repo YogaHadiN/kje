@@ -220,7 +220,7 @@
                        </div>
                    </div>
                    {!! Form::text('kali_obat', $periksa->asuransi->kali_obat, [
-                        'class' => 'form-control hide',
+                        'class' => 'form-control',
                         'id' => 'kali_obat'
                    ]) !!}
 
