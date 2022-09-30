@@ -1,5 +1,1 @@
-update formulas set sediaan_id = 13 where id = 172;
-
-insert into rekenings ( id, akun_bank_id, tanggal, deskripsi, nilai, saldo_akhir, debet, created_at, updated_at, pembayaran_asuransi_id, tenant_id, kode_transaksi ) values (null, 2, '2022-09-19 12:00:00', 'INW.CN-SKN CR SA-MCS ASURANSI MULTI ARTHA GUNA TBK, PT - 019 PANIN BANK JAKARTA INV/1/KJE/P147/IX/ BTS0000013997319 2022091900', 340000, 0, 0, now(), now(), null, 1 , 'xx123123');
-
-
+alter table whatsapp_registration add column creadential_confirmation int(1);
