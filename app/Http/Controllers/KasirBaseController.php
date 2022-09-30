@@ -6,6 +6,7 @@ use DB;
 use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\Periksa;
+use App\Models\Formula;
 use App\Models\PengantarPasien;
 use App\Models\Antrian;
 use App\Models\JurnalUmum;
@@ -59,6 +60,9 @@ class KasirBaseController extends Controller
    		} else {
    			$terapiss = Yoga::masukLagi($terapis);
 			foreach ($terapiss as $key => $terapi) {
+                $merek_id = $terapi['merek_id'];
+                $cunam_id = Merek::find($merek_id)->rak->formula->cunam_id;
+                $terapiss[$key]['cunam_id'] = $cunam_id;
 				$biayatotal += Yoga::kasirHargaJualItem($terapi, $periksa, false);
 			}
    		}
@@ -128,6 +132,12 @@ class KasirBaseController extends Controller
 					'harga_jual_satuan' => $t['harga_jual_satuan']
 				]);
 				$hargaObat += $t['harga_jual_satuan'] * $t['jumlah'];
+
+                $formula_id = $t['merek']['rak']['formula_id'];
+
+                $formula           = Formula::where('id',$formula_id)->update([
+                    'cunam_id' => $t['cunam_id']
+                ]);
 			}
 			//rubah harga obat sesuai dengan terapi yang sudah diubah
 			//

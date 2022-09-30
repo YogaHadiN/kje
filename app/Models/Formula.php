@@ -154,4 +154,7 @@ class Formula extends Model{
 		}
 		return false;
 	}
+    public function cunam(){
+        return $this->belongsTo(Cunam::class);
+    }
 }

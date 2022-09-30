@@ -55,7 +55,7 @@
 						<td>{{ $periksa->id }}</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="text-center">{{ $printed_nama }} ({{ $periksa->pasien->usia }} th)</td>
+						<td colspan="2" class="text-center">{{ ucwords($printed_nama) }} ({{ $periksa->pasien->usia }} th)</td>
 					</tr>
 					<tr>
 						<td colspan="2" class="text-center">{{ $terapi->merek->merek }} ({{ $terapi->jumlah }})</td>
@@ -67,7 +67,7 @@
 						<td colspan="2" class="aturan_minum text-center">{{ $terapi->aturan_minum }}</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="aturan_minum text-center">Sebelum/Diantara/Sesudah makan</td>
+                        <td colspan="2" class="aturan_minum text-center">{{ $terapi->merek->rak->formula->cunam->cunam }}</td>
 					</tr>
 				</table>
 				@if (
