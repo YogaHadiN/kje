@@ -131,9 +131,9 @@ class KasirBaseController extends Controller
 
                 $formula_id = $t['merek']['rak']['formula_id'];
 
-                $formula           = Formula::where('id',$formula_id)->update([
-                    'cunam_id' => $t['cunam_id']
-                ]);
+                $formula = Formula::find($formula_id);
+                $formula->cunam_id = $t['cunam_id'];
+                $formula->save();
 			}
 			//rubah harga obat sesuai dengan terapi yang sudah diubah
 			//
