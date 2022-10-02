@@ -865,12 +865,14 @@ class AsuransisController extends Controller
 		$total_piutang       = 0;
 		$total_sudah_dibayar = 0;
 		$total_sisa_piutang  = 0;
+		$total_overdue  = 0;
 
 		foreach ($data as $d) {
 			$total_tunai         += $d->tunai;
 			$total_piutang       += $d->piutang;
 			$total_sudah_dibayar += $d->sudah_dibayar;
 			$total_sisa_piutang  += $d->sisa_piutang;
+			$total_overdue       += $d->overdue;
 		}
 
 		return view('asuransis.tunggakan_asuransi', compact(
@@ -879,6 +881,7 @@ class AsuransisController extends Controller
 			'total_piutang',
 			'total_sudah_dibayar',
 			'total_sisa_piutang',
+			'total_overdue',
 			'data'
 		));
 	}

@@ -67,7 +67,13 @@
 						<td colspan="2" class="aturan_minum text-center">{{ $terapi->aturan_minum }}</td>
 					</tr>
 					<tr>
-                        <td colspan="2" class="aturan_minum text-center">{{ $terapi->merek->rak->formula->cunam? $terapi->merek->rak->formula->cunam->cunam : 'Sebelum/Diantara/Sesudah makan' }}</td>
+                        <td colspan="2" class="aturan_minum text-center">
+                            @if( $terapi->merek->rak->formula->cunam->cunam == 4 )
+
+                            @else
+                                {{ $terapi->merek->rak->formula->cunam? $terapi->merek->rak->formula->cunam->cunam : 'Sebelum/Diantara/Sesudah makan' }}
+                            @endif
+                        </td>
 					</tr>
 				</table>
 				@if (

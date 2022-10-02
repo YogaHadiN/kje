@@ -1146,7 +1146,7 @@ class PeriksasController extends Controller
         foreach (json_decode($terapis, true) as $k => $t) {
             $merek_ids[] = $t['merek_id'];
         }
-        $merekArray = Merek::with('rak.merek')->whereIn('id', $merek_ids)->get();
+        $merekArray = Merek::with('rak.merek','rak.formula')->whereIn('id', $merek_ids)->get();
 
         $array = [];
         foreach ($merekArray as $v) {
@@ -1163,6 +1163,7 @@ class PeriksasController extends Controller
             $periksa->terapii()->create([
                 'merek_id'          => $submitted_merek_id,
                 'signa'             => $t['signa'],
+                'cunam_id'          => $array[$t['merek_id']]->rak->formula->cunam_id,
                 'aturan_minum'      => $t['aturan_minum'],
                 'jumlah'            => $t['jumlah'],
                 'harga_beli_satuan' => $array[$t['merek_id']]->rak->harga_beli,

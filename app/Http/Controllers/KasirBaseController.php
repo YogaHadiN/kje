@@ -24,7 +24,6 @@ use App\Models\Asuransi;
 use App\Models\AntrianApotek;
 use App\Models\AntrianKasir;
 
-
 class KasirBaseController extends Controller
 {
 	/**
@@ -60,9 +59,6 @@ class KasirBaseController extends Controller
    		} else {
    			$terapiss = Yoga::masukLagi($terapis);
 			foreach ($terapiss as $key => $terapi) {
-                $merek_id = $terapi['merek_id'];
-                $cunam_id = Merek::find($merek_id)->rak->formula->cunam_id;
-                $terapiss[$key]['cunam_id'] = $cunam_id;
 				$biayatotal += Yoga::kasirHargaJualItem($terapi, $periksa, false);
 			}
    		}

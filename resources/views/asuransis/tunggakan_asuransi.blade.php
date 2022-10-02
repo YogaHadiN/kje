@@ -30,9 +30,6 @@ Klinik Jati Elok | Tunggakan Asuransi {{ $year }}
 					</tr>
 				</thead>
 				<tbody>
-					@php
-						$total_overdue = 0;
-					@endphp
 					@if(count($data) > 0)
 						@foreach($data as $d)
 							<tr
@@ -63,6 +60,8 @@ Klinik Jati Elok | Tunggakan Asuransi {{ $year }}
 						<th>TOTAL</th>
 						<th class="uang">{{ $total_piutang }}</th>
 						<th class="uang">{{ $total_sudah_dibayar }}</th>
+						<th class="uang">{{ $total_sisa_piutang - $total_overdue }}</th>
+						<th class="uang">{{ $total_overdue }}</th>
 						<th class="uang">{{ $total_sisa_piutang }}</th>
 					</tr>
 				</tfoot>

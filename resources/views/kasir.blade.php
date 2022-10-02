@@ -155,7 +155,7 @@
 													<input type="text" class="form-control angka jumlah" onkeyup="jumalhEdit(this);return false;" value="{!! $terapi->jumlah !!}">
 												</td>
                                                 <td>
-                                                    {!! Form::select('cunam',\App\Models\Cunam::pluck('cunam', 'id'), $terapi['cunam_id'], [
+                                                    {!! Form::select('cunam',\App\Models\Cunam::pluck('cunam', 'id'), $terapi->cunam_id, [
                                                         'class' => 'form-control rq',
                                                         'onchange' => 'cunamEdit(this);return false',
                                                         'placeholder' => '- Pilih Cunam -'
@@ -213,10 +213,13 @@
                     </div>
                    <div class="row">
                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						   {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control hide', 'id' => 'terapi1']) !!}
+						   {!! Form::textarea('terapi_awal', $periksa->terapii, ['class' => 'form-control hide', 'id' => 'terapi_awal']) !!}
                        </div>
                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                           {!! Form::textarea('terapi2', null, ['class' => 'form-control hide', 'id' => 'terapi2'])!!} 
+						   {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control', 'id' => 'terapi1']) !!}
+                       </div>
+                       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                           {!! Form::textarea('terapi2', null, ['class' => 'form-control', 'id' => 'terapi2'])!!} 
                        </div>
                    </div>
                    {!! Form::text('kali_obat', $periksa->asuransi->kali_obat, [

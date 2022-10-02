@@ -198,22 +198,26 @@ function encodeTerapi(temp, harga_jual, control, jumlah, fornas) {
 function jumalhEdit(control) {
     var i = $(control).closest("tr").find(".key").html();
     var harga_jual = hargaJual(control);
-    var awal = $(control).closest("tr").find(".jumlah").html();
+    var awal = JSON.parse($("#terapi_awal").val())[i]["jumlah"];
     var id = $(control).closest("tr").find(".terapi_id").html();
     var merek_jual = $(control).closest("tr").find(".merek_jual").val();
     MyArray = JSON.parse(merek_jual);
     var fornas = MyArray.fornas;
 
-    if (parseInt($(control).val()) > awal) {
+    if (isNan($(control).val())) {
+        var jumlah = awal;
+    } else if (parseInt($(control).val()) > awal) {
         var jumlah = awal;
     } else if ($(control).val() < 0) {
         var jumlah = 0;
     } else {
-        var jumlah = $(control).val();
+        var jumlah = awal;
     }
+
     $(control).val(jumlah);
 
     var data = parseTerapi();
+
     data[i].jumlah = jumlah;
     encodeTerapi(data, harga_jual, control, jumlah, fornas);
 }

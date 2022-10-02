@@ -1628,6 +1628,7 @@ class Yoga {
 				$terapis[$k]['harga_jual_ini'] = $v->merek->rak->harga_jual;
 				$terapis[$k]['merek_obat']     = $v->merek->merek;
 				$terapis[$k]['rak_id']         = $v->merek->rak_id;
+				$terapis[$k]['cunam_id']         = $v->merek->rak->formula->cunam_id;
 				$terapis[$k]['harga_jual']     = $v->merek->rak->harga_jual;
 				$terapis[$k]['formula_id']     = $v->merek->rak->formula_id;
 				if ($signa == 'Puyer' && $v->merek->rak_id == 'D7') {
