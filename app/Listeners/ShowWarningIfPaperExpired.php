@@ -28,6 +28,7 @@ class ShowWarningIfPaperExpired
      */
     public function handle($event)
     {
+        /* 'titel' */
 
         session()->forget('warning_kuning');
         session()->forget('warning_merah');

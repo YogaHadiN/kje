@@ -259,7 +259,7 @@ class LaporanBpjsController extends Controller
         }
         $query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
         $query .= "AND trp.harga_jual_satuan = 0 ";
-        $query .= "AND stf.titel = 'dr' ";
+        $query .= "AND stf.titel_id = 2 ";
         $query .= "AND asu.tipe_asuransi_id = 5 ";
         $query .= "GROUP BY prx.id";
         $query .= ") as bl ";

@@ -62,7 +62,7 @@ class BayarDoktersController extends Controller
         $query .= "FROM bayar_gajis as bgj ";
         $query .= "JOIN stafs as stf on stf.id = bgj.staf_id ";
         $query .= "WHERE ";
-        $query .= "titel = 'dr' ";
+        $query .= "titel_id = 2 ";
 		$query .= "AND (bgj.gaji_pokok + bgj.bonus like ? or ? = '') ";
 		$query .= "AND (bgj.tanggal_dibayar like ? or ? = '') ";
 		$query .= "AND (stf.nama like ? or ? = '') ";

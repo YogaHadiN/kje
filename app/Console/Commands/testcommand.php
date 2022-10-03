@@ -581,7 +581,7 @@ class testcommand extends Command
 			$created_at  = $ju->created_at;
 			$query       = "SELECT bg.id as id from bayar_gajis as bg ";
 			$query      .= "JOIN stafs as stf on stf.id = bg.staf_id ";
-			$query      .= "WHERE stf.titel = 'dr' ";
+			$query      .= "WHERE stf.titel_id = 2 ";
 			$query      .= "AND bg.created_at = '{$created_at}' ";
             $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 			$query      .= "AND stf.tenant_id = " . $tenant_id  . " ";
@@ -596,7 +596,7 @@ class testcommand extends Command
 		foreach ($jurnal_umums as $ju) {
 			$query  = "SELECT bg.id as id from bayar_gajis as bg ";
 			$query .= "JOIN stafs as stf on stf.id = bg.staf_id ";
-			$query .= "WHERE stf.titel = 'drg' ";
+			$query .= "WHERE stf.titel_id = 2 ";
 			$query .= "AND bg.gaji_pokok = '{$ju->nilai}' ";
 			$query .= "AND bg.created_at = '{$ju->created_at}' ";
             $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');

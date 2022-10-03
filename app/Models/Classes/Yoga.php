@@ -2251,7 +2251,7 @@ class Yoga {
 		}
 	}
 	public static function dokterList(){
-        return [null => '- Pilih -'] + Staf::where('titel', 'dr')->get()->pluck('nama', 'id')->toArray();
+        return [null => '- Pilih -'] + Staf::where('titel_id', 2)->get()->pluck('nama', 'id')->toArray();
 	}
 	
 	public static function sms($telepon, $message){

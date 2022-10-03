@@ -76,7 +76,7 @@ class BayarGajiController extends Controller
 	 }
 
     public function bayar(){
-		$bayar_dokters = $this->query("stf.titel = 'dr'");
+		$bayar_dokters = $this->query("stf.titel_id = 2 ");
         return view('formbayardokter', compact('bayar_dokters'));
     }
    public function bayar_gaji(){
@@ -223,14 +223,14 @@ class BayarGajiController extends Controller
    }
     public function bayar_gaji_karyawan(){
         $sumber_kas_lists = [null => '-Pilih-'] + Coa::where('kode_coa', 'like', '110%')->where('kode_coa', 'not like', '110000')->pluck('coa', 'id')->all();
-        $pembayarans      = $this->query("(stf.titel not like 'dr' and stf.titel not like 'drg')");
+        $pembayarans      = $this->query("(stf.titel_id not like 2 and stf.titel_id not like 3 )");
 		return view('pengeluarans.bayar_gaji_karyawan', compact(  
 			'pembayarans', 
 			'sumber_kas_lists'
 		));
     }
 	public function gajiDokterGigi(){
-		$gaji_gigis = $this->query("stf.titel = 'drg'");
+		$gaji_gigis = $this->query("stf.titel_id = 3 ");
 		return view('pengeluarans.bayar_dokter_gigi', compact('gaji_gigis'));
 	}
 

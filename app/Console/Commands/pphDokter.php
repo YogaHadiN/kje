@@ -57,7 +57,7 @@ class pphDokter extends Command
 		$query .= "WHERE px.created_at like '" .$bulanLalu."%' ";
         $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 		$query .= "AND px.tenant_id = " . $tenant_id . " ";
-		$query .= "AND st.titel = 'dr' ";
+		$query .= "AND st.titel_id = 2 ";
 		$query .= "AND st.gaji_tetap = 0 ";
 		$query .= "GROUP BY px.staf_id ";
 

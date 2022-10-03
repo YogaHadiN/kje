@@ -987,7 +987,7 @@ class LaporansController extends Controller
 		$query    .= " join polis as po on po.id=px.poli_id ";
 		$query    .= " join pasiens as ps on ps.id=px.pasien_id";
 		$query    .= " join diagnosas as dg on dg.id = px.diagnosa_id";
-		$query    .= " where st.titel = 'bd'";
+		$query    .= " where st.titel_id = 4 ";
 		$query    .= " and tanggal like '{$tanggal}%'";
 		$query    .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query    .= " and (po.poli = 'poli ANC') ";
@@ -1000,7 +1000,7 @@ class LaporansController extends Controller
 		$query .= "join pasiens as ps on ps.id=px.pasien_id ";
 		$query .= "join diagnosas as dg on dg.id = px.diagnosa_id ";
 		$query .= "join polis as po on po.id = px.poli_id ";
-		$query .= "where st.titel = 'bd' ";
+		$query .= "where st.titel_id = 4 ";
 		$query .= "and tanggal like '{$tanggal}%' ";
 		$query .= "and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and (po.poli = 'poli ANC') group by staf_id ";
@@ -1023,7 +1023,7 @@ class LaporansController extends Controller
 		$query   .= " join asuransis as asu on asu.id=px.asuransi_id";
 		$query   .= " join pasiens as ps on ps.id=px.pasien_id";
 		$query   .= " join diagnosas as diag on diag.id = px.diagnosa_id ";
-		$query   .= " where st.titel = 'bd' and tanggal like '{$tanggal}%' ";
+		$query   .= " where st.titel_id = 4 and tanggal like '{$tanggal}%' ";
 		$query   .= " and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query   .= " and diag.diagnosa like '%kb%' ";
         $periksas_diagnosa_kb = DB::select($query);
@@ -1034,7 +1034,7 @@ class LaporansController extends Controller
 		$query          .= "join stafs as st on st.id=px.staf_id ";
 		$query          .= "join pasiens as ps on ps.id=px.pasien_id ";
 		$query          .= " join diagnosas as diag on diag.id = px.diagnosa_id ";
-		$query          .= " where st.titel = 'bd' ";
+		$query          .= " where st.titel_id =  4 ";
 		$query          .= " and tanggal like '{$tanggal}%' ";
 		$query          .= " and px.tenant_id = " . session()->get('tenant_id') . " ";
 		$query          .= " and diag.diagnosa like '%kb%' ";
