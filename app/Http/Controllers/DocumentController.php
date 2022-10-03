@@ -26,7 +26,8 @@ class DocumentController extends Controller
         return view('documents.edit', compact('document'));
     }
     public function store(Request $request){
-        if ($this->valid( Input::all() )) {
+        $rules['url'] = 'required|max:10000|mimes:pdf';
+        if ($this->valid( Input::all(), $rules )) {
             return $this->valid( Input::all() );
         }
         $document = new Document;
@@ -54,9 +55,12 @@ class DocumentController extends Controller
     public function processData($document){
         $document->nama    = Input::get('nama');
         $document->tanggal = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal'))->format('Y-m-d');
+        $document->expiry_date = Carbon::CreateFromFormat('d-m-Y', Input::get('expiry_date'))->format('Y-m-d');
         $document->save();
-        $document->url     = uploadFile('file', 'url', $document->id, 'upload/dokumen_penting');
-        $document->save();
+        if ( Input::hasFile('url') ) {
+            $document->url     = uploadFile('file', 'url', $document->id, 'upload/dokumen_penting');
+            $document->save();
+        }
         return $document;
     }
     public function import(){
@@ -82,16 +86,12 @@ class DocumentController extends Controller
         $pesan = Yoga::suksesFlash('Import Data Berhasil');
         return redirect()->back()->withPesan($pesan);
     }
-    private function valid( $data ){
+    private function valid( $data, $rules = [] ){
         $messages = [
             'required' => ':attribute Harus Diisi',
         ];
-        $rules = [
-            'nama'    => 'required',
-            'tanggal' => 'required|date_format:d-m-Y',
-            'url'     => 'required|max:10000|mimes:pdf',
-            
-        ];
+        $rules['nama'] = 'required';
+        $rules['tanggal'] = 'required|date_format:d-m-Y';
         $validator = \Validator::make($data, $rules, $messages);
         
         if ($validator->fails())
@@ -136,7 +136,7 @@ class DocumentController extends Controller
             $query .= "count(id) as jumlah ";
         }
         $query .= "FROM documents ";
-        $query .= "WHERE '' = '' ";
+        $query .= "WHERE tenant_id = " . session()->get('tenant_id') . " ";
         if (!empty($tanggal)) {
             $query .= "AND tanggal like '{$tanggal}%' ";
         }

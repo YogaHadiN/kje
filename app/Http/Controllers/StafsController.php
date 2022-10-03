@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Input;
 use DB;
 use Image;
+use Carbon\Carbon;
 use App\Http\Requests;
 use App\Http\Controllers\PengeluaransController;
 use App\Http\Controllers\AsuransisController;
@@ -13,13 +14,14 @@ use App\Models\Staf;
 use Storage;
 use App\Models\Pph21Dokter;
 use App\Models\Classes\Yoga;
+use Illuminate\Validation\Rule;
 
 class StafsController extends Controller
 {
 	public $input_alamat_domisili;
 	public $input_alamat_ktp;
 	public $input_email;
-	public $input_titel;
+	public $input_titel_id;
 	public $input_ktp;
 	public $input_jenis_kelamin;
 	public $input_nama;
@@ -36,8 +38,8 @@ class StafsController extends Controller
 	public $input_tanggal_lulus;
 	public $input_tanggal_mulai;
 	public $input_universitas_asal;
-
-	  public function __construct() {
+    public $rules ;
+    public function __construct() {
 		$this->input_nama             = Input::get('nama');
 		$this->input_tanggal_lahir    = Input::get('tanggal_lahir');
 		$this->input_tanggal_lulus    = Input::get('tanggal_lulus');
@@ -45,7 +47,7 @@ class StafsController extends Controller
 		$this->input_alamat_domisili  = Input::get('alamat_domisili');
 		$this->input_alamat_ktp       = Input::get('alamat_ktp');
 		$this->input_email            = Input::get('email');
-		$this->input_titel            = Input::get('titel');
+		$this->input_titel_id            = Input::get('titel_id');
 		$this->input_ktp              = Input::get('ktp');
 		$this->input_jenis_kelamin    = Input::get('jenis_kelamin');
 		$this->input_no_hp            = Input::get('no_hp');
@@ -58,6 +60,8 @@ class StafsController extends Controller
 		$this->input_nomor_rekening   = Input::get('nomor_rekening');
 		$this->input_bank             = Input::get('bank');
 		$this->input_universitas_asal = Input::get('universitas_asal');
+
+
 
 
 
@@ -81,6 +85,7 @@ class StafsController extends Controller
 	 *
 	 * @return Response
 	 */
+
 	public function create()
 	{
 		return view('stafs.create');
@@ -88,12 +93,12 @@ class StafsController extends Controller
 
 	/**
 	 * Store a newly created staf in storage.
-	 *
+	 *s
 	 * @return Response
 	 */
 	public function store()
 	{
-		$validator = \Validator::make(Input::all(), Staf::$rules);
+		$validator = \Validator::make(Input::all(), $this->rules());
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
@@ -131,7 +136,6 @@ class StafsController extends Controller
 		return view('stafs.edit', compact(
 			'warna',
 			'staf'
-
 		));
 	}
 
@@ -144,6 +148,11 @@ class StafsController extends Controller
 	public function update($id)
 	{
 		$staf = Staf::find($id);
+		$validator = \Validator::make(Input::all(), $this->rules($staf));
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
+		}
 		$staf = $this->inputData($staf);
 		return redirect('stafs')->withPesan(Yoga::suksesFlash('Staf <strong>' . $staf->nama . '</strong> Berhasil <strong>Diubah</strong>'));
 	}
@@ -235,27 +244,28 @@ class StafsController extends Controller
 	}
 	public function inputData($staf){
 		/* dd( $this->input_tanggal_lahir ); */
-		$staf->alamat_domisili      = $this->input_alamat_domisili;
-		$staf->alamat_ktp           = $this->input_alamat_ktp;
-		$staf->email                = $this->input_email;
-		$staf->titel                = $this->input_titel;
-		$staf->ktp                  = $this->input_ktp;
-		$staf->jenis_kelamin        = $this->input_jenis_kelamin;
-		$staf->nama                 = $this->input_nama;;
-		$staf->no_hp                = $this->input_no_hp;
-		$staf->no_telp              = $this->input_no_telp;
-		$staf->str                  = $this->input_str;
-		$staf->menikah              = $this->input_menikah;
-		$staf->jumlah_anak          = $this->input_jumlah_anak;
-		$staf->npwp                 = $this->input_npwp;
-		$staf->sip                 = $this->input_sip;
-		$staf->nomor_rekening       = $this->input_nomor_rekening  ;
-		$staf->bank                 = $this->input_bank            ;
-		/* dd(  $this->input_tanggal_lahir  ); */
-		$staf->tanggal_lahir        = Yoga::datePrep( $this->input_tanggal_lahir );
-		$staf->tanggal_lulus        = Yoga::datePrep( $this->input_tanggal_lulus );
-		$staf->tanggal_mulai        = Yoga::datePrep( $this->input_tanggal_mulai );
-		$staf->universitas_asal     = $this->input_universitas_asal;
+		$staf->alamat_domisili  = $this->input_alamat_domisili;
+		$staf->alamat_ktp       = $this->input_alamat_ktp;
+		$staf->email            = $this->input_email;
+		$staf->titel_id            = $this->input_titel_id;
+		$staf->ktp              = $this->input_ktp;
+		$staf->jenis_kelamin    = $this->input_jenis_kelamin;
+		$staf->nama             = $this->input_nama;;
+		$staf->no_hp            = $this->input_no_hp;
+		$staf->no_telp          = $this->input_no_telp;
+		$staf->str              = $this->input_str;
+		$staf->menikah          = $this->input_menikah;
+		$staf->jumlah_anak      = $this->input_jumlah_anak;
+		$staf->npwp             = $this->input_npwp;
+		$staf->sip              = $this->input_sip;
+		$staf->sip_expiry_date  = Input::get('sip_expiry_date');
+		$staf->str_expiry_date  = Input::get('str_expiry_date');
+		$staf->nomor_rekening   = $this->input_nomor_rekening  ;
+		$staf->bank             = $this->input_bank            ;
+		$staf->tanggal_lahir    = Input::get('tanggal_lahir');
+		$staf->tanggal_lulus    = Input::get('tanggal_lulus');
+		$staf->tanggal_mulai    = Input::get('tanggal_mulai');
+		$staf->universitas_asal = $this->input_universitas_asal;
 
 		$staf->save();
 
@@ -325,5 +335,46 @@ class StafsController extends Controller
 		$query .= "GROUP BY tanggal";
 		return DB::select($query);
 	}
+    public function rules( $staf = null ){
+        $ignore_id = is_null($staf) ? '' : ','.$staf->id;
+        return [
+            'nama'            => 'required|unique:stafs,nama'. $ignore_id,
+            'alamat_domisili' => 'required',
+            'jenis_kelamin'   => 'required',
+            'ktp'             => 'required',
+            'menikah'         => 'required',
+            'jumlah_anak'     => 'required',
+            'tanggal_lahir'   => 'required|date_format:d-m-Y',
+            'tanggal_lulus'   => 'date_format:d-m-Y',
+            'tanggal_mulai'   => 'date_format:d-m-Y',
+            'str_expiry_date' => [ 
+                Rule::requiredIf( 
+                    !empty( 
+                        Input::get('str_image') || 
+                        ( !is_null($staf) && !empty($staf->str_image) ) 
+                    ) 
+                ), 'date_format:d-m-Y'],
+            'ktp'             => [ 
+                Rule::requiredIf( 
+                    !empty( 
+                        Input::get('ktp_image') || 
+                        ( !is_null($staf) && !empty($staf->ktp_image) ) 
+                    ) 
+                )],
+            'sip_expiry_date' => [
+                Rule::requiredIf( 
+                    !empty( 
+                        Input::get('sip_image') || 
+                        ( !is_null($staf) && !empty($staf->sip_image) ) 
+                    ) 
+                ), 'date_format:d-m-Y'
+            ],
+            'str'             => Rule::requiredIf( !empty( Input::get('str_image') || ( !is_null($staf) && !empty($staf->str_image) ) ) ),
+            'sip'             => Rule::requiredIf( !empty( Input::get('sip_image') || ( !is_null($staf) && !empty($staf->sip_image) ) ) ),
+            'no_telp'         => 'required'
+        ];
+    }
+    
+
 	
 }

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\BelongsToTenant; 
 use Session;
 use App\Models\Classes\Yoga;
-
 class Staf extends Model{
     use BelongsToTenant,HasFactory;
 
@@ -26,15 +25,6 @@ class Staf extends Model{
 			}
 		});
 	}
-	public static $rules = [
-		'nama'            => 'required|unique:stafs,nama',
-		'alamat_domisili' => 'required',
-		'jenis_kelamin'   => 'required',
-		'ktp'             => 'required',
-		'menikah'         => 'required',
-		'jumlah_anak'     => 'required',
-		'no_telp'         => 'required'
-	];
 
 	// Don't forget to fill this array
 	protected $guarded = [];
@@ -76,5 +66,28 @@ class Staf extends Model{
 	}
     public static function owner(){
         return Staf::where('owner', 1)->first();
+    }
+
+    public function setStrExpiryDateAttribute($value)
+    {
+        $this->attributes['str_expiry_date'] = convertToDatabaseFriendlyDateFormat($value);
+    }
+
+    public function setSipExpiryDateAttribute($value)
+    {
+        $this->attributes['sip_expiry_date'] = convertToDatabaseFriendlyDateFormat($value);
+    }
+
+    public function setTanggalLahirAttribute($value)
+    {
+        $this->attributes['tanggal_lahir'] = convertToDatabaseFriendlyDateFormat($value);
+    }
+    public function setTanggalLulusAttribute($value)
+    {
+        $this->attributes['tanggal_lulus'] = convertToDatabaseFriendlyDateFormat($value);
+    }
+    public function setTanggalMulaiAttribute($value)
+    {
+        $this->attributes['tanggal_mulai'] = convertToDatabaseFriendlyDateFormat($value);
     }
 }

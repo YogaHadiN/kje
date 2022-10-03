@@ -83,16 +83,6 @@
     </div>
   <div class="row">
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		 <div class="form-group @if($errors->has('str'))has-error @endif">
-		   {!! Form::label('str', 'Nomor STR', ['class' => 'control-label']) !!}
-            {!! Form::text('str', null, array(
-                'class'         => 'form-control',
-                'placeholder'   => 'STR'
-            ))!!}
-		   @if($errors->has('str'))<code>{{ $errors->first('str') }}</code>@endif
-		 </div>
-    </div>
-     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		 <div class="form-group @if($errors->has('universitas_asal'))has-error @endif">
 		   {!! Form::label('universitas_asal', 'Universitas Asal', ['class' => 'control-label']) !!}
             {!! Form::text('universitas_asal', null, array(
@@ -105,19 +95,13 @@
 </div>
   <div class="row">
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		 <div class="form-group @if($errors->has('titel'))has-error @endif">
-		   {!! Form::label('titel', 'Titel', ['class' => 'control-label']) !!}
-            {!! Form::select('titel', array(
-                '-'    => 'Tidak ada Titel',
-                'dr'    => 'Dokter',
-                'drg'   => 'Dokter Gigi',
-                'bd'    => 'Bidan',
-                'ns'    => 'Perawat'
-                ), null, array(
+		 <div class="form-group @if($errors->has('titel_id'))has-error @endif">
+		   {!! Form::label('titel_id', 'Titel', ['class' => 'control-label']) !!}
+            {!! Form::select('titel_id', \App\Models\Titel::pluck('titel', 'id'), null, array(
                 'class'         => 'form-control rq',
-                'placeholder'   => 'Pilih Titel'
+                'placeholder'   => '- Pilih Titel -'
             ))!!}
-		   @if($errors->has('titel'))<code>{{ $errors->first('titel') }}</code>@endif
+		   @if($errors->has('titel_id'))<code>{{ $errors->first('titel_id') }}</code>@endif
 		 </div>
     </div>
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -196,13 +180,44 @@
 	</div>
 </div>
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="form-group @if($errors->has('sip'))has-error @endif">
                 {!! Form::label('sip', 'Nomor SIP', ['class' => 'control-label']) !!}
             {!! Form::text('sip',  null, array(
                 'class'         => 'form-control'
             ))!!}
                 @if($errors->has('sip'))<code>{{ $errors->first('sip') }}</code>@endif
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group @if($errors->has('sip_expiry_date'))has-error @endif">
+                {!! Form::label('sip_expiry_date', 'SIP Berlaku sampai', ['class' => 'control-label']) !!}
+            {!! Form::text('sip_expiry_date',  null, array(
+                'class'         => 'form-control tanggal'
+            ))!!}
+                @if($errors->has('sip_expiry_date'))<code>{{ $errors->first('sip_expiry_date') }}</code>@endif
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group @if($errors->has('str'))has-error @endif">
+        {!! Form::label('str', 'Nomor STR', ['class' => 'control-label']) !!}
+        {!! Form::text('str', null, array(
+            'class'         => 'form-control',
+            'placeholder'   => 'STR'
+        ))!!}
+        @if($errors->has('str'))<code>{{ $errors->first('str') }}</code>@endif
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group @if($errors->has('str'))has-error @endif">
+        {!! Form::label('str_expiry_date', 'STR Berlaku Sampai', ['class' => 'control-label']) !!}
+        {!! Form::text('str_expiry_date', null, array(
+            'class'         => 'form-control tanggal',
+            'placeholder'   => 'STR'
+        ))!!}
+        @if($errors->has('str_expiry_date'))<code>{{ $errors->first('str_expiry_date') }}</code>@endif
         </div>
     </div>
 </div>

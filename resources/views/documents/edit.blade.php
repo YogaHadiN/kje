@@ -18,11 +18,11 @@ Klinik Jati Elok | Buat Dokumen
 @stop
 @section('content') 
     {!! Form::model($document, [
-        "url"    => "documents",
+        "url"    => "documents/" .$document->id,
         "class"  => "m-t",
         "role"   => "form",
         "files"  => "true",
-        "method" => "post"
+        "method" => "put"
     ]) !!}
         @include('documents.form')
 {!! Form::close() !!}

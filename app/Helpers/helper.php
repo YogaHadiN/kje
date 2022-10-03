@@ -231,4 +231,14 @@ if (!function_exists('getAsuransiIdFromDescription')) {
 		return '';
     }
 }
+
+if (!function_exists('convertToDatabaseFriendlyDateFormat')) {
+    function convertToDatabaseFriendlyDateFormat($value) {
+        if (!empty($value)) {
+            return \Carbon\Carbon::CreateFromFormat('d-m-Y', $value)->format('Y-m-d');
+        }
+        return null;
+    }
+}
+
  
