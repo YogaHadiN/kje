@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Logout;
 use App\Listeners\ClearTenantIdFromSession;
 use App\Listeners\RecordLogin;
 use App\Listeners\SetTenantIdInSession;
+use App\Listeners\ShowWarningIfPaperExpired;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -27,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
         Login::class => [
             SetTenantIdInSession::class,
             RecordLogin::class,
+            ShowWarningIfPaperExpired::class,
         ],
         Logout::class => [
             ClearTenantIdFromSession::class,
