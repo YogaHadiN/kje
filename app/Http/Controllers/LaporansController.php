@@ -2210,6 +2210,7 @@ class LaporansController extends Controller
 
 		$query  = "SELECT *, ";
 		$query .= "p.id as periksa_id, ";
+		$query .= "stf.nama as nama_staf, ";
 		$query .= "p.tanggal as tanggal, ";
 		$query .= "p.asuransi_id as asuransi_id, ";
 		$query .= "ps.nama as nama_pasien, ";
@@ -2219,6 +2220,7 @@ class LaporansController extends Controller
 		$query .= "po.poli as poli ";
         $query .= "FROM periksas as p ";
         $query .= "LEFT OUTER JOIN pasiens as ps on ps.id = p.pasien_id ";
+        $query .= "JOIN stafs as stf on stf.id = p.staf_id ";
 		$query .= "INNER JOIN polis as po on po.id = p.poli_id ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
 		$query .= "where p.tanggal like '{$tanggal}' ";

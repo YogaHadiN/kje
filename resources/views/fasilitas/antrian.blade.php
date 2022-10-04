@@ -196,11 +196,11 @@
 							A50
                 </div>
 				<div class="text-center welcome_title" id="jenis_antrian">Poli Umum</div>
-                <div class="alamat_klinik text-center bold">Kode Unik : <span  id="kode_unik"></span></div>
-                <div class="text-center">
-                    <img src="" id="qr_code" alt="">
-                </div>
-				<div class="text-center alamat_klinik">Scan QR Code di atas, anda akan dialihkan menuju whatsapp</div>
+                {{-- <div class="alamat_klinik text-center bold">Kode Unik : <span  id="kode_unik"></span></div> --}}
+                {{-- <div class="text-center"> --}}
+                {{--     <img src="" id="qr_code" alt=""> --}}
+                {{-- </div> --}}
+				{{-- <div class="text-center alamat_klinik">Scan QR Code di atas, anda akan dialihkan menuju whatsapp</div> --}}
 				<br />
 	  </section>
 	</div>
