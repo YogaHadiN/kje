@@ -273,6 +273,7 @@ class StafsController extends Controller
 		$staf->ktp_image            = $this->imageUpload('ktp', 'ktp_image', $staf);
 		$staf->str_image            = $this->imageUpload('str', 'str_image', $staf);
 		$staf->sip_image            = $this->imageUpload('sip', 'sip_image', $staf);
+		$staf->ijazah_image            = $this->imageUpload('ijazah', 'ijazah_image', $staf);
 		$staf->gambar_npwp          = $this->imageUpload('npwp', 'gambar_npwp', $staf);
 		$staf->kartu_keluarga       = $this->imageUpload('kk', 'kartu_keluarga', $staf);
 
