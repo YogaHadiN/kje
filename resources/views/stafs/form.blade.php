@@ -315,6 +315,20 @@
 				</div>
 			</div>
 		</div>
+        <div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group{{ $errors->has('ijazah_image') ? ' has-error' : '' }}">
+					{!! Form::label('ijazah_image', 'Upload Gambar Ijazah') !!}
+					{!! Form::file('ijazah_image') !!}
+						@if (isset($staf) && $staf->ijazah_image)
+                            <p> <img src="{{ \Storage::disk('s3')->url($staf->ijazah_image) }}" alt="" class="img-rounded upload"> </p>
+						@else
+                            <p> <img src="{{ \Storage::disk('s3')->url('img/photo_not_available.png') }}" alt="" class="img-rounded upload"> </p>
+						@endif
+					{!! $errors->first('ijazah_image', '<p class="help-block">:message</p>') !!}
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group{{ $errors->has('str_image') ? ' has-error' : '' }}">

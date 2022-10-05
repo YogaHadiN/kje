@@ -4,8 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use DB;
-use App\Models\Titel;
-use App\Models\Staf;
+use App\Models\Ruangan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,47 +15,63 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        $tidak_ada_titel = Titel::create([
-            'titel' => 'Tidak ada titel',
-            'singkatan' => ''
-        ]);
-        $dokter = Titel::create([
-            'titel' => 'Dokter',
-            'singkatan' => 'Dr'
-        ]);
-        $doktergigi = Titel::create([
-            'titel' => 'Dokter Gigi',
-            'singkatan' => 'Drg'
-        ]);
-        $bidan = Titel::create([
-            'titel' => 'Bidan',
-            'singkatan' => 'Bd'
-        ]);
-        $perawat = Titel::create([
-            'titel' => 'Perawat',
-            'singkatan' => 'Ns'
-        ]);
-        $apoteker = Titel::create([
-            'titel' => 'Apoteker',
-            'singkatan' => 'Apt'
+        Ruangan::create([
+            'nama' => 'Loket 1',
+            'file_panggilan' => 'loketsatu',
+            'anafilactic_kit_available' => 0,
+            'temperature_sensitive' => 0
         ]);
 
+        Ruangan::create([
+            'nama' => 'Loket 2',
+            'file_panggilan' => 'loketdua',
+            'anafilactic_kit_available' => 0,
+            'temperature_sensitive' => 0
+        ]);
 
-        Staf::where('titel_id', 'dr')->update([
-            'titel_id' => $dokter->id
+        Ruangan::create([
+            'nama' => 'Ruang Periksa 1',
+            'file_panggilan' => 'ruangperiksasatu',
+            'anafilactic_kit_available' => 1,
+            'temperature_sensitive' => 0
         ]);
-        Staf::where('titel_id', 'drg')->update([
-            'titel_id' => $doktergigi->id
+        Ruangan::create([
+            'nama' => 'Ruang Periksa 2',
+            'file_panggilan' => 'ruangperiksadua',
+            'anafilactic_kit_available' => 1,
+            'temperature_sensitive' => 0
         ]);
-        Staf::where('titel_id', 'bd')->update([
-            'titel_id' => $bidan->id
+        Ruangan::create([
+            'nama' => 'Ruang Periksa Gigi',
+            'file_panggilan' => 'ruangperiksagigi',
+            'anafilactic_kit_available' => 1,
+            'temperature_sensitive' => 0
         ]);
-        Staf::where('titel_id', 'ns')->update([
-            'titel_id' => $perawat->id
+        Ruangan::create([
+            'nama' => 'Ruang Pemeriksaan Fisik',
+            'file_panggilan' => 'ruangpf',
+            'anafilactic_kit_available' => 0,
+            'temperature_sensitive' => 0
         ]);
-        Staf::where('titel_id', 'apt')->update([
-            'titel_id' => $apoteker->id
+
+        Ruangan::create([
+            'nama' => 'Ruang UGD',
+            'file_panggilan' => null,
+            'anafilactic_kit_available' => 1,
+            'temperature_sensitive' => 0
+        ]);
+
+        Ruangan::create([
+            'nama' => 'Ruang Farmasi',
+            'file_panggilan' => 'farmasi',
+            'anafilactic_kit_available' => 0,
+            'temperature_sensitive' => 1
+        ]);
+        Ruangan::create([
+            'nama' => 'Ruang Gudang Obat',
+            'file_panggilan' => null,
+            'anafilactic_kit_available' => 0,
+            'temperature_sensitive' => 1
         ]);
     }
 }

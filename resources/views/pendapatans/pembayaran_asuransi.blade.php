@@ -19,25 +19,21 @@
     <div id="print">
     </div>
 @endif
-@if(isset($rekening))
-
+@php
+    $rekening_id = isset($rekening) ? '/' . $rekening->id : '';
+@endphp
 {!! Form::open([
-	'url'    => 'pengeluarans/pembayaran_asuransi/show/' . $rekening->id,
+	'url'    => 'pengeluarans/pembayaran_asuransi/show' . $rekening_id,
 	"class"  => "m-t",
 	"role"   => "form",
 	"method" => "get",
 	"files"  => "true"
 ]) !!}
-@include('pendapatans.memproses')
-@else
-{!! Form::open([
-	'url'    => 'pengeluarans/pembayaran_asuransi/show',
-	"class"  => "m-t",
-	"role"   => "form",
-	"method" => "post",
-	"files"  => "true"
-]) !!}
+@if(isset($rekening))
+    @include('pendapatans.memproses')
 @endif
+
+
 <div class="row">
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <div class="panel panel-default">

@@ -353,19 +353,15 @@
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                     <div class="form-group">
                         {!! Form::label('ruangan', 'Ruangan', ['class' => 'control-label']) !!}
-                        {!! Form::select('ruangan', [
-                            ''                 => 'Pilih Ruangan',
-                            'loketsatu'        => 'Loket 1',
-                            'loketdua'         => 'Loket 2',
-                            'ruangperiksasatu' => 'Ruang Periksa 1',
-                            'ruangperiksadua'  => 'Ruang Periksa 2',
-                            'ruangperiksagigi' => 'Ruang Periksa gigi',
-                            'ruangpf'          => 'Ruang Pemeriksaan Fisik',
-                        ], \Session::get('ruangan') , [
-                                'onchange' => 'ruangan(this);return false',
-                                'id'       => 'ruangan',
-                                'class'    => 'form-control'
-                            ]) !!}
+                        {!! Form::select('ruangan', 
+                                \App\Models\Ruangan::whereNotNull('file_panggilan')
+                                    ->pluck('nama', 'file_panggilan')
+                                , \Session::get('ruangan') , [
+                            'onchange' => 'ruangan(this);return false',
+                            'placeholder' => 'Pilih Ruangan',
+                            'id'       => 'ruangan',
+                            'class'    => 'form-control'
+                        ]) !!}
                       <code class="hide">Mohon pilih ruangan terlebih dahulu sebelum panggil</code>
                     </div>
                 </div>
@@ -414,6 +410,17 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <div class="alert alert-danger">
                                             @foreach( Session::get('warning_merah') as $warning  )
+                                                <li>{!! $warning !!}</li>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                        @endif
+                        @if (Session::has('warning_biru'))
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="alert alert-danger">
+                                            @foreach( Session::get('warning_biru') as $warning  )
                                                 <li>{!! $warning !!}</li>
                                             @endforeach
                                         </div>

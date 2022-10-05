@@ -277,6 +277,13 @@ class StafsController extends Controller
 		$staf->kartu_keluarga       = $this->imageUpload('kk', 'kartu_keluarga', $staf);
 
 		$staf->save();
+
+        if ( session()->has('warning_biru') ) {
+            $warning_biru = session()->get('warning_biru');
+            if (isset( $warning_biru[$staf->id] ) ) {
+                unset( $warning_biru[$staf->id] );
+            }
+        }
 		return $staf;
 	}
 
