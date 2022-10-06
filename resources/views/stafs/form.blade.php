@@ -192,7 +192,7 @@
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="form-group @if($errors->has('sip_expiry_date'))has-error @endif">
                 {!! Form::label('sip_expiry_date', 'SIP Berlaku sampai', ['class' => 'control-label']) !!}
-            {!! Form::text('sip_expiry_date',  null, array(
+                {!! Form::text('sip_expiry_date',  isset($staf)? \Carbon\Carbon::parse( $staf->sip_expiry_date )->format('d-m-Y') : null, array(
                 'class'         => 'form-control tanggal'
             ))!!}
                 @if($errors->has('sip_expiry_date'))<code>{{ $errors->first('sip_expiry_date') }}</code>@endif
@@ -213,7 +213,7 @@
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group @if($errors->has('str'))has-error @endif">
         {!! Form::label('str_expiry_date', 'STR Berlaku Sampai', ['class' => 'control-label']) !!}
-        {!! Form::text('str_expiry_date', null, array(
+        {!! Form::text('str_expiry_date', isset($staf)? \Carbon\Carbon::parse( $staf->str_expiry_date )->format('d-m-Y') : null, array(
             'class'         => 'form-control tanggal',
             'placeholder'   => 'STR'
         ))!!}

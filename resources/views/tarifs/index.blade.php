@@ -210,6 +210,10 @@
         <h4 class="modal-title" id="myModalLabel">Update Jenis Tarif</h4>
       </div>
       <div class="modal-body">
+          {!! Form::text('asuransi_id', $asuransi->id, [
+            'class' => 'form-control hide',
+            'id' => 'asuransi_id'
+          ]) !!}
         {!! Form::open(['id' => 'formUpdate', 'method' => 'PUT'])!!}
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -366,7 +370,7 @@
         var tipe_laporan_admedika_id = $(control).closest('tr').find('.tipe_laporan_admedika_id div').html();
         var jenis_tarif_id = $(control).closest('tr').find('.jenis_tarif_id div').html();
         var murni_jasa_dokter = $(control).closest('tr').find('.murni_jasa_dokter div').html();
-        var asuransi_id = '0';
+        var asuransi_id = $('#asuransi_id').val();
 
         biaya = cleanUang(biaya);
         jasaDokter = cleanUang(jasaDokter);

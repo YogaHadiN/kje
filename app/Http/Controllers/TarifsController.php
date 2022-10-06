@@ -49,7 +49,7 @@ class TarifsController extends Controller
 		];
 
 		$mereks = Merek::with('rak.formula.komposisi.generik')->get();
-        $payload = compact('tarifs', 'tipeTindakans', 'mereks');
+        $payload = compact('tarifs', 'tipeTindakans', 'mereks', 'asuransi');
 		return view('tarifs.index', $payload);
 	}
 

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use DB;
 use App\Models\Ruangan;
+use App\Models\Staf;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,63 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Ruangan::create([
-            'nama' => 'Loket 1',
-            'file_panggilan' => 'loketsatu',
-            'anafilactic_kit_available' => 0,
-            'temperature_sensitive' => 0
+        DB::statement("update documents set tenant_id = 1;");
+        DB::statement("update stafs set aktif = 0 where tenant_id = 1;");
+
+        Staf::whereIn('id', [1, 7, 57, 63, 124, 116, 106, 160, 29, 99, 102, 72, 23, 121, 125, 143, 120, 79, 88, 158, 111, 16])->update([
+            'aktif' => 1
         ]);
 
-        Ruangan::create([
-            'nama' => 'Loket 2',
-            'file_panggilan' => 'loketdua',
-            'anafilactic_kit_available' => 0,
-            'temperature_sensitive' => 0
-        ]);
-
-        Ruangan::create([
-            'nama' => 'Ruang Periksa 1',
-            'file_panggilan' => 'ruangperiksasatu',
-            'anafilactic_kit_available' => 1,
-            'temperature_sensitive' => 0
-        ]);
-        Ruangan::create([
-            'nama' => 'Ruang Periksa 2',
-            'file_panggilan' => 'ruangperiksadua',
-            'anafilactic_kit_available' => 1,
-            'temperature_sensitive' => 0
-        ]);
-        Ruangan::create([
-            'nama' => 'Ruang Periksa Gigi',
-            'file_panggilan' => 'ruangperiksagigi',
-            'anafilactic_kit_available' => 1,
-            'temperature_sensitive' => 0
-        ]);
-        Ruangan::create([
-            'nama' => 'Ruang Pemeriksaan Fisik',
-            'file_panggilan' => 'ruangpf',
-            'anafilactic_kit_available' => 0,
-            'temperature_sensitive' => 0
-        ]);
-
-        Ruangan::create([
-            'nama' => 'Ruang UGD',
-            'file_panggilan' => null,
-            'anafilactic_kit_available' => 1,
-            'temperature_sensitive' => 0
-        ]);
-
-        Ruangan::create([
-            'nama' => 'Ruang Farmasi',
-            'file_panggilan' => 'farmasi',
-            'anafilactic_kit_available' => 0,
-            'temperature_sensitive' => 1
-        ]);
-        Ruangan::create([
-            'nama' => 'Ruang Gudang Obat',
-            'file_panggilan' => null,
-            'anafilactic_kit_available' => 0,
-            'temperature_sensitive' => 1
-        ]);
     }
 }
