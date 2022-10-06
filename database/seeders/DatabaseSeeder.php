@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use DB;
 use App\Models\Ruangan;
 use App\Models\Staf;
+use App\Models\Sediaan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,14 @@ class DatabaseSeeder extends Seeder
 
         Staf::whereIn('id', [1, 7, 57, 63, 124, 116, 106, 160, 29, 99, 102, 72, 23, 121, 125, 143, 120, 79, 88, 158, 111, 16])->update([
             'aktif' => 1
+        ]);
+
+        Sediaan::create([
+            'sediaan' => 'supp'
+        ]);
+
+        Sediaan::create([
+            'sediaan' => 'ovula'
         ]);
 
     }

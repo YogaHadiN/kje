@@ -58,6 +58,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('invoices/upload_verivication/{id}', [\App\Http\Controllers\InvoiceController::class, 'upload_verivication']);
     Route::get('invoices/pendingReceivedVerification', [\App\Http\Controllers\InvoiceController::class, 'pendingReceivedVerification']);
     Route::resource('invoices', \App\Http\Controllers\InvoiceController::class);
+    Route::get('sertifikats/search', [\App\Http\Controllers\SertifikatController::class, 'search']);
+    Route::resource('sertifikats', \App\Http\Controllers\SertifikatController::class);
 	Route::get('antrians/proses/{id}', [\App\Http\Controllers\FasilitasController::class, 'prosesAntrian']); //antrian pasien
 	Route::post('antrians/antrianpolis/{id}', [\App\Http\Controllers\FasilitasController::class, 'antrianPoliPost']); //antrian pasien
 	Route::get('antrians/{id}/pasiens/create', [\App\Http\Controllers\FasilitasController::class, 'createPasien']); //antrian pasien

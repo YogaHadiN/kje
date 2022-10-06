@@ -53,8 +53,8 @@ class DocumentController extends Controller
     }
 
     public function processData($document){
-        $document->nama    = Input::get('nama');
-        $document->tanggal = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal'))->format('Y-m-d');
+        $document->nama        = Input::get('nama');
+        $document->tanggal     = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal'))->format('Y-m-d');
         $document->expiry_date = Carbon::CreateFromFormat('d-m-Y', Input::get('expiry_date'))->format('Y-m-d');
         $document->save();
         if ( Input::hasFile('url') ) {
@@ -147,7 +147,7 @@ class DocumentController extends Controller
             $query .= "AND nama like '%{$nama}%' ";
         }
         if (!empty($expiry_date)) {
-            $query .= "AND nama like '%{$expiry_date}%' ";
+            $query .= "AND expiry_date like '%{$expiry_date}%' ";
         }
         if (!$count) {
             $query .= "LIMIT {$pass},  " . Input::get('displayed_rows');

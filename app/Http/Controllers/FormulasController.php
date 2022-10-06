@@ -184,15 +184,16 @@ class FormulasController extends Controller
 				$rules = [
 					'merek'          => 'required',
 					'dijual_bebas'   => 'required',
+					'kelas_obat_id'  => 'required',
 					'exp_date'       => 'date_format:d-m-Y',
-					'kode_rak'         => 'required',
+					'kode_rak'       => 'required',
 					'indikasi'       => 'required',
 					'kontraindikasi' => 'required',
 					'efek_samping'   => 'required',
 					'harga_beli'     => 'numeric',
 					'harga_jual'     => 'required|numeric',
 					'fornas'         => 'required|numeric',
-					'sediaan_id'        => 'required'
+					'sediaan_id'     => 'required'
 				];
 
 				$validator = \Validator::make($data = Input::all(), $rules);
@@ -229,7 +230,6 @@ class FormulasController extends Controller
 				$rak->exp_date          = Yoga::datePrep( Input::get('exp_date') );
 				$rak->formula_id        = $formula->id;
 				$rak->save();
-
 
 				$doses = [];
 
@@ -363,6 +363,7 @@ class FormulasController extends Controller
 				$merek->rak_id = $rak->id;
 				$merek->merek = $rc->customMerek($formula, Input::get('merek'));
 				$merek->save();
+                dd( 'rak_id', $rak->kelas_obat_id );
 				DB::commit();
 			} catch (\Exception $e) {
 				DB::rollback();

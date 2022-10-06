@@ -343,6 +343,20 @@
 				</div>
 			</div>
 		</div>
+        <div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="form-group{{ $errors->has('str_image') ? ' has-error' : '' }}">
+					{!! Form::label('bukti_registrasi_kki_image', 'Upload Gambar STR') !!}
+					{!! Form::file('bukti_registrasi_kki_image') !!}
+						@if (isset($staf) && $staf->bukti_registrasi_kki_image)
+                            <p> <img src="{{ \Storage::disk('s3')->url($staf->bukti_registrasi_kki_image) }}" alt="" class="img-rounded upload"> </p>
+						@else
+                            <p> <img src="{{ \Storage::disk('s3')->url('img/photo_not_available.png') }}" alt="" class="img-rounded upload"> </p>
+						@endif
+					{!! $errors->first('bukti_registrasi_kki_image', '<p class="help-block">:message</p>') !!}
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group{{ $errors->has('sip_image') ? ' has-error' : '' }}">

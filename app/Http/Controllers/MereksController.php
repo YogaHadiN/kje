@@ -41,7 +41,7 @@ class MereksController extends Controller
             try {
                 $m->rak->kelasObat->kelas_obat;
             } catch (\Exception $e) {
-                dd( $m );
+                dd( $m->rak );
             }
         }
 		$raks_nol = Rak::with('merek')->where('harga_beli', '<', 1)->get();

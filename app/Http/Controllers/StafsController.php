@@ -247,7 +247,7 @@ class StafsController extends Controller
 		$staf->alamat_domisili  = $this->input_alamat_domisili;
 		$staf->alamat_ktp       = $this->input_alamat_ktp;
 		$staf->email            = $this->input_email;
-		$staf->titel_id            = $this->input_titel_id;
+		$staf->titel_id         = $this->input_titel_id;
 		$staf->ktp              = $this->input_ktp;
 		$staf->jenis_kelamin    = $this->input_jenis_kelamin;
 		$staf->nama             = $this->input_nama;;
@@ -269,13 +269,14 @@ class StafsController extends Controller
 
 		$staf->save();
 
-		$staf->image                = $this->imageUpload('image', 'image', $staf);
-		$staf->ktp_image            = $this->imageUpload('ktp', 'ktp_image', $staf);
-		$staf->str_image            = $this->imageUpload('str', 'str_image', $staf);
-		$staf->sip_image            = $this->imageUpload('sip', 'sip_image', $staf);
-		$staf->ijazah_image            = $this->imageUpload('ijazah', 'ijazah_image', $staf);
-		$staf->gambar_npwp          = $this->imageUpload('npwp', 'gambar_npwp', $staf);
-		$staf->kartu_keluarga       = $this->imageUpload('kk', 'kartu_keluarga', $staf);
+		$staf->image                      = $this->imageUpload('image', 'image', $staf);
+		$staf->ktp_image                  = $this->imageUpload('ktp', 'ktp_image', $staf);
+		$staf->str_image                  = $this->imageUpload('str', 'str_image', $staf);
+		$staf->sip_image                  = $this->imageUpload('sip', 'sip_image', $staf);
+		$staf->ijazah_image               = $this->imageUpload('ijazah', 'ijazah_image', $staf);
+		$staf->bukti_registrasi_kki_image = $this->imageUpload('bukti_registrasi_kki', 'bukti_registrasi_kki_image', $staf);
+		$staf->gambar_npwp                = $this->imageUpload('npwp', 'gambar_npwp', $staf);
+		$staf->kartu_keluarga             = $this->imageUpload('kk', 'kartu_keluarga', $staf);
 
 		$staf->save();
 

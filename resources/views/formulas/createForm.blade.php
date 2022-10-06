@@ -123,11 +123,14 @@
                         </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group @if($errors->has('tidak_dipuyer')) has-error @endif">
-                                  {!! Form::label('tidak_dipuyer', 'Tidak Dipuyer', ['class' => 'control-label']) !!}
+                                  {!! Form::label('tidak_dipuyer', 'Apakah boleh dipuyer?', ['class' => 'control-label']) !!}
                                   {!! Form::select('tidak_dipuyer' , [
-                                      '0' => 'Tidak Boleh Dipuyer',
-                                      '0' => 'Boleh Dipuyer'
-                                  ], null, ['class' => 'form-control']) !!}
+                                      '0' => 'Boleh Dipuyer',
+                                      '1' => 'Tidak Boleh Dipuyer',
+                                  ], null, [
+                                    'class'       => 'form-control',
+                                    'placeholder' => '- Pilih -'
+                                  ]) !!}
                                   @if($errors->has('tidak_dipuyer'))<code>{{ $errors->first('tidak_dipuyer') }}</code>@endif
                                 </div>
                             </div>
