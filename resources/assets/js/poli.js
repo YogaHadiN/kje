@@ -2120,10 +2120,15 @@ function submitTindakan() {
     var tarif = $("#selectTindakan option:selected").text();
     var keterangan_tindakan = $.trim($("#keteranganTindakan").val());
 
+    var jenis_tarif_id_rapid_antibodi = $(
+        "#jenis_tarif_id_rapid_antibodi"
+    ).val();
+    var jenis_tarif_id_rapid_antigen = $("#jenis_tarif_id_rapid_antigen").val();
+    var jenis_tarif_id_gula_darah = $("#jenis_tarif_id_gula_darah").val();
     if (
-        (jenis_tarif_id == "403" ||
-            jenis_tarif_id == "404" ||
-            jenis_tarif_id == "116") &&
+        (jenis_tarif_id == "403" || // jenis tarif rapid test
+            jenis_tarif_id == "404" || // jenis tarif rapid test antigen
+            jenis_tarif_id == "116") && // jenis tarif gula darah
         keterangan_tindakan == ""
     ) {
         Swal.fire({

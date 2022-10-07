@@ -1,6 +1,20 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		@include('alergi')
+        {!! Form::text('jenis_tarif_id_rapid_antibodi', $jenis_tarif_id_rapid_antibodi, [
+            'class' => 'form-control hide',
+            'id'    => 'jenis_tarif_id_rapid_antibodi'
+        ]) !!}
+
+        {!! Form::text('jenis_tarif_id_rapid_antigen', $jenis_tarif_id_rapid_antigen, [
+            'class' => 'form-control hide',
+            'id'    => 'jenis_tarif_id_rapid_antigen'
+        ]) !!}
+
+        {!! Form::text('jenis_tarif_id_gula_darah', $jenis_tarif_id_gula_darah, [
+            'class' => 'form-control hide',
+            'id'    => 'jenis_tarif_id_gula_darah'
+        ]) !!}
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="alert alert-success">

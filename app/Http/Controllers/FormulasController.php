@@ -363,7 +363,6 @@ class FormulasController extends Controller
 				$merek->rak_id = $rak->id;
 				$merek->merek = $rc->customMerek($formula, Input::get('merek'));
 				$merek->save();
-                dd( 'rak_id', $rak->kelas_obat_id );
 				DB::commit();
 			} catch (\Exception $e) {
 				DB::rollback();

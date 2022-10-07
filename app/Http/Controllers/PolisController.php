@@ -36,6 +36,9 @@ class PolisController extends Controller
         /* $this->middleware('harusUrut', ['only' => ['poli']]); */
     }
 	public function poli($id, Request $request){
+        $jenis_tarif_id_rapid_antibodi = JenisTarif::where('jenis_tarif', 'rapid test')->first()->id;
+        $jenis_tarif_id_rapid_antigen  = JenisTarif::where('jenis_tarif', 'rapid test antigen')->first()->id;
+        $jenis_tarif_id_gula_darah     = JenisTarif::where('jenis_tarif', 'gula darah')->first()->id;
 		$generik_list   = Generik::list();
 		$asuransi_list  = Asuransi::list();
 		$antrianperiksa = AntrianPeriksa::with('gambars',
@@ -342,6 +345,9 @@ class PolisController extends Controller
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
+			->with('jenis_tarif_id_rapid_antibodi',$jenis_tarif_id_rapid_antibodi)
+			->with('jenis_tarif_id_rapid_antigen',$jenis_tarif_id_rapid_antigen)
+			->with('jenis_tarif_id_gula_darah',$jenis_tarif_id_gula_darah)
 			->withUrl($url)
 			->withText($text)
 			->withIcd10s($icd10s)
@@ -543,6 +549,9 @@ class PolisController extends Controller
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
+			->with('jenis_tarif_id_rapid_antibodi',$jenis_tarif_id_rapid_antibodi)
+			->with('jenis_tarif_id_rapid_antigen',$jenis_tarif_id_rapid_antigen)
+			->with('jenis_tarif_id_gula_darah',$jenis_tarif_id_gula_darah)
 			->withUrl($url)
 			->withIcd10s($icd10s)
 			->withBase64($base64)
