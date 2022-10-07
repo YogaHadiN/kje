@@ -19,11 +19,12 @@ Klinik Jati Elok | Buat Sertifikat
 @section('content') 
 
     {!! Form::open([
-        "url"    => "sertifikats",
-        "class"  => "m-t",
-        "role"   => "form",
-        "files"  => "true",
-        "method" => "post"
+        "url"     => "sertifikats",
+        'enctype' => "multipart/form-data",
+        "class"   => "m-t",
+        "role"    => "form",
+        "files"   => "true",
+        "method"  => "post"
     ]) !!}
         @include('sertifikats.form')
 {!! Form::close() !!}

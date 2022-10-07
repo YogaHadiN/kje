@@ -65,10 +65,10 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
-                    {!! Form::label('url', 'Upload Sertifikat') !!}
-                    {!! Form::file('url') !!}
-                    {!! $errors->first('url', '<p class="help-block">:message</p>') !!}
-                </div>
+            <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
+                {!! Form::label('url', 'Upload Sertifikat') !!}
+                {!! Form::file('url') !!}
+                {!! $errors->first('url', '<p class="help-block">:message</p>') !!}
+            </div>
         </div>
     </div>

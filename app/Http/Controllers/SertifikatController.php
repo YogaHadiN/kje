@@ -25,7 +25,7 @@ class SertifikatController extends Controller
         $rules['url'] = 'required|max:10000|mimes:pdf';
 
         if ($this->valid( Input::all() )) {
-            return $this->valid( Input::all() );
+            return $this->valid( Input::all() , $rules);
         }
 
         $sertifikat = new Sertifikat;
@@ -51,9 +51,10 @@ class SertifikatController extends Controller
     }
 
     public function processData($sertifikat){
-        $sertifikat->tanggal_terbit = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal_terbit'))->format('Y-m-d');;;
-        $sertifikat->expiry_date    = Carbon::CreateFromFormat('d-m-Y', Input::get('expiry_date'))->format('Y-m-d');;
+        $sertifikat->tanggal_terbit = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal_terbit'))->format('Y-m-d');
+        $sertifikat->expiry_date    = !empty(Input::get('expiry_date'))? Carbon::CreateFromFormat('d-m-Y', Input::get('expiry_date'))->format('Y-m-d'):null;
         $sertifikat->staf_id        = Input::get('staf_id');
+        $sertifikat->nama           = Input::get('nama');
         $sertifikat->save();
         if ( Input::hasFile('url') ) {
             $sertifikat->url     = uploadFile('serti', 'url', $sertifikat->id, 'upload/sertifikat');
@@ -90,6 +91,7 @@ class SertifikatController extends Controller
         $messages = [
             'required' => ':attribute Harus Diisi',
         ];
+
         $rules['nama']           = 'required';
         $rules['staf_id']        = 'required';
         $rules['tanggal_terbit'] = 'required|date_format:d-m-Y';
@@ -169,6 +171,4 @@ class SertifikatController extends Controller
 
         return DB::select($query);
     }
-    
-    
 }

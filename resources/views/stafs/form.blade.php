@@ -346,7 +346,7 @@
         <div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="form-group{{ $errors->has('str_image') ? ' has-error' : '' }}">
-					{!! Form::label('bukti_registrasi_kki_image', 'Upload Gambar STR') !!}
+					{!! Form::label('bukti_registrasi_kki_image', 'Upload Bukti Registrasi di KKI') !!}
 					{!! Form::file('bukti_registrasi_kki_image') !!}
 						@if (isset($staf) && $staf->bukti_registrasi_kki_image)
                             <p> <img src="{{ \Storage::disk('s3')->url($staf->bukti_registrasi_kki_image) }}" alt="" class="img-rounded upload"> </p>
