@@ -300,18 +300,22 @@
 											</div>
 										<div class="row">
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-											  {!! Form::label('aktif', 'Aktif', ['class' => 'control-label']) !!}
-											  {!! Form::select('aktif', [ 
-													  0 => 'Tidak Aktif',
-													  1 => 'Aktif',
-												  ], null, array(
-													'id'          => 'aktif',
-													'class'       => 'form-control'
-											  ))!!}
+                                                <div class="form-group @if($errors->has('aktif')) has-error @endif">
+                                                      {!! Form::label('aktif', 'Aktif', ['class' => 'control-label']) !!}
+                                                      {!! Form::select('aktif', [ 
+                                                              0 => 'Tidak Aktif',
+                                                              1 => 'Aktif',
+                                                          ], null, array(
+                                                            'id'          => 'aktif',
+                                                            'class'       => 'form-control'
+                                                      ))!!}
+                                                  @if($errors->has('aktif'))<code>{{ $errors->first('aktif') }}</code>@endif
+                                                </div>
 											</div>
                                         </div>
                                         <div class="row">
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group @if($errors->has('tarif_tersendiri')) has-error @endif">
                                                   {!! Form::label('tarif_tersendiri', 'Tarif tersendiri', ['class' => 'control-label']) !!}
                                                   {!! Form::select('tarif_tersendiri', [ 
                                                           0 => 'tidak',
@@ -321,6 +325,8 @@
                                                         'placeholder'          => '- Pilih -',
                                                         'class'       => 'form-control'
                                                   ))!!}
+                                                  @if($errors->has('tarif_tersendiri'))<code>{{ $errors->first('tarif_tersendiri') }}</code>@endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
