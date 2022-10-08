@@ -961,27 +961,6 @@ class AsuransisController extends Controller
 		];
 	}
 	public function riwayatHutangByParameterGroupedQuery($duaMingguan = false){
-		/* dd( */ 
-		/* 	'DUAAAA', */
-		/* 	'$this->input_piutang', */
-		/* 	$this->input_piutang, */
-		/* 	'$this->input_bulan', */
-		/* 	$this->input_bulan, */
-		/* 	'$this->input_asuransi_id', */
-		/* 	$this->input_asuransi_id, */
-		/* 	'$this->input_key', */
-		/* 	$this->input_key, */
-		/* 	'$this->input_sudah_dibayar', */
-		/* 	$this->input_sudah_dibayar, */
-		/* 	'$this->input_sisa', */
-		/* 	$this->input_sisa, */
-		/* 	'$this->input_column_order', */
-		/* 	$this->input_column_order, */
-		/* 	'$this->input_displayed_rows', */
-		/* 	$this->input_displayed_rows, */
-		/* 	'$this->input_order', */
-		/* 	$this->input_order */
-		/* ); */
 		if ( $this->input_order == 'no' ) {
 			$this->input_order = 'asc';
 		}
@@ -1047,12 +1026,70 @@ class AsuransisController extends Controller
         $coa_id_kas_di_kasir = $coa_tunai->id;
 
         return [
-            'tipe_asuransi_id'  => $asuransi->tipe_asuransi_id,
-            'kode_coa_asuransi' => $asuransi->coa->kode_coa,
+            'tipe_asuransi_id'    => $asuransi->tipe_asuransi_id,
+            'kode_coa_asuransi'   => $asuransi->coa->kode_coa,
             'coa_id_kas_di_kasir' => $coa_id_kas_di_kasir,
-            'coa_tunai'         => $coa_tunai
+            'coa_tunai'           => $coa_tunai
         ];
     }
+    public function getTarifForCurrentAsuransi($id){
+
+        $jenis_tarif_id   = Input::get('jenis_tarif_id');
+        $biaya            = Input::get('biaya');
+        $jasa_dokter      = Input::get('jasa_dokter');
+        $tipe_tindakan_id = Input::get('tipe_tindakan_id');
+
+
+        $query  = "SELECT ";
+        $query .= "jtf.jenis_tarif as jenis_tarif, ";
+        $query .= "trf.biaya as biaya, ";
+        $query .= "trf.id as tarif_id, ";
+        $query .= "trf.tipe_tindakan_id as tipe_tindakan_id, ";
+        $query .= "ttk.tipe_tindakan as tipe_tindakan, ";
+        $query .= "trf.jasa_dokter as jasa_dokter ";
+        $query .= "FROM tarifs as trf ";
+        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trf.jenis_tarif_id ";
+        $query .= "JOIN tipe_tindakans as ttk on ttk.id = trf.tipe_tindakan_id ";
+        $query .= "WHERE trf.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "AND asuransi_id = {$id} ";
+        if (!empty( $jenis_tarif_id )) {
+            $query .= "AND jenis_tarif_id = {$jenis_tarif_id} ";
+        }
+        if (!empty( $biaya )) {
+            $query .= "AND biaya like '{$biaya}%' ";
+        }
+        if (!empty( $jasa_dokter )) {
+            $query .= "AND jasa_dokter like '{$jasa_dokter}%' ";
+        }
+        if (!empty( $tipe_tindakan_id )) {
+            $query .= "AND tipe_tindakan_id = '{$tipe_tindakan_id}' ";
+        }
+        return DB::select($query);
+    }
+    public function editTarifForCurrentAsuransi($asuransi_id, $tarif_id){
+        $asuransi = Asuransi::find($asuransi_id);
+        $tarif    = Tarif::with('jenisTarif')->where('id',$tarif_id)->first();
+        return view('asuransis.editTarif', compact(
+            'asuransi',
+            'tarif'
+        ));
+        
+    }
+    public function updateTarifForCurrentAsuransi($asuransi_id, $tarif_id){
+
+        $tarif                   = Tarif::find($tarif_id);
+        $tarif->biaya            = cleanUang(Input::get('biaya'));
+        $tarif->jasa_dokter      = cleanUang(Input::get('jasa_dokter'));
+        $tarif->tipe_tindakan_id = Input::get('tipe_tindakan_id');
+        $tarif->save();
+
+        $asuransi = Asuransi::find( $asuransi_id );
+        $pesan = Yoga::suksesFlash('Tarif ' . $tarif->jenisTarif->jenis_tarif . ' untuk asuransi ' . $asuransi->nama . ' berhasil di update');
+        return redirect('asuransis/' . $asuransi->id . '/edit')->withPesan($pesan);
+    }
+    
+    
+    
     
     
     /**

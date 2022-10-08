@@ -53,4 +53,5 @@
 @section('footer') 
 	@include('asuransis/footer', ['tarifs' => $tarifs])
 	{!! HTML::script('js/asuransi_upload.js')!!}
+	{!! HTML::script('js/asuransi.js')!!}
 @stop

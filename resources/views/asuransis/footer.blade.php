@@ -139,9 +139,8 @@ function kataKunciValid(control){
 		}
 		function rowUpdate(control){
 
-			var key   = $(control).closest('tr').index();
-			var index = key + 1;
-			var id    = $('#tblTarif tr:nth-child(' + index + ') td:last-child').html();
+			var key   = $(control).closest('tr').find('.key').html();
+			var id    = $(control).closest('tr').find('.id').html();
 
 			var biaya_update            = $('#txtbiaya').val();
 			var jasa_dokter_update      = $('#txtjasadokter').val();

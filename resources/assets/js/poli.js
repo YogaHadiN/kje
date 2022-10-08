@@ -34,6 +34,7 @@ if ($("#terapi").val() == "" || $("#terapi").val() == "[]") {
     var data = JSON.parse($("#terapi").val());
     viewResep(resepJson($("#terapi").val())[1]);
 }
+console.log("tindakan", $("#tindakan").val());
 if ($("#tindakan").val() == "" || $("#tindakan").val() == "[]") {
     var dataTindakan = [];
 } else {
@@ -2126,9 +2127,9 @@ function submitTindakan() {
     var jenis_tarif_id_rapid_antigen = $("#jenis_tarif_id_rapid_antigen").val();
     var jenis_tarif_id_gula_darah = $("#jenis_tarif_id_gula_darah").val();
     if (
-        (jenis_tarif_id == "403" || // jenis tarif rapid test
-            jenis_tarif_id == "404" || // jenis tarif rapid test antigen
-            jenis_tarif_id == "116") && // jenis tarif gula darah
+        (jenis_tarif_id == jenis_tarif_id_rapid_antibodi || // jenis tarif rapid test
+            jenis_tarif_id == jenis_tarif_id_rapid_antigen || // jenis tarif rapid test antigen
+            jenis_tarif_id == jenis_tarif_id_gula_darah) && // jenis tarif gula darah
         keterangan_tindakan == ""
     ) {
         Swal.fire({
@@ -2145,7 +2146,6 @@ function submitTindakan() {
                 biaya: biaya,
                 keterangan_tindakan: keterangan_tindakan,
             };
-            console.log(dataTindakan);
             var string = JSON.stringify(dataTindakan);
             $("#tindakan").val(string);
 

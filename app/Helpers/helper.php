@@ -241,4 +241,18 @@ if (!function_exists('convertToDatabaseFriendlyDateFormat')) {
     }
 }
 
+if (!function_exists('cleanUang')) {
+    function cleanUang($str) {
+        if ( is_numeric($str) ) {
+            return $str;
+        }
+        $data = str_replace(".", "", substr( $str , 4));
+        if ($data != '') {
+            return trim( $data );
+        }else {
+            return '0';
+        }
+    }
+}
+
  

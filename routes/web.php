@@ -189,6 +189,12 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('backup', [\App\Http\Controllers\DatabaseController::class, 'index']);
 	Route::get('copy_log_file', [\App\Http\Controllers\DatabaseController::class, 'copyLog']);
 	Route::get('/asuransis/kata_kunci/unique_test', [\App\Http\Controllers\AsuransisController::class, 'kataKunciUnique']);
+	Route::get('asuransis/get/tarifs/{id}', [\App\Http\Controllers\AsuransisController::class, 'getTarifForCurrentAsuransi']);
+	Route::get('/asuransis/{asuransi_id}/tarifs/{tarif_id}', [\App\Http\Controllers\AsuransisController::class, 'editTarifForCurrentAsuransi']);
+	Route::put('/asuransis/{asuransi_id}/tarifs/{tarif_id}', [\App\Http\Controllers\AsuransisController::class, 'updateTarifForCurrentAsuransi']);
+
+
+
 	Route::put('antrianperiksas/{id}/editPoli', [\App\Http\Controllers\AntrianPeriksasController::class, 'editPoli']);
 
 

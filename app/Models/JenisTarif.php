@@ -2,11 +2,11 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToTenant; 
 
 class JenisTarif extends Model{
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
 	// Add your validation rules here
 	public static $rules = [

@@ -314,31 +314,57 @@
 									</div>
 								</div>
 							<div role="tabpanel" class="tab-pane" id="Tarif">
-								<div class="panel panel-info">
-									<div class="panel-heading">
-										<h3>TARIF</h3>
-									</div>
-									<div class="panel-body">
-										<!-- Table -->
-										<div class="table-responsive">
-											<table class="table table-condensed table-bordered DT">
-												<thead>
-													<tr>
-														<th>Jenis Tarif</th>
-														<th>Biaya</th>
-														<th>Jasa Dokter</th>
-														<th>Tipe Tindakan</th>
-														<th>Action</th>
-														<th class="hide">id</th>
-														<th class="hide">tipe_tindakan_id</th>
-													</tr>
-												</thead>
-												<tbody id="tblTarif">
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                   Jenis Tarif<br>
+                                                   {!! Form::select('jenis_tarif_id', \App\Models\JenisTarif::pluck('jenis_tarif', 'id'), null, [
+                                                        'class'            => 'form-control-inline form-control selectpick',
+                                                        'placeholder'      => '- Pilih -',
+                                                        'id'               => 'sp_jenis_tarif_id',
+                                                        'data-live-search' => 'true',
+                                                        'onchange'         => 'viewTarif(); return false;'
+                                                   ])!!}
+                                                </th>
+                                                <th>
+                                                   Biaya<br>
+                                                   {!! Form::text('biaya', null, [
+                                                        'class' => 'form-control-inline form-control',
+                                                        'id' => 'sp_biaya',
+                                                        'onkeyup' => 'viewTarif(); return false;'
+                                                   ])!!}
+                                                </th>
+                                                <th>
+                                                   Jasa Dokter<br>
+                                                   {!! Form::text('jasa_dokter', null, [
+                                                        'class' => 'form-control-inline form-control',
+                                                        'id' => 'sp_jasa_dokter',
+                                                        'onchange' => 'viewTarif(); return false;'
+                                                   ])!!}
+                                                </th>
+                                                <th>
+                                                   Tipe Tindakan<br>
+                                                   {!! Form::select('tipe_tindakan_id', \App\Models\TipeTindakan::pluck('tipe_tindakan', 'id'), null, [
+                                                        'class' => 'form-control-inline form-control selectpick',
+                                                        'placeholder'      => '- Pilih -',
+                                                        'id' => 'sp_tipe_tindakan_id',
+                                                        'onchange'         => 'viewTarif(); return false;'
+                                                   ])!!}
+                                                </th>
+                                                <th>Action</th>
+                                                <th class="hide">id</th>
+                                                <th class="hide key">id</th>
+                                                <th class="hide">tipe_tindakan_id</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tarifContainer">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
 							</div>
 						</div>
 					</div>
