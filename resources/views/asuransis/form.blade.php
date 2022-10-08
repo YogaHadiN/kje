@@ -320,7 +320,7 @@
                                                   {!! Form::select('tarif_tersendiri', [ 
                                                           0 => 'tidak',
                                                           1 => 'Ya',
-                                                      ], null, array(
+                                                      ], isset($asuransi)? $asuransi->tarif_tersendiri : 0, array(
                                                         'id'          => 'tarif_tersendiri',
                                                         'placeholder'          => '- Pilih -',
                                                         'class'       => 'form-control'
