@@ -89,7 +89,10 @@ class CustomController extends Controller
         $tarifs = Tarif::where('jenis_tarif_id', $jenis_tarif_id)->get();
 
         foreach ($tarifs as $tarif) {
-            if ( $tarif->biaya > 0 ) {
+            if (
+                $tarif->biaya > 0 &&
+                $tarif->asuransi->tarif_tersendiri == 0
+            ) {
                 $tarif->biaya            = Input::get('biaya');
                 $tarif->tipe_tindakan_id = Input::get('tipe_tindakan_id');
                 $tarif->jasa_dokter      = Input::get('jasa_dokter');
