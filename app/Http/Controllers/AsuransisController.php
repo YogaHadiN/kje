@@ -617,6 +617,7 @@ class AsuransisController extends Controller
 		$asuransi->kali_obat        = $this->input_kali_obat;
 		$asuransi->kata_kunci       = $this->input_kata_kunci;
 		$asuransi->aktif            = $this->input_aktif;
+		$asuransi->tarif_tersendiri = Input::get('tarif_tersendiri');
 		$asuransi->save();
 
 		$timestamp = date('Y-m-d H:i:s');

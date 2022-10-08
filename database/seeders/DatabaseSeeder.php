@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use DB;
-use App\Models\Ruangan;
-use App\Models\Staf;
-use App\Models\Sediaan;
+use App\Models\Tarif;
+use App\Models\Asuransi;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,20 +16,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement("update documents set tenant_id = 1;");
-        DB::statement("update stafs set aktif = 0 where tenant_id = 1;");
+        $tarif_biaya_pribadis = Tarif::where('asuransi_id', 0)->get();
 
-        Staf::whereIn('id', [1, 7, 57, 63, 124, 116, 106, 160, 29, 99, 102, 72, 23, 121, 125, 143, 120, 79, 88, 158, 111, 16])->update([
-            'aktif' => 1
+        Asuransi::where('id', 3)->update([
+            'tarif_tersendiri' => 0
         ]);
 
-        Sediaan::create([
-            'sediaan' => 'supp'
-        ]);
-
-        Sediaan::create([
-            'sediaan' => 'ovula'
-        ]);
-
+        foreach ($tarif_biaya_pribadis as $tarif) {
+            DB::statement("
+                update tarifs trf 
+                    join asuransis as asu on asu.id = trf.asuransi_id 
+                    set trf.biaya = {$tarif->biaya},
+                    trf.jasa_dokter = {$tarif->jasa_dokter}
+                    where biaya > 0 
+                    and asu.tarif_tersendiri not like 1
+                    and trf.jenis_tarif_id = {$tarif->jenis_tarif_id}
+            ");
+        }
     }
 }

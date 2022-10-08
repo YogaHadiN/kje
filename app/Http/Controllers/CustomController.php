@@ -85,12 +85,17 @@ class CustomController extends Controller
 
 		$asuransi_id    = Input::get('asuransi_id');
 		$jenis_tarif_id = Input::get('jenis_tarif_id');
-		$tarif          = Tarif::where('jenis_tarif_id', $jenis_tarif_id)->where('asuransi_id', $asuransi_id)->first();
 
-		$tarif->biaya            = Input::get('biaya');
-		$tarif->tipe_tindakan_id = Input::get('tipe_tindakan_id');
-		$tarif->jasa_dokter      = Input::get('jasa_dokter');
-		$tarif->save();
+        $tarifs = Tarif::where('jenis_tarif_id', $jenis_tarif_id)->get();
+
+        foreach ($tarifs as $tarif) {
+            if ( $tarif->biaya > 0 ) {
+                $tarif->biaya            = Input::get('biaya');
+                $tarif->tipe_tindakan_id = Input::get('tipe_tindakan_id');
+                $tarif->jasa_dokter      = Input::get('jasa_dokter');
+                $tarif->save();
+            }
+        }
 
 		$input_bhps = [];
 		$delete_bhps = [];

@@ -309,10 +309,23 @@
 													'class'       => 'form-control'
 											  ))!!}
 											</div>
-											</div>
-										</div>
-									</div>
-								</div>
+                                        </div>
+                                        <div class="row">
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                  {!! Form::label('tarif_tersendiri', 'Tarif tersendiri', ['class' => 'control-label']) !!}
+                                                  {!! Form::select('tarif_tersendiri', [ 
+                                                          0 => 'tidak',
+                                                          1 => 'Ya',
+                                                      ], null, array(
+                                                        'id'          => 'tarif_tersendiri',
+                                                        'placeholder'          => '- Pilih -',
+                                                        'class'       => 'form-control'
+                                                  ))!!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 							<div role="tabpanel" class="tab-pane" id="Tarif">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">

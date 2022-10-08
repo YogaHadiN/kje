@@ -20,9 +20,7 @@ class Tarif extends Model{
 	protected $guarded = [ 'id' ];
 
 	public function jenisTarif(){
-
 		return $this->belongsTo('App\Models\JenisTarif');
-
 	}
 	public function asuransi(){
 		return $this->belongsTo('App\Models\Asuransi');
@@ -30,9 +28,7 @@ class Tarif extends Model{
 	}
 
 	public function tipeTindakan(){
-
 		return $this->belongsTo('App\Models\TipeTindakan');
-
 	}
 
 	public function getJenisTarifListAttribute(){
