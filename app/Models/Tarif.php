@@ -24,9 +24,7 @@ class Tarif extends Model{
 	}
 	public function asuransi(){
 		return $this->belongsTo('App\Models\Asuransi');
-
 	}
-
 	public function tipeTindakan(){
 		return $this->belongsTo('App\Models\TipeTindakan');
 	}

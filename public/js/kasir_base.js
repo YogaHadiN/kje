@@ -204,7 +204,7 @@ function jumalhEdit(control) {
     MyArray = JSON.parse(merek_jual);
     var fornas = MyArray.fornas;
 
-    if (isNan($(control).val())) {
+    if (isNaN($(control).val())) {
         var jumlah = awal;
     } else if (parseInt($(control).val()) > awal) {
         var jumlah = awal;
