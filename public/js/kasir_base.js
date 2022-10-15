@@ -1,5 +1,6 @@
 var totalBiaya = 0;
 var totalAwal = 0;
+var existingTerapi = parseTerapi();
 
 $(document).ready(function () {
     inputTaccChange();
@@ -205,16 +206,27 @@ function jumalhEdit(control) {
     var fornas = MyArray.fornas;
 
     if (isNaN($(control).val())) {
+        console.log("1");
         var jumlah = awal;
     } else if (parseInt($(control).val()) > awal) {
+        console.log("2");
         var jumlah = awal;
     } else if ($(control).val() < 0) {
+        console.log("3");
+        var jumlah = 0;
+    } else if ($(control).val() == "") {
+        console.log("4");
         var jumlah = 0;
     } else {
+        console.log("5");
         var jumlah = awal;
     }
 
+    $(control).css("border-width", "2px");
+
+    console.log("jumlah", jumlah);
     $(control).val(jumlah);
+    console.log("$(control).val()", $(control).val());
 
     var data = parseTerapi();
 
@@ -239,3 +251,38 @@ function cunamEdit(control) {
 
     encodeTerapi(data, harga_jual, control, jumlah, fornas);
 }
+function caretUp(control) {
+    var key = $(control).closest("tr").find(".key").html();
+    var terapi = parseTerapi();
+    var existingJumlah = existingTerapi[key].jumlah;
+    var existingSigna = existingTerapi[key].signa;
+    var jumlah = parseInt($(control).closest("tr").find(".jumlah").val()) + 1;
+
+    if (
+        jumlah <= existingJumlah &&
+        existingSigna != "Puyer" &&
+        existingSigna != "Add"
+    ) {
+        terapi[key].jumlah = jumlah;
+        $("#terapi1").val(JSON.stringify(terapi));
+        $("#terapi2").val(JSON.stringify(terapi));
+        $(control).closest("tr").find(".jumlah").val(jumlah);
+    }
+}
+function caretDown(control) {
+    var key = $(control).closest("tr").find(".key").html();
+    var terapi = parseTerapi();
+    var existingJumlah = existingTerapi[key].jumlah;
+    var existingSigna = existingTerapi[key].signa;
+    var jumlah = parseInt($(control).closest("tr").find(".jumlah").val()) - 1;
+    if (jumlah >= 0 && existingSigna != "Puyer" && existingSigna != "Add") {
+        terapi[key].jumlah = jumlah;
+        $("#terapi1").val(JSON.stringify(terapi));
+        $("#terapi2").val(JSON.stringify(terapi));
+        $(control).closest("tr").find(".jumlah").val(jumlah);
+    }
+}
+
+$(".touchspin").TouchSpin({
+    min: 0,
+});

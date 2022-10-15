@@ -40,6 +40,10 @@ class FakturBelanja extends Model{
 		return $this->belongsTo('App\Models\Staf', 'petugas_id');
 	}
 
+	public function staf(){
+		return $this->belongsTo('App\Models\Staf', 'petugas_id');
+	}
+
 	public function belanja(){
 
 		return $this->belongsTo('App\Models\Belanja');

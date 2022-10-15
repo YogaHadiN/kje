@@ -17,7 +17,6 @@
 
 @stop
 @section('content') 
-
 <div class="panel panel-primary">
       <div class="panel-heading">
             <div class="panel-title">
@@ -31,68 +30,68 @@
             </div>
       </div>
       <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    Menampilkan <span id="rows"></span> hasil
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
+                    {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
+                        'class'    => 'form-control',
+                        'onchange' => 'clearAndSearch();return false;',
+                        'id'       => 'displayed_rows'
+                    ]) !!}
+                </div>
+            </div>
+            <br></br>
 		  <div class="table-responsive">
-				<table class="table table-striped table-bordered table-hover DTi" id="tableAsuransi">
+				<table class="table table-striped table-bordered table-hover" id="tableAsuransi">
 				  <thead>
 					<tr>
-						<th>ID</th>
-						<th>Nama Asuransi</th>
-						<th>Alamat</th>
-						<th>PIC</th>
-						<th>Email</th>
-					  <th>Riwayat Hutan / Pembayaran</th>
-					  <th>Edit</th>
-						<th>Pembayaran</th>
+                        <th>
+                           ID<br>
+                           {!! Form::text('id', null, [
+                               'class'       => 'form-control-inline form-control selectpick',
+                               'id'          => 'id',
+                               'onkeyup'    => 'clearAndSearch(); return false;'
+                           ])!!}
+                        </th>
+                        <th>
+                            Nama<br>
+                            {!! Form::text('nama', null, [
+                                'class'       => 'form-control-inline form-control selectpick',
+                                'id'          => 'nama',
+                                'onkeyup'    => 'clearAndSearch(); return false;'
+                           ])!!}
+                        </th>
+						<th>
+                            Alamat<br>
+                            {!! Form::text('alamat', null, [
+                                'class'       => 'form-control-inline form-control selectpick',
+                                'id'          => 'alamat',
+                                'onkeyup'    => 'clearAndSearch(); return false;'
+                           ])!!}
+                        </th>
+						<th colspan="3">Action</th>
 					</tr>
 				</thead>
-				<tbody>
-					 @foreach ($asuransis as $asuransi)
-					 <tr>
-					   <td>
-						   {!! $asuransi->id !!}
-					   </td>
-					   <td>
-						   {!! $asuransi->nama !!}
-					   </td>
-					   <td>
-						   {!! $asuransi->alamat !!}
-					   </td>
-					   <td>
-						   <ul>
-							   @foreach($asuransi->pic as $pic)	
-								  <li> {!! $pic->nama !!} ({{ $pic->nomor_telepon }})</li>
-							   @endforeach
-						   </ul>
-					   </td>
-						<td>
-							<ul>
-							   @foreach($asuransi->emails as $email)	
-								   <li>
-									   {!! $email->email !!}
-									</li>
-							   @endforeach
-							</ul>
-					   </td>
-					   <td>
-						   {!! HTML::link('asuransis/' . $asuransi->id . '/hutang/pembayaran', 'Riwayat', ['class' => 'btn btn-sm btn-success'])!!}
-					   </td>
-					   <td>
-						   {!! HTML::link('asuransis/' . $asuransi->id . '/edit', 'Edit', ['class' => 'btn btn-sm btn-info'])!!}
-					   </td>
-					   <td>
-						   {!! HTML::link('laporans/payment/' . $asuransi->id, 'Payment', ['class' => 'btn btn-sm btn-primary'])!!}
-					   </td>
-					 </tr>
-					 {{-- expr --}}
-				   @endforeach
-				</tbody>
+				<tbody id="asuransi_container">
+
+                </tbody>
 			</table>
+            <div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div id="page-box">
+						<nav class="text-right" aria-label="Page navigation" id="paging">
+						
+						</nav>
+					</div>
+				</div>
+			</div>
 		  </div>
       </div>
 </div>
-
-
 @stop
 @section('footer') 
 	
+{!! HTML::script('js/asuransi.js')!!}
 @stop

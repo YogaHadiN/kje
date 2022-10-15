@@ -428,6 +428,17 @@
                                     </div>
                                 </div>
                         @endif
+                        @if (Session::has('warning_tunggakan'))
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="alert alert-danger">
+                                            @foreach( Session::get('warning_tunggakan') as $warning  )
+                                                <li>{!! $warning !!}</li>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                        @endif
 							@if( gethostname() == 'dell' )
 								<div class="row fixed" id="antrianPasien" >
 									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bg-red fixed-left">

@@ -54,8 +54,8 @@ class DocumentController extends Controller
 
     public function processData($document){
         $document->nama        = Input::get('nama');
-        $document->tanggal     = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal'))->format('Y-m-d');
-        $document->expiry_date = Carbon::CreateFromFormat('d-m-Y', Input::get('expiry_date'))->format('Y-m-d');
+        $document->tanggal     = !empty(Input::get('tanggal'))?Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal'))->format('Y-m-d'):null;
+        $document->expiry_date = !empty(Input::get('expiry_date'))?Carbon::CreateFromFormat('d-m-Y', Input::get('expiry_date'))->format('Y-m-d'):null;
         $document->save();
         if ( Input::hasFile('url') ) {
             $document->url     = uploadFile('file', 'url', $document->id, 'upload/dokumen_penting');

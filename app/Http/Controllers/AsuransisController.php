@@ -824,42 +824,8 @@ class AsuransisController extends Controller
 	}
 	public function tunggakan($year){
 
-		$mulai = Carbon::now()->subMonths(4)->endOfMonth()->format('Y-m-d');
 
-		$query  = "SELECT ";
-		$query .= "nama, ";
-		$query .= "asuransi_id, ";
-		$query .= "sum(piutang) as piutang, ";
-		$query .= "sum(tunai) as tunai, ";
-		$query .= "sum(sudah_dibayar) as sudah_dibayar, ";
-		$query .= "sum( ";
-		$query .= "CASE ";
-		$query .= "WHEN tanggal <= '$mulai' ";
-		$query .= "THEN piutang - sudah_dibayar ";
-		$query .= "ELSE 0 ";
-		$query .= "END ";
-		$query .= ") as overdue, ";
-		$query .= "sum(piutang) - sum(sudah_dibayar) as sisa_piutang ";
-		$query .= "FROM ";
-		$query .= "(";
-		$query .= "SELECT ";
-		$query .= "asu.nama as nama, ";
-		$query .= "asu.id as asuransi_id, ";
-		$query .= "prx.tunai as tunai, ";
-		$query .= "prx.tanggal as tanggal, ";
-		$query .= "prx.piutang as piutang, ";
-		$query .= "COALESCE(sum(pdb.pembayaran),0) as sudah_dibayar ";
-		$query .= "FROM periksas as prx ";
-		$query .= "LEFT JOIN piutang_dibayars as pdb on prx.id = pdb.periksa_id ";
-		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
-		$query .= "WHERE prx.tanggal like '{$year}%' ";
-		$query .= "AND asuransi_id > 0 ";
-		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "GROUP BY prx.id ";
-		$query .= ") bl ";
-		$query .= "GROUP BY asuransi_id ";
-		$query .= "having sisa_piutang > 0 ";
-		$query .= "ORDER BY overdue desc";
+        $this->queryTunggakan($year);
 		$data = DB::select($query);
 
 		$total_tunai         = 0;
@@ -1033,39 +999,14 @@ class AsuransisController extends Controller
             'coa_tunai'           => $coa_tunai
         ];
     }
-    public function getTarifForCurrentAsuransi($id){
-
-        $jenis_tarif_id   = Input::get('jenis_tarif_id');
-        $biaya            = Input::get('biaya');
-        $jasa_dokter      = Input::get('jasa_dokter');
-        $tipe_tindakan_id = Input::get('tipe_tindakan_id');
-
-
-        $query  = "SELECT ";
-        $query .= "jtf.jenis_tarif as jenis_tarif, ";
-        $query .= "trf.biaya as biaya, ";
-        $query .= "trf.id as tarif_id, ";
-        $query .= "trf.tipe_tindakan_id as tipe_tindakan_id, ";
-        $query .= "ttk.tipe_tindakan as tipe_tindakan, ";
-        $query .= "trf.jasa_dokter as jasa_dokter ";
-        $query .= "FROM tarifs as trf ";
-        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trf.jenis_tarif_id ";
-        $query .= "JOIN tipe_tindakans as ttk on ttk.id = trf.tipe_tindakan_id ";
-        $query .= "WHERE trf.tenant_id = " . session()->get('tenant_id') . " ";
-        $query .= "AND asuransi_id = {$id} ";
-        if (!empty( $jenis_tarif_id )) {
-            $query .= "AND jenis_tarif_id = {$jenis_tarif_id} ";
-        }
-        if (!empty( $biaya )) {
-            $query .= "AND biaya like '{$biaya}%' ";
-        }
-        if (!empty( $jasa_dokter )) {
-            $query .= "AND jasa_dokter like '{$jasa_dokter}%' ";
-        }
-        if (!empty( $tipe_tindakan_id )) {
-            $query .= "AND tipe_tindakan_id = '{$tipe_tindakan_id}' ";
-        }
-        return DB::select($query);
+    public function searchTarifForCurrentAsuransi($id){
+        $count = $this->queryData($id,true)[0]->jumlah;
+        return [
+            'data'  => $this->queryData($id,false),
+            'pages' => ceil( $count/ Input::get('displayed_rows')),
+            'key'   => Input::get('key'),
+            'rows'  => $count,
+        ];
     }
     public function editTarifForCurrentAsuransi($asuransi_id, $tarif_id){
         $asuransi = Asuransi::find($asuransi_id);
@@ -1088,6 +1029,171 @@ class AsuransisController extends Controller
         $pesan = Yoga::suksesFlash('Tarif ' . $tarif->jenisTarif->jenis_tarif . ' untuk asuransi ' . $asuransi->nama . ' berhasil di update');
         return redirect('asuransis/' . $asuransi->id . '/edit')->withPesan($pesan);
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function queryTunggakan($year, $onlyOverdue = false)
+    {
+		$mulai = Carbon::now()->subMonths(4)->endOfMonth()->format('Y-m-d');
+
+		$query  = "SELECT ";
+		$query .= "nama, ";
+		$query .= "asuransi_id, ";
+		$query .= "sum(piutang) as piutang, ";
+		$query .= "sum(tunai) as tunai, ";
+		$query .= "sum(sudah_dibayar) as sudah_dibayar, ";
+		$query .= "sum( ";
+		$query .= "CASE ";
+		$query .= "WHEN tanggal <= '$mulai' ";
+		$query .= "THEN piutang - sudah_dibayar ";
+		$query .= "ELSE 0 ";
+		$query .= "END ";
+		$query .= ") as overdue, ";
+		$query .= "sum(piutang) - sum(sudah_dibayar) as sisa_piutang ";
+		$query .= "FROM ";
+		$query .= "(";
+		$query .= "SELECT ";
+		$query .= "asu.nama as nama, ";
+		$query .= "asu.id as asuransi_id, ";
+		$query .= "prx.tunai as tunai, ";
+		$query .= "prx.tanggal as tanggal, ";
+		$query .= "prx.piutang as piutang, ";
+		$query .= "COALESCE(sum(pdb.pembayaran),0) as sudah_dibayar ";
+		$query .= "FROM periksas as prx ";
+		$query .= "LEFT JOIN piutang_dibayars as pdb on prx.id = pdb.periksa_id ";
+		$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+		$query .= "WHERE prx.tanggal like '{$year}%' ";
+		$query .= "AND asuransi_id > 0 ";
+		$query .= "AND prx.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "GROUP BY prx.id ";
+		$query .= ") bl ";
+		$query .= "GROUP BY asuransi_id ";
+		$query .= "having sisa_piutang > 0 ";
+
+        if ( $onlyOverdue ) {
+            $query .= "and overdue > 0 ";
+        }
+		$query .= "ORDER BY overdue desc";
+
+        return $query;
+
+    }
+
+    public function getTarifForCurrentAsuransi($id){
+        $asuransi = Asuransi::find( $id );
+        return view('asuransis.tarif', compact('asuransi'));
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function queryData($id, $count) {
+
+        $jenis_tarif_id   = Input::get('jenis_tarif_id');
+        $biaya            = Input::get('biaya');
+        $jasa_dokter      = Input::get('jasa_dokter');
+        $tipe_tindakan_id = Input::get('tipe_tindakan_id');
+        $key              = Input::get('key');
+        $displayed_rows   = Input::get('displayed_rows');
+
+        $pass = $key * $displayed_rows;
+
+        $query  = "SELECT ";
+        if (!$count) {
+            $query .= "jtf.jenis_tarif as jenis_tarif, ";
+            $query .= "trf.biaya as biaya, ";
+            $query .= "trf.id as tarif_id, ";
+            $query .= "trf.tipe_tindakan_id as tipe_tindakan_id, ";
+            $query .= "ttk.tipe_tindakan as tipe_tindakan, ";
+            $query .= "trf.jasa_dokter as jasa_dokter ";
+        } else {
+            $query .= "count(trf.id) as jumlah ";
+        }
+        $query .= "FROM tarifs as trf ";
+        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trf.jenis_tarif_id ";
+        $query .= "JOIN tipe_tindakans as ttk on ttk.id = trf.tipe_tindakan_id ";
+        $query .= "WHERE trf.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "AND asuransi_id = {$id} ";
+        if (!empty( $jenis_tarif_id )) {
+            $query .= "AND jenis_tarif_id = {$jenis_tarif_id} ";
+        }
+        if (!empty( $biaya )) {
+            $query .= "AND biaya like '{$biaya}%' ";
+        }
+        if (!empty( $jasa_dokter )) {
+            $query .= "AND jasa_dokter like '{$jasa_dokter}%' ";
+        }
+        if (!empty( $tipe_tindakan_id )) {
+            $query .= "AND tipe_tindakan_id = '{$tipe_tindakan_id}' ";
+        }
+
+        if (!$count) {
+            $query .= "LIMIT {$pass}, {$displayed_rows} ";
+        }
+        return DB::select($query);
+    }
+    public function searchAsuransi(){
+        $count = $this->querySearchAsuransi(true);
+        return [
+            'data'  => $this->querySearchAsuransi(),
+            'pages' => ceil( $count/ Input::get('displayed_rows') ),
+            'key'   => Input::get('key'),
+            'rows'  => $count
+        ];
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function querySearchAsuransi($count = false)
+    {
+        $id             = Input::get('id');
+        $nama           = Input::get('nama');
+        $alamat         = Input::get('alamat');
+        $email          = Input::get('email');
+        $key            = Input::get('key');
+        $displayed_rows = Input::get('displayed_rows');
+        $pass           = $key * $displayed_rows;
+
+
+        $query  = "SELECT ";
+        $query .= $count ? "count(id) as jumlah " : "* ";
+        $query .= "FROM asuransis ";
+        $query .= "WHERE tipe_asuransi_id > 1 ";
+        if ( !empty($id) ) {
+            $query .= "AND id like '{$id}%'";
+        }
+        if ( !empty($nama) ) {
+            $query .= "AND nama like '{$nama}%'";
+        }
+        if ( !empty($email) ) {
+            $query .= "AND email like '{$email}%'";
+        }
+        if ( !empty($alamat) ) {
+            $query .= "AND alamat like '{$alamat}%'";
+        }
+
+        if (!$count) {
+            $query .= "LIMIT {$pass}, {$displayed_rows} ";
+        }
+
+        if ( $count ) {
+            return DB::select($query)[0]->jumlah;
+        } else {
+            return DB::select($query);
+        }
+    }
+    
+    
+    
+    
+    
     
     
     

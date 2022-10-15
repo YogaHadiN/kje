@@ -3,6 +3,9 @@
 @section('title') 
 {{ env("NAMA_KLINIK") }} | Kasir
 @stop
+@section('head') 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.3.0/jquery.bootstrap-touchspin.min.css" integrity="sha512-0GlDFjxPsBIRh0ZGa2IMkNT54XGNaGqeJQLtMAw6EMEDQJ0WqpnU6COVA91cUS0CeVA5HtfBfzS9rlJR3bPMyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@stop
 @section('page-title') 
  <h2>Kasir</h2>
  <ol class="breadcrumb">
@@ -44,6 +47,7 @@
             @if($pasien->periksa->count() == 0)
                 <p class="text-center">Tidak ada Riwayat untuk ditampilkan / Pasien adalah pasien baru</p>
             @else
+<input id="demo_vertical2" type="text" value="" name="demo_vertical2">
                 <div class="table-responsive">
                     <table class="table table-condensed">
                         <thead>
@@ -152,7 +156,13 @@
 												   {!! $terapi->signa !!} 
 												</td>
 												<td>
-													<input type="text" class="form-control angka jumlah" onkeyup="jumalhEdit(this);return false;" value="{!! $terapi->jumlah !!}">
+                                                    <div class="input-group spinner">
+													<input type="text" class="form-control jumlah" disabled="true" value="{!! $terapi->jumlah !!}">
+                                                        <div class="input-group-btn-vertical">
+                                                          <button class="btn btn-white" type="button" onclick="caretUp(this);return false;"><i class="fa fa-caret-up"></i></button>
+                                                          <button class="btn btn-white" type="button" onclick="caretDown(this);return false;"><i class="fa fa-caret-down"></i></button>
+                                                        </div>
+                                                      </div>
 												</td>
                                                 <td>
                                                     {!! Form::select('cunam',\App\Models\Cunam::pluck('cunam', 'id'), $terapi->cunam_id, [
@@ -327,6 +337,7 @@
 @include('obat')
 @stop
 @section('footer') 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.3.0/jquery.bootstrap-touchspin.min.js" integrity="sha512-0hFHNPMD0WpvGGNbOaTXP0pTO9NkUeVSqW5uFG2f5F9nKyDuHE3T4xnfKhAhnAZWZIO/gBLacwVvxxq0HuZNqw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   var base = "{!! url('/') !!}";
 </script>

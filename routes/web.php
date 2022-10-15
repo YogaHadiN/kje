@@ -189,7 +189,11 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('backup', [\App\Http\Controllers\DatabaseController::class, 'index']);
 	Route::get('copy_log_file', [\App\Http\Controllers\DatabaseController::class, 'copyLog']);
 	Route::get('/asuransis/kata_kunci/unique_test', [\App\Http\Controllers\AsuransisController::class, 'kataKunciUnique']);
-	Route::get('asuransis/get/tarifs/{id}', [\App\Http\Controllers\AsuransisController::class, 'getTarifForCurrentAsuransi']);
+	Route::get('asuransis/get/tarifs/{id}', [\App\Http\Controllers\AsuransisController::class, 'searchTarifForCurrentAsuransi']);
+	Route::get('asuransis/search', [\App\Http\Controllers\AsuransisController::class, 'searchAsuransi']);
+
+	Route::get('asuransis/{id}/tarifs', [\App\Http\Controllers\AsuransisController::class, 'getTarifForCurrentAsuransi']);
+
 	Route::get('/asuransis/{asuransi_id}/tarifs/{tarif_id}', [\App\Http\Controllers\AsuransisController::class, 'editTarifForCurrentAsuransi']);
 	Route::put('/asuransis/{asuransi_id}/tarifs/{tarif_id}', [\App\Http\Controllers\AsuransisController::class, 'updateTarifForCurrentAsuransi']);
 
@@ -830,5 +834,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/pasiens/ajax/kunjungan_sakit_bpjs', [\App\Http\Controllers\KunjunganSakitController::class, 'searchAjax']);
 	Route::get('/pasiens/ajax/kunjungan_sehat_bpjs', [\App\Http\Controllers\KunjunganSehatController::class, 'searchAjax']);
 	Route::get('/pasiens/ajax/angka_kontak_bpjs_bulan_ini', [\App\Http\Controllers\AngkaKontakBpjsBulanIniController::class, 'searchAjax']);
+
+
 
 });

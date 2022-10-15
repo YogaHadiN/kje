@@ -6,7 +6,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Staf;
 use App\Models\Document;
+use App\Http\Controllers\AsuransisController;
 use Carbon\Carbon;
+use DB;
 
 class ShowWarningIfPaperExpired
 {
@@ -32,6 +34,7 @@ class ShowWarningIfPaperExpired
 
         session()->forget('warning_kuning');
         session()->forget('warning_merah');
+        session()->forget('warning_tunggakan');
         session()->forget('warning_biru');
         if ( $event->user->role_id != 1 ) {
             $almost_expired_strs = Staf::whereRaw("TIMESTAMPDIFF(MONTH, now(), str_expiry_date) < 6 and str_expiry_date > now() and aktif = 1")->get();
@@ -88,6 +91,12 @@ class ShowWarningIfPaperExpired
             }
 
 
+            $asu = new AsuransisController;
+            $warning_tunggakan = [];
+            foreach (DB::select($asu->queryTunggakan(date('Y'),true)) as $tunggakan) {
+                $warning_tunggakan[] = 'Tunggakan sebesar <strong>' . buatrp($tunggakan->overdue) . '</strong> kepada asuransi <strong>' . $tunggakan->nama. '</strong> Harap ditagihkan';
+            }
+
             if ( count($warning_kuning)  ) {
                 session()->put('warning_kuning', $warning_kuning);
             }
@@ -96,6 +105,9 @@ class ShowWarningIfPaperExpired
             }
             if ( count($warning_biru) ) {
                 session()->put('warning_biru', $warning_biru);
+            }
+            if ( count($warning_tunggakan) ) {
+                session()->put('warning_tunggakan', $warning_tunggakan);
             }
         }
     }

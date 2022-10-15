@@ -2,11 +2,12 @@ var timeout;
 clearAndSearch();
 function viewTarif(key = 0) {
     $.get(
-        base + "/asuransis/search/",
+        base + "/asuransis/get/tarifs/" + $("#asuransi_id").val(),
         {
-            id: $("#id").val(),
-            nama: $("#nama").val(),
-            alamat: $("#alamat").val(),
+            jenis_tarif_id: $("#sp_jenis_tarif_id").val(),
+            biaya: $("#sp_biaya").val(),
+            jasa_dokter: $("#sp_jasa_dokter").val(),
+            tipe_tindakan_id: $("#sp_tipe_tindakan_id").val(),
             key: key,
             displayed_rows: $("#displayed_rows").val(),
         },
@@ -15,48 +16,40 @@ function viewTarif(key = 0) {
             for (let i = 0, len = data.data.length; i < len; i++) {
                 temp += "<tr>";
                 temp += "<td class='jenis_tarif'>";
-                temp += data.data[i].id;
+                temp += data.data[i].jenis_tarif;
                 temp += "</td>";
                 temp += "<td class='biaya'>";
-                temp += data.data[i].nama;
+                temp += uang(Math.floor(data.data[i].biaya));
                 temp += "</td>";
                 temp += "<td class='jasa_dokter'>";
-                temp += data.data[i].alamat;
+                temp += uang(Math.floor(data.data[i].jasa_dokter));
+                temp += "</td>";
+                temp += "<td class='tipe_tindakan'>";
+                temp += data.data[i].tipe_tindakan;
+                temp += "</td>";
+                temp += "<td class='id hide'>";
+                temp += data.data[i].tarif_id;
                 temp += "</td>";
                 temp += "<td class='key hide'>";
                 temp += i;
                 temp += "</td>";
-                temp += "<td>";
+                temp += "<td class='tipe_tindakan_id hide'>";
+                temp += data.data[i].tipe_tindakan_id;
+                temp += "</td>";
+                temp += "<td class='action'>";
                 temp +=
                     '<a href="' +
                     base +
                     "/asuransis/" +
-                    data.data[i].id +
-                    "/edit" +
+                    $("#asuransi_id").val() +
+                    "/tarifs/" +
+                    data.data[i].tarif_id +
                     '" class="btn btn-warning btn-sm">Edit</button>';
-                temp += "</td>";
-                temp += "<td>";
-                temp +=
-                    '<a href="' +
-                    base +
-                    "/asuransis/" +
-                    data.data[i].id +
-                    "/hutang/pembayaran" +
-                    '" class="btn btn-info btn-sm">Payment History</button>';
-                temp += "</td>";
-                temp += "<td>";
-                temp +=
-                    '<a href="' +
-                    base +
-                    "/asuransis/" +
-                    data.data[i].id +
-                    "/tarifs" +
-                    '" class="btn btn-primary btn-sm">Tarif</button>';
                 temp += "</td>";
                 temp += "</tr>";
             }
 
-            $("#asuransi_container").html(temp);
+            $("#tarifContainer").html(temp);
             if (data.data.length) {
                 pages = data.pages;
                 $("#paging").twbsPagination({
@@ -74,11 +67,11 @@ function viewTarif(key = 0) {
 }
 
 function clearAndSearch(key = 0) {
-    var col_length = $("#asuransi_container")
+    var col_length = $("#tarifContainer")
         .closest("table")
         .find("thead tr:first th").length;
     console.log("col_length", col_length);
-    $("#asuransi_container").html(
+    $("#tarifContainer").html(
         "<tr><td colspan='" +
             col_length +
             "' class='text-center'><img class='loader' src='" +
