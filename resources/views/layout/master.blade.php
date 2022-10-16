@@ -128,6 +128,8 @@
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Cek List</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('followup_tunggakans', 'Follow Up Tunggakan')!!}</li>
+                            <li>{!! HTML::link('followup_transaksi', 'Follow Up Transaksi')!!}</li>
                             <li>{!! HTML::link('cek_list_harian', 'Cek List Harian')!!}</li>
                             <li>{!! HTML::link('cek_list_mingguan', 'Cek List Mingguan')!!}</li>
                             <li>{!! HTML::link('cek_list_bulanan', 'Cek List Bulanan')!!}</li>
