@@ -877,7 +877,7 @@ class Yoga {
 			if ($non_paket) {
 				if($terapis->count() > 0){
 				//jenis tarif id = 9 adalah biaya obat
-					$tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
+					$tarif = Tarif::queryTarif($asuransi->id, 3);
 					$merek = Merek::all();
 					$biaya = 0;
 
@@ -948,8 +948,8 @@ class Yoga {
 				//plafon sekali berobat
 				//
 				
-				$plafonObatSekaliBerobat       = Tarif::queryTarif($asuransi->id, 'Biaya Obat')->biaya;
-				$plafonJasaDokterSekaliBerobat = Tarif::queryTarif($asuransi->id, 'Jasa Dokter')->biaya;
+				$plafonObatSekaliBerobat       = Tarif::queryTarif($asuransi->id,3)->biaya;
+				$plafonJasaDokterSekaliBerobat = Tarif::queryTarif($asuransi->id,1)->biaya;
 				$sisaPlafon = 0;
 
 				//
