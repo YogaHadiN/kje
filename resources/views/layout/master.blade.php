@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title')</title>
-
     <!-- Data Tables 
     <link href="{!! asset('css/bootstrap.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet">
@@ -129,7 +128,7 @@
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Cek List</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('followup_tunggakans', 'Follow Up Tunggakan')!!}</li>
-                            <li>{!! HTML::link('followup_transaksi', 'Follow Up Transaksi')!!}</li>
+                            <li>{!! HTML::link('followup_transaksis', 'Follow Up Transaksi')!!}</li>
                             <li>{!! HTML::link('cek_list_harian', 'Cek List Harian')!!}</li>
                             <li>{!! HTML::link('cek_list_mingguan', 'Cek List Mingguan')!!}</li>
                             <li>{!! HTML::link('cek_list_bulanan', 'Cek List Bulanan')!!}</li>
@@ -295,6 +294,7 @@
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('fasilitas/antrian_pasien', 'Antrian Pasien')!!}</li>
                             <li>{!! HTML::link('fasilitas/survey', 'Survey Pasien')!!}</li>
+                            <li>{!! HTML::link('sent_emails', 'Email')!!}</li>
                             <li>{!! HTML::link('facebook', 'Daftar dengan Facebook')!!}</li>
                             <li>{!! HTML::link('antrians', 'Input Antrian')!!}</li>
                             <li>{!! HTML::link('sms', 'SMS')!!}</li>

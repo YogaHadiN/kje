@@ -38,6 +38,7 @@
 @section('content') 
 	<input class="hide" type="text" id="tipe_asuransi" value="{{ $periksa->asuransi->tipe_asuransi_id }}" />
 	<input class="hide" type="text" id="asuransi_id" value="{{ $periksa->asuransi_id }}" />
+    <input class="hide" type="text" id="tipe_asuransi_id" value="{{ $periksa->asuransi->tipe_asuransi_id }}" />
 	{!! Form::open([
 		'url'          => 'update/surveys',
 		'method'       => 'post',
@@ -91,7 +92,7 @@
 								<td>Total</td>
 								<td><label for="" class="form-control total" id=""></label></td>
 							</tr>
-							@if($periksa->asuransi_id == 0)
+                            @if($periksa->asuransi->tipe_asuransi_id == 1)
 								<tr class="hide">
 									<td>Dibayar Asuransi</td>
 									<td><input type="text" autocomplete="off"  dir="rtl" class="form-control uangInput" id="dibayar_asuransi" name="dibayar_asuransi" onkeyup="asuransiKeyup(event, this)" value="0"></td>

@@ -404,11 +404,10 @@ class PasiensController extends Controller
 
 	public function asuransiId($asu_id){
 		if (empty(trim($asu_id))) {
-			$asuransi_id = 0;
+			return Asuransi::where('tipe_asuransi_id', 1)->first()->id;
 		} else {
-			$asuransi_id = $asu_id;
+			return $asu_id;
 		}
-		return $asuransi_id;
 	}
 	public function nomorAsuransiBpjs($nomor_asuransi, $asur_id){
         $asuransi_bpjs = Asuransi::Bpjs();

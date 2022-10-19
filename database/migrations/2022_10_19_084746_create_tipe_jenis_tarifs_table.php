@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFollowupTunggakansTable extends Migration
+class CreateTipeJenisTarifsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateFollowupTunggakansTable extends Migration
      */
     public function up()
     {
-        Schema::create('followup_tunggakans', function (Blueprint $table) {
+        Schema::create('tipe_jenis_tarifs', function (Blueprint $table) {
             $table->id();
-            $table->integer('staf_id');
-            $table->integer('asuransi_id');
-            $table->string('bukti_followup');
-            $table->date('tanggal');
-            $table->bigInteger('tenant_id')->index();
+            $table->string('tipe_jenis_tarif');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateFollowupTunggakansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('followup_tunggakans');
+        Schema::dropIfExists('tipe_jenis_tarifs');
     }
 }

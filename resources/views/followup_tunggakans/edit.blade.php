@@ -1,35 +1,38 @@
 @extends('layout.master')
 
 @section('title') 
-Online Electronic Medical Record | Edit Pendaftaran
+Klinik Jati Elok | Edit Followup Tunggakan
 
 @stop
 @section('page-title') 
-<h2></h2>
+<h2>Buat Followup Tunggakan</h2>
 <ol class="breadcrumb">
-	  <li>
-		  <a href="{{ url('home')}}">home</a>
-	  </li>
-		<li>
-		  <a href="{{ url('home/daftars')}}">Nurse Station</a>
-	  </li>
-	  <li class="active">
-		  <strong>Edit</strong>
-	  </li>
+    <li>
+        <a href="{{ url('laporans')}}">Home</a>
+    </li>
+    <li class="active">
+        <strong>Buat Followup Tunggakan</strong>
+    </li>
 </ol>
+
 @stop
 @section('content') 
-	<h1>{{ $daftar->pasien->nama }}</h1>
-	{!! Form::model($daftar,['url' => 'home/daftars/' .  $daftar->id, 'method' => 'put']) !!}
-		@include('daftars.form', ['update' => true])
-	{!! Form::close() !!}
+{!! Form::model($followup_tunggakan, [
+    "role"   => "form",
+    "class"  => "m-t",
+    "files"  => "true",
+    'url' => 'followup_tunggakans/' . $followup_tunggakan->id ,
+    'method' => 'put'
+]) !!}
+    @include('followup_tunggakans.form')
+{!! Form::close() !!}
 @stop
 @section('footer') 
-	<script type="text/javascript" charset="utf-8">
-		function dummySubmit(control){
-			if(validatePass2(control)){
-				$('#submit').click();
-			}
-		}
-	</script>
+    <script type="text/javascript" charset="utf-8">
+        function dummySubmit(control){
+            if(validatePass2(control)){
+                $('#submit').click();
+            }
+        }
+    </script>   
 @stop

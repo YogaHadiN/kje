@@ -13,6 +13,8 @@ use App\Console\Commands\scheduleBackup;
 use Moota;
 use DB;
 use App\Models\Saldo;
+use App\Models\FollowupTunggakan;
+use App\Models\Asuransi;
 use App\Models\Coa;
 use App\Models\DenominatorBpjs;
 use App\Models\CheckoutKasir;
@@ -260,12 +262,41 @@ class KasirsController extends Controller
 			$validateReceivedVerification = 'danger';
 		}
 
+		// ==========================================================================================
+		// Follow up Asuransi yang menunggak
+		// ==========================================================================================
+        //
+        $asu = new AsuransisController;
+        $asuransi_menunggak_ids = [];
+        foreach (DB::select($asu->queryTunggakan(date('Y'),true)) as $tunggakan) {
+            $asuransi_menunggak_ids[] = $tunggakan->asuransi_id;
+        }
+
+        $followup_tunggakans = FollowupTunggakan::whereIn('asuransi_id', $asuransi_menunggak_ids)
+                        ->where('tanggal', '>=', Carbon::now()->subDays(14))
+                        ->get();
+
+
+        if ( $followup_tunggakans->count() > 0 ) {
+            foreach ($followup_tunggakans as $fu) {
+                $asuransi_menunggak_ids = array_diff($asuransi_menunggak_ids, array($fu->asuransi_id));
+            }
+        }
+
+		if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 20) {
+			$status          = 'warning';
+			$admedikaWarning = 'warning';
+		} 
+
+        $asuransi_menunggaks = Asuransi::whereIn('id', $asuransi_menunggak_ids)->get();
+
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
 			'invoiceBelumDiterimaAdmedika',
 			'validateReceivedVerification',
 			'denominatorBpjsWarning',
+            'asuransi_menunggaks',
 			/* 'validasiProlanisBpjsWarning', */
 			/* 'pasienProlanisBulanIniSudahDiupload', */
 			/* 'uploadDataPesertaBpjsWarning', */

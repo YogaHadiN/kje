@@ -24,8 +24,8 @@ class FollowupTunggakanController extends Controller
         return view('followup_tunggakans.edit', compact('followup_tunggakan'));
     }
     public function store(Request $request){
-        dd( Input::all() );
-        if ($this->valid( Input::all() )) {
+        $rules['bukti_followup'] = 'required|image|mimes:jpeg,jpg,png,gif';
+        if ($this->valid(Input::all(),$rules )) {
             return $this->valid( Input::all() );
         }
         $followup_tunggakan = new FollowupTunggakan;
@@ -35,7 +35,9 @@ class FollowupTunggakanController extends Controller
         return redirect('followup_tunggakans')->withPesan($pesan);
     }
     public function update($id, Request $request){
-        if ($this->valid( Input::all() )) {
+        $rules['bukti_followup'] = 'nullable|image|mimes:jpeg,jpg,png,gif';
+;
+        if ($this->valid(Input::all(),$rules )) {
             return $this->valid( Input::all() );
         }
         $followup_tunggakan = FollowupTunggakan::find($id);
@@ -51,10 +53,14 @@ class FollowupTunggakanController extends Controller
     }
 
     public function processData($followup_tunggakan){
-        dd( 'processData belum diatur' );
-        $followup_tunggakan = $this->followup_tunggakan;
+        $followup_tunggakan->asuransi_id = Input::get('asuransi_id');
+        $followup_tunggakan->staf_id     = Input::get('staf_id');
+        $followup_tunggakan->tanggal     = convertToDatabaseFriendlyDateFormat(Input::get('tanggal'));
         $followup_tunggakan->save();
-
+        if ( !empty( Input::get('bukti_followup') ) ) {
+            $followup_tunggakan->bukti_followup = uploadFile('fu_tunggakan', 'bukti_followup', $followup_tunggakan->id, 'upload/bukti_tunggakan');
+            $followup_tunggakan->save();
+        }
         return $followup_tunggakan;
     }
     public function import(){
@@ -80,13 +86,14 @@ class FollowupTunggakanController extends Controller
         $pesan = Yoga::suksesFlash('Import Data Berhasil');
         return redirect()->back()->withPesan($pesan);
     }
-    private function valid( $data ){
-        dd( 'validasi belum diatur' );
+    private function valid( $data ,$rules = []){
         $messages = [
             'required' => ':attribute Harus Diisi',
         ];
         $rules = [
-            'data'           => 'required',
+            "asuransi_id"    => "required",
+            "staf_id"        => "required",
+            "tanggal"        => 'required|date_format:d-m-Y',
         ];
         $validator = \Validator::make($data, $rules, $messages);
         

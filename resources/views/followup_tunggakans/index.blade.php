@@ -17,6 +17,14 @@ Klinik Jati Elok | Follow up Tunggakan
 
 @stop
 @section('content') 
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="float-right">
+                    <a href="{{ url('followup_tunggakans/create') }}" class="btn btn-primary "><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Followup Tunggakan</a>
+                </div>
+            </div>
+        </div>
+        <br>
         <div class="table-responsive">
             <table class="table table-hover table-condensed table-bordered">
                 <thead>
@@ -29,14 +37,14 @@ Klinik Jati Elok | Follow up Tunggakan
                 </thead>
                 <tbody>
                     @if($followup_tunggakans->count() > 0)
-                        @foreach($followup_tunggakans as $f)
+                        @foreach($followup_tunggakans as $ft)
                             <tr>
-                                <td>{{ $f->asuransi->nama }}</td>
-                                <td>{{ $f->tanggal }}</td>
-                                <td>{{ $f->staf->nama }}</td>
+                                <td>{{ $ft->asuransi->nama }}</td>
+                                <td>{{ $ft->tanggal }}</td>
+                                <td>{{ $ft->staf->nama }}</td>
                                 <td nowrap class="autofit">
-                                    {!! Form::open(['url' => 'followup_tunggakans/' . $->id, 'method' => 'delete']) !!}
-                                        <a class="btn btn-warning btn-sm" href="{{ url('followup_tunggakans/' . $f->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+                                    {!! Form::open(['url' => 'followup_tunggakans/' . $ft->id, 'method' => 'delete']) !!}
+                                        <a class="btn btn-warning btn-sm" href="{{ url('followup_tunggakans/' . $ft->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
                                         <button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus follow up tunggakan ini?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
                                     {!! Form::close() !!}
                                 </td>

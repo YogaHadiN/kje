@@ -300,7 +300,7 @@ class PeriksasController extends Controller
 		}
 		if (!$paket_tindakan) {  // jika tidak ada transaksi paket tindakan, masukkan komponen transaksi jasa dokter
 
-			$tarif = Tarif::queryTarif( $asuransi->id, 'Jasa Dokter');
+			$tarif = Tarif::queryTarif( $asuransi->id, 1);
 			// masukkan komponen jasa dokter di transaksi
 			$plus = [
 				'jenis_tarif_id' => $tarif->jenis_tarif_id,
@@ -934,7 +934,7 @@ class PeriksasController extends Controller
                 break;	
             }
         }
-        $tarif = Tarif::queryTarif($asuransi->id, 'Biaya Obat');
+        $tarif = Tarif::queryTarif($asuransi->id, 3);
         if ($non_paket) {
             if($terapi != '' && $terapi != '[]'){
                 /* $tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();//jenis tarif id = 9 adalah biaya obat */
@@ -957,7 +957,7 @@ class PeriksasController extends Controller
                     if ( $selisihPlafon > 0) {
                         $biaya = $tarif->biaya;
                     } else {
-                        $biaya = Tarif::queryTarif($asuransi->id, 'Biaya Obat')->biaya - $selisihPlafon;
+                        $biaya = Tarif::queryTarif($asuransi->id, 3)->biaya - $selisihPlafon;
                     }
                 }
                 if (

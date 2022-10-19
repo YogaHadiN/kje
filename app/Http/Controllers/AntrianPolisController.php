@@ -93,6 +93,7 @@ class AntrianPolisController extends Controller
 			}
 		}
 
+        /* dd( $antrianpolis->first()->pasien->nama ); */
 		return view('antrianpolis.index')
 			->withAntrianpolis($antrianpolis)
 			->with('perujuks_list', $perujuks_list)

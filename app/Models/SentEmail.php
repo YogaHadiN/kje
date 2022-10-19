@@ -3,16 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
+use Illuminate\Database\Eloquent\Model;
 
-class FollowupTunggakan extends Model
+class SentEmail extends Model
 {
     use HasFactory, BelongsToTenant;
     public function staf(){
         return $this->belongsTo(Staf::class);
-    }
-    public function asuransi(){
-        return $this->belongsTo(Asuransi::class);
     }
 }

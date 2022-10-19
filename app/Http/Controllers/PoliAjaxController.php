@@ -141,9 +141,12 @@ class PoliAjaxController extends Controller
 		$query .= "join raks as rk on rk.id = mrk.rak_id ";
         $query .= "where (";
         if ( $asuransi->tipe_asuransi_id != 5  ) {
-            $query .= "staf_id= {$staf_id} or ";
+            $query .= "staf_id= {$staf_id} ";
         }
-        $query .= "staf_id=" . Staf::owner()->id . " ) ";
+        if ( session()->get('tenant_id') == 1 ) {
+            $query .= "or staf_id=" . Staf::owner()->id;
+        }
+        $query .= " ) "; 
 		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and {$parameter_asuransi} ";
 		$query .= "and d.icd10_id = '{$icd10}' ";

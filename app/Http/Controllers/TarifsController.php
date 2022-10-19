@@ -92,6 +92,7 @@ class TarifsController extends Controller
 			$jenis_tarif->jenis_tarif              = Input::get('jenis_tarif');
 			$jenis_tarif->tipe_laporan_admedika_id = Input::get('tipe_laporan_admedika_id');
 			$jenis_tarif->tipe_laporan_kasir_id    = Input::get('tipe_laporan_kasir_id');
+			$jenis_tarif->tipe_jenis_tarif_id    = 8;
 			$jenis_tarif->coa_id                   = $coa->id;
 			$jenis_tarif->murni_jasa_dokter        = Input::get('murni_jasa_dokter');
 			$confirm                               = $jenis_tarif->save();

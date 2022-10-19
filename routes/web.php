@@ -15,6 +15,8 @@ Route::post('woowa/webhook', [\App\Http\Controllers\WoowaController::class, 'web
 Route::post('wablas/webhook', [\App\Http\Controllers\WablasController::class, 'webhook']);
 Route::post('webhook', [\App\Http\Controllers\WablasController::class, 'webhook']);
 
+Route::get('/send', [\App\Http\Controllers\MailController::class, 'index']);
+
 Route::post('logging/javascript', function()
 {
 	\Log::error('Javascript error:' . json_encode(Input::all()));
@@ -53,6 +55,7 @@ Route::get('fasilitas/survey', [\App\Http\Controllers\FasilitasController::class
 
 Route::group(['middleware' => 'auth'], function(){
 
+    Route::resource('sent_emails', \App\Http\Controllers\SentEmailController::class);
     Route::get('invoices/inv/{id}', [\App\Http\Controllers\InvoiceController::class, 'test']);
     Route::get('invoices/getData', [\App\Http\Controllers\InvoiceController::class, 'getData']);
     Route::post('invoices/upload_verivication/{id}', [\App\Http\Controllers\InvoiceController::class, 'upload_verivication']);
@@ -191,6 +194,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/asuransis/kata_kunci/unique_test', [\App\Http\Controllers\AsuransisController::class, 'kataKunciUnique']);
 	Route::get('asuransis/get/tarifs/{id}', [\App\Http\Controllers\AsuransisController::class, 'searchTarifForCurrentAsuransi']);
 	Route::get('asuransis/search', [\App\Http\Controllers\AsuransisController::class, 'searchAsuransi']);
+	Route::resource('followup_tunggakans', \App\Http\Controllers\FollowupTunggakanController::class);
+	Route::resource('followup_transaksis', \App\Http\Controllers\FollowupTransaksiController::class);
 
 	Route::get('asuransis/{id}/tarifs', [\App\Http\Controllers\AsuransisController::class, 'getTarifForCurrentAsuransi']);
 

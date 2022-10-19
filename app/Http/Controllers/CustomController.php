@@ -217,8 +217,8 @@ class CustomController extends Controller
 		$tindakanPeriksa = json_encode( $tindakanPeriksa, true ); 
         $dibayar = null;
         if ( $periksa->asuransi->tipe_asuransi_id== '4') {
-        	$jasa_dokter = Tarif::queryTarif($periksa->asuransi_id, 'Jasa Dokter')->biaya;
-        	$obat        = Tarif::queryTarif($periksa->asuransi_id, 'Biaya Obat')->biaya;
+        	$jasa_dokter = Tarif::queryTarif($periksa->asuransi_id, 1)->biaya;
+        	$obat        = Tarif::queryTarif($periksa->asuransi_id, 3)->biaya;
         	$dibayar     = $jasa_dokter + $obat;
         }
 		$warna = $this->warna;

@@ -50,7 +50,7 @@ class KasirBaseController extends Controller
 		$biayatotal = 0;
    		if ($periksa->asuransi->tipe_asuransi_id == '4') {
 			$plafon = Yoga::dispensingObatBulanIni($periksa->asuransi, [], false, true)['plafon'];
-			$plafon_obat_tiap_kali_berobat = Tarif::queryTarif($periksa->asuransi_id, 'Biaya Obat')->biaya;
+			$plafon_obat_tiap_kali_berobat = Tarif::queryTarif($periksa->asuransi_id,3)->biaya;
 			if ($plafon >= 0) {
 			   $biayatotal = $plafon_obat_tiap_kali_berobat;				
    			} else {

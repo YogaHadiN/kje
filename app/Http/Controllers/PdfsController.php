@@ -328,7 +328,7 @@ class PdfsController extends Controller
 		//
 		//
 		//
-		$tarifObatFlat = Tarif::queryTarif($periksa->asuransi_id, 'Biaya Obat')->biaya;		
+		$tarifObatFlat = Tarif::queryTarif($periksa->asuransi_id,3)->biaya;		
 
 
 		$bayarGDS   = false;

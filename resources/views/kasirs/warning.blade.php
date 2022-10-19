@@ -109,6 +109,24 @@
 		</div>
 	</div>
 
+    <div class="panel panel-danger">
+		<div class="panel-heading">
+			<h3 class="panel-title">Followup Tunggakan Asuransi</h3>
+		</div>
+		<div class="panel-body">
+            @if( $asuransi_menunggaks->count() )
+                <ul>
+                    @foreach( $asuransi_menunggaks as $asuransi )
+                        <li><strong>{{ $asuransi->nama }}</strong> belum dilakukan follow up minggu ini</li>
+                    @endforeach
+                </ul>
+            @else
+                Asuransi yang menunggak sudah dilakukan folllowup
+            @endif
+            <ul>
+        </div>
+	</div>
+
 	{{-- <div class="panel panel-{{ $vultrWarning }}"> --}}
 	{{-- 	<div class="panel-heading"> --}}
 	{{-- 		<h3 class="panel-title">Vultr</h3> --}}

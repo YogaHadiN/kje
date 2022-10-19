@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
 
 class Monitor extends Model{
-    use BelongsToTenant, HasFactory;
+    use HasFactory;
 	protected $fillable = [];
 
 	public function periksa(){
