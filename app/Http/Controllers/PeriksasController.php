@@ -1068,15 +1068,16 @@ class PeriksasController extends Controller
         //JIKA PASIEN DATANG > JAM 11 MALAM, untuk pasien umum dan admedika, maka ditambah 10 ribu untuk jam malam
         $this->periksa = $periksa;
         $this->asuransi = $asuransi;
-        if ( $this->termasukPasienJamMalam()) {
-            //tambahkan komponen jam malam sebesar 10 ribu
-            $plus = [
-                'jenis_tarif_id' => JenisTarif::where('jenis_tarif', 'Jam Malam')->first()->id,
-                'jenis_tarif'    => 'Jam Malam',
-                'biaya'          => 10000
-            ];
-            array_push($transaksis, $plus);
-        }
+
+        /* if ( $this->termasukPasienJamMalam()) { */
+        /*     //tambahkan komponen jam malam sebesar 10 ribu */
+        /*     $plus = [ */
+        /*         'jenis_tarif_id' => JenisTarif::where('jenis_tarif', 'Jam Malam')->first()->id, */
+        /*         'jenis_tarif'    => 'Jam Malam', */
+        /*         'biaya'          => 10000 */
+        /*     ]; */
+        /*     array_push($transaksis, $plus); */
+        /* } */
 
         // INPUT DATA PERIKSA FINAL!!!!!
         //
