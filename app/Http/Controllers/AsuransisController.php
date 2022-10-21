@@ -824,15 +824,13 @@ class AsuransisController extends Controller
 	}
 	public function tunggakan($year){
 
-
-        $this->queryTunggakan($year);
-		$data = DB::select($query);
+		$data = DB::select($this->queryTunggakan($year));
 
 		$total_tunai         = 0;
 		$total_piutang       = 0;
 		$total_sudah_dibayar = 0;
 		$total_sisa_piutang  = 0;
-		$total_overdue  = 0;
+		$total_overdue       = 0;
 
 		foreach ($data as $d) {
 			$total_tunai         += $d->tunai;
