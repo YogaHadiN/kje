@@ -103,7 +103,7 @@
 					</table>
 				@endif
                 <div class="text-center footer box border-top">
-					@include('pdfs.promo')
+					{{-- @include('pdfs.promo') --}}
                 </div>
                 .
             </div>
