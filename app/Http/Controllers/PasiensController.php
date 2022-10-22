@@ -112,7 +112,23 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function create(){
-		return view('pasiens.create', $this->dataCreatePasien());
+        $ps = new Pasien;
+        $poli_gawat_darurat = Poli::gawatDarurat();
+
+        $this->dataCreatePasien['asuransi_id_biaya_pribadi']= Asuransi::BiayaPribadi()->id;
+        $this->dataCreatePasien['statusPernikahan']= $ps->statusPernikahan();
+        $this->dataCreatePasien['asuransi']= Yoga::asuransiList();
+        $this->dataCreatePasien['jenis_peserta']= JenisPeserta::pluck('jenis_peserta');
+        if ( !isset($this->dataCreatePasien['antrian']) ) {
+            $this->dataCreatePasien['poli']= [
+                null                    => '- Pilih Poli -',
+                $poli_gawat_darurat->id => $poli_gawat_darurat->poli
+            ];
+        }
+        $this->dataCreatePasien['verifikasi_prolanis_options'        ]= VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id');
+        $this->dataCreatePasien['pasienSurvey'                       ]= $this->pasienSurvey();
+
+		return view('pasiens.create', $this->dataCreatePasien);
 	}
 	
 	public function store(Request $request){
@@ -149,24 +165,24 @@ class PasiensController extends Controller
 	 */
 	public function show($id)
 	{
-            $periksas = Periksa::with(
-                'pasien', 
-                'staf' ,
-                'asuransi', 
-                'suratSakit', 
-                'gambars', 
-                'usg', 
-                'registerAnc', 
-                'rujukan.tujuanRujuk', 
-                'terapii.merek', 
-                'diagnosa.icd10'
-            )->where('pasien_id', $id)->orderBy('tanggal', 'desc')->paginate(10);
+        $periksas = Periksa::with(
+            'pasien', 
+            'staf' ,
+            'asuransi', 
+            'suratSakit', 
+            'gambars', 
+            'usg', 
+            'registerAnc', 
+            'rujukan.tujuanRujuk', 
+            'terapii.merek', 
+            'diagnosa.icd10'
+        )->where('pasien_id', $id)->orderBy('tanggal', 'desc')->paginate(10);
 
-            if($periksas->count() > 0){
-                return view('pasiens.show', compact('periksas'));
-            }else {
-                return redirect('pasiens')->withPesan(Yoga::gagalFlash('Tidak ada Riwayat Untuk Ditampilkan'));
-            }
+        if($periksas->count() > 0){
+            return view('pasiens.show', compact('periksas'));
+        }else {
+            return redirect('pasiens')->withPesan(Yoga::gagalFlash('Tidak ada Riwayat Untuk Ditampilkan'));
+        }
 	}
 
 	/**
@@ -300,6 +316,7 @@ class PasiensController extends Controller
 			'pasien'
 		));
 	}
+
 	public function alergiCreate($id){
 		$generiks = Generik::list();
 		$pasien = Pasien::find($id);
@@ -307,7 +324,6 @@ class PasiensController extends Controller
 			'generiks',
 			'pasien'
 		));
-		
 	}
 	
 	
@@ -335,7 +351,7 @@ class PasiensController extends Controller
 		$pasien->alamat                      = Input::get('alamat');
 		$pasien->prolanis_dm                 = Input::get('prolanis_dm');
 		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
-		$pasien->asuransi_id                 = $this->asuransiId();
+		$pasien->asuransi_id                 = $this->asuransiId( Input::get('asuransi_id') );
 		$pasien->sex                         = Input::get('sex');
 		$pasien->jenis_peserta_id            = Input::get('jenis_peserta_id');
 		$pasien->nama_ayah                   = Input::get('nama_ayah');
