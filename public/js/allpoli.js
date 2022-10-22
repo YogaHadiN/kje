@@ -2343,15 +2343,17 @@ function generatePerscription() {
     var result_array = temp_sop_terapi;
     i_sop_terapi = i_sop_terapi + 1;
     var i = parseInt(i_sop_terapi) + 1;
-    var terapi = result_array[i_sop_terapi]["terapi"];
-    terapi = JSON.stringify(terapi);
-    if (i == length_sop_terapi) {
-        i_sop_terapi = -1;
+    if (result_array[i_sop_terapi]) {
+        var terapi = result_array[i_sop_terapi]["terapi"];
+        terapi = JSON.stringify(terapi);
+        if (i == length_sop_terapi) {
+            i_sop_terapi = -1;
+        }
+        data = JSON.parse(terapi);
+        $("#terapi").val(terapi);
+        viewResep(resepJson(terapi)[1]);
+        $("#tampungan_sop_terapi").html(i + "/" + length_sop_terapi);
     }
-    data = JSON.parse(terapi);
-    $("#terapi").val(terapi);
-    viewResep(resepJson(terapi)[1]);
-    $("#tampungan_sop_terapi").html(i + "/" + length_sop_terapi);
 }
 
 function viewResep(control) {
