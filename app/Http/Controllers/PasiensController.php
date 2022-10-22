@@ -88,7 +88,6 @@ class PasiensController extends Controller
 			'statusPernikahan'                   => $ps->statusPernikahan(),
 			'asuransi'                           => Yoga::asuransiList(),
 			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
-			'staf'                               => Yoga::stafList(),
 			'poli'                               => [
 				null                    => '- Pilih Poli -',
 				$poli_gawat_darurat->id => $poli_gawat_darurat->poli
@@ -99,7 +98,6 @@ class PasiensController extends Controller
 			'statusPernikahan'                   => $ps->statusPernikahan(),
 			'asuransi'                           => Yoga::asuransiList(),
 			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
-			'staf'                               => Yoga::stafList(),
 			'poli'                               => [
 				null                    => '- Pilih Poli -',
 				$poli_gawat_darurat->id => $poli_gawat_darurat->poli
@@ -349,6 +347,7 @@ class PasiensController extends Controller
         /* ] ); */
 
 
+        dd( $this->input_asuransi_id );
 		$pasien->alamat                      = $this->input_alamat;
 		$pasien->prolanis_dm                 = $this->input_prolanis_dm;
 		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
@@ -404,7 +403,8 @@ class PasiensController extends Controller
 
 	public function asuransiId($asu_id){
 		if (empty(trim($asu_id))) {
-			return Asuransi::where('tipe_asuransi_id', 1)->first()->id;
+			$asuransi_id =  Asuransi::where('tipe_asuransi_id', 1)->first()->id;
+            return $asuransi_id;
 		} else {
 			return $asu_id;
 		}

@@ -31,9 +31,10 @@
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
-						<label for="recipient-name" class="control-label">Dokter</label>
-						{!! Form::select('staf_id', $staf, null, [
+						<label for="recipient-name" class="control-label">Dokter  </label>
+						{!! Form::select('staf_id', \App\Models\Staf::pluck('nama', 'id'), null, [
 							'class'            => 'form-control selectpick rq',
+							'placeholder'      => '- Pilih Staf -',
 							'id'               => 'antrianpoli_staf_id',
 							'data-live-search' => 'true'
 						])!!}
@@ -99,7 +100,7 @@
 <div class="modal-footer-left" id="modal-footer">
 	<br />
 <div class="row">
-  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 red text-left">
+  <div class="text-left col-xs-8 col-sm-8 col-md-8 col-lg-8 red">
 	 @include('peringatanbpjs', ['ns' => false])
   </div>
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">

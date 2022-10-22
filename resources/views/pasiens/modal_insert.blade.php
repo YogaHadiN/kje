@@ -354,7 +354,7 @@
 		  @endif
 
 		  @if(!$facebook)
-			  <h2>Antrian Poli</h2>
+			  <h2>Antrian Polissss</h2>
 			  <hr />
 		 <div class="row">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

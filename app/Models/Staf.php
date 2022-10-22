@@ -8,7 +8,7 @@ use App\Traits\BelongsToTenant;
 use Session;
 use App\Models\Classes\Yoga;
 class Staf extends Model{
-    use BelongsToTenant,HasFactory;
+    use BelongsToTenant, HasFactory;
 
 	protected $dates = [
 		'tanggal_lahir',

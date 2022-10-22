@@ -11,7 +11,7 @@ use DB;
 
 
 class Asuransi extends Model{
-    use BelongsToTenant,HasFactory;
+    use BelongsToTenant, HasFactory;
 
 	// Add your validation rules here
 	public static $rules = [

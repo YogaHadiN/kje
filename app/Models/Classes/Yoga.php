@@ -569,7 +569,8 @@ class Yoga {
 		}
 
 		public static function stafList(){
-			return array(null => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
+			$data = array(null => '- Pilih Staf -') + Staf::pluck('nama', 'id')->all();
+            return $data;
 		}
 
 		public static function blnPrep($param){

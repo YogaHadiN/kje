@@ -90,6 +90,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('transaksi/avail', [\App\Http\Controllers\RekeningController::class, 'available']);
 
+	Route::get('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'index']);
 	Route::get('cek_list_harian/obat', [\App\Http\Controllers\CekListHariansController::class, 'obat']);
 	Route::post('cek_list_harian/obat', [\App\Http\Controllers\CekListHariansController::class, 'obatPost']);
 	Route::get('cek_list_harian/pulsa', [\App\Http\Controllers\CekListHariansController::class, 'pulsa']);

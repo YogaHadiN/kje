@@ -25,6 +25,7 @@ class SetTenantIdInSession
      */
     public function handle($event)
     {
+         session()->forget('tenant_id');
          session()->put('tenant_id', $event->user->tenant_id);
     }
 }

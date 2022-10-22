@@ -4,8 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use DB;
-use App\Models\TipeJenisTarif;
-use App\Models\JenisTarif;
+use App\Models\Ruangan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,57 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'Jasa Dokter'
-        ]);
-        JenisTarif::where('jenis_tarif',  'Jasa Dokter')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'Gula Darah'
-        ]);
-        JenisTarif::where('jenis_tarif',  'Gula Darah')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'Biaya Obat'
-        ]);
-        JenisTarif::where('jenis_tarif',  'Biaya Obat')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'USG'
-        ]);
-        JenisTarif::where('jenis_tarif',  'USG')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'surat keterangan sehat'
-        ]);
-        JenisTarif::where('jenis_tarif',  'surat keterangan sehat')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'kb 1 bulan'
-        ]);
-        JenisTarif::where('jenis_tarif',  'kb 1 bulan')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'kb 3 bulan'
-        ]);
-        JenisTarif::where('jenis_tarif',  'kb 3 bulan')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-        $tipe_jenis_tarif = TipeJenisTarif::create([
-            'tipe_jenis_tarif' => 'Bebas'
-        ]);
-        JenisTarif::where('jenis_tarif',  'Bebas')->update([
-            'tipe_jenis_tarif_id' => $tipe_jenis_tarif->id
-        ]);
-
-        JenisTarif::where('id', 603)->update([
-            'tipe_jenis_tarif_id' => 1
+        Ruangan::create([
+            'nama'                      => 'Ruang Periksa 3',
+            'file_panggilan'            => 'ruang_periksa_tiga',
+            'anafilactic_kit_available' => 1,
+            'temperature_sensitive'     => 0,
         ]);
     }
 }

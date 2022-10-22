@@ -258,7 +258,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <div colspan="2" class="text-center"><h2 class="text-red">Pastikan Orang Yang Sama !</h2></div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                                        <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div colspan="2" class="text-center"><img src="" alt="" id="photo" width="400px" height="300px"></div>
                                             <div class="alert alert-info">
                                                  <h3 class="nama"></h3>
@@ -297,7 +297,7 @@
                                         <input type="submit" name="submit" id="LinkButton1" class="btn btn-primary btn-block hide" value="Submit" />
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <a href="#" class="btn btn-danger block" onclick="$('#exampleModal').modal('hide');">Cancel</a>
+                                        <a href="#" class="block btn btn-danger" onclick="$('#exampleModal').modal('hide');">Cancel</a>
                                     </div>
                                 </div>
                             </div>
