@@ -147,4 +147,5 @@ class Asuransi extends Model{
         return $this->belongsTo(Coa::class);
     }
     
+    
 }

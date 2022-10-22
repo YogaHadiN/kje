@@ -58,58 +58,13 @@ class PasiensController extends Controller
 
 
    public function __construct(){
-		$ps                                       = new Pasien;
-		$this->input_alamat                       = Input::get('alamat');
-		$this->input_poli_id                       = Input::get('poli_id');
-		$this->input_asuransi_id                  = $this->asuransiId(Input::get('asuransi_id'));
-		$this->input_sex                          = Input::get('sex');
-		$this->input_jenis_peserta_id             = Input::get('jenis_peserta_id');
-		$this->input_nama_ayah                    = Input::get('nama_ayah');
-		$this->input_nama_ibu                     = Input::get('nama_ibu');
-		$this->input_nama                         = Input::get('nama');
-		$this->input_nama_peserta                 = Input::get('nama_peserta');
-		$this->input_nomor_asuransi               = Input::get('nomor_asuransi');
-		$this->input_punya_asuransi               = Input::get('punya_asuransi');
-		$this->input_nomor_ktp                    = Input::get('nomor_ktp');
-		$this->input_nomor_asuransi_bpjs          = !empty( Input::get('nomor_asuransi_bpjs') ) ? Input::get('nomor_asuransi_bpjs') : $this->nomorAsuransiBpjs(Input::get('nomor_asuransi'), $this->input_asuransi_id);
-		$this->input_no_telp                      = Input::get('no_telp');
-		$this->input_tanggal_lahir                = Input::get('tanggal_lahir');
-		$this->input_jangan_disms                 = Input::get('jangan_disms');
-		$this->input_prolanis_dm                  = Input::get('prolanis_dm');
 		$this->input_prolanis_ht                  = Input::get('prolanis_ht');
 		$this->input_verifikasi_prolanis_dm_id    = Input::get('verifikasi_prolanis_dm_id');
 		$this->input_verifikasi_prolanis_ht_id    = Input::get('verifikasi_prolanis_ht_id');
 		$this->input_meninggal                    = Input::get('meninggal');
 		$this->input_penangguhan_pembayaran_bpjs  = Input::get('penangguhan_pembayaran_bpjs');
 
-		$poli_gawat_darurat = Poli::where('poli', 'Poli Gawat Darurat')->first();
-	
-		$this->dataIndexPasien                    = [
-			'statusPernikahan'                   => $ps->statusPernikahan(),
-			'asuransi'                           => Yoga::asuransiList(),
-			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
-			'poli'                               => [
-				null                    => '- Pilih Poli -',
-				$poli_gawat_darurat->id => $poli_gawat_darurat->poli
-			],
-			'peserta'                            => [ null => '- Pilih -', '0' => 'Peserta Klinik', '1' => 'Bukan Peserta Klinik']
-		];
-		$this->dataCreatePasien                   = [
-			'statusPernikahan'                   => $ps->statusPernikahan(),
-			'asuransi'                           => Yoga::asuransiList(),
-			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
-			'poli'                               => [
-				null                    => '- Pilih Poli -',
-				$poli_gawat_darurat->id => $poli_gawat_darurat->poli
-			],
-			'verifikasi_prolanis_options'        => VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id'),
-			'pasienSurvey'                       => $this->pasienSurvey()
-		];
-
         $this->middleware('super', ['only'       => 'delete']);
-
-
-
     }
 
 	/**
@@ -118,7 +73,7 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function index()	{
-		return view('pasiens.index', $this->dataIndexPasien);
+		return view('pasiens.index', $this->dataIndexPasien());
 	}
 
 	/**
@@ -127,7 +82,7 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function create(){
-		return view('pasiens.create', $this->dataCreatePasien);
+		return view('pasiens.create', $this->dataCreatePasien());
 	}
 	
 	public function store(Request $request){
@@ -336,10 +291,10 @@ class PasiensController extends Controller
 	public function inputDataPasien($pasien){
 
         /* dd( [ */
-        /*     $this->input_sex, */
-        /*     $this->input_jangan_disms, */
+        /*     Input::get('sex'), */
+        /*     Input::get('jangan_disms'), */
         /*     $this->input_prolanis_ht, */
-        /*     $this->input_prolanis_dm, */
+        /*     Input::get('prolanis_dm'), */
         /*     $this->input_verifikasi_prolanis_dm_id, */
         /*     $this->input_verifikasi_prolanis_ht_id, */
         /*     $this->input_meninggal, */
@@ -347,28 +302,27 @@ class PasiensController extends Controller
         /* ] ); */
 
 
-        dd( $this->input_asuransi_id );
-		$pasien->alamat                      = $this->input_alamat;
-		$pasien->prolanis_dm                 = $this->input_prolanis_dm;
+		$pasien->alamat                      = Input::get('alamat');
+		$pasien->prolanis_dm                 = Input::get('prolanis_dm');
 		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
 		$pasien->asuransi_id                 = $this->input_asuransi_id;
-		$pasien->sex                         = $this->input_sex;
-		$pasien->jenis_peserta_id            = $this->input_jenis_peserta_id;
-		$pasien->nama_ayah                   = $this->input_nama_ayah;
-		$pasien->nama_ibu                    = $this->input_nama_ibu;
-		$pasien->nama                        = $this->input_nama;
-		$pasien->nama_peserta                = $this->input_nama_peserta;
-		$pasien->nomor_asuransi              = $this->input_nomor_asuransi;
-		$pasien->nomor_ktp                   = $this->input_nomor_ktp;
-		$pasien->nomor_asuransi_bpjs         = $this->input_nomor_asuransi_bpjs;
-		$pasien->no_telp                     = $this->input_no_telp;
+		$pasien->sex                         = Input::get('sex');
+		$pasien->jenis_peserta_id            = Input::get('jenis_peserta_id');
+		$pasien->nama_ayah                   = Input::get('nama_ayah');
+		$pasien->nama_ibu                    = Input::get('nama_ibu');
+		$pasien->nama                        = Input::get('nama');
+		$pasien->nama_peserta                = Input::get('nama_peserta');
+		$pasien->nomor_asuransi              = Input::get('nomor_asuransi');
+		$pasien->nomor_ktp                   = Input::get('nomor_ktp');
+		$pasien->nomor_asuransi_bpjs         = Input::get('nomor_asuransi_bpjs');
+		$pasien->no_telp                     = Input::get('no_telp');
 		$pasien->verifikasi_prolanis_dm_id   = $this->input_verifikasi_prolanis_dm_id;
 		$pasien->verifikasi_prolanis_ht_id   = $this->input_verifikasi_prolanis_ht_id;
 		$pasien->hubungan_keluarga_id   = 4;
 		$pasien->meninggal                   = $this->input_meninggal;
 		$pasien->penangguhan_pembayaran_bpjs = $this->input_penangguhan_pembayaran_bpjs;
-		$pasien->tanggal_lahir               = Yoga::datePrep($this->input_tanggal_lahir);
-		$pasien->jangan_disms                = $this->input_jangan_disms;
+		$pasien->tanggal_lahir               = Yoga::datePrep(Input::get('tanggal_lahir'));
+		$pasien->jangan_disms                = Input::get('jangan_disms');
 		$pasien->save();
 
 
@@ -402,6 +356,7 @@ class PasiensController extends Controller
 	}
 
 	public function asuransiId($asu_id){
+        dd( 'tenant_id',session()->get('tenant_id') );
 		if (empty(trim($asu_id))) {
 			$asuransi_id =  Asuransi::where('tipe_asuransi_id', 1)->first()->id;
             return $asuransi_id;
@@ -531,7 +486,7 @@ class PasiensController extends Controller
 		$ap->input_pasien_id   = $pasien->id;
 		$ap->input_asuransi_id = $pasien->asuransi_id;
 		$ap->input_antrian_id  = $this->input_antrian_id;
-		$ap->input_poli_id     = is_null( $this->input_poli_id ) ? Poli::where('poli', 'Poli Gawat Darurat')->first()->id : $this->input_poli_id;
+		$ap->input_poli_id     = is_null( Input::get('poli_id') ) ? Poli::where('poli', 'Poli Gawat Darurat')->first()->id : $this->input_poli_id;
 		$ap->input_tanggal     = date('Y-m-d');
 		$ap->input_jam         = date("H:i:s");
 		return $ap->inputDataAntrianPoli();
@@ -669,7 +624,7 @@ class PasiensController extends Controller
 			"sex"                 => "required"
 		];
 
-		if ( $this->input_punya_asuransi == '1' ) {
+		if ( Input::get('punya_asuransi') == '1' ) {
 			  $rules["asuransi_id"]    = "required";
 			  $rules["jenis_peserta"]  = "required";
 			  $rules["nomor_asuransi"] = "required";
@@ -741,6 +696,58 @@ class PasiensController extends Controller
 			//mengisi field bpjs_image di book dengan filename yang baru dibuat
 			return 'img/pasien/'. $filename;
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function dataIndexPasien()
+    {
+        $ps = new Pasien;
+        $poli_gawat_darurat = Poli::gawatDarurat();
+		return [
+			'statusPernikahan'                   => $ps->statusPernikahan(),
+			'asuransi_id_biaya_pribadi'                   => Asuransi::BiayaPribadi()->id,
+			'asuransi'                           => Yoga::asuransiList(),
+			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
+			'poli'                               => [
+                                                        null                    => '- Pilih Poli -',
+                                                        $poli_gawat_darurat->id => $poli_gawat_darurat->poli
+                                                    ],
+            'peserta'                            => [ 
+                                                        null => '- Pilih -', 
+                                                        '0' => 'Peserta Klinik', 
+                                                        '1' => 'Bukan Peserta Klinik'
+                                                    ]
+		];
+    }
+    
+	
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function dataCreatePasien()
+    {
+        $ps = new Pasien;
+        $poli_gawat_darurat = Poli::gawatDarurat();
+		return [
+			'asuransi_id_biaya_pribadi'                   => Asuransi::BiayaPribadi()->id,
+			'statusPernikahan'                   => $ps->statusPernikahan(),
+			'asuransi'                           => Yoga::asuransiList(),
+			'jenis_peserta'                      => JenisPeserta::pluck('jenis_peserta'),
+			'poli'                               => [
+				null                    => '- Pilih Poli -',
+				$poli_gawat_darurat->id => $poli_gawat_darurat->poli
+			],
+			'verifikasi_prolanis_options'        => VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id'),
+			'pasienSurvey'                       => $this->pasienSurvey()
+		];
+    }
+    
+
     
 			
 	

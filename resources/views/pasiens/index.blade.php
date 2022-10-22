@@ -58,6 +58,7 @@
 </ol>
 @stop
 @section('content')
+    <input type="text" value="{{ $asuransi_id_biaya_pribadi }}" id="asuransi_id_biaya_pribadi"/>
 	@if(isset($antrian))
 		@include('fasilitas.memproses')
 	@endif

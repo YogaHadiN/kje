@@ -15,5 +15,9 @@ class Poli extends Model
 	public function poli_antrian(){
 		return $this->hasOne('App\Models\PoliAntrian');
 	}
+    public static function gawatDarurat(){
+        return Poli::where('poli', 'Poli Gawat Darurat')->first();
+    }
+    
 	
 }
