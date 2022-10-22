@@ -336,18 +336,6 @@ class PasiensController extends Controller
 	}
 	public function inputDataPasien($pasien){
 
-        /* dd( [ */
-        /*     Input::get('sex'), */
-        /*     Input::get('jangan_disms'), */
-        /*     $this->input_prolanis_ht, */
-        /*     Input::get('prolanis_dm'), */
-        /*     $this->input_verifikasi_prolanis_dm_id, */
-        /*     $this->input_verifikasi_prolanis_ht_id, */
-        /*     $this->input_meninggal, */
-        /*     $this->input_penangguhan_pembayaran_bpjs */
-        /* ] ); */
-
-
 		$pasien->alamat                      = Input::get('alamat');
 		$pasien->prolanis_dm                 = Input::get('prolanis_dm');
 		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
@@ -402,7 +390,6 @@ class PasiensController extends Controller
 	}
 
 	public function asuransiId($asu_id){
-        dd( 'tenant_id',session()->get('tenant_id') );
 		if (empty(trim($asu_id))) {
 			$asuransi_id =  Asuransi::where('tipe_asuransi_id', 1)->first()->id;
             return $asuransi_id;
