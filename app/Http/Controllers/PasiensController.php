@@ -56,6 +56,17 @@ class PasiensController extends Controller
 	public $input_penangguhan_pembayaran_bpjs;
 	public $rules;
 
+    public $input_poli;
+    public $input_antrian;
+    public $input_nama_pasien_bpjs;
+    public $input_pasien_id_bpjs;
+    public $input_tanggal_lahir_pasien_bpjs;
+    public $input_asuransi_id_bpjs;
+    public $input_nama_asuransi_bpjs;
+    public $input_image_bpjs;
+    public $input_prolanis_dm_bpjs;
+    public $input_prolanis_ht_bpjs;
+
 
    public function __construct(){
 		$this->input_prolanis_ht                  = Input::get('prolanis_ht');
@@ -73,7 +84,26 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function index()	{
-		return view('pasiens.index', $this->dataIndexPasien());
+        $ps = new Pasien;
+        $this->dataIndexPasien['statusPernikahan']           = $ps->statusPernikahan();
+        $this->dataIndexPasien['asuransi_id_biaya_pribadi' ] = Asuransi::BiayaPribadi()->id;
+        $this->dataIndexPasien['asuransi']                   = Yoga::asuransiList();
+        $this->dataIndexPasien['jenis_peserta']              = JenisPeserta::pluck('jenis_peserta');
+        $this->dataIndexPasien['peserta']                    = [
+                                                null => '- Pilih -',
+                                                '0'  => 'Peserta Klinik',
+                                                '1'  => 'Bukan Peserta Klinik'
+                                            ];
+        $poli_gawat_darurat = Poli::gawatDarurat();
+        if ( !isset($this->dataIndexPasien['antrian']) ) {
+            $this->dataIndexPasien['poli'] = [
+                null                    => '- Pilih Poli -',
+                $poli_gawat_darurat->id => $poli_gawat_darurat->poli
+            ];
+        }
+
+
+		return view('pasiens.index', $this->dataIndexPasien);
 	}
 
 	/**
@@ -305,7 +335,7 @@ class PasiensController extends Controller
 		$pasien->alamat                      = Input::get('alamat');
 		$pasien->prolanis_dm                 = Input::get('prolanis_dm');
 		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
-		$pasien->asuransi_id                 = $this->input_asuransi_id;
+		$pasien->asuransi_id                 = $this->asuransiId();
 		$pasien->sex                         = Input::get('sex');
 		$pasien->jenis_peserta_id            = Input::get('jenis_peserta_id');
 		$pasien->nama_ayah                   = Input::get('nama_ayah');

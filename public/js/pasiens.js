@@ -584,6 +584,7 @@ function selectPasien(key = 0) {
             temp +=
                 '<td nowrap nowrap><div><a href="#" style="color: green; font-size: large;" onclick="rowEntry(this);return false;"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>';
 
+            console.log("antrian_id", antrian_id);
             if (lewat_antrian) {
                 temp +=
                     '&nbsp;&nbsp;&nbsp;<a href="pasiens/' +
