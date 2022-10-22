@@ -20,6 +20,7 @@ class AuthController extends Controller {
 
 	public function login()
 	{
+        session()->forget('tenant_id');
 		$creds = array(
 			'email'    => Input::get('email'),
 			'password' => Input::get('password')
