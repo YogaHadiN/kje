@@ -14,6 +14,7 @@ use App\Http\Controllers\AntrianPeriksasController;
 use App\Events\FormSubmitted;
 use App\Models\Antrian;
 use App\Models\JenisAntrian;
+use App\Models\Staf;
 use App\Models\WhatsappRegistration;
 use App\Models\Sms;
 use App\Models\Asuransi;
