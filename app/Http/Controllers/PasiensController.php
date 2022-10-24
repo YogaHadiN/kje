@@ -153,7 +153,8 @@ class PasiensController extends Controller
                 'pasien_id'           => $request->pasien_id
             ];
             
-            $validator = \Validator::make(Input::all(), $this->rules( $dataNomorBpjs ));
+            $rules["poli_id"]             = "required";
+            $validator = \Validator::make(Input::all(), $this->rules( $rules, $dataNomorBpjs ));
             
             if ($validator->fails())
             {
@@ -290,7 +291,7 @@ class PasiensController extends Controller
 			'pasien_id'           => $request->pasien_id
 		];
 		
-		$validator = \Validator::make(Input::all(), $this->rules( $dataNomorBpjs, $id ));
+		$validator = \Validator::make(Input::all(), $this->rules( [], $dataNomorBpjs, $id ));
 		
 		if ($validator->fails())
 		{
@@ -677,16 +678,13 @@ class PasiensController extends Controller
 	*
 	* @return void
 	*/
-	private function rules($dataNomorBpjs, $id = null)
+	private function rules($rules, $dataNomorBpjs, $id = null)
 	{
-		$rules = [
-			"nama"                => "required",
-			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($dataNomorBpjs),
-			"nomor_asuransi"      => new CekNomorBpjsSama($dataNomorBpjs),
-			"nomor_ktp"           => new CekNomorKtpSama($dataNomorBpjs['pasien_id']),
-			"sex"                 => "required",
-			"poli_id"             => "required",
-		];
+			$rules["nama"]                = "required";
+			$rules["nomor_asuransi_bpjs"] = new CekNomorBpjsSama($dataNomorBpjs);
+			$rules["nomor_asuransi"]      = new CekNomorBpjsSama($dataNomorBpjs);
+			$rules["nomor_ktp"]           = new CekNomorKtpSama($dataNomorBpjs['pasien_id']);
+			$rules["sex"]                 = "required";
 
 		if ( Input::get('punya_asuransi') == '1' ) {
 			  $rules["asuransi_id"]    = "required";
