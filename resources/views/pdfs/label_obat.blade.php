@@ -64,7 +64,7 @@
 						<td colspan="2" class="h1 text-center">{{ trim( $terapi->signa ) }}</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="aturan_minum text-center">{{ $terapi->aturan_minum }}</td>
+						<td colspan="2" class="aturan_minum text-center">{{ trim( $terapi->aturan_minum ) }}</td>
 					</tr>
 					<tr>
                         <td colspan="2" class="aturan_minum text-center">

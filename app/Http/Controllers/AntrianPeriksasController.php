@@ -212,7 +212,7 @@ class AntrianPeriksasController extends Controller
             $this->input_poli_id     = $antrianpoli->poli_id;
             $this->input_staf_id     = $antrianpoli->staf_id;
             $this->input_jam         = $antrianpoli->jam;
-            $this->input_tanggal     = $antrianpoli->tanggal;
+            $this->input_tanggal     = !is_null($antrianpoli->tanggal)?Carbon::parse($antrianpoli->tanggal)->format('d-m-Y') : null;
             $this->input_pasien      = $antrianpoli->pasien;
             $this->input_antrianpoli = $antrianpoli;
             $this->inputData();
