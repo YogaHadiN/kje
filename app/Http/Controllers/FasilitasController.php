@@ -384,7 +384,6 @@ class FasilitasController extends Controller
 		return $p->index();
 	}
 	public function antrianPoliPost($id, Request $request ){
-        dd(Input::all()); 
 		$apc = new AntrianPolisController;
 		$apc->input_antrian_id   = $id;
 		return $apc->store($request);

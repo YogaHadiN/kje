@@ -97,21 +97,17 @@ class PasiensController extends Controller
                                                 '1'  => 'Bukan Peserta Klinik'
                                             ];
         $poli_gawat_darurat = Poli::gawatDarurat();
+        $nursestation_available = Auth::user()->tenant->nursestation_availability ;
         if (
             !isset($this->dataIndexPasien['antrian']) 
-            &&  Auth::user()->tenant->nursestation_availability 
+            &&  $nursestation_available
         ) {
             $this->dataIndexPasien['poli'] = [
                 $poli_gawat_darurat->id => $poli_gawat_darurat->poli
             ];
-        } else if (
-            isset($this->dataIndexPasien['antrian']) 
-            &&  Auth::user()->tenant->nursestation_availability 
-        ) {
+        } else if ( !$nursestation_available) {
             $this->dataIndexPasien['poli'] = Poli::pluck('poli', 'id');
-        } else {
-            $this->dataIndexPasien['poli'] = Poli::pluck('poli', 'id');
-        }
+        } 
 
 		return view('pasiens.index', $this->dataIndexPasien);
 	}
