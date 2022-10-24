@@ -51,7 +51,7 @@
 						<td colspan="2" class="h1 underline text-center">{{ \Auth::user()->tenant->name }}</td>
 					</tr>
 					<tr class="font-small text-center">
-                        <td>{{ \Carbon\Carbon::parse($periksa->tanggal)->format('d M Y') }} {{ $periksa->jam_periksa }}</td>
+                        <td>{{ !is_null( $periksa->tanggal )?\Carbon\Carbon::parse($periksa->tanggal)->format('d M Y'):'' }} {{ $periksa->jam_periksa }}</td>
 						<td>{{ $periksa->id }}</td>
 					</tr>
 					<tr>
