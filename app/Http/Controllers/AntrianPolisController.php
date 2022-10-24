@@ -217,7 +217,7 @@ class AntrianPolisController extends Controller
             $ap = null;
             if (
                 !is_null($antrian) &&( $antrian->jenis_antrian_id == 7 || $antrian->jenis_antrian_id == 8) ||
-                \Auth::user()->tenant->nursestation_availability
+                !\Auth::user()->tenant->nursestation_availability
             ) {
                 $this->inputAntrianPeriksa();
             } else {
