@@ -75,9 +75,11 @@
                             @endif
                         </td>
 					</tr>
+                    @if( !is_null( $terapi->exp_date ) )
                     <tr>
                         <td colspan="2" class="aturan_minum text-center"> exp date : {{ $terapi->exp_date->format('d M Y') }}</td>
 					</tr>
+                    @endif
 				</table>
 				@if (
 					(int)$k !== (int) (count($periksa->terapii) -1)
