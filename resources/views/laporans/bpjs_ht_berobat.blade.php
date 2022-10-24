@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-    Klinik Jati Elok | Laporan Prolanis HT Berobat {{ $bulanThn->format('Y-m') }}
+    {{ \Auth::user()->tenant->name }} | Laporan Prolanis HT Berobat {{ $bulanThn->format('Y-m') }}
 
 @stop
 @section('page-title') 

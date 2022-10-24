@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Edit Form Kirim Berkas
+{{ \Auth::user()->tenant->name }} | Edit Form Kirim Berkas
 
 @stop
 @section('page-title') 

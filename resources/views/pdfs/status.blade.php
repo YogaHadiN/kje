@@ -242,7 +242,7 @@ border-spacing: -1px;
 		<table width="100%" class="status">
 			<tr>
 				<td nowrap class="text-left">
-					KLINIK JATI ELOK
+					{{ \Auth::user()->tenant->name }}
 				</td>
 				<td nowrap colspan="2" >STATUS - {!! $periksa->id !!}</td>
 				<td nowrap class="text-right">
@@ -626,7 +626,7 @@ border-spacing: -1px;
 								<tbody>
 									<tr>
 										<td>
-											<h3>KLINIK JATI ELOK</h3>
+											<h3>{{ \Auth::user()->tenant->name }}</h3>
 											
 										</td>
 										<td class="text-right">

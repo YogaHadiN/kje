@@ -127,7 +127,7 @@
 		<div class="content-secondary">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-					<h1>Klinik Jati Elok</h1>
+					<h1>{{ \Auth::user()->tenant->name }}</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -186,7 +186,7 @@
                 <div class="box title-print text-center">
                     <div class="text-center border-top welcome_title">
 						Selamat Datang di
-						<br />Klinik Jati Elok
+						<br />{{ \Auth::user()->tenant->name }}
 					</div>
                     <div class="text-center border-bottom border-top alamat_klinik">
 					</div>

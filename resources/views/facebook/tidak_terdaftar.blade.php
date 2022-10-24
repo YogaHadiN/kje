@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>KLINIK JATI ELOK | Daftar Menggunakan Facebook</title>
+    <title>{{ \Auth::user()->tenant->name }} | Daftar Menggunakan Facebook</title>
     {!! HTML::style('css/bootstrap.min.css')!!}
     {!! HTML::style('font-awesome/css/font-awesome.css')!!}
     {!! HTML::style('css/style.css')!!}

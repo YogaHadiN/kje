@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pengantar Pasien BPJS
+{{ \Auth::user()->tenant->name }} | Pengantar Pasien BPJS
 
 @stop
 @section('page-title') 

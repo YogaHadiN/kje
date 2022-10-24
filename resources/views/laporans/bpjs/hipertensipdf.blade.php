@@ -221,7 +221,7 @@ tr { page-break-inside: avoid }
 	<table id="header">
 		<tr>
 			<td class="text-center">
-				<div class="klinik">KLINIK JATI ELOK </div>
+				<div class="klinik">{{ \Auth::user()->tenant->name }} </div>
 				<div class="title">
 					Jl. Raya Legok - Parung Panjang km. 3, <br>
 					Malangnengah, Pagedangan, Tangerang, Banten 021 5977529

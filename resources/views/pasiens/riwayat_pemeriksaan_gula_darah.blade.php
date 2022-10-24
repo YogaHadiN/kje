@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-	Klinik Jati Elok | Riwayat Pemeriksaan Gula Darah {{ ucwords($pasien->nama)}}
+	{{ \Auth::user()->tenant->name }} | Riwayat Pemeriksaan Gula Darah {{ ucwords($pasien->nama)}}
 
 @stop
 @section('page-title') 

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Omset Estetika Per Bulan
+{{ \Auth::user()->tenant->name }} | Omset Estetika Per Bulan
 
 @stop
 @section('page-title') 

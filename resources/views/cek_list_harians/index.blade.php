@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Cek List Harian
+{{ \Auth::user()->tenant->name }} | Cek List Harian
 
 @stop
 @section('page-title') 
@@ -17,39 +17,43 @@ Klinik Jati Elok | Cek List Harian
 
 @stop
 @section('content') 
-        <div class="table-responsive">
-            <table class="table table-hover table-condensed table-bordered">
-                <thead>
-                    <tr>
-                        <th>Cek List</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Ruang Periksa 1</td>
-                        <td>Belum</td>
-                        <td> <a href="{{ url('cek_list_harians/ruang_periksa_satu') }}" target="_blank" class="btn btn-info btn-xs"> Action</a> </td>
-                    </tr>
-                    <tr>
-                        <td>Ruang Periksa 2</td>
-                        <td>Belum</td>
-                        <td> <a href="{{ url('cek_list_harians/ruang_periksa_dua') }}" target="_blank" class="btn btn-info btn-xs"> Action</a> </td>
-                    </tr>
-                    <tr>
-                        <td>Ruang Periksa 3</td>
-                        <td>Belum</td>
-                        <td> <a href="{{ url('cek_list_harians/ruang_periksa_tiga') }}" target="_blank" class="btn btn-info btn-xs"> Action</a> </td>
-                    </tr>
-                    <tr>
-                        <td>Ruang Periksa Gigi</td>
-                        <td>Belum</td>
-                        <td> <a href="{{ url('cek_list_harians/ruang_periksa_gigi') }}" target="_blank" class="btn btn-info btn-xs"> Action</a> </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ruangan</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($ruangans->count() > 0)
+                            @foreach($ruangans as $ruangan)
+                                <tr>
+                                    <td>{{ $ruangan->nama }}</td>
+                                    <td>status</td>
+                                    <td nowrap class="autofit">
+                                        <a href="{{ url('cek_list') }}" target="_blank" class="btn btn-primary btn-xs"> Edit</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="">
+                                    {!! Form::open(['url' => 'ruangans/imports', 'method' => 'post', 'files' => 'true']) !!}
+                                        <div class="form-group">
+                                            {!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
+                                            {!! Form::file('file') !!}
+                                            {!! Form::submit('Upload', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
+                                        </div>
+                                    {!! Form::close() !!}
+                                </td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+            
         
     
 @stop

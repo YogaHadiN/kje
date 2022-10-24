@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Laporan DM Terkendali
+{{ \Auth::user()->tenant->name }} | Laporan DM Terkendali
 
 @stop
 @section('page-title') 

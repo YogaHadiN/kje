@@ -16,6 +16,7 @@ class Terapi extends Model{
 
 	// Don't forget to fill this array
 	protected $guarded = ['id'];
+	protected $dates = ['exp_date'];
 
 	public function merek(){
 		return $this->belongsTo('App\Models\Merek');

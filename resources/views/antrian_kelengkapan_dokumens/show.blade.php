@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-  Klinik Jati Elok | Proses Kelengkapan Dokumen
+  {{ \Auth::user()->tenant->name }} | Proses Kelengkapan Dokumen
 @stop
 @section('page-title') 
 <h2>Proses Kelengkapan Dokumen</h2>

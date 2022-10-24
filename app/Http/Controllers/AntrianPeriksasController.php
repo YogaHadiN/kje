@@ -57,8 +57,10 @@ class AntrianPeriksasController extends Controller
 	public $input_poli_id;
 	public $input_staf_id;
 	public $input_jam;
+	public $input_antrianpoli;
 	public $input_menyusui;
 	public $input_bukan_peserta;
+	public $input_sex;
 	public $input_riwayat_alergi_obat;
 	public $input_suhu;
 	public $input_G;
@@ -71,6 +73,8 @@ class AntrianPeriksasController extends Controller
 	public $input_tekanan_darah;
 	public $input_perujuk_id;
 	public $is_asuransi_bpjs;
+    public $input_g;
+    public $previous_complaint_resolved;
 
 	public function __construct() {
 		$this->input_antrian_id          = Input::get('antrian_id');
@@ -93,13 +97,17 @@ class AntrianPeriksasController extends Controller
 		$this->input_G                   = Input::get('G');
 		$this->input_P                   = Input::get('P');
 		$this->input_A                   = Input::get('A');
+		$this->input_sex                   = Input::get('sex');
 		$this->input_hpht                = Input::get('hpht');
 	    $this->input_tanggal             = Input::get('tanggal');
 		$this->input_tinggi_badan        = Input::get('tinggi_badan');
 		$this->input_gds                 = Input::get('gds');
 		$this->input_tekanan_darah       = Input::get('tekanan_darah');
 		$this->input_perujuk_id       = Input::get('perujuk_id');
-        $this->is_asuransi_bpjs = !empty(Input::get('asuransi_id')) ? Asuransi::find( Input::get('asuransi_id') )->tipe_asuransi_id == 5: false;
+        $this->input_g = Input::get('G');
+        $this->input_a = Input::get('A');
+        $this->input_p = Input::get('P');
+        $this->previous_complaint_resolved = Input::get('previous_complaint_resolved');
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
         /* $this->middleware('super', ['only' => ['delete','update']]); */
     }
@@ -199,108 +207,18 @@ class AntrianPeriksasController extends Controller
                 return redirect()->back()->withPesan($pesan);
             }
 
-            $periksa_awal 			= Yoga::periksaAwal( 
-                                                            $this->input_sistolik . '/' . $this->input_diastolik . ' mmHg', 
-                                                            $this->input_berat_badan, 
-                                                            $this->input_suhu, 
-                                                            $this->input_tinggi_badan
-                                                        );
-
-            $ap = new AntrianPeriksa;
-            $kecelakaan_kerja = $this->input_kecelakaan_kerja;
-            $asuransi_id      = $this->input_asuransi_id;
-
-            $ap->berat_badan  = $this->input_berat_badan;
-            $ap->hamil        = $this->input_hamil;
-            $ap->menyusui     = Input::get('menyusui');
-            $ap->asisten_id   = $this->input_asisten_id;
-            $ap->periksa_awal = $periksa_awal;
-            if ($kecelakaan_kerja == '1' && $this->is_asuransi_bpjs) {
-                $asuransi_id = Asuransi::where('tipe_asuransi_id', 1)->first()->id;
-                $ap->keterangan = 'Pasien ini tadinya pakai asuransi BPJS tapi diganti menjadi Biaya Pribadi karena Kecelakaan Kerja / Kecelakaan Lalu Lintas tidak ditanggung BPJS, tpi PT. Jasa Raharja';
-            }
-            $ap->asuransi_id       = $antrianpoli->asuransi_id;
-            $ap->pasien_id         = $antrianpoli->pasien_id;
-            $ap->poli_id           = $antrianpoli->poli_id;
-            $ap->staf_id           = $antrianpoli->staf_id;
-            $ap->jam               = $antrianpoli->jam;
-            if ( $this->is_asuransi_bpjs ) {
-                $ap->bukan_peserta = Input::get('peserta_klinik');
-            }
-            $ap->suhu                        = $this->input_suhu;
-            $ap->tanggal                     = $antrianpoli->tanggal;
-            $ap->kecelakaan_kerja            = $kecelakaan_kerja;
-            $ap->sistolik                    = $this->input_sistolik;
-            $ap->diastolik                   = $this->input_diastolik;
-            $ap->tinggi_badan                = $this->input_tinggi_badan;
-            $ap->gds                         = $this->input_gds;
-            $ap->g                           = Input::get('G');
-            $ap->p                           = Input::get('P');
-            $ap->a                           = Input::get('A');
-            $ap->hpht                        = !empty( Input::get('hpht') ) ? Carbon::createFromFormat('d-m-Y', Input::get('hpht'))->format('Y-m-d') :null;
-            $ap->previous_complaint_resolved = Input::get('previous_complaint_resolved');
-            $ap->perujuk_id                  = $this->input_perujuk_id;
-            $ap->save();
-
-            $antrian_poli_id = $this->input_antrian_poli_id;
-            $pasien          = $antrianpoli->pasien;
-            $pasien->sex     = Input::get('sex');
-            $pasien->save();
-
-            $families = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->get();
-            $pasien_ids_anggota_keluarga = [];
-            foreach ($families as $f) {
-                $pasien_ids_anggota_keluarga[] = $f->id;
-            }
-            $pengantars = Input::get('pengantars');
-            $pengantars = json_decode($pengantars, true);
-            $masukkan_dalam_daftar_keluarga = [];
-            $masukkan_sebagai_pengantar = [];
-            foreach ($pengantars as $pengantar) {
-                if (!in_array($pengantar['pasien_id'], $pasien_ids_anggota_keluarga)) {
-                    $masukkan_dalam_daftar_keluarga[] = $pengantar['pasien_id'];
-                }
-                $masukkan_sebagai_pengantar[] = [
-                    'pengantar_id' => $pengantar['pasien_id'],
-                    'kunjungan_sehat' => 1,
-                    'pcare_submit' => 0,
-                ];
-                $pengantar_pasien                       = Pasien::find( $pengantar['pasien_id'] );
-                $pengantar_pasien->hubungan_keluarga_id = $pengantar['hubungan_keluarga_id'];
-                $pengantar_pasien->save();
-            }
-
-
-            Pasien::whereIn('id', $masukkan_dalam_daftar_keluarga)->update([
-                'kepala_keluarga_id' => $pasien->kepala_keluarga_id
-            ]);
-
-            $newKepalaKeluarga = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->orderBy('hubungan_keluarga_id', 'asc')->first();
-
-            Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->update([
-                'kepala_keluarga_id' => $newKepalaKeluarga->id
-            ]);
-
-            $ap->antars()->createMany($masukkan_sebagai_pengantar);
-
-            $antrian_poli            = AntrianPoli::find($antrian_poli_id);
-            $antrian                 = $antrianpoli->antrian;
-            if(isset($antrian)){
-                $antrian->antriable_id   = $ap->id;
-                $antrian->antriable_type = 'App\\Models\\AntrianPeriksa';
-                $antrian->save();
-            }
-            $antrianpoli->delete();
-
-            $promo = Promo::where('promoable_type' , 'App\Models\AntrianPoli')->where('promoable_id', $antrian_poli_id)->first() ;
-            if ( $promo ) {
-                $promo->promoable_type = 'App\AntrianPeriksa';
-                $promo->promoable_id = $ap->id;
-                $promo->save();
-            }
+            $this->input_asuransi_id = $antrianpoli->asuransi_id;
+            $this->input_pasien_id   = $antrianpoli->pasien_id;
+            $this->input_poli_id     = $antrianpoli->poli_id;
+            $this->input_staf_id     = $antrianpoli->staf_id;
+            $this->input_jam         = $antrianpoli->jam;
+            $this->input_tanggal     = $antrianpoli->tanggal;
+            $this->input_pasien      = $antrianpoli->pasien;
+            $this->input_antrianpoli = $antrianpoli;
+            $this->inputData();
 
             DB::commit();
-            return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$pasien->id . ' - ' . $pasien->nama . '</strong> berhasil masuk antrian periksa'));
+            return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$antrianpoli->pasien->id . ' - ' . $antrianpoli->pasien->nama . '</strong> berhasil masuk antrian periksa'));
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -346,31 +264,31 @@ class AntrianPeriksasController extends Controller
 	}
 
 	private function periksaKosong($pasien_id, $staf_id, $asisten_id, $ap_id, $antrian, $jamdatang){
-  		 $p       = new Periksa;
-		  $p->asuransi_id = Asuransi::BiayaPribadi()->id;
-		  $p->pasien_id =$pasien_id;
-		  $p->berat_badan = "";
-		  $p->poli_id = Poli::where('poli', 'Poli Estetika')->first()->id;
-		  $p->staf_id =$staf_id;
-		  $p->asisten_id =$asisten_id;
-		  $p->periksa_awal = "[]";
-		  $p->jam =$jamdatang;
-		  $p->jam_resep = date('H:i:s');
-		  $p->keterangan_diagnosa = "";
-		  $p->antrian_periksa_id =$ap_id;
-		  $p->resepluar = "";
-		  $p->pemeriksaan_fisik = "";
-		  $p->pemeriksaan_penunjang = "";
-		  $p->tanggal =date('Y-m-d');
-		  $p->terapi = "[]";
-		  $p->antrian =$antrian;
-		  $p->jam_periksa =date('H:i:s');
-		  $p->jam_selesai_periksa =date('H:i:s');
-		  $p->keterangan = "";
-          $jt_jasa_dokter = JenisTarif::where('jenis_tarif', 'Jasa Dokter')->first();
-          $jt_biaya_obat = JenisTarif::where('jenis_tarif', 'Biaya Obat')->first();
-		  $p->transaksi = '[{"jenis_tarif_id":"' . $jt_jasa_dokter->id. '","jenis_tarif":"Jasa Dokter","biaya":0},{"jenis_tarif_id":"' .$jt_biaya_obat->id. '","jenis_tarif":"Biaya Obat","biaya":0}]';
-		  $p->save();
+        $p       = new Periksa;
+        $p->asuransi_id = Asuransi::BiayaPribadi()->id;
+        $p->pasien_id =$pasien_id;
+        $p->berat_badan = "";
+        $p->poli_id = Poli::where('poli', 'Poli Estetika')->first()->id;
+        $p->staf_id =$staf_id;
+        $p->asisten_id =$asisten_id;
+        $p->periksa_awal = "[]";
+        $p->jam =$jamdatang;
+        $p->jam_resep = date('H:i:s');
+        $p->keterangan_diagnosa = "";
+        $p->antrian_periksa_id =$ap_id;
+        $p->resepluar = "";
+        $p->pemeriksaan_fisik = "";
+        $p->pemeriksaan_penunjang = "";
+        $p->tanggal =date('Y-m-d');
+        $p->terapi = "[]";
+        $p->antrian =$antrian;
+        $p->jam_periksa =date('H:i:s');
+        $p->jam_selesai_periksa =date('H:i:s');
+        $p->keterangan = "";
+        $jt_jasa_dokter = JenisTarif::where('jenis_tarif', 'Jasa Dokter')->first();
+        $jt_biaya_obat = JenisTarif::where('jenis_tarif', 'Biaya Obat')->first();
+        $p->transaksi = '[{"jenis_tarif_id":"' . $jt_jasa_dokter->id. '","jenis_tarif":"Jasa Dokter","biaya":0},{"jenis_tarif_id":"' .$jt_biaya_obat->id. '","jenis_tarif":"Biaya Obat","biaya":0}]';
+        $p->save();
 	}
 
     protected $morphClass = 'App\Models\AntrianPeriksa';
@@ -502,6 +420,118 @@ class AntrianPeriksasController extends Controller
             'kepala_keluarga_id' => $pasien->kepala_keluarga_id
         ];
     }
-    
+    public function inputData(){
+        $periksa_awal 			= Yoga::periksaAwal( 
+                                                        $this->input_sistolik . '/' . $this->input_diastolik . ' mmHg', 
+                                                        $this->input_berat_badan, 
+                                                        $this->input_suhu, 
+                                                        $this->input_tinggi_badan
+                                                    );
+
+        $ap = new AntrianPeriksa;
+        $kecelakaan_kerja = $this->input_kecelakaan_kerja;
+        $asuransi_id      = $this->input_asuransi_id;
+
+        $ap->berat_badan  = $this->input_berat_badan;
+        $ap->hamil        = $this->input_hamil;
+        $ap->menyusui     = $this->input_menyusui;
+        $ap->asisten_id   = $this->input_asisten_id;
+        $ap->periksa_awal = $periksa_awal;
+        if ($kecelakaan_kerja == '1' && $this->is_asuransi_bpjs()) {
+            $asuransi_id = Asuransi::BiayaPribadi()->id;
+            $ap->keterangan = 'Pasien ini tadinya pakai asuransi BPJS tapi diganti menjadi Biaya Pribadi karena Kecelakaan Kerja / Kecelakaan Lalu Lintas tidak ditanggung BPJS, tpi PT. Jasa Raharja';
+        }
+        $ap->asuransi_id       = $this->input_asuransi_id;
+        $ap->pasien_id         = $this->input_pasien_id;
+        $ap->poli_id           = $this->input_poli_id;
+        $ap->staf_id           = $this->input_staf_id;
+        $ap->jam               = $this->input_jam;
+        if ( $this->is_asuransi_bpjs ) {
+            $ap->bukan_peserta = $this->input_bukan_peserta;
+        }
+        $ap->suhu                        = $this->input_suhu;
+        $ap->tanggal                     = convertToDatabaseFriendlyDateFormat($this->input_tanggal);
+        $ap->kecelakaan_kerja            = $this->input_kecelakaan_kerja;
+        $ap->sistolik                    = $this->input_sistolik;
+        $ap->diastolik                   = $this->input_diastolik;
+        $ap->tinggi_badan                = $this->input_tinggi_badan;
+        $ap->gds                         = $this->input_gds;
+        $ap->g                           = $this->input_g;
+        $ap->p                           = $this->input_p;
+        $ap->a                           = $this->input_a;
+        $ap->hpht                        = !empty( $this->input_hpht ) ? Carbon::createFromFormat('d-m-Y', $this->input_hpht)->format('Y-m-d') :null;
+        $ap->previous_complaint_resolved = $this->previous_complaint_resolved;
+        $ap->perujuk_id                  = $this->input_perujuk_id;
+        $ap->save();
+
+        if (isset( $this->input_antrianpoli )) {
+            $antrian_poli_id = $this->input_antrian_poli_id;
+            $pasien          = $this->input_pasien;
+            $pasien->sex     = $this->input_sex;
+            $pasien->save();
+
+            $families = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->get();
+            $pasien_ids_anggota_keluarga = [];
+            foreach ($families as $f) {
+                $pasien_ids_anggota_keluarga[] = $f->id;
+            }
+            $pengantars = Input::get('pengantars');
+            $pengantars = json_decode($pengantars, true);
+            $masukkan_dalam_daftar_keluarga = [];
+            $masukkan_sebagai_pengantar = [];
+            foreach ($pengantars as $pengantar) {
+                if (!in_array($pengantar['pasien_id'], $pasien_ids_anggota_keluarga)) {
+                    $masukkan_dalam_daftar_keluarga[] = $pengantar['pasien_id'];
+                }
+                $masukkan_sebagai_pengantar[] = [
+                    'pengantar_id' => $pengantar['pasien_id'],
+                    'kunjungan_sehat' => 1,
+                    'pcare_submit' => 0,
+                ];
+                $pengantar_pasien                       = Pasien::find( $pengantar['pasien_id'] );
+                $pengantar_pasien->hubungan_keluarga_id = $pengantar['hubungan_keluarga_id'];
+                $pengantar_pasien->save();
+            }
+
+
+            Pasien::whereIn('id', $masukkan_dalam_daftar_keluarga)->update([
+                'kepala_keluarga_id' => $pasien->kepala_keluarga_id
+            ]);
+
+            $newKepalaKeluarga = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->orderBy('hubungan_keluarga_id', 'asc')->first();
+
+            Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->update([
+                'kepala_keluarga_id' => $newKepalaKeluarga->id
+            ]);
+
+            $ap->antars()->createMany($masukkan_sebagai_pengantar);
+
+            $antrian                 = $this->input_antrianpoli->antrian;
+            if(isset($antrian)){
+                $antrian->antriable_id   = $ap->id;
+                $antrian->antriable_type = 'App\\Models\\AntrianPeriksa';
+                $antrian->save();
+            }
+            $this->input_antrianpoli->delete();
+
+            $promo = Promo::where('promoable_type' , 'App\Models\AntrianPoli')->where('promoable_id', $antrian_poli_id)->first() ;
+            if ( $promo ) {
+                $promo->promoable_type = 'App\AntrianPeriksa';
+                $promo->promoable_id = $ap->id;
+                $promo->save();
+            }
+        }
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function is_asuransi_bpjs()
+    {
+        return !empty(Input::get('asuransi_id')) ? Asuransi::find( Input::get('asuransi_id') )->tipe_asuransi_id == 5: false;
+;
+    }
     
 }

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Edit Denominator BPJS
+{{ \Auth::user()->tenant->name }} | Edit Denominator BPJS
 
 @stop
 @section('page-title') 

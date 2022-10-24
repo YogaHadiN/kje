@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Dokumen Penting
+{{ \Auth::user()->tenant->name }} | Dokumen Penting
 
 @stop
 @section('head') 

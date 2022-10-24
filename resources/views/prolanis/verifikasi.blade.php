@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Verifikasi Data Prolanis
+{{ \Auth::user()->tenant->name }} | Verifikasi Data Prolanis
 
 @stop
 @section('page-title') 

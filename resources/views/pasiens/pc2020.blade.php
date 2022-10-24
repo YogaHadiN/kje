@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pacific Cross 2020
+{{ \Auth::user()->tenant->name }} | Pacific Cross 2020
 
 @stop
 @section('page-title') 

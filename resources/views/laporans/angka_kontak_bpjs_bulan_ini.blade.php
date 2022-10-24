@@ -1,7 +1,7 @@
 	@extends('layout.master')
 
 	@section('title') 
-	Klinik Jati Elok | Angka Kontak BPJS Bulan Ini
+	{{ \Auth::user()->tenant->name }} | Angka Kontak BPJS Bulan Ini
 
 	@stop
 	@section('page-title') 

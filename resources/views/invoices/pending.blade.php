@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pending Received Verification
+{{ \Auth::user()->tenant->name }} | Pending Received Verification
 
 @stop
 @section('page-title') 

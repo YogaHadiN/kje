@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Denominator {{ $prolanis }}
+{{ \Auth::user()->tenant->name }} | Denominator {{ $prolanis }}
 
 @stop
 @section('page-title') 

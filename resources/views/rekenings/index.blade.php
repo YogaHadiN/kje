@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-	Klinik Jati Elok | Rekening Bank {{ $rekening->akun }}
+	{{ \Auth::user()->tenant->name }} | Rekening Bank {{ $rekening->akun }}
 @stop
 @section('head') 
     <link href="{!! asset('css/rekening.css') !!}" rel="stylesheet" media="screen">

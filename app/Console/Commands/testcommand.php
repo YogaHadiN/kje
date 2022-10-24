@@ -122,52 +122,13 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
-        $jurnal_umums = JurnalUmum::where('jurnalable_type' , 'App\Models\Periksa')->where('created_at','like', '2022%')->get();
-        $data = [];
-        foreach ($jurnal_umums as $jurnal) {
-            $data[$jurnal->jurnalable_id][] = $jurnal;
-        }
 
-        $error = [];
-        foreach ($data as $key => $dat) {
-            $periksa = Periksa::find($key);
-            $cao_id_asuransi = $periksa->asuransi->coa_id;
-            $found_coa_id = false;
-            foreach ($dat as $da) {
-                if ($da->coa_id == $cao_id_asuransi) {
-                    $found_coa_id = true;
-                    break;
-                }
-            }
-            if (!$found_coa_id && $periksa->piutang) {
-                $error[] = $key;
-            }
-        }
-
-        $jurnal_umums = JurnalUmum::with('coa')->where('jurnalable_type' , 'App\Models\Periksa')->whereIn('jurnalable_id', $error)->get();
-
-        $data = [];
-        foreach ($jurnal_umums as $jurnal) {
-            $data[ $jurnal->jurnalable_id ][] = $jurnal;
-        }
-
-        $error_jurnal_umum_id = [] ;
-        foreach ($data as $key => $dat) {
-            $periksa = Periksa::find($key);
-            $cao_id_asuransi = $periksa->asuransi->coa_id;
-            $jurnal_umum_id = null;
-            foreach ($dat as $da) {
-                if (substr( $da->coa->kode_coa , 0, 3) == '111') {
-                    $jurnal_umum_id = $da->id;
-                    $error_jurnal_umum_id[] = $da->id;
-                    break;
-                }
-            }
-            if ( !is_null( $jurnal_umum_id )  ) {
-                JurnalUmum::where('id', $jurnal_umum_id)->update([
-                    'coa_id' => $cao_id_asuransi
-                ]);
-            }
+        $query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'merek_id' order by TABLE_NAME";
+        $count = 0;
+        foreach (DB::select($query) as $table) {
+            $q ='update ' . $table->TABLE_NAME . ' set merek_id = 34 where merek_id in (622, 2226)';
+            DB::statement($q);
+            Merek::destroy([622,2226]);
         }
     }
     

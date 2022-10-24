@@ -1,6 +1,6 @@
 @if(isset( $antrian ))
 	{!! Form::open(['url' => 'antrians/antrianpolis/' . $antrian->id, 'method' => 'post']) !!}
-@else
+@elseif( \Auth::user()->tenant->nursestation_availability )
 	{!! Form::open(['url' => 'antrianpolis', 'method' => 'post']) !!}
 @endif
 	<div class="row">
@@ -25,6 +25,7 @@
 						{!! Form::select('poli_id', $poli, null, [
 							'id' => 'antrianpoli_poli', 
 							'class' => 'form-control rq', 
+							'placeholder' => '- Pilih Poli -', 
 							'onchange' => 'pilihPoli(this);return false;'
 						])!!}
 					</div>

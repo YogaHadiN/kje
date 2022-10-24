@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-    Klinik Jati Elok | Laporan ppH21 bulan {{ $bulanTahun->format('F Y') }}
+    {{ \Auth::user()->tenant->name }} | Laporan ppH21 bulan {{ $bulanTahun->format('F Y') }}
 
 @stop
 @section('page-title') 

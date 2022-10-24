@@ -1,8 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-  Klinik Jati Elok | Riwayat Surat Sakit {{ $pasien->nama }}
-
+  {{ \Auth::user()->tenant->name }} | Riwayat Surat Sakit {{ $pasien->nama }}
 @stop
 @section('page-title') 
   <h2>Riwayat Surat Sakit {{$pasien->nama}}</h2>

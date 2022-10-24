@@ -1,7 +1,7 @@
 	@extends('layout.master')
 
 	@section('title') 
-	Klinik Jati Elok | Angka Kontak Belum Terpenuhi
+	{{ \Auth::user()->tenant->name }} | Angka Kontak Belum Terpenuhi
 
 	@stop
 	@section('head') 

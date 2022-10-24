@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Create Setor Tunai
+{{ \Auth::user()->tenant->name }} | Create Setor Tunai
 
 @stop
 @section('page-title') 

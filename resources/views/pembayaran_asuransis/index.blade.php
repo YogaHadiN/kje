@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pembayaran Asuransi
+{{ \Auth::user()->tenant->name }} | Pembayaran Asuransi
 
 @stop
 @section('page-title') 

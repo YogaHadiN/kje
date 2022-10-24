@@ -1,7 +1,7 @@
 	@extends('layout.master')
 
 	@section('title') 
-	Klinik Jati Elok | Create Kunujungan Sehat
+	{{ \Auth::user()->tenant->name }} | Create Kunujungan Sehat
 
 	@stop
 	@section('page-title') 

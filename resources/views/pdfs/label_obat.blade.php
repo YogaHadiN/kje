@@ -48,10 +48,10 @@
 				)
 				<table width="100% text-center">
 					<tr>
-						<td colspan="2" class="h1 underline text-center">Klinik Jati Elok</td>
+						<td colspan="2" class="h1 underline text-center">{{ \Auth::user()->tenant->name }}</td>
 					</tr>
 					<tr class="font-small text-center">
-						<td>{{ \Carbon\Carbon::parse( $periksa->tanggal )->format('d M Y') }} {{ $periksa->jam_periksa }}</td>
+                        <td>{{ Carbon::parse($periksa->tanggal)->format('d M Y') }} {{ $periksa->jam_periksa }}</td>
 						<td>{{ $periksa->id }}</td>
 					</tr>
 					<tr>
@@ -61,7 +61,7 @@
 						<td colspan="2" class="text-center">{{ $terapi->merek->merek }} ({{ $terapi->jumlah }})</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="h1 text-center">{{ $terapi->signa }}</td>
+						<td colspan="2" class="h1 text-center">{{ trim( $terapi->signa ) }}</td>
 					</tr>
 					<tr>
 						<td colspan="2" class="aturan_minum text-center">{{ $terapi->aturan_minum }}</td>
@@ -74,6 +74,9 @@
                                 {{ $terapi->merek->rak->formula->cunam? $terapi->merek->rak->formula->cunam->cunam : 'Sebelum/Diantara/Sesudah makan' }}
                             @endif
                         </td>
+					</tr>
+                    <tr>
+                        <td colspan="2" class="aturan_minum text-center"> exp date : {{ $terapi->exp_date->format('d M Y') }}</td>
 					</tr>
 				</table>
 				@if (

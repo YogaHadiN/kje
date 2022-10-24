@@ -13,7 +13,7 @@
 						<tr>
 							<td>
 
-								<div class="klinik">KLINIK JATI ELOK </div>
+								<div class="klinik">{{ \Auth::user()->tenant->name }} </div>
 								{{ env("ALAMAT_KLINIK_LINE1") }}, Jl. Raya Legok - Parung Panjang km. 3, <br>
 								Malangnengah, Pagedangan, Tangerang, Banten 021 98496234
 

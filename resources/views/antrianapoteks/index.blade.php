@@ -74,8 +74,6 @@
 					  </tr>
 						{{-- false expr --}}
 					  @endif
-
-						
 					</tbody>
 				</table>
 		  </div>

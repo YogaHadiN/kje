@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Edit Data Pasien RPPT
+{{ \Auth::user()->tenant->name }} | Edit Data Pasien RPPT
 
 @stop
 @section('page-title') 

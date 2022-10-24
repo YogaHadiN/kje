@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Pembayaran Asuransi Bulan {{ date('F Y', strtotime('01-' . $bulan . '-' . $tahun)) }}
+{{ \Auth::user()->tenant->name }} | Pembayaran Asuransi Bulan {{ date('F Y', strtotime('01-' . $bulan . '-' . $tahun)) }}
 
 @stop
 @section('page-title') 

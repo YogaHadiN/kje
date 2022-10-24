@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Follow up Tunggakan
+{{ \Auth::user()->tenant->name }} | Follow up Tunggakan
 
 @stop
 @section('page-title') 

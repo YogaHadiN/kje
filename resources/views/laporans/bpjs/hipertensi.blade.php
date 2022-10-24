@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-	Klinik Jati Elok | Laporan Hipertensi BPJS bulan {{ $bulan->format('M Y') }}
+	{{ \Auth::user()->tenant->name }} | Laporan Hipertensi BPJS bulan {{ $bulan->format('M Y') }}
 
 @stop
 @section('page-title') 

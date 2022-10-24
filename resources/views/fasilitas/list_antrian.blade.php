@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | List Antrian
+{{ \Auth::user()->tenant->name }} | List Antrian
 
 @stop
 @section('page-title') 

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Sent Email
+{{ \Auth::user()->tenant->name }} | Sent Email
 
 @stop
 @section('page-title') 

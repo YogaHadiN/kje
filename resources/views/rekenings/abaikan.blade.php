@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Transaksi Diabaikan
+{{ \Auth::user()->tenant->name }} | Transaksi Diabaikan
 
 @stop
 @section('head') 

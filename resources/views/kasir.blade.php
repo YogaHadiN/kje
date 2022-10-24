@@ -47,7 +47,6 @@
             @if($pasien->periksa->count() == 0)
                 <p class="text-center">Tidak ada Riwayat untuk ditampilkan / Pasien adalah pasien baru</p>
             @else
-<input id="demo_vertical2" type="text" value="" name="demo_vertical2">
                 <div class="table-responsive">
                     <table class="table table-condensed">
                         <thead>
@@ -97,6 +96,10 @@
 </div>
             {!! Form::open(['url' => 'kasir/submit', 'method' => 'post', 'autocomplete' => 'off'])!!}
                 {!! Form::text('periksa_id', $periksa->id, ['class' => 'hide'])!!}
+                {!! Form::text('tanggal_satu_bulan_depan', date('Y-m-d',strtotime('first day of +2 month')), [
+                    'class' => 'hide',
+                    'id'    => 'tanggal_satu_bulan_depan'
+                ])!!}
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="panel panel-info">
@@ -131,6 +134,7 @@
 											<th>Signa</th>
 											<th>Jumlah</th>
 											<th>Cunam</th>
+											<th>Exp Date</th>
 											<th>Satuan</th>
 											<th>Biaya</th>
 											<th class="hide">jumlah</th>
@@ -171,6 +175,12 @@
                                                         'placeholder' => '- Pilih Cunam -'
                                                     ]) !!}
 												</td>
+                                                <td>
+                                                    {!! Form::text('exp_date', $terapi->exp_date, [
+                                                        'class' => 'form-control rq tanggal',
+                                                        'onchange' => 'expDateChange(this);return false',
+                                                    ]) !!}
+												</td>
 												<td class='uang harga_satuan'>
                                                     @if($periksa->asuransi->tipe_asuransi_id == '5')
 														@if($terapi->merek->rak->fornas == '0')
@@ -205,10 +215,10 @@
 													<td class="red"> Plafon kurang <br> : {{ $plafon }}</td>
 													<td class="text-right" colspan='4'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
 												@else
-													  <td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
+													  <td class="text-right" colspan='7'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
 												@endif
 											@else 
-												<td class="text-right" colspan='5'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
+												<td class="text-right" colspan='7'><strong><h2>Total Biaya Obat : <span class="uang" id='biaya'>{!!$biayatotal !!}</span></h2></strong></td>
 											@endif
 										</tr>
 									</tfoot>
@@ -221,7 +231,7 @@
                                 @endif
                           </div>
                     </div>
-                   <div class="row">
+                   <div class="row hide">
                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						   {!! Form::textarea('terapi_awal', $periksa->terapii, ['class' => 'form-control hide', 'id' => 'terapi_awal']) !!}
                        </div>
@@ -233,7 +243,7 @@
                        </div>
                    </div>
                    {!! Form::text('kali_obat', $periksa->asuransi->kali_obat, [
-                        'class' => 'form-control',
+                        'class' => 'form-control hide',
                         'id' => 'kali_obat'
                    ]) !!}
 

@@ -8,7 +8,7 @@
 
 		<p>Selamat siang</p>
 		<p>Terima kasih atas kerja sama yang baik selama ini. Semoga dapat terjalin kerja sama yang lebih baik untuk ke depan nya. </p>
-		<p> Mohon untuk dapat diinfokan detil pembayaran pelayanan peserta kepada Klinik Jati Elok dengan rekening </p>
+		<p> Mohon untuk dapat diinfokan detil pembayaran pelayanan peserta kepada {{ \Auth::user()->tenant->name }} dengan rekening </p>
 		<strong>
 		<p>Bank Mandiri </p>
 		<p>atas nama Yoga Hadi Nugroho </p>

@@ -124,17 +124,17 @@ class KasirBaseController extends Controller
 				Terapi::where('id', $t['id'])->update([
 					'merek_id'          => $t['merek_id'],
 					'jumlah'            => $t['jumlah'],
+					'exp_date'          => convertToDatabaseFriendlyDateFormat( $t['exp_date'] ) ,
 					'harga_beli_satuan' => $t['harga_beli_satuan'],
 					'harga_jual_satuan' => $t['harga_jual_satuan']
 				]);
 				$hargaObat += $t['harga_jual_satuan'] * $t['jumlah'];
-
                 $formula_id = $t['merek']['rak']['formula_id'];
-
                 $formula = Formula::find($formula_id);
                 $formula->cunam_id = $t['cunam_id'];
                 $formula->save();
 			}
+            //
 			//rubah harga obat sesuai dengan terapi yang sudah diubah
 			//
 			//
@@ -153,7 +153,6 @@ class KasirBaseController extends Controller
 
 			$prx->transaksi    = json_encode( $transaksi );
 			$prx->save();
-
             $jt_biaya_obat = JenisTarif::where('jenis_tarif', 'Biaya Obat')->first();
 
             TransaksiPeriksa::where('periksa_id', $prx->id)

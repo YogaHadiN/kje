@@ -1,7 +1,7 @@
 	@extends('layout.master')
 
 	@section('title') 
-	Klinik Jati Elok | Angka Kontak BPJS
+	{{ \Auth::user()->tenant->name }} | Angka Kontak BPJS
 
 	@stop
 	@section('page-title') 

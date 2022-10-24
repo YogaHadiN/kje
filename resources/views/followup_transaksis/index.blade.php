@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Follwup Transaksi
+{{ \Auth::user()->tenant->name }} | Follwup Transaksi
 
 @stop
 @section('page-title') 

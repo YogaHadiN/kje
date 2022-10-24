@@ -367,7 +367,6 @@ class FasilitasController extends Controller
 		}
 
 		$p                                                    = new PasiensController;
-		$polis[null]                                          = '-Pilih Poli-';
 		foreach ($antrian->jenis_antrian->poli_antrian as $k => $poli) {
 			$polis[ $poli->poli_id ]                          = $poli->poli->poli;
 		}

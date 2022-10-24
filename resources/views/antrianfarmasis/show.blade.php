@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-  Klinik Jati Elok | Antrian Farmasi {{ $antrianfarmasi->periksa->pasien->nama }}
+    {{ \Auth::user()->tenant->name }} | Antrian Farmasi {{ $antrianfarmasi->periksa->pasien->nama }}
 
 @stop
 @section('page-title') 

@@ -4,9 +4,15 @@ function resepJson(result) {
     } else {
         var MyArray = "";
     }
+    console.log("yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    console.log("MyArray", MyArray);
     var temp = '<table width="100%">';
     if (MyArray.length > 0) {
+        console.log("lebih dari 0");
+        console.log("MyArray[0].merek_id", MyArray[0].merek_id, "oke", i);
         for (var i = 0; i < MyArray.length - 1; i++) {
+            console.log("thiiiisss", i);
+            console.log("MyArray[i].merek_id", MyArray[i].merek_id, "oke", i);
             //Untuk menghitung urutan add sirup yang terakhir
 
             if (
@@ -49,7 +55,11 @@ function resepJson(result) {
                 } else {
                     $("#puyer").val("0");
                 }
-            } else if (MyArray[i].merek_id == 1 || MyArray[i].merek_id == 3) {
+            } else if (
+                MyArray[i].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+            ) {
                 temp += "<tr>";
                 temp += '<td style="width:15px"></td>';
                 temp +=
@@ -104,7 +114,7 @@ function resepJson(result) {
                 } else {
                     $("#boolAdd").val("0");
                 }
-            } else if (MyArray[i].merek_id == 2) {
+            } else if (MyArray[i].merek_id == $("#merek_id_add_sirup").val()) {
                 temp += "<tr>";
                 temp += '<td style="width:15px"></td>';
                 temp +=
@@ -1048,4 +1058,3 @@ function resepJson(result) {
     }
     return [temp, temp2, temp3];
 }
-

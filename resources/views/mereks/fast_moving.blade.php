@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Fast Moving Drug
+{{ \Auth::user()->tenant->name }} | Fast Moving Drug
 
 @stop
 @section('page-title') 

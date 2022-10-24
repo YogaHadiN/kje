@@ -210,27 +210,21 @@ class AntrianPolisController extends Controller
 			//jika pasien memilih poli rapid test gak usah masuk nurse station
 			//
 			//
-			$ap = $this->inputDataAntrianPoli();
-			DB::commit();
-			if (!is_null( $this->input_antrian_id )) {
-				$antrian = Antrian::find( $this->input_antrian_id );
-				if (
-					$antrian->jenis_antrian_id == 7 ||
-					$antrian->jenis_antrian_id == 8
-				) {
-					$request->merge([
-						'hamil'            => 0,
-						'kecelakaan_kerja' => 0,
-						'asisten_id'       => 16
-					]);
-					$apx                            = new AntrianPeriksasController;
-					$apx->input_jam                 = date('H:i:s');
-					$apx->input_antrian_poli_id     = $ap->id;
-					return $apx->store($request, $ap->id);
-				}
-			}
+
+            $nursestation_available = \Auth::user()->tenant->nursestation_availability;
+            $antrian = !is_null($this->input_antrian_id) ? Antrian::find( $this->input_antrian_id ) : null;
+            $ap = null;
+            if (
+                !is_null($antrian) &&( $antrian->jenis_antrian_id == 7 || $antrian->jenis_antrian_id == 8) ||
+                \Auth::user()->tenant->nursestation_availability
+            ) {
+                $this->inputAntrianPeriksa();
+            } else {
+                $ap = $this->inputDataAntrianPoli();
+            }
 
 			$this->updateJumlahAntrian(false, null);
+			DB::commit();
 			return $this->arahkanAP($ap);
 		} catch (\Exception $e) {
 			DB::rollback();
@@ -411,12 +405,11 @@ class AntrianPolisController extends Controller
 	public function arahkanAP($ap){
 		$pasien = Pasien::find($this->input_pasien_id);
 		$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
-        // comment dulu inputan pengantar pasien
-		/* if ($ap->asuransi->tipe_asuransi_id == 5) { */
-		/* 	return redirect('antrianpolis/pengantar/' . $ap->id)->withPesan(Yoga::suksesFlash('Harap Isi dulu pengantar pasien sebagai data kunjungan sehat')); */
-		/* } */
 
-		if ( $ap->poli->poli == 'Poli USG Kebidanan' ) {
+        if (
+            !is_null( $ap ) &&
+            $ap->poli->poli == 'Poli USG Kebidanan' 
+        ) {
 			return redirect('antrianpolis')
 				->withPrint($ap)
 				->withPesan($pesan);
@@ -427,4 +420,19 @@ class AntrianPolisController extends Controller
 	public function updateJumlahAntrian($panggil_pasien, $ruangan){
 		event(new FormSubmitted($panggil_pasien, $ruangan));
 	}
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function inputAntrianPeriksa()
+    {
+        $apx                         = new AntrianPeriksasController;
+        $apx->input_jam              = date('H:i:s');
+        $apx->input_hamil            = 0;
+        $apx->input_kecelakaan_kerja = 0;
+        $apx->input_asisten_id       = Staf::owner()->id;
+        return $apx->inputData();
+    }
+    
 }

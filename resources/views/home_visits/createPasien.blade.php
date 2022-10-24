@@ -1,7 +1,7 @@
 	@extends('layout.master')
 
 	@section('title') 
-	Klinik Jati Elok | Create Pasien
+	{{ \Auth::user()->tenant->name }} | Create Pasien
 
 	@stop
 	@section('page-title') 

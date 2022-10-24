@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-	Klinik Jati Elok | Laporan Diagnosa Rujukan BPJS bulan {{ $bulan->format('M Y') }}
+	{{ \Auth::user()->tenant->name }} | Laporan Diagnosa Rujukan BPJS bulan {{ $bulan->format('M Y') }}
 
 @stop
 @section('page-title') 

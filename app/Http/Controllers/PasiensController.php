@@ -2,10 +2,12 @@
 namespace App\Http\Controllers;
 
 use Input;
+use Auth;
 use Storage;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AntrianPolisController;
+use App\Http\Controllers\AntrianPeriksasController;
 use App\Models\Classes\Yoga;
 use App\Models\Poli;
 use App\Models\Generik;
@@ -95,11 +97,15 @@ class PasiensController extends Controller
                                                 '1'  => 'Bukan Peserta Klinik'
                                             ];
         $poli_gawat_darurat = Poli::gawatDarurat();
-        if ( !isset($this->dataIndexPasien['antrian']) ) {
+        if (
+            !isset($this->dataIndexPasien['antrian']) 
+            &&  Auth::user()->tenant->nursestation_availability 
+        ) {
             $this->dataIndexPasien['poli'] = [
-                null                    => '- Pilih Poli -',
                 $poli_gawat_darurat->id => $poli_gawat_darurat->poli
             ];
+        } else {
+            $this->dataIndexPasien['poli'] = Poli::pluck('poli');
         }
 
 
@@ -119,11 +125,16 @@ class PasiensController extends Controller
         $this->dataCreatePasien['statusPernikahan']= $ps->statusPernikahan();
         $this->dataCreatePasien['asuransi']= Yoga::asuransiList();
         $this->dataCreatePasien['jenis_peserta']= JenisPeserta::pluck('jenis_peserta');
-        if ( !isset($this->dataCreatePasien['antrian']) ) {
+        $nursestation_available = \Auth::user()->tenant->nursestation_availability;
+        if (
+             !isset($this->dataCreatePasien['antrian']) &&
+             $nursestation_available
+        ) {
             $this->dataCreatePasien['poli']= [
-                null                    => '- Pilih Poli -',
                 $poli_gawat_darurat->id => $poli_gawat_darurat->poli
             ];
+        } else if ( !$nursestation_available ) {
+            $this->dataCreatePasien['poli']= Poli::pluck('poli');
         }
         $this->dataCreatePasien['verifikasi_prolanis_options'        ]= VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id');
         $this->dataCreatePasien['pasienSurvey'                       ]= $this->pasienSurvey();
@@ -132,27 +143,44 @@ class PasiensController extends Controller
 	}
 	
 	public function store(Request $request){
-		$dataNomorBpjs = [
-			'asuransi_id'         => $request->asuransi_id,
-			'nomor_asuransi'      => $request->nomor_asuransi,
-			'nomor_asuransi_bpjs' => $request->nomor_asuransi_bpjs,
-			'pasien_id'           => $request->pasien_id
-		];
-		
-		$validator = \Validator::make(Input::all(), $this->rules( $dataNomorBpjs ));
-		
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
+        DB::beginTransaction();
+        try {
+            
+            $dataNomorBpjs = [
+                'asuransi_id'         => $request->asuransi_id,
+                'nomor_asuransi'      => $request->nomor_asuransi,
+                'nomor_asuransi_bpjs' => $request->nomor_asuransi_bpjs,
+                'pasien_id'           => $request->pasien_id
+            ];
+            
+            $validator = \Validator::make(Input::all(), $this->rules( $dataNomorBpjs ));
+            
+            if ($validator->fails())
+            {
+                return \Redirect::back()->withErrors($validator)->withInput();
+            }
 
-		$pasien         = new Pasien;
-		$pasien         = $this->inputDataPasien($pasien);
-		$ap             = $this->inputDataAntrianPoli($pasien);
+            $pasien         = new Pasien;
+            $pasien         = $this->inputDataPasien($pasien);
+            if ( Auth::user()->tenant->nursestation_availability ) {
+                $this->inputDataAntrianPoli($pasien);
+            } else {
+                $this->inputDataAntrianPeriksa($pasien);
+            }
 
-		$pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
-		return redirect('antrianpolis')
-			->withPesan($pesan);
+            $pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
+
+            DB::commit();
+
+            if ( $this->input_antrian_id ) {
+                return redirect('antrians/proses/' . $this->input_antrian_id)->withPesan($pesan);
+            }
+
+            return redirect('pasiens')->withPesan($pesan);
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 	}
 	
 	
@@ -519,10 +547,12 @@ class PasiensController extends Controller
 		$ap->input_pasien_id   = $pasien->id;
 		$ap->input_asuransi_id = $pasien->asuransi_id;
 		$ap->input_antrian_id  = $this->input_antrian_id;
-		$ap->input_poli_id     = is_null( Input::get('poli_id') ) ? Poli::where('poli', 'Poli Gawat Darurat')->first()->id : $this->input_poli_id;
+		$ap->input_poli_id     = $this->poliId();
 		$ap->input_tanggal     = date('Y-m-d');
 		$ap->input_jam         = date("H:i:s");
-		return $ap->inputDataAntrianPoli();
+
+        $data = $ap->inputDataAntrianPoli();
+		return $data;
 	}
 	public function denominatorDm(){
 		$pasiens  = Pasien::where('prolanis_dm', '1')->get();
@@ -654,7 +684,8 @@ class PasiensController extends Controller
 			"nomor_asuransi_bpjs" => new CekNomorBpjsSama($dataNomorBpjs),
 			"nomor_asuransi"      => new CekNomorBpjsSama($dataNomorBpjs),
 			"nomor_ktp"           => new CekNomorKtpSama($dataNomorBpjs['pasien_id']),
-			"sex"                 => "required"
+			"sex"                 => "required",
+			"poli_id"             => "required",
 		];
 
 		if ( Input::get('punya_asuransi') == '1' ) {
@@ -779,6 +810,53 @@ class PasiensController extends Controller
 			'pasienSurvey'                       => $this->pasienSurvey()
 		];
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function poliId()
+    {
+        return is_null( Input::get('poli_id') ) ? Poli::gawatDarurat()->id : Input::get('poli_id');
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function inputDataAntrianPeriksa($pasien)
+    {
+        $apcon                              = new AntrianPeriksasController;
+        $apcon->input_sistolik              = '';
+        $apcon->input_diastolik             = '';
+        $apcon->input_berat_badan           = '';
+        $apcon->input_tanggal               = date('d-m-Y');
+        $apcon->input_suhu                  = '';
+        $apcon->input_tinggi_badan          = '';
+        $apcon->input_kecelakaan_kerja      = 0;
+        $apcon->input_asuransi_id           = $pasien->asuransi_id;
+        $apcon->input_hamil                 = 0;
+        $apcon->input_menyusui              = 0;
+        $apcon->input_asisten_id            = Input::get('staf_id');
+        $apcon->input_asuransi_id           = $pasien->asuransi_id;
+        $apcon->input_pasien_id             = $pasien->id;
+        $apcon->input_poli_id               = Input::get('poli_id');
+        $apcon->input_staf_id               = Input::get('staf_id');
+        $apcon->input_jam                   = date('H:i:s');
+        $apcon->input_bukan_peserta         = 0;
+        $apcon->input_tanggal               = date('d-m-Y');
+        $apcon->input_gds                   = '';
+        $apcon->input_sex                   = $pasien->sex;
+        $apcon->g                           = '';
+        $apcon->p                           = '';
+        $apcon->a                           = '';
+        $apcon->input_hpht                  = '';
+        $apcon->previous_complaint_resolved = 1;
+        $apcon->input_perujuk_id            = '';
+        $apcon->inputData();
+    }
+    
+    
     
 
     

@@ -140,8 +140,16 @@ class PoliAjaxController extends Controller
 		$query .= "join mereks as mrk on mrk.id = trp.merek_id ";
 		$query .= "join raks as rk on rk.id = mrk.rak_id ";
         $query .= "where (";
-        if ( $asuransi->tipe_asuransi_id != 5  ) {
-            $query .= "staf_id= {$staf_id} or ";
+        if (
+             $asuransi->tipe_asuransi_id != 5  
+        ) {
+            $query .= "staf_id= {$staf_id} ";
+        }
+        if ( 
+             $asuransi->tipe_asuransi_id != 5  &&
+             session()->get('tenant_id') == 1 
+        ) {
+            $query .= "or ";
         }
         if ( session()->get('tenant_id') == 1 ) {
             $query .= "staf_id=" . Staf::owner()->id;

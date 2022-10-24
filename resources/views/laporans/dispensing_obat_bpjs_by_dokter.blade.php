@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-    Klinik Jati Elok | Dispensing Obat {{ $data[0]->nama_staf }} 
+    {{ \Auth::user()->tenant->name }} | Dispensing Obat {{ $data[0]->nama_staf }} 
 
 @stop
 @section('page-title') 

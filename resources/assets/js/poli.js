@@ -632,7 +632,6 @@ jQuery(document).ready(function ($) {
         }
         //Kode untuk Automator
         var aturan_minum_id = getAturanMinumId();
-        console.log(aturan_minum_id);
 
         $("#ddlAturanMinum").val(aturan_minum_id).selectpicker("refresh");
 
@@ -1216,7 +1215,12 @@ function selesaiPuyer(control) {
             .fadeIn("400");
     });
 
-    $("#ddlNamaObat").val(3).selectpicker("refresh").closest("div").fadeIn(400);
+    var merek_id_kertas_puyer_sablon = $("#merek_id_kertas_puyer_sablon").val();
+    $("#ddlNamaObat")
+        .val(merek_id_kertas_puyer_sablon)
+        .selectpicker("refresh")
+        .closest("div")
+        .fadeIn(400);
 
     console.log($("#ddlNamaObat").val(), "val");
 
@@ -1239,7 +1243,12 @@ function selesaiAdd(control) {
             .closest("div")
             .fadeIn("400");
     });
-    $("#ddlNamaObat").val(2).selectpicker("refresh").closest("div").fadeIn(400);
+    var merek_id_add_sirup = $("#merek_id_add_sirup").val();
+    $("#ddlNamaObat")
+        .val(merek_id_add_sirup)
+        .selectpicker("refresh")
+        .closest("div")
+        .fadeIn(400);
     $("#ddlNamaObat, #tipeResep")
         .prop("disabled", true)
         .selectpicker("refresh");
@@ -1717,12 +1726,6 @@ function getIdFormula() {
         var data_custom = $("#ddlNamaObat option:selected").attr(
             "data-custom-value"
         );
-        console.log("data_custom ==== ");
-        console.log("data_custom ==== ");
-        console.log("data_custom ==== ");
-        console.log("data_custom ==== ");
-        console.log("data_custom ==== ");
-        console.log(data_custom);
         merek = JSON.parse(data_custom);
         var id = merek.formula_id;
     } else {
@@ -2364,13 +2367,11 @@ function viewResep(control) {
 
         var resep = $("#terapi").val();
         resep = JSON.parse(resep);
-        console.log(resep);
         var harga_jual = 0;
         for (var i = 0; i < resep.length; i++) {
             harga_jual = resep[i].harga_jual_ini;
             totalBiayaObat +=
                 harga_jual * resep[i].jumlah * $("#kali_obat").val();
-            console.log("harga dari " + resep[i].merek + " = " + harga_jual);
         }
         var plafon = $("#plafon_total").val() - totalBiayaObat;
         $("#plafon").html(plafon);

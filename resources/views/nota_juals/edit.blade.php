@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Edit Penjualan
+{{ \Auth::user()->tenant->name }} | Edit Penjualan
 
 @stop
 @section('page-title') 

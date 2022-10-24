@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Jumlah Pasien TBC Tahunan
+{{ \Auth::user()->tenant->name }} | Jumlah Pasien TBC Tahunan
 
 @stop
 @section('page-title') 

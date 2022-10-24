@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Ruang Pemeriksaan Fisik
+{{ \Auth::user()->tenant->name }} | Ruang Pemeriksaan Fisik
 
 @stop
 @section('page-title') 

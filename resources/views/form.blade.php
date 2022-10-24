@@ -15,6 +15,20 @@
             'class' => 'form-control hide',
             'id'    => 'jenis_tarif_id_gula_darah'
         ]) !!}
+
+        {!! Form::text('merek_id_add_sirup', \App\Models\Merek::addSirup()->id, [
+            'class' => 'form-control ',
+            'id'    => 'merek_id_add_sirup'
+        ]) !!}
+
+        {!! Form::text('merek_id_puyer', \App\Models\Merek::kertasPuyerBiasa()->id, [
+            'class' => 'form-control ',
+            'id'    => 'merek_id_kertas_puyer_biasa'
+        ]) !!}
+        {!! Form::text('merek_id_puyer', \App\Models\Merek::kertasPuyerSablon()->id, [
+            'class' => 'form-control ',
+            'id'    => 'merek_id_kertas_puyer_sablon'
+        ]) !!}
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="alert alert-success">

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-Klinik Jati Elok | Sertifikat
+{{ \Auth::user()->tenant->name }} | Sertifikat
 
 @stop
 @section('head') 

@@ -162,4 +162,15 @@ class Merek extends Model{
 	public static function list(){
 		return array('' => '- Pilih Merek -') + Merek::pluck('merek', 'id')->all();
 	}
+    public static function addSirup(){
+        return Merek::where('merek', 'Add Sirup')->first();
+    }
+    public static function kertasPuyerBiasa(){
+        return Merek::where('merek', 'Kertas Puyer Biasa')->first();
+    }
+    public static function kertasPuyerSablon(){
+        return Merek::where('merek', 'Kertas Puyer Sablon')->first();
+    }
+    
+    
 }
