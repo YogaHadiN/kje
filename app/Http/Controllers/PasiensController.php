@@ -104,10 +104,14 @@ class PasiensController extends Controller
             $this->dataIndexPasien['poli'] = [
                 $poli_gawat_darurat->id => $poli_gawat_darurat->poli
             ];
+        } else if (
+            isset($this->dataIndexPasien['antrian']) 
+            &&  Auth::user()->tenant->nursestation_availability 
+        ) {
+            $this->dataIndexPasien['poli'] = Poli::pluck('poli', 'id');
         } else {
-            $this->dataIndexPasien['poli'] = Poli::pluck('poli');
+            $this->dataIndexPasien['poli'] = Poli::pluck('poli', 'id');
         }
-
 
 		return view('pasiens.index', $this->dataIndexPasien);
 	}

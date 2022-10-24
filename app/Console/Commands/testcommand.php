@@ -122,13 +122,13 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
-
-        $query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'merek_id' order by TABLE_NAME";
-        $count = 0;
-        foreach (DB::select($query) as $table) {
-            $q ='update ' . $table->TABLE_NAME . ' set merek_id = 34 where merek_id in (622, 2226)';
-            DB::statement($q);
-            Merek::destroy([622,2226]);
+        $terapis = Terapi::with('merek')->get();
+        foreach ($terapis as $terapi) {
+            try {
+                $merek = $terapi->merek->merek;
+            } catch (\Exception $e) {
+                dd( $terapi->merek_id );
+            }
         }
     }
     

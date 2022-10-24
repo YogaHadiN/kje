@@ -216,7 +216,7 @@ class AntrianPolisController extends Controller
             $antrian = !is_null($this->input_antrian_id) ? Antrian::find( $this->input_antrian_id ) : null;
             $ap = null;
             if (
-                !is_null($antrian) &&( $antrian->jenis_antrian_id == 7 || $antrian->jenis_antrian_id == 8) ||
+                (!is_null($antrian) &&( $antrian->jenis_antrian_id == 7 || $antrian->jenis_antrian_id == 8)) ||
                 !\Auth::user()->tenant->nursestation_availability
             ) {
                 $this->inputAntrianPeriksa();
