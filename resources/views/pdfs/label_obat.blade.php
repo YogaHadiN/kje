@@ -63,9 +63,11 @@
 					<tr>
 						<td colspan="2" class="h1 text-center">{{ trim( $terapi->signa ) }}</td>
 					</tr>
-					<tr>
-						<td colspan="2" class="aturan_minum text-center">{{ trim( $terapi->aturan_minum ) }}</td>
+                    @if( !is_null( $terapi->aturan_minum ) )
+                    <tr>
+                        <td colspan="2" class="aturan_minum text-center">{{ trim( $terapi->aturan_minum ) }}</td>
 					</tr>
+                    @endif
 					<tr>
                         <td colspan="2" class="aturan_minum text-center">
                             @if( $terapi->merek->rak->formula->cunam->cunam == 4 )
