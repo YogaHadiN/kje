@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use DB;
 use App\Models\Tenant;
+use App\Models\Merek;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,8 +22,8 @@ class DatabaseSeeder extends Seeder
         foreach (DB::select($query) as $table) {
             $q ='update ' . $table->TABLE_NAME . ' set merek_id = 34 where merek_id in (622, 2226)';
             DB::statement($q);
-            Merek::destroy([622,2226]);
         }
+        Merek::destroy([622,2226]);
 
     }
 }
