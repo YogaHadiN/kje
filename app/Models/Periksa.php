@@ -127,6 +127,13 @@ class Periksa extends Model{
             $temp = $tempFirst;
           if (count($MyArray) > 0){
             for ($i = 0; $i < count($MyArray) - 1; $i++) {
+
+                if (  is_null($MyArray[$i]->merek)  ) {
+                    dd( $MyArray[$i]->merek_id );
+                }
+
+
+
                 if (substr($MyArray[$i]->signa, 0, 5) == "Puyer" && $puyer == false ) {
                     $temp .= '<tr>';
                     $temp .= '<td style="width:15px">R/</td>';
