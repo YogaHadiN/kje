@@ -349,8 +349,9 @@ class FasilitasController extends Controller
                 ]
             ]);
 
+            $no_wa = convertToDatabaseFriendlyPhoneNumber($no_wa);
             $wab            = new WhatsappRegistration;
-            $wab->no_telp   = convertToDatabaseFriendlyPhoneNumber($no_wa);
+            $wab->no_telp   = $no_wa;
             $wab->antrian_id   = $antrian->id;
             $wab->tenant_id = 1;
             $wab->save();
