@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Input;
 
 use DB;
+use Log;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PasiensController;
