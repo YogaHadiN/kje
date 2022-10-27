@@ -8,7 +8,7 @@
 
     <title>INSPINIA | Login</title>
     {!! HTML::style('css/bootstrap.min.css')!!}
-    {!! HTML::style('font-awesome/css/font-awesome.css')!!}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
     {{-- {!! HTML::style('css/animate.css')!!} --}}
     {!! HTML::style('css/style.css')!!}
@@ -19,6 +19,25 @@
 		.fit-width{
 			width: 100%;
 		}
+        .btn-whatsapp {
+            padding:20px 40px;
+            font-size: 40px;
+            border-radius: 20px;
+        }
+        .vertical-center {
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+        }
+        .modal-ku {
+          width: 430px;
+          margin: auto;
+        }
+        tbody {
+            width: 100%;
+        }
 
 		h2{
 			font-size : 20px;
@@ -127,7 +146,8 @@
 		<div class="content-secondary">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-					<h1>{{ \Auth::user()->tenant->name }}</h1>
+					<h1>Klinik Jati Elok</h1>
+					{{-- <h1>{{ \Auth::user()->tenant->name }}</h1> --}}
 				</div>
 			</div>
 			<div class="row">
@@ -137,21 +157,105 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onclick="submitAntrian(1)" class="btn btn-lg btn-block btn-success superbig-button">Dokter Umum</button>
+					<button type="button" onclick="showWhatsaappForm(1)" class="btn btn-lg btn-block btn-success superbig-button">Dokter Umum</button>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onclick="submitAntrian(3)" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
+					<button type="button" onclick="showWhatsaappForm(3)" class="btn btn-lg btn-block btn-info superbig-button">Bidan</button>
 				</div>
 			</div>
 			<br>
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onclick="submitAntrian(7)" class="btn btn-lg btn-block btn-primary superbig-button">Rapid Test</button>
+					<button type="button" onclick="showWhatsaappForm(7)" class="btn btn-lg btn-block btn-primary superbig-button">Rapid Test</button>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onclick="submitAntrian(8)" class="btn btn-lg btn-block btn-success superbig-button">Medical Checkup</button>
+					<button type="button" onclick="showWhatsaappForm(8)" class="btn btn-lg btn-block btn-success superbig-button">Medical Checkup</button>
 				</div>
 			</div>
+                <!-- Modal -->
+                <div class="modal fade" id="noWhatsapp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog modal-ku" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Masukkan Nomor Whatsapp Anda</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="row">
+                              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                  <h3 id="no_wa">
+
+                                  </h3>
+                              </div>
+                              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" id="backspace">
+                                  {{-- <button type="button" onclick="backspace(this);return false;" id="backspace_button"> --}}
+                                        <svg onclick="backspace(this);return false;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M576 128c0-35.3-28.7-64-64-64H205.3c-17 0-33.3 6.7-45.3 18.7L9.4 233.4c-6 6-9.4 14.1-9.4 22.6s3.4 16.6 9.4 22.6L160 429.3c12 12 28.3 18.7 45.3 18.7H512c35.3 0 64-28.7 64-64V128zM271 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+                                  {{-- </button> --}}
+                              </div>
+                          </div>
+                          <div class="table-responsive">
+                              <table class="table table-hover table-condensed table-bordered">
+                                  <tbody>
+                                      <tr>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">1</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">2</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">3</button>
+                                            </td>
+                                      </tr>
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">4</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">5</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">6</button>
+                                            </td>
+                                      </tr>
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">7</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">8</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">9</button>
+                                            </td>
+                                      </tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">*</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">0</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-whatsapp" onclick="waBtn(this);return false">#</button>
+                                    </td>
+                              </tr>
+                          </tbody>
+                          </table>
+                      </div>
+                      </div>
+                      <div class="modal-footer">
+                          <div class="row">
+                              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <button type="button" onclick="lewati(this);return false;" class="btn btn-danger btn-block btn-lg" data-dismiss="modal">Lewati</button>
+                              </div>
+                              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <button type="button" onclick="lanjutkan(this);return false;" class="btn btn-primary btn-block btn-lg">Lanjutkan</button>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 			<br>
 			<hr>
 			<div class="row text-center">
@@ -168,15 +272,7 @@
 					<br />
 				</div>
 			</div>
-			{{-- <div class="row"> --}}
-			{{-- 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> --}}
-			{{-- 		<button type="button" onclick="submitAntrian(2)" class="btn btn-lg btn-block btn-primary superbig-button">Dokter Gigi</button> --}}
-				
-			{{-- 	</div> --}}
-			{{-- 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> --}}
-			{{-- 		<button type="button" onclick="submitAntrian(4)" class="btn btn-lg btn-block btn-warning superbig-button">Estetika</button> --}}
-			{{-- 	</div> --}}
-			{{-- </div> --}}
+            {!! Form::text('jenis_antrian_id', null, ['class' => 'form-control', 'id' => 'jenis_antrian_id']) !!}
 		</div>
 		{!! Form::text('nomor_bpjs', null, ['class' => 'form-control', 'id' => 'nomor_bpjs']) !!}
 	</div>
@@ -186,7 +282,8 @@
                 <div class="box title-print text-center">
                     <div class="text-center border-top welcome_title">
 						Selamat Datang di
-						<br />{{ \Auth::user()->tenant->name }}
+						<br />Klinik Jati Elok
+						{{-- <br />{{ \Auth::user()->tenant->name }} --}}
 					</div>
                     <div class="text-center border-bottom border-top alamat_klinik">
 					</div>
@@ -194,7 +291,7 @@
 				<div class="text-center alamat_klinik">Nomor Antrian </div>
                 <div class="text-center superbig strong" id="nomor_antrian">
 							A50
-                </div>
+               </div>
 				<div class="text-center welcome_title" id="jenis_antrian">Poli Umum</div>
                 {{-- <div class="alamat_klinik text-center bold">Kode Unik : <span  id="kode_unik"></span></div> --}}
                 {{-- <div class="text-center"> --}}

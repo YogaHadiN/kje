@@ -1,16 +1,24 @@
 $("#nomor_bpjs").focus();
 var nomor_bpjs = null;
 var nomor_ktp = null;
-function submitAntrian(control) {
-    var ajax_url = base + "/fasilitas/antrian_pasien/ajax/" + control;
+function showWhatsaappForm(control) {
+    $("#noWhatsapp").modal({ backdrop: "static", keyboard: false });
+    $("#jenis_antrian_id").val("");
+    $("#jenis_antrian_id").val(control);
+}
+$("#backspace").hide();
+function submitAntrian(jenis_antrian_id, no_wa) {
+    var ajax_url = base + "/fasilitas/antrian_pasien/ajax/" + jenis_antrian_id;
     $(":button").prop("disabled", true);
     $.get(
         ajax_url,
         {
             nomor_bpjs: nomor_bpjs,
             nomor_ktp: nomor_ktp,
+            no_wa: no_wa,
         },
         function (data, textStatus, jqXHR) {
+            $("#noWhatsapp").modal("hide");
             var nomor_antrian = data["nomor_antrian"];
             var jenis_antrian = data["jenis_antrian"];
             var kode_unik = data["kode_unik"];
@@ -41,6 +49,14 @@ function submitAntrian(control) {
 function returnFocus() {
     $("#nomor_bpjs").focus();
 }
+function waBtn(control) {
+    var number = $(control).html();
+    var existingNumber = $("#no_wa").html();
+    var newNumber = existingNumber + number;
+    console.log("existingNumber", existingNumber, "newNumber", newNumber);
+    $("#no_wa").html(newNumber);
+    toggleBackspace(newNumber);
+}
 $("#nomor_bpjs").keyup(function (event) {
     var keycode = event.keyCode || event.which;
     if (keycode == "13") {
@@ -49,3 +65,35 @@ $("#nomor_bpjs").keyup(function (event) {
         nomor_bpjs = null;
     }
 });
+function backspace(control) {
+    var existringNumber = $("#no_wa").html();
+    var newNumber = existringNumber.slice(0, -1);
+    $("#no_wa").html(newNumber);
+    toggleBackspace(newNumber);
+}
+
+function toggleBackspace(newNumber) {
+    newNumber = $.trim(newNumber);
+    console.log("newNumber toggle", newNumber);
+    console.log($.trim(newNumber.length), "trim. length");
+    if (newNumber.length) {
+        $("#backspace").show();
+    } else {
+        $("#backspace").hide();
+    }
+}
+
+function lanjutkan(control) {
+    var no_wa = $.trim($("#no_wa").html());
+    var jenis_antrian_id = $("#jenis_antrian_id").val();
+    $("#no_wa").html("");
+    $("#jenis_antrian_id").val("");
+    submitAntrian(jenis_antrian_id, no_wa);
+}
+
+function lewati(control) {
+    var jenis_antrian_id = $("#jenis_antrian_id").val();
+    $("#no_wa").html("");
+    $("#jenis_antrian_id").val("");
+    submitAntrian(jenis_antrian_id, null);
+}

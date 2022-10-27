@@ -8,11 +8,13 @@ use DB;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PasiensController;
+use App\Http\Controllers\WablasController;
 use App\Http\Controllers\AntrianPolisController;
 use App\Http\Controllers\AntriansController;
 use App\Http\Controllers\AntrianPeriksasController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Requests;
+use App\Models\WhatsappRegistration;
 use App\Models\Fasilitas;
 use App\Models\Asuransi;
 use App\Models\Pasien;
@@ -311,7 +313,6 @@ class FasilitasController extends Controller
 			->withPrint($antrian->id);
 	}
 	public function antrianAjax($id){
-
 		$antrian       = $this->antrianPost( $id );
 		$nomor_antrian = $antrian->jenis_antrian->prefix . $antrian->nomor;
         $kode_unik     = $antrian->kode_unik;
@@ -321,7 +322,38 @@ class FasilitasController extends Controller
 		$url    = url('/');
 		$qr     = new QrCodeController;
         $qr_code = $qr->inPdf('https://wa.me/6282113781271?text=' . $kode_unik);
+        $no_wa =  Input::get('no_wa') ;
+        if ( !empty( $no_wa ) ) {
+			$text = '*KLINIK JATI ELOK*' ;
+			$text .= PHP_EOL;
+			$text .= "==============";
+			$text .= PHP_EOL;
+			$text .= PHP_EOL;
+			$text .= 'Fasilitas ini akan memproses antrian ' . $nomor_antrian;
+			$text .= PHP_EOL;
+			$text .= 'Apakah Anda ingin melanjutkan?';
+			$text .= PHP_EOL;
 
+            $wablas = new WablasController;
+            $wablas->sendButton([
+                [
+                    'phone' => $no_wa,
+                    'message' => [
+                        'buttons' => [
+                                        'Lanjutkan',
+                                        'Jangan Lanjutkan'
+                                    ],
+                        'content' =>$text,
+                        'footer' => '',
+                    ],
+                ]
+            ]);
+
+            $wab            = new WhatsappRegistration;
+            $wab->no_telp   = $no_wa;
+            $wab->tenant_id = 1;
+            $wab->save();
+        }
 
         return compact(
             'nomor_antrian', 

@@ -668,20 +668,11 @@ class WablasController extends Controller
 		print_r($result);	curl_close($curl);
 	}
 
-    public function sendButton(){
+    public function sendButton($data){
         $curl = curl_init();
         $token = env('WABLAS_TOKEN');
         $payload = [
-            "data" => [
-                [
-                    'phone' => '6282113781271',
-                    'message' => [
-                        'buttons' => ["button 1","button 2","button 3"],
-                        'content' => 'sending template message...',
-                        'footer' => 'footer template here',
-                    ],
-                ]
-            ]
+            "data" => $data
         ];
         curl_setopt($curl, CURLOPT_HTTPHEADER,
             array(
@@ -698,8 +689,8 @@ class WablasController extends Controller
 
         $result = curl_exec($curl);
         curl_close($curl);
-        echo "<pre>";
-        print_r($result);
+        /* echo "<pre>"; */
+        /* print_r($result); */
     }
 
     public function send(){

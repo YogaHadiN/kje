@@ -94,7 +94,7 @@ class ShowWarningIfPaperExpired
             $asu = new AsuransisController;
             $warning_tunggakan = [];
             foreach (DB::select($asu->queryTunggakan(date('Y'),true)) as $tunggakan) {
-                $warning_tunggakan[] = 'Tunggakan sebesar <strong>' . buatrp($tunggakan->overdue) . '</strong> kepada asuransi <strong>' . $tunggakan->nama. '</strong> Harap ditagihkan';
+                $warning_tunggakan[] = 'Tunggakan sebesar <strong>' . buatrp($tunggakan->overdue) . '</strong> kepada asuransi <a href="' . url('asuransis/' . $tunggakan->asuransi_id ) . '/hutang/pembayaran" target="_blank"><strong>' . $tunggakan->nama. '</strong></a> Harap ditagihkan';
             }
 
             if ( count($warning_kuning)  ) {

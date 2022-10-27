@@ -136,8 +136,8 @@ class PasiensController extends Controller
         } else if ( !$nursestation_available ) {
             $this->dataCreatePasien['poli']= Poli::pluck('poli');
         }
-        $this->dataCreatePasien['verifikasi_prolanis_options'        ]= VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id');
-        $this->dataCreatePasien['pasienSurvey'                       ]= $this->pasienSurvey();
+        $this->dataCreatePasien['verifikasi_prolanis_options']= VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id');
+        $this->dataCreatePasien['pasienSurvey']= $this->pasienSurvey();
 
 		return view('pasiens.create', $this->dataCreatePasien);
 	}
@@ -184,14 +184,6 @@ class PasiensController extends Controller
         }
 	}
 	
-	
-
-	/**
-	 * Display the specified pasien.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function show($id)
 	{
         $periksas = Periksa::with(
