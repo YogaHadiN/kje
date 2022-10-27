@@ -272,9 +272,9 @@
 					<br />
 				</div>
 			</div>
-            {!! Form::text('jenis_antrian_id', null, ['class' => 'form-control', 'id' => 'jenis_antrian_id']) !!}
+            {!! Form::text('jenis_antrian_id', null, ['class' => 'form-control hide', 'id' => 'jenis_antrian_id']) !!}
 		</div>
-		{!! Form::text('nomor_bpjs', null, ['class' => 'form-control', 'id' => 'nomor_bpjs']) !!}
+		{!! Form::text('nomor_bpjs', null, ['class' => 'form-control hide', 'id' => 'nomor_bpjs']) !!}
 	</div>
 	<div id="section-to-print">
 	  <section class="sheet">
