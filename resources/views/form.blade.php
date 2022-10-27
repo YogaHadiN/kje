@@ -17,16 +17,16 @@
         ]) !!}
 
         {!! Form::text('merek_id_add_sirup', \App\Models\Merek::addSirup()->id, [
-            'class' => 'form-control ',
+            'class' => 'form-control hide',
             'id'    => 'merek_id_add_sirup'
         ]) !!}
 
         {!! Form::text('merek_id_puyer', \App\Models\Merek::kertasPuyerBiasa()->id, [
-            'class' => 'form-control ',
+            'class' => 'form-control hide',
             'id'    => 'merek_id_kertas_puyer_biasa'
         ]) !!}
         {!! Form::text('merek_id_puyer', \App\Models\Merek::kertasPuyerSablon()->id, [
-            'class' => 'form-control ',
+            'class' => 'form-control hide',
             'id'    => 'merek_id_kertas_puyer_sablon'
         ]) !!}
 	</div>
