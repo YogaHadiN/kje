@@ -254,5 +254,11 @@ if (!function_exists('cleanUang')) {
         }
     }
 }
+if (!function_exists('convertToDatabaseFriendlyPhoneNumber')) {
+    function convertToDatabaseFriendlyPhoneNumber($str) {
+        $str = ltrim($str, "0");
+        return '62' . $str;
+    }
+}
 
  

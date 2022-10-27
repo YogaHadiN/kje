@@ -122,14 +122,7 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
-        $terapis = Terapi::with('merek')->get();
-        foreach ($terapis as $terapi) {
-            try {
-                $merek = $terapi->merek->merek;
-            } catch (\Exception $e) {
-                dd( $terapi->merek_id );
-            }
-        }
+        dd( convertToDatabaseFriendlyPhoneNumber('081381912803') );
     }
     
     public function obatTenant()
