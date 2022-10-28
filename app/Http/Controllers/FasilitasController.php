@@ -330,6 +330,7 @@ class FasilitasController extends Controller
             $wab             = new WhatsappRegistration;
             $wab->no_telp    = $no_wa;
             $wab->antrian_id = $antrian->id;
+            $wab->registering_confirmation = 0;
             $wab->tenant_id  = 1;
             $wab->save();
 
