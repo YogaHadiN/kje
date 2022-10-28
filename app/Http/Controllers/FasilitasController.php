@@ -325,38 +325,43 @@ class FasilitasController extends Controller
         $qr_code = $qr->inPdf('https://wa.me/6282113781271?text=' . $kode_unik);
         $no_wa =  Input::get('no_wa') ;
         if ( !empty( $no_wa ) ) {
-			$text = '*KLINIK JATI ELOK*' ;
-			$text .= PHP_EOL;
-			$text .= "==============";
-			$text .= PHP_EOL;
-			$text .= PHP_EOL;
-			$text .= 'Fasilitas ini akan memproses antrian ' . $nomor_antrian;
-			$text .= PHP_EOL;
-			$text .= 'Apakah Anda ingin melanjutkan?';
-			$text .= PHP_EOL;
-
-            $wablas = new WablasController;
-            $wablas->sendButton([
-                [
-                    'phone' => $no_wa,
-                    'message' => [
-                        'buttons' => [
-                                        'Lanjutkan',
-                                        'Jangan Lanjutkan'
-                                    ],
-                        'content' =>$text,
-                        'footer' => '',
-                    ],
-                ]
-            ]);
 
             $no_wa = convertToDatabaseFriendlyPhoneNumber($no_wa);
-            Log::info('nowa ' . $no_wa);
-            $wab            = new WhatsappRegistration;
-            $wab->no_telp   = $no_wa;
-            $wab->antrian_id   = $antrian->id;
-            $wab->tenant_id = 1;
+            $wab             = new WhatsappRegistration;
+            $wab->no_telp    = $no_wa;
+            $wab->antrian_id = $antrian->id;
+            $wab->tenant_id  = 1;
             $wab->save();
+
+            $registeredWhatsapp = WhatsappRegistration::where('no_telp', $no_wa)
+                ->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
+                ->get();
+
+            if ( $registeredWhatsapp->count() == 1 ) {
+                $text = '*KLINIK JATI ELOK*' ;
+                $text .= PHP_EOL;
+                $text .= "==============";
+                $text .= PHP_EOL;
+                $text .= PHP_EOL;
+                $text .= 'Fasilitas ini akan memproses antrian ' . $nomor_antrian;
+                $text .= PHP_EOL;
+                $text .= 'Apakah Anda ingin melanjutkan?';
+                $text .= PHP_EOL;
+
+                $wablas = new WablasController;
+                $wablas->sendButton([
+                    [
+                        'phone' => $no_wa,
+                        'message' => [
+                            'buttons' => [
+                                            'Lanjutkan'
+                                        ],
+                            'content' =>$text,
+                            'footer' => '',
+                        ],
+                    ]
+                ]);
+            }
         }
 
         return compact(
