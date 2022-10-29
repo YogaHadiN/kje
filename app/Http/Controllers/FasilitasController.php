@@ -325,11 +325,11 @@ class FasilitasController extends Controller
         $qr_code = $qr->inPdf('https://wa.me/6282113781271?text=' . $kode_unik);
         $no_wa =  Input::get('no_wa') ;
         if ( !empty( $no_wa ) ) {
+            $no_wa = convertToDatabaseFriendlyPhoneNumber($no_wa);
 
             $antrian->no_telp = $no_wa;
             $antrian->save();
 
-            $no_wa = convertToDatabaseFriendlyPhoneNumber($no_wa);
             $wab             = new WhatsappRegistration;
             $wab->no_telp    = $no_wa;
             $wab->antrian_id = $antrian->id;

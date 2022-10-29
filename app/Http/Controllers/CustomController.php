@@ -634,7 +634,6 @@ class CustomController extends Controller
 				isset($antrian) &&
 				!is_null($antrian->no_telp)
 			) {
-                dd( 'this is it' );
 				$message = "*Klinik Jati Elok*";
 				$message .= PHP_EOL;
 				$message .= "===================";
@@ -664,7 +663,7 @@ class CustomController extends Controller
                     ]
                 ];
 				$wa = new WablasController;
-				$wa->sendButton($payload);
+				dd( $wa->sendButton($payload) );
 			}
 			$antriankasir->delete();
 
