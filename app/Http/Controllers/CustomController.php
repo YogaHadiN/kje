@@ -664,7 +664,6 @@ class CustomController extends Controller
 
                 $wablas = new WablasController;
                 $wablas->sendButton($payload);
-                dd( 'this' );
 			}
 			$antriankasir->delete();
 
