@@ -639,7 +639,7 @@ class CustomController extends Controller
 				$message .= PHP_EOL;
 				$message .= "===================";
 				$message .= PHP_EOL;
-				$message .= "Terima kasih telah mempercayakan kami sebagai tempat berobat Anda";
+				$message .= "Terima kasih atas kepercayaan Anda memilih kami";
 				$message .= PHP_EOL;
 				$message .= "Mohon agar dapat memberikan penilaian pelayanan kami";
 				$message .= PHP_EOL;

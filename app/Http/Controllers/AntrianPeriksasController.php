@@ -77,36 +77,36 @@ class AntrianPeriksasController extends Controller
     public $previous_complaint_resolved;
 
 	public function __construct() {
-		$this->input_antrian_id          = Input::get('antrian_id');
-		$this->input_antrian_poli_id     = Input::get('antrian_poli_id');
-		$this->input_sistolik            = Input::get('sistolik');
-		$this->input_diastolik           = Input::get('diastolik');
-		$this->input_kecelakaan_kerja    = Input::get('kecelakaan_kerja');
-		$this->input_asuransi_id         = Input::get('asuransi_id');
-		$this->input_berat_badan         = Input::get('berat_badan');
-		$this->input_hamil               = Input::get('hamil');
-		$this->input_asisten_id          = Input::get('asisten_id');
-		$this->input_pasien_id           = Input::get('pasien_id');
-		$this->input_poli_id                = Input::get('poli_id');
-		$this->input_staf_id             = Input::get('staf_id');
-		$this->input_jam                 = Input::get('jam');
-		$this->input_menyusui            = Input::get('menyusui');
-		$this->input_bukan_peserta       = Input::get('bukan_peserta');
-		$this->input_riwayat_alergi_obat = Input::get('riwayat_alergi_obat');
-		$this->input_suhu                = Input::get('suhu');
-		$this->input_G                   = Input::get('G');
-		$this->input_P                   = Input::get('P');
-		$this->input_A                   = Input::get('A');
+		$this->input_antrian_id            = Input::get('antrian_id');
+		$this->input_antrian_poli_id       = Input::get('antrian_poli_id');
+		$this->input_sistolik              = Input::get('sistolik');
+		$this->input_diastolik             = Input::get('diastolik');
+		$this->input_kecelakaan_kerja      = Input::get('kecelakaan_kerja');
+		$this->input_asuransi_id           = Input::get('asuransi_id');
+		$this->input_berat_badan           = Input::get('berat_badan');
+		$this->input_hamil                 = Input::get('hamil');
+		$this->input_asisten_id            = Input::get('asisten_id');
+		$this->input_pasien_id             = Input::get('pasien_id');
+		$this->input_poli_id               = Input::get('poli_id');
+		$this->input_staf_id               = Input::get('staf_id');
+		$this->input_jam                   = Input::get('jam');
+		$this->input_menyusui              = Input::get('menyusui');
+		$this->input_bukan_peserta         = Input::get('bukan_peserta');
+		$this->input_riwayat_alergi_obat   = Input::get('riwayat_alergi_obat');
+		$this->input_suhu                  = Input::get('suhu');
+		$this->input_G                     = Input::get('G');
+		$this->input_P                     = Input::get('P');
+		$this->input_A                     = Input::get('A');
 		$this->input_sex                   = Input::get('sex');
-		$this->input_hpht                = Input::get('hpht');
-	    $this->input_tanggal             = Input::get('tanggal');
-		$this->input_tinggi_badan        = Input::get('tinggi_badan');
-		$this->input_gds                 = Input::get('gds');
-		$this->input_tekanan_darah       = Input::get('tekanan_darah');
-		$this->input_perujuk_id       = Input::get('perujuk_id');
-        $this->input_g = Input::get('G');
-        $this->input_a = Input::get('A');
-        $this->input_p = Input::get('P');
+		$this->input_hpht                  = Input::get('hpht');
+	    $this->input_tanggal               = Input::get('tanggal');
+		$this->input_tinggi_badan          = Input::get('tinggi_badan');
+		$this->input_gds                   = Input::get('gds');
+		$this->input_tekanan_darah         = Input::get('tekanan_darah');
+		$this->input_perujuk_id            = Input::get('perujuk_id');
+        $this->input_g                     = Input::get('G');
+        $this->input_a                     = Input::get('A');
+        $this->input_p                     = Input::get('P');
         $this->previous_complaint_resolved = Input::get('previous_complaint_resolved');
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
         /* $this->middleware('super', ['only' => ['delete','update']]); */
@@ -506,7 +506,8 @@ class AntrianPeriksasController extends Controller
 
             $ap->antars()->createMany($masukkan_sebagai_pengantar);
 
-            $antrian                 = $this->input_antrianpoli->antrian;
+            $antrian                 = Antrian::find( $this->antrian_id );
+
             if(isset($antrian)){
                 $antrian->antriable_id   = $ap->id;
                 $antrian->antriable_type = 'App\\Models\\AntrianPeriksa';

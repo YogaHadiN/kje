@@ -31,6 +31,7 @@ class RuangPeriksaController extends Controller
 			}
 			$poli_ids .=  "'" .$poli->poli_id. "'";
 		}
+        /* dd( $poli_ids ); */
 
 		$query  = "SELECT ";
 		$query .= "po.poli as poli, ";
@@ -45,6 +46,7 @@ class RuangPeriksaController extends Controller
 		$query .= "apx.staf_id as staf_id, ";
 		$query .= "ant.created_at as created_at, ";
 		$query .= "ant.id as antrian_id, ";
+		$query .= "ant.antriable_id as antriable_id, ";
 		$query .= "apx.tanggal as tanggal, ";
 		$query .= "apx.jam as jam, ";
 		$query .= "apx.id as id, ";
@@ -60,14 +62,17 @@ class RuangPeriksaController extends Controller
 		$query .= "JOIN stafs as stf on stf.id = apx.staf_id ";
 		$query .= "JOIN polis as po on po.id = apx.poli_id ";
 		$query .= "JOIN asuransis as asu on asu.id = apx.asuransi_id ";
-		$query .= "WHERE (ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' or ant.antriable_type is null) ";
+		/* $query .= "WHERE (ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' or ant.antriable_type is null) "; */
 		$query .= "AND apx.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND apx.poli_id in ({$poli_ids}) ";
 		$query .= "GROUP BY apx.id ";
 		$query .= "ORDER BY ant.id ASC ";
 
+
+
 		/* dd( $query ); */
 		$antrian_periksas = DB::select($query);
+        dd( $antrian_periksas );
 		/* dd( $antrian_periksas ); */
 
 

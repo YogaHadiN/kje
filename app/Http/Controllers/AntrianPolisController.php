@@ -32,6 +32,7 @@ use DB;
 class AntrianPolisController extends Controller
 {
 	public $input_pasien_id;
+	public $input_antrian;
 	public $input_asuransi_id;
 	public $input_poli_id;
 	public $input_staf_id;
@@ -51,6 +52,7 @@ class AntrianPolisController extends Controller
 		$this->input_tanggal       = Yoga::datePrep( Input::get('tanggal') );
 		$this->input_bukan_peserta = Input::get('bukan_peserta');
         $this->asuransi_is_bpjs    = !empty( Input::get('asuransi_id') ) ? Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id == 5: false;
+        $this->input_antrian = null;
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
     }
 	/**
@@ -201,9 +203,11 @@ class AntrianPolisController extends Controller
 			//cek jika antrian sudah tidak ada, maka jangan dilanjutkan
 			//
 			//
+            $this->input_antrian = !is_null($this->input_antrian_id) ? Antrian::find( $this->input_antrian_id ) : null;
+
 			if (
 				!is_null($this->input_antrian_id) &&
-				is_null( Antrian::find($this->input_antrian_id) )
+				is_null( $this->input_antrian )
 			) {
 				$pesan = Yoga::gagalFlash('Antrian tidak ditemukan, mungkin tidak sengaja terhapus');
 				return redirect('antrians')->withPesan($pesan);
@@ -213,10 +217,9 @@ class AntrianPolisController extends Controller
 			//
 
             $nursestation_available = \Auth::user()->tenant->nursestation_availability;
-            $antrian = !is_null($this->input_antrian_id) ? Antrian::find( $this->input_antrian_id ) : null;
             $ap = null;
             if (
-                (!is_null($antrian) &&( $antrian->jenis_antrian_id == 7 || $antrian->jenis_antrian_id == 8)) ||
+                (!is_null($this->input_antrian) &&( $this->input_antrian->jenis_antrian_id == 7 || $this->input_antrian->jenis_antrian_id == 8)) ||
                 !\Auth::user()->tenant->nursestation_availability
             ) {
                 $this->inputAntrianPeriksa();
@@ -431,9 +434,10 @@ class AntrianPolisController extends Controller
         $apx                         = new AntrianPeriksasController;
         $apx->input_jam              = date('H:i:s');
         $apx->input_hamil            = 0;
+        $apx->input_poli_id          = Input::get('poli_id');
         $apx->input_kecelakaan_kerja = 0;
+        $apx->input_antrian_id       = $this->input_antrian->id;
         $apx->input_asisten_id       = Staf::owner()->id;
         return $apx->inputData();
     }
-    
 }
