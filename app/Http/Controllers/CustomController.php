@@ -643,27 +643,27 @@ class CustomController extends Controller
 				$message .= "Mohon agar dapat memberikan penilaian pelayanan kami";
 				$message .= PHP_EOL;
 				$message .= "Agar kami dapat melayani Anda dengan lebih baik lagi ke depannya";
-
                 $payload = [
-                    "data" => [
-                        [
-                            'phone' => $antrian->no_telp,
-                            'message' => [
-                                'buttons' => [
-                                    "Sangat Baik (PXID" . $antrian->id . ")",
-                                    "Baik (PXID" . $antrian->id . ")",
-                                    "Biasa (PXID" . $antrian->id . ")",
-                                    "Buruk (PXID" . $antrian->id . ")",
-                                    "Sangat Buruk (PXID" . $antrian->id . ")",
-                                ],
-                                'content' => $message,
-                                'footer' => '',
+                    [
+                        'phone' => $no_wa,
+                        'message' => [
+                            'buttons' => [
+                                "Sangat Baik (PXID" . $antrian->id . ")",
+                                "Baik (PXID" . $antrian->id . ")",
+                                "Biasa (PXID" . $antrian->id . ")",
+                                "Buruk (PXID" . $antrian->id . ")",
+                                "Sangat Buruk (PXID" . $antrian->id . ")",
                             ],
-                        ]
+                            'content' =>$message,
+                            'footer' => '',
+                        ],
                     ]
                 ];
-				$wa = new WablasController;
-				dd( $wa->sendButton($payload) );
+                dd( $message, $antrian->no_telp, $payload );
+
+
+                $wablas = new WablasController;
+                $wablas->sendButton($payload);
 			}
 			$antriankasir->delete();
 
