@@ -48,6 +48,8 @@ class Antrian extends Model
             return Asuransi::BiayaPribadi()->id;
         } else if( $registrasi_pembayaran_id == 2 ) {
             return Asuransi::BPJS()->id;
+        } else{
+            return null;
         }
     }
     
