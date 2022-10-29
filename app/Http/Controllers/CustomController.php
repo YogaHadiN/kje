@@ -634,7 +634,6 @@ class CustomController extends Controller
 				isset($antrian) &&
 				!is_null($antrian->no_telp)
 			) {
-
 				$message = "*Klinik Jati Elok*";
 				$message .= PHP_EOL;
 				$message .= "===================";

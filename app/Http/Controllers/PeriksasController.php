@@ -374,7 +374,6 @@ class PeriksasController extends Controller
 	public function uploadBerkas($id){
 
 		if(Input::hasFile('file')) {
-
 			$nama_file               = Input::get('nama_file');
 			$upload_cover            = Input::file('file');
 			$extension               = $upload_cover->getClientOriginalExtension();

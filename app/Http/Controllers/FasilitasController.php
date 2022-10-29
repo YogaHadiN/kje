@@ -326,6 +326,9 @@ class FasilitasController extends Controller
         $no_wa =  Input::get('no_wa') ;
         if ( !empty( $no_wa ) ) {
 
+            $antrian->no_telp = $no_wa;
+            $antrian->save();
+
             $no_wa = convertToDatabaseFriendlyPhoneNumber($no_wa);
             $wab             = new WhatsappRegistration;
             $wab->no_telp    = $no_wa;

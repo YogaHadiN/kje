@@ -177,7 +177,7 @@
                   <div class="modal-dialog modal-ku" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Masukkan Nomor Whatsapp Anda</h4>
+                        <h3 class="modal-title" id="myModalLabel">Masukkan Nomor Handphone Anda</h3>
                       </div>
                       <div class="modal-body">
                           <div class="row">
