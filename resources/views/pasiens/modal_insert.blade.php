@@ -95,7 +95,7 @@
 			<div class="col-lg-6 col-md-6">
 				<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 				  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
-					{!! Form::text('no_telp', null, ['class' => 'form-control hh phone'])!!}
+					{!! Form::text('no_telp', !isset($pasien) && isset($antrian->no_telp)? $antrian->no_telp : null , ['class' => 'form-control hh phone'])!!}
 				  @if($errors->has('no_telp'))<code>{!! $errors->first('no_telp') !!}</code>@endif
 				</div>
 			</div>
