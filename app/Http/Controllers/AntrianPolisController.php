@@ -38,6 +38,7 @@ class AntrianPolisController extends Controller
 	public $input_staf_id;
 	public $input_tanggal;
 	public $input_jam;
+	public $input_pasien;
 	public $input_kecelakaan_kerja;
 	public $input_self_register;
 	public $input_bukan_peserta;
@@ -116,11 +117,11 @@ class AntrianPolisController extends Controller
 	{
 		DB::beginTransaction();
 		try {
-			$pasien           = Pasien::find(Input::get('pasien_id'));
+			$this->input_pasien           = Pasien::find(Input::get('pasien_id'));
 
 			/* Jika pasien belum difoto, arahkan ke search pasien */
 			if (
-				empty($pasien->image)
+				empty($this->input_pasien->image)
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus dimasukkan terlebih dahulu');
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
@@ -128,10 +129,10 @@ class AntrianPolisController extends Controller
 			}
 			/* Jika pasien memiliki KTP dan nomor ktp belum diisi */
 			if (
-				!is_null( $pasien->ktp_image )  	// jika ktp_image tidak null
-				&& !empty( $pasien->ktp_image ) 	// jika ktp_image tidak empty
-				&& Storage::disk('s3')->exists( $pasien->ktp_image )  // ditemukan di database
-				&& (empty($pasien->nomor_ktp) || is_null($pasien->nomor_ktp))  // dan nomor ktp masih kogong
+				!is_null( $this->input_pasien->ktp_image )  	// jika ktp_image tidak null
+				&& !empty( $this->input_pasien->ktp_image ) 	// jika ktp_image tidak empty
+				&& Storage::disk('s3')->exists( $this->input_pasien->ktp_image )  // ditemukan di database
+				&& (empty($this->input_pasien->nomor_ktp) || is_null($this->input_pasien->nomor_ktp))  // dan nomor ktp masih kogong
 			) {
 				$pesan = Yoga::gagalFlash('Nomor KTP harus diisi terlebih dahulu sebelum dilanjutkan, gunakan foto KTP'); // Nomor KTP harus diisi
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withPesan($pesan);
@@ -139,8 +140,8 @@ class AntrianPolisController extends Controller
 
 			/* Jika pasien berusia kurang dari 15 tahun dan terakhir di update lebih dari satu tahun yang lalu, update foto pasien */
 			if (
-				$pasien->usia < 15 && // jika usia pasien kurang dari 15 tahun
-				Carbon::now()->subYears(1)->greaterThan( $pasien->updated_at )
+				$this->input_pasien->usia < 15 && // jika usia pasien kurang dari 15 tahun
+				Carbon::now()->subYears(1)->greaterThan( $this->input_pasien->updated_at )
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 1 tahun');
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
@@ -149,8 +150,8 @@ class AntrianPolisController extends Controller
 
 			/* Jika pasien berusia lebih dari 15 tahun dan terakhir di update lebih dari 5 tahun yang lalu, update foto pasien */
 			if (
-				$pasien->usia > 15 && // jika usia pasien lebih dari 15 tahun
-				Carbon::now()->subYears(5)->greaterThan( $pasien->updated_at ) // dan lebih dari 5 tahun yang lalu diupdate
+				$this->input_pasien->usia > 15 && // jika usia pasien lebih dari 15 tahun
+				Carbon::now()->subYears(5)->greaterThan( $this->input_pasien->updated_at ) // dan lebih dari 5 tahun yang lalu diupdate
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 5 tahun');
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
@@ -160,7 +161,7 @@ class AntrianPolisController extends Controller
 			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
 			if (
 				$this->asuransi_is_bpjs && // pasien bpjs
-				(empty($pasien->ktp_image) && $pasien->usia >= 18) // jika usia > 18 tahun tapi tidak bawa KTP
+				(empty($this->input_pasien->ktp_image) && $this->input_pasien->usia >= 18) // jika usia > 18 tahun tapi tidak bawa KTP
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>gambar KTP pasien (bila DEWASA) </strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
@@ -170,7 +171,7 @@ class AntrianPolisController extends Controller
 			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
 			if (
 				$this->asuransi_is_bpjs && // pasien bpjs
-				(empty($pasien->nomor_asuransi_bpjs) && is_null($pasien->nomor_asuransi_bpjs)) // jika usia > 18 tahun tapi tidak bawa KTP
+				(empty($this->input_pasien->nomor_asuransi_bpjs) && is_null($this->input_pasien->nomor_asuransi_bpjs)) // jika usia > 18 tahun tapi tidak bawa KTP
 			) {
 				$pesan = Yoga::gagalFlash('Nomor Asuransi BPJS harus diisi');
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
@@ -180,7 +181,7 @@ class AntrianPolisController extends Controller
 			/* Jika pasien BPJS dan tidak membawa kartu BPJS */
 			if (
 				$this->asuransi_is_bpjs && // pasien bpjs
-				empty($pasien->bpjs_image) //jika kartu bpjs masih kosong
+				empty($this->input_pasien->bpjs_image) //jika kartu bpjs masih kosong
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>Kartu BPJS</strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
 				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
@@ -434,6 +435,7 @@ class AntrianPolisController extends Controller
         $apx                         = new AntrianPeriksasController;
         $apx->input_jam              = date('H:i:s');
         $apx->input_hamil            = 0;
+        $apx->input_pasien            = $this->input_pasien;
         $apx->input_poli_id          = Input::get('poli_id');
         $apx->input_kecelakaan_kerja = 0;
         $apx->input_antrian_id       = $this->input_antrian->id;

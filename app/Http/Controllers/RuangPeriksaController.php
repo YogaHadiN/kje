@@ -68,11 +68,7 @@ class RuangPeriksaController extends Controller
 		$query .= "GROUP BY apx.id ";
 		$query .= "ORDER BY ant.id ASC ";
 
-
-
-		/* dd( $query ); */
 		$antrian_periksas = DB::select($query);
-        dd( $antrian_periksas );
 		/* dd( $antrian_periksas ); */
 
 

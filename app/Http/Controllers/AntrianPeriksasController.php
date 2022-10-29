@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use DB;
 use Bitly;
 use App\Models\Asuransi;
+use App\Models\Antrian;
 use App\Models\HubunganKeluarga;
 use App\Models\VerifikasiWajah;
 use App\Rules\cekGDSDiNurseStationRequired;
@@ -464,64 +465,67 @@ class AntrianPeriksasController extends Controller
         $ap->perujuk_id                  = $this->input_perujuk_id;
         $ap->save();
 
-        if (isset( $this->input_antrianpoli )) {
-            $antrian_poli_id = $this->input_antrian_poli_id;
-            $pasien          = $this->input_pasien;
-            $pasien->sex     = $this->input_sex;
-            $pasien->save();
+        /* if (isset( $this->input_antrianpoli )) { */
+        $pasien          = $this->input_pasien;
+        $pasien->sex     = $this->input_sex;
+        $pasien->save();
 
-            $families = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->get();
-            $pasien_ids_anggota_keluarga = [];
-            foreach ($families as $f) {
-                $pasien_ids_anggota_keluarga[] = $f->id;
-            }
-            $pengantars = Input::get('pengantars');
-            $pengantars = json_decode($pengantars, true);
-            $masukkan_dalam_daftar_keluarga = [];
-            $masukkan_sebagai_pengantar = [];
-            foreach ($pengantars as $pengantar) {
-                if (!in_array($pengantar['pasien_id'], $pasien_ids_anggota_keluarga)) {
-                    $masukkan_dalam_daftar_keluarga[] = $pengantar['pasien_id'];
-                }
-                $masukkan_sebagai_pengantar[] = [
-                    'pengantar_id' => $pengantar['pasien_id'],
-                    'kunjungan_sehat' => 1,
-                    'pcare_submit' => 0,
-                ];
-                $pengantar_pasien                       = Pasien::find( $pengantar['pasien_id'] );
-                $pengantar_pasien->hubungan_keluarga_id = $pengantar['hubungan_keluarga_id'];
-                $pengantar_pasien->save();
-            }
-
-
-            Pasien::whereIn('id', $masukkan_dalam_daftar_keluarga)->update([
-                'kepala_keluarga_id' => $pasien->kepala_keluarga_id
-            ]);
-
-            $newKepalaKeluarga = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->orderBy('hubungan_keluarga_id', 'asc')->first();
-
-            Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->update([
-                'kepala_keluarga_id' => $newKepalaKeluarga->id
-            ]);
-
-            $ap->antars()->createMany($masukkan_sebagai_pengantar);
-
-            $antrian                 = Antrian::find( $this->antrian_id );
-
-            if(isset($antrian)){
-                $antrian->antriable_id   = $ap->id;
-                $antrian->antriable_type = 'App\\Models\\AntrianPeriksa';
-                $antrian->save();
-            }
-            $this->input_antrianpoli->delete();
-
-            $promo = Promo::where('promoable_type' , 'App\Models\AntrianPoli')->where('promoable_id', $antrian_poli_id)->first() ;
-            if ( $promo ) {
-                $promo->promoable_type = 'App\AntrianPeriksa';
-                $promo->promoable_id = $ap->id;
-                $promo->save();
-            }
+        $families = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->get();
+        $pasien_ids_anggota_keluarga = [];
+        foreach ($families as $f) {
+            $pasien_ids_anggota_keluarga[] = $f->id;
         }
+        $pengantars = is_null(Input::get('pengantars'))? '[]': Input::get('pengantars');
+        $pengantars = json_decode($pengantars, true);
+        $masukkan_dalam_daftar_keluarga = [];
+        $masukkan_sebagai_pengantar = [];
+        foreach ($pengantars as $pengantar) {
+            if (!in_array($pengantar['pasien_id'], $pasien_ids_anggota_keluarga)) {
+                $masukkan_dalam_daftar_keluarga[] = $pengantar['pasien_id'];
+            }
+            $masukkan_sebagai_pengantar[] = [
+                'pengantar_id' => $pengantar['pasien_id'],
+                'kunjungan_sehat' => 1,
+                'pcare_submit' => 0,
+            ];
+            $pengantar_pasien                       = Pasien::find( $pengantar['pasien_id'] );
+            $pengantar_pasien->hubungan_keluarga_id = $pengantar['hubungan_keluarga_id'];
+            $pengantar_pasien->save();
+        }
+
+
+        Pasien::whereIn('id', $masukkan_dalam_daftar_keluarga)->update([
+            'kepala_keluarga_id' => $pasien->kepala_keluarga_id
+        ]);
+
+        $newKepalaKeluarga = Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->orderBy('hubungan_keluarga_id', 'asc')->first();
+
+        Pasien::where('kepala_keluarga_id', $pasien->kepala_keluarga_id)->update([
+            'kepala_keluarga_id' => $newKepalaKeluarga->id
+        ]);
+
+        $ap->antars()->createMany($masukkan_sebagai_pengantar);
+
+        $antrian                 = Antrian::find( $this->input_antrian_id );
+
+        if(isset($antrian)){
+            $antrian->antriable_id   = $ap->id;
+            $antrian->antriable_type = 'App\\Models\\AntrianPeriksa';
+            $antrian->save();
+        }
+        if (!is_null( $this->input_antrianpoli )) {
+            $this->input_antrianpoli->delete();
+        }
+
+        $antrian_poli_id = $this->input_antrian_poli_id;
+
+        $promo = Promo::where('promoable_type' , 'App\Models\AntrianPoli')->where('promoable_id', $antrian_poli_id)->first() ;
+        if ( $promo ) {
+            $promo->promoable_type = 'App\Models\AntrianPeriksa';
+            $promo->promoable_id = $ap->id;
+            $promo->save();
+        }
+        /* } */
     }
 
     /**
