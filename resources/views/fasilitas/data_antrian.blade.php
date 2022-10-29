@@ -22,7 +22,7 @@
 		@if (isset($antrian->registrasi_pembayaran_id))
 			<tr>
 				<td nowrap>Pembayaran</td>
-                <td nowrap>{{ $antrian->registrasi_pembayaran->registrasi_pembayaran }}</td>
+                <td nowrap>{{ $antrian->registrasi_pembayaran->pembayaran }}</td>
 			</tr>
 		@endif
 		@if (isset($antrian->nomor_asuransi))
