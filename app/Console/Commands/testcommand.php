@@ -48,6 +48,8 @@ use App\Models\Pasien;
 use App\Models\Invoice;
 use App\Models\Terapi;
 use App\Models\AntrianPeriksa;
+use App\Models\AntrianKasir;
+use App\Models\AntrianApotek;
 use App\Models\Tarif;
 use App\Models\DataDuplikat;
 use App\Models\FakturBelanja;
@@ -122,7 +124,28 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
-        dd( convertToDatabaseFriendlyPhoneNumber('081381912803') );
+        $deleted = 0;
+        foreach (AntrianKasir::all() as $ak) {
+            if ( is_null($ak->periksa) ) {
+                $deleted++;
+                $ak->delete();
+            }
+        }
+        foreach (AntrianApotek::all() as $ak) {
+            if ( is_null($ak->periksa) ) {
+                $deleted++;
+                $ak->delete();
+            }
+        }
+
+        $jurnal_umums = JurnalUmum::where('created_at', 'like', '2022-10-29%')->get();
+        foreach ($jurnal_umums as $ju) {
+            if (is_null($ju->jurnalable)) {
+                $ju->delete();
+                $deleted++;
+            }
+        }
+        dd( $deleted );
     }
     
     public function obatTenant()
