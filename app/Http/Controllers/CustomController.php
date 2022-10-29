@@ -641,8 +641,6 @@ class CustomController extends Controller
 				$message .= "Terima kasih atas kepercayaan Anda memilih kami";
 				$message .= PHP_EOL;
 				$message .= "Mohon agar dapat memberikan penilaian pelayanan kami";
-				$message .= PHP_EOL;
-				$message .= "Agar kami dapat melayani Anda dengan lebih baik lagi";
                 $payload = [
                     [
                         'phone' => $antrian->no_telp,

@@ -325,6 +325,7 @@ class FasilitasController extends Controller
         $qr_code = $qr->inPdf('https://wa.me/6282113781271?text=' . $kode_unik);
         $no_wa =  Input::get('no_wa') ;
         if ( !empty( $no_wa ) ) {
+            Log::info('328');
             $no_wa = convertToDatabaseFriendlyPhoneNumber($no_wa);
 
             $antrian->no_telp = $no_wa;
