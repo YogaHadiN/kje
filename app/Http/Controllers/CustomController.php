@@ -642,7 +642,7 @@ class CustomController extends Controller
 				$message .= PHP_EOL;
 				$message .= "Mohon agar dapat memberikan penilaian pelayanan kami";
 				$message .= PHP_EOL;
-				$message .= "Agar kami dapat melayani Anda dengan lebih baik lagi ke depannya";
+				$message .= "Agar kami dapat melayani Anda dengan lebih baik lagi";
                 $payload = [
                     [
                         'phone' => $antrian->no_telp,
@@ -681,11 +681,6 @@ class CustomController extends Controller
 			$this->massUpdate($rak_updates);
 			$this->massUpdate($bukan_peserta_updates);
 			$this->massUpdate($rujukan_updates);
-
-            /* dd( */ 
-            /*     $periksa->tunai, */
-            /*     JurnalUmum::where('nilai', $periksa->tunai)->count() */
-            /* ); */
 
 			DB::commit();
 

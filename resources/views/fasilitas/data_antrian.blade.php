@@ -19,10 +19,10 @@
 				<td nowrap>{{ $antrian->alamat }}</td>
 			</tr>
 		@endif
-		@if (isset($antrian->nama_asuransi))
+		@if (isset($antrian->registrasi_pembayaran_id))
 			<tr>
 				<td nowrap>Pembayaran</td>
-				<td nowrap>{{ $antrian->nama_asuransi }}</td>
+                <td nowrap>{{ $antrian->registrasi_pembayaran->registrasi_pembayaran }}</td>
 			</tr>
 		@endif
 		@if (isset($antrian->nomor_asuransi))
