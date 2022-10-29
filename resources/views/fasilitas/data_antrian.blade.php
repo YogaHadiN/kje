@@ -23,7 +23,6 @@
 			<tr>
 				<td nowrap>Pembayaran</td>
                 <td nowrap>{{ $antrian->registrasi_pembayaran->pembayaran }}</td>
-                <td nowrap>{{ $antrian->registrasi_pembayaran_id }}</td>
 			</tr>
 		@endif
 		@if (isset($antrian->nomor_asuransi))

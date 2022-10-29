@@ -42,7 +42,7 @@ class Antrian extends Model
 	public function getIsTodayAttribute(){
 		return $this->created_at->format('Y-m-d') == date('Y-m-d');
 	}
-    public function getAsuransiIdByRegistrasiPembayaranId(){
+    public function getAsuransiIdByRegistrasiPembayaranIdAttribute(){
         $registrasi_pembayaran_id = $this->registrasi_pembayaran_id;
         if ( $registrasi_pembayaran_id == 1 ) {
             return Asuransi::BiayaPribadi()->id;
