@@ -645,7 +645,7 @@ class CustomController extends Controller
 				$message .= "Agar kami dapat melayani Anda dengan lebih baik lagi ke depannya";
                 $payload = [
                     [
-                        'phone' => $no_wa,
+                        'phone' => $antrian->no_telp,
                         'message' => [
                             'buttons' => [
                                 "Sangat Baik (PXID" . $antrian->id . ")",
