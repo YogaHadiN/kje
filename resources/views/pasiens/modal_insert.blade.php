@@ -113,7 +113,7 @@
 			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 				<div class="form-group @if($errors->has('asuransi_id'))has-error @endif">
 					{!! Form::label('asuransi_id', 'Asuransi', ['class' => 'control-label']) !!}
-					{!!Form::select('asuransi_id', $asuransi, null, [
+					{!!Form::select('asuransi_id', $asuransi, !isset($pasien) && && isset($antrian) && !empty($antrian->registrasi_pembayaran_id)? $antrian->asuransi_id_by_registrasi_pembayaran_id, [
 						'class'            => 'form-control selectpick',
 						'id'               => 'asuransi_id',
 					  'onchange'         => 'cekNomorBpjsSama($("#nomor_asuransi"))',

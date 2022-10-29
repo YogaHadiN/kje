@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\BelongsToTenant; 
+use App\Models\Asuransi;
 
 class Antrian extends Model
 {
@@ -41,4 +42,13 @@ class Antrian extends Model
 	public function getIsTodayAttribute(){
 		return $this->created_at->format('Y-m-d') == date('Y-m-d');
 	}
+    public function getAsuransiIdByRegistrasiPembayaranId(){
+        $registrasi_pembayaran_id = $this->registrasi_pembayaran_id;
+        if ( $registrasi_pembayaran_id == 1 ) {
+            return Asuransi::BiayaPribadi()->id;
+        } else if( $registrasi_pembayaran_id == 2 ) {
+            return Asuransi::BPJS()->id;
+        }
+    }
+    
 }
