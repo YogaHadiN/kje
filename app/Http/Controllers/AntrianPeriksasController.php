@@ -506,7 +506,7 @@ class AntrianPeriksasController extends Controller
 
         $ap->antars()->createMany($masukkan_sebagai_pengantar);
 
-        $antrian                 = Antrian::find( $this->input_antrian_id );
+        $antrian =!is_null( $this->input_antrianpoli)? $this->input_antrianpoli->antrian :Antrian::find( $this->input_antrian_id );  
 
         if(isset($antrian)){
             $antrian->antriable_id   = $ap->id;

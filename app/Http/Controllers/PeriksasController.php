@@ -358,6 +358,7 @@ class PeriksasController extends Controller
                     'antarable_id' => $antrianapotek->id,
                     'antarable_type' => 'App\Models\AntrianApotek'
                 ]);
+            dd( 361, $antrian_periksa_id );
 
             Antrian::where('antriable_id', $antrian_periksa_id)
                 ->where('antriable_type', 'App\Models\AntrianPeriksa')
