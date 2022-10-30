@@ -660,8 +660,8 @@ class CustomController extends Controller
                 /* dd( $message, $antrian->no_telp, $payload ); */
 
 
-                $wablas = new WablasController;
-                $wablas->sendButton($payload);
+                /* $wablas = new WablasController; */
+                /* $wablas->sendButton($payload); */
 			}
 			$antriankasir->delete();
 
