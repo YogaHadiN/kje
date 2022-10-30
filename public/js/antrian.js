@@ -31,14 +31,21 @@ function submitAntrian(jenis_antrian_id, no_wa) {
             $("#qr_code").attr("src", qr_code);
             $("#timestamp").html(timestamp);
 
+            var info_text =
+                $.trim(no_wa).length == 0
+                    ? jenis_antrian
+                    : jenis_antrian +
+                      " <br />" +
+                      " <br />" +
+                      " Mohon periksa pesan di whatsapp anda";
             $(":button").prop("disabled", false);
             window.print();
             Swal.fire({
                 icon: "success",
                 title: nomor_antrian,
-                text: jenis_antrian,
+                html: info_text,
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2500,
             });
 
             $("#nomor_bpjs").val("");
@@ -84,16 +91,27 @@ function toggleBackspace(newNumber) {
 }
 
 function lanjutkan(control) {
-    var no_wa = $.trim($("#no_wa").html());
-    var jenis_antrian_id = $("#jenis_antrian_id").val();
-    $("#no_wa").html("");
-    $("#jenis_antrian_id").val("");
-    submitAntrian(jenis_antrian_id, no_wa);
+    no_wa = $.trim($("#no_wa").html());
+    if (no_wa.length > 9) {
+        var jenis_antrian_id = $("#jenis_antrian_id").val();
+        $("#no_wa").html("");
+        $("#jenis_antrian_id").val("");
+        $("#backspace").hide();
+        submitAntrian(jenis_antrian_id, no_wa);
+    } else {
+        Swal.fire({
+            icon: "error",
+            text: "Format Nomor handphone salah",
+            showConfirmButton: false,
+            timer: 2500,
+        });
+    }
 }
 
 function lewati(control) {
     var jenis_antrian_id = $("#jenis_antrian_id").val();
     $("#no_wa").html("");
     $("#jenis_antrian_id").val("");
+    $("#backspace").hide();
     submitAntrian(jenis_antrian_id, null);
 }

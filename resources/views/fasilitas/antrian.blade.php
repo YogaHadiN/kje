@@ -16,6 +16,18 @@
 		.text-center {
 			text-align: center;
 		}
+        .link-button {
+          background: none!important;
+          border: none;
+          padding: 0!important;
+          font-family: arial, sans-serif;
+          color: red;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+        .swal2-html-container {
+            font-size: 20px;
+        }
 		.fit-width{
 			width: 100%;
 		}
@@ -23,6 +35,12 @@
             padding:20px 40px;
             font-size: 40px;
             border-radius: 20px;
+        }
+        .modal-body {
+            padding-bottom: 0px !important;
+        }
+        #no_wa {
+            height: 50px;
         }
         .vertical-center {
           margin: 0;
@@ -120,7 +138,7 @@
 		}
 		h1{
 			font-size: 100px !important;
-			margin-bottom : 50px;
+			margin-bottom : 0px;
 		}
 		h2{
 			font-size: 75px !important;
@@ -245,11 +263,16 @@
                       </div>
                       <div class="modal-footer">
                           <div class="row">
-                              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <button type="button" onclick="lewati(this);return false;" class="btn btn-danger btn-block btn-lg" data-dismiss="modal">Lewati</button>
-                              </div>
-                              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <button type="button" onclick="lanjutkan(this);return false;" class="btn btn-primary btn-block btn-lg">Lanjutkan</button>
+                              </div>
+                          </div>
+                          <br>
+                          <div class="row text-center">
+                              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                  <h4>
+                                    <button type="button" onclick="lewati(this);return false;" class="link-button" data-dismiss="modal">Lewati</button>
+                                  </h4>
                               </div>
                           </div>
                       </div>
@@ -258,15 +281,15 @@
                 </div>
 			<br>
 			<hr>
-			<div class="row text-center">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<div class="alert alert-info">
-						<h3>
-							Peserta BPJS <small>yang berobat ke </small>Dokter Umum <small>silahkan Scan Kartu / Barcode Aplikasi untuk mendapatkan Nomor Antrian</small>
-						</h3>
-					</div>
-				</div>
-			</div>
+			{{-- <div class="row text-center"> --}}
+			{{-- 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> --}}
+			{{-- 		<div class="alert alert-info"> --}}
+			{{-- 			<h3> --}}
+			{{-- 				Peserta BPJS <small>yang berobat ke </small>Dokter Umum <small>silahkan Scan Kartu / Barcode Aplikasi untuk mendapatkan Nomor Antrian</small> --}}
+			{{-- 			</h3> --}}
+			{{-- 		</div> --}}
+			{{-- 	</div> --}}
+			{{-- </div> --}}
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<br />
