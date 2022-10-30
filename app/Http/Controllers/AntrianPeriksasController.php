@@ -55,6 +55,7 @@ class AntrianPeriksasController extends Controller
 	public $input_hamil;
 	public $input_asisten_id;
 	public $input_pasien_id;
+	public $input_pasien;
 	public $input_poli_id;
 	public $input_staf_id;
 	public $input_jam;
@@ -527,6 +528,7 @@ class AntrianPeriksasController extends Controller
             $promo->promoable_id = $ap->id;
             $promo->save();
         }
+        return $ap;
         /* } */
     }
 

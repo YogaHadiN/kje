@@ -18,7 +18,7 @@ class RuangPeriksaController extends Controller
 	private $poli_list;
 	public function __construct(){
 		$this->staf_list = Yoga::stafList();
-		$this->poli_list = Poli::pluck('poli', 'id')->all();
+		$this->poli_list = Poli::pluck('poli', 'id');
         $this->middleware('backIfNotFound', ['only' => ['index']]);
 	}
 

@@ -724,10 +724,10 @@ class PolisController extends Controller
 		$apc->updateJumlahAntrian($panggil_pasien, $ruangan);
 
         $wa = new WablasController;
-        $data =  $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian);
-        if (count($data)) {
-            $wa->bulkSend($data);
-        }
+        /* $data =  $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian); */
+        /* if (count($data)) { */
+        /*     $wa->bulkSend($data); */
+        /* } */
 
 		return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
 	}

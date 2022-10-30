@@ -134,7 +134,7 @@ class PasiensController extends Controller
                 $poli_gawat_darurat->id => $poli_gawat_darurat->poli
             ];
         } else if ( !$nursestation_available ) {
-            $this->dataCreatePasien['poli']= Poli::pluck('poli');
+            $this->dataCreatePasien['poli']= Poli::pluck('poli', 'id');
         }
         $this->dataCreatePasien['verifikasi_prolanis_options']= VerifikasiProlanis::pluck( 'verifikasi_prolanis', 'id');
         $this->dataCreatePasien['pasienSurvey']= $this->pasienSurvey();
@@ -164,12 +164,13 @@ class PasiensController extends Controller
             $pasien         = new Pasien;
             $pasien         = $this->inputDataPasien($pasien);
             if ( Auth::user()->tenant->nursestation_availability ) {
-                $this->inputDataAntrianPoli($pasien);
+                $ap = $this->inputDataAntrianPoli($pasien);
+                $pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
             } else {
-                $this->inputDataAntrianPeriksa($pasien);
+                $ap = $this->inputDataAntrianPeriksa($pasien);
+                $pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Periksa di ' . $ap->poli->poli  );
             }
 
-            $pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Nurse Station' );
 
             DB::commit();
 
@@ -830,6 +831,7 @@ class PasiensController extends Controller
         $apcon->input_asisten_id            = Input::get('staf_id');
         $apcon->input_asuransi_id           = $pasien->asuransi_id;
         $apcon->input_pasien_id             = $pasien->id;
+        $apcon->input_pasien                = $pasien;
         $apcon->input_poli_id               = Input::get('poli_id');
         $apcon->input_staf_id               = Input::get('staf_id');
         $apcon->input_jam                   = date('H:i:s');
@@ -843,7 +845,7 @@ class PasiensController extends Controller
         $apcon->input_hpht                  = '';
         $apcon->previous_complaint_resolved = 1;
         $apcon->input_perujuk_id            = '';
-        $apcon->inputData();
+        return $apcon->inputData();
     }
     
     

@@ -19,7 +19,7 @@
 						@endif
 						', 'placeholder' => 'Masukkan nama tanpa gelar, tanpa nama panggilan'])
 					!!}
-				  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
+				  @if($errors->has('nama'))<code>{!! $errors->first('nama') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 							rq
 						@endif
 					'])!!}
-				  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
+				  @if($errors->has('sex'))<code>{!! $errors->first('sex') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6">
@@ -50,7 +50,7 @@
 						  ['class' => 'form-control tanggal', 'id' => 'tanggal_lahir'])
 					  !!}
 				  @endif
-				  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
+				  @if($errors->has('tanggal_lahir'))<code>{!! $errors->first('tanggal_lahir') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -80,14 +80,14 @@
 				<div class="form-group @if($errors->has('nama_ibu'))has-error @endif">
 				  {!! Form::label('nama_ibu', 'Nama Ibu', ['class' => 'control-label']) !!}
 					{!! Form::text('nama_ibu',null, ['class' => 'form-control hh'])!!}
-				  @if($errors->has('nama_ibu'))<code>{{ $errors->first('nama_ibu') }}</code>@endif
+				  @if($errors->has('nama_ibu'))<code>{!! $errors->first('nama_ibu') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6">
 				<div class="form-group @if($errors->has('nama_ayah'))has-error @endif">
 				  {!! Form::label('nama_ayah', 'Nama Ayah', ['class' => 'control-label']) !!}
 					{!! Form::text('nama_ayah', null, ['class' => 'form-control hh'])!!}
-				  @if($errors->has('nama_ayah'))<code>{{ $errors->first('nama_ayah') }}</code>@endif
+				  @if($errors->has('nama_ayah'))<code>{!! $errors->first('nama_ayah') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -120,7 +120,7 @@
 						'placeholder'      => '- Pilih - ',
 						'data-live-search' => 'true'
 					])!!}
-					@if($errors->has('asuransi_id'))<code>{{ $errors->first('asuransi_id') }}</code>@endif
+					@if($errors->has('asuransi_id'))<code>{!! $errors->first('asuransi_id') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
@@ -130,7 +130,7 @@
                         'class' => 'form-control tog hh',
                         'placeholder' => 'Pilih Jenis Peserta'
                     ])!!}
-					@if($errors->has('jenis_peserta_id'))<code>{{ $errors->first('jenis_peserta_id') }}</code>@endif
+					@if($errors->has('jenis_peserta_id'))<code>{!! $errors->first('jenis_peserta_id') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -143,14 +143,14 @@
 						'class'   => 'form-control tog hh',
 						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
 					])!!}
-					@if($errors->has('nomor_asuransi'))<code>{{ $errors->first('nomor_asuransi') }}</code>@endif
+					@if($errors->has('nomor_asuransi'))<code>{!! $errors->first('nomor_asuransi') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 				<div class="form-group @if($errors->has('nama_peserta'))has-error @endif">
 					{!! Form::label('nama_peserta', 'Nama Peserta', ['class' => 'control-label']) !!}
 					{!! Form::text('nama_peserta', null, ['class'=>'form-control tog hh'])!!}
-					@if($errors->has('nama_peserta'))<code>{{ $errors->first('nama_peserta') }}</code>@endif
+					@if($errors->has('nama_peserta'))<code>{!! $errors->first('nama_peserta') !!}</code>@endif
 				</div>
 			</div>
 		</div>	
@@ -163,7 +163,7 @@
 						'class'   => 'form-control tog hh',
 						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
 					])!!}
-					@if($errors->has('nomor_asuransi_bpjs'))<code>{{ $errors->first('nomor_asuransi_bpjs') }}</code>@endif
+					@if($errors->has('nomor_asuransi_bpjs'))<code>{!! $errors->first('nomor_asuransi_bpjs') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -177,7 +177,7 @@
 					@else
 						{!! Form::textarea('alamat', null, ['class' => 'form-control textareacustom'])!!}
 					@endif
-				    @if($errors->has('alamat'))<code>{{ $errors->first('alamat') }}</code>@endif
+				    @if($errors->has('alamat'))<code>{!! $errors->first('alamat') !!}</code>@endif
 				  </div>
 			  </div>
 		  </div>
@@ -186,7 +186,7 @@
 				<div class="form-group @if($errors->has('jangan_disms'))has-error @endif">
 				  {!! Form::label('jangan_disms', 'Status Survey SMS', ['class' => 'control-label']) !!}
 				  {!! Form::select('jangan_disms' , App\Models\Classes\Yoga::pasienSurvey(), null, ['class' => 'form-control']) !!}
-				  @if($errors->has('jangan_disms'))<code>{{ $errors->first('jangan_disms') }}</code>@endif
+				  @if($errors->has('jangan_disms'))<code>{!! $errors->first('jangan_disms') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -200,7 +200,7 @@
 					  ], null, array(
 						'class'         => 'form-control'
 					))!!}
-				  @if($errors->has('penangguhan_pembayaran_bpjs'))<code>{{ $errors->first('penangguhan_pembayaran_bpjs') }}</code>@endif
+				  @if($errors->has('penangguhan_pembayaran_bpjs'))<code>{!! $errors->first('penangguhan_pembayaran_bpjs') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -212,7 +212,7 @@
 					  ], null, array(
 						'class'         => 'form-control'
 					))!!}
-				  @if($errors->has('meninggal'))<code>{{ $errors->first('meninggal') }}</code>@endif
+				  @if($errors->has('meninggal'))<code>{!! $errors->first('meninggal') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -223,7 +223,7 @@
 				  {!! Form::select('verifikasi_prolanis_dm_id', $verifikasi_prolanis_options, null, array(
 						'class'         => 'form-control'
 					))!!}
-				  @if($errors->has('verifikasi_prolanis_dm_id'))<code>{{ $errors->first('verifikasi_prolanis_dm_id') }}</code>@endif
+				  @if($errors->has('verifikasi_prolanis_dm_id'))<code>{!! $errors->first('verifikasi_prolanis_dm_id') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -232,7 +232,7 @@
 				  {!! Form::select('verifikasi_prolanis_ht_id', $verifikasi_prolanis_options, null, array(
 						'class'         => 'form-control'
 					))!!}
-				  @if($errors->has('verifikasi_prolanis_ht_id'))<code>{{ $errors->first('verifikasi_prolanis_ht_id') }}</code>@endif
+				  @if($errors->has('verifikasi_prolanis_ht_id'))<code>{!! $errors->first('verifikasi_prolanis_ht_id') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -246,7 +246,7 @@
 					  ], null, array(
 						'class'         => 'form-control'
 					))!!}
-				  @if($errors->has('prolanis_dm'))<code>{{ $errors->first('prolanis_dm') }}</code>@endif
+				  @if($errors->has('prolanis_dm'))<code>{!! $errors->first('prolanis_dm') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -258,7 +258,7 @@
 					  ], null, array(
 						'class'         => 'form-control'
 					))!!}
-				  @if($errors->has('prolanis_ht'))<code>{{ $errors->first('prolanis_ht') }}</code>@endif
+				  @if($errors->has('prolanis_ht'))<code>{!! $errors->first('prolanis_ht') !!}</code>@endif
 				</div>
 			</div>
 		</div>
@@ -279,7 +279,7 @@
 						  {{--<p>format : nama(spasi)tanggal_lahir(spasi)alamat</p>--}}
  
 						  {{--{!! Form::select('kepala_keluarga_id' , [], null, ['class' => 'form-control selectPasien']) !!}--}}
-						  {{--@if($errors->has('kepala_keluarga_id'))<code>{{ $errors->first('kepala_keluarga_id') }}</code>@endif--}}
+						  {{--@if($errors->has('kepala_keluarga_id'))<code>{!! $errors->first('kepala_keluarga_id') !!}</code>@endif--}}
 						{{--</div>--}}
 					{{--</div>--}}
 					{{--<div role="tabpanel" class="tab-pane" id="buat_kepala_keluarga">--}}
@@ -288,7 +288,7 @@
 								{{--<div class="form-group @if($errors->has('kepala_keluarga_nama'))has-error @endif">--}}
 								  {{--{!! Form::label('kepala_keluarga_nama', 'Nama Kepala Keluarga', ['class' => 'control-label']) !!}--}}
 								  {{--{!! Form::text('kepala_keluarga_nama' , null, ['class' => 'form-control']) !!}--}}
-								  {{--@if($errors->has('kepala_keluarga_nama'))<code>{{ $errors->first('kepala_keluarga_nama') }}</code>@endif--}}
+								  {{--@if($errors->has('kepala_keluarga_nama'))<code>{!! $errors->first('kepala_keluarga_nama') !!}</code>@endif--}}
 								{{--</div>--}}
 							{{--</div>--}}
 						{{--</div>	--}}
@@ -297,14 +297,14 @@
 								{{--<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">--}}
 								  {{--{!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}--}}
 								  {{--{!! Form::text('tanggal_lahir' , null, ['class' => 'form-control tanggal']) !!}--}}
-								  {{--@if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif--}}
+								  {{--@if($errors->has('tanggal_lahir'))<code>{!! $errors->first('tanggal_lahir') !!}</code>@endif--}}
 								{{--</div>--}}
 							{{--</div>--}}
 							{{--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">--}}
 								{{--<div class="form-group @if($errors->has('nomor asuransi'))has-error @endif">--}}
 								  {{--{!! Form::label('kepala_keluarga_nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}--}}
 								  {{--{!! Form::text('kepala_keluarga_nomor_asuransi' , null, ['class' => 'form-control']) !!}--}}
-								  {{--@if($errors->has('kepala_keluarga_nomor_asuransi'))<code>{{ $errors->first('nomor asuransi') }}</code>@endif--}}
+								  {{--@if($errors->has('kepala_keluarga_nomor_asuransi'))<code>{!! $errors->first('nomor asuransi') !!}</code>@endif--}}
 								{{--</div>--}}
 							{{--</div>--}}
 						{{--</div>--}}
@@ -314,7 +314,7 @@
 									{{--{!! Form::label('kepala_keluarga_kartu_bpjs', 'Kartu BPJS Kepala Keluarga') !!}--}}
 									{{--{!! Form::file('kepala_keluarga_kartu_bpjs') !!}--}}
 										{{--<p> <img src="{{ asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) }}" alt=""> !!} </p>--}}
-									{{--{!! $errors->first('kepala_keluarga_kartu_bpjs', '<p class="help-block">:message</p>') !!}--}}
+									{{--{!! $errors->first('kepala_keluarga_kartu_bpjs', '<p class="help-block">:message</p>') !!}!!--}}
 								{{--</div>--}}
 							{{--</div>--}}
 						{{--</div>--}}
@@ -334,7 +334,7 @@
 					  'readonly' => 'readonly',
 
 				  ]) !!}
-		  		  @if($errors->has('email'))<code>{{ $errors->first('email') }}</code>@endif
+		  		  @if($errors->has('email'))<code>{!! $errors->first('email') !!}</code>@endif
 		  		</div>
 		  	</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -345,7 +345,7 @@
 					  'class' => 'form-control',
 					  'readonly' => 'readonly'
 				  ]) !!}
-				  @if($errors->has('facebook_id'))<code>{{ $errors->first('facebook_id') }}</code>@endif
+				  @if($errors->has('facebook_id'))<code>{!! $errors->first('facebook_id') !!}</code>@endif
 				</div>
 			</div>
 		  </div>
@@ -361,7 +361,7 @@
 				<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 				  {!! Form::label('staf_id', 'Nama Dokter', ['class' => 'control-label']) !!}
 				  {!! Form::select('staf_id' , App\Models\Classes\Yoga::stafList(), null, ['class' => 'form-control selectpick rq' , 'data-live-search' => 'true']) !!}
-				  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
+				  @if($errors->has('staf_id'))<code>{!! $errors->first('staf_id') !!}</code>@endif
 				</div>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -372,7 +372,7 @@
 					  'placeholder' => '- Pilih -',
 					  'onchange'    => 'pilihPoli(this);return false;'
 				  ]) !!}
-				  @if($errors->has('poli_id'))<code>{{ $errors->first('poli_id') }}</code>@endif
+				  @if($errors->has('poli_id'))<code>{!! $errors->first('poli_id') !!}</code>@endif
 				</div>
 			</div>
 		 </div>

@@ -134,3 +134,10 @@ function validateDateOfBirth(control) {
         }
     );
 }
+
+function changeTemplateWa(control) {
+    var template = $(control).val();
+    var nama = template.split("Nama Lengkap")[1].split("Tanggal Lahir ")[0];
+
+    console.log("nama", nama);
+}
