@@ -646,11 +646,9 @@ class CustomController extends Controller
                         'phone' => $antrian->no_telp,
                         'message' => [
                             'buttons' => [
-                                "Sangat Baik (PXID" . $antrian->id . ")",
-                                "Baik (PXID" . $antrian->id . ")",
+                                "Puas (PXID" . $antrian->id . ")",
                                 "Biasa (PXID" . $antrian->id . ")",
-                                "Buruk (PXID" . $antrian->id . ")",
-                                "Sangat Buruk (PXID" . $antrian->id . ")",
+                                "Tidak Puas (PXID" . $antrian->id . ")",
                             ],
                             'content' =>$message,
                             'footer' => '',
