@@ -20,7 +20,7 @@
                             'id'    => 'template_wa_message'
                          ]) !!}
                      </div>
-                     <button onclick="changeTemplateWa(this);return false;"></button>
+                     <button onclick="changeTemplateWa(this);return false;" type="button">Proses Template</button>
                  </div>
 			</div>
 			@if( !isset($pengantar) )

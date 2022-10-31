@@ -5,7 +5,7 @@
 				  @if( isset($pasien) )
 					  Edit Pasien
 				  @else
-					Pasien Baru			  	
+					Pasien Baru <button type="button" onclick="showTemplateWa();" class="btn btn-info btn-xs">Show Template</button>			  	
 				  @endif
 			  </h2>
 			  <hr />
@@ -17,7 +17,9 @@
 						@if($rq)
 							rq
 						@endif
-						', 'placeholder' => 'Masukkan nama tanpa gelar, tanpa nama panggilan'])
+						', 'placeholder' => 'Masukkan nama tanpa gelar, tanpa nama panggilan',
+                      'id' => 'nama'
+                  ])
 					!!}
 				  @if($errors->has('nama'))<code>{!! $errors->first('nama') !!}</code>@endif
 				</div>
@@ -95,7 +97,10 @@
 			<div class="col-lg-6 col-md-6">
 				<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 				  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
-					{!! Form::text('no_telp', !isset($pasien) && isset($antrian->no_telp)? $antrian->no_telp : null , ['class' => 'form-control hh phone'])!!}
+                  {!! Form::text('no_telp', !isset($pasien) && isset($antrian->no_telp)? $antrian->no_telp : null , [
+                    'class' => 'form-control hh phone',
+                    'id' => 'no_telp',
+                  ])!!}
 				  @if($errors->has('no_telp'))<code>{!! $errors->first('no_telp') !!}</code>@endif
 				</div>
 			</div>
@@ -104,7 +109,10 @@
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group @if($errors->has('nomor_ktp'))has-error @endif">
 				  {!! Form::label('nomor_ktp', 'Nomor KTP', ['class' => 'control-label']) !!}
-				  {!! Form::text('nomor_ktp' , null, ['class' => 'form-control']) !!}
+                  {!! Form::text('nomor_ktp' , null, [
+                    'class' => 'form-control',
+                    'id' => 'no_ktp',
+                  ]) !!}
 				  @if($errors->has('nomor_ktp'))<code>{!! $errors->first('nomor_ktp') !!}</code>@endif
 				</div>
 			</div>
@@ -173,7 +181,10 @@
 				<div class="form-group @if($errors->has('alamat'))has-error @endif">
 				    {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
 					@if( isset($alamatPasien) )
-						{!! Form::textarea('alamat', $alamatPasien, ['class' => 'form-control textareacustom'])!!}
+                        {!! Form::textarea('alamat', $alamatPasien, [
+                            'class' => 'form-control textareacustom',
+                            'id' => 'alamat',
+                        ])!!}
 					@else
 						{!! Form::textarea('alamat', null, ['class' => 'form-control textareacustom'])!!}
 					@endif
@@ -393,3 +404,23 @@
 		  @endif
 	  </div>
   </div>
+<div class="modal" id="modalTemplateWa" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Template Pesan Whatsapp</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {!! Form::textarea('template_container', null, ['class' => 'form-control textareacustom', 'id' => 'template_container']) !!}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="prosesTemplate();return false;">Proses Template</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  

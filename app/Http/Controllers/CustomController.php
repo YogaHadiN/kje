@@ -627,7 +627,6 @@ class CustomController extends Controller
 
 			$apc = new AntrianPolisController;
 			/* $apc->updateJumlahAntrian(false, null); */
-
 			// masukkan kembali whatsapp_registration dengan periksa_id untuk customer surveyable_id
 			//
 			if (
@@ -656,7 +655,6 @@ class CustomController extends Controller
                     ]
                 ];
                 /* dd( $message, $antrian->no_telp, $payload ); */
-
 
                 $wablas = new WablasController;
                 $wablas->sendButton($payload);

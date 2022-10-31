@@ -135,9 +135,55 @@ function validateDateOfBirth(control) {
     );
 }
 
-function changeTemplateWa(control) {
-    var template = $(control).val();
-    var nama = template.split("Nama Lengkap")[1].split("Tanggal Lahir ")[0];
+function changeTemplateWa() {
+    var template = $("#template_wa_message").val();
+    var nama = filter(template, "Nama Lengkap", "Tanggal Lahir");
+    var tanggal_lahir = filter(
+        template,
+        "(Contoh = 19-07-2003)",
+        "Alamat Lengkap"
+    );
+    var alamat_lengkap = filter(template, "Alamat Lengkap", "Nomor Handphone");
+    var no_ktp = filter(template, "No KTP", "No BPJS");
+    var no_bpjs = $.trim(template.split("No BPJS")[1].replace(":", ""));
 
-    console.log("nama", nama);
+    console.log(nama);
+    console.log(tanggal_lahir);
+    console.log(alamat_lengkap);
+    console.log(no_ktp);
+    console.log(no_bpjs);
+}
+function prosesTemplate() {
+    var template = $("#template_container").val();
+    var nama = filter(template, "Nama Lengkap", "Tanggal Lahir");
+    var tanggal_lahir = filter(
+        template,
+        "(Contoh = 19-07-2003)",
+        "Alamat Lengkap"
+    );
+    var alamat_lengkap = filter(template, "Alamat Lengkap", "Nomor Handphone");
+    var no_ktp = filter(template, "No KTP", "No BPJS");
+    var no_bpjs = $.trim(template.split("No BPJS")[1].replace(":", ""));
+
+    console.log(nama);
+    console.log(tanggal_lahir);
+    console.log(alamat_lengkap);
+    console.log(no_ktp);
+    console.log(no_bpjs);
+
+    $("#nama").val(nama);
+    $("#tanggal_lahir").val(tanggal_lahir);
+    $("#alamat").val(alamat_lengkap);
+    $("#no_ktp").val(no_ktp);
+    $("#nomor_asuransi_bpjs").val(no_bpjs);
+}
+
+function filter(string, awal, akhir) {
+    string = string.split(awal)[1];
+    string = string.split(akhir)[0];
+    string = string.replace(":", "");
+    return $.trim(string);
+}
+function showTemplateWa() {
+    $("#modalTemplateWa").modal("show");
 }
