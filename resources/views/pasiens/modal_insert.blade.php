@@ -1,3 +1,7 @@
+{!! Form::text('asuransi_id_bpjs', \App\Models\Asuransi::BPJS()->id, [
+    'class' => 'form-control',
+    'id' => 'asuransi_id_bpjs'
+]) !!}
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 	{!! Form::open(['url' => 'pasiens/ajax/create', 'id' => 'pasienInsertForm', 'method' => 'post', 'autocomplete' => 'off'])!!}
@@ -148,7 +152,7 @@
 					{!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
 					{!! Form::text('nomor_asuransi', !isset($pasien) && isset($antrian->nomor_asuransi)? $antrian->nomor_asuransi : null , [
 						'id'      => 'nomor_asuransi',
-						'class'   => 'form-control tog hh',
+						'class'   => 'aorm-control tog hh',
 						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
 					])!!}
 					@if($errors->has('nomor_asuransi'))<code>{!! $errors->first('nomor_asuransi') !!}</code>@endif

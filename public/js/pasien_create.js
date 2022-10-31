@@ -165,17 +165,15 @@ function prosesTemplate() {
     var no_ktp = filter(template, "No KTP", "No BPJS");
     var no_bpjs = $.trim(template.split("No BPJS")[1].replace(":", ""));
 
-    console.log(nama);
-    console.log(tanggal_lahir);
-    console.log(alamat_lengkap);
-    console.log(no_ktp);
-    console.log(no_bpjs);
-
     $("#nama").val(nama);
     $("#tanggal_lahir").val(tanggal_lahir);
     $("#alamat").val(alamat_lengkap);
     $("#no_ktp").val(no_ktp);
-    $("#nomor_asuransi_bpjs").val(no_bpjs);
+    if (no_bpjs.length) {
+        $("#nomor_asuransi_bpjs").val(no_bpjs);
+        $("#nomor_asuransi").val(no_bpjs);
+        $("#asuransi_id").val($("#asuransi_id_bpjs").val());
+    }
 }
 
 function filter(string, awal, akhir) {
