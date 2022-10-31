@@ -1,5 +1,5 @@
 {!! Form::text('asuransi_id_bpjs', \App\Models\Asuransi::BPJS()->id, [
-    'class' => 'form-control',
+    'class' => 'form-control hide',
     'id' => 'asuransi_id_bpjs'
 ]) !!}
 <div class="row">
