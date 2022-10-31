@@ -173,6 +173,7 @@ function prosesTemplate() {
         $("#nomor_asuransi_bpjs").val(no_bpjs);
         $("#nomor_asuransi").val(no_bpjs);
         $("#asuransi_id").val($("#asuransi_id_bpjs").val());
+        $("#asuransi_id").selectpicker("refresh");
     }
 }
 

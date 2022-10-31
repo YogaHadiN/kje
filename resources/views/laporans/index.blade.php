@@ -183,6 +183,28 @@
 				</div>
 			</div>
 		</div>
+        <div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-primary">
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
+									<td><h3>Tidak Puas</h3></td>
+									<td><h3>Biasa</h3></td>
+									<td><h3>Puas</h3></td>
+								</tr>
+								<tr>
+									<td><h1> {{ $tidak_puas }} </h1></td>
+									<td><h1> {{ $biasa }} </h1></td>
+									<td><h1> {{ $puas }} </h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 			<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					@if ($auth->role_id != '1')

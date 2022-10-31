@@ -34,6 +34,27 @@
 			</div>
 		</div>
 	</div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4 text-center">
+			<div class="alert alert-warning">
+				<h2>Tidak puas</h2>
+				<h1>{{ $tidak_puas }}</h1>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-lg-4 text-center">
+			<div class="alert alert-warning">
+				<h2>Biasa</h2>
+				<h1>{{ $biasa }}</h1>
+			</div>
+		</div>
+        <div class="col-md-4 col-lg-4 text-center">
+			<div class="alert alert-warning">
+				<h2>Puas</h2>
+				<h1>{{ $puas }}</h1>
+			</div>
+		</div>
+	</div>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="panel panel-info">

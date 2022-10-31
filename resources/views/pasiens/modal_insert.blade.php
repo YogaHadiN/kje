@@ -152,7 +152,7 @@
 					{!! Form::label('nomor_asuransi', 'Nomor Asuransi', ['class' => 'control-label']) !!}
 					{!! Form::text('nomor_asuransi', !isset($pasien) && isset($antrian->nomor_asuransi)? $antrian->nomor_asuransi : null , [
 						'id'      => 'nomor_asuransi',
-						'class'   => 'aorm-control tog hh',
+						'class'   => 'form-control tog hh',
 						'onkeyup' => 'cekNomorBpjsSama(this);return false;'
 					])!!}
 					@if($errors->has('nomor_asuransi'))<code>{!! $errors->first('nomor_asuransi') !!}</code>@endif

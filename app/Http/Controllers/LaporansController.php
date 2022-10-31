@@ -34,6 +34,7 @@ use App\Models\Terapi;
 use App\Models\SmsKontak;
 use App\Models\SmsGagal;
 use App\Models\AntrianPoli;
+use App\Models\Antrian;
 use App\Models\Poli;
 use App\Models\JenisTarif;
 use App\Models\KunjunganSakit;
@@ -239,10 +240,36 @@ class LaporansController extends Controller
 		$persentase_dm_terkendali = $hitungRppt['persentase_dm_terkendali'];
 		$rppt = $hitungRppt['rppt'];
 
+
+        $this_month = date('Y-m');
+        $query  = "SELECT * ";
+        $query .= "FROM antrians ";
+        $query .= "WHERE satisfaction_index is not null ";
+        $query .= "AND created_at like '{$this_month}%'";
+        $data = DB::select($query);
+
+        $tidak_puas = 0;
+        $biasa      = 0;
+        $puas       = 0;
+
+        foreach ($data as $d) {
+            if ( $d->satisfaction_index == 1 ) {
+                $tidak_puas++;
+            } else if ( $d->satisfaction_index == 2   ){
+                $biasa++;
+            } else if ( $d->satisfaction_index == 3   ){
+                $puas++;
+            }
+        }
+
+
 		return view('laporans.index', compact(
 			'asuransis',
 			'antrianperiksa',
 			'rppt',
+			'tidak_puas',
+			'biasa',
+			'puas',
 			'antrianbelanja',
 			'hariinis',
 			'jumlah_denominator_dm',
@@ -380,9 +407,30 @@ class LaporansController extends Controller
 		$pasien_lama = count($periksas) - $pasien_baru;
 		$list_asuransi = Asuransi::list();
 
+        $antrians = Antrian::where('created_at', 'like', date('Y-m-d') . '%')
+                            ->whereNotNull('satisfaction_index')
+                            ->get();
+
+        $puas       = 0;
+        $biasa      = 0;
+        $tidak_puas = 0;
+
+        foreach ($antrians as $antrian) {
+            if ($antrian->satisfaction_index == 1) {
+                $tidak_puas++;
+            } else if( $antrian->satisfaction_index == 2 ){
+                $biasa++;
+            } else if( $antrian->satisfaction_index == 3 ){
+                $puas++;
+            }
+        }
+
 		return view('laporans.harian', compact(
 			'periksas',
 			'rincian',
+			'puas',
+			'biasa',
+			'tidak_puas',
 			'persen_lama',
 			'list_asuransi',
 			'persen_baru',
@@ -2486,5 +2534,25 @@ class LaporansController extends Controller
 		$data = DB::select($query);
 		return $data;
 	}
+    public function satisfactionBulanan($satisfaction_id, $bulanTahun){
+        $antrians = Antrian::where('satisfaction_index', $satisfaction_id)
+                            ->where('antarable_type', 'App\Models\Periksa')
+                            ->where('created_at', 'like', $bulanTahun.'%')
+                            ->get();
+        return view('laporans.satisfactionBulanan', compact(
+            'antrians'
+        ));
+    }
+
+    public function satisfactionHarian($satisfaction_id, $tanggal){
+        $antrians = Antrian::where('satisfaction_index', $satisfaction_id)
+                            ->where('antriable_type', 'App\Models\Periksa')
+                            ->where('created_at', 'like', $tanggal.'%')
+                            ->get();
+        return view('laporans.satisfactionBulanan', compact(
+            'antrians'
+        ));
+    }
+    
 	
 }

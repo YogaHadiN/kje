@@ -157,6 +157,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get(	'laporans/ht_berobat/{bulanTahun}', [\App\Http\Controllers\LaporanBpjsController::class, 'htBerobat']);
 	Route::get(	'laporans/ht_terkendali/{bulanTahun}', [\App\Http\Controllers\LaporanBpjsController::class, 'htTerkendali']);
 
+	Route::get(	'laporans/satisfaction/{satisfaction_id}/bulanan/{bulanTahun}', [\App\Http\Controllers\LaporansController::class, 'satisfactionBulanan']);
+
+	Route::get(	'laporans/satisfaction/{satisfaction_id}/harian/{tanggal}', [\App\Http\Controllers\LaporansController::class, 'satisfactionHarian']);
 
 
 
