@@ -12,16 +12,6 @@
 						{!! Form::text('pasien_id', isset($pasien)? $pasien->id : null , ['class' => 'form-control hide', 'id' => 'pasien_id' ]) !!}
 				 	</div>
 				 </div>
-                 <div class="row">
-                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                         {!! Form::textarea('template_wa_message', null, [
-                            'class' => 'form-control textareacustom',
-                            {{-- 'onchange' => 'changeTemplateWa(this);return false;', --}}
-                            'id'    => 'template_wa_message'
-                         ]) !!}
-                     </div>
-                     <button onclick="changeTemplateWa(this);return false;" type="button">Proses Template</button>
-                 </div>
 			</div>
 			@if( !isset($pengantar) )
 			 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

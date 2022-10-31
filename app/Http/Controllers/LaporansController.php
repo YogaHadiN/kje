@@ -407,7 +407,7 @@ class LaporansController extends Controller
 		$pasien_lama = count($periksas) - $pasien_baru;
 		$list_asuransi = Asuransi::list();
 
-        $antrians = Antrian::where('created_at', 'like', date('Y-m-d') . '%')
+        $antrians = Antrian::where('created_at', 'like', $tanggal . '%')
                             ->whereNotNull('satisfaction_index')
                             ->get();
 
