@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWhatssappComplaintsTable extends Migration
+class CreateWhatsappComplaintsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateWhatssappComplaintsTable extends Migration
      */
     public function up()
     {
-        Schema::create('whatssapp_complaints', function (Blueprint $table) {
+        Schema::create('whatsapp_complaints', function (Blueprint $table) {
             $table->id();
             $table->string('no_telp');
             $table->integer('antrian_id');
@@ -28,6 +28,6 @@ class CreateWhatssappComplaintsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('whatssapp_complaints');
+        Schema::dropIfExists('whatsapp_complaints');
     }
 }
