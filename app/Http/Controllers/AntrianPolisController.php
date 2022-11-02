@@ -420,14 +420,14 @@ class AntrianPolisController extends Controller
 		$ap->save();
 
 		if ( isset($this->input_antrian_id) ) {
-			$an->antriable_id   = $ap->id;
-			$an->antriable_type = 'App\\Models\\AntrianPoli';
-			$an->save();
+			$antrian->antriable_id   = $ap->id;
+			$antrian->antriable_type = 'App\\Models\\AntrianPoli';
+			$antrian->save();
 		}
 
 		// hapus jika ada whatsapp registration
-		if (isset($an->whatsapp_registration)) {
-			$an->whatsapp_registration->delete();
+		if (isset($antrian->whatsapp_registration)) {
+			$antrian->whatsapp_registration->delete();
 		}
 		return $ap;
 	}
