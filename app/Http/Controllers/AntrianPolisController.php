@@ -223,9 +223,22 @@ class AntrianPolisController extends Controller
                 (!is_null($this->input_antrian) &&( $this->input_antrian->jenis_antrian_id == 7 || $this->input_antrian->jenis_antrian_id == 8)) ||
                 !\Auth::user()->tenant->nursestation_availability
             ) {
-                $this->inputAntrianPeriksa();
+                $ap = $this->inputAntrianPeriksa();
             } else {
                 $ap = $this->inputDataAntrianPoli();
+            }
+
+            if ( !is_null($this->input_antrian) ) {
+                $this->input_antrian->antriable_id             = $ap->id;
+                $this->input_antrian->antriable_type           = 'App\\Models\\AntrianPoli';
+                $this->input_antrian->nama                     = $ap->pasien->nama;
+                $this->input_antrian->tanggal_lahir            = $ap->pasien->tanggal_lahir;
+                $this->input_antrian->registrasi_pembayaran_id = $ap->asuransi->registrasi_pembayaran_id;
+                $this->input_antrian->save();
+            }
+            // hapus jika ada whatsapp registration
+            if (!is_null($this->input_antrian->whatsapp_registration)) {
+                $this->input_antrian->whatsapp_registration->delete();
             }
 
 			$this->updateJumlahAntrian(false, null);
@@ -419,19 +432,7 @@ class AntrianPolisController extends Controller
 		$ap->tanggal                   = $this->input_tanggal;
 		$ap->save();
 
-		if ( isset($this->input_antrian_id) ) {
-			$antrian->antriable_id             = $ap->id;
-			$antrian->antriable_type           = 'App\\Models\\AntrianPoli';
-			$antrian->nama                     = $ap->pasien->nama;
-			$antrian->tanggal_lahir            = $ap->pasien->tanggal_lahir;
-			$antrian->registrasi_pembayaran_id = $ap->asuransi->registrasi_pembayaran_id;
-			$antrian->save();
-		}
 
-		// hapus jika ada whatsapp registration
-		if (isset($antrian->whatsapp_registration)) {
-			$antrian->whatsapp_registration->delete();
-		}
 		return $ap;
 	}
 
