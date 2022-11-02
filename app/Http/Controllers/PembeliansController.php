@@ -352,7 +352,6 @@ class PembeliansController extends Controller
 
 			$data = json_decode($data, true); // convert data transaksi ke php array
 
-			$arrayHapus = '';
 
 			$faktur_belanja_id = $id;
 
@@ -371,6 +370,7 @@ class PembeliansController extends Controller
 			$faktur_belanja->diskon         = Yoga::clean( Input::get('diskon') );
 			$faktur_belanja->save();
 
+			$arrayHapus =[];
 			foreach ($dataBefore as $key => $db) {
 				$hapus = true;
 				foreach ($data as $k => $da) {
