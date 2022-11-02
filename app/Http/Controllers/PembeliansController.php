@@ -427,7 +427,7 @@ class PembeliansController extends Controller
 
 					$last_pembelian_id++;
 					$pembelians[] = [
-						'id'          => $last_pembelian_id,
+						'id'                => $last_pembelian_id,
 						'exp_date'          => $dt['exp_date'],
 						'harga_beli'        => $dt['harga_beli'],
 						'staf_id'           => Input::get('staf_id'),
@@ -436,7 +436,7 @@ class PembeliansController extends Controller
 						'merek_id'          => $dt['merek_id'],
 						'harga_naik'        => $dt['harga_berubah'],
 						'jumlah'            => $dt['jumlah'],
-							'tenant_id'  => session()->get('tenant_id'),
+                        'tenant_id'         => session()->get('tenant_id'),
 						'created_at'        => $timestamp,
 						'updated_at'        => $timestamp
 					];

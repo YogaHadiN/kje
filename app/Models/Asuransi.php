@@ -156,6 +156,5 @@ class Asuransi extends Model{
         } else {
            return 3; 
         }
-        
     }
 }
