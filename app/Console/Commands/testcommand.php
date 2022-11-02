@@ -124,28 +124,8 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
-        $deleted = 0;
-        foreach (AntrianKasir::all() as $ak) {
-            if ( is_null($ak->periksa) ) {
-                $deleted++;
-                $ak->delete();
-            }
-        }
-        foreach (AntrianApotek::all() as $ak) {
-            if ( is_null($ak->periksa) ) {
-                $deleted++;
-                $ak->delete();
-            }
-        }
-
-        $jurnal_umums = JurnalUmum::where('created_at', 'like', '2022-10-29%')->get();
-        foreach ($jurnal_umums as $ju) {
-            if (is_null($ju->jurnalable)) {
-                $ju->delete();
-                $deleted++;
-            }
-        }
-        dd( $deleted );
+        $wa = new WablasController;
+        $wa->sendSingle('6281381912803', 'test');
     }
     
     public function obatTenant()

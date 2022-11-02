@@ -769,24 +769,10 @@ class WablasController extends Controller
         print_r($result);
     }
 
-    public function sendSingle(){
-        $curl = curl_init();
+    public function sendSingle($phone, $message){
         $token = env("WABLAS_TOKEN");
-        $data = [
-            'phone' => '6282113781271',
-            'message' => 'hello there',
-        ];
-        curl_setopt($curl, CURLOPT_HTTPHEADER,
-            array(
-                "Authorization: $token",
-            )
-        );
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-        curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/send-message");
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, "https://pati.wablas.com/api/send-message?phone=$phone&message=$message&token=$token");
         $result = curl_exec($curl);
         curl_close($curl);
         echo "<pre>";

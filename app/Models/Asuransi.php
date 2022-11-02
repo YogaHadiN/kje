@@ -146,6 +146,16 @@ class Asuransi extends Model{
     public function coa(){
         return $this->belongsTo(Coa::class);
     }
-    
-    
+
+    public function getRegistrasiPembayaranIdAttribute(){
+        $asuransi_id = $this->asuransi_id;
+        if ( $asuransi_id == Asuransi::BPJS()->id  ) {
+           return 2; 
+        } else if ( $asuransi_id == Asuransi::BiayaPribadi()->id ){
+           return 1; 
+        } else {
+           return 3; 
+        }
+        
+    }
 }

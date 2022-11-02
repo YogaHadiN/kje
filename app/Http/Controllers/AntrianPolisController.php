@@ -385,8 +385,33 @@ class AntrianPolisController extends Controller
 
 		if ( isset($this->input_antrian_id) ) {
 			$antrian_id = $this->input_antrian_id;
-			$an         = Antrian::find($antrian_id);
-			$ap->jam    = $an->created_at;
+			$antrian    = Antrian::find($antrian_id);
+			$ap->jam    = $antrian->created_at;
+
+            /* $antrian->nama                     = $ap->pasien->nama; */
+            /* $antrian->no_telp                  = $ap->pasien->no_telp; */
+            /* $antrian->tanggal_lahir            = $ap->pasien->tanggal_lahir; */
+            /* $antrian->registrasi_pembayaran_id = $ap->asuransi->registrasi_pembayaran_id; */
+            /* $antrian->save(); */
+            if ($antrian->whatsapp_registration) {
+                $antrian->whatsapp_registration->delete();
+            }
+
+            $message = "Anda telah terdaftar dengan Nomor Antrian";
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .= "```" . $antrian->nomor_antrian . "```" ;
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .= "Silahkan menunggu untuk dilayani";
+            $message .=  PHP_EOL;
+            $message .=  PHP_EOL;
+            $message .=  "Anda dapat menggunakan handphone ini untuk mendaftarkan pasien berikutnya";
+
+            $wa = new WablasController;
+            $wa->sendSingle($antrian->no_telp, $message);
+
+            
 		} else {
 			$ap->jam                       = date("H:i:s");
 		}

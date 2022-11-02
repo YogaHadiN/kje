@@ -24,12 +24,12 @@ class CreateAntriansTable extends Migration
             $table->string('antriable_type', 30)->nullable()->index();
             $table->bigInteger('whatsapp_registration_id')->nullable()->index();
             $table->tinyInteger('dipanggil')->nullable()->default(0);
-            $table->string('no_telp')->nullable();
             $table->string('nama')->nullable();
+            $table->string('no_telp')->nullable();
             $table->date('tanggal_lahir')->nullable();
+            $table->integer('registrasi_pembayaran_id')->nullable();
             $table->bigInteger('tenant_id')->index();
             $table->string('kode_unik', 5);
-            $table->integer('registrasi_pembayaran_id')->nullable();
             $table->string('nomor_bpjs')->nullable();
             $table->integer('satisfaction_index')->nullable();
 
