@@ -31,7 +31,6 @@ class RuangPeriksaController extends Controller
 			}
 			$poli_ids .=  "'" .$poli->poli_id. "'";
 		}
-        /* dd( $poli_ids ); */
 
 		$query  = "SELECT ";
 		$query .= "po.poli as poli, ";
@@ -68,6 +67,7 @@ class RuangPeriksaController extends Controller
 		$query .= "GROUP BY apx.id ";
 		$query .= "ORDER BY ant.id ASC ";
 
+        /* dd( $query ); */
 		$antrian_periksas = DB::select($query);
 		/* dd( $antrian_periksas ); */
 

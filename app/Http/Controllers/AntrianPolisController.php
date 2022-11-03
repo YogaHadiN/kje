@@ -230,7 +230,7 @@ class AntrianPolisController extends Controller
 
             if ( !is_null($this->input_antrian) ) {
                 $this->input_antrian->antriable_id             = $ap->id;
-                $this->input_antrian->antriable_type           = 'App\\Models\\AntrianPoli';
+                $this->input_antrian->antriable_type           = get_class($ap);
                 $this->input_antrian->nama                     = $ap->pasien->nama;
                 $this->input_antrian->tanggal_lahir            = $ap->pasien->tanggal_lahir;
                 $this->input_antrian->registrasi_pembayaran_id = $ap->asuransi->registrasi_pembayaran_id;
