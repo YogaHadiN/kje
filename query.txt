@@ -1,2 +1,4 @@
 update stafs set str_image = null where id in (23,57);
 
+delete from whatsapp_registrations where antrian_id in (112866,112867,112868,112869);
+

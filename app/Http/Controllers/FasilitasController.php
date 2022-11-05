@@ -342,6 +342,7 @@ class FasilitasController extends Controller
                 ->get();
 
             Log::info(344);
+            Log::info($registeredWhatsapp->count());
             if ( $registeredWhatsapp->count() == 1 ) {
                 Log::info(345);
                 $text = '*KLINIK JATI ELOK*' ;
