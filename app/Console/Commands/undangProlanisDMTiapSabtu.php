@@ -55,6 +55,7 @@ class undangProlanisDMTiapSabtu extends Command
         $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
 		$query .= "AND tenant_id = " . $tenant_id  . " ";
         $query .= "AND meninggal = 0 ";
+        $query .= "AND jangan_disms = 0 ";
         $pasiens = DB::select($query);
 
         $data   = [];

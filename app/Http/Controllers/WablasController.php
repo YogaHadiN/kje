@@ -671,6 +671,17 @@ class WablasController extends Controller
     public function sendButton($data){
         $curl = curl_init();
         $token = env('WABLAS_TOKEN');
+        /* $data = [ */
+        /*     [ */
+        /*         'phone' => '6281218xxxxxx', */
+        /*         'message' => [ */
+        /*             'buttons' => ["button 1","button 2","button 3"], */
+        /*             'content' => 'sending template message...', */
+        /*             'footer' => 'footer template here', */
+        /*         ], */
+        /*     ] */
+        /* ]; */
+
         $payload = [
             "data" => $data
         ];
