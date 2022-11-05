@@ -342,6 +342,7 @@ class FasilitasController extends Controller
                 ->get();
 
             if ( $registeredWhatsapp->count() == 1 ) {
+                Log::info(345);
                 $text = '*KLINIK JATI ELOK*' ;
                 $text .= PHP_EOL;
                 $text .= "==============";

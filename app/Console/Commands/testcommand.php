@@ -125,7 +125,7 @@ class testcommand extends Command
      */
     public function handle(){
         $wa = new WablasController;
-        $wa->sendSingle('6281381912803', 'test');
+        $wa->sendSingle('6281381912803', 'testing 128');
     }
     
     public function obatTenant()

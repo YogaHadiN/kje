@@ -11,6 +11,7 @@ use Bitly;
 use Carbon\Carbon;
 use Storage;
 use App\Http\Controllers\AntrianPeriksasController;
+use App\Http\Controllers\WablasController;
 use App\Events\FormSubmitted;
 use App\Models\Antrian;
 use App\Models\JenisAntrian;
@@ -204,7 +205,7 @@ class AntrianPolisController extends Controller
 			//cek jika antrian sudah tidak ada, maka jangan dilanjutkan
 			//
 			//
-            $this->input_antrian = !is_null($this->input_antrian_id) ? Antrian::find( $this->input_antrian_id ) : null;
+            $this->input_antrian = !is_null($this->input_antrian_id) ? Antrian::with('whatsapp_registration')->where( 'id',$this->input_antrian_id )->first() : null;
 
 			if (
 				!is_null($this->input_antrian_id) &&
@@ -228,6 +229,7 @@ class AntrianPolisController extends Controller
                 $ap = $this->inputDataAntrianPoli();
             }
 
+
             if ( !is_null($this->input_antrian) ) {
                 $this->input_antrian->antriable_id             = $ap->id;
                 $this->input_antrian->antriable_type           = get_class($ap);
@@ -236,45 +238,63 @@ class AntrianPolisController extends Controller
                 $this->input_antrian->registrasi_pembayaran_id = $ap->asuransi->registrasi_pembayaran_id;
                 $this->input_antrian->save();
 
+
+                /* dd( 240 ); */
                 if (!is_null($this->input_antrian->whatsapp_registration)) {
+                    /* dd( 242 ); */
+                    $registering_confirmation = $this->input_antrian->whatsapp_registration->registering_confirmation;
                     $this->input_antrian->whatsapp_registration->delete();
-
-                    $message = "Anda telah terdaftar dengan Nomor Antrian";
-                    $message .= PHP_EOL;
-                    $message .= PHP_EOL;
-                    $message .= "```" . $this->input_antrian->nomor_antrian . "```" ;
-                    $message .= PHP_EOL;
-                    $message .= PHP_EOL;
-                    $message .= "Silahkan menunggu untuk dilayani";
-
-
-                    $whatsapp_registration = WhatsappRegistration::where('no_telp', $this->input_antrian->no_telp)
-                        ->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
-                        ->first();
-
-                    $wablas = new WablasController;
-
-                    if ($whatsapp_registration) {
+                    if ($registering_confirmation) {
+                        $message = "Nomor antrian *" . $this->input_antrian->nomor_antrian . "* ";
+                        $message .= "Berhasil kami daftarkan";
                         $message .= PHP_EOL;
                         $message .= PHP_EOL;
-                        $message .= "Selanjutnya anda akan memproses antrian nomor " . $whatsapp_registration->antrian->nomor_antrian;
-                        $message .= "Apakah anda ingin melanjutkan?";
+                        $message .= "Nama : " . $ap->pasien->nama;
+                        $message .= PHP_EOL;
+                        $message .= "Pembayaran : " . $ap->asuransi->nama;
+                        $message .= PHP_EOL;
+                        $message .= "Tanggal Lahir : " . Carbon::parse($ap->pasien->tanggal_lahir)->format('d M Y');
+                        $message .= PHP_EOL;
+                        $message .= PHP_EOL;
+                        $message .= "Silahkan menunggu untuk dilayani";
 
-                        $payload = [ 
-                                        [
-                                            'phone' => $whatsapp_registration->antrian->no_telp,
-                                            'message' => [
-                                                'buttons' => ["Lanjutkan"],
-                                                'content' => $message,
-                                                'footer' => '',
-                                            ],
-                                        ]
-                                     ];
-                        $wablas->sendButton($payload);
-                    } else {
-                        $wablas->sendSingle( $this->input_antrian->no_telp, $message );
+
+                        $whatsapp_registration = WhatsappRegistration::with('antrian')
+                            ->where('no_telp', $this->input_antrian->no_telp)
+                            ->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
+                            ->first();
+
+                        $wablas = new WablasController;
+
+                        if ($whatsapp_registration) {
+                            $message .= PHP_EOL;
+                            $message .= PHP_EOL;
+                            $message .= "Selanjutnya anda akan memproses antrian nomor ";
+                            $message .= PHP_EOL;
+                            $message .= PHP_EOL;
+                            $message .= "```" . $this->input_antrian->nomor_antrian . "```" ;
+                            $message .= PHP_EOL;
+                            $message .= PHP_EOL;
+                            $message .= "Apakah anda ingin melanjutkan?";
+
+                            $payload = [ 
+                                            [
+                                                'phone' => $whatsapp_registration->antrian->no_telp,
+                                                'message' => [
+                                                    'buttons' => ["Lanjutkan"],
+                                                    'content' => $message,
+                                                    'footer' => '',
+                                                ],
+                                            ]
+                                         ];
+                            $wablas = new WablasController;
+                            $wablas->sendButton($payload);
+                        } else {
+                            $wablas = new WablasController;
+                            $wablas->sendSingle( $this->input_antrian->no_telp, $message );
+                        }
                     }
-                }
+                } 
             }
             // hapus jika ada whatsapp registration
 
@@ -432,40 +452,7 @@ class AntrianPolisController extends Controller
 		if ( $this->asuransi_is_bpjs ) {
 			$ap->bukan_peserta         = $this->input_bukan_peserta;
 		}
-
-		if ( isset($this->input_antrian_id) ) {
-			$antrian_id = $this->input_antrian_id;
-			$antrian    = Antrian::find($antrian_id);
-			$ap->jam    = $antrian->created_at;
-
-            /* $antrian->nama                     = $ap->pasien->nama; */
-            /* $antrian->no_telp                  = $ap->pasien->no_telp; */
-            /* $antrian->tanggal_lahir            = $ap->pasien->tanggal_lahir; */
-            /* $antrian->registrasi_pembayaran_id = $ap->asuransi->registrasi_pembayaran_id; */
-            /* $antrian->save(); */
-            if ($antrian->whatsapp_registration) {
-                $antrian->whatsapp_registration->delete();
-            }
-
-            $message = "Anda telah terdaftar dengan Nomor Antrian";
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .= "```" . $antrian->nomor_antrian . "```" ;
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .= "Silahkan menunggu untuk dilayani";
-            $message .=  PHP_EOL;
-            $message .=  PHP_EOL;
-            $message .=  "Anda dapat menggunakan handphone ini untuk mendaftarkan pasien berikutnya";
-
-            $wa = new WablasController;
-            $wa->sendSingle($antrian->no_telp, $message);
-
-            
-		} else {
-			$ap->jam                       = date("H:i:s");
-		}
-
+        $ap->jam                       = !is_null( $this->input_antrian ) ? $this->input_antrian->created_at->format("H:i:s") : date("H:i:s");
 		$ap->tanggal                   = $this->input_tanggal;
 		$ap->save();
 
