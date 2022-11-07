@@ -286,12 +286,13 @@ class RekeningController extends Controller
 		$abaikans     = [];
 		$not_inserted = [];
 		foreach ($excel as $x) {
-            $cek              = new cekMutasi19Terakhir;
-            $cek->mutation_id = '';
+            $cek                     = new cekMutasi19Terakhir;
+            $cek->mutation_id        = '';
             $cek->mutasi_description = $x['deskripsi'];
-            $cek->balance     = 0;
-            $cek->amount      = $x['nilai'];
-            $cek->date        = gmdate("Y-m-d",  ($x['tanggal'] - 25569) * 86400 );
+            $cek->balance            = 0;
+            $cek->amount             = $x['nilai'];
+            $cek->date               = gmdate("Y-m-d",  ($x['tanggal'] - 25569) * 86400 );
+            $cek->created_at         = gmdate("Y-m-d",  ($x['tanggal'] - 25569) * 86400 );
             $cek->prosesValidasiTransaksiMasuk();
 
             $rekenings[] = [
@@ -301,7 +302,7 @@ class RekeningController extends Controller
                 'nilai'                  => $x['nilai'],
                 'saldo_akhir'            => 0,
                 'debet'                  => 0,
-                'pembayaran_asuransi_id' => null,
+                'pembayaran_asuransi_id' => $cek->pembayaran_asuransi_id,
                 'tenant_id'              => 1,
                 'created_at'             => $timestamp,
                 'updated_at'             => $timestamp

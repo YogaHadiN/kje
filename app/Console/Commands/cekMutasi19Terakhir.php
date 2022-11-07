@@ -52,6 +52,7 @@ class cekMutasi19Terakhir extends Command
 	public $mutation_id;
     public $balance;
     public $mutasi_description;
+    public $pembayaran_asuransi_id;
     public $date;
 	public $input_periksas;
     public function handle()
@@ -91,13 +92,14 @@ class cekMutasi19Terakhir extends Command
                     !Rekening::where('kode_transaksi', $mutasi->mutation_id)->exists()
                 ) {
 
-					$pembayaran_asuransi_id = null;
+					$this->pembayaran_asuransi_id = null;
 
                     $this->mutation_id        = $mutasi->mutation_id;
                     $this->mutasi_description = $mutasi->description;
                     $this->balance            = $mutasi->balance;
                     $this->amount             = $mutasi->amount;
                     $this->date               = $mutasi->date;
+                    $this->created_at         = $mutasi->date;
 
 					if ($debet == 0) {
                         $this->prosesValidasiTransaksiMasuk();
@@ -112,7 +114,7 @@ class cekMutasi19Terakhir extends Command
 						'kode_transaksi'         => $this->mutation_id,
 						'akun_bank_id'           => $newBank->id,
 						'tanggal'                => $this->created_at,
-						'pembayaran_asuransi_id' => $pembayaran_asuransi_id,
+						'pembayaran_asuransi_id' => $this->pembayaran_asuransi_id,
 						'deskripsi'              => $this->mutasi_description,
 						'nilai'                  => $this->amount,
 						'saldo_akhir'            => $this->balance,
@@ -216,24 +218,32 @@ class cekMutasi19Terakhir extends Command
         $data   = DB::select($query);
 
 
-        dd( 
-            $this->mutasi_description,
-            $this->created_at,
-            $this->amount,
-        );
+        /* dd( */ 
+        /*     $this->mutasi_description, */
+        /*     $this->created_at, */
+        /*     $this->amount, */
+        /* ); */
 
         $inserted_description[] = $this->mutasi_description;
 
         if (
             count($data) == 1 //jika ditemukan 1 data
         ) {
-            $data                   = $data[0];
-            $invoice_id             = $data->invoice_id;
-            $pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
+            $data                         = $data[0];
+            $invoice_id                   = $data->invoice_id;
+            $this->pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
         } else if(
             str_contains( $this->mutasi_description, '/P')	//deskripsi mengandung /P
         ){
             $asuransi_id = getAsuransiIdFromDescription($this->mutasi_description);
+
+            /* dd( */
+            /*     'o', */
+            /*     $this->amount, */
+            /*     $asuransi_id, */
+            /*     $this->created_at, */
+            /* ); */
+
             $query  = "select ";
             $query .= "invoice_id, ";
             $query .= "sum(piutang) - sum(sudah_dibayar) as sisa ";
@@ -257,9 +267,9 @@ class cekMutasi19Terakhir extends Command
             $data   = DB::select($query);
 
             if ( count($data) == 1 ) {
-                $data                   = $data[0];
-                $invoice_id             = $data->invoice_id;
-                $pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
+                $data                         = $data[0];
+                $invoice_id                   = $data->invoice_id;
+                $this->pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
             }
 
         } else {
@@ -275,6 +285,7 @@ class cekMutasi19Terakhir extends Command
                 //wa masing2 pic asuransi pada jam dan hari kerja
             }
         }
+
         if (
             str_contains( $this->mutasi_description, 'BPJS KESEHATAN KC TIGARAKSA') &&
              $this->amount > 100000000
