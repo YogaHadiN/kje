@@ -50,6 +50,9 @@ class cekMutasi19Terakhir extends Command
 	public $amount;
 	public $created_at;
 	public $mutation_id;
+    public $balance;
+    public $mutasi_description;
+    public $date;
 	public $input_periksas;
     public function handle()
     {
@@ -90,119 +93,29 @@ class cekMutasi19Terakhir extends Command
 
 					$pembayaran_asuransi_id = null;
 
+                    $this->mutation_id        = $mutasi->mutation_id;
+                    $this->mutasi_description = $mutasi->description;
+                    $this->balance            = $mutasi->balance;
+                    $this->amount             = $mutasi->amount;
+                    $this->date               = $mutasi->date;
+
 					if ($debet == 0) {
-						$desc[] = $mutasi->description;
-
-						$query  = "select ";
-						$query .= "invoice_id, ";
-						$query .= "sum(piutang) - sum(sudah_dibayar) as sisa ";
-						$query .= "FROM (";
-						$query .= "select ";
-						$query .= "prx.piutang as piutang, ";
-						$query .= "prx.invoice_id as invoice_id, ";
-						$query .= "COALESCE(SUM(pdb.pembayaran),0) as sudah_dibayar ";
-						$query .= "from periksas as prx ";
-						$query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
-						$query .= "JOIN invoices as inv on inv.id = prx.invoice_id ";
-						$query .= "JOIN kirim_berkas as krm on krm.id = inv.kirim_berkas_id ";
-						$query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
-						$query .= "WHERE INSTR('{$mutasi->description}' , asu.kata_kunci ) ";
-						$query .= "AND kata_kunci not like '' ";
-						$query .= "AND krm.tanggal < '{$mutasi->created_at}' ";
-						$query .= "AND krm.tanggal >= '" . date("Y-m-d", strtotime("-6 months")). "' ";
-						$query .= "AND inv.tenant_id = 1 ";
-						$query .= "group by prx.id ";
-						$query .= ") bl ";
-						$query .= "group by invoice_id ";
-						$query .= "HAVING sisa = {$mutasi->amount} ";
-						$data   = DB::select($query);
-
-						$inserted_description[] = $mutasi->description;
-
-						$this->amount      = $mutasi->amount;
-						$this->created_at  = $mutasi->created_at;
-						$this->mutation_id = $mutasi->mutation_id;
-						$description       = $mutasi->description;
-
-						if (
-							count($data) == 1 //jika ditemukan 1 data
-						) {
-							$data                   = $data[0];
-							$invoice_id             = $data->invoice_id;
-							$pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
-						} else if(
-							str_contains( $description, '/P')	//deskripsi mengandung /P
-						){
-							$asuransi_id = getAsuransiIdFromDescription($description);
-                            $query  = "select ";
-                            $query .= "invoice_id, ";
-                            $query .= "sum(piutang) - sum(sudah_dibayar) as sisa ";
-                            $query .= "FROM (";
-                            $query .= "select ";
-                            $query .= "prx.piutang as piutang, ";
-                            $query .= "prx.invoice_id as invoice_id, ";
-                            $query .= "COALESCE(SUM(pdb.pembayaran),0) as sudah_dibayar ";
-                            $query .= "from periksas as prx ";
-                            $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
-                            $query .= "JOIN invoices as inv on inv.id = prx.invoice_id ";
-                            $query .= "JOIN kirim_berkas as krm on krm.id = inv.kirim_berkas_id ";
-                            $query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
-                            $query .= "WHERE asu.id = '{$asuransi_id}' ";
-                            $query .= "AND krm.tanggal < '{$mutasi->created_at}' ";
-                            $query .= "AND inv.tenant_id = 1 ";
-                            $query .= "group by prx.id ";
-                            $query .= ") bl ";
-                            $query .= "group by invoice_id ";
-                            $query .= "HAVING sisa = {$mutasi->amount} ";
-                            $data   = DB::select($query);
-
-                            if ( count($data) == 1 ) {
-                                $data                   = $data[0];
-                                $invoice_id             = $data->invoice_id;
-                                $pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
-                            }
-
-						} else {
-							$query  = "SELECT * ";
-							$query .= "FROM asuransis asu ";
-							$query .= "WHERE INSTR('{$description}' , asu.kata_kunci ) ";
-							$query .= "AND kata_kunci not like '' ";
-							$query .= "AND asu.tenant_id = 1 ";
-							$matched_insurance = DB::select($query);
-
-							if (count($matched_insurance) > 0) {
-								//email masing2 asuransi
-								//wa masing2 pic asuransi pada jam dan hari kerja
-							}
-						}
+                        $this->prosesValidasiTransaksiMasuk();
 					}
 					//
 					//
 					//validasi pembayaran BPJS sekaligus update jumlah peserta asuransi
 					//
 					//
-					if (
-						str_contains( $mutasi->description, 'BPJS KESEHATAN KC TIGARAKSA')
-					) {
-						if ( $mutasi->amount > 100000000) {
-							$pendapatan                                = new PendapatansController;
-							$pendapatan->input_staf_id                 = Staf::where('owner', 1)->first()->id;
-							$pendapatan->input_nilai_clean             = $mutasi->amount;
-							$pendapatan->input_periode_bulan_bpjs      = Carbon::parse($mutasi->date)->subMonth()->format('Y-m');
-							$pendapatan->input_tanggal_pembayaran_bpjs = $mutasi->date;
-							$pendapatan->input_konfirmasikan           = 0;
-							$pendapatan->prosesPembayaranBpjs();
-						}
-					}
 
 					$insertMutasi[] = [
-						'kode_transaksi'         => $mutasi->mutation_id,
+						'kode_transaksi'         => $this->mutation_id,
 						'akun_bank_id'           => $newBank->id,
-						'tanggal'                => $mutasi->created_at,
+						'tanggal'                => $this->created_at,
 						'pembayaran_asuransi_id' => $pembayaran_asuransi_id,
-						'deskripsi'              => $mutasi->description,
-						'nilai'                  => $mutasi->amount,
-						'saldo_akhir'            => $mutasi->balance,
+						'deskripsi'              => $this->mutasi_description,
+						'nilai'                  => $this->amount,
+						'saldo_akhir'            => $this->balance,
 						'debet'                  => $debet,
 						'tenant_id'              => 1,
 						'created_at'             => $timestamp,
@@ -275,6 +188,107 @@ class cekMutasi19Terakhir extends Command
 		$pembayaran_asuransi_id = $pb['pb']->id;
 		return $pembayaran_asuransi_id;
 	}
+    public function prosesValidasiTransaksiMasuk(){
+       $desc[] = $this->mutasi_description;
+
+        $query  = "select ";
+        $query .= "invoice_id, ";
+        $query .= "sum(piutang) - sum(sudah_dibayar) as sisa ";
+        $query .= "FROM (";
+        $query .= "select ";
+        $query .= "prx.piutang as piutang, ";
+        $query .= "prx.invoice_id as invoice_id, ";
+        $query .= "COALESCE(SUM(pdb.pembayaran),0) as sudah_dibayar ";
+        $query .= "from periksas as prx ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "JOIN invoices as inv on inv.id = prx.invoice_id ";
+        $query .= "JOIN kirim_berkas as krm on krm.id = inv.kirim_berkas_id ";
+        $query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
+        $query .= "WHERE INSTR('{$this->mutasi_description}' , asu.kata_kunci ) ";
+        $query .= "AND kata_kunci not like '' ";
+        $query .= "AND krm.tanggal < '{$this->created_at}' ";
+        $query .= "AND krm.tanggal >= '" . date("Y-m-d", strtotime("-6 months")). "' ";
+        $query .= "AND inv.tenant_id = 1 ";
+        $query .= "group by prx.id ";
+        $query .= ") bl ";
+        $query .= "group by invoice_id ";
+        $query .= "HAVING sisa = {$this->amount} ";
+        $data   = DB::select($query);
+
+
+        dd( 
+            $this->mutasi_description,
+            $this->created_at,
+            $this->amount,
+        );
+
+        $inserted_description[] = $this->mutasi_description;
+
+        if (
+            count($data) == 1 //jika ditemukan 1 data
+        ) {
+            $data                   = $data[0];
+            $invoice_id             = $data->invoice_id;
+            $pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
+        } else if(
+            str_contains( $this->mutasi_description, '/P')	//deskripsi mengandung /P
+        ){
+            $asuransi_id = getAsuransiIdFromDescription($this->mutasi_description);
+            $query  = "select ";
+            $query .= "invoice_id, ";
+            $query .= "sum(piutang) - sum(sudah_dibayar) as sisa ";
+            $query .= "FROM (";
+            $query .= "select ";
+            $query .= "prx.piutang as piutang, ";
+            $query .= "prx.invoice_id as invoice_id, ";
+            $query .= "COALESCE(SUM(pdb.pembayaran),0) as sudah_dibayar ";
+            $query .= "from periksas as prx ";
+            $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+            $query .= "JOIN invoices as inv on inv.id = prx.invoice_id ";
+            $query .= "JOIN kirim_berkas as krm on krm.id = inv.kirim_berkas_id ";
+            $query .= "LEFT JOIN piutang_dibayars as pdb on pdb.periksa_id = prx.id ";
+            $query .= "WHERE asu.id = '{$asuransi_id}' ";
+            $query .= "AND krm.tanggal < '{$this->created_at}' ";
+            $query .= "AND inv.tenant_id = 1 ";
+            $query .= "group by prx.id ";
+            $query .= ") bl ";
+            $query .= "group by invoice_id ";
+            $query .= "HAVING sisa = {$this->amount} ";
+            $data   = DB::select($query);
+
+            if ( count($data) == 1 ) {
+                $data                   = $data[0];
+                $invoice_id             = $data->invoice_id;
+                $pembayaran_asuransi_id = $this->validatePembayaran($invoice_id);
+            }
+
+        } else {
+            $query  = "SELECT * ";
+            $query .= "FROM asuransis asu ";
+            $query .= "WHERE INSTR('{$this->mutasi_description}' , asu.kata_kunci ) ";
+            $query .= "AND kata_kunci not like '' ";
+            $query .= "AND asu.tenant_id = 1 ";
+            $matched_insurance = DB::select($query);
+
+            if (count($matched_insurance) > 0) {
+                //email masing2 asuransi
+                //wa masing2 pic asuransi pada jam dan hari kerja
+            }
+        }
+        if (
+            str_contains( $this->mutasi_description, 'BPJS KESEHATAN KC TIGARAKSA') &&
+             $this->amount > 100000000
+        ) {
+            $pendapatan                                = new PendapatansController;
+            $pendapatan->input_staf_id                 = Staf::where('owner', 1)->first()->id;
+            $pendapatan->input_nilai_clean             = $this->amount;
+            $pendapatan->input_periode_bulan_bpjs      = Carbon::parse( $this->date )->subMonth()->format('Y-m');
+            $pendapatan->input_tanggal_pembayaran_bpjs = $this->date;
+            $pendapatan->input_konfirmasikan           = 0;
+            $pendapatan->prosesPembayaranBpjs();
+        }
+    }
+    
     /**
      * undocumented function
      *

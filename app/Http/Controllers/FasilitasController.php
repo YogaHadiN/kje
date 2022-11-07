@@ -341,8 +341,6 @@ class FasilitasController extends Controller
                 ->whereRaw("DATE_ADD( updated_at, interval 1 hour ) > '" . date('Y-m-d H:i:s') . "'")
                 ->get();
 
-            Log::info(344);
-            Log::info($registeredWhatsapp->count());
             if ( $registeredWhatsapp->count() == 1 ) {
                 Log::info(345);
                 $text = '*KLINIK JATI ELOK*' ;

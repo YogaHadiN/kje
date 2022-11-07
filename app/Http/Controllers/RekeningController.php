@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use App\Models\Rekening;
 use App\Models\Asuransi;
+use App\Console\Commands\cekMutasi19Terakhir;
 use App\Models\PiutangDibayar;
 use App\Models\PembayaranAsuransi;
 use App\Models\AbaikanTransaksi;
@@ -278,65 +279,33 @@ class RekeningController extends Controller
 		return view('rekenings.createImport');
 	}
 	public function importPost(){
-		$file      = Input::file('transaksi'); //GET FILE
-		$excel     = Excel::toArray(new PembayaranImport, $file)[0];
-		$timestamp = date('Y-m-d H:i:s');
-		$rekenings = [];
-		$abaikans  = [];
+		$file         = Input::file('transaksi'); //GET FILE
+		$excel        = Excel::toArray(new PembayaranImport, $file)[0];
+		$timestamp    = date('Y-m-d H:i:s');
+		$rekenings    = [];
+		$abaikans     = [];
 		$not_inserted = [];
 		foreach ($excel as $x) {
+            $cek              = new cekMutasi19Terakhir;
+            $cek->mutation_id = '';
+            $cek->mutasi_description = $x['deskripsi'];
+            $cek->balance     = 0;
+            $cek->amount      = $x['nilai'];
+            $cek->date        = gmdate("Y-m-d",  ($x['tanggal'] - 25569) * 86400 );
+            $cek->prosesValidasiTransaksiMasuk();
 
-			if (isset($x[0])){
-				$nilai = (float) $x[4];
-
-				if (!isset($x[6])) {
-					if ($nilai > 0) {
-						$debet = 0;
-					} else {
-						$debet = 1;
-					}
-				} else {
-					$debet = $x[6];
-				}
-
-				if (DateTime::createFromFormat('Y-m-d', $x[2]) !== FALSE) {
-					$tanggal = $x[2];
-				} else  if (DateTime::createFromFormat('d-M-Y', $x[2]) !== FALSE) {
-					$tanggal = Carbon::createFromFormat('d-M-Y', $x[2])->format('Y-m-d');
-				} else {
-					throw new Exception("Format tanggal tidak dikenal : " . $x[2]);
-				}
-
-				$test_transaksi = Rekening::where('akun_bank_id', 'pG1karGazgM')
-						->where('nilai', abs($nilai))
-						->where('tanggal', $tanggal)
-						->where('debet', $debet)
-						->first();
-				if (
-					is_null($test_transaksi)
-				) {
-					/* dd( 'exist', $test_transaksi ); */
-					$rekenings[] = [
-						'id'                     => $x[0],
-						'akun_bank_id'           => $x[1],
-						'tanggal'                => $tanggal,
-						'deskripsi'              => $x[3],
-						'nilai'                  => abs($nilai),
-						'saldo_akhir'            => $x[5],
-						'debet'                  => $debet,
-						'pembayaran_asuransi_id' => null,
-						'old_id'                 => null,
-							'tenant_id'  => session()->get('tenant_id'),
-						'created_at'             => $timestamp,
-						'updated_at'             => $timestamp
-					];
-				} else {
-					$not_inserted[] = [
-						'nilai'   => abs($nilai),
-						'tanggal' => $tanggal
-					];
-				}
-			} 
+            $rekenings[] = [
+                'akun_bank_id'           => 2,
+                'tanggal'                => gmdate("Y-m-d",  ($x['tanggal'] - 25569) * 86400 ),
+                'deskripsi'              => $x['deskripsi'],
+                'nilai'                  => $x['nilai'],
+                'saldo_akhir'            => 0,
+                'debet'                  => 0,
+                'pembayaran_asuransi_id' => null,
+                'tenant_id'              => 1,
+                'created_at'             => $timestamp,
+                'updated_at'             => $timestamp
+            ];
 		}
 
 		$message = 'Berhasil memasukkan ' . count($rekenings). ' data. '  . count($not_inserted). ' gagal dimasukkan : <br /><br />';
