@@ -3060,24 +3060,16 @@ function resepJson(result) {
     } else {
         var MyArray = "";
     }
-
-    console.log(
-        "merek_id_kertas_puyer_biasa",
-        $("#merek_id_kertas_puyer_biasa").val()
-    );
-    console.log(
-        "merek_id_kertas_puyer_sablon",
-        $("#merek_id_kertas_puyer_sablon").val()
-    );
-    console.log("merek_id_add_sirup", $("#merek_id_add_sirup").val());
-
+    console.log("yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    console.log("MyArray", MyArray);
     var temp = '<table width="100%">';
-    console.log("MyArray.length", MyArray.length);
     if (MyArray.length > 0) {
+        console.log("lebih dari 0");
+        console.log("MyArray[0].merek_id", MyArray[0].merek_id, "oke", i);
         for (var i = 0; i < MyArray.length - 1; i++) {
+            console.log("thiiiisss", i);
+            console.log("MyArray[i].merek_id", MyArray[i].merek_id, "oke", i);
             //Untuk menghitung urutan add sirup yang terakhir
-            console.log("MEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEKKKK");
-            console.log("merek_id", MyArray[i].merek_id);
 
             if (
                 MyArray[i].signa.substring(0, 5) == "Puyer" &&
@@ -3140,7 +3132,7 @@ function resepJson(result) {
 
                 $("#puyer").val("0");
             } else if (
-                MyArray[i].merek_id == $('#merek_id_add_sirup').val() &&
+                MyArray[i].signa.substring(0, 3) == "Add" &&
                 $("#boolAdd").val() == "0"
             ) {
                 temp += "<tr>";
@@ -3159,7 +3151,7 @@ function resepJson(result) {
 
                 $("#boolAdd").val("1");
             } else if (
-                MyArray[i].merek_id == $('#merek_id_add_sirup').val() &&
+                MyArray[i].signa.substring(0, 3) == "Add" &&
                 $("#boolAdd").val() == "1"
             ) {
                 temp += "<tr>";
@@ -3215,8 +3207,9 @@ function resepJson(result) {
         }
         var a = MyArray.length - 1;
         if (
-            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
-            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+                MyArray[a].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
         ) {
             temp += "<tr>";
             temp += '<td style="width:15px"></td>';
@@ -3231,7 +3224,7 @@ function resepJson(result) {
                 MyArray[a].aturan_minum +
                 "</td>";
             $("#puyer").val("0");
-        } else if (MyArray[a].merek_id == 2) {
+        } else if (MyArray[a].merek_id == $("#merek_id_add_sirup").val()) {
             temp += "<tr>";
             temp += '<td style="width:15px"></td>';
             temp +=
@@ -3242,7 +3235,7 @@ function resepJson(result) {
 
             $("#boolAdd").val("0");
         } else if (
-            MyArray[a].merek_id ==  $('#merek_id_add_sirup').val() &&
+            MyArray[a].signa.substring(0, 3) == "Add" &&
             $("#boolAdd").val() == "0"
         ) {
             temp += "<tr>";
@@ -3263,7 +3256,7 @@ function resepJson(result) {
             id_formula_sirup_add = MyArray[a].formula_id;
             console.log("id_formula_sirup_add = " + id_formula_sirup_add);
         } else if (
-            MyArray[a].merek_id ==  $('#merek_id_add_sirup').val() &&
+            MyArray[a].signa.substring(0, 3) == "Add" &&
             $("#boolAdd").val() == "1"
         ) {
             temp += "<tr>";
@@ -3293,7 +3286,7 @@ function resepJson(result) {
                 addSatu = true;
             }
         } else if (
-            (MyArray[a].merek_id == $('#merek_id_kertas_puyer_biasa').val() || MyArray[a].merek_id == $('#merek_id_kertas_puyer_sablon').val() ) &&
+            MyArray[a].signa.substring(0, 5) == "Puyer" &&
             $("#puyer").val() == "0"
         ) {
             temp += "<tr>";
@@ -3306,7 +3299,7 @@ function resepJson(result) {
                 "  ]</strong></td>";
             temp += "<td> No : " + MyArray[a].jumlah + "</td>";
         } else if (
-            (MyArray[a].merek_id == $('#merek_id_kertas_puyer_biasa').val() || MyArray[a].merek_id == $('#merek_id_kertas_puyer_sablon').val() ) &&
+            MyArray[a].signa.substring(0, 5) == "Puyer" &&
             $("#puyer").val() == "1"
         ) {
             temp += "<tr>";
@@ -3402,7 +3395,11 @@ function resepJson(result) {
                 } else {
                     $("#puyer").val("0");
                 }
-            } else if (MyArray[i].merek_id == $('#merek_id_kertas_puyer_biasa').val() || MyArray[i].merek_id == $('#merek_id_kertas_puyer_sablon').val()) {
+            } else if (
+                MyArray[i].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+            ) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
                 temp2 += "<tr>";
                 temp2 += '<td style="width:15px"></td>';
@@ -3426,7 +3423,7 @@ function resepJson(result) {
 
                 $("#puyer").val("0");
             } else if (
-                MyArray[i].merek_id == $('#merek_id_add_sirup').val() &&
+                MyArray[i].signa.substring(0, 3) == "Add" &&
                 $("#boolAdd").val() == "0"
             ) {
                 ID_TERAPIGroup = [];
@@ -3456,7 +3453,7 @@ function resepJson(result) {
 
                 $("#boolAdd").val("1");
             } else if (
-                MyArray[i].merek_id == $('#merek_id_add_sirup').val() &&
+                MyArray[i].signa.substring(0, 3) == "Add" &&
                 $("#boolAdd").val() == "1"
             ) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
@@ -3554,8 +3551,9 @@ function resepJson(result) {
         var a = MyArray.length - 1;
 
         if (
-            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
-            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+                MyArray[a].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
 ) {
             console.log(MyArray[a].merek_id + " = 1");
 
@@ -3582,7 +3580,7 @@ function resepJson(result) {
             temp2 += "<td></td>";
 
             $("#puyer").val("0");
-        } else if (MyArray[a].merek_id == 2) {
+        } else if (MyArray[a].merek_id == $("#merek_id_add_sirup").val()) {
             console.log(MyArray[a].merek_id + " = 2");
 
             ID_TERAPIGroup = [];
@@ -3604,7 +3602,7 @@ function resepJson(result) {
 
             $("#boolAdd").val("0");
         } else if (
-            MyArray[a].merek_id ==  $('#merek_id_add_sirup').val() &&
+            MyArray[a].signa.substring(0, 3) == "Add" &&
             $("#boolAdd").val() == "0"
         ) {
             console.log(MyArray[a].merek_id + " = 3");
@@ -3634,7 +3632,7 @@ function resepJson(result) {
             temp2 += '<td class="displayNone"></td>';
             $("#boolAdd").val("1");
         } else if (
-            MyArray[a].merek_id ==  $('#merek_id_add_sirup').val() &&
+            MyArray[a].signa.substring(0, 3) == "Add" &&
             $("#boolAdd").val() == "1"
         ) {
             ID_TERAPIGroup = [];
@@ -3675,7 +3673,7 @@ function resepJson(result) {
                 addSatu = true;
             }
         } else if (
-            (MyArray[a].merek_id == $('#merek_id_kertas_puyer_biasa').val() || MyArray[a].merek_id == $('#merek_id_kertas_puyer_sablon').val() ) &&
+            MyArray[a].signa.substring(0, 5) == "Puyer" &&
             $("#puyer").val() == "0"
         ) {
             ID_TERAPIGroup = [];
@@ -3698,7 +3696,7 @@ function resepJson(result) {
             temp2 += '<td class="displayNone">' + MyArray[a].merek_id + "</td>";
             $("#puyer").val("1");
         } else if (
-            (MyArray[a].merek_id == $('#merek_id_kertas_puyer_biasa').val() || MyArray[a].merek_id == $('#merek_id_kertas_puyer_sablon').val() ) &&
+            MyArray[a].signa.substring(0, 5) == "Puyer" &&
             $("#puyer").val() == "1"
         ) {
             console.log(MyArray[a].merek_id + " = 6");
@@ -3818,7 +3816,11 @@ function resepJson(result) {
                 } else {
                     $("#puyer").val("0");
                 }
-            } else if (MyArray[i].merek_id == 1 || MyArray[i].merek_id == 3) {
+            } else if (
+                MyArray[i].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
                 temp3 += "<tr>";
                 temp3 += '<td style="width:15px"></td>';
@@ -3838,7 +3840,7 @@ function resepJson(result) {
 
                 $("#puyer").val("0");
             } else if (
-                MyArray[i].merek_id == $('#merek_id_add_sirup').val() &&
+                MyArray[i].signa.substring(0, 3) == "Add" &&
                 $("#boolAdd").val() == "0"
             ) {
                 ID_TERAPIGroup = [];
@@ -3866,7 +3868,7 @@ function resepJson(result) {
 
                 $("#boolAdd").val("1");
             } else if (
-                MyArray[i].merek_id == $('#merek_id_add_sirup').val() &&
+                MyArray[i].signa.substring(0, 3) == "Add" &&
                 $("#boolAdd").val() == "1"
             ) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
@@ -3954,9 +3956,10 @@ function resepJson(result) {
         var a = MyArray.length - 1;
 
         if (
-            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
-            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
-        ) {
+                MyArray[a].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+) {
             console.log(MyArray[a].merek_id + " = 1");
 
             ID_TERAPIGroup = [];
@@ -3977,7 +3980,8 @@ function resepJson(result) {
             temp3 += '<td class="displayNone"></td>';
 
             $("#puyer").val("0");
-        } else if (MyArray[a].merek_id == $('#merek_id_add_sirup').val() ) {
+        } else if (MyArray[a].merek_id == $("#merek_id_add_sirup").val()) {
+            console.log(MyArray[a].merek_id + " = 2");
 
             ID_TERAPIGroup = [];
             ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: a };
@@ -3994,7 +3998,7 @@ function resepJson(result) {
 
             $("#boolAdd").val("0");
         } else if (
-            MyArray[a].merek_id ==  $('#merek_id_add_sirup').val() &&
+            MyArray[a].signa.substring(0, 3) == "Add" &&
             $("#boolAdd").val() == "0"
         ) {
             console.log(MyArray[a].merek_id + " = 3");
@@ -4019,7 +4023,7 @@ function resepJson(result) {
             temp3 += '<td class="displayNone"></td>';
             $("#boolAdd").val("1");
         } else if (
-            MyArray[a].merek_id ==  $('#merek_id_add_sirup').val() &&
+            MyArray[a].signa.substring(0, 3) == "Add" &&
             $("#boolAdd").val() == "1"
         ) {
             ID_TERAPIGroup = [];
@@ -4056,7 +4060,7 @@ function resepJson(result) {
                 addSatu = true;
             }
         } else if (
-            (MyArray[a].merek_id == $('#merek_id_kertas_puyer_biasa').val() || MyArray[a].merek_id == $('#merek_id_kertas_puyer_sablon').val() ) &&
+            MyArray[a].signa.substring(0, 5) == "Puyer" &&
             $("#puyer").val() == "0"
         ) {
             ID_TERAPIGroup = [];
@@ -4075,7 +4079,7 @@ function resepJson(result) {
             temp3 += '<td class="displayNone">' + MyArray[a].merek_id + "</td>";
             $("#puyer").val("1");
         } else if (
-            (MyArray[a].merek_id == $('#merek_id_kertas_puyer_biasa').val() || MyArray[a].merek_id == $('#merek_id_kertas_puyer_sablon').val() ) &&
+            MyArray[a].signa.substring(0, 5) == "Puyer" &&
             $("#puyer").val() == "1"
         ) {
             console.log(MyArray[a].merek_id + " = 6");
