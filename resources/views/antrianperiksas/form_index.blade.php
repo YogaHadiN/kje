@@ -1,16 +1,20 @@
 @foreach ($postperiksa as $periksa)
     <tr>
         <td class="hide antrian_periksa_id">{!! $periksa->periksa_id !!}</td>
-        <td>
-            @if( !is_null($periksa->antrian ) )
-                {!! $periksa->antrian->nomor_antrian !!}
-            @endif
-        </td> 
+        
+        @if( \Auth::user()->tenant->nursestation_availability )
+            <td>
+                @if( !is_null($periksa->antrian ) )
+                    {!! $periksa->antrian->nomor_antrian !!}
+                @endif
+            </td>
+        @endif
+ 
         <td>{!! $periksa->periksa->pasien->nama !!}</td>
         <td>{!! $periksa->periksa->staf->nama !!}</td> 
         <td>{!! $periksa->periksa->asuransi->nama !!}</td>
         <td>
-            @if(!$periksa->suratSakit)
+            @if(!$periksa->periksa->suratSakit)
                 --
             @else 
                 {!!App\Models\Classes\Yoga::updateDatePrep($periksa->periksa->suratSakit->tanggal_mulai)!!} selama {!!$periksa->periksa->suratSakit->hari!!} hari

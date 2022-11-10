@@ -53,6 +53,10 @@
 	</div>
   </div>
   <div class="panel-body">
+      {!! Form::text('asuransi_id_bpjs', null, [
+        'class' => 'form-control hide',
+        'id'    => 'asuransi_id_bpjs'
+      ]) !!}
 	  @include('antrianpolis.form', ['antrianpolis' => $antrianpolis])
   </div>
 </div>

@@ -89,6 +89,7 @@ class PasiensController extends Controller
         $ps = new Pasien;
         $this->dataIndexPasien['statusPernikahan']           = $ps->statusPernikahan();
         $this->dataIndexPasien['asuransi_id_biaya_pribadi' ] = Asuransi::BiayaPribadi()->id;
+        $this->dataIndexPasien['asuransi_id_bpjs' ] = Asuransi::Bpjs()->id;
         $this->dataIndexPasien['asuransi']                   = Yoga::asuransiList();
         $this->dataIndexPasien['jenis_peserta']              = JenisPeserta::pluck('jenis_peserta');
         $this->dataIndexPasien['peserta']                    = [
@@ -122,6 +123,7 @@ class PasiensController extends Controller
         $poli_gawat_darurat = Poli::gawatDarurat();
 
         $this->dataCreatePasien['asuransi_id_biaya_pribadi']= Asuransi::BiayaPribadi()->id;
+        $this->dataCreatePasien['asuransi_id_bpjs']= Asuransi::Bpjs()->id;
         $this->dataCreatePasien['statusPernikahan']= $ps->statusPernikahan();
         $this->dataCreatePasien['asuransi']= Yoga::asuransiList();
         $this->dataCreatePasien['jenis_peserta']= JenisPeserta::pluck('jenis_peserta');

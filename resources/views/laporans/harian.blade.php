@@ -105,6 +105,9 @@
 								  <th class="hide">Periksa Id</th>
 								  <th class="hide old_asuransi_id">old_asuransi_id</th>
 								  <th class="hide tanggal">tanggal</th>
+                                    @if( \Auth::user()->tenant->nursestation_availability )
+                                        <th>No Antrian</th>
+                                    @endif
 								  <th>Nama Pasien</th>
 								  <th>Nama Pemeriksa</th>
 								  <th>Pembayaran</th>
@@ -121,6 +124,9 @@
 										  <td class="hide periksa_id">{!! $periksa->periksa_id !!}</td>
 										  <td class="hide old_asuransi_id">{!! $periksa->asuransi_id !!}</td>
 										  <td class="hide tanggal">{!! $periksa->tanggal !!}</td>
+                                            @if( \Auth::user()->tenant->nursestation_availability )
+                                              <td class="nomor_antrian">{!! $periksa->prefix !!}{!! $periksa->nomor !!}</td>
+                                            @endif
 										  <td class="nama_pasien">{!! ucwords($periksa->nama_pasien) !!}</td>
                                           <td class="nama_pemeriksa">{!! ucwords($periksa->nama_staf) !!}</td>
 										  <td>{!! $periksa->nama_asuransi !!}</td>

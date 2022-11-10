@@ -130,7 +130,7 @@ function tujuanChange(control) {
                     '<div class="panel panel-default"><div class="panel-body">';
                 text +=
                     "<h3>Ketersediaan " + $("#tujuan_rujuk").val() + "</h3>";
-                if (asuransi_id == "32") {
+                if (asuransi_id == $("#asuransi_id_bpjs").val()) {
                     text +=
                         '<div class"text-red text-center">Khusus untuk Pasien BPJS harus Rumah Sakit tipe C (atau D) kecuali spesialis tersebut tidak ada</div><br />';
                 }

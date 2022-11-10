@@ -59,6 +59,7 @@
 @stop
 @section('content')
     <input type="text" class="hide" value="{{ $asuransi_id_biaya_pribadi }}" id="asuransi_id_biaya_pribadi"/>
+    <input type="text" class="hide" value="{{ $asuransi_id_bpjs }}" id="asuransi_id_bpjs"/>
 	@if(isset($antrian))
 		@include('fasilitas.memproses')
 	@endif

@@ -78,6 +78,7 @@
                            {!! Form::text('nama_ayah', null, ['class' => 'form-control-inline form-control ajaxselectpasien', 'id' => 'nama_ayah_Input'])!!}
                         </th>
                         <th class="displayNone">Asuransi ID</th>
+                        <th class="displayNone">Tipe Asuransi ID</th>
                         <th class="action">Sudah Kontak <br> 
 							{!! Form::select('sudah_kontak',[
 								null => '- Pilih -',

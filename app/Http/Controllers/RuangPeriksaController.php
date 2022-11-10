@@ -34,6 +34,7 @@ class RuangPeriksaController extends Controller
 
 		$query  = "SELECT ";
 		$query .= "po.poli as poli, ";
+		$query .= "apx.id as antrian_periksa_id, ";
 		$query .= "po.id as poli_id, ";
 		$query .= "apx.asuransi_id as asuransi_id, ";
 		$query .= "jnt.prefix as prefix, ";
@@ -44,6 +45,7 @@ class RuangPeriksaController extends Controller
 		$query .= "psn.nama as nama_pasien, ";
 		$query .= "apx.staf_id as staf_id, ";
 		$query .= "ant.created_at as created_at, ";
+		$query .= "ant.antriable_type as antriable_type, ";
 		$query .= "ant.id as antrian_id, ";
 		$query .= "ant.antriable_id as antriable_id, ";
 		$query .= "apx.tanggal as tanggal, ";
@@ -56,19 +58,24 @@ class RuangPeriksaController extends Controller
 		$query .= "LEFT JOIN periksas as prx on prx.antrian_periksa_id = apx.id ";
 		$query .= "JOIN pasiens as psn on psn.id = apx.pasien_id ";
 		$query .= "LEFT JOIN pengantar_pasiens as pgn on pgn.pengantar_id = psn.id ";
-		$query .= "LEFT JOIN antrians as ant on ant.antriable_id = apx.id ";
+		$query .= "LEFT OUTER JOIN antrians as ant on ant.antriable_id = apx.id AND ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' ";
 		$query .= "LEFT JOIN jenis_antrians as jnt on jnt.id = ant.jenis_antrian_id ";
 		$query .= "JOIN stafs as stf on stf.id = apx.staf_id ";
 		$query .= "JOIN polis as po on po.id = apx.poli_id ";
 		$query .= "JOIN asuransis as asu on asu.id = apx.asuransi_id ";
-		$query .= "WHERE (ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' or ant.antriable_type is null) ";
-		$query .= "AND apx.tenant_id = " . session()->get('tenant_id') . " ";
-		$query .= "AND apx.poli_id in ({$poli_ids}) ";
+        $query .= "WHERE ";
+        $query .= "(ant.antriable_type = 'App\\\Models\\\AntrianPeriksa' or ant.antriable_type is null) ";
+        $query .= "AND ";
+        $query .= "apx.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "AND ";
+        $query .= "apx.poli_id in ({$poli_ids}) ";
 		$query .= "GROUP BY apx.id ";
 		$query .= "ORDER BY ant.id ASC ";
 
+
         /* dd( $query ); */
 		$antrian_periksas = DB::select($query);
+
 		/* dd( $antrian_periksas ); */
 
 
@@ -106,6 +113,8 @@ class RuangPeriksaController extends Controller
 			'antars',
 			'antrian.jenis_antrian'
 		)->get();
+
+        /* dd( $antrian_apoteks ); */
 
 		/* foreach ($antrian_apoteks as $an) { */
 		/* 	$asuransi = $an->periksa->asuransi->nama; */

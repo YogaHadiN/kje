@@ -139,11 +139,15 @@ class PoliAjaxController extends Controller
 		$query .= "join terapis as trp on trp.periksa_id = p.id ";
 		$query .= "join mereks as mrk on mrk.id = trp.merek_id ";
 		$query .= "join raks as rk on rk.id = mrk.rak_id ";
-        $query .= "where (";
+        $query .= "where ";
+        if ( session()->get('tenant_id') == 1 ) {
+            $query .= "( ";
+        }
         if (
-             $asuransi->tipe_asuransi_id != 5  
+            ($asuransi->tipe_asuransi_id != 5 && session()->get('tenant_id')  == 1) ||
+            session()->get('tenant_id') != 1
         ) {
-            $query .= "staf_id= {$staf_id} ";
+            $query .= "staf_id= {$staf_id} and ";
         }
         if ( 
              $asuransi->tipe_asuransi_id != 5  &&
@@ -154,8 +158,10 @@ class PoliAjaxController extends Controller
         if ( session()->get('tenant_id') == 1 ) {
             $query .= "staf_id=" . Staf::owner()->id;
         }
-        $query .= " ) "; 
-		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
+        if ( session()->get('tenant_id') == 1 ) {
+            $query .= " ) AND "; 
+        }
+		$query .= "p.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "and {$parameter_asuransi} ";
 		$query .= "and d.icd10_id = '{$icd10}' ";
 		$query .= "and {$parameter_berat_badan} ";

@@ -2258,6 +2258,8 @@ class LaporansController extends Controller
 
 		$query  = "SELECT *, ";
 		$query .= "p.id as periksa_id, ";
+		$query .= "jen.id as periksa_id, ";
+		$query .= "ant.nomor as nomor_antrian, ";
 		$query .= "stf.nama as nama_staf, ";
 		$query .= "p.tanggal as tanggal, ";
 		$query .= "p.asuransi_id as asuransi_id, ";
@@ -2271,10 +2273,15 @@ class LaporansController extends Controller
         $query .= "JOIN stafs as stf on stf.id = p.staf_id ";
 		$query .= "INNER JOIN polis as po on po.id = p.poli_id ";
 		$query .= "LEFT OUTER JOIN asuransis as asu on asu.id = p.asuransi_id ";
+		$query .= "LEFT OUTER JOIN antrians as ant on p.id = ant.antriable_id and antriable_type = 'App\\\Models\\\Periksa' ";
+		$query .= "LEFT OUTER JOIN jenis_antrians as jen on jen.id = ant.jenis_antrian_id ";
 		$query .= "where p.tanggal like '{$tanggal}' ";
+		$query .= "AND (ant.antriable_type = 'App\\\Models\\\Periksa' or ant.antriable_type is null) ";
 		$query .= "AND p.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "AND p.asuransi_id like '{$asuransi_id}' ";
-		return  DB::select($query);
+
+		$data =  DB::select($query);
+        return $data;
 
 	}
 	public function polisHarian($periksas){

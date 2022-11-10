@@ -197,9 +197,11 @@
 							</ul>
 						</li>
 					@endif
-					<li>
-                        <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
-                    </li>
+                    @if( \Auth::user()->tenant->nursestation_availability )
+                        <li>
+                            <a href="{{ url('antrianpolis') }}"><i class="fa fa-flask"></i> <span class="nav-label">Nurse Station</span> </a>
+                        </li>
+					@endif
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Poli</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">

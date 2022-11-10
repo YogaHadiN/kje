@@ -36,7 +36,9 @@
 						<tr>
 							<th>id</th>
 							<th>periksa_id</th>
-							<th>Antrian</th>
+                            @if( \Auth::user()->tenant->nursestation_availability )
+                                <th>Antrian</th>
+                            @endif
 							<th>Nama Pasien</th>
 							<th>Jam Terima Resep</th>
 							<th>Tanggal</th>
@@ -51,11 +53,13 @@
 							<tr>
 									<td>{!! $antriankasir->id !!}</td>
 									<td>{!! $antriankasir->periksa_id !!}</td>
-									<td>
-										@if(isset( $antriankasir->antrian  ))
-											{!! $antriankasir->antrian->nomor_antrian !!}
-										@endif
-									</td>
+                                    @if( \Auth::user()->tenant->nursestation_availability )
+                                        <td>
+                                            @if(isset( $antriankasir->antrian  ))
+                                                {!! $antriankasir->antrian->nomor_antrian !!}
+                                            @endif
+                                        </td>
+                                    @endif
 									<td>{!! !is_null($antriankasir->periksa) ? $antriankasir->periksa->pasien->nama : ''!!}</td>
 									<td>{!! $antriankasir->jam!!}</td>
 									<td>{!! $antriankasir->tanggal!!}</td>

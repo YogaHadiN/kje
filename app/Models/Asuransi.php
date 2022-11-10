@@ -143,6 +143,13 @@ class Asuransi extends Model{
     public static function BiayaPribadi(){
         return Asuransi::where('tipe_asuransi_id', 1)->first();
     }
+
+    public static function Flat(){
+        if ( Asuransi::where('tipe_asuransi_id', 4)->exists() ) {
+            return Asuransi::where('tipe_asuransi_id', 4)->first();
+        }
+    }
+
     public function coa(){
         return $this->belongsTo(Coa::class);
     }

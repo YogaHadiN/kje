@@ -1,6 +1,6 @@
 @if(isset( $antrian ))
 	{!! Form::open(['url' => 'antrians/antrianpolis/' . $antrian->id, 'method' => 'post']) !!}
-@elseif( \Auth::user()->tenant->nursestation_availability )
+@else
 	{!! Form::open(['url' => 'antrianpolis', 'method' => 'post']) !!}
 @endif
 	<div class="row">

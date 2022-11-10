@@ -26,7 +26,7 @@ $("#antrianpoli_tanggal").closest("form").attr("autocomplete", "off");
 
 $("#ddlPembayaran").change(function () {
     var val = $(this).val();
-    if (val == "32") {
+    if (val == $("#asuransi_id_bpjs").val()) {
         $("#bukan_peserta select").val("");
         $("#bukan_peserta").removeClass("hide").hide().fadeIn(500);
         console.log($("#bukan_peserta select").val());
@@ -441,9 +441,12 @@ $('input[type="radio"][name="opt"]').change(function (e) {
 });
 
 function dummySubmit(control) {
+    console.log("oke");
     if (validatePass2(control)) {
+        console.log("pass");
         $("#submit").click();
     }
+    console.log("unpass");
 }
 function clearAndSelectPasien(key = 0) {
     if ($("#paging").data("twbs-pagination")) {
@@ -576,6 +579,10 @@ function selectPasien(key = 0) {
             temp +=
                 "<td nowrap class='displayNone asuransi_id'><div>" +
                 MyArray[i].asuransi_id +
+                "</div></td>";
+            temp +=
+                "<td nowrap class='displayNone tipe_asuransi_id'><div>" +
+                MyArray[i].tipe_asuransi_id +
                 "</div></td>";
             temp +=
                 "<td nowrap class='displayNone pasien_image'><div>" +

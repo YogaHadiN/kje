@@ -126,7 +126,7 @@ function rowEntry(control) {
         console.log("ini satu");
     }
 
-    if (ID_ASURANSI == "32") {
+    if (ID_ASURANSI == $("#asuransi_id_bpjs").val()) {
         $("#pastikan").show();
         cekBPJSkontrol(ID_PASIEN, ID_ASURANSI);
         $("#lblKecelakaanKerja").html(

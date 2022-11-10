@@ -10,6 +10,7 @@ use App\Http\Controllers\WablasController;
 use App\Events\updateMonitor;
 use App\Models\AntrianPeriksa;
 use App\Models\Antrian;
+use App\Models\Merek;
 use App\Models\Classes\Yoga;
 use App\Models\TujuanRujuk;
 use App\Models\JenisTarif;
@@ -342,6 +343,11 @@ class PolisController extends Controller
 			 
 			//return $periksaExist->gambarPeriksa->count();
 			/* dd( $dikasiDalam1BulanTerakhir ); */
+            $asuransi_id_bpjs = Asuransi::Bpjs()->id;
+            $asuransi_id_flat = Asuransi::Flat()?Asuransi::Flat()->id : null;
+            $merek_id_kertas_puyer_biasa = Merek::kertasPuyerBiasa()->id;
+            $merek_id_kertas_puyer_sablon = Merek::kertasPuyerSablon()->id;
+            $merek_id_add_sirup = Merek::addSirup()->id;
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
@@ -355,6 +361,11 @@ class PolisController extends Controller
 			->withPasien($pasien)
 			->withSignas($signas)
 			->with('generik_list',$generik_list)
+			->with('asuransi_id_bpjs',$asuransi_id_bpjs)
+			->with('asuransi_id_flat',$asuransi_id_flat)
+			->with('merek_id_kertas_puyer_biasa',$merek_id_kertas_puyer_biasa)
+			->with('merek_id_kertas_puyer_sablon',$merek_id_kertas_puyer_sablon)
+			->with('merek_id_add_sirup',$merek_id_add_sirup)
 			->with('asuransi_list',$asuransi_list)
 			->with('dikembalikan',$dikembalikan)
 			->withBukus($bukus)
@@ -546,14 +557,24 @@ class PolisController extends Controller
 
 		/* return $pasien->alergies[0]->generik; */
         $asuransi_biaya_pribadi = Asuransi::BiayaPribadi();
+        $asuransi_id_bpjs = Asuransi::Bpjs()->id;
+        $asuransi_id_flat = Asuransi::Flat()?Asuransi::Flat()->id:null;
+        $merek_id_kertas_puyer_biasa = Merek::kertasPuyerBiasa()->id;
+        $merek_id_kertas_puyer_sablon = Merek::kertasPuyerSablon()->id;
+        $merek_id_add_sirup = Merek::addSirup()->id;
 		return view('poli')
 			->withAntrianperiksa($antrianperiksa)
 			->withDiagnosa($diagnosa)
+			->with('asuransi_id_bpjs',$asuransi_id_bpjs)
 			->with('jenis_tarif_id_rapid_antibodi',$jenis_tarif_id_rapid_antibodi)
 			->with('jenis_tarif_id_rapid_antigen',$jenis_tarif_id_rapid_antigen)
 			->with('jenis_tarif_id_gula_darah',$jenis_tarif_id_gula_darah)
 			->withUrl($url)
 			->withIcd10s($icd10s)
+			->with('asuransi_id_flat',$asuransi_id_flat)
+			->with('merek_id_kertas_puyer_biasa',$merek_id_kertas_puyer_biasa)
+			->with('merek_id_kertas_puyer_sablon',$merek_id_kertas_puyer_sablon)
+			->with('merek_id_add_sirup',$merek_id_add_sirup)
 			->withBase64($base64)
 			->withPasien($pasien)
 			->with('generik_list',$generik_list)

@@ -29,6 +29,26 @@
             'class' => 'form-control hide',
             'id'    => 'merek_id_kertas_puyer_sablon'
         ]) !!}
+        {!! Form::text('asuransi_id_bpjs', $asuransi_id_bpjs, [
+            'class' => 'form-control hide',
+            'id' => 'asuransi_id_bpjs'
+        ]) !!}
+        {!! Form::text('asuransi_id_flat', $asuransi_id_flat, [
+            'class' => 'form-control hide',
+            'id' => 'asuransi_id_flat'
+        ]) !!}
+        {!! Form::text('merek_id_kertas_puyer_biasa', $merek_id_kertas_puyer_biasa, [
+            'class' => 'form-control hide',
+            'id' => 'merek_id_kertas_puyer_biasa'
+        ]) !!}
+        {!! Form::text('merek_id_kertas_puyer_sablon', $merek_id_kertas_puyer_sablon, [
+            'class' => 'form-control hide',
+            'id' => 'merek_id_kertas_puyer_sablon'
+        ]) !!}
+        {!! Form::text('merek_id_add_sirup', $merek_id_add_sirup, [
+            'class' => 'form-control hide',
+            'id' => 'merek_id_add_sirup'
+        ]) !!}
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="alert alert-success">

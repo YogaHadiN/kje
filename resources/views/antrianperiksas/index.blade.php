@@ -34,7 +34,9 @@
             <table class="table table-bordered table-hover" id="tableAsuransi">
                   <thead>
                     <tr>
+                    @if( \Auth::user()->tenant->nursestation_availability )
 						<th>Antrian</th>
+					@endif
                         <th>Tanggal</th>
                         <th>Poli</th>
                         <th>Pembayaran</th>
@@ -52,11 +54,13 @@
                                 @if($periksa->poli == 'Poli Estetika' && $periksa->periksa_id != null)
 								<td> <a class="btn btn-xs btn-info" href="{{ url('periksa/'.$periksa->periksa_id . '/images') }}">Gambar</a> </td>
 								@else
-									<td class="nomor_antrian">
-										@if(isset($periksa->nomor_antrian))
-											{!! $periksa->prefix !!}{!! $periksa->nomor_antrian !!}
-										@endif
-									</td>
+                                    @if( \Auth::user()->tenant->nursestation_availability )
+                                        <td class="nomor_antrian">
+                                            @if(isset($periksa->nomor_antrian))
+                                                {!! $periksa->prefix !!}{!! $periksa->nomor_antrian !!}
+                                            @endif
+                                        </td>
+                                    @endif
 								@endif
 								<td>{!! App\Models\Classes\Yoga::updateDatePrep($periksa->tanggal) !!} </br>
 									{!! $periksa->jam !!}
@@ -148,7 +152,9 @@
                       <thead>
                         <tr>
                             <th class="hide">periksa_id</th>
-                            <th>Antrian</th>
+                            @if( \Auth::user()->tenant->nursestation_availability )
+                                <th>Antrian</th>
+                            @endif
                             <th>Nama Pasien</th>
                             <th>Pemeriksa</th>
                             <th>Pembayaran</th>

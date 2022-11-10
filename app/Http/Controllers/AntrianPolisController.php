@@ -300,7 +300,11 @@ class AntrianPolisController extends Controller
 
 			$this->updateJumlahAntrian(false, null);
 			DB::commit();
-			return $this->arahkanAP($ap);
+            if ( get_class($ap) == "App\Models\AntrianPeriksa") {
+                return $this->arahkanAntrianPeriksa($ap);
+            } else {
+                return $this->arahkanAntrianPoli($ap);
+            }
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -460,9 +464,9 @@ class AntrianPolisController extends Controller
 		return $ap;
 	}
 
-	public function arahkanAP($ap){
-		$pasien = Pasien::find($this->input_pasien_id);
-		$pesan = Yoga::suksesFlash('<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
+	public function arahkanAntrianPoli($ap){
+
+		$pesan = Yoga::suksesFlash('<strong>' . $ap->pasien->id . ' - ' . $ap->pasien->nama . '</strong> Berhasil masuk antrian Nurse Station Dan <strong>Komplain berhasil didokumentasikan</strong>');
 
         if (
             !is_null( $ap ) &&
@@ -473,6 +477,20 @@ class AntrianPolisController extends Controller
 				->withPesan($pesan);
 		}
 		return redirect('antrianpolis')
+			->withPesan($pesan);
+	}
+
+	public function arahkanAntrianPeriksa($ap){
+        $pesan = Yoga::suksesFlash('<strong>' .$ap->pasien->id . ' - ' . $ap->pasien->nama . '</strong> berhasil masuk antrian periksa');
+        if (
+            !is_null( $ap ) &&
+            $ap->poli->poli == 'Poli USG Kebidanan' 
+        ) {
+			return redirect('pasiens')
+				->withPrint($ap)
+				->withPesan($pesan);
+		}
+		return redirect('pasiens')
 			->withPesan($pesan);
 	}
 	public function updateJumlahAntrian($panggil_pasien, $ruangan){
@@ -491,7 +509,9 @@ class AntrianPolisController extends Controller
         $apx->input_pasien            = $this->input_pasien;
         $apx->input_poli_id          = Input::get('poli_id');
         $apx->input_kecelakaan_kerja = 0;
-        $apx->input_antrian_id       = $this->input_antrian->id;
+        if ( $this->input_antrian ) {
+            $apx->input_antrian_id       = $this->input_antrian->id;
+        }
         $apx->input_asisten_id       = Staf::owner()->id;
         return $apx->inputData();
     }

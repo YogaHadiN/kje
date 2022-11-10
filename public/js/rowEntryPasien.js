@@ -4,6 +4,7 @@ var input_nama_asuransi = "";
 var input_option_asuransi = "";
 var input_ID = "";
 var input_asuransi_id = "";
+var input_tipe_asuransi_id = "";
 var input_prolanis_dm = "";
 var input_prolanis_ht = "";
 
@@ -24,6 +25,10 @@ function rowEntry(control) {
         .closest("tr")
         .find(".asuransi_id div")
         .html();
+    input_tipe_asuransi_id = $(control)
+        .closest("tr")
+        .find(".tipe_asuransi_id div")
+        .html();
     input_prolanis_dm = $(control)
         .closest("tr")
         .find(".prolanis_dm div")
@@ -37,7 +42,10 @@ function rowEntry(control) {
 
 function resetEntry() {
     input_option_asuransi = '<option value="">- Pilih Pembayaran -</option>';
-    input_option_asuransi += '<option value="0">Biaya Pribadi</option>';
+    input_option_asuransi +=
+        '<option value="' +
+        $("#asuransi_id_biaya_pribadi").val() +
+        '">Biaya Pribadi</option>';
     $("#antrianpoli_poli").val("");
     $("#antrianpoli_tanggal").val("");
     $("#cekBPJSkontrol").hide();

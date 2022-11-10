@@ -33,6 +33,10 @@
 	"method"=> "post"
 ))!!}
 @else
+    {!! Form::text('asuransi_id_bpjs', null, [
+        'class' => 'form-control hide',
+        'id' => 'asuransi_id_bpjs'
+    ]) !!}
 {!! Form::open(array(
 	"url"          => "pasiens",
 	"class"        => "m-t",

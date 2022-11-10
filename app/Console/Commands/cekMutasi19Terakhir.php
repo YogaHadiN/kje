@@ -102,13 +102,13 @@ class cekMutasi19Terakhir extends Command
                     $this->created_at         = $mutasi->date;
 
 					if ($debet == 0) {
+                        //
+                        //
+                        //validasi pembayaran BPJS sekaligus update jumlah peserta asuransi
+                        //
+                        //
                         $this->prosesValidasiTransaksiMasuk();
 					}
-					//
-					//
-					//validasi pembayaran BPJS sekaligus update jumlah peserta asuransi
-					//
-					//
 
 					$insertMutasi[] = [
 						'kode_transaksi'         => $this->mutation_id,

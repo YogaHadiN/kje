@@ -1,4 +1,13 @@
 function resepJson(result) {
+    console.log(
+        "merek_id_kertas_puyer_biasa",
+        $("#merek_id_kertas_puyer_biasa").val()
+    );
+    console.log(
+        "merek_id_kertas_puyer_sablon",
+        $("#merek_id_kertas_puyer_sablon").val()
+    );
+    console.log("merek_id_add_sirup", $("#merek_id_add_sirup").val());
     if (result != "") {
         var MyArray = JSON.parse(result);
     } else {
@@ -8,6 +17,11 @@ function resepJson(result) {
     if (MyArray.length > 0) {
         for (var i = 0; i < MyArray.length - 1; i++) {
             //Untuk menghitung urutan add sirup yang terakhir
+            console.log(
+                "MyArray[i].merek_id",
+                MyArray[i].merek_id,
+                "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+            );
 
             if (
                 MyArray[i].signa.substring(0, 5) == "Puyer" &&
@@ -49,7 +63,11 @@ function resepJson(result) {
                 } else {
                     $("#puyer").val("0");
                 }
-            } else if (MyArray[i].merek_id == 1 || MyArray[i].merek_id == 3) {
+            } else if (
+                MyArray[i].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+            ) {
                 temp += "<tr>";
                 temp += '<td style="width:15px"></td>';
                 temp +=
@@ -325,7 +343,11 @@ function resepJson(result) {
                 } else {
                     $("#puyer").val("0");
                 }
-            } else if (MyArray[i].merek_id == 1 || MyArray[i].merek_id == 3) {
+            } else if (
+                MyArray[i].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+            ) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
                 temp2 += "<tr>";
                 temp2 += '<td style="width:15px"></td>';
@@ -739,7 +761,11 @@ function resepJson(result) {
                 } else {
                     $("#puyer").val("0");
                 }
-            } else if (MyArray[i].merek_id == 1 || MyArray[i].merek_id == 3) {
+            } else if (
+                MyArray[i].merek_id ==
+                    $("#merek_id_kertas_puyer_biasa").val() ||
+                MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+            ) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
                 temp3 += "<tr>";
                 temp3 += '<td style="width:15px"></td>';
@@ -1049,4 +1075,3 @@ function resepJson(result) {
     }
     return [temp, temp2, temp3];
 }
-

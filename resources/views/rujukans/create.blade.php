@@ -18,6 +18,12 @@
 @stop
 @section('content') 
 <input type="hidden" id="token" value="{{ Session::token() }}">
+
+{!! Form::text('asuransi_id_bpjs', null, [
+    'class' => 'form-control hide',
+    'id'    => 'asuransi_id_bpjs'
+]) !!}
+
 {!! Form::open(['url' => 'rujukans/' . $poli, 'method' => 'post'])!!}
 	@include('rujukans.form', [
 		  'periksa' => $periksa, 

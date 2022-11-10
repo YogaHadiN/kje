@@ -31,7 +31,9 @@
 						<tr>
 							<th>id</th>
 							<th>periksa id</th>
-							<th>antrian</th>
+                            @if( \Auth::user()->tenant->nursestation_availability )
+                                <th>Antrian</th>
+                            @endif
 							<th>Nama Pasien</th>
 							<th>Jam Terima Resep</th>
 							<th>Tanggal</th>
@@ -41,15 +43,17 @@
 					</thead>
 					<tbody>
 						@if ($antrianapoteks->count() > 0)
-						{{-- true expr --}}
 								@foreach ($antrianapoteks as $antrianapotek)
 							<tr>
 									<td>{!! $antrianapotek->id !!}</td>
 									<td>{!! $antrianapotek->periksa_id !!}</td>
-									<td>
-										@if(isset( $antrianapotek->antrian  ))
-											{!! $antrianapotek->antrian->nomor_antrian !!}
-										@endif
+                                    @if( \Auth::user()->tenant->nursestation_availability )
+                                        <td>
+                                            @if(isset( $antrianapotek->antrian  ))
+                                                {!! $antrianapotek->antrian->nomor_antrian !!}
+                                            @endif
+                                        </td>
+                                    @endif
 									<td>{!! $antrianapotek->periksa->pasien->nama!!}</td>
 									<td>{!! $antrianapotek->jam!!}</td>
 									<td>{!! $antrianapotek->tanggal!!}</td>
@@ -67,7 +71,7 @@
 							  {!! Form::close() !!}
 						</td>
 						</tr>
-								@endforeach
+                            @endforeach
 					  @else
 					  <tr>
 						<td colspan="5" class="text-center">Tidak Ada Data Untuk Ditampilkan :p</td>

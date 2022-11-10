@@ -627,7 +627,6 @@ border-spacing: -1px;
 									<tr>
 										<td>
 											<h3>{{ \Auth::user()->tenant->name }}</h3>
-											
 										</td>
 										<td class="text-right">
 											<h3>SURAT RUJUKAN</h3>

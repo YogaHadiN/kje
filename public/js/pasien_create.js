@@ -48,7 +48,7 @@ function cekNomorBpjsSama(control) {
     var ambil_nomor_dari_nomor_asuransi = false;
 
     if (
-        asuransi_id == "32" &&
+        asuransi_id == $("#asuransi_id_bpjs").val() &&
         $(control).val().length > 12 &&
         $("#nomor_asuransi_bpjs").val() == ""
     ) {

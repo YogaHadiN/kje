@@ -377,6 +377,7 @@ class PasiensAjaxController extends Controller
 				$query .= "p.tanggal_lahir as tanggalLahir, ";
 				$query .= "p.no_telp as noTelp, ";
 				$query .= "asu.nama as namaAsuransi, ";
+				$query .= "asu.tipe_asuransi_id as tipe_asuransi_id, ";
 				$query .= "p.nomor_asuransi as nomorAsuransi, ";
 				$query .= "p.nama_peserta as namaPeserta, ";
 				$query .= "p.nama_ibu as namaIbu, ";
