@@ -52,5 +52,8 @@ class Antrian extends Model
             return null;
         }
     }
+    public function pasien(){
+        return $this->belongsTo(Pasien::class);
+    }
     
 }

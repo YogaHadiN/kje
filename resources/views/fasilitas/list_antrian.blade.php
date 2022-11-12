@@ -66,7 +66,15 @@
 					<tbody>
 						@if($antrians->count() > 0)
 							@foreach($antrians as $antrian)
-								<tr>
+								<tr
+                                        @if(
+                                                 !is_null( $antrian->whatsapp_registration ) &&
+                                                 $antrian->whatsapp_registration->registering_confirmation
+                                            )
+                                            class="warning"
+                                        @endif
+
+                                    >
 									<td>{{ $antrian->id }}</td>
 									<td>{{ $antrian->created_at->format('d M y H:i:s') }}</td>
 									<td>{{ $antrian->jenis_antrian->prefix }}{{ $antrian->nomor }}</td>
