@@ -153,7 +153,7 @@
 						  </tbody>
 						  <tfoot>
 							  <tr>
-								  <th colspan="4">Total</th>
+								  <th colspan="5">Total</th>
 								  <td class="uang">{!! App\Models\Classes\Yoga::totalTunaiHarian($periksas)!!}</td>
 								  <td class="uang">{!! App\Models\Classes\Yoga::totalPiutangHarian($periksas)!!}</td>
 							  </tr>
