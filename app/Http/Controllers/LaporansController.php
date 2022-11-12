@@ -2542,7 +2542,8 @@ class LaporansController extends Controller
 		return $data;
 	}
     public function satisfactionBulanan($satisfaction_id, $bulanTahun){
-        $antrians = Antrian::where('satisfaction_index', $satisfaction_id)
+        $antrians = Antrian::with('antriable.asuransi', 'antriable.pasien')
+                            ->where('satisfaction_index', $satisfaction_id)
                             ->where('antriable_type', 'App\Models\Periksa')
                             ->where('created_at', 'like', $bulanTahun.'%')
                             ->get();
@@ -2552,7 +2553,8 @@ class LaporansController extends Controller
     }
 
     public function satisfactionHarian($satisfaction_id, $tanggal){
-        $antrians = Antrian::where('satisfaction_index', $satisfaction_id)
+        $antrians = Antrian::with('antriable.asuransi', 'antriable.pasien')
+                            ->where('satisfaction_index', $satisfaction_id)
                             ->where('antriable_type', 'App\Models\Periksa')
                             ->where('created_at', 'like', $tanggal.'%')
                             ->get();
