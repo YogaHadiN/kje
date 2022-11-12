@@ -48,7 +48,7 @@
 			<div class="alert alert-warning">
 				<h2>Biasa</h2>
 				<h1>
-                    <a href="{{ url('laporans/satisfaction/2/harian/' . date('Y-m-d')) }}" target="_blank">{{ $tidak_puas }}</a>
+                    <a href="{{ url('laporans/satisfaction/2/harian/' . date('Y-m-d')) }}" target="_blank">{{ $biasa }}</a>
                 </h1>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 			<div class="alert alert-warning">
 				<h2>Puas</h2>
 				<h1>
-                    <a href="{{ url('laporans/satisfaction/3/harian/' . date('Y-m-d')) }}" target="_blank">{{ $tidak_puas }}</a>
+                    <a href="{{ url('laporans/satisfaction/3/harian/' . date('Y-m-d')) }}" target="_blank">{{ $puas }}</a>
                 </h1>
 			</div>
 		</div>
