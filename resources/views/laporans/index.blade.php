@@ -195,9 +195,15 @@
 									<td><h3>Puas</h3></td>
 								</tr>
 								<tr>
-									<td><h1> {{ $tidak_puas }} </h1></td>
-									<td><h1> {{ $biasa }} </h1></td>
-									<td><h1> {{ $puas }} </h1></td>
+									<td><h1>
+                                        <a href="{{ url('laporans/satisfaction/1/bulanan/' . date('Y-m')) }}" target="_blank">{{ $tidak_puas }}</a>
+                                    </h1></td>
+									<td><h1>
+                                        <a href="{{ url('laporans/satisfaction/2/bulanan/' . date('Y-m')) }}" target="_blank">{{ $biasa }}</a>
+                                    </h1></td>
+									<td><h1>
+                                        <a href="{{ url('laporans/satisfaction/3/bulanan/' . date('Y-m')) }}" target="_blank">{{ $puas }}</a>
+                                    </h1></td>
 								</tr>
 							</tbody>
 						</table>

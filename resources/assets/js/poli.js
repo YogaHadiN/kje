@@ -678,13 +678,13 @@ jQuery(document).ready(function ($) {
         ) {
             if ($(this).val() != "") {
                 //jika pilihan nama obat tidak kosong
-                var rak_id = getIdRak();
+                var tipe_formula_id = getTipeFormulaId();
                 var tipe_resep = $("#tipeResep").val();
                 var merek = $("#ddlNamaObat option:selected").text();
                 var fornas = $("#ddlNamaObat option:selected").attr(
                     "data-fornas"
                 );
-                if (rak_id == "D7" && tipe_resep == "1") {
+                if (tipe_formula_id == 5 && tipe_resep == "1") {
                     //
                 } else {
                     if (fornas == "0") {
@@ -1342,12 +1342,12 @@ function pilihAturanMinum(control) {
 function insert() {
     var ID_MER = getIdMerek();
     var ID_FOR = getIdFormula();
-    var ID_RAK = getIdRak();
+    var tipe_formula_id = getTipeFormulaId();
     var fornas = getFornas();
     var harga_jual = getHargaJual();
     var tipe_resep = $("#tipeResep").val();
 
-    if (ID_RAK == "D7" && tipe_resep == "1") {
+    if (tipe_formula_id == 5 && tipe_resep == "1") {
         fornas = "1";
     }
 
@@ -1361,7 +1361,7 @@ function insert() {
     data[data.length] = {
         jumlah: juml,
         merek_id: ID_MER,
-        rak_id: ID_RAK,
+        rak_id: getRakId(),
         harga_jual_ini: harga_jual,
         harga_beli_ini: getHargaBeli(),
         harga_beli_satuan: getHargaBeli(),
@@ -1401,6 +1401,8 @@ function customOption(dataMerek) {
             temp += dataMerek[i].rak_id;
             temp += '", "merek_id" : "';
             temp += dataMerek[i].merek_id;
+            temp += '", "tipe_formula_id" : "';
+            temp += dataMerek[i].tipe_formula_id;
             temp += '", "harga_beli" : "';
             temp += dataMerek[i].harga_beli;
             temp += '" , "aturan_minum_id" : "';
@@ -1733,7 +1735,23 @@ function getIdFormula() {
     }
     return id;
 }
-function getIdRak() {
+function getTipeFormulaId() {
+
+    var merek = $("#ddlNamaObat").val();
+    if (merek != "") {
+        var data_custom = $("#ddlNamaObat option:selected").attr(
+            "data-custom-value"
+        );
+        merek = JSON.parse(data_custom);
+        var id = merek.tipe_formula_id;
+    } else {
+        var id = "";
+    }
+
+    return id;
+}
+
+function getRakId(){
     var merek = $("#ddlNamaObat").val();
     if (merek != "") {
         var data_custom = $("#ddlNamaObat option:selected").attr(
@@ -1744,7 +1762,6 @@ function getIdRak() {
     } else {
         var id = "";
     }
-
     return id;
 }
 function getFornas() {

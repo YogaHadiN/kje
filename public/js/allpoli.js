@@ -678,13 +678,13 @@ jQuery(document).ready(function ($) {
         ) {
             if ($(this).val() != "") {
                 //jika pilihan nama obat tidak kosong
-                var rak_id = getIdRak();
+                var tipe_formula_id = getTipeFormulaId();
                 var tipe_resep = $("#tipeResep").val();
                 var merek = $("#ddlNamaObat option:selected").text();
                 var fornas = $("#ddlNamaObat option:selected").attr(
                     "data-fornas"
                 );
-                if (rak_id == "D7" && tipe_resep == "1") {
+                if (tipe_formula_id == 5 && tipe_resep == "1") {
                     //
                 } else {
                     if (fornas == "0") {
@@ -1342,12 +1342,12 @@ function pilihAturanMinum(control) {
 function insert() {
     var ID_MER = getIdMerek();
     var ID_FOR = getIdFormula();
-    var ID_RAK = getIdRak();
+    var tipe_formula_id = getTipeFormulaId();
     var fornas = getFornas();
     var harga_jual = getHargaJual();
     var tipe_resep = $("#tipeResep").val();
 
-    if (ID_RAK == "D7" && tipe_resep == "1") {
+    if (tipe_formula_id == 5 && tipe_resep == "1") {
         fornas = "1";
     }
 
@@ -1361,7 +1361,7 @@ function insert() {
     data[data.length] = {
         jumlah: juml,
         merek_id: ID_MER,
-        rak_id: ID_RAK,
+        rak_id: getRakId(),
         harga_jual_ini: harga_jual,
         harga_beli_ini: getHargaBeli(),
         harga_beli_satuan: getHargaBeli(),
@@ -1401,6 +1401,8 @@ function customOption(dataMerek) {
             temp += dataMerek[i].rak_id;
             temp += '", "merek_id" : "';
             temp += dataMerek[i].merek_id;
+            temp += '", "tipe_formula_id" : "';
+            temp += dataMerek[i].tipe_formula_id;
             temp += '", "harga_beli" : "';
             temp += dataMerek[i].harga_beli;
             temp += '" , "aturan_minum_id" : "';
@@ -1733,7 +1735,23 @@ function getIdFormula() {
     }
     return id;
 }
-function getIdRak() {
+function getTipeFormulaId() {
+
+    var merek = $("#ddlNamaObat").val();
+    if (merek != "") {
+        var data_custom = $("#ddlNamaObat option:selected").attr(
+            "data-custom-value"
+        );
+        merek = JSON.parse(data_custom);
+        var id = merek.tipe_formula_id;
+    } else {
+        var id = "";
+    }
+
+    return id;
+}
+
+function getRakId(){
     var merek = $("#ddlNamaObat").val();
     if (merek != "") {
         var data_custom = $("#ddlNamaObat option:selected").attr(
@@ -1744,7 +1762,6 @@ function getIdRak() {
     } else {
         var id = "";
     }
-
     return id;
 }
 function getFornas() {
@@ -3207,9 +3224,8 @@ function resepJson(result) {
         }
         var a = MyArray.length - 1;
         if (
-                MyArray[a].merek_id ==
-                    $("#merek_id_kertas_puyer_biasa").val() ||
-                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
         ) {
             temp += "<tr>";
             temp += '<td style="width:15px"></td>';
@@ -3476,14 +3492,14 @@ function resepJson(result) {
                 if (
                     !(
                         (
-                            (MyArray[a].formula_id == "150802040" &&
-                                id_formula_sirup_add == "150803008") || // Cefadroksil capsul dan Cefadroksil syrup
-                            (MyArray[a].formula_id == "150806007" &&
-                                id_formula_sirup_add == "150803003") || // Brodamox tablet dan Decamox syrup
-                            (MyArray[a].formula_id == "150803047" &&
-                                id_formula_sirup_add == "150803006") || // Dexycol capsul dan Dionicol syr
-                            (MyArray[a].formula_id == "150806005" &&
-                                id_formula_sirup_add == "150921001")
+                            (MyArray[a].tipe_formula_id == 1 &&
+                                id_formula_sirup_add == 2) || // Cefadroksil capsul dan Cefadroksil syrup
+                            (MyArray[a].tipe_formula_id == 3 &&
+                                id_formula_sirup_add == 4) || // Brodamox tablet dan Decamox syrup
+                            (MyArray[a].tipe_formula_id == 5 &&
+                                id_formula_sirup_add == 6) || // Dexycol capsul dan Dionicol syr
+                            (MyArray[a].tipe_formula_id == 7 &&
+                                id_formula_sirup_add == 8)
                         ) // Cefixime capsul dan Cefixime syr
                     )
                 ) {
@@ -3495,7 +3511,7 @@ function resepJson(result) {
                 } else {
                     $("#boolAdd").val("0");
                 }
-            } else if (MyArray[i].merek_id == $('#merek_id_add_sirup').val()) {
+            } else if (MyArray[i].merek_id == $("#merek_id_add_sirup").val()) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
 
                 temp2 += "<tr>";
@@ -3551,10 +3567,9 @@ function resepJson(result) {
         var a = MyArray.length - 1;
 
         if (
-                MyArray[a].merek_id ==
-                    $("#merek_id_kertas_puyer_biasa").val() ||
-                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
-) {
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+        ) {
             console.log(MyArray[a].merek_id + " = 1");
 
             ID_TERAPIGroup = [];
@@ -3659,14 +3674,14 @@ function resepJson(result) {
             if (
                 !(
                     (
-                        (MyArray[a].formula_id == "150802040" &&
-                            id_formula_sirup_add == "150803008") || // Cefadroksil capsul dan Cefadroksil syrup
-                        (MyArray[a].formula_id == "150806007" &&
-                            id_formula_sirup_add == "150803003") || // Brodamox tablet dan Decamox syrup
-                        (MyArray[a].formula_id == "150803047" &&
-                            id_formula_sirup_add == "150803006") || // Dexycol capsul dan Dionicol syr
-                        (MyArray[a].formula_id == "150806005" &&
-                            id_formula_sirup_add == "150921001")
+                        (MyArray[a].tipe_formula_id == 1 &&
+                            id_formula_sirup_add == 2) || // Cefadroksil capsul dan Cefadroksil syrup
+                        (MyArray[a].tipe_formula_id == 3 &&
+                            id_formula_sirup_add == 4) || // Brodamox tablet dan Decamox syrup
+                        (MyArray[a].tipe_formula_id == 5 &&
+                            id_formula_sirup_add == 6) || // Dexycol capsul dan Dionicol syr
+                        (MyArray[a].tipe_formula_id == 7 &&
+                            id_formula_sirup_add == 8)
                     ) // Cefixime capsul dan Cefixime syr
                 )
             ) {
@@ -3820,7 +3835,7 @@ function resepJson(result) {
                 MyArray[i].merek_id ==
                     $("#merek_id_kertas_puyer_biasa").val() ||
                 MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
-) {
+            ) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
                 temp3 += "<tr>";
                 temp3 += '<td style="width:15px"></td>';
@@ -3909,7 +3924,7 @@ function resepJson(result) {
                 } else {
                     $("#boolAdd").val("0");
                 }
-            } else if (MyArray[i].merek_id == $('#merek_id_add_sirup').val()) {
+            } else if (MyArray[i].merek_id == $("#merek_id_add_sirup").val()) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
 
                 temp3 += "<tr>";
@@ -3956,10 +3971,9 @@ function resepJson(result) {
         var a = MyArray.length - 1;
 
         if (
-                MyArray[a].merek_id ==
-                    $("#merek_id_kertas_puyer_biasa").val() ||
-                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
-) {
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+        ) {
             console.log(MyArray[a].merek_id + " = 1");
 
             ID_TERAPIGroup = [];

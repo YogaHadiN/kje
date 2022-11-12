@@ -151,9 +151,8 @@ function resepJson(result) {
         }
         var a = MyArray.length - 1;
         if (
-                MyArray[a].merek_id ==
-                    $("#merek_id_kertas_puyer_biasa").val() ||
-                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
         ) {
             temp += "<tr>";
             temp += '<td style="width:15px"></td>';
@@ -420,14 +419,14 @@ function resepJson(result) {
                 if (
                     !(
                         (
-                            (MyArray[a].formula_id == "150802040" &&
-                                id_formula_sirup_add == "150803008") || // Cefadroksil capsul dan Cefadroksil syrup
-                            (MyArray[a].formula_id == "150806007" &&
-                                id_formula_sirup_add == "150803003") || // Brodamox tablet dan Decamox syrup
-                            (MyArray[a].formula_id == "150803047" &&
-                                id_formula_sirup_add == "150803006") || // Dexycol capsul dan Dionicol syr
-                            (MyArray[a].formula_id == "150806005" &&
-                                id_formula_sirup_add == "150921001")
+                            (MyArray[a].tipe_formula_id == 1 &&
+                                id_formula_sirup_add == 2) || // Cefadroksil capsul dan Cefadroksil syrup
+                            (MyArray[a].tipe_formula_id == 3 &&
+                                id_formula_sirup_add == 4) || // Brodamox tablet dan Decamox syrup
+                            (MyArray[a].tipe_formula_id == 5 &&
+                                id_formula_sirup_add == 6) || // Dexycol capsul dan Dionicol syr
+                            (MyArray[a].tipe_formula_id == 7 &&
+                                id_formula_sirup_add == 8)
                         ) // Cefixime capsul dan Cefixime syr
                     )
                 ) {
@@ -439,7 +438,7 @@ function resepJson(result) {
                 } else {
                     $("#boolAdd").val("0");
                 }
-            } else if (MyArray[i].merek_id == $('#merek_id_add_sirup').val()) {
+            } else if (MyArray[i].merek_id == $("#merek_id_add_sirup").val()) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
 
                 temp2 += "<tr>";
@@ -495,10 +494,9 @@ function resepJson(result) {
         var a = MyArray.length - 1;
 
         if (
-                MyArray[a].merek_id ==
-                    $("#merek_id_kertas_puyer_biasa").val() ||
-                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
-) {
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+        ) {
             console.log(MyArray[a].merek_id + " = 1");
 
             ID_TERAPIGroup = [];
@@ -603,14 +601,14 @@ function resepJson(result) {
             if (
                 !(
                     (
-                        (MyArray[a].formula_id == "150802040" &&
-                            id_formula_sirup_add == "150803008") || // Cefadroksil capsul dan Cefadroksil syrup
-                        (MyArray[a].formula_id == "150806007" &&
-                            id_formula_sirup_add == "150803003") || // Brodamox tablet dan Decamox syrup
-                        (MyArray[a].formula_id == "150803047" &&
-                            id_formula_sirup_add == "150803006") || // Dexycol capsul dan Dionicol syr
-                        (MyArray[a].formula_id == "150806005" &&
-                            id_formula_sirup_add == "150921001")
+                        (MyArray[a].tipe_formula_id == 1 &&
+                            id_formula_sirup_add == 2) || // Cefadroksil capsul dan Cefadroksil syrup
+                        (MyArray[a].tipe_formula_id == 3 &&
+                            id_formula_sirup_add == 4) || // Brodamox tablet dan Decamox syrup
+                        (MyArray[a].tipe_formula_id == 5 &&
+                            id_formula_sirup_add == 6) || // Dexycol capsul dan Dionicol syr
+                        (MyArray[a].tipe_formula_id == 7 &&
+                            id_formula_sirup_add == 8)
                     ) // Cefixime capsul dan Cefixime syr
                 )
             ) {
@@ -764,7 +762,7 @@ function resepJson(result) {
                 MyArray[i].merek_id ==
                     $("#merek_id_kertas_puyer_biasa").val() ||
                 MyArray[i].merek_id == $("#merek_id_kertas_puyer_sablon").val()
-) {
+            ) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
                 temp3 += "<tr>";
                 temp3 += '<td style="width:15px"></td>';
@@ -853,7 +851,7 @@ function resepJson(result) {
                 } else {
                     $("#boolAdd").val("0");
                 }
-            } else if (MyArray[i].merek_id == $('#merek_id_add_sirup').val()) {
+            } else if (MyArray[i].merek_id == $("#merek_id_add_sirup").val()) {
                 ID_TERAPIGroup[ID_TERAPIGroup.length] = { id: i };
 
                 temp3 += "<tr>";
@@ -900,10 +898,9 @@ function resepJson(result) {
         var a = MyArray.length - 1;
 
         if (
-                MyArray[a].merek_id ==
-                    $("#merek_id_kertas_puyer_biasa").val() ||
-                MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
-) {
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_biasa").val() ||
+            MyArray[a].merek_id == $("#merek_id_kertas_puyer_sablon").val()
+        ) {
             console.log(MyArray[a].merek_id + " = 1");
 
             ID_TERAPIGroup = [];

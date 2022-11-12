@@ -38,20 +38,26 @@
         <div class="col-md-4 col-lg-4 text-center">
 			<div class="alert alert-warning">
 				<h2>Tidak puas</h2>
-				<h1>{{ $tidak_puas }}</h1>
+				<h1>
+                    <a href="{{ url('laporans/satisfaction/1/harian/' . date('Y-m-d')) }}" target="_blank">{{ $tidak_puas }}</a>
+                </h1>
 			</div>
 		</div>
 
 		<div class="col-md-4 col-lg-4 text-center">
 			<div class="alert alert-warning">
 				<h2>Biasa</h2>
-				<h1>{{ $biasa }}</h1>
+				<h1>
+                    <a href="{{ url('laporans/satisfaction/2/harian/' . date('Y-m-d')) }}" target="_blank">{{ $tidak_puas }}</a>
+                </h1>
 			</div>
 		</div>
         <div class="col-md-4 col-lg-4 text-center">
 			<div class="alert alert-warning">
 				<h2>Puas</h2>
-				<h1>{{ $puas }}</h1>
+				<h1>
+                    <a href="{{ url('laporans/satisfaction/3/harian/' . date('Y-m-d')) }}" target="_blank">{{ $tidak_puas }}</a>
+                </h1>
 			</div>
 		</div>
 	</div>

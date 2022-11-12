@@ -58,6 +58,7 @@ class Tarif extends Model{
     public static function queryTarif($asuransi_id, $tipe_jenis_tarif_id){
         $query  = "SELECT ";
         $query .= "trf.biaya as biaya, ";
+        $query .= "jtf.tipe_jenis_tarif_id as tipe_jenis_tarif_id, ";
         $query .= "trf.jenis_tarif_id as jenis_tarif_id, ";
         $query .= "jtf.jenis_tarif as jenis_tarif ";
         $query .= "FROM tarifs as trf ";

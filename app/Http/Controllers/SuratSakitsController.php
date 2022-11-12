@@ -197,6 +197,7 @@ class SuratSakitsController extends Controller
 		$query .= "AND px.tanggal not like '{$today}'";
 		$query .= "AND asu.tipe_asuransi_id = 5 ";
 
+
 		return count(DB::select($query));
 	}
 	/**

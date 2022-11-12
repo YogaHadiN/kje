@@ -14,7 +14,7 @@
               <a href="{!! url('laporans')!!}">Home</a>
           </li>
           <li>
-              <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli->poli)!!}">Poli {!! ucfirst($antrianperiksa->poli) !!}</a>
+              <a href="{!! url('ruangperiksa/' . $antrianperiksa->poli->poli)!!}">Poli {!! ucfirst($antrianperiksa->poli->poli) !!}</a>
           </li>
           <li class="active">
 			  <strong>Periksa Edit</strong>

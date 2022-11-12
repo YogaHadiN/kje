@@ -47,7 +47,7 @@
 							<input type=text id="dummy_asuransi_id" name="asuransi_id" class="hide"/>
 							<select id="ddlPembayaran" class="form-control rq" name="asuransi_id" required>
 								<option value="">- Pilih Pembayaran -</option>
-                                <option value="{{ $asuransi_id_biaya_pribadi }}">Biaya Pribadi</option>
+                                <option value="{{ \App\Models\Asuransi::BiayaPribadi()->id }}">Biaya Pribadi</option>
 							</select>
 					</div>
 				</div>

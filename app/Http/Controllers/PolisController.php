@@ -212,9 +212,9 @@ class PolisController extends Controller
 
 			for ($i = count($transaksi)-1; $i >= 0; $i--) {
 				if(
-					$transaksi[$i]['jenis_tarif'] == 'Jasa Dokter' ||
-					$transaksi[$i]['jenis_tarif'] == 'Biaya Obat'||
-					$transaksi[$i]['jenis_tarif'] == 'BHP'
+					$transaksi[$i]['tipe_jenis_tarif_id'] == 1 ||
+					$transaksi[$i]['tipe_jenis_tarif_id'] == 3 ||
+					$transaksi[$i]['tipe_jenis_tarif_id'] == 9 
 				){
 					array_splice($transaksi, $i, 1);
 				}

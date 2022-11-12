@@ -21,6 +21,7 @@ class DdlMerekController extends Controller
 		$query .= 's.sediaan as sediaan, ';
 		$query .= 'r.id as rak_id, ';
 		$query .= 'f.id as formula_id, ';
+		$query .= 'f.tipe_formula_id as tipe_formula_id, ';
 		$query .= 'm.merek, ';
 		$query .= 'r.harga_beli, ';
 		$query .= 'f.aturan_minum_id as aturan_minum_id, ';
@@ -52,6 +53,7 @@ class DdlMerekController extends Controller
 		$query .= "s.sediaan as sediaan, ";
 		$query .= "r.id as rak_id, ";
 		$query .= "f.id as formula_id, ";
+		$query .= 'f.tipe_formula_id as tipe_formula_id, ';
 		$query .= "m.merek, ";
 		$query .= "d.jumlah as jumlah, ";
 		$query .= "d.jumlah_bpjs as jumlah_bpjs, ";
@@ -127,6 +129,7 @@ class DdlMerekController extends Controller
 		$query .= "s.sediaan as sediaan, ";
 		$query .= "r.id as rak_id, ";
 		$query .= "f.id as formula_id, ";
+		$query .= 'f.tipe_formula_id as tipe_formula_id, ';
 		$query .= "m.merek, ";
 		$query .= 'g.generik as generik, ';
 		$query .= 'k.bobot as bobot, ';
@@ -159,6 +162,7 @@ class DdlMerekController extends Controller
 		$query .= "s.sediaan as sediaan, ";
 		$query .= "r.id as rak_id, ";
 		$query .= "f.id as formula_id, ";
+		$query .= 'f.tipe_formula_id as tipe_formula_id, ';
 		$query .= "m.merek, ";
 		$query .= 'g.generik as generik, ';
 		$query .= 'k.bobot as bobot, ';

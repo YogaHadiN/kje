@@ -303,9 +303,10 @@ class PeriksasController extends Controller
 			$tarif = Tarif::queryTarif( $asuransi->id, 1);
 			// masukkan komponen jasa dokter di transaksi
 			$plus = [
-				'jenis_tarif_id' => $tarif->jenis_tarif_id,
-				'jenis_tarif'    => $tarif->jenis_tarif,
-				'biaya'          => $tarif->biaya
+				'jenis_tarif_id'      => $tarif->jenis_tarif_id,
+				'tipe_jenis_tarif_id' => $tarif->tipe_jenis_tarif_id,
+				'jenis_tarif'         => $tarif->jenis_tarif,
+				'biaya'               => $tarif->biaya
 			];
 
 			array_unshift($transaksis, $plus);
@@ -972,6 +973,7 @@ class PeriksasController extends Controller
                 }
                 $plus = [
                     'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                    'tipe_jenis_tarif_id' => $tarif->tipe_jenis_tarif_id,
                     'jenis_tarif'    => $tarif->jenis_tarif,
                     'biaya'          => $biaya
                 ];
@@ -979,6 +981,7 @@ class PeriksasController extends Controller
             } else {
                 $plus = [
                     'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                    'tipe_jenis_tarif_id' => $tarif->tipe_jenis_tarif_id,
                     'jenis_tarif'    => $tarif->jenis_tarif,
                     'biaya' => 0
                 ];
@@ -987,6 +990,7 @@ class PeriksasController extends Controller
         } else {
             $plus = [
                 'jenis_tarif_id' => $tarif->jenis_tarif_id,
+                'tipe_jenis_tarif_id' => $tarif->tipe_jenis_tarif_id,
                 'jenis_tarif'    => $tarif->jenis_tarif,
                 'biaya' => 0
             ];

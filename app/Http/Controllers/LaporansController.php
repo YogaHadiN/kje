@@ -2543,7 +2543,7 @@ class LaporansController extends Controller
 	}
     public function satisfactionBulanan($satisfaction_id, $bulanTahun){
         $antrians = Antrian::where('satisfaction_index', $satisfaction_id)
-                            ->where('antarable_type', 'App\Models\Periksa')
+                            ->where('antriable_type', 'App\Models\Periksa')
                             ->where('created_at', 'like', $bulanTahun.'%')
                             ->get();
         return view('laporans.satisfactionBulanan', compact(

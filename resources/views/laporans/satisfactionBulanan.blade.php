@@ -24,7 +24,7 @@ Klinik Jati Elok | Laporan Kepuasan Bulanan
                 <th>Tanggal</th>
                 <th>Nama</th>
                 <th>Pembayaran</th>
-                <th>Kepuasan</th>
+                <th>Complain</th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +34,7 @@ Klinik Jati Elok | Laporan Kepuasan Bulanan
                         <td>{{ $antrian->created_at->format('d M Y') }}</td>
                         <td>{{ $antrian->antriable->pasien->nama }}</td>
                         <td>{{ $antrian->antriable->asuransi->nama }}</td>
-                        <td>{{ $antrian->satisfaction_index }}</td>
+                        <td>{{ $antrian->complaint }}</td>
                     </tr>
                 @endforeach
             @else
