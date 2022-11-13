@@ -68,11 +68,12 @@ class Tarif extends Model{
         $query .= "AND trf.tenant_id = " .session()->get('tenant_id'). ";";
 
         $data =DB::select($query);
-        if ( count( $data ) ) {
-            return $data[0];
-        } else {
-            dd($asuransi_id, $tipe_jenis_tarif_id);
-        }
+        return $data[0];
+        /* if ( count( $data ) ) { */
+        /*     return $data[0]; */
+        /* } else { */
+        /*     dd($asuransi_id, $tipe_jenis_tarif_id); */
+        /* } */
     }
     public static function listByAsuransi($asuransi_id){
         $query  = "SELECT ";

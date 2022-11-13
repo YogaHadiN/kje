@@ -14,7 +14,7 @@ class AddIjazahImageToStafsTable extends Migration
     public function up()
     {
         Schema::table('stafs', function (Blueprint $table) {
-            $table->string('ijazah_image');
+            $table->string('ijazah_image')->nullable();
         });
     }
 

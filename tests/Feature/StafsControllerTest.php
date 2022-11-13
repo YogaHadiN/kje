@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Log;
 use App\Models\User;
 use App\Models\Tenant;
+use App\Models\Titel;
 use App\Models\Classes\Yoga;
 use App\Models\Staf;
 use Carbon\Carbon;
@@ -53,6 +54,7 @@ class StafsControllerTest extends TestCase
     }
 
 
+
     public function test_store_saves_and_redirects()
     {
         Storage::fake('s3');
@@ -80,7 +82,7 @@ class StafsControllerTest extends TestCase
         $alamat_ktp       = $this->faker->address;
         $str              = $this->faker->numerify('################');;
         $universitas_asal = $this->faker->name;
-        $titel            = "dr";
+        $titel_id         = Titel::factory()->create()->id;
         $no_hp            = $this->faker->phoneNumber();
         $tanggal_lulus    = $this->faker->date('d-m-Y');
         $tanggal_mulai    = $this->faker->date('d-m-Y');
@@ -122,7 +124,7 @@ class StafsControllerTest extends TestCase
             "alamat_ktp"       => $alamat_ktp,
             "str"              => $str,
             "universitas_asal" => $universitas_asal,
-            "titel"            => $titel,
+            "titel_id"         => $titel_id,
             "no_hp"            => $no_hp,
             "tanggal_lulus"    => $tanggal_lulus,
             "tanggal_mulai"    => $tanggal_mulai,
@@ -157,7 +159,7 @@ class StafsControllerTest extends TestCase
             ->where("alamat_ktp", $alamat_ktp)
             ->where("str", $str)
             ->where("universitas_asal", $universitas_asal)
-            ->where("titel", $titel)
+            ->where("titel_id", $titel_id)
             ->where("no_hp", $no_hp)
             ->where("tanggal_lulus", 'like',  Carbon::createFromFormat('d-m-Y', $tanggal_lulus)->format('Y-m-d') . '%')
             ->where("tanggal_mulai", 'like',  Carbon::createFromFormat('d-m-Y', $tanggal_mulai)->format('Y-m-d') . '%')
@@ -235,7 +237,7 @@ class StafsControllerTest extends TestCase
         $alamat_ktp       = $this->faker->address;
         $str              = $this->faker->numerify('################');;
         $universitas_asal = $this->faker->name;
-        $titel            = "dr";
+        $titel_id         = Titel::factory()->create()->id;
         $no_hp            = $this->faker->phoneNumber();
         $tanggal_lulus    = $this->faker->date('d-m-Y');
         $tanggal_mulai    = $this->faker->date('d-m-Y');
@@ -269,7 +271,7 @@ class StafsControllerTest extends TestCase
             "alamat_ktp"       => $alamat_ktp,
             "str"              => $str,
             "universitas_asal" => $universitas_asal,
-            "titel"            => $titel,
+            "titel_id"            => $titel_id,
             "no_hp"            => $no_hp,
             "tanggal_lulus"    => $tanggal_lulus,
             "tanggal_mulai"    => $tanggal_mulai,
@@ -299,7 +301,7 @@ class StafsControllerTest extends TestCase
             ->where("alamat_ktp", $alamat_ktp)
             ->where("str", $str)
             ->where("universitas_asal", $universitas_asal)
-            ->where("titel", $titel)
+            ->where("titel_id", $titel_id)
             ->where("no_hp", $no_hp)
             ->where("tanggal_lulus", 'like',  Carbon::createFromFormat('d-m-Y', $tanggal_lulus)->format('Y-m-d') . '%')
             ->where("tanggal_mulai", 'like',  Carbon::createFromFormat('d-m-Y', $tanggal_mulai)->format('Y-m-d') . '%')

@@ -21,7 +21,9 @@ use Storage;
 class PeriksasControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
-
+    /**
+     * @group testing
+     */
     public function test_store(){
 
         $user     = User::factory()->create([
@@ -43,12 +45,6 @@ class PeriksasControllerTest extends TestCase
             'jenis_tarif' => 'Biaya Obat'
         ]);
 
-        /* sebelum kesini ke acting as dulu */
-        /* key mapping j */
-        /* dari bentuk '"nama"  => $nama,' */	
-        /* KE BENTUK */	
-        /* $nama = $this->faker->text */
-
         $asuransi = \App\Models\Asuransi::factory()->create();
         $tr_jasa_dokter = \App\Models\Tarif::factory()->create([
             'asuransi_id' => $asuransi->id,
@@ -65,7 +61,7 @@ class PeriksasControllerTest extends TestCase
         $hamil                       = rand(0,1);
         $staf_id                     = \App\Models\Staf::factory()->create()->id;
         $kali_obat                   = 1;
-        $pasien = \App\Models\Pasien::factory()->create();
+        $pasien                      = \App\Models\Pasien::factory()->create();
         $pasien_id                   = $pasien->id;
         $jam                         = $this->faker->date('H:i:s');
         $notified                    = rand(0,1);
@@ -173,11 +169,6 @@ class PeriksasControllerTest extends TestCase
 
 
         $this->withoutExceptionHandling();
-
-        /* key mapping k */
-        /* dari bentuk "nama	varchar(255)	NO		NULL" */	
-        /* KE BENTUK */	
-        /* "nama" => $nama, */
 
         $inputAll = [
             "kecelakaan_kerja"            => $kecelakaan_kerja,
@@ -295,60 +286,6 @@ class PeriksasControllerTest extends TestCase
         $response = $this->post('periksas', $inputAll);
 
         $periksa = Periksa::first();
-        /* dd( */
-        /*     [ */
-        /*         'periksa first' => [ */
-        /*         "tanggal"               => $periksa->tanggal, */
-        /*         "asuransi_id"           => $periksa->asuransi_id, */
-        /*         "pasien_id"             => $periksa->pasien_id, */
-        /*         "staf_id"               => $periksa->staf_id, */
-        /*         "anamnesa"              => $periksa->anamnesa, */
-        /*         "pemeriksaan_fisik"     => $periksa->pemeriksaan_fisik, */
-        /*         "pemeriksaan_penunjang" => $periksa->pemeriksaan_penunjang, */
-        /*         "diagnosa_id"           => $periksa->diagnosa_id, */
-        /*         "keterangan_diagnosa"   => $periksa->keterangan_diagnosa, */
-        /*         "terapi"                => $periksa->terapi, */
-        /*         "poli_id"               => $periksa->poli_id, */
-        /*         "jam"                   => $periksa->jam, */
-        /*         "berat_badan"           => $periksa->berat_badan, */
-        /*         "asisten_id"            => $periksa->asisten_id, */
-        /*         "periksa_awal"          => $periksa->periksa_awal, */
-        /*         "kecelakaan_kerja"      => $periksa->kecelakaan_kerja, */
-        /*         "resepluar"             => $periksa->resepluar, */
-        /*         "nomor_asuransi"        => $periksa->nomor_asuransi, */
-        /*         "antrian_periksa_id"    => $periksa->antrian_periksa_id, */
-        /*         "sistolik"              => $periksa->sistolik, */
-        /*         "diastolik"             => $periksa->diastolik, */
-        /*         "prolanis_dm"           => $periksa->prolanis_dm, */
-        /*         "prolanis_ht"           => $periksa->prolanis_ht, */
-        /*     ] , */
-        /*    'periksa' => [ */
-        /*         "tanggal"               => $tanggal, */
-        /*         "asuransi_id"           => $asuransi_id, */
-        /*         "pasien_id"             => $pasien_id, */
-        /*         "staf_id"               => $staf_id, */
-        /*         "anamnesa"              => $anamnesa, */
-        /*         "pemeriksaan_fisik"     => $pemeriksaan_fisik, */
-        /*         "pemeriksaan_penunjang" => $pemeriksaan_penunjang, */
-        /*         "diagnosa_id"           => $diagnosa_id, */
-        /*         "keterangan_diagnosa"   => $keterangan_diagnosa, */
-        /*         "terapi"                => $terapi, */
-        /*         "poli_id"               => $poli_id, */
-        /*         "jam"                   => $jam, */
-        /*         "berat_badan"           => $berat_badan, */
-        /*         "asisten_id"            => $asisten_id, */
-        /*         "periksa_awal"          => $periksa_awal, */
-        /*         "kecelakaan_kerja"      => $kecelakaan_kerja, */
-        /*         "resepluar"             => $resepluar, */
-        /*         "nomor_asuransi"        => $pasien->nomor_asuransi, */
-        /*         "antrian_periksa_id"    => $antrian_periksa_id, */
-        /*         "sistolik"              => $sistolik, */
-        /*         "diastolik"             => $diastolik, */
-        /*         "prolanis_dm"           => $pasien->prolanis_dm, */
-        /*         "prolanis_ht"           => $pasien->prolanis_ht, */
-        /*    ] */
-        /* ]); */
-
         $periksas = Periksa::query()
                 ->where("tanggal", $tanggal)
                 ->where("asuransi_id", $asuransi_id)
@@ -388,7 +325,6 @@ class PeriksasControllerTest extends TestCase
             ->get();
             $this->assertCount(1, $terapis);
         }
-        // report was created and file was stored
         $pc = new PeriksasController;
         $response->assertRedirect('ruangperiksa/' . $pc->ruang_periksa(null));
     }

@@ -142,15 +142,15 @@ class PoliAjaxController extends Controller
         $query .= "where ";
         if ( session()->get('tenant_id') == 1 ) {
             if ( 
-                 $asuransi->tipe_asuransi_id != 5
+                 $asuransi->tipe_asuransi_id == 5
             ) {
+                $query .= "staf_id=" . Staf::owner()->id;
+                $query .= " AND "; 
+            } else {
                 $query .= "( ";
                 $query .= "staf_id= {$staf_id} or ";
                 $query .= "staf_id=" . Staf::owner()->id;
                 $query .= " ) AND "; 
-            } else {
-                $query .= "staf_id=" . Staf::owner()->id;
-                $query .= " AND "; 
             }
         } else {
             $query .= "( ";

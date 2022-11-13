@@ -211,6 +211,11 @@ class PolisController extends Controller
 			$transaksi = json_decode($transaksi, true);
 
 			for ($i = count($transaksi)-1; $i >= 0; $i--) {
+                if ( !isset( $transaksi[$i]['tipe_jenis_tarif_id'] ) ) {
+                    $jenis_tarif_id                       = $transaksi[$i]['jenis_tarif_id'];
+                    $tipe_jenis_tarif_id                  = JenisTarif::find($jenis_tarif_id)->tipe_jenis_tarif_id;
+                    $transaksi[$i]['tipe_jenis_tarif_id'] = $tipe_jenis_tarif_id;
+                }
 				if(
 					$transaksi[$i]['tipe_jenis_tarif_id'] == 1 ||
 					$transaksi[$i]['tipe_jenis_tarif_id'] == 3 ||

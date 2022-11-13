@@ -37,8 +37,12 @@ class ShowWarningIfPaperExpired
         session()->forget('warning_tunggakan');
         session()->forget('warning_biru');
         if ( $event->user->role_id != 1 ) {
-            $almost_expired_strs = Staf::whereRaw("TIMESTAMPDIFF(MONTH, now(), str_expiry_date) < 6 and str_expiry_date > now() and aktif = 1")->get();
-            $almost_expired_sips = Staf::whereRaw("TIMESTAMPDIFF(MONTH, now(), sip_expiry_date) < 6 and sip_expiry_date > now() and aktif = 1")->get();
+            $almost_expired_strs = [];
+            $almost_expired_sips = [];
+            if (env('DB_CONNECTION') == 'mysql') {
+                $almost_expired_strs = Staf::whereRaw("TIMESTAMPDIFF(MONTH, now(), str_expiry_date) < 6 and str_expiry_date > now() and aktif = 1")->get();
+                $almost_expired_sips = Staf::whereRaw("TIMESTAMPDIFF(MONTH, now(), sip_expiry_date) < 6 and sip_expiry_date > now() and aktif = 1")->get();
+            }
             $expired_strs = Staf::where('str_expiry_date', '<', date('Y-m-d'))->where('aktif', 1)->get();
             $expired_sips = Staf::where('sip_expiry_date', '<', date('Y-m-d'))->where('aktif', 1)->get();
 
@@ -64,7 +68,10 @@ class ShowWarningIfPaperExpired
                 $warning_merah[] = 'Staf atas nama <strong>' . ucwords($staf->nama) . '</strong> Sudah habis masa berlaku SIP nya. Harap segera diperbarui';
             }
 
-            $document_almost_expired = Document::whereRaw("TIMESTAMPDIFF(MONTH, now(), expiry_date) < 6 and expiry_date > now()")->get();
+            $document_almost_expired = [];
+            if (env('DB_CONNECTION') == 'mysql') {
+                $document_almost_expired = Document::whereRaw("TIMESTAMPDIFF(MONTH, now(), expiry_date) < 6 and expiry_date > now()")->get();
+            }
             $document_expired = Document::where('expiry_date', '<', date('Y-m-d'))->get();
 
             foreach ($document_almost_expired as $document) {

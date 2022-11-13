@@ -14,7 +14,7 @@ class AddBuktiRegistrasiKkiImageToStafsTable extends Migration
     public function up()
     {
         Schema::table('stafs', function (Blueprint $table) {
-            $table->string('bukti_registrasi_kki_image');
+            $table->string('bukti_registrasi_kki_image')->nullable();
         });
     }
 

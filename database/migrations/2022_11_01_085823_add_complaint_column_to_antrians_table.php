@@ -14,7 +14,7 @@ class AddComplaintColumnToAntriansTable extends Migration
     public function up()
     {
         Schema::table('antrians', function (Blueprint $table) {
-            $table->string('complaint');
+            $table->string('complaint')->nullable();
         });
     }
 

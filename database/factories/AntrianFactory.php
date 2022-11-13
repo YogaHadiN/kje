@@ -20,7 +20,6 @@ class AntrianFactory extends Factory
             'nomor'                    => $this->faker->numerify('##'),
             'antriable_id'             => null,
             'antriable_type'           => 'App\Models\Antrian',
-            'whatsapp_registration_id' => null,
             'nomor_bpjs'               => null,
             'dipanggil'                => 0,
             'kode_unik'                => $this->faker->numerify('#####'),

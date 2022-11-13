@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\JenisTarif;
+use App\Models\TipeJenisTarif;
 
 class JenisTarifFactory extends Factory
 {
@@ -23,6 +24,7 @@ class JenisTarifFactory extends Factory
     {
         return [
             'jenis_tarif'              => $this->faker->word,
+            'tipe_jenis_tarif_id'      => TipeJenisTarif::factory(),
             'tipe_laporan_admedika_id' => $this->faker->randomNumber(),
             'tipe_laporan_kasir_id'    => $this->faker->randomNumber(),
             'coa_id'                   => $this->faker->randomNumber(),
