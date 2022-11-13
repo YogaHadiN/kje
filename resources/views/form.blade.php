@@ -182,7 +182,7 @@
 									{!! Form::text('asisten_id', $antrianperiksa->asisten_id, ['class' => 'hide']) !!}
 									{!! Form::text('periksa_awal', $antrianperiksa->periksa_awal, ['class' => 'hide']) !!}
 									{!! Form::text('antrian_periksa_id', $antrianperiksa->id, ['class' => 'displayNone', 'id' => 'antrianperiksa_id']) !!}
-                                    {!! Form::text('plafon_bpjs_tiap_pasien_baru', \Auth::user()->tenant->plafon_bpjs, ['class' => 'displayNone', 'id' => 'plafon_bpjs_tiap_pasien_baru']) !!}
+                                    {!! Form::text('plafon_bpjs_tiap_pasien_baru', \Auth::user()->tenant->plafon_bpjs, ['class' => '', 'id' => 'plafon_bpjs_tiap_pasien_baru']) !!}
 
                                     {!! Form::text('plafon_obat_bpjs_by_staf', $antrianperiksa->staf->plafon_bpjs, ['class' => 'hide', 'id' => 'plafon_obat_bpjs_by_staf']) !!}
 									{!! Form::text('antrian_id', $antrian_id, ['class' => 'displayNone', 'id' => 'antrian_id']) !!}
