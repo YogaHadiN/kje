@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Http\Controllers\PeriksasController;
 use Carbon\Carbon;
 use App\Models\Tenant;
+use App\Models\TipeJenisTarif;
 use App\Models\User;
 use App\Models\Merek;
 use App\Models\Signa;
@@ -338,13 +339,16 @@ class PeriksasControllerTest extends TestCase
 
         $jumlahPeriksaSebelumnya = Periksa::count();
 
+        TipeJenisTarif::factory()->count(3)->create();
 
         $jt_jasa_dokter = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Jasa Dokter'
+            'jenis_tarif' => 'Jasa Dokter',
+            'tipe_jenis_tarif_id' => 1
         ]);
 
         $jt_biaya_obat = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Biaya Obat'
+            'jenis_tarif' => 'Biaya Obat',
+            'tipe_jenis_tarif_id' => 3
         ]);
 
         $jt_jam_malam = \App\Models\JenisTarif::factory()->create([
@@ -711,12 +715,16 @@ class PeriksasControllerTest extends TestCase
         $jumlahPeriksaSebelumnya = Periksa::count();
 
 
+        TipeJenisTarif::factory()->count(3)->create();
+
         $jt_jasa_dokter = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Jasa Dokter'
+            'jenis_tarif' => 'Jasa Dokter',
+            'tipe_jenis_tarif_id' => 1
         ]);
 
         $jt_biaya_obat = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Biaya Obat'
+            'jenis_tarif' => 'Biaya Obat',
+            'tipe_jenis_tarif_id' => 3
         ]);
 
         /* sebelum kesini ke acting as dulu */
@@ -1069,13 +1077,16 @@ class PeriksasControllerTest extends TestCase
 
         $jumlahPeriksaSebelumnya = Periksa::count();
 
+        TipeJenisTarif::factory()->count(3)->create();
 
         $jt_jasa_dokter = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Jasa Dokter'
+            'jenis_tarif' => 'Jasa Dokter',
+            'tipe_jenis_tarif_id' => 1
         ]);
 
         $jt_biaya_obat = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Biaya Obat'
+            'jenis_tarif' => 'Biaya Obat',
+            'tipe_jenis_tarif_id' => 3
         ]);
 
         /* sebelum kesini ke acting as dulu */
@@ -1440,13 +1451,16 @@ class PeriksasControllerTest extends TestCase
 
         $jumlahPeriksaSebelumnya = Periksa::count();
 
+        TipeJenisTarif::factory()->count(3)->create();
 
         $jt_jasa_dokter = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Jasa Dokter'
+            'jenis_tarif' => 'Jasa Dokter',
+            'tipe_jenis_tarif_id' => 1
         ]);
 
         $jt_biaya_obat = \App\Models\JenisTarif::factory()->create([
-            'jenis_tarif' => 'Biaya Obat'
+            'jenis_tarif' => 'Biaya Obat',
+            'tipe_jenis_tarif_id' => 3
         ]);
 
         /* sebelum kesini ke acting as dulu */
