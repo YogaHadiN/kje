@@ -13,7 +13,8 @@ var plafon_bpjs_ini = 0;
 
 var plafon_bpjs_ini =
     tipe_asuransi_id == 5
-        ? parseInt($("#plafon_obat_bpjs_by_staf").val()) + 8000
+        ? parseInt($("#plafon_obat_bpjs_by_staf").val()) +
+          $("#plafon_bpjs_tiap_pasien_baru").val() //7000
         : parseInt($("#plafon_obat_bpjs_by_staf").val());
 
 $("#LinkButton2").on("click", function () {
@@ -1736,7 +1737,6 @@ function getIdFormula() {
     return id;
 }
 function getTipeFormulaId() {
-
     var merek = $("#ddlNamaObat").val();
     if (merek != "") {
         var data_custom = $("#ddlNamaObat option:selected").attr(
@@ -1751,7 +1751,7 @@ function getTipeFormulaId() {
     return id;
 }
 
-function getRakId(){
+function getRakId() {
     var merek = $("#ddlNamaObat").val();
     if (merek != "") {
         var data_custom = $("#ddlNamaObat option:selected").attr(
