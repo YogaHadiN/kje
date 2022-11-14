@@ -146,85 +146,78 @@ class AntrianPeriksasController extends Controller
 	 * @return Response
 	 */
 	public function store(Request $request, $id) {
-        DB::beginTransaction();
-        try {
-            $antrianpoli = AntrianPoli::with('pasien', 'asuransi')->where( 'id',  $id )->where('submitted', '0')->first();
-            if (is_null($antrianpoli)) {
-                $pesan = Yoga::gagalFlash('Antrian sudah masuk antrian periksa');
-                return redirect()->back()->withPesan($pesan);
-            }
-            $rules = [
-                'asisten_id'             => 'required',
-                'gds'                    => Rule::requiredIf( $this->cekGDSDiNurseStation($antrianpoli) ),
-                'G'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
-                'P'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
-                'A'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
-                'hpht'                   => Rule::requiredIf( Input::get('hamil') == 1  ),
-                'sistolik'               => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
-                'diastolik'              => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
-                'pengantars'             => Rule::requiredIf(  Input::get('pengantars') !== '[]'  ),
-                'kecelakaan_kerja'       => 'required',
-                'hamil'                  => 'required',
-                'menyusui'               => 'required',
-                'peserta_klinik'         => 'required',
-                'verifikasi_wajah'       => 'required',
-                'sex'                    => 'required',
-                'verifikasi_alergi_obat' => 'required',
-            ];
-
-            $validator = \Validator::make(Input::all(), $rules, [
-                'gds.required'       => 'Gula Darah Harus Diisi Karena pasien ini prolanis DM',
-                'sistolik.required'  => 'Sistolik Harus Diisi Karena pasien ini prolanis HT',
-                'diastolik.required' => 'Diastolik Harus Diisi Karena pasien ini prolanis HT',
-            ]);
-
-            if ($validator->fails())
-            {
-                return \Redirect::back()->withErrors($validator)->withInput();
-            }
-            
-            //validate json
-
-            $data = Input::get('pengantars');
-            $data = json_decode( $data, true );
-
-            $input = [
-                'data'          => $data,
-            ];
-
-            $rules = [
-                'data.*.pasien_id'            => 'required',
-                'data.*.hubungan_keluarga_id' => 'required|numeric',
-            ];
-            
-            $validator = \Validator::make($input, $rules);
-            
-            if ($validator->fails())
-            {
-                return \Redirect::back()->withErrors($validator)->withInput();
-            }
-
-            if ($antrianpoli == null) {
-                $pesan = Yoga::gagalFlash('Pasien sudah hilang dari antrian poli, mungkin sudah dimasukkan sebelumnya');
-                return redirect()->back()->withPesan($pesan);
-            }
-
-            $this->input_asuransi_id = $antrianpoli->asuransi_id;
-            $this->input_pasien_id   = $antrianpoli->pasien_id;
-            $this->input_poli_id     = $antrianpoli->poli_id;
-            $this->input_staf_id     = $antrianpoli->staf_id;
-            $this->input_jam         = $antrianpoli->jam;
-            $this->input_tanggal     = !is_null($antrianpoli->tanggal)?Carbon::parse($antrianpoli->tanggal)->format('d-m-Y') : null;
-            $this->input_pasien      = $antrianpoli->pasien;
-            $this->input_antrianpoli = $antrianpoli;
-            $this->inputData();
-
-            DB::commit();
-            return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$antrianpoli->pasien->id . ' - ' . $antrianpoli->pasien->nama . '</strong> berhasil masuk antrian periksa'));
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
+        $antrianpoli = AntrianPoli::with('pasien', 'asuransi')->where( 'id',  $id )->where('submitted', '0')->first();
+        if (is_null($antrianpoli)) {
+            $pesan = Yoga::gagalFlash('Antrian sudah masuk antrian periksa');
+            return redirect()->back()->withPesan($pesan);
         }
+        $rules = [
+            'asisten_id'             => 'required',
+            'gds'                    => Rule::requiredIf( $this->cekGDSDiNurseStation($antrianpoli) ),
+            'G'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'P'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'A'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'hpht'                   => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'sistolik'               => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
+            'diastolik'              => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
+            'pengantars'             => Rule::requiredIf(  Input::get('pengantars') !== '[]'  ),
+            'kecelakaan_kerja'       => 'required',
+            'hamil'                  => 'required',
+            'menyusui'               => 'required',
+            'peserta_klinik'         => 'required',
+            'verifikasi_wajah'       => 'required',
+            'sex'                    => 'required',
+            'verifikasi_alergi_obat' => 'required',
+        ];
+
+        $validator = \Validator::make(Input::all(), $rules, [
+            'gds.required'       => 'Gula Darah Harus Diisi Karena pasien ini prolanis DM',
+            'sistolik.required'  => 'Sistolik Harus Diisi Karena pasien ini prolanis HT',
+            'diastolik.required' => 'Diastolik Harus Diisi Karena pasien ini prolanis HT',
+        ]);
+
+        if ($validator->fails())
+        {
+            return \Redirect::back()->withErrors($validator)->withInput();
+        }
+        
+        //validate json
+
+        $data = Input::get('pengantars');
+        $data = json_decode( $data, true );
+
+        $input = [
+            'data'          => $data,
+        ];
+
+        $rules = [
+            'data.*.pasien_id'            => 'required',
+            'data.*.hubungan_keluarga_id' => 'required|numeric',
+        ];
+        
+        $validator = \Validator::make($input, $rules);
+        
+        if ($validator->fails())
+        {
+            return \Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        if ($antrianpoli == null) {
+            $pesan = Yoga::gagalFlash('Pasien sudah hilang dari antrian poli, mungkin sudah dimasukkan sebelumnya');
+            return redirect()->back()->withPesan($pesan);
+        }
+
+        $this->input_asuransi_id = $antrianpoli->asuransi_id;
+        $this->input_pasien_id   = $antrianpoli->pasien_id;
+        $this->input_poli_id     = $antrianpoli->poli_id;
+        $this->input_staf_id     = $antrianpoli->staf_id;
+        $this->input_jam         = $antrianpoli->jam;
+        $this->input_tanggal     = !is_null($antrianpoli->tanggal)?Carbon::parse($antrianpoli->tanggal)->format('d-m-Y') : null;
+        $this->input_pasien      = $antrianpoli->pasien;
+        $this->input_antrianpoli = $antrianpoli;
+        $this->inputData();
+
+        return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$antrianpoli->pasien->id . ' - ' . $antrianpoli->pasien->nama . '</strong> berhasil masuk antrian periksa'));
 	}
 
 
@@ -466,7 +459,6 @@ class AntrianPeriksasController extends Controller
         $ap->perujuk_id                  = $this->input_perujuk_id;
         $ap->save();
 
-        /* if (isset( $this->input_antrianpoli )) { */
         $pasien          = $this->input_pasien;
         $pasien->sex     = $this->input_sex;
         $pasien->save();
@@ -509,7 +501,6 @@ class AntrianPeriksasController extends Controller
 
         $antrian =!is_null( $this->input_antrianpoli)? $this->input_antrianpoli->antrian :Antrian::find( $this->input_antrian_id );  
 
-        /* dd( $ap->id ); */
         if(isset($antrian)){
             $antrian->antriable_id   = $ap->id;
             $antrian->antriable_type = 'App\\Models\\AntrianPeriksa';

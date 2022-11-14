@@ -156,29 +156,32 @@ function changeTemplateWa() {
 function prosesTemplate() {
     var template = $("#template_container").val();
     var nama = filter(template, "Nama Lengkap", "Tanggal Lahir");
-    var tanggal_lahir = filter(
-        template,
-        "(Contoh = 19-07-2003)",
-        "Alamat Lengkap"
-    );
+    var tanggal_lahir = filter(template, "2003)", "Alamat Lengkap");
     var alamat_lengkap = filter(template, "Alamat Lengkap", "Nomor Handphone");
     var no_ktp = filter(template, "No KTP", "No BPJS");
+    var no_telp = filter(template, "Handphone", "No KTP");
     var no_bpjs = $.trim(template.split("No BPJS")[1].replace(":", ""));
 
     $("#nama").val(nama);
     $("#tanggal_lahir").val(tanggal_lahir);
     $("#alamat").val(alamat_lengkap);
     $("#no_ktp").val(no_ktp);
+    $("#no_telp").val(no_telp);
     if (no_bpjs.length) {
         $("#nomor_asuransi_bpjs").val(no_bpjs);
         $("#nomor_asuransi").val(no_bpjs);
-        $("#asuransi_id").val($("#asuransi_id_bpjs").val());
+        var asuransi_id_bpjs = $("#asuransi_id_bpjs").val();
+        $("#nama_peserta").val(nama);
+        $("#asuransi_id").val(asuransi_id_bpjs);
         $("#asuransi_id").selectpicker("refresh");
     }
 }
 
 function filter(string, awal, akhir) {
+    console.log(string, "string");
     string = string.split(awal)[1];
+    console.log("=======================");
+    console.log(string, "string");
     string = string.split(akhir)[0];
     string = string.replace(":", "");
     return $.trim(string);

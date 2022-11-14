@@ -33,7 +33,7 @@
 	"method"=> "post"
 ))!!}
 @else
-    {!! Form::text('asuransi_id_bpjs', null, [
+    {!! Form::text('asuransi_id_bpjs', \App\Models\Asuransi::Bpjs()->id, [
         'class' => 'form-control hide',
         'id' => 'asuransi_id_bpjs'
     ]) !!}

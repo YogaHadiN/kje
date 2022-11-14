@@ -33,9 +33,6 @@ class PenjualansControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * @group failing
-     */
 
     public function test_a_user_can_only_see_penjualan_in_the_same_tenant()
     {
