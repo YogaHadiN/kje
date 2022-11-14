@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Antrian Kelengkapan Dokumen
+{{ ucwords( \Auth::user()->tenant->name ) }} | Antrian Kelengkapan Dokumen
 @stop
 @section('page-title') 
 <h2>Antrian Kelengkapan Dokumen</h2>

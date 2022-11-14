@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Buat Rayon
+{{ ucwords( \Auth::user()->tenant->name ) }} | Buat Rayon
 
 @stop
 @section('page-title') 

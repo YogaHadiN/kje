@@ -9,11 +9,11 @@ z   <head>
     <body>
     <div id="content-print">
             <div class="box title-print text-center">
-                <h1>{{ env("NAMA_KLINIK") }}</h1>
-                <h5>
-                    {{ env("ALAMAT_KLINIK") }} <br>
-                    Telp : {{ env("TELPON_KLINIK") }}  
-                </h5>
+                    <h1>{{ ucwords( \Auth::user()->tenant->name ) }}</h1>
+                    <h5>
+                        {{ ucwords( \Auth::user()->tenant->address ) }} <br>
+                        Telp : {{ \Auth::user()->tenant->no_telp }}  
+                    </h5>
             </div>
             <h2 class="text-center border-top border-bottom">Slip Gaji</h2>
             <div>

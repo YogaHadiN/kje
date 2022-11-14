@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Status</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Status</title>
 <style>
 	@page 
 	{
@@ -208,8 +208,8 @@ border-spacing: -1px;
 </head>
 <body style="font-size:11px; font-family:sans-serif">
 <div id="header" class="text-center">
-	<h3>{{ env('NAMA_KLINIK') }}</h3>
-	<h4>{{ env('ALAMAT_KLINIK') }}</h4>
+	<h3>{{ ucwords( \Auth::user()->tenant->name ) }}</h3>
+	<h4>{{ ucwords( \Auth::user()->tenant->address ) }}</h4>
 </div>
 <hr>
 <h3 class="text-center">LAPORAN JUMLAH PASIEN {{ strtoupper($staf->nama) }}</h3>

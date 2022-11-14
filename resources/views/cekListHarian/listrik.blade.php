@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Cek Pulsa Harian
+{{ ucwords( \Auth::user()->tenant->name ) }} | Cek Pulsa Harian
 
 @stop
 @section('page-title') 

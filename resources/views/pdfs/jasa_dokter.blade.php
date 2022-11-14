@@ -10,10 +10,10 @@
         
         <div id="content-print">
                 <div class="box title-print text-center border-bottom">
-                    <h1>{{ env("NAMA_KLINIK") }}</h1>
+                    <h1>{{ ucwords( \Auth::user()->tenant->name ) }}</h1>
                     <h5>
-                        {{ env("ALAMAT_KLINIK") }} <br>
-                        Telp : {{ env("TELPON_KLINIK") }}  
+                        {{ ucwords( \Auth::user()->tenant->address ) }} <br>
+                        Telp : {{ \Auth::user()->tenant->no_telp }}  
                     </h5>
                 <h2 class="text-center border-top">
                     Pembayaran Jasa Dokter 
@@ -190,7 +190,7 @@
                 {{--</div>--}}
 				@if( $bayar->ada_penghasilan_lain == 0 && $bayar->staf->jenis_kelamin == 1 )
 				<div>
-					<p>Saya yang bertanda tangan di bawah ini menyatakan bahwa saya Dokter {{ env("NAMA_KLINIK") }}, {{ $bayar->staf->nama }}. Menyatakan bahwa benar pada bulan ini sampai dengan hari ini tanggal {{ $bayar->created_at->format('d M Y') }} saya tidak menerima penghasilan lain selain dari pekerjaan saya sebagai dokter di {{ env("NAMA_KLINIK") }}, saya hanya mempunyai hubungan dengan satu pemberi kerja, dan saya tidak punya potongan Pph di tempat lain selain di {{ env("NAMA_KLINIK") }}</p>
+					<p>Saya yang bertanda tangan di bawah ini menyatakan bahwa saya Dokter {{ ucwords( \Auth::user()->tenant->name ) }}, {{ $bayar->staf->nama }}. Menyatakan bahwa benar pada bulan ini sampai dengan hari ini tanggal {{ $bayar->created_at->format('d M Y') }} saya tidak menerima penghasilan lain selain dari pekerjaan saya sebagai dokter di {{ ucwords( \Auth::user()->tenant->name ) }}, saya hanya mempunyai hubungan dengan satu pemberi kerja, dan saya tidak punya potongan Pph di tempat lain selain di {{ ucwords( \Auth::user()->tenant->name ) }}</p>
 				</div>
 				@endif
                 <div>

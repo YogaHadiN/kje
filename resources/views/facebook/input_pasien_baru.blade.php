@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Daftar Pasien Baru Melalui Facebook
+{{ ucwords( \Auth::user()->tenant->name ) }} | Daftar Pasien Baru Melalui Facebook
 
 @stop
 @section('page-title') 

@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Buat Rujukan
+{{ ucwords( \Auth::user()->tenant->name ) }} | Buat Rujukan
 @stop
 @section('page-title') 
 <h2>Buat Rujukan</h2>

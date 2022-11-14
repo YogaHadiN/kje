@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Laporan Gaji Dokter
+{{ ucwords( \Auth::user()->tenant->name ) }} | Laporan Gaji Dokter
 @stop
 @section('page-title') 
  <h2>List Laporan Gaji Dokter</h2>

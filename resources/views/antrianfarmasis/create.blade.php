@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
-{{ env("NAMA_KLINIK") }} | Create Staf
+{{ ucwords( \Auth::user()->tenant->name ) }} | Create Staf
  @stop
  @section('page-title') 
  <h2>Create Staf</h2>

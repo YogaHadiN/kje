@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Buat AC baru
+    {{ ucwords( \Auth::user()->tenant->name ) }} | Buat AC baru
 
 @stop
 @section('page-title') 

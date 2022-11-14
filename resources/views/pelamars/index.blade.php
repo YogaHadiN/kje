@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Data Pelamar
+{{ ucwords( \Auth::user()->tenant->name ) }} | Data Pelamar
 
 @stop
 @section('head') 

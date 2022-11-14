@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Edit Transaksi Periksa
+{{ ucwords( \Auth::user()->tenant->name ) }} | Edit Transaksi Periksa
 
 @stop
 @section('head')

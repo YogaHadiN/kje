@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | SMS
+{{ ucwords( \Auth::user()->tenant->name ) }} | SMS
 @stop
 @section('page-title') 
 <h2>SMS</h2>

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Verifikasi Pendaftaran Online
+{{ ucwords( \Auth::user()->tenant->name ) }} | Verifikasi Pendaftaran Online
 
 @stop
 @section('page-title') 

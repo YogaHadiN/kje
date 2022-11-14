@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Cetak Bukti Potong Pajak
+{{ ucwords( \Auth::user()->tenant->name ) }} | Cetak Bukti Potong Pajak
 
 @stop
 @section('page-title') 

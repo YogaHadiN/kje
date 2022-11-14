@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Promo KTP Per Tahun
+{{ ucwords( \Auth::user()->tenant->name ) }} | Promo KTP Per Tahun
 
 @stop
 @section('page-title') 

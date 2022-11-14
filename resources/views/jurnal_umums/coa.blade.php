@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Coa belum di set
+{{ ucwords( \Auth::user()->tenant->name ) }} | Coa belum di set
 @stop
 @section('page-title') 
  <h2>Jurnal Umum</h2>

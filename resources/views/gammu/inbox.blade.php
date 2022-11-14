@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Inbox Gammu
+{{ ucwords( \Auth::user()->tenant->name ) }} | Inbox Gammu
 
 @stop
 @section('page-title') 

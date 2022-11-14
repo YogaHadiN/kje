@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | No Sales
+{{ ucwords( \Auth::user()->tenant->name ) }} | No Sales
 @stop
 @section('page-title') 
  <h2>No Sales</h2>

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | List Pendaftaran Online
+{{ ucwords( \Auth::user()->tenant->name ) }} | List Pendaftaran Online
 
 @stop
 @section('page-title') 

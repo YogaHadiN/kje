@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Omset Pajak
+{{ ucwords( \Auth::user()->tenant->name ) }} | Omset Pajak
 @stop
 @section('page-title') 
  <h2>Omset Pajak</h2>

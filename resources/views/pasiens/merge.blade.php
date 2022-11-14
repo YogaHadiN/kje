@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Gabung Pasien Dobel
+{{ ucwords( \Auth::user()->tenant->name ) }} | Gabung Pasien Dobel
 
 @stop
 @section('page-title') 

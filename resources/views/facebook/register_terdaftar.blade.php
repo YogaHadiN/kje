@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Register Terdaftar
+{{ ucwords( \Auth::user()->tenant->name ) }} | Register Terdaftar
 
 @stop
 @section('page-title') 

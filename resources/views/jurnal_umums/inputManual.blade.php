@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Input Jurnal Umum Manual
+{{ ucwords( \Auth::user()->tenant->name ) }} | Input Jurnal Umum Manual
 
 @stop
 @section('head') 

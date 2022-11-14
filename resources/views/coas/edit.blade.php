@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
-{{ env("NAMA_KLINIK") }} | Edit Coa
+{{ ucwords( \Auth::user()->tenant->name ) }} | Edit Coa
  @stop
  @section('head')
     <style>

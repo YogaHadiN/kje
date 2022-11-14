@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Nurse Station
+{{ ucwords( \Auth::user()->tenant->name ) }} | Nurse Station
 
 @stop
 @section('head')

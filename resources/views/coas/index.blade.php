@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Chart Of Account
+{{ ucwords( \Auth::user()->tenant->name ) }} | Chart Of Account
 
 @stop
 @section('page-title') 

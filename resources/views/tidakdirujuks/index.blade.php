@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Tidak Dirujuk
+{{ ucwords( \Auth::user()->tenant->name ) }} | Tidak Dirujuk
 
 @stop
 @section('page-title') 

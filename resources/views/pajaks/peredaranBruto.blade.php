@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Peredaran Bruto
+{{ ucwords( \Auth::user()->tenant->name ) }} | Peredaran Bruto
 
 @stop
 @section('page-title') 

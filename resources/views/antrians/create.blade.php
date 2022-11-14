@@ -52,7 +52,7 @@
             <div>
                 <h1 class="logo-name">KJE+</h1>
             </div>
-            <h3>Selamat Datang di {{ env("NAMA_KLINIK") }}</h3>
+            <h3>Selamat Datang di {{ ucwords( \Auth::user()->tenant->name ) }}</h3>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<button class="btn btn-lg btn-block btn-info" type="button" onclick="antrianBaru();return false;">
@@ -93,7 +93,7 @@
 		<div class="modal-content">
 		  <div class="modal-body text-center">
 
-			<h1 class="strong">{{ env("NAMA_KLINIK") }}</h1>
+			<h1 class="strong">{{ ucwords( \Auth::user()->tenant->name ) }}</h1>
 			<h1>Antrian Nomor</h1>
 			<h1 id="antrianMaster" class="text-big"></h1>
 
@@ -103,7 +103,7 @@
 	</div><!-- /.modal -->
 
 	<div class="printThis text-center">
-		<h1 class="strong">{{ env("NAMA_KLINIK") }}</h1>
+		<h1 class="strong">{{ ucwords( \Auth::user()->tenant->name ) }}</h1>
 		<h2>Antrian Nomor</h2>
 		<div id="nomorAntrian" class="text-big"></div>
 		<h2>Poli Gigi</h2>

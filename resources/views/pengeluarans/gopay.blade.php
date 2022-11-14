@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Data Transaksi Go Pay
+{{ ucwords( \Auth::user()->tenant->name ) }} | Data Transaksi Go Pay
 
 @stop
 @section('page-title') 

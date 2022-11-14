@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
-{{ env("NAMA_KLINIK") }} | Daftarkan Supplier
+{{ ucwords( \Auth::user()->tenant->name ) }} | Daftarkan Supplier
 
  @stop
  @section('head')

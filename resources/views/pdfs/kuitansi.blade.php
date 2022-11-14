@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Kuitansi</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Kuitansi</title>
 	<link rel="stylesheet" href="{{ url('css/struk.css') }}" title="" type="" />
 </head>
 <body style="font-size:12px; font-family:sans-serif">
@@ -14,8 +14,8 @@
 							<td>
 
 								<div class="klinik">{{ \Auth::user()->tenant->name }} </div>
-								{{ env("ALAMAT_KLINIK_LINE1") }}, Jl. Raya Legok - Parung Panjang km. 3, <br>
-								Malangnengah, Pagedangan, Tangerang, Banten 021 98496234
+								{{ \Auth::user()->tenant->address_line1 }}, {{ \Auth::user()->tenant->address_line2 }} <br>
+								{{ \Auth::user()->tenant->address_line3 }}
 
 							</td>
 						</tr>

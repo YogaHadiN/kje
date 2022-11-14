@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | List Belanja
+{{ ucwords( \Auth::user()->tenant->name ) }} | List Belanja
 
 @stop
 @section('page-title') 

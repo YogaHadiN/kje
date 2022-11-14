@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Asuransi
+{{ ucwords( \Auth::user()->tenant->name ) }} | Asuransi
 @stop
 @section('head')
     <link href="{!! asset('css/print.css') !!}" rel="stylesheet" media="print">
@@ -247,10 +247,10 @@
 <div class="row" id="content-print">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box title-print text-center">
-            <h1>{{ env("NAMA_KLINIK") }}</h1>
+            <h1>{{ ucwords( \Auth::user()->tenant->name ) }}</h1>
             <h5>
-                {{ env("ALAMAT_KLINIK") }}
-                Telp : {{ env("TELPON_KLINIK") }}  
+                {{ ucwords( \Auth::user()->tenant->address ) }} <br>
+                Telp : {{ \Auth::user()->tenant->no_telp }}  
             </h5>
         </div>
        <hr> 

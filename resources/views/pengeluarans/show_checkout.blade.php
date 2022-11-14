@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Checkout Detail
+{{ ucwords( \Auth::user()->tenant->name ) }} | Checkout Detail
 
 @stop
 @section('page-title') 

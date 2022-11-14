@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Neraca Saldo
+{{ ucwords( \Auth::user()->tenant->name ) }} | Neraca Saldo
 
 @stop
 @section('page-title') 

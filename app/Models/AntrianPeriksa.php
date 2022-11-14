@@ -36,7 +36,7 @@ class AntrianPeriksa extends Model{
         return $this->morphMany('App\Models\PengantarPasien', 'antarable');
     }
 	public function staf() {
-		return $this->belongsTo('App\Models\Staf');
+		return $this->belongsTo(Staf::class);
 	}
 
 	public function periksa() {

@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
-		<title>{{ env("NAMA_KLINIK") }} | Survey </title>
+		<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Survey </title>
 		<link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />

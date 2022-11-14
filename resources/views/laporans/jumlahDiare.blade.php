@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Laporan Puskesmas Jumlah Diare periode {{ App\Models\Classes\Yoga::updateDatePrep($mulai) }} s/d {{ App\Models\Classes\Yoga::updateDatePrep($akhir) }}
+{{ ucwords( \Auth::user()->tenant->name ) }} | Laporan Puskesmas Jumlah Diare periode {{ App\Models\Classes\Yoga::updateDatePrep($mulai) }} s/d {{ App\Models\Classes\Yoga::updateDatePrep($akhir) }}
 
 @stop
 @section('head')

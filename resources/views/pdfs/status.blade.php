@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Status</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Status</title>
 <style>
 	@page 
 	{
@@ -635,8 +635,8 @@ border-spacing: -1px;
 									</tr>
 									<tr>
 										<td colspan="2" class="font-smaller">
-											{{ env("ALAMAT_KLINIK_LINE1") }}<br>
-											{{ env("ALAMAT_KLINIK_LINE2") }}
+											{{ \Auth::user()->tenant->address_line1 }}<br>
+											{{ \Auth::user()->tenant->address_line2 }}
 										</td>
 									</tr>
 								</tbody>

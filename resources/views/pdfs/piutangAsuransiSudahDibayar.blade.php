@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Piutang Asuransi Sudah Dibayar</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Piutang Asuransi Sudah Dibayar</title>
 <style>
 	@page 
 	{

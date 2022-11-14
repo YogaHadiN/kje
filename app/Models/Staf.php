@@ -45,8 +45,7 @@ class Staf extends Model{
 		if ($all) {
 			return [ '%' => 'Semua' ] + Staf::pluck('nama', 'id')->all();
 		}
-		return [ null => 'pilih' ] + Staf::pluck('nama', 'id')->all();
-		
+		return  Staf::pluck('nama', 'id');
 	}
 
 	public function getStatusPernikahanAttribute(){

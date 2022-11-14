@@ -172,7 +172,7 @@
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span class="m-r-sm text-muted welcome-message">Selamat Datang di {{ env("NAMA_KLINIK") }}</span>
+                    <span class="m-r-sm text-muted welcome-message">Selamat Datang di {{ ucwords( \Auth::user()->tenant->name ) }}</span>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">

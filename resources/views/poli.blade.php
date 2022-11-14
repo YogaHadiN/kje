@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-    {{ env("NAMA_KLINIK") }} | Poli {!! ucfirst($antrianperiksa->poli->poli)!!}
+    {{ ucwords( \Auth::user()->tenant->name ) }} | Poli {!! ucfirst($antrianperiksa->poli->poli)!!}
 @stop
 @section('head')
     {{-- <link href="{!! asset('css/poli.css') !!}" rel="stylesheet"> --}}

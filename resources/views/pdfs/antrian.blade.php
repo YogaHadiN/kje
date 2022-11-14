@@ -42,10 +42,10 @@ table {
                 <div class="box title-print text-center">
                     <h2 class="text-center border-top">
 						Selamat Datang di
-						<br />{{ env('NAMA_KLINIK') }}
+                        <br />{{ ucwords( \Auth::user()->tenant->name ) }}
 					</h2>
-                    <h3 class="text-center border-bottom border-top">{{ env('ALAMAT_KLINIK') }}
-						 <br />{{ env('TELPON_KLINIK') }}
+                    <h3 class="text-center border-bottom border-top">{{ \Auth::user()->tenant->address }}
+						 <br />{{ \Auth::user()->tenant->no_telp }}
 					</h3>
                 </div>
 				<h2 class="text-center">Nomor Antrian Anda Adalah :</h2>

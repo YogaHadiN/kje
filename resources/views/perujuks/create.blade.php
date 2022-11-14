@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
-{{ env("NAMA_KLINIK") }} | Daftarkan Perujuk
+{{ ucwords( \Auth::user()->tenant->name ) }} | Daftarkan Perujuk
 
  @stop
  @section('head')

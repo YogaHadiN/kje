@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
- {{ env("NAMA_KLINIK") }} | Edit Rak
+ {{ ucwords( \Auth::user()->tenant->name ) }} | Edit Rak
  @stop
  @section('page-title') 
  <h2>Edit Rak</h2>

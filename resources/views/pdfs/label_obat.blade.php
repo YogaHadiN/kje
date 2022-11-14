@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Label Obat</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Label Obat</title>
 <style>
 	*{
 		margin: 0;

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Input Service AC
+{{ ucwords( \Auth::user()->tenant->name ) }} | Input Service AC
 
 @stop
 @section('page-title') 

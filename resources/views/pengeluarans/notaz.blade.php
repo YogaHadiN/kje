@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Checkout Kasir
+{{ ucwords( \Auth::user()->tenant->name ) }} | Checkout Kasir
 @stop
 @section('head') 
 @stop

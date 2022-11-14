@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Buat SMS Gammu
+{{ ucwords( \Auth::user()->tenant->name ) }} | Buat SMS Gammu
 
 @stop
 @section('page-title') 

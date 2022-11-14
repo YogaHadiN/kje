@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Detail Harta
+{{ ucwords( \Auth::user()->tenant->name ) }} | Detail Harta
 
 @stop
 @section('page-title') 

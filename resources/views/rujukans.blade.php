@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | rujukans
+{{ ucwords( \Auth::user()->tenant->name ) }} | rujukans
 @stop
 @section('page-title') 
  <h2>List User</h2>

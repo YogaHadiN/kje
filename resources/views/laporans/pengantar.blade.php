@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Laporan Pengantar Pasien BPJS
+{{ ucwords( \Auth::user()->tenant->name ) }} | Laporan Pengantar Pasien BPJS
 
 @stop
 

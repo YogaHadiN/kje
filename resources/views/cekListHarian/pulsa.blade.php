@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Cek List Harian
+{{ ucwords( \Auth::user()->tenant->name ) }} | Cek List Harian
 
 @stop
 @section('page-title') 

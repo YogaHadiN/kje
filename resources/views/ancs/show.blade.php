@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | ANC - {{ $periksa->pasien->nama }}
+{{ ucwords( \Auth::user()->tenant->name ) }} | ANC - {{ $periksa->pasien->nama }}
 
 @stop
 @section('page-title') 

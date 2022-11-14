@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Cari Faktur Service Ac
+{{ ucwords( \Auth::user()->tenant->name ) }} | Cari Faktur Service Ac
 
 @stop
 @section('page-title') 

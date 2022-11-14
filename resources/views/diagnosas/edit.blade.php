@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
- {{ env("NAMA_KLINIK") }} | Diagnosa
+ {{ ucwords( \Auth::user()->tenant->name ) }} | Diagnosa
 
  @stop
  @section('head')

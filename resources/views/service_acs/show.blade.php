@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Detil Service Ac
+{{ ucwords( \Auth::user()->tenant->name ) }} | Detil Service Ac
 
 @stop
 @section('page-title') 

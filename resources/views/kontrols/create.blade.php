@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Buat Janji Kontrol
+{{ ucwords( \Auth::user()->tenant->name ) }} | Buat Janji Kontrol
 
 @stop
 @section('page-title') 

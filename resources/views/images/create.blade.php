@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-{{ env("NAMA_KLINIK") }} | Gambar Periksa
+{{ ucwords( \Auth::user()->tenant->name ) }} | Gambar Periksa
 </title>
     {!! HTML::style('css/all.css')!!}
   {{--   <link href="css/bootstrap.min.css" rel="stylesheet">

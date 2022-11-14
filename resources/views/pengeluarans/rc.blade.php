@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Tambah Modal
+{{ ucwords( \Auth::user()->tenant->name ) }} | Tambah Modal
 @stop
 @section('head')
     <link href="{!! asset('css/bootstrap-chosen.css') !!}" rel="stylesheet">

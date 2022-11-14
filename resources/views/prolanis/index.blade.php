@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Data Pasien Prolanis BPJS
+{{ ucwords( \Auth::user()->tenant->name ) }} | Data Pasien Prolanis BPJS
 @stop
 @section('page-title') 
 <h2>Data Pasien Prolanis BPJS</h2>

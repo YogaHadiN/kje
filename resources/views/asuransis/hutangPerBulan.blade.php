@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Hutang Asuransi Per Bulan
+{{ ucwords( \Auth::user()->tenant->name ) }} | Hutang Asuransi Per Bulan
 
 @stop
 @section('page-title') 

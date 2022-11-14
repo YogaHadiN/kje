@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | USG {{ $periksa->pasien->nama }} - {{ $periksa->id }}
+{{ ucwords( \Auth::user()->tenant->name ) }} | USG {{ $periksa->pasien->nama }} - {{ $periksa->id }}
 
 @stop
 @section('page-title') 

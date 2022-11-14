@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Prolanis Terdaftar
+{{ ucwords( \Auth::user()->tenant->name ) }} | Prolanis Terdaftar
 
 @stop
 @section('page-title') 

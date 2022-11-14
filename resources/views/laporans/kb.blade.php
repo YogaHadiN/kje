@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Laporan KB Bulanan
+{{ ucwords( \Auth::user()->tenant->name ) }} | Laporan KB Bulanan
 @stop
 @section('page-title') 
  <h2>Laporan KB Bulanan</h2>

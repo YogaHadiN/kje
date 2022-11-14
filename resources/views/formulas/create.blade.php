@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
- {{ env("NAMA_KLINIK") }} | Formula Baru
+ {{ ucwords( \Auth::user()->tenant->name ) }} | Formula Baru
 
  @stop
  @section('page-title') 

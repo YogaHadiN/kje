@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Data Obat Generik
+{{ ucwords( \Auth::user()->tenant->name ) }} | Data Obat Generik
 
 @stop
 @section('page-title') 

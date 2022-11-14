@@ -14,11 +14,8 @@ use Endroid\QrCode\QrCode;
 
 class RuangPeriksaController extends Controller
 {
-	protected $staf_list;
-	private $poli_list;
+
 	public function __construct(){
-		$this->staf_list = Yoga::stafList();
-		$this->poli_list = Poli::pluck('poli', 'id');
         $this->middleware('backIfNotFound', ['only' => ['index']]);
 	}
 
@@ -121,8 +118,8 @@ class RuangPeriksaController extends Controller
 		/* } */
 
 		$poli      = 'umum';
-		$staf_list = $this->staf_list;
-		$poli_list = $this->poli_list;
+		$staf_list = Yoga::stafList();
+		$poli_list = Poli::pluck('poli', 'id');
 		return view('antrianperiksas.index', compact(
 			'antrian_periksas',
 			'antrian_kasirs',

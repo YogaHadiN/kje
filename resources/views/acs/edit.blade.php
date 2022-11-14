@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Edit Air Conditioner
+{{ ucwords( \Auth::user()->tenant->name ) }} | Edit Air Conditioner
 
 @stop
 @section('page-title') 

@@ -38,7 +38,7 @@ class AntrianPeriksasControllerTest extends TestCase
         /* dari bentuk '"nama"  => $nama,' */	
         /* KE BENTUK */	
         /* $nama = $this->faker->text */
-        /* $this->withoutExceptionHandling(); */
+        $this->withoutExceptionHandling();
 
         /* key mapping k */
         /* dari bentuk "nama	varchar(255)	NO		NULL" */	
@@ -54,7 +54,6 @@ class AntrianPeriksasControllerTest extends TestCase
         /* KE BENTUK */	
         /* ->where("nama", $nama) */
 
-        dd( AntrianPeriksa::all() );
         $antrianperiksas = AntrianPeriksa::query()
                 ->where("asuransi_id", $antrian->asuransi_id)
                 /* ->where("poli_id", $antrian->poli_id) */

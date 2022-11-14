@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | BPJS tidak pakai BPJS
+{{ ucwords( \Auth::user()->tenant->name ) }} | BPJS tidak pakai BPJS
 
 @stop
 @section('page-title') 

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Edit Janji Kontrol
+{{ ucwords( \Auth::user()->tenant->name ) }} | Edit Janji Kontrol
 
 @stop
 @section('page-title') 

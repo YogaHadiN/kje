@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Status</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Status</title>
     <link href="{!! asset('css/jurnal.css') !!}" rel="stylesheet">
 </head>
 <body>

@@ -23,7 +23,7 @@
                 <h1 class="logo-name">KJE+</h1>
 
             </div>
-            <h3>Selamat Datang di {{ env("NAMA_KLINIK") }}</h3>
+            <h3>Selamat Datang di {{ ucwords( \Auth::user()->tenant->name ) }}</h3>
             <p>Silahkan masukkan email dan password dengan benar.</p>
 
             {!! Form::open(array('url' => 'login', 'class' => 'm-t', 'method' => 'post')) !!}

@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
- {{ env("NAMA_KLINIK") }} | Create Rak
+ {{ ucwords( \Auth::user()->tenant->name ) }} | Create Rak
  @stop
  @section('page-title') 
 

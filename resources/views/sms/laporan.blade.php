@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Laporan SMS Angka Kontak
+{{ ucwords( \Auth::user()->tenant->name ) }} | Laporan SMS Angka Kontak
 
 @stop
 @section('page-title') 

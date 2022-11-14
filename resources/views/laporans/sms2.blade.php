@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Laporan SMS BPJS
+{{ ucwords( \Auth::user()->tenant->name ) }} | Laporan SMS BPJS
 
 @stop
 @section('head') 

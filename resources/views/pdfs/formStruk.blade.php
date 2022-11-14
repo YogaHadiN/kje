@@ -1,9 +1,9 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box title-print text-center">
-                    <h1>{{ env("NAMA_KLINIK") }}</h1>
+                    <h1>{{ ucwords( \Auth::user()->tenant->name ) }}</h1>
                     <h5>
-                        {{ env("ALAMAT_KLINIK") }} <br>
-                        Telp : {{ env("TELPON_KLINIK") }}  
+                        {{ ucwords( \Auth::user()->tenant->address ) }} <br>
+                        Telp : {{ \Auth::user()->tenant->no_telp }}  
                     </h5>
                     <h2 class="text-center border-top border-bottom">Pemeriksaan Dokter</h2>
                 </div>

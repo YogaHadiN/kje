@@ -1,7 +1,7 @@
 
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Diskon
+{{ ucwords( \Auth::user()->tenant->name ) }} | Diskon
 
 @stop
 @section('page-title') 

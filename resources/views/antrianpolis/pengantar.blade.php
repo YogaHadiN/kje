@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-	{{ env("NAMA_KLINIK") }} | Input Pengantar Pasien
+	{{ ucwords( \Auth::user()->tenant->name ) }} | Input Pengantar Pasien
 @stop
 @section('head') 
     <link href="{!! asset('js/select2/dist/css/select2.min.css') !!}" rel="stylesheet">

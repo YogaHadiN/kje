@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Amortisasi
+{{ ucwords( \Auth::user()->tenant->name ) }} | Amortisasi
 
 @stop
 @section('page-title') 

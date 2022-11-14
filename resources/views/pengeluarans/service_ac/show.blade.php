@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Faktur Belanja
+{{ ucwords( \Auth::user()->tenant->name ) }} | Faktur Belanja
 
 @stop
 @section('page-title') 

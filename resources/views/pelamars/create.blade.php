@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Create Pelamar
+{{ ucwords( \Auth::user()->tenant->name ) }} | Create Pelamar
 
 @stop
 @section('page-title') 

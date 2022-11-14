@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Antrian Farmasi
+{{ ucwords( \Auth::user()->tenant->name ) }} | Antrian Farmasi
 
 @stop
 @section('page-title') 

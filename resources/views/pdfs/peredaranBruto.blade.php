@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Status</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Status</title>
     <link href="{!! asset('css/jurnal.css') !!}" rel="stylesheet">
 	<style type="text/css" media="all">
 		tfoot td{
@@ -27,7 +27,7 @@
 			<tbody>
 				<tr>
 					<td class="text-left">NPWP : {{  env("NPWP")  }}</td>
-					<td class="text-right">NAMA WAJIB PAJAK : {{  env("NAMA_BADAN_USAHA")  }}</td>
+					<td class="text-right">NAMA WAJIB PAJAK : {{ ucwords( \Auth::user()->tenant->name ) }}</td>
 				</tr>
 			</tbody>
 		</h4>

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Dispensing Obat Per Tanggal
+{{ ucwords( \Auth::user()->tenant->name ) }} | Dispensing Obat Per Tanggal
 
 @stop
 @section('page-title') 

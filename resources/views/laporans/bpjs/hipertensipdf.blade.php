@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>{{ env("NAMA_KLINIK") }} | Laporan Diagnosa Rujukan BPJS</title>
+	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Laporan Diagnosa Rujukan BPJS</title>
 <style>
 	@page 
 	{

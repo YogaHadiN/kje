@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Input Harta
+{{ ucwords( \Auth::user()->tenant->name ) }} | Input Harta
 
 @stop
 @section('page-title') 

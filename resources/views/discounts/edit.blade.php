@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Edit Discount
+{{ ucwords( \Auth::user()->tenant->name ) }} | Edit Discount
 
 @stop
 @section('page-title') 

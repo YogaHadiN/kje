@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Riwayat Pembelian
+{{ ucwords( \Auth::user()->tenant->name ) }} | Riwayat Pembelian
 
 @stop
 @section('page-title') 

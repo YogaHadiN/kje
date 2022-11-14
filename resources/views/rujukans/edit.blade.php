@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Edit Rujukan
+{{ ucwords( \Auth::user()->tenant->name ) }} | Edit Rujukan
 
 @stop
 @section('page-title') 

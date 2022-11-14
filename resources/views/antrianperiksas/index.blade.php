@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Poli {!! ucfirst($poli) !!}
+{{ ucwords( \Auth::user()->tenant->name ) }} | Poli {!! ucfirst($poli) !!}
 
 @stop
 @section('page-title') 
@@ -79,7 +79,6 @@
 								{!! Form::select('staf_id', $staf_list, $periksa->staf_id, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'onchange' => 'changeStaf(this);return false;']) !!}
 								
 								</td>
-                                {{--<td>{!! $periksa->staf->nama !!}</td>--}}
                                 <td class="hide pasien_id">{!! $periksa->pasien_id !!}</td>
                                 <td class="hide antrian_periksa_id">{!! $periksa->id !!}</td>
                                 <td nowrap>

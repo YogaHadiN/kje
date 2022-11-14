@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
- {{ env("NAMA_KLINIK") }} | Edit Formula
+ {{ ucwords( \Auth::user()->tenant->name ) }} | Edit Formula
  @stop
  @section('page-title') 
  <h2>Edit Formula</h2>

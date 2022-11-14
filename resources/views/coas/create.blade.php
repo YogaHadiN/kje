@@ -2,7 +2,7 @@
  @extends('layout.master')
 
  @section('title') 
-{{ env("NAMA_KLINIK") }} | Buat Coa Baru
+{{ ucwords( \Auth::user()->tenant->name ) }} | Buat Coa Baru
 
  @stop
  @section('head')

@@ -1,6 +1,6 @@
             <div id="header" class="text-center">
-              <h3>{{ env('NAMA_KLINIK') }}</h3>
-              <h4>{{ env('ALAMAT_KLINIK') }}</h4>
+                <h3>{{ ucwords( \Auth::user()->tenant->name ) }}</h3>
+              <h4>{{ ucwords( \Auth::user()->tenant->address ) }}</h4>
             </div>
             <hr>
             <h3 class="text-center">LAPORAN LABA RUGI</h3>

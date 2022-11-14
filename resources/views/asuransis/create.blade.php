@@ -1,7 +1,7 @@
  @extends('layout.master')
 
  @section('title') 
- {{ env("NAMA_KLINIK") }} | Asuransi Baru
+ {{ ucwords( \Auth::user()->tenant->name ) }} | Asuransi Baru
 
  @stop
  @section('head')

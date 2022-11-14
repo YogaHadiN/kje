@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Create Prolanis
+{{ ucwords( \Auth::user()->tenant->name ) }} | Create Prolanis
 
 @stop
 @section('page-title') 

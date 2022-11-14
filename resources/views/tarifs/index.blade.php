@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ env("NAMA_KLINIK") }} | Tarif
+{{ ucwords( \Auth::user()->tenant->name ) }} | Tarif
 @stop
 @section('page-title') 
 
