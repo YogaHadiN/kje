@@ -10,6 +10,7 @@ use App\Http\Controllers\AntrianPolisController;
 use App\Http\Controllers\AntrianPeriksasController;
 use App\Models\Classes\Yoga;
 use App\Models\Poli;
+use App\Models\Antrian;
 use App\Models\Generik;
 use App\Models\DenominatorBpjs;
 use App\Rules\CekNomorBpjsSama;
@@ -173,7 +174,11 @@ class PasiensController extends Controller
                 $pesan = Yoga::suksesFlash( '<strong>' . $pasien->id . ' - ' . $pasien->nama . '</strong> Berhasil dibuat dan berhasil masuk antrian Periksa di ' . $ap->poli->poli  );
             }
 
+            $apc                = new AntrianPolisController;
+            $apc->input_antrian = Antrian::find( $this->input_antrian_id );
+            $apc->updateAntrianDanKirimWa($ap);
 
+			$apc->updateJumlahAntrian(false, null);
             DB::commit();
 
             if ( $this->input_antrian_id ) {
@@ -359,58 +364,64 @@ class PasiensController extends Controller
 		));
 	}
 	public function inputDataPasien($pasien){
+        DB::beginTransaction();
+        try {
+            $pasien->alamat                      = Input::get('alamat');
+            $pasien->prolanis_dm                 = Input::get('prolanis_dm');
+            $pasien->prolanis_ht                 = $this->input_prolanis_ht;
+            $pasien->asuransi_id                 = $this->asuransiId( Input::get('asuransi_id') );
+            $pasien->sex                         = Input::get('sex');
+            $pasien->jenis_peserta_id            = Input::get('jenis_peserta_id');
+            $pasien->nama_ayah                   = Input::get('nama_ayah');
+            $pasien->nama_ibu                    = Input::get('nama_ibu');
+            $pasien->nama                        = Input::get('nama');
+            $pasien->nama_peserta                = Input::get('nama_peserta');
+            $pasien->nomor_asuransi              = Input::get('nomor_asuransi');
+            $pasien->nomor_ktp                   = Input::get('nomor_ktp');
+            $pasien->nomor_asuransi_bpjs         = Input::get('nomor_asuransi_bpjs');
+            $pasien->no_telp                     = Input::get('no_telp');
+            $pasien->verifikasi_prolanis_dm_id   = $this->input_verifikasi_prolanis_dm_id;
+            $pasien->verifikasi_prolanis_ht_id   = $this->input_verifikasi_prolanis_ht_id;
+            $pasien->hubungan_keluarga_id   = 4;
+            $pasien->meninggal                   = $this->input_meninggal;
+            $pasien->penangguhan_pembayaran_bpjs = $this->input_penangguhan_pembayaran_bpjs;
+            $pasien->tanggal_lahir               = Yoga::datePrep(Input::get('tanggal_lahir'));
+            $pasien->jangan_disms                = Input::get('jangan_disms');
+            $pasien->save();
 
-		$pasien->alamat                      = Input::get('alamat');
-		$pasien->prolanis_dm                 = Input::get('prolanis_dm');
-		$pasien->prolanis_ht                 = $this->input_prolanis_ht;
-		$pasien->asuransi_id                 = $this->asuransiId( Input::get('asuransi_id') );
-		$pasien->sex                         = Input::get('sex');
-		$pasien->jenis_peserta_id            = Input::get('jenis_peserta_id');
-		$pasien->nama_ayah                   = Input::get('nama_ayah');
-		$pasien->nama_ibu                    = Input::get('nama_ibu');
-		$pasien->nama                        = Input::get('nama');
-		$pasien->nama_peserta                = Input::get('nama_peserta');
-		$pasien->nomor_asuransi              = Input::get('nomor_asuransi');
-		$pasien->nomor_ktp                   = Input::get('nomor_ktp');
-		$pasien->nomor_asuransi_bpjs         = Input::get('nomor_asuransi_bpjs');
-		$pasien->no_telp                     = Input::get('no_telp');
-		$pasien->verifikasi_prolanis_dm_id   = $this->input_verifikasi_prolanis_dm_id;
-		$pasien->verifikasi_prolanis_ht_id   = $this->input_verifikasi_prolanis_ht_id;
-		$pasien->hubungan_keluarga_id   = 4;
-		$pasien->meninggal                   = $this->input_meninggal;
-		$pasien->penangguhan_pembayaran_bpjs = $this->input_penangguhan_pembayaran_bpjs;
-		$pasien->tanggal_lahir               = Yoga::datePrep(Input::get('tanggal_lahir'));
-		$pasien->jangan_disms                = Input::get('jangan_disms');
-		$pasien->save();
 
+            $this->input_bpjs_image                 = $this->imageUpload('bpjs','bpjs_image', $pasien->id);
+            $this->input_ktp_image                  = $this->imageUpload('ktp','ktp_image', $pasien->id);
+            $this->input_kartu_asuransi_image       = $this->imageUpload('kartu_asuransi','kartu_asuransi_image', $pasien->id);
+            $this->input_prolanis_dm_flagging_image = $this->imageUpload('prolanis_dm','prolanis_dm_flagging_image', $pasien->id);
+            $this->input_prolanis_ht_flagging_image = $this->imageUpload('prolanis_ht','prolanis_ht_flagging_image', $pasien->id);
+            $this->input_image                      = $this->imageUploadWajah('img', 'image', $pasien->id);
 
-		$this->input_bpjs_image                 = $this->imageUpload('bpjs','bpjs_image', $pasien->id);
-		$this->input_ktp_image                  = $this->imageUpload('ktp','ktp_image', $pasien->id);
-		$this->input_kartu_asuransi_image       = $this->imageUpload('kartu_asuransi','kartu_asuransi_image', $pasien->id);
-		$this->input_prolanis_dm_flagging_image = $this->imageUpload('prolanis_dm','prolanis_dm_flagging_image', $pasien->id);
-		$this->input_prolanis_ht_flagging_image = $this->imageUpload('prolanis_ht','prolanis_ht_flagging_image', $pasien->id);
-		$this->input_image                      = $this->imageUploadWajah('img', 'image', $pasien->id);
-
-		if (!empty( $this->input_bpjs_image )) {
-			$pasien->bpjs_image          = $this->input_bpjs_image;
-		}
-		if (!empty( $this->input_prolanis_dm_flagging_image )) {
-			$pasien->prolanis_dm_flagging_image = $this->input_prolanis_dm_flagging_image;
-		}
-		if (!empty( $this->input_prolanis_ht_flagging_image )) {
-			$pasien->prolanis_ht_flagging_image = $this->input_prolanis_ht_flagging_image;
-		}
-		if (!empty($this->input_ktp_image)) {
-			$pasien->ktp_image           = $this->input_ktp_image;
-		}
-		if (!empty($this->input_kartu_asuransi_image)) {
-			$pasien->kartu_asuransi_image           = $this->input_kartu_asuransi_image;
-		}
-		if (!empty($this->input_image)) {
-			$pasien->image               = $this->input_image;
-		}
-		$pasien->save();
-		return $pasien;
+            if (!empty( $this->input_bpjs_image )) {
+                $pasien->bpjs_image          = $this->input_bpjs_image;
+            }
+            if (!empty( $this->input_prolanis_dm_flagging_image )) {
+                $pasien->prolanis_dm_flagging_image = $this->input_prolanis_dm_flagging_image;
+            }
+            if (!empty( $this->input_prolanis_ht_flagging_image )) {
+                $pasien->prolanis_ht_flagging_image = $this->input_prolanis_ht_flagging_image;
+            }
+            if (!empty($this->input_ktp_image)) {
+                $pasien->ktp_image           = $this->input_ktp_image;
+            }
+            if (!empty($this->input_kartu_asuransi_image)) {
+                $pasien->kartu_asuransi_image           = $this->input_kartu_asuransi_image;
+            }
+            if (!empty($this->input_image)) {
+                $pasien->image               = $this->input_image;
+            }
+            $pasien->save();
+            DB::commit();
+            return $pasien;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 	}
 
 	public function asuransiId($asu_id){
@@ -539,16 +550,24 @@ class PasiensController extends Controller
 
 	}
 	public function inputDataAntrianPoli($pasien){
-		$ap                    = new AntrianPolisController;
-		$ap->input_pasien_id   = $pasien->id;
-		$ap->input_asuransi_id = $pasien->asuransi_id;
-		$ap->input_antrian_id  = $this->input_antrian_id;
-		$ap->input_poli_id     = $this->poliId();
-		$ap->input_tanggal     = date('Y-m-d');
-		$ap->input_jam         = date("H:i:s");
+        DB::beginTransaction();
+        try {
+            
+            $ap                    = new AntrianPolisController;
+            $ap->input_pasien_id   = $pasien->id;
+            $ap->input_asuransi_id = $pasien->asuransi_id;
+            $ap->input_antrian_id  = $this->input_antrian_id;
+            $ap->input_poli_id     = $this->poliId();
+            $ap->input_tanggal     = date('Y-m-d');
+            $ap->input_jam         = date("H:i:s");
 
-        $data = $ap->inputDataAntrianPoli();
-		return $data;
+            $data = $ap->inputDataAntrianPoli();
+            DB::commit();
+            return $data;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 	}
 	public function denominatorDm(){
 		$pasiens  = Pasien::where('prolanis_dm', '1')->get();
@@ -819,35 +838,42 @@ class PasiensController extends Controller
      */
     private function inputDataAntrianPeriksa($pasien)
     {
-        $apcon                              = new AntrianPeriksasController;
-        $apcon->input_sistolik              = '';
-        $apcon->input_diastolik             = '';
-        $apcon->input_berat_badan           = '';
-        $apcon->input_tanggal               = date('d-m-Y');
-        $apcon->input_suhu                  = '';
-        $apcon->input_tinggi_badan          = '';
-        $apcon->input_kecelakaan_kerja      = 0;
-        $apcon->input_asuransi_id           = $pasien->asuransi_id;
-        $apcon->input_hamil                 = 0;
-        $apcon->input_menyusui              = 0;
-        $apcon->input_asisten_id            = Input::get('staf_id');
-        $apcon->input_asuransi_id           = $pasien->asuransi_id;
-        $apcon->input_pasien_id             = $pasien->id;
-        $apcon->input_pasien                = $pasien;
-        $apcon->input_poli_id               = Input::get('poli_id');
-        $apcon->input_staf_id               = Input::get('staf_id');
-        $apcon->input_jam                   = date('H:i:s');
-        $apcon->input_bukan_peserta         = 0;
-        $apcon->input_tanggal               = date('d-m-Y');
-        $apcon->input_gds                   = '';
-        $apcon->input_sex                   = $pasien->sex;
-        $apcon->g                           = '';
-        $apcon->p                           = '';
-        $apcon->a                           = '';
-        $apcon->input_hpht                  = '';
-        $apcon->previous_complaint_resolved = 1;
-        $apcon->input_perujuk_id            = '';
-        return $apcon->inputData();
+        DB::beginTransaction();
+        try {
+            $apcon                              = new AntrianPeriksasController;
+            $apcon->input_sistolik              = '';
+            $apcon->input_diastolik             = '';
+            $apcon->input_berat_badan           = '';
+            $apcon->input_tanggal               = date('d-m-Y');
+            $apcon->input_suhu                  = '';
+            $apcon->input_tinggi_badan          = '';
+            $apcon->input_kecelakaan_kerja      = 0;
+            $apcon->input_asuransi_id           = $pasien->asuransi_id;
+            $apcon->input_hamil                 = 0;
+            $apcon->input_menyusui              = 0;
+            $apcon->input_asisten_id            = Input::get('staf_id');
+            $apcon->input_asuransi_id           = $pasien->asuransi_id;
+            $apcon->input_pasien_id             = $pasien->id;
+            $apcon->input_pasien                = $pasien;
+            $apcon->input_poli_id               = Input::get('poli_id');
+            $apcon->input_staf_id               = Input::get('staf_id');
+            $apcon->input_jam                   = date('H:i:s');
+            $apcon->input_bukan_peserta         = 0;
+            $apcon->input_tanggal               = date('d-m-Y');
+            $apcon->input_gds                   = '';
+            $apcon->input_sex                   = $pasien->sex;
+            $apcon->g                           = '';
+            $apcon->p                           = '';
+            $apcon->a                           = '';
+            $apcon->input_hpht                  = '';
+            $apcon->previous_complaint_resolved = 1;
+            $apcon->input_perujuk_id            = '';
+            DB::commit();
+            return $apcon->inputData();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
     
     
