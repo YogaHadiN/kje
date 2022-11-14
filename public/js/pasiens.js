@@ -862,3 +862,4 @@ function loaderGif() {
             "/img/loader.gif' /></td>"
     );
 }
+function tanggalChange() {}
