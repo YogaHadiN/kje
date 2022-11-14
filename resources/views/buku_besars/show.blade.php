@@ -66,7 +66,7 @@
 				Buku Besar : {{ $coa->coa }}
 			</div>
 			<div class="panelRight">
-				<a class="btn btn-warning" target="_blank" href="{{ url('pdfs/buku_besar/' . $bulan . '/' . $tahun . '/' . $coa_id) }}">Bentuk PDF</a>
+				<a class="btn btn-warning" target="_blank" href="{{ url('pdfs/buku_besar/' . $tanggal_awal . '/' . $tanggal_akhir . '/' . $coa_id) }}">Bentuk PDF</a>
 			</div>
 		</h3>
     </div>

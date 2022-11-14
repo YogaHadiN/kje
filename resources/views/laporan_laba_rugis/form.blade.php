@@ -16,7 +16,7 @@
 						  <tr>
 							<td></td>
 							<td class="column-fit text-right">{{ $p['coa_id'] }}</td>
-							<td><a href="{{ url('buku_besars/show?coa_id='. $p['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $p['coa'] }}</a></td>
+							<td><a href="{{ url('buku_besars/show?coa_id='. $p['coa_id'] . '&tanggal_awal='. $tanggal_awal . '&tanggal_akhir='. $tanggal_akhir) }}">{{ $p['coa'] }}</a></td>
 							<td class="text-right" nowrap>{{ abs( $p['nilai']  ) }}</td>
 							<td></td>
 						  </tr>
@@ -36,7 +36,7 @@
 					  <tr>
 						<td></td>
 						<td class="column-fit text-right">{{ $hpp['coa_id'] }}</td>
-						<td><a href="{{ url('buku_besars/show?coa_id='. $hpp['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $hpp['coa'] }}</a></td>
+						<td><a href="{{ url('buku_besars/show?coa_id='. $hpp['coa_id'] . '&tanggal_awal='. $tanggal_awal . '&tanggal_akhir='. $tanggal_akhir) }}">{{ $hpp['coa'] }}</a></td>
 						<td class="text-right">{{ abs($hpp['nilai'])  }}</td>
 						<td></td>
 					  </tr>
@@ -64,7 +64,7 @@
 					  <tr>
 						<td></td>
 						<td class="column-fit text-right">{{ $biaya['coa_id'] }}</td>
-						<td><a href="{{ url('buku_besars/show?coa_id='. $biaya['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $biaya['coa'] }}</a></td>
+						<td><a href="{{ url('buku_besars/show?coa_id='. $biaya['coa_id'] . '&tanggal_awal='. $tanggal_awal . '&tanggal_akhir='. $tanggal_akhir) }}">{{ $biaya['coa'] }}</a></td>
 						<td class="text-right" nowrap>{{ abs($biaya['nilai'])  }}</td>
 						<td></td>
 					  </tr>
@@ -92,7 +92,7 @@
 					  <tr>
 						<td></td>
 						<td class="column-fit text-right">{{ $pend['coa_id'] }}</td>
-						<td><a href="{{ url('buku_besars/show?coa_id='. $pend['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $pend['coa'] }}</a></td>
+						<td><a href="{{ url('buku_besars/show?coa_id='. $pend['coa_id'] . '&tanggal_awal='. $tanggal_awal . '&tanggal_akhir='. $tanggal_akhir) }}">{{ $pend['coa'] }}</a></td>
 						<td class="text-right" nowrap>{{ abs($pend['nilai'])  }}</td>
 						<td></td>
 					  </tr>
@@ -112,7 +112,7 @@
 					  <tr>
 						<td></td>
 						<td class="column-fit text-right">{{ $b['coa_id'] }}</td>
-						<td><a href="{{ url('buku_besars/show?coa_id='. $b['coa_id'] . '&bulan='. $bulan . '&tahun='. $tahun) }}">{{ $b['coa'] }}</a></td>
+						<td><a href="{{ url('buku_besars/show?coa_id='. $b['coa_id'] . '&tanggal_awal='. $tanggal_awal . '&tanggal_akhir='. $tanggal_akhir) }}">{{ $b['coa'] }}</a></td>
 						<td class="text-right" nowrap>{{ abs($b['nilai'])  }}</td>
 						<td></td>
 					  </tr>

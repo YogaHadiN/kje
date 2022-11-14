@@ -231,7 +231,6 @@ class LaporanLabaRugisController extends Controller
 	public function tempLaporanLabaRugiRangeByDate($tanggal_awal, $tanggal_akhir, $bikinan = false){
 
 		$akuns = $this->queryLaporanKeuangan(false, $tanggal_awal, $tanggal_akhir);
-		/* dd($akuns); */
 		$dataGrouped = [];
 		foreach ($akuns as $k => $akun) {
 			 /* kalau bikinan exclude semua asuransi_id dengan nilai 0 dan jurnalable_type = periksa */
@@ -246,6 +245,7 @@ class LaporanLabaRugisController extends Controller
 
 			$dataGrouped[ $akun->coa_id ]['coa_id']            = $akun->coa_id; // get coa_id
 			$dataGrouped[ $akun->coa_id ]['coa']               = $akun->coa; // get coa
+			$dataGrouped[ $akun->coa_id ]['kode_coa']               = $akun->kode_coa; // get coa
 
 			if ( !isset($dataGrouped[ $akun->coa_id ]['nilai_debit']) ) {
 				$dataGrouped[ $akun->coa_id ]['nilai_debit']   = 0;
@@ -264,12 +264,12 @@ class LaporanLabaRugisController extends Controller
 		$akuns=[];
 		foreach ($dataGrouped as $data) {
 			$akuns[] = [
-				'coa_id' => $data['coa_id'],
-				'coa'    => $data['coa'],
-				'nilai'  => abs($data['nilai_debit'] - $data['nilai_kredit'])
+				'coa_id'   => $data['coa_id'],
+				'coa'      => $data['coa'],
+				'kode_coa' => $data['kode_coa'],
+				'nilai'    => abs($data['nilai_debit'] - $data['nilai_kredit'])
 			];
 		}
-
 
 		return $this->olahDataLaporanLabaRugi($akuns, null, null, $tanggal_awal, $tanggal_akhir);
 	}

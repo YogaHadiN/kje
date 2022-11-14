@@ -386,6 +386,16 @@ border-spacing: -1px;
 							Pasien <strong> {{ $periksa->asuransi->nama }}</strong> ini ada biaya tambahan sebesar <strong>Rp. {{ $biayaObat - $tarifObatFlat }},-</strong> <br>
 						</div>
 					@endif
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Tepat Obat</td>
+                                <td>Tepat Jumlah</td>
+                                <td>Tepat Signa</td>
+                                <td>Tepat Aturan Minum</td>
+                            </tr>
+                        </tbody>
+                    </table>
 				</td>
 			</tr>
 			<table width="100%" id="qc" class="border">

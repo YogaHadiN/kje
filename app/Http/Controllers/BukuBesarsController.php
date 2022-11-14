@@ -18,21 +18,21 @@ class BukuBesarsController extends Controller
     public function show(){
 
         $coa_id = Input::get('coa_id');
-        $bulan  = Input::get('bulan');
-        $tahun  = Input::get('tahun');
+        $tanggal_awal  = Input::get('tanggal_awal');
+        $tanggal_akhir  = Input::get('tanggal_akhir');
 
-		$jurnalumums = JurnalUmum::where('coa_id', $coa_id)
-					->where('created_at', 'like', $tahun . '-' . $bulan . '%')
-					->toSql();
-		dd( $jurnalumums );
+        $jurnalumums = JurnalUmum::with('jurnalable.staf')
+                    ->where('coa_id', $coa_id)
+					->whereRaw("created_at between '" . $tanggal_awal . "' and '" . $tanggal_akhir . "'")
+					->get();
 
 		$coa = Coa::find($coa_id);
 
 		return view('buku_besars.show', compact(
 			'jurnalumums',
-			'bulan',
+			'tanggal_awal',
 			'coa',
-			'tahun',
+			'tanggal_akhir',
 			'coa_id'
 		));
     }

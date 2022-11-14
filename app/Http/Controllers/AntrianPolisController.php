@@ -83,7 +83,6 @@ class AntrianPolisController extends Controller
 
 		$antrianpolis  = AntrianPoli::with('pasien', 'asuransi', 'antars', 'antrian')
 								->where('submitted', 0)
-								->orderBy('jam', 'ASC')
 								->get();
 
 		$perjanjian = [];

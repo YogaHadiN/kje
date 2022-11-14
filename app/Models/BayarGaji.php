@@ -26,7 +26,7 @@ class BayarGaji extends Model
         return $this->morphMany('App\Models\JurnalUmum', 'jurnalable');
     }
     public function getKetjurnalAttribute(){
-        $staf = Staf::find($this->staf_id)->nama;
+        $staf = $this->staf->nama;
         $pembayaran = $this->gaji_pokok + $this->bonus;
         $tanggal = $this->tanggal_dibayar->format('d-m-Y');
 
