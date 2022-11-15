@@ -156,7 +156,7 @@ function changeTemplateWa() {
 function prosesTemplate() {
     var template = $("#template_container").val();
     var nama = filter(template, "Nama Lengkap", "Tanggal Lahir");
-    var tanggal_lahir = filter(template, "2003)", "Alamat Lengkap");
+    var tanggal_lahir = filter(template, "Tanggal Lahir", "Alamat Lengkap");
     var alamat_lengkap = filter(template, "Alamat Lengkap", "Nomor Handphone");
     var no_ktp = filter(template, "No KTP", "No BPJS");
     var no_telp = filter(template, "Handphone", "No KTP");
