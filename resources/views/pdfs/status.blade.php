@@ -20,6 +20,18 @@
 	margin-left: 120px;
 
 }
+.border-all td {
+	border:1px solid black;
+}
+.tanda_tangan_evaluasi_obat td{
+    text-align: center;
+    width: 50%;
+    height: 50px;
+	border:1px solid black;
+}
+.border-all td:first-child {
+    width: 1px;white-space: nowrap;
+}
 .center {
 	  display: block;
 	  margin-left: auto;
@@ -386,13 +398,39 @@ border-spacing: -1px;
 							Pasien <strong> {{ $periksa->asuransi->nama }}</strong> ini ada biaya tambahan sebesar <strong>Rp. {{ $biayaObat - $tarifObatFlat }},-</strong> <br>
 						</div>
 					@endif
-                    <table>
+                    <table class="border-all">
                         <tbody>
                             <tr>
+                                <td>Tepat Nama dan Tanggal Lahir Pasien</td>
+                                <td></td>
+                            </tr>
+                            <tr>
                                 <td>Tepat Obat</td>
+                                <td></td>
+                            </tr>
+                            <tr>
                                 <td>Tepat Jumlah</td>
-                                <td>Tepat Signa</td>
-                                <td>Tepat Aturan Minum</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tepat Identifikasi LASA</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tepat Edukasi Cara Pakai</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tepat Edukasi Masa Pakai</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="tanda_tangan_evaluasi_obat">
+                        <tbody>
+                            <tr>
+                                <td>Td Tangan Pasien / Wali</td>
+                                <td>Td Tangan Petugas Obat</td>
                             </tr>
                         </tbody>
                     </table>
