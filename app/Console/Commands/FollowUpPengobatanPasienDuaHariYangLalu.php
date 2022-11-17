@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 use DB;
 use App\Models\Antrian;
+use App\Http\Controllers\WablasController;
 
 class FollowUpPengobatanPasienDuaHariYangLalu extends Command
 {
@@ -43,7 +44,7 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
         // ambil pasien 2 hari yang lalu
         // ekskluasikan bila pasien ada pengobatan hari ini dan kemarin
         //
-        $dua_hari_yl                 = Carbon::now()->subDays(2)->format('Y-m-d');
+        $dua_hari_yl                 = Carbon::now()->subDays(2);
         $kemarin                     = Carbon::now()->subDay()->format('Y-m-d');
         $hari_ini_sampai_nanti_malam = Carbon::now()->format('Y-m-d 23:59:59');
 
@@ -61,14 +62,16 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
 
         $query  = "SELECT ";
         $query .= "psn.nama as nama, ";
-        $query .= "ant.no_telp as no_telp ";
+        $query .= "psn.tanggal_lahir as tanggal_lahir, ";
+        $query .= "ant.no_telp as no_telp, ";
+        $query .= "ant.id as antrian_id ";
         $query .= "FROM periksas as prx ";
         $query .= "JOIN antrians as ant on ant.antriable_id = prx.id and antriable_type = 'App\\\Models\\\Periksa' ";
         $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
         $query .= "JOIN diagnosas as dgn on dgn.id = prx.diagnosa_id  ";
         $query .= "JOIN icd10s as icd on icd.id = dgn.icd10_id  ";
         $query .= "LEFT JOIN rujukans as rjk on rjk.periksa_id = prx.id  ";
-        $query .= "WHERE ant.created_at like '{$dua_hari_yl}%' ";
+        $query .= "WHERE ant.created_at like '{$dua_hari_yl->format('Y-m-d')}%' ";
         $query .= "AND prx.pasien_id not in (" . $pasien_id_ekslusi . ") ";
         $query .= "AND ant.jenis_antrian_id = 1 "; // pasien dari poli umum
         $query .= "AND dgn.icd10_id not like 'Z3%' "; // bukan periksa hamil dan suntik kb
@@ -80,16 +83,24 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
         $query .= "AND ant.tenant_id = 1 "; // bukan pasien dirujuk
         $data = DB::select($query);
 
-
-        $credentials = [];
         foreach ($data as $d) {
-            $credentials[] = [
-                'nama' => $d->nama,
-                'no_telp' => $d->no_telp,
-            ];
+            
         }
 
-        dd( $credentials );
+
+        $message = 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ' . ucwords($d->nama) . ' setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Apakah keluhan yang dirasakan sudah membaik?';
+        $data = [
+            [
+                'phone' => '6281381912803',
+                'message' => [
+                    'buttons' => ["Membaik (PQID" . $d->antrian_id . ")" ,"Tidak ada perubahan (PQID" . $d->antrian_id . ")","Memburuk (PQID" . $d->antrian_id . ")"],
+                    'content' => $message,
+                ],
+            ]
+        ];
+
+        $wablas = new WablasController;
+        $wablas->sendButton($data);
 
 
 

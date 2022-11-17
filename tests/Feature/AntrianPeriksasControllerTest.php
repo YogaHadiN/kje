@@ -92,7 +92,13 @@ class AntrianPeriksasControllerTest extends TestCase
             ]);
         auth()->login($user);
 
-        $antrianpoli = \App\Models\AntrianPoli::factory()->create();
+        $pasien = \App\Models\Pasien::factory()->create([
+            'prolanis_dm' => 0,
+            'prolanis_ht' => 0
+        ]);
+        $antrianpoli = \App\Models\AntrianPoli::factory()->create([
+            'pasien_id' => $pasien->id
+        ]);
 
         $inputAll = [
               "sex"                    => rand(0,1),

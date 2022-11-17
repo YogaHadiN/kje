@@ -164,7 +164,7 @@ class KasirsController extends Controller
 		$denominatorBpjsWarning = 'primary';
 
 		if ( date('j') > 6 && !$denominatorBpjsBulanIniAda ) {
-			$status                 = 'warning';
+			/* $status                 = 'warning'; */
 			$denominatorBpjsWarning = 'warning';
 		} 
 
@@ -249,7 +249,7 @@ class KasirsController extends Controller
 			count($invoiceBelumDiterimaAdmedika)  &&
 			day_diff( $invoiceBelumDiterimaAdmedika[0]->created_at, date('Y-m-d') ) > 7 
 		) {
-			$status                      = 'warning';
+			/* $status                      = 'warning'; */
 			$validateReceivedVerification = 'warning';
 		}
 
@@ -284,12 +284,18 @@ class KasirsController extends Controller
         }
 
 		if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 20) {
-			$status          = 'warning';
+			/* $status          = 'warning'; */
 			$admedikaWarning = 'warning';
+		} 
+
+		if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 24) {
+			$status          = 'danger';
+			$admedikaWarning = 'danger';
 		} 
 
         $asuransi_menunggaks = Asuransi::whereIn('id', $asuransi_menunggak_ids)->get();
 
+        /* dd( $status, 293 ); */
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
