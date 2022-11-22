@@ -19,13 +19,13 @@ class DatabaseSeeder extends Seeder
 
 
         RecoveryIndex::create([
-            'recovery_index' => 'Memburuk'
-        ]);
-        RecoveryIndex::create([
             'recovery_index' => 'Tidak ada perubahan'
         ]);
         RecoveryIndex::create([
-            'recovery_index' => 'Membaik'
+            'recovery_index' => 'Keluhan membaik'
+        ]);
+        RecoveryIndex::create([
+            'recovery_index' => 'Sudah Sembuh'
         ]);
         /* Tenant::where('id', 1)->update([ */
         /*     'address' => 'Komp. Bumi Jati Elok Blok A I No. 7, Jl. Raya Legok - Parung Panjang km. 3, Malangnengah, Pagedangan, Tangerang, Bante.', */

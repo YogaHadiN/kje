@@ -19,10 +19,10 @@ z   <head>
             <div>
                 <table>
                     <tbody>
-                        <tr>
-                            <td nowrap>Periode</td>
-                            <td>{{ $bayar->mulai->format('d M') }} sampai {{ $bayar->akhir->format('d M Y') }}</td>
-                        </tr>
+                        {{-- <tr> --}}
+                        {{--     <td nowrap>Periode</td> --}}
+                        {{--     <td>{{ $bayar->mulai->format('d M') }} sampai {{ $bayar->akhir->format('d M Y') }}</td> --}}
+                        {{-- </tr> --}}
                         <tr>
                             <td nowrap>Tanggal Dibayar</td>
                             <td>{{ $bayar->tanggal_dibayar->format('d M Y') }}</td>

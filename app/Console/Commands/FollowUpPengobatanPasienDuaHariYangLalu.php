@@ -22,7 +22,7 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
      *
      * @var string
      */
-    protected $description = 'Foloow up pengobatan pasien 2 hari yang lalu';
+    protected $description = 'Follow up pengobatan pasien 2 hari yang lalu';
 
     /**
      * Create a new command instance.
@@ -72,37 +72,31 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
         $query .= "JOIN icd10s as icd on icd.id = dgn.icd10_id  ";
         $query .= "LEFT JOIN rujukans as rjk on rjk.periksa_id = prx.id  ";
         $query .= "WHERE ant.created_at like '{$dua_hari_yl->format('Y-m-d')}%' ";
-        $query .= "AND prx.pasien_id not in (" . $pasien_id_ekslusi . ") ";
+        if ( count($antrian_now_and_yesterday) ) {
+            $query .= "AND prx.pasien_id not in (" . $pasien_id_ekslusi . ") ";
+        }
         $query .= "AND ant.jenis_antrian_id = 1 "; // pasien dari poli umum
         $query .= "AND dgn.icd10_id not like 'Z3%' "; // bukan periksa hamil dan suntik kb
         $query .= "AND dgn.icd10_id not like 'Z0%' "; // bukan diagnosa sks
         $query .= "AND dgn.icd10_id not like 'A5%' "; // bukan diagnosa penyakit menural seksual
         $query .= "AND dgn.icd10_id not like 'Z1%' "; // bukan diagnosa pemeriksan rapid test
         $query .= "AND rjk.id is null "; // bukan pasien dirujuk
-        $query .= "AND ant.no_telp is not null "; // bukan pasien dirujuk
+        $query .= "AND ant.no_telp is not null "; // nomot telepon di antrian tidak dikosongkan
         $query .= "AND ant.tenant_id = 1 "; // bukan pasien dirujuk
-        $data = DB::select($query);
+        $result = DB::select($query);
 
-        foreach ($data as $d) {
-            
-        }
-
-
-        $message = 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ' . ucwords($d->nama) . ' setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Apakah keluhan yang dirasakan sudah membaik?';
-        $data = [
-            [
-                'phone' => '6281381912803',
+        $data = [];
+        foreach ($result as $k => $d) {
+            $data[] = [
+                'phone' => $d->no_telp,
                 'message' => [
-                    'buttons' => ["Membaik (PQID" . $d->antrian_id . ")" ,"Tidak ada perubahan (PQID" . $d->antrian_id . ")","Memburuk (PQID" . $d->antrian_id . ")"],
-                    'content' => $message,
+                    'buttons' => ["Sudah Sembuh (PQID" . $d->antrian_id . ")" ,"Keluhan membaik (PQID" . $d->antrian_id . ")","Tidak ada perubahan (PQID" . $d->antrian_id . ")"],
+                    'content' => 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ' . ucwords($d->nama) . ' setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Bagaimana kabarnya setelah pengobatan kemarin?',
                 ],
-            ]
-        ];
+            ];
+        }
 
         $wablas = new WablasController;
         $wablas->sendButton($data);
-
-
-
     }
 }
