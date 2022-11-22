@@ -26,6 +26,12 @@ function view(key = 0) {
             temp += "<td>" + data[i].nama_dokter + "</td>";
             temp +=
                 "<td class='text-right'>" + uang(data[i].pembayaran) + "</td>";
+            temp +=
+                "<td><a class='btn btn-info btn-xs' href='" +
+                base +
+                "/pdfs/bayar_gaji_karyawan/" +
+                data[i].id +
+                "' target='_blank'>Struk</a></td>";
             temp += "</tr>";
         }
         $("#content").html(temp);

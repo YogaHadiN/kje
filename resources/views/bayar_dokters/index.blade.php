@@ -61,6 +61,7 @@
               'onkeyup' => 'clearAndView();return false;',
               'id'      => 'pembayaran']) !!}
           </th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody id="content"></tbody>
