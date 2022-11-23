@@ -38,6 +38,7 @@ class KasirBaseController extends Controller
 	
 	public function kasir($id){
 		$periksa = Periksa::with('terapii.merek.rak.formula', 'poli')->where('id', $id)->first();
+        dd( $periksa->id );
 		if (!AntrianApotek::where('periksa_id', $periksa->id)->exists()) {
 			$pesan = Yoga::gagalFlash('Pasien sudah melewati proses apotek, tidak perlu diulangi lagi');
 			return redirect()->back()->withPesan($pesan);

@@ -148,6 +148,7 @@ class PeriksasController extends Controller
 	 */
 	public function show($id)
 	{	
+
 		$periksa = Periksa::with('terapii.merek', 'jurnals.coa', 'transaksii.jenisTarif', 'berkas')->where('id',$id)->first();
         foreach ($periksa->jurnals as $jur) {
             if ( !$jur->coa ) {
@@ -1049,6 +1050,13 @@ class PeriksasController extends Controller
         $asuransi = Asuransi::find(Input::get('asuransi_id'));
 
         $st       = Staf::find( Input::get('staf_id') );
+
+        if (is_null($st)) {
+            Log::info("==================================");
+            Log::info("error nya disini");
+            Log::info( Input::all() );
+            Log::info("==================================");
+        }
         if ( $asuransi->tipe_asuransi_id == 5 && Input::get('notified') == '0' ) {
             $st->notified = 1;
             $st->save();
