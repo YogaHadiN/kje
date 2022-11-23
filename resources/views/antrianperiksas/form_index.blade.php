@@ -11,7 +11,7 @@
         @endif
  
         <td>{!! $periksa->periksa->pasien->nama !!}</td>
-        <td>{!! $periksa->periksa->staf->nama !!}</td> 
+        <td>{!! $periksa->periksa->staf_id !!}</td> 
         <td>{!! $periksa->periksa->asuransi->nama !!}</td>
         <td>
             @if(!$periksa->periksa->suratSakit)

@@ -156,6 +156,7 @@
 								  <th colspan="5">Total</th>
 								  <td class="uang">{!! App\Models\Classes\Yoga::totalTunaiHarian($periksas)!!}</td>
 								  <td class="uang">{!! App\Models\Classes\Yoga::totalPiutangHarian($periksas)!!}</td>
+								  <td class="uang">{!! App\Models\Classes\Yoga::totalPiutangHarian($periksas) + App\Models\Classes\Yoga::totalTunaiHarian($periksas) !!}</td>
 							  </tr>
 						  </tfoot>
 					  </table>

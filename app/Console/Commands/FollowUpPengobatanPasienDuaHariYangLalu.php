@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use DB;
+use Log;
 use App\Models\Antrian;
 use App\Http\Controllers\WablasController;
 
@@ -87,13 +88,21 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
 
         $data = [];
         foreach ($result as $k => $d) {
+            $message = 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ';
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .= ucwords($d->nama);
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .=' setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Bagaimana kabarnya setelah pengobatan kemarin?';
             $data[] = [
                 'phone' => $d->no_telp,
                 'message' => [
                     'buttons' => ["Sudah Sembuh (PQID" . $d->antrian_id . ")" ,"Keluhan membaik (PQID" . $d->antrian_id . ")","Tidak ada perubahan (PQID" . $d->antrian_id . ")"],
-                    'content' => 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ' . ucwords($d->nama) . ' setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Bagaimana kabarnya setelah pengobatan kemarin?',
+                    'content' => $message,
                 ],
             ];
+            Log::info("terkirim followuppengobatan ke pasien atas nama " . ucwords($d->nama));
         }
 
         $wablas = new WablasController;
