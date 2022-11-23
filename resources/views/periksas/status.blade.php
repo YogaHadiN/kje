@@ -37,7 +37,7 @@
 							{!! $periksa->sistolik !!}/{!! $periksa->diastolik !!} mmHg  <br>
 						@endif
 						<strong>Diagnosa :</strong> <br>
-						{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10_id !!} {!! $periksa->diagnosa->icd10->diagnosaICD !!}
+						{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10_id !!} ({!! $periksa->diagnosa->icd10->diagnosaICD !!})
 						<br> <br>
 						<div class="row">
 							@if($periksa->usg)
