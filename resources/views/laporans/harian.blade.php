@@ -153,7 +153,11 @@
 						  </tbody>
 						  <tfoot>
 							  <tr>
-								  <th colspan="5">Total</th>
+                                  @if(\Auth::user()->tenant->nursestation_availability)
+                                      <th colspan="5">Total</th>
+                                  @else
+                                      <th colspan="4">Total</th>
+                                  @endif
 								  <td class="uang">{!! App\Models\Classes\Yoga::totalTunaiHarian($periksas)!!}</td>
 								  <td class="uang">{!! App\Models\Classes\Yoga::totalPiutangHarian($periksas)!!}</td>
 								  <td class="uang">{!! App\Models\Classes\Yoga::totalPiutangHarian($periksas) + App\Models\Classes\Yoga::totalTunaiHarian($periksas) !!}</td>

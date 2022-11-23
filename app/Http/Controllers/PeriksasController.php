@@ -94,6 +94,7 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
+        /* dd(Input::all()); */ 
 		DB::beginTransaction();
         $before_transact = Periksa::count();
 		try {
