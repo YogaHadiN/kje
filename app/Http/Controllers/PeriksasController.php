@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use Carbon\Carbon;
 use DB;
+use Log;
 use App\Models\Promo;
 use App\Models\JenisTarif;
 use App\Models\DenominatorBpjs;
@@ -27,6 +28,7 @@ use App\Models\Asuransi;
 use App\Models\Terapi;
 use App\Models\Poli;
 use App\Models\Staf;
+use App\Rules\StafHarusDiDalamTenant;
 use App\Models\Usg;
 use App\Models\RegisterAnc;
 use App\Models\GambarPeriksa;
@@ -102,7 +104,7 @@ class PeriksasController extends Controller
               "kecelakaan_kerja"   => "required",
               "asuransi_id"        => "required",
               "hamil"              => "required",
-              "staf_id"            => "required",
+              "staf_id"            => [ "required", new StafHarusDiDalamTenant],
               "kali_obat"          => "required",
               "pasien_id"          => "required",
               "jam"                => "required",
@@ -191,7 +193,7 @@ class PeriksasController extends Controller
               "kecelakaan_kerja"   => "required",
               "asuransi_id"        => "required",
               "hamil"              => "required",
-              "staf_id"            => "required",
+              "staf_id"            => [ "required", new StafHarusDiDalamTenant],
               "kali_obat"          => "required",
               "pasien_id"          => "required",
               "jam"                => "required",

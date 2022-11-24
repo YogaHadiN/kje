@@ -124,8 +124,18 @@ class testcommand extends Command
      * @return mixed
      */
     public function handle(){
+        $data = [
+            [
+                'phone' => '6281381912803',
+                'message' => [
+                    'buttons' => ["button 1","button 2","button 3"],
+                    'content' => 'sending template message...',
+                    'footer' => 'footer template here',
+                ],
+            ]
+        ];
         $wa = new WablasController;
-        $wa->sendSingle('6281381912803', 'testing 128');
+        $wa->sendButton($data);
     }
     
     public function obatTenant()
