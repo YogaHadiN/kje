@@ -69,11 +69,6 @@ class Tarif extends Model{
 
         $data =DB::select($query);
         return $data[0];
-        /* if ( count( $data ) ) { */
-        /*     return $data[0]; */
-        /* } else { */
-        /*     dd($asuransi_id, $tipe_jenis_tarif_id); */
-        /* } */
     }
     public static function listByAsuransi($asuransi_id){
         $query  = "SELECT ";
