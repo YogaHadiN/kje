@@ -52,8 +52,8 @@ function submitAntrian(jenis_antrian_id, no_wa) {
             $("#nomor_bpjs").val("");
             $("#nomor_bpjs").focus();
         }
-    ).fail(function (jqXHR) {
-        showNotificationWhenError(jqXHR);
+    ).fail(function (xhr) {
+        showNotificationWhenError(xhr);
     });
 }
 function returnFocus() {
@@ -118,9 +118,9 @@ function lewati(control) {
     $("#backspace").hide();
     submitAntrian(jenis_antrian_id, null);
 }
-function showNotificationWhenError(jqXHR) {
-    alert(jqXHR.status);
-    if (jqXHR.status === 0) {
+function showNotificationWhenError(xhr) {
+    alert(xhr.status);
+    if (xhr.status === 0) {
         alert("Not connect.\n Verify Network.");
     } else if (jqXHR.status == 404) {
         alert("Requested page not found. [404]");
