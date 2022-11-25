@@ -103,7 +103,7 @@ class PeriksasController extends Controller
               "kecelakaan_kerja"   => "required",
               "asuransi_id"        => "required",
               "hamil"              => "required",
-              "staf_id"            => [ "required", new StafHarusDiDalamTenant],
+              /* "staf_id"            => [ "required", new StafHarusDiDalamTenant], */
               "kali_obat"          => "required",
               "pasien_id"          => "required",
               "jam"                => "required",
@@ -192,7 +192,7 @@ class PeriksasController extends Controller
               "kecelakaan_kerja"   => "required",
               "asuransi_id"        => "required",
               "hamil"              => "required",
-              "staf_id"            => [ "required", new StafHarusDiDalamTenant],
+              /* "staf_id"            => [ "required", new StafHarusDiDalamTenant], */
               "kali_obat"          => "required",
               "pasien_id"          => "required",
               "jam"                => "required",
