@@ -18,6 +18,7 @@ function submitAntrian(jenis_antrian_id, no_wa) {
             no_wa: no_wa,
         },
         function (data, textStatus, jqXHR) {
+            console.log(jqXHR);
             $("#noWhatsapp").modal("hide");
             var nomor_antrian = data["nomor_antrian"];
             var jenis_antrian = data["jenis_antrian"];
@@ -51,7 +52,9 @@ function submitAntrian(jenis_antrian_id, no_wa) {
             $("#nomor_bpjs").val("");
             $("#nomor_bpjs").focus();
         }
-    );
+    ).fail(function (jqXHR) {
+        showNotificationWhenError(jqXHR);
+    });
 }
 function returnFocus() {
     $("#nomor_bpjs").focus();
@@ -114,4 +117,21 @@ function lewati(control) {
     $("#jenis_antrian_id").val("");
     $("#backspace").hide();
     submitAntrian(jenis_antrian_id, null);
+}
+function showNotificationWhenError(jqXHR) {
+    if (jqXHR.status === 0) {
+        alert("Not connect.\n Verify Network.");
+    } else if (jqXHR.status == 404) {
+        alert("Requested page not found. [404]");
+    } else if (jqXHR.status == 500) {
+        alert("Internal Server Error [500].");
+    } else if (exception === "parsererror") {
+        alert("Requested JSON parse failed.");
+    } else if (exception === "timeout") {
+        alert("Time out error.");
+    } else if (exception === "abort") {
+        alert("Ajax request aborted.");
+    } else {
+        alert("Uncaught Error.\n" + jqXHR.responseText);
+    }
 }
