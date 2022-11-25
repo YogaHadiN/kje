@@ -93,7 +93,7 @@
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					Pemeriksa : <br></br>
                     {{ $antrianperiksa->staf->nama }}
-                    {!! Form::text('staf_id', $antrianperiksa->staf_id, ['class' => 'form-control', 'id' => 'staf_id']) !!}
+                    {!! Form::text('staf_id', $antrianperiksa->staf_id, ['class' => 'form-control hide', 'id' => 'staf_id']) !!}
 				</div>
 			</div>
 		</div>
