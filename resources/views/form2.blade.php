@@ -39,7 +39,7 @@
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             Pemeriksa : 
-            {!! Form::select('staf_id', $stafs, $antrianperiksa->staf_id, ['class' => 'form-control selectpick', 'id' => 'staf_id', 'data-live-search' => 'true'])!!}
+            {{ $antrianperiksa->staf->nama }}
         </div>
     </div>
 </div>

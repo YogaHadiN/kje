@@ -91,8 +91,8 @@
 					 ], $antrianperiksa->hamil, ['class' => 'form-control', 'id' => 'hamil'])!!}
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					Pemeriksa : 
-					{!! Form::select('staf_id', $stafs, $antrianperiksa->staf_id, ['class' => 'form-control selectpick', 'id' => 'staf_id', 'data-live-search' => 'true'])!!}
+					Pemeriksa : <br></br>
+                    {{ $antrianperiksa->staf->nama }}
 				</div>
 			</div>
 		</div>
