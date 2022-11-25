@@ -1131,7 +1131,7 @@ class PeriksasController extends Controller
         $periksa->transaksi             = json_encode($transaksis);
         $periksa->prolanis_dm           = $pasien->prolanis_dm;
         $periksa->prolanis_ht           = $pasien->prolanis_ht;
-        $periksa->antrian_id            = $this->antrianperiksa->antrian->id;
+        $periksa->antrian_id            = !is_null($this->antrianperiksa->antrian)?$this->antrianperiksa->antrian->id:null;
         $periksa->save();
 
 
