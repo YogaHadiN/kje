@@ -345,10 +345,9 @@ class PeriksasController extends Controller
 									'gambarable_type' => 'App\Models\Periksa',
 									'gambarable_id' => $periksa_id
 								]);
-		$antrianperiksa = AntrianPeriksa::find($antrian_periksa_id);
 		if (
 			!AntrianApotek::where('periksa_id', $periksa_id)->exists() &&
-			$antrianperiksa->exists()
+			!is_null($this->antrianperiksa)
 	   	) {
             $antrianapotek             = new AntrianApotek;
             $antrianapotek->periksa_id = $periksa_id;
@@ -370,7 +369,7 @@ class PeriksasController extends Controller
                     'antriable_type' => 'App\Models\AntrianApotek'
                 ]);
 
-			$antrianperiksa->delete();
+			$this->antrianperiksa->delete();
 		}
 		$apc = new AntrianPolisController;
 		$apc->updateJumlahAntrian(false, null);
