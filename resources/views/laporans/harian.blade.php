@@ -61,6 +61,33 @@
 			</div>
 		</div>
 	</div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4 text-center">
+			<div class="alert alert-warning">
+				<h2>Sudah Sembuh</h2>
+				<h1>
+                    <a href="{{ url('laporans/recovery_index/1/harian/' . $tanggal) }}" target="_blank">{{ $sudah_sembuh }}</a>
+                </h1>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-lg-4 text-center">
+			<div class="alert alert-warning">
+				<h2>Keluhan Membaik</h2>
+				<h1>
+                    <a href="{{ url('laporans/recovery_index/2/harian/' . $tanggal) }}" target="_blank">{{ $keluhan_membaik }}</a>
+                </h1>
+			</div>
+		</div>
+        <div class="col-md-4 col-lg-4 text-center">
+			<div class="alert alert-warning">
+				<h2>Tidak ada perubahan</h2>
+				<h1>
+                    <a href="{{ url('laporans/recovery_index/3/harian/' . $tanggal) }}" target="_blank">{{ $tidak_ada_perubahan }}</a>
+                </h1>
+			</div>
+		</div>
+	</div>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="panel panel-info">

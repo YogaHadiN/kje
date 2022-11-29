@@ -241,16 +241,14 @@ class LaporansController extends Controller
 		$rppt = $hitungRppt['rppt'];
 
 
-        $this_month = date('Y-m');
-        $query  = "SELECT * ";
-        $query .= "FROM antrians ";
-        $query .= "WHERE satisfaction_index is not null ";
-        $query .= "AND created_at like '{$this_month}%'";
-        $data = DB::select($query);
+        $data = Antrian::where('created_at', 'like', date('Y-m') . '%')->get();
 
-        $tidak_puas = 0;
-        $biasa      = 0;
-        $puas       = 0;
+        $tidak_puas          = 0;
+        $biasa               = 0;
+        $puas                = 0;
+        $sudah_sembuh        = 0;
+        $keluhan_membaik     = 0;
+        $tidak_ada_perubahan = 0;
 
         foreach ($data as $d) {
             if ( $d->satisfaction_index == 1 ) {
@@ -260,6 +258,14 @@ class LaporansController extends Controller
             } else if ( $d->satisfaction_index == 3   ){
                 $puas++;
             }
+
+            if ( $d->recovery_index_id == 1 ) {
+                $tidak_ada_perubahan++;
+            } else if ( $d->recovery_index_id == 2   ){
+                $keluhan_membaik++;
+            } else if ( $d->recovery_index_id == 3   ){
+                $sudah_sembuh++;
+            }
         }
 
 
@@ -267,6 +273,9 @@ class LaporansController extends Controller
 			'asuransis',
 			'antrianperiksa',
 			'rppt',
+			'sudah_sembuh',
+			'keluhan_membaik',
+			'tidak_ada_perubahan',
 			'tidak_puas',
 			'biasa',
 			'puas',
@@ -414,6 +423,9 @@ class LaporansController extends Controller
         $puas       = 0;
         $biasa      = 0;
         $tidak_puas = 0;
+        $sudah_sembuh = 0;
+        $keluhan_membaik = 0;
+        $tidak_ada_perubahan = 0;
 
         foreach ($antrians as $antrian) {
             if ($antrian->satisfaction_index == 1) {
@@ -423,11 +435,22 @@ class LaporansController extends Controller
             } else if( $antrian->satisfaction_index == 3 ){
                 $puas++;
             }
+
+            if ($antrian->recovery_index_id == 1) {
+                $tidak_ada_perubahan++;
+            } else if( $antrian->recovery_index_id == 2 ){
+                $keluhan_membaik++;
+            } else if( $antrian->recovery_index_id == 3 ){
+                $sudah_sembuh++;
+            }
         }
 
 		return view('laporans.harian', compact(
 			'periksas',
 			'rincian',
+			'sudah_sembuh',
+			'keluhan_membaik',
+			'tidak_ada_perubahan',
 			'puas',
 			'biasa',
 			'tidak_puas',
@@ -2562,6 +2585,27 @@ class LaporansController extends Controller
             'antrians'
         ));
     }
-    
-	
+
+    public function recoverIndexBulanan($recovery_index_id, $bulanTahun){
+        $antrians = Antrian::with('antriable.asuransi', 'antriable.pasien')
+                            ->where('recovery_index_id', $recovery_index_id)
+                            ->where('antriable_type', 'App\Models\Periksa')
+                            ->where('created_at', 'like', $bulanTahun.'%')
+                            ->get();
+
+        return view('laporans.recoveryIndexReport', compact(
+            'antrians'
+        ));
+    }
+
+    public function recoverIndexHarian($recovery_index_id, $tanggal){
+        $antrians = Antrian::with('antriable.asuransi', 'antriable.pasien')
+                            ->where('recovery_index_id', $recovery_index_id)
+                            ->where('antriable_type', 'App\Models\Periksa')
+                            ->where('created_at', 'like', $tanggal.'%')
+                            ->get();
+        return view('laporans.recoveryIndexReport', compact(
+            'antrians'
+        ));
+    }
 }

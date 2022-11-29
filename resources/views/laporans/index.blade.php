@@ -211,6 +211,34 @@
 				</div>
 			</div>
 		</div>
+        <div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-primary">
+					<div class="table-responsive">
+						<table class="table table-condensed text-center">
+							<tbody>
+								<tr>
+									<td><h3>Tidak ada perubahan</h3></td>
+									<td><h3>Keluhan Membaik</h3></td>
+									<td><h3>Sudah Sembuh</h3></td>
+								</tr>
+								<tr>
+									<td><h1>
+                                        <a href="{{ url('laporans/recovery_index/1/bulanan/' . date('Y-m')) }}" target="_blank">{{ $tidak_ada_perubahan }}</a>
+                                    </h1></td>
+									<td><h1>
+                                        <a href="{{ url('laporans/recovery_index/2/bulanan/' . date('Y-m')) }}" target="_blank">{{ $keluhan_membaik }}</a>
+                                    </h1></td>
+									<td><h1>
+                                        <a href="{{ url('laporans/recovery_index/3/bulanan/' . date('Y-m')) }}" target="_blank">{{ $sudah_sembuh }}</a>
+                                    </h1></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 			<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					@if ($auth->role_id != '1')
