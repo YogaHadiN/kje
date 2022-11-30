@@ -155,27 +155,28 @@ class StokOpnamesController extends Controller
 	 */
 	public function destroy()
 	{
-
-		$so = StokOpname::find( Input::get('id') );
-		$rak_id = $so->rak_id;
-		$stok_komputer = $so->stok_komputer;
-		$confirm = $so->delete();
-		if ($confirm) {
-			$confirm = '1';
-			$rk       = Rak::find($rak_id);
-			$rk->stok   = $stok_komputer;
-			$rk->save();
-		} else {
-			$confirm = '0';
-		}
-
+		$so            = StokOpname::find( Input::get('id') );
+        if (!is_null($so)) {
+            $rak_id        = $so->rak_id;
+            $stok_komputer = $so->stok_komputer;
+            $confirm       = $so->delete();
+            if ($confirm) {
+                $confirm = '1';
+                $rk       = Rak::find($rak_id);
+                $rk->stok   = $stok_komputer;
+                $rk->save();
+            } else {
+                $confirm = '0';
+            }
+        } else {
+            $confirm = '0';
+        }
 		return json_encode([
 			'confirm' => $confirm,
 			'array'   => $this->data(Yoga::bulanTahun(Input::get('bulanTahun'))),
 			'option'  => $this->option(Yoga::bulanTahun(Input::get('bulanTahun'))),
 			'sisa'	  => $this->soOption(Yoga::bulanTahun(Input::get('bulanTahun')))
 		]);
-
 	}
 
 	private function data($date){

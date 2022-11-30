@@ -97,7 +97,6 @@
 		</div>
     </div>
 </div>
-
 {!! Form::close() !!}
 @if( !isset( $kirim_berkas ) )
 	<div class="row">
@@ -151,16 +150,15 @@
       <div class="modal-body">
           @include('suppliers.form', ['submit' => 'SUBMIT'])
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 @stop
 @section('footer') 
 <script>
 	var base = "{{ url('/') }}";
 </script>
 <script src="{{ url('js/create_supplier.js') }}"></script>
-{{--{!! HTML::script('js/create_supplier_ajax.js')!!} --}}
 <script>
   jQuery(document).ready(function($) {
 	$('#supplier_submit input[type="submit"]').click(function(){
@@ -262,7 +260,6 @@
         }
   }
 </script>
-
 @stop
 
 
