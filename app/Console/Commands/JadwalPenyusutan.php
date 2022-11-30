@@ -5,6 +5,7 @@ use App\Models\BelanjaPeralatan;
 use App\Models\BahanBangunan;
 use App\Models\RingkasanPenyusutan;
 use App\Models\Penyusutan;
+use App\Models\Coa;
 use App\Models\InputHarta;
 use App\Models\JurnalUmum;
 use DB;
