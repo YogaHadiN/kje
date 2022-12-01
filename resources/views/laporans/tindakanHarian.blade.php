@@ -22,6 +22,7 @@ Klinik Jati Elok | Laporan Tindakan Harian
                 <thead>
                     <tr>
                         <th>Jenis Tarif</th>
+                        <th>Jumlah</th>
                         <th>Biaya</th>
                     </tr>
                 </thead>
@@ -32,12 +33,13 @@ Klinik Jati Elok | Laporan Tindakan Harian
                     @if(count($data))
                         @foreach($data as $k => $d)
                             @php
-                                $total_biaya += $d;
+                                $total_biaya += $d['biaya'];
                             @endphp
                             @if( $d )
                             <tr>
                                 <td>{{ $k }}</td>
-                                <td class="uang">{{ $d }}</td>
+                                <td class="text-right">{{ $d['jumlah'] }}</td>
+                                <td class="uang">{{ $d['biaya'] }}</td>
                             </tr>
                             @endif
                         @endforeach

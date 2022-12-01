@@ -477,10 +477,16 @@ class LaporansController extends Controller
 
         foreach ($periksas as $periksa) {
             foreach ($periksa->transaksii as $prx) {
-                if (isset( $data[$prx->jenisTarif->jenis_tarif] )) {
-                    $data[$prx->jenisTarif->jenis_tarif] = $data[$prx->jenisTarif->jenis_tarif] + $prx->biaya;
+                if (isset( $data[$prx->jenisTarif->jenis_tarif]['biaya'] )) {
+                    $data[$prx->jenisTarif->jenis_tarif]['biaya']= $data[$prx->jenisTarif->jenis_tarif]['biaya'] + $prx->biaya;
                 } else {
-                    $data[$prx->jenisTarif->jenis_tarif] =  $prx->biaya;
+                    $data[$prx->jenisTarif->jenis_tarif]['biaya']=  $prx->biaya;
+                }
+
+                if (isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )) {
+                    $data[$prx->jenisTarif->jenis_tarif]['jumlah']++;
+                } else {
+                    $data[$prx->jenisTarif->jenis_tarif]['jumlah'] =  1;
                 }
             }
         }
