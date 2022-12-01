@@ -122,9 +122,7 @@ border-spacing: -1px;
 
 	.title{
 		text-align: center;
-		font-size: 15px;
-		text-decoration: underline;
-		margin-bottom: 5px;
+		font-size: 25px;
 	}
 	.title2{
 		text-align: center;
@@ -218,8 +216,8 @@ border-spacing: -1px;
 	.uang {
 		text-align:right;
 	}
-    .p-8 {
-        padding: 18px;
+    .p-0 {
+        padding: 0px;
     }
 
 </style>
@@ -232,8 +230,8 @@ border-spacing: -1px;
       <p class="alamat_klinik">{{ ucwords( \Auth::user()->tenant->address_line3 ) }}</p>
     </div>
     <hr>
-    <div class="p-8">
-        
+    <div class="p-0">
+        <p class="title">Laporan Tindakan Harian Tanggal {{ \Carbon\Carbon::parse( $tanggal )->format('d M Y') }}</p>
     </div>
 	@include('laporans.formTindakanHarian')
 </body>
