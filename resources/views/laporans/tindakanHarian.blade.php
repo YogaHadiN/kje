@@ -35,7 +35,7 @@ Klinik Jati Elok | Laporan Tindakan Harian
                             @php
                                 $total_biaya += $d['biaya'];
                             @endphp
-                            @if( $d )
+                            @if( $d['biaya'] )
                             <tr>
                                 <td>{{ $k }}</td>
                                 <td class="text-right">{{ $d['jumlah'] }}</td>
