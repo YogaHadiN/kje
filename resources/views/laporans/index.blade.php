@@ -268,7 +268,18 @@
 													<td colspan="2">
 														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
 
-														</select></td>
+														</td>
+												</form>
+											</tr>
+                                            <tr>
+												<form action="{{ url('laporans/tindakanHarian') }}" method="get">
+													<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+													<td>Laporan Tindakan Harian</td>
+													<td><input type="text" class="form-control tanggal" name="tanggal" value="{!!date('d-m-Y')!!}"/>
+													</td>
+													<td colspan="2">
+														{!! Form::select('asuransi_id', $asuransis, '%', ['data-live-search' => 'true', 'class' => 'form-control selectpick'])!!}
+                                                    </td>
 												</form>
 											</tr>
 											<tr>

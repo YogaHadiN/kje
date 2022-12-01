@@ -112,15 +112,11 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('suppliers/belanja_bukan_obat', [\App\Http\Controllers\SupplierBelanjasController::class, 'belanja_bukan_obat']);
 	Route::get('antrianpolis/ajax/getGolonganProlanis', [\App\Http\Controllers\AntrianPolisAjaxController::class, 'getProlanis']);
 
-
-
-
 	Route::get('{posisi_antrian}/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'pengantar']);
 	Route::post('{posisi_antrian}/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'store']);
 	Route::get('laporans/periksa/pengantar/{id}/edit', [\App\Http\Controllers\PengantarsController::class, 'editPengantarPeriksa']);
 	Route::get('laporans/cari_transaksi', [\App\Http\Controllers\LaporansController::class, 'cariTransaksi']);
 	Route::get('laporans/periksas/cari_transaksi', [\App\Http\Controllers\LaporansController::class, 'cariTransaksiAjax']);
-
 
 	Route::post('antrianpolis/get/kartubpjs', [\App\Http\Controllers\PengantarsController::class, 'kartubpjs']);
 	Route::post('antrianpolis/pengantar/create', [\App\Http\Controllers\PengantarsController::class, 'pengantarPost']);
@@ -134,9 +130,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('antriankasirs/pengantar/{id}/edit', [\App\Http\Controllers\PengantarsController::class, 'antriankasirsUpdate']);
 	Route::post('laporans/pengantar', [\App\Http\Controllers\PengantarsController::class, 'submitPcare']);
 	Route::post('laporans/periksa/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'updatePengantarPeriksa']);
-
-
-
 
 	Route::get('laporans/omset_estetik', [\App\Http\Controllers\LaporansController::class, 'omsetEstetik']);
 	Route::get('laporans/jumlahPenyakitTBCTahunan', [\App\Http\Controllers\LaporansController::class, 'jumlahPenyakitTBCTahunan']);
@@ -541,6 +534,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('laporans/pengantar', [\App\Http\Controllers\LaporansController::class, 'pengantar']);
 		Route::get('laporans/harian', [\App\Http\Controllers\LaporansController::class, 'harian']);
+		Route::get('laporans/tindakanHarian', [\App\Http\Controllers\LaporansController::class, 'tindakanHarian']);
 		Route::post('laporans/harian/update_asuransi', [\App\Http\Controllers\LaporansController::class, 'updateAsuransi']);
 
 		Route::get('laporans/haridet', [\App\Http\Controllers\LaporansController::class, 'haridet']);

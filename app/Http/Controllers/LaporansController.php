@@ -468,6 +468,28 @@ class LaporansController extends Controller
 		));
 	}
 
+    public function tindakanHarian(){
+		$tanggal       = Yoga::datePrep(Input::get('tanggal'));
+		$asuransi_id   = Input::get('asuransi_id');
+
+        $periksas = Periksa::with('transaksii.jenisTarif')->where('tanggal', $tanggal)->get();
+        $data = [];
+
+        foreach ($periksas as $periksa) {
+            foreach ($periksa->transaksii as $prx) {
+                if (isset( $data[$prx->jenisTarif->jenis_tarif] )) {
+                    $data[$prx->jenisTarif->jenis_tarif] = $data[$prx->jenisTarif->jenis_tarif] + $prx->biaya;
+                } else {
+                    $data[$prx->jenisTarif->jenis_tarif] =  $prx->biaya;
+                }
+            }
+        }
+        return view('laporans.tindakanHarian', compact(
+            'data'
+        ));
+    }
+    
+
 	public function haridet()
 	{
 		// return Input::all();
