@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Crypt;
 use App\Http\Controllers\LaporanLabaRugisController;
 use App\Http\Controllers\LaporanNeracasController;
+use App\Http\Controllers\LaporansController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\PajaksController;
 use App\Http\Controllers\StafsController;
@@ -970,5 +971,18 @@ class PdfsController extends Controller
 				->setOption('footer-right', '[page]');
         return $pdf->stream();
 	}
+    public function tindakanHarian($tanggal, $asuransi_id){
+        $lc   = new LaporansController;
+		$pdf  = PDF::loadView(
+				'pdfs.tindakanHarian', [ 
+					'data'        => $lc->tindakanHarianData($tanggal, $asuransi_id),
+					'tanggal'     => $tanggal,
+					'asuransi_id' => $asuransi_id
+				])
+				->setPaper('a4')
+				->setOption('footer-right', '[page]');
+        return $pdf->stream();
+    }
+    
 	
 }

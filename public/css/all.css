@@ -5496,6 +5496,9 @@ input:checked + .slider:before {
 .pb-8 {
     margin-bottom: 8px;
 }
+.mt-24 {
+    margin-top: 36px !important;
+}
 
 /*! jQuery UI - v1.11.4 - 2016-01-02
 * http://jqueryui.com

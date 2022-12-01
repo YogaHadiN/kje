@@ -163,6 +163,17 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/bpjs/diagnosaRujukan', [\App\Http\Controllers\LaporanBpjsController::class, 'diagnosaPdf']);
 	Route::get('pdfs/bpjs/hipertensi', [\App\Http\Controllers\LaporanBpjsController::class, 'hipertensiPdf']);
 
+    Route::get('pdfs/tindakanHarian', function(){
+        dd( 'i' );
+    });
+    Route::get('pdfs/tindakanHarian/{tanggal}', function(){
+        dd( '0' );
+    });
+    Route::get('pdfs/tindakanHarian/{tanggal}/{asuransi_id}', function(){
+        dd( 'i' );
+    });
+	Route::get('pdfs/tindakanHarian/{tanggal}/{asuransi_id}', [\App\Http\Controllers\PdfsController::class, 'tindakanHarian']);
+
 
 	Route::get('periksas/cari/by_asuransi/{asuransi_id}/{from}/{until}', [\App\Http\Controllers\PeriksasController::class, 'cariByAsuransiByPeriode']);
 	Route::get('periksas/edit/transaksiPeriksa/get/coa_id', [\App\Http\Controllers\PeriksaCustomController::class, 'getCoaId']);

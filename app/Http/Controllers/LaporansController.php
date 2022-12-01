@@ -469,39 +469,15 @@ class LaporansController extends Controller
 	}
 
     public function tindakanHarian(){
-		$tanggal       = Yoga::datePrep(Input::get('tanggal'));
-		$asuransi_id   = Input::get('asuransi_id');
+		$tanggal     = Yoga::datePrep(Input::get('tanggal'));
+		$asuransi_id = Input::get('asuransi_id');
+        $data        = $this->tindakanHarianData($tanggal, $asuransi_id);
 
-        $periksas = Periksa::with('transaksii.jenisTarif')->where('tanggal', $tanggal)->get();
-        $data = [];
-
-        foreach ($periksas as $periksa) {
-            foreach ($periksa->transaksii as $prx) {
-                if (isset( $data[$prx->jenisTarif->jenis_tarif]['biaya'] )) {
-                    $data[$prx->jenisTarif->jenis_tarif]['biaya']= $data[$prx->jenisTarif->jenis_tarif]['biaya'] + $prx->biaya;
-                } else {
-                    $data[$prx->jenisTarif->jenis_tarif]['biaya']=  $prx->biaya;
-                }
-
-                if (
-                    !isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )
-                ) {
-                    $data[$prx->jenisTarif->jenis_tarif]['jumlah'] = 0;
-                } 
-
-                if ( $prx->biaya ) {
-                    if (
-                        isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )
-                    ) {
-                        $data[$prx->jenisTarif->jenis_tarif]['jumlah']++;
-                    } else {
-                        $data[$prx->jenisTarif->jenis_tarif]['jumlah'] =  1;
-                    }
-                }
-            }
-        }
+        $asuransi_id_25 = $asuransi_id == '%' ? '%' . 25 : $asuransi_id;
         return view('laporans.tindakanHarian', compact(
-            'data'
+            'data',
+            'asuransi_id_25',
+            'tanggal'
         ));
     }
     
@@ -2646,4 +2622,38 @@ class LaporansController extends Controller
             'antrians'
         ));
     }
+    public function tindakanHarianData($tanggal, $asuransi_id){
+        
+        $periksas = Periksa::with('transaksii.jenisTarif')->where('tanggal', $tanggal)->get();
+        $data = [];
+
+        foreach ($periksas as $periksa) {
+            foreach ($periksa->transaksii as $prx) {
+                if (isset( $data[$prx->jenisTarif->jenis_tarif]['biaya'] )) {
+                    $data[$prx->jenisTarif->jenis_tarif]['biaya']= $data[$prx->jenisTarif->jenis_tarif]['biaya'] + $prx->biaya;
+                } else {
+                    $data[$prx->jenisTarif->jenis_tarif]['biaya']=  $prx->biaya;
+                }
+
+                if (
+                    !isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )
+                ) {
+                    $data[$prx->jenisTarif->jenis_tarif]['jumlah'] = 0;
+                } 
+
+                if ( $prx->biaya ) {
+                    if (
+                        isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )
+                    ) {
+                        $data[$prx->jenisTarif->jenis_tarif]['jumlah']++;
+                    } else {
+                        $data[$prx->jenisTarif->jenis_tarif]['jumlah'] =  1;
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+    
 }

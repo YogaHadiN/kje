@@ -17,48 +17,10 @@ Klinik Jati Elok | Laporan Tindakan Harian
 
 @stop
 @section('content') 
-        <div class="table-responsive">
-            <table class="table table-hover table-condensed table-bordered">
-                <thead>
-                    <tr>
-                        <th>Jenis Tarif</th>
-                        <th>Jumlah</th>
-                        <th>Biaya</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $total_biaya = 0;
-                    @endphp
-                    @if(count($data))
-                        @foreach($data as $k => $d)
-                            @php
-                                $total_biaya += $d['biaya'];
-                            @endphp
-                            @if( $d['biaya'] )
-                            <tr>
-                                <td>{{ $k }}</td>
-                                <td class="text-right">{{ $d['jumlah'] }}</td>
-                                <td class="uang">{{ $d['biaya'] }}</td>
-                            </tr>
-                            @endif
-                        @endforeach
-                    @else
-                        <tr>
-                            <td class="text-center">Tidak ada data untuk Ditampilkan</td>
-                        </tr>
-                    @endif
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="2">Total Pemasukan</th>
-                        <th class="uang">
-                            {{ $total_biaya }}
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+    <div class="mb-6 pb-6">
+        <a href="{{ url('pdfs/tindakanHarian/' . $tanggal. '/' . $asuransi_id_25) }}" target="_blank" class="float-right btn btn-success btn-sm">PDF</a>
+    </div>
+    @include('laporans.formTindakanHarian')
         
 @stop
 @section('footer') 
