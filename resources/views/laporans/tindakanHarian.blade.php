@@ -51,7 +51,7 @@ Klinik Jati Elok | Laporan Tindakan Harian
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>Total Pemasukan</th>
+                        <th colspan="2">Total Pemasukan</th>
                         <th class="uang">
                             {{ $total_biaya }}
                         </th>

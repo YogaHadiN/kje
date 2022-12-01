@@ -483,10 +483,20 @@ class LaporansController extends Controller
                     $data[$prx->jenisTarif->jenis_tarif]['biaya']=  $prx->biaya;
                 }
 
-                if (isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )) {
-                    $data[$prx->jenisTarif->jenis_tarif]['jumlah']++;
-                } else {
-                    $data[$prx->jenisTarif->jenis_tarif]['jumlah'] =  1;
+                if (
+                    !isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )
+                ) {
+                    $data[$prx->jenisTarif->jenis_tarif]['jumlah'] = 0;
+                } 
+
+                if ( $prx->biaya ) {
+                    if (
+                        isset( $data[$prx->jenisTarif->jenis_tarif]['jumlah'] )
+                    ) {
+                        $data[$prx->jenisTarif->jenis_tarif]['jumlah']++;
+                    } else {
+                        $data[$prx->jenisTarif->jenis_tarif]['jumlah'] =  1;
+                    }
                 }
             }
         }
