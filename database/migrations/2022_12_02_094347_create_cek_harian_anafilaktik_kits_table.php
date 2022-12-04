@@ -28,6 +28,7 @@ class CreateCekHarianAnafilaktikKitsTable extends Migration
             $table->integer('jumlah_tiang_Infus');
             $table->string('image_anafilaktik_kit_tembok');
             $table->string('image_anafilaktik_kit_box');
+            $table->integer('staf_id');
             $table->bigInteger('ruangan_id')->index();
             $table->timestamps();
         });

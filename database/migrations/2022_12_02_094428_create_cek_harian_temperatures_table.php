@@ -17,6 +17,7 @@ class CreateCekHarianTemperaturesTable extends Migration
             $table->id();
             $table->integer('suhu');
             $table->string('suhu_image');
+            $table->integer('staf_id');
             $table->bigInteger('ruangan_id')->index();
             $table->timestamps();
         });
