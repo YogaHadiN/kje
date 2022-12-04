@@ -16,18 +16,15 @@ class CreateCekHarianAnafilaktikKitsTable extends Migration
         Schema::create('cek_harian_anafilaktik_kits', function (Blueprint $table) {
             $table->id();
             $table->integer('jumlah_epinefrin_inj');
+            $table->string('jumlah_epinefrin_inj_image');
             $table->integer('jumlah_dexamethasone_inj');
+            $table->string('jumlah_dexamethasone_inj_image');
             $table->integer('jumlah_ranitidine_inj');
+            $table->string('jumlah_ranitidine_inj_image');
             $table->integer('jumlah_diphenhydramine_inj');
+            $table->string('jumlah_diphenhydramine_inj_image');
             $table->integer('jumlah_spuit_3cc');
-            $table->tinyInteger('oksigen_bisa_dipakai');
-            $table->integer('jumlah_gudel_anak');
-            $table->integer('jumlah_gudel_dewasa');
-            $table->integer('jumlah_infus_set');
-            $table->integer('jumlah_nacl');
-            $table->integer('jumlah_tiang_Infus');
-            $table->string('image_anafilaktik_kit_tembok');
-            $table->string('image_anafilaktik_kit_box');
+            $table->string('jumlah_spuit_3cc_image');
             $table->integer('staf_id');
             $table->bigInteger('ruangan_id')->index();
             $table->timestamps();

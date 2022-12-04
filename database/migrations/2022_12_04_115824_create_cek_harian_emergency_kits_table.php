@@ -15,6 +15,17 @@ class CreateCekHarianEmergencyKitsTable extends Migration
     {
         Schema::create('cek_harian_emergency_kits', function (Blueprint $table) {
             $table->id();
+            $table->integer('jumlah_gudel_anak');
+            $table->string('jumlah_gudel_anak_image');
+            $table->integer('jumlah_gudel_dewasa');
+            $table->string('jumlah_gudel_dewasa_image');
+            $table->integer('jumlah_infus_set');
+            $table->string('jumlah_infus_set_image');
+            $table->integer('jumlah_nacl');
+            $table->string('jumlah_nacl_image');
+            $table->integer('jumlah_tiang_Infus');
+            $table->string('jumlah_tiang_Infus_image');
+            $table->integer('staf_id');
             $table->timestamps();
         });
     }
