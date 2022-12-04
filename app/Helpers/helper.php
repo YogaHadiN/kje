@@ -204,7 +204,6 @@ if (!function_exists('uploadFile')) {
             
             //mengisi field bpjs_image di book dengan filename yang baru dibuat
             return $destination_path. $filename;
-            dd(  $destination_path. $filename);
         } else {
             return null;
         }
@@ -261,4 +260,11 @@ if (!function_exists('convertToDatabaseFriendlyPhoneNumber')) {
     }
 }
 
+if (!function_exists('yesno_option')) {
+    function yesno_option() {
+        return [
+            'tidak', 'ya'
+        ];
+    }
+}
  

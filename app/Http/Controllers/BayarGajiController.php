@@ -368,7 +368,6 @@ class BayarGajiController extends Controller
 		return redirect('pengeluarans/gaji_dokter_gigi')->withPesan($pesan);
 	}
     public function dokterbayar(){
-
 		$rules           = [
 			'staf_id'   => 'required',
 			'mulai'     => 'required',

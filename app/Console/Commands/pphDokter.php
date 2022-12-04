@@ -50,7 +50,6 @@ class pphDokter extends Command
 		$query .= "st.jenis_kelamin as jenis_kelamin, ";
 		$query .= "st.kartu_keluarga as kartu_keluarga, ";
 		$query .= "st.npwp as npwp, ";
-		$query .= "st.ada_penghasilan_lain as ada_penghasilan_lain, ";
 		$query .= "st.jumlah_anak as jumlah_anak ";
 		$query .= "FROM periksas as px ";
 		$query .= "JOIN stafs as st on px.staf_id = st.id ";
@@ -77,14 +76,11 @@ class pphDokter extends Command
 			$jumlah_anak               = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'jumlah_anak');
 			$kartu_keluarga            = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'kartu_keluarga');
 			$suami_bekerja             = $this->catatan_awal_tahun( $catatan_pph_awal_tahun, $d, 'suami_bekerja');
-			$ada_penghasilan_lain      = $d->ada_penghasilan_lain;
 
-			if ($ada_penghasilan_lain == 0) {
-				$ada_penghasilan_lain  = null;
-			}
+            $ada_penghasilan_lain  = null;
 
             $tenant_id = is_null(session()->get('tenant_id')) ? 1 : session()->get('tenant_id');
-			if ( $d->ada_penghasilan_lain            == 0 ) {
+			if (is_null($ada_penghasilan_lain)) {
 				$stafs[]                              = [
 					'staf_id'                        => $d->staf_id,
 					'bulan'                          => $bulan_kemarin,
@@ -92,7 +88,6 @@ class pphDokter extends Command
 					'jenis_kelamin'                  => $d->jenis_kelamin,
 					'menikah'                        => $menikah,
 					'npwp'                           => $d->npwp,
-					'ada_penghasilan_lain'           => $ada_penghasilan_lain,
 					'jumlah_anak'                    => $jumlah_anak,
 					'pph21'                          => null,
 					'potongan5persen_setahun'        => null,
@@ -119,7 +114,6 @@ class pphDokter extends Command
 					'jenis_kelamin'                  => $d->jenis_kelamin,
 					'menikah'                        => $menikah,
 					'npwp'                           => $d->npwp,
-					'ada_penghasilan_lain'           => $ada_penghasilan_lain,
 					'jumlah_anak'                    => $jumlah_anak,
 					'pph21'                          => $pph21ini['pph21_kurang_bayar'],
 					'potongan5persen_setahun'        => $pph21ini['potongan5persen'],

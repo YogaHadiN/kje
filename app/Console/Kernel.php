@@ -39,6 +39,7 @@ class Kernel extends ConsoleKernel
 		 Commands\smsCekInbox::class,
 		 Commands\piutangAsuransiBelumDibayar3Bulan::class,
 		 Commands\testJurnal::class,
+		 Commands\TestKirimWaAPIButtonKeIphone::class,
 		 /* Commands\dbBackup::class, */
 		 Commands\refreshKunjunganPasien::class,
 		 Commands\sendMeLaravelLog::class,
@@ -86,6 +87,8 @@ class Kernel extends ConsoleKernel
 				  ->dailyAt('23:59');
 		 $schedule->command('test:neraca')
 				  ->dailyAt('01:00');
+		 $schedule->command('test:wabutton')
+				  ->dailyAt('09:00');
 		 $schedule->command('sms:piutangReminder')
 				  ->cron('00 09 * * 1,3');
 		 /* $schedule->command('sms:angkakontak') */

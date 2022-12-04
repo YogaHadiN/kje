@@ -90,11 +90,17 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('transaksi/avail', [\App\Http\Controllers\RekeningController::class, 'available']);
 
+
+	Route::get('cek_harian_anafilaktik_kits/{ruangan_id}/create', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'create']);
+	Route::post('cek_harian_anafilaktik_kits/{ruangan_id}', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'store']);
+
+
 	Route::get('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'index']);
-	Route::get('cek_list_harian/obat', [\App\Http\Controllers\CekListHariansController::class, 'obat']);
-	Route::post('cek_list_harian/obat', [\App\Http\Controllers\CekListHariansController::class, 'obatPost']);
-	Route::get('cek_list_harian/pulsa', [\App\Http\Controllers\CekListHariansController::class, 'pulsa']);
-	Route::post('cek_list_harian/pulsa', [\App\Http\Controllers\CekListHariansController::class, 'pulsaPost']);
+	Route::get('cek_list_harians/{ruangan_id}', [\App\Http\Controllers\CekListHariansController::class, 'show']);
+	Route::get('cek_list_harians/obat', [\App\Http\Controllers\CekListHariansController::class, 'obat']);
+	Route::post('cek_list_harians/obat', [\App\Http\Controllers\CekListHariansController::class, 'obatPost']);
+	Route::get('cek_list_harians/pulsa', [\App\Http\Controllers\CekListHariansController::class, 'pulsa']);
+	Route::post('anafilaktik_kitcek_list_harians/pulsa', [\App\Http\Controllers\CekListHariansController::class, 'pulsaPost']);
 	/* Route::get('cek_list_harian/listrik', [\App\Http\Controllers\CekListHariansController::class, 'listrik']); */
 	/* Route::post('cek_list_harian/listrik', [\App\Http\Controllers\CekListHariansController::class, 'listrikPost']); */
 	Route::post('test', [\App\Http\Controllers\TestController::class, 'post']);

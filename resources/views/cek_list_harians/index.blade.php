@@ -33,7 +33,7 @@
                                     <td>{{ $ruangan->nama }}</td>
                                     <td>status</td>
                                     <td nowrap class="autofit">
-                                        <a href="{{ url('cek_list') }}" target="_blank" class="btn btn-primary btn-xs"> Edit</a>
+                                        <a href="{{ url('cek_list_harians/' . $ruangan->id) }}" target="_blank" class="btn btn-primary btn-xs"> Edit</a>
                                     </td>
                                 </tr>
                             @endforeach
