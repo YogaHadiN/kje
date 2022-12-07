@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCekHarianTemperaturesTable extends Migration
+class CreateLimitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateCekHarianTemperaturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cek_harian_temperatures', function (Blueprint $table) {
+        Schema::create('limits', function (Blueprint $table) {
             $table->id();
-            $table->integer('suhu');
-            $table->string('suhu_image');
-            $table->integer('staf_id');
-            $table->bigInteger('ruangan_id')->index();
+            $table->string('limit');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateCekHarianTemperaturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cek_harian_temperatures');
+        Schema::dropIfExists('limits');
     }
 }

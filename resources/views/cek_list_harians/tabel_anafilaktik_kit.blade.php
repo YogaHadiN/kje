@@ -14,13 +14,6 @@
                 <th>Ranitidin</th>
                 <th>Difenhidramin</th>
                 <th>Spuit 3 cc</th>
-                <th>Oksigen Bisa Dipakai</th>
-                <th>Gudel Anak</th>
-                <th>Gudel Dewasa</th>
-                <th>Infus Set</th>
-                <th>NaCl</th>
-                <th>Infus Set</th>
-                <th>Tiang Infus</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -29,17 +22,11 @@
                     @foreach($cek_harian_anafilaktik_kits as $cek)
                         <tr>
                             <td nowrap>{{ $cek->created_at->format('Y M d') }}</td>
-                            <td>{{ $cek->jumlah_epinefrin_inj }}</td>
-                            <td>{{ $cek->jumlah_dexamethasone_inj }}</td>
-                            <td>{{ $cek->jumlah_ranitidine_inj }}</td>
-                            <td>{{ $cek->jumlah_diphenhydramine_inj }}</td>
-                            <td>{{ $cek->jumlah_spuit_3cc }}</td>
-                            <td>{{ $cek->oksigen_bisa_dipakai }}</td>
-                            <td>{{ $cek->jumlah_gudel_anak }}</td>
-                            <td>{{ $cek->jumlah_gudel_dewasa }}</td>
-                            <td>{{ $cek->jumlah_infus_set }}</td>
-                            <td>{{ $cek->jumlah_nacl }}</td>
-                            <td>{{ $cek->jumlah_tiang_Infus }}</td>
+                            <td class="text-right">{{ $cek->jumlah_epinefrin_inj }}</td>
+                            <td class="text-right">{{ $cek->jumlah_dexamethasone_inj }}</td>
+                            <td class="text-right">{{ $cek->jumlah_ranitidine_inj }}</td>
+                            <td class="text-right">{{ $cek->jumlah_diphenhydramine_inj }}</td>
+                            <td class="text-right">{{ $cek->jumlah_spuit_3cc }}</td>
                             <td nowrap class="autofit">
                                 {!! Form::open(['url' => 'cek_harian_anafilaktik_kits/' . $cek->id, 'method' => 'delete']) !!}
                                     <a class="btn btn-warning btn-sm" href="{{ url('cek_harian_anafilaktik_kits/' . $cek->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>

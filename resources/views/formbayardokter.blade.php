@@ -85,8 +85,8 @@
             </div>
   </div>
 </div>
-  @include('pengeluarans.tabel_bayar_dokter', ['bayar' => $bayar_dokters])
 {!! Form::close() !!}
+  @include('pengeluarans.tabel_bayar_dokter', ['bayar' => $bayar_dokters])
 @stop
 @section('footer') 
 <script>

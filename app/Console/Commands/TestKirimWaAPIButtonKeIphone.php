@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Http\Controllers\WablasController;
+use Log;
 
 class TestKirimWaAPIButtonKeIphone extends Command
 {
@@ -38,6 +39,8 @@ class TestKirimWaAPIButtonKeIphone extends Command
      */
     public function handle()
     {
+        Log::info("======================================");
+        Log::info("Test Wa Button dimulai");
         $wa = new WablasController;
 
         $wa->sendSingle('6281381912803', 'Setelah ini akan mengirim test untuk button');
@@ -53,5 +56,7 @@ class TestKirimWaAPIButtonKeIphone extends Command
         ];
 
         $wa->sendButton($data);
+        Log::info("Test Wa Button selesai");
+        Log::info("======================================");
     }
 }

@@ -91,11 +91,25 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('transaksi/avail', [\App\Http\Controllers\RekeningController::class, 'available']);
 
 
+	Route::resource('ruangans', \App\Http\Controllers\RuanganController::class);
+	Route::get('cek_list_ruangans/{ruangan_id}', [\App\Http\Controllers\CekListRuanganController::class, 'index']);
+	Route::get('cek_list_ruangans/{ruangan_id}/create', [\App\Http\Controllers\CekListRuanganController::class, 'create']);
+	Route::post('cek_list_ruangans/{ruangan_id}', [\App\Http\Controllers\CekListRuanganController::class, 'store']);
+	Route::get('cek_list_ruangans/{id}/edit', [\App\Http\Controllers\CekListRuanganController::class, 'edit']);
+	Route::put('cek_list_ruangans/{id}', [\App\Http\Controllers\CekListRuanganController::class, 'update']);
+	Route::delete('cek_list_ruangans/{id}', [\App\Http\Controllers\CekListRuanganController::class, 'destroy']);
+
+
 	Route::get('cek_harian_anafilaktik_kits/{ruangan_id}/create', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'create']);
+	Route::get('cek_harian_anafilaktik_kits/{id}/edit', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'edit']);
+	Route::put('cek_harian_anafilaktik_kits/{id}', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'update']);
+	Route::post('cek_harian_anafilaktik_kits/{ruangan_id}', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'store']);
 	Route::post('cek_harian_anafilaktik_kits/{ruangan_id}', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'store']);
 
 
 	Route::get('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'index']);
+	Route::post('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'store']);
+	Route::get('cek_list_harians/create', [\App\Http\Controllers\CekListHariansController::class, 'create']);
 	Route::get('cek_list_harians/{ruangan_id}', [\App\Http\Controllers\CekListHariansController::class, 'show']);
 	Route::get('cek_list_harians/obat', [\App\Http\Controllers\CekListHariansController::class, 'obat']);
 	Route::post('cek_list_harians/obat', [\App\Http\Controllers\CekListHariansController::class, 'obatPost']);
@@ -433,6 +447,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pengeluarans/bayardoker/{id}', [\App\Http\Controllers\BayarGajiController::class, 'bayardokter']);
 		Route::get('pengeluarans/bayardokter/bayar', [\App\Http\Controllers\BayarGajiController::class, 'dokterbayar']);
 		Route::post('pengeluarans/bayardokter/bayar', [\App\Http\Controllers\BayarGajiController::class, 'dokterdibayar']);
+		Route::delete('bayar_gajis/{id}', [\App\Http\Controllers\BayarGajiController::class, 'destroy']);
 
 		Route::get('pengeluarans/checkout/{id}', [\App\Http\Controllers\PengeluaransController::class, 'show_checkout']);
 		Route::post('pengeluarans/confirm_staf', [\App\Http\Controllers\PengeluaransController::class, 'confirm_staf']);

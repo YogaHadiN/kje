@@ -188,7 +188,7 @@ if (!function_exists('uploadFile')) {
             /* }); */
 
             //membuat nama file random + extension
-            $filename =	 $pre . $id . '_' .  time().'.' . $extension;
+            $filename =	 $pre . $id . '_' .  time() . '_' . generateRandomString() . '.' . $extension;
 
             //menyimpan bpjs_image ke folder public/img
             if (!str_ends_with('/', $destination_path)) {
@@ -267,4 +267,15 @@ if (!function_exists('yesno_option')) {
         ];
     }
 }
- 
+if (!function_exists('generateRandomString')) {
+     function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+}
+

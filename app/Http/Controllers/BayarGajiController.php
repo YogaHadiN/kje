@@ -885,107 +885,117 @@ class BayarGajiController extends Controller
 			];
 			if ( $this->perhitunganPph_ini['pph21'] > 0 ) {
 				$jurnals[]             = [
-					'jurnalable_id'   => $this->bayar->id,
-					'jurnalable_type' => 'App\Models\BayarGaji',
-					'coa_id'          => $coa_id_200004, // Hutang pph21
-					'debit'           => 0,
-					'nilai'           => $this->perhitunganPph_ini['pph21'],
-							'tenant_id'  => session()->get('tenant_id'),
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
+                    'jurnalable_id'   => $this->bayar->id,
+                    'jurnalable_type' => 'App\Models\BayarGaji',
+                    'coa_id'          => $coa_id_200004, // Hutang pph21
+                    'debit'           => 0,
+                    'nilai'           => $this->perhitunganPph_ini['pph21'],
+                    'tenant_id'       => session()->get('tenant_id'),
+                    'created_at'      => $timestamp,
+                    'updated_at'      => $timestamp
 				];
 			}
 		} else if(Yoga::clean($this->input_gaji_pokok) + $this->input_bonus  > $this->input_hutang){
 			//Create Jurnal Umum untuk hutang saja
 			$jurnals[]             = [
-				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\Models\BayarGaji',
-				'coa_id'          => $coa_id_200001, // Hutang Kepada Dokte,
-				'debit'           => 1,
-				'nilai'           => $this->input_hutang,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
+                'jurnalable_id'   => $this->bayar->id,
+                'jurnalable_type' => 'App\Models\BayarGaji',
+                'coa_id'          => $coa_id_200001, // Hutang Kepada Dokte,
+                'debit'           => 1,
+                'nilai'           => $this->input_hutang,
+                'tenant_id'       => session()->get('tenant_id'),
+                'created_at'      => $timestamp,
+                'updated_at'      => $timestamp
 			];
 			$jurnals[]             = [
-				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\Models\BayarGaji',
-				'coa_id'          => $coa_id_50201, // B. Produksi Jasa Dokter,
-				'debit'           => 1,
-				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->input_hutang,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
+                'jurnalable_id'   => $this->bayar->id,
+                'jurnalable_type' => 'App\Models\BayarGaji',
+                'coa_id'          => $coa_id_50201, // B. Produksi Jasa Dokter,
+                'debit'           => 1,
+                'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->input_hutang,
+                'tenant_id'       => session()->get('tenant_id'),
+                'created_at'      => $timestamp,
+                'updated_at'      => $timestamp
 			];
 			$jurnals[]             = [
-				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\Models\BayarGaji',
-				'coa_id'          => $this->input_sumber_uang_id,
-				'debit'           => 0,
-				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
+                'jurnalable_id'   => $this->bayar->id,
+                'jurnalable_type' => 'App\Models\BayarGaji',
+                'coa_id'          => $this->input_sumber_uang_id,
+                'debit'           => 0,
+                'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
+                'tenant_id'       => session()->get('tenant_id'),
+                'created_at'      => $timestamp,
+                'updated_at'      => $timestamp
 			];
 			if ( $this->perhitunganPph_ini['pph21'] > 0 ) {
 				$jurnals[]             = [
-					'jurnalable_id'   => $this->bayar->id,
-					'jurnalable_type' => 'App\Models\BayarGaji',
-					'coa_id'          => $coa_id_200004, // Hutang pph21
-					'debit'           => 0,
-					'nilai'           => $this->perhitunganPph_ini['pph21'],
-							'tenant_id'  => session()->get('tenant_id'),
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
+                    'jurnalable_id'   => $this->bayar->id,
+                    'jurnalable_type' => 'App\Models\BayarGaji',
+                    'coa_id'          => $coa_id_200004, // Hutang pph21
+                    'debit'           => 0,
+                    'nilai'           => $this->perhitunganPph_ini['pph21'],
+                    'tenant_id'       => session()->get('tenant_id'),
+                    'created_at'      => $timestamp,
+                    'updated_at'      => $timestamp
 				];
 			}
 			//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
 		} else if(Yoga::clean($this->input_gaji_pokok) + $this->input_bonus  < $this->input_hutang){
 			//Jurnal Umum untuk sisa dengan b. operasional jasa dokter
 			$jurnals[]             = [
-				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\Models\BayarGaji',
-				'coa_id'          => $coa_id_200001, // Hutang kepada dokte,
-				'debit'           => 1,
-				'nilai'           => $this->input_hutang,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
+                'jurnalable_id'   => $this->bayar->id,
+                'jurnalable_type' => 'App\Models\BayarGaji',
+                'coa_id'          => $coa_id_200001, // Hutang kepada dokte,
+                'debit'           => 1,
+                'nilai'           => $this->input_hutang,
+                'tenant_id'       => session()->get('tenant_id'),
+                'created_at'      => $timestamp,
+                'updated_at'      => $timestamp
 			];
 			$jurnals[]             = [
-				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\Models\BayarGaji',
-				'coa_id'          => $coa_id_50201, // B. Produksi Jasa Dokte,
-				'debit'           => 0,
-				'nilai'           => $this->input_hutang- Yoga::clean($this->input_gaji_pokok) + $this->input_bonus,
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
+                'jurnalable_id'   => $this->bayar->id,
+                'jurnalable_type' => 'App\Models\BayarGaji',
+                'coa_id'          => $coa_id_50201, // B. Produksi Jasa Dokte,
+                'debit'           => 0,
+                'nilai'           => $this->input_hutang- Yoga::clean($this->input_gaji_pokok) + $this->input_bonus,
+                'tenant_id'       => session()->get('tenant_id'),
+                'created_at'      => $timestamp,
+                'updated_at'      => $timestamp
 			];
 			//end
 			$jurnals[]             = [
-				'jurnalable_id'   => $this->bayar->id,
-				'jurnalable_type' => 'App\Models\BayarGaji',
-				'coa_id'          => $this->input_sumber_uang_id,
-				'debit'           => 0,
-				'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
-							'tenant_id'  => session()->get('tenant_id'),
-				'created_at'      => $timestamp,
-				'updated_at'      => $timestamp
+                'jurnalable_id'   => $this->bayar->id,
+                'jurnalable_type' => 'App\Models\BayarGaji',
+                'coa_id'          => $this->input_sumber_uang_id,
+                'debit'           => 0,
+                'nilai'           => Yoga::clean($this->input_gaji_pokok) + $this->input_bonus - $this->perhitunganPph_ini['pph21'],
+                'tenant_id'       => session()->get('tenant_id'),
+                'created_at'      => $timestamp,
+                'updated_at'      => $timestamp
 			];
 			if ( $this->perhitunganPph_ini['pph21'] > 0 ) {
 				$jurnals[]             = [
-					'jurnalable_id'   => $this->bayar->id,
-					'jurnalable_type' => 'App\Models\BayarGaji',
-					'coa_id'          => $coa_id_200004, // Hutang pph21
-					'debit'           => 0,
-					'nilai'           => $this->perhitunganPph_ini['pph21'],
-							'tenant_id'  => session()->get('tenant_id'),
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
+                    'jurnalable_id'   => $this->bayar->id,
+                    'jurnalable_type' => 'App\Models\BayarGaji',
+                    'coa_id'          => $coa_id_200004, // Hutang pph21
+                    'debit'           => 0,
+                    'nilai'           => $this->perhitunganPph_ini['pph21'],
+                    'tenant_id'       => session()->get('tenant_id'),
+                    'created_at'      => $timestamp,
+                    'updated_at'      => $timestamp
 				];
 			}
 		}
 		return $jurnals;
 	}
+
+    public function destroy($id){
+        $bayar_gaji = BayarGaji::find( $id );
+        $bayar_gaji->pph21s()->delete();
+        $bayar_gaji->jurnals()->delete();
+        $nama_staf = $bayar_gaji->staf->nama;
+        $bayar_gaji->delete();
+        $pesan = Yoga::suksesFlash('Pembayaran gaji ' . $nama_staf . ' Berhasil dihapus');
+        return redirect()->back()->withPesan($pesan);
+    }
 }

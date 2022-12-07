@@ -120,6 +120,7 @@
                             <li>{!! HTML::link('documents', 'Dokumen Penting')!!}</li>
                             <li>{!! HTML::link('sertifikats', 'Sertifikat')!!}</li>
                             <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
+                            <li>{!! HTML::link('ruangans', 'Ruangan')!!}</li>
                             <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
                             <li>{!! HTML::link('pasiens/pacific_cross/2020', 'Pacific Cross 2020')!!}</li>
                         </ul>

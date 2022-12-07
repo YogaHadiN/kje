@@ -9,4 +9,8 @@ class CekHarianAnafilaktikKit extends Model
 {
     use HasFactory;
     protected $table = 'cek_harian_anafilaktik_kits';
+
+    public function ruangan(){
+        return $this->belongsTo(Ruangan::class);
+    }
 }

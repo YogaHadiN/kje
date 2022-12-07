@@ -88,7 +88,7 @@ class Kernel extends ConsoleKernel
 		 $schedule->command('test:neraca')
 				  ->dailyAt('01:00');
 		 $schedule->command('test:wabutton')
-				  ->dailyAt('09:00');
+				  ->dailyAt('07:12');
 		 $schedule->command('sms:piutangReminder')
 				  ->cron('00 09 * * 1,3');
 		 /* $schedule->command('sms:angkakontak') */

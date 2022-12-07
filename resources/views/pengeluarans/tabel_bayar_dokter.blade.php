@@ -33,7 +33,19 @@
                                   @endif
                                 </td>
                                 <td class="uang"> {{ $b->nilai - $b->pph21 }} </td>
-                                <td> <a class="btn btn-info btn-xs" href="{{ url("pdfs/bayar_gaji_karyawan/" . $b->id) }}" target="_blank">Struk</a> </td>
+                                <td>
+                                    @if( \Auth::user()->role_id == 6 )
+                                        {!! Form::open(['url' => 'bayar_gajis/'. $b->id, 'method' => 'delete']) !!}
+                                            @include('pengeluarans.struk_bayar_dokter')
+                                            {!! Form::submit('Delete', [
+                                                'class'   => 'btn btn-danger btn-xs',
+                                                'onclick' => 'return confirm("Anda yakin mau menghapus gaji ' . $b->id . '-' . $b->nama_staf.'?");return false;'
+                                            ]) !!}
+                                        {!! Form::close() !!}
+                                    @else
+                                        @include('pengeluarans.struk_bayar_dokter')
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
