@@ -31,8 +31,16 @@ Klinik Jati Elok | Laporan Kepuasan Bulanan
             @if($antrians->count() > 0)
                 @foreach($antrians as $antrian)
                     <tr>
-                        <td>{{ $antrian->created_at->format('d M Y') }}</td>
-                        <td>{{ $antrian->antriable->pasien->nama }}</td>
+                        <td>
+                            <a href="{{ url('periksas/' . $antrian->antriable_id) }}" target="_blank">
+                                {{ $antrian->created_at->format('d M Y') }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ url('pasiens/' . $antrian->antriable->pasien_id . '/edit') }}" target="_blank">
+                                {{ ucwords( $antrian->antriable->pasien->nama ) }}
+                            </a>
+                        </td>
                         <td>{{ $antrian->antriable->asuransi->nama }}</td>
                         <td>{{ $antrian->complaint }}</td>
                     </tr>

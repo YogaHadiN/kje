@@ -151,6 +151,7 @@ class PeriksasController extends Controller
 	{	
 
 		$periksa = Periksa::with('terapii.merek', 'jurnals.coa', 'transaksii.jenisTarif', 'berkas')->where('id',$id)->first();
+        /* dd( $periksa ); */
         foreach ($periksa->jurnals as $jur) {
             if ( !$jur->coa ) {
                 dd( $jur );

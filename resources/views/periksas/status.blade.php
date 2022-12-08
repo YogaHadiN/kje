@@ -38,6 +38,24 @@
 						@endif
 						<strong>Diagnosa :</strong> <br>
 						{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10_id !!} ({!! $periksa->diagnosa->icd10->diagnosaICD !!})
+                        @if( !empty( trim( $periksa->keterangan_diagnosa ) ) )
+                            <br>
+                            {!! $periksa->keterangan_diagnosa !!} 
+                        @endif
+
+                        @if(isset( $periksa->rujukan ))
+                            <br> <br>
+                            <strong>Diagnosis Merujuk</strong><br>
+                            {!! $periksa->rujukan->diagnosa->diagnosa !!} ({!! $periksa->rujukan->diagnosa->icd10_id!!} - 
+                            {!! $periksa->rujukan->diagnosa->icd10->diagnosaICD !!})
+                        @endif
+
+                        @if(isset( $periksa->suratSakit ))
+                            <br> <br>
+                            <strong>Surat Keterangan Sakit</strong><br>
+                            Tanggal {!! \Carbon\Carbon::parse($periksa->suratSakit->tanggal_mulai)->format('d M Y') !!} selama {!! $periksa->suratSakit->hari !!} hari 
+                        @endif
+
 						<br> <br>
 						<div class="row">
 							@if($periksa->usg)

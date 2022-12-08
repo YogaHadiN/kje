@@ -86,9 +86,12 @@
   </div>
 </div>
 {!! Form::close() !!}
-  @include('pengeluarans.tabel_bayar_dokter', ['bayar' => $bayar_dokters])
+ @include('bayar_dokters.form')
+  {{-- @include('pengeluarans.tabel_bayar_dokter', ['bayar' => $bayar_dokters]) --}}
 @stop
 @section('footer') 
+<script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
+{!! HTML::script('js/bayar_dokters.js')!!}
 <script>
     $(function () {
         if( $('#print-struk').length ){

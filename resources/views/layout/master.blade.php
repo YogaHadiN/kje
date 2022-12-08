@@ -109,6 +109,7 @@
                             <li>{!! HTML::link('stafs', 'Staf')!!}</li>
                             <li>{!! HTML::link('asuransis', 'Asuransi')!!}</li>
                             <li>{!! HTML::link('suppliers', 'Supplier')!!}</li>
+                            <li>{!! HTML::link('perusahaans', 'Perusahaan')!!}</li>
                             <li>{!! HTML::link('rumahsakits', 'Rumah Sakit')!!}</li>
                             <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
                             <li>{!! HTML::link('tarifs', 'Tarif')!!}</li>
