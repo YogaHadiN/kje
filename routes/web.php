@@ -759,9 +759,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('home_visits', \App\Http\Controllers\HomeVisitController::class);
 	Route::resource('setor_tunais', \App\Http\Controllers\SetorTunaiController::class);
 	Route::post('peserta_bpjs_perusahaans/{id}/import', [\App\Http\Controllers\PesertaBpjsPerusahaanController::class, 'import']);
+	Route::get('peserta_bpjs_perusahaans/perusahaan/{id}', [\App\Http\Controllers\PesertaBpjsPerusahaanController::class, 'peserta']);
 
 	Route::resource('perusahaans', \App\Http\Controllers\PerusahaanController::class);
-	Route::resource('peserta_bpjs_perusahaans', \App\Http\Controllers\PesertaBpjsPerusahaanController::class);
+	Route::resource('peserta_bpjs_perusahaans', \App\Http\Controllers\PesertaBpjsPerusahaanControlleid::class);
 
     Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}/pdf', [\App\Http\Controllers\PdfsController::class, 'jumlahPasienPerTahun']);
 	Route::get('pdfs/amortisasi/{tahun}', [\App\Http\Controllers\PdfsController::class, 'amortisasi']);

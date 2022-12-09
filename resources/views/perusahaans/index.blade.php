@@ -44,6 +44,7 @@ Klinik Jati Elok | Daftar Perusahaan
                         <td nowrap class="autofit">
                             {!! Form::open(['url' => 'perusahaans/' . $p->id, 'method' => 'delete']) !!}
                                 <a class="btn btn-warning btn-sm" href="{{ url('perusahaans/' . $p->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+                                <a class="btn btn-info btn-sm" href="{{ url('peserta_bpjs_perusahaans/perusahaan/' . $p->id ) }}"> Peserta</a>
                                 <button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $p->id }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
                             {!! Form::close() !!}
                         </td>

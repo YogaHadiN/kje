@@ -60,6 +60,7 @@
 									<td>{!! $antrianapotek->periksa->asuransi->nama!!}</td>
 							<td>
 							  {!! Form::open(['url' => 'antrianapoteks/kembali/' . $antrianapotek->id, 'method' => 'post'])!!}
+								<a href="{{ url('pdfs/status/' . $antrianapotek->periksa_id) }}" target="_blank" class="btn btn-info btn-xs">Status</a>
 								<a href="{{ url('kasir/' . $antrianapotek->periksa_id) }}" class="btn btn-primary btn-xs">Proses</a>
 								@include('antrianpolis.pengantar_button', [
 									'antrianpoli'    => $antrianapotek,

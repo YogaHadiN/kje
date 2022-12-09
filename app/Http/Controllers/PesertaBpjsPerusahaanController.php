@@ -61,7 +61,6 @@ class PesertaBpjsPerusahaanController extends Controller
     }
     public function import($id){
         $rows = Excel::toArray(new PesertaBpjsPerusahaanImport, Input::file('file'))[0];
-        $perusahaan = Perusahaan::find( $id );
         $data = [];
         foreach ($rows as $r) {
             $data[] = [
@@ -69,6 +68,8 @@ class PesertaBpjsPerusahaanController extends Controller
                 'nomor_asuransi_bpjs' => filter_var($r['nomor_asuransi_bpjs'], FILTER_SANITIZE_NUMBER_INT)
             ];
         }
+        $perusahaan = Perusahaan::find( $id );
+        $perusahaan->peserta()->delete();
         $perusahaan->peserta()->createMany($data);
         $pesan = Yoga::suksesFlash('Import Data Berhasil');
         return redirect()->back()->withPesan($pesan);
@@ -88,4 +89,31 @@ class PesertaBpjsPerusahaanController extends Controller
             return \Redirect::back()->withErrors($validator)->withInput();
         }
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function peserta($id)
+    {
+        $perusahaan = Perusahaan::find($id);
+
+        $query  = "SELECT ";
+        $query .= "pbp.id as id, ";
+        $query .= "pbp.nama as nama_pasien, ";
+        $query .= "psn.id as pasien_id, ";
+        $query .= "pbp.nomor_asuransi_bpjs as nomor_asuransi_bpjs ";
+        $query .= "FROM peserta_bpjs_perusahaans as pbp ";
+        $query .= "LEFT JOIN pasiens as psn on psn.nomor_asuransi_bpjs = pbp.nomor_asuransi_bpjs ";
+        $query .= "WHERE pbp.perusahaan_id = {$id} ";
+        $peserta = DB::select($query);
+        /* dd( $peserta ); */
+
+
+        return view('peserta_bpjs_perusahaans.peserta', compact(
+            'perusahaan',
+            'peserta',
+        ));
+    }
+    
 }

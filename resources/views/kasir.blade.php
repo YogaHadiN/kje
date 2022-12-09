@@ -134,7 +134,7 @@
 											<th>Signa</th>
 											<th>Jumlah</th>
 											<th>Cunam</th>
-											{{-- <th>Exp Date</th> --}}
+											<th>Exp Date</th>
 											<th>Satuan</th>
 											<th>Biaya</th>
 											<th class="hide">jumlah</th>
@@ -175,12 +175,12 @@
                                                         'placeholder' => '- Pilih Cunam -'
                                                     ]) !!}
 												</td>
-                                                {{-- <td> --}}
-                                                {{--     {!! Form::text('exp_date', $terapi->exp_date, [ --}}
-                                                {{--         'class' => 'form-control rq tanggal', --}}
-                                                {{--         'onchange' => 'expDateChange(this);return false', --}}
-                                                {{--     ]) !!} --}}
-												{{-- </td> --}}
+                                                <td>
+                                                    {!! Form::text('exp_date', $terapi->exp_date, [
+                                                        'class' => 'form-control rq tanggal',
+                                                        'onchange' => 'expDateChange(this);return false',
+                                                    ]) !!}
+												</td>
 												<td class='uang harga_satuan'>
                                                     @if($periksa->asuransi->tipe_asuransi_id == '5')
 														@if($terapi->merek->rak->fornas == '0')
