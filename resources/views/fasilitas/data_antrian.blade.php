@@ -12,6 +12,12 @@
                     Pasien sedang mengisi Form</td>
 			</tr>
 		@endif
+		@if (isset($antrian->no_telp))
+			<tr>
+				<td nowrap>Nomot Telepon</td>
+				<td nowrap>{{ $antrian->no_telp }}</td>
+			</tr>
+		@endif
 		@if (isset($antrian->nama))
 			<tr>
 				<td nowrap>Nama</td>
