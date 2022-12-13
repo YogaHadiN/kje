@@ -46,6 +46,7 @@ use App\Models\JurnalUmum;
 use App\Models\Fakturbeli;
 use App\Models\Pembelian;
 use App\Models\Receipt;
+use App\Models\WhatsappSatisfactionSurvey;
 
 class CustomController extends Controller
 {

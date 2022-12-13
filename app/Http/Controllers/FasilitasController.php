@@ -17,6 +17,7 @@ use App\Http\Controllers\QrCodeController;
 use App\Http\Requests;
 use App\Models\WhatsappRegistration;
 use App\Models\Fasilitas;
+use App\Models\Tenant;
 use App\Models\Asuransi;
 use App\Models\Pasien;
 use App\Models\Antrian;
@@ -370,7 +371,6 @@ class FasilitasController extends Controller
                         ]
                     ]);
                 } else {
-                    $text .= PHP_EOL;
                     $text .= PHP_EOL;
                     $text .= 'Balas *ya* untuk melanjutkan';
                     $wablas->sendSingle($no_wa, $text);
