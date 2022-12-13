@@ -5,6 +5,7 @@ use Input;
 use DB;
 use App\Http\Requests;
 use App\Models\Classes\Yoga;
+use App\Rules\ExpDateHarusFormatTahunBulan;
 use App\Models\Periksa;
 use App\Models\Formula;
 use App\Models\PengantarPasien;
@@ -106,6 +107,19 @@ class KasirBaseController extends Controller
 
 
 	public function kasir_submit(){
+        $messages = [
+            'required' => ':attribute Harus Diisi',
+        ];
+        $rules = [
+            'terapi1' => ['required', new ExpDateHarusFormatTahunBulan],
+        ];
+
+        $validator = \Validator::make(Input::all(), $rules, $messages);
+
+        if ($validator->fails())
+        {
+            return \Redirect::back()->withErrors($validator)->withInput();
+        }
 		$periksa_id    = Input::get('periksa_id');
 		$prx           = Periksa::find($periksa_id);
 		$antrianapotek = AntrianApotek::where('periksa_id', $periksa_id)->first();
@@ -392,7 +406,7 @@ class KasirBaseController extends Controller
              !is_null( $this->antriankasir->antrian ) &&
              !empty( $this->antriankasir->antrian->no_telp )
         ) {
-            $message .= 'Obat pasien atas nama ' . $this->antriankasir->pasien->nama .' sudah selesai diracik';
+            $message = 'Obat pasien atas nama ' . $this->antriankasir->periksa->pasien->nama .' sudah selesai diracik';
             $message .= PHP_EOL;
             $message .= 'Anda dapat mengambil obat tersebut di ruang farmasi';
             $message .= PHP_EOL;

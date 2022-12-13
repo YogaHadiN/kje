@@ -349,23 +349,32 @@ class FasilitasController extends Controller
                 $text .= PHP_EOL;
                 $text .= PHP_EOL;
                 $text .= 'Fasilitas ini akan memproses antrian ' . $nomor_antrian;
-                $text .= PHP_EOL;
-                $text .= 'Apakah Anda ingin melanjutkan?';
-                $text .= PHP_EOL;
 
+                $tenant = Tenant::find( 1 );
                 $wablas = new WablasController;
-                $wablas->sendButton([
-                    [
-                        'phone' => $no_wa,
-                        'message' => [
-                            'buttons' => [
-                                            'Lanjutkan'
-                                        ],
-                            'content' =>$text,
-                            'footer' => '',
-                        ],
-                    ]
-                ]);
+                if ($tenant->iphone_whatsapp_button_available) {
+                    $text .= PHP_EOL;
+                    $text .= 'Apakah Anda ingin melanjutkan?';
+                    $text .= PHP_EOL;
+
+                    $wablas->sendButton([
+                        [
+                            'phone' => $no_wa,
+                            'message' => [
+                                'buttons' => [
+                                                'Lanjutkan'
+                                            ],
+                                'content' =>$text,
+                                'footer' => '',
+                            ],
+                        ]
+                    ]);
+                } else {
+                    $text .= PHP_EOL;
+                    $text .= PHP_EOL;
+                    $text .= 'Balas *ya* untuk melanjutkan';
+                    $wablas->sendSingle($no_wa, $text);
+                }
             }
         }
 
