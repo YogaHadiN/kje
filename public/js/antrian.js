@@ -119,7 +119,6 @@ function lewati(control) {
     submitAntrian(jenis_antrian_id, null);
 }
 function showNotificationWhenError(xhr) {
-    alert(xhr.status);
     if (xhr.status === 0) {
         alert("Not connect.\n Verify Network.");
     } else if (jqXHR.status == 404) {
