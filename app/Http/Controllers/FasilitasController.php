@@ -372,6 +372,7 @@ class FasilitasController extends Controller
                     ]);
                 } else {
                     $text .= PHP_EOL;
+                    $text .= PHP_EOL;
                     $text .= 'Balas *ya* untuk melanjutkan';
                     $wablas->sendSingle($no_wa, $text);
                 }
