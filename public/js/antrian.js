@@ -18,7 +18,6 @@ function submitAntrian(jenis_antrian_id, no_wa) {
             no_wa: no_wa,
         },
         function (data, textStatus, jqXHR) {
-            console.log(jqXHR);
             $("#noWhatsapp").modal("hide");
             var nomor_antrian = data["nomor_antrian"];
             var jenis_antrian = data["jenis_antrian"];
