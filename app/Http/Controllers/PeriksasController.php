@@ -14,6 +14,7 @@ use App\Models\DenominatorBpjs;
 use App\Models\Antrian;
 use App\Models\AntrianKasir;
 use App\Models\AntrianApotek;
+use App\Models\KuesionerMenungguObat;
 use App\Models\AntrianFarmasi;
 use App\Models\PesertaBpjsPerbulan;
 use App\Models\Berkas;
@@ -36,6 +37,7 @@ use App\Models\PengantarPasien;
 use App\Models\Tarif;
 use App\Http\Controllers\CustomController;
 use App\Http\Controllers\AntrianPeriksasController;
+use App\Http\Controllers\WablasController;
 use Storage;
 
 class PeriksasController extends Controller
@@ -47,6 +49,7 @@ class PeriksasController extends Controller
 	 * @return Response
  */
 	public $input_sistolik;
+	public $antrianapotek;
 	public $input_diastolik;
 	public $input_asuransi_id;
 	public $input_pasien_id;
@@ -97,7 +100,6 @@ class PeriksasController extends Controller
 	public function store()
 	{
 		DB::beginTransaction();
-        $before_transact = Periksa::count();
 		try {
             $rules = [
               "kecelakaan_kerja"   => "required",
@@ -131,7 +133,37 @@ class PeriksasController extends Controller
             $periksa = $this->inputData($periksa);
 			DB::commit();
 
-            $after_transact = Periksa::count();
+            /* if ( */
+            /*      !is_null(  $this->antrianapotek->antrian  ) && */
+            /*      !empty(  $this->antrianapotek->antrian->no_telp  ) */
+            /* ) { */
+            /*     Log::info("Masuk nih"); */
+            /*     Log::info(  $this->antrianapotek->antrian  ); */
+            /*     Log::info(  $this->antrianapotek->antrian->no_telp  ); */
+            /*     $message .= 'Obat pasien atas nama ' . $periksa->pasien->nama .' Sedang dalam antrian racikan'; */
+            /*     $message .= PHP_EOL; */
+            /*     $message .= 'Kami membutuhkan waktu yang cukup agar tidak terjadi kesalahan dalam peracikan obat'; */
+            /*     $message .= PHP_EOL; */
+            /*     $message .= 'Kakak dapat *menunggu di rumah* apabila berkenan. Dan kami akan memberitahukan melalui whatsapp apabila obat telah selesai diracik. Sehingga nanti kakak dapat mengambil sendiri apabila obat telah selesai diracik'; */
+            /*     $message .= PHP_EOL; */
+            /*     $message .= PHP_EOL; */
+            /*     $message .= '1. Saya Menunggu saja  di klinik'; */
+            /*     $message .= PHP_EOL; */
+            /*     $message .= '2. Saya pergi dulu nanti kabari saya kalau obat sudah selesai diracik'; */
+            /*     $message .= PHP_EOL; */
+            /*     $message .= PHP_EOL; */
+            /*     $message .= 'Mohon untuk dapat membalas dengan angka *1 atau 2* sesuai urutan di atas'; */
+            
+            /*     $kuesioner_menunggu_obat             = new KuesionerMenungguObat; */
+            /*     $kuesioner_menunggu_obat->antrian_id = $this->antrianapotek->antrian->id ; */
+            /*     $kuesioner_menunggu_obat->no_telp    = $this->antrianapotek->antrian->no_telp ; */
+            /*     $kuesioner_menunggu_obat->save(); */
+
+            /*     $wablas = new WablasController; */
+            /*     $wablas->sendSingle($this->antrianapotek->antrian->no_telp, $message); */
+            /* } */ 
+
+
 			$banner_button = $this->banner_button($periksa);
 
 			return redirect('ruangperiksa/' . $this->ruang_periksa($this->antrian))->withPesan(Yoga::suksesFlash('<strong>' . $this->pasien->id . ' - ' . $this->pasien->nama . '</strong> Selesai Diperiksa ' . $banner_button ));
@@ -350,23 +382,24 @@ class PeriksasController extends Controller
 			!AntrianApotek::where('periksa_id', $periksa_id)->exists() &&
 			!is_null($this->antrianperiksa)
 	   	) {
-            $antrianapotek             = new AntrianApotek;
-            $antrianapotek->periksa_id = $periksa_id;
-            $antrianapotek->jam        = date('H:i:s');
-            $antrianapotek->tanggal    = date('Y-m-d');
-            $antrianapotek->save();
+            $this->antrianapotek             = new AntrianApotek;
+            $this->antrianapotek->periksa_id = $periksa_id;
+            $this->antrianapotek->jam        = date('H:i:s');
+            $this->antrianapotek->tanggal    = date('Y-m-d');
+            $this->antrianapotek->save();
+
 
             PengantarPasien::where('antarable_id', $antrian_periksa_id)
                 ->where('antarable_type', 'App\Models\AntrianPeriksa')
                 ->update([
-                    'antarable_id' => $antrianapotek->id,
+                    'antarable_id' => $this->antrianapotek->id,
                     'antarable_type' => 'App\Models\AntrianApotek'
                 ]);
 
             Antrian::where('antriable_id', $antrian_periksa_id)
                 ->where('antriable_type', 'App\Models\AntrianPeriksa')
                 ->update([
-                    'antriable_id' => $antrianapotek->id,
+                    'antriable_id' => $this->antrianapotek->id,
                     'antriable_type' => 'App\Models\AntrianApotek'
                 ]);
 

@@ -8,6 +8,7 @@ use DB;
 use Log;
 use App\Models\Antrian;
 use App\Http\Controllers\WablasController;
+use App\Http\Controllers\WhatsappRecoveryIndex;
 
 class FollowUpPengobatanPasienDuaHariYangLalu extends Command
 {
@@ -86,7 +87,9 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
         $query .= "AND ant.tenant_id = 1 "; // bukan pasien dirujuk
         $result = DB::select($query);
 
-        $data = [];
+        $data       = [];
+        $wa_indices = [];
+        $timestamp  = date('Y-m-d H:i:s');
         foreach ($result as $k => $d) {
             $message = 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ';
             $message .= PHP_EOL;
@@ -95,17 +98,34 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
             $message .= PHP_EOL;
             $message .= PHP_EOL;
             $message .=' setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Bagaimana kabarnya setelah pengobatan kemarin?';
-            $data[] = [
-                'phone' => $d->no_telp,
-                'message' => [
-                    'buttons' => ["Sudah Sembuh (PQID" . $d->antrian_id . ")" ,"Keluhan membaik (PQID" . $d->antrian_id . ")","Tidak ada perubahan (PQID" . $d->antrian_id . ")"],
-                    'content' => $message,
-                ],
-            ];
+            $message .= PHP_EOL;
+            $message .='1. Sudah Sembuh';
+            $message .= PHP_EOL;
+            $message .='2. Membaik';
+            $message .= PHP_EOL;
+            $message .='3. Tidak ada perubahan';
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .='Mohon balas dengan angka *1,2 atau 3* sesuai dengan informasi di atas';
+
             Log::info("terkirim followuppengobatan ke pasien atas nama " . ucwords($d->nama));
+
+            $wa_indices[] = [
+                'antrian_id' => $d->antrian_id,
+                'no_telp'    => $d->no_telp,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            ];
+
+            $data[] = [
+                'phone'   => $d->no_telp,
+                'message' => $message
+            ];
         }
 
+        WhatsappRecoveryIndex::insert($wa_indices);
+
         $wablas = new WablasController;
-        $wablas->sendButton($data);
+        $wablas->bulkSend($data);
     }
 }

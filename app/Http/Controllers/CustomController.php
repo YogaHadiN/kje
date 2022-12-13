@@ -633,6 +633,11 @@ class CustomController extends Controller
 				isset($antrian) &&
 				!is_null($antrian->no_telp)
 			) {
+                $whatsapp_survey             = new WhatsappSatisfactionSurvey;
+                $whatsapp_survey->antrian_id = $antrian->id ;
+                $whatsapp_survey->no_telp    = $antrian->no_telp ;
+                $whatsapp_survey->save();
+
 				$message = "*Klinik Jati Elok*";
 				$message .= PHP_EOL;
 				$message .= "===================";
@@ -640,24 +645,19 @@ class CustomController extends Controller
 				$message .= "Terima kasih atas kepercayaan Anda memilih kami";
 				$message .= PHP_EOL;
 				$message .= "Mohon agar dapat memberikan penilaian pelayanan kami";
-                $payload = [
-                    [
-                        'phone' => $antrian->no_telp,
-                        'message' => [
-                            'buttons' => [
-                                "Puas (PXID" . $antrian->id . ")",
-                                "Biasa (PXID" . $antrian->id . ")",
-                                "Tidak Puas (PXID" . $antrian->id . ")",
-                            ],
-                            'content' =>$message,
-                            'footer' => '',
-                        ],
-                    ]
-                ];
-                /* dd( $message, $antrian->no_telp, $payload ); */
+				$message .= PHP_EOL;
+				$message .= "1. Puas";
+				$message .= PHP_EOL;
+				$message .= "2. Biasa";
+				$message .= PHP_EOL;
+				$message .= "3. Tidak Puas";
+				$message .= PHP_EOL;
+				$message .= PHP_EOL;
+				$message .= "Balas dengan angka *1,2 atau 3* sesuai urutan diatas";
+
 
                 $wablas = new WablasController;
-                $wablas->sendButton($payload);
+                $wablas->sendSingle($antrian->no_telp, $message);
 			}
 			$antriankasir->delete();
 

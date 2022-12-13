@@ -16,6 +16,7 @@ use App\Models\Terapi;
 use App\Models\TransaksiPeriksa;
 use App\Models\Tarif;
 use App\Http\Controllers\AntrianPolisController;
+use App\Http\Controllers\WablasController;
 use App\Models\Pasien;
 use App\Models\Perbaikanresep;
 use App\Models\Tidakdirujuk;
@@ -29,6 +30,7 @@ class KasirBaseController extends Controller
 	/**
 	* @param $dependencies
 	*/
+    public $antriankasir;
 	public function __construct()
 	{
 		 $this->middleware('prolanisFlagging', ['only' => [
@@ -124,7 +126,7 @@ class KasirBaseController extends Controller
 				Terapi::where('id', $t['id'])->update([
 					'merek_id'          => $t['merek_id'],
 					'jumlah'            => $t['jumlah'],
-					'exp_date'          => convertToDatabaseFriendlyDateFormat( $t['exp_date'] ) ,
+					'exp_date'          => convertToDatabaseFriendlyDateFormatFromBulanTahun( $t['exp_date'] ) ,
 					'harga_beli_satuan' => $t['harga_beli_satuan'],
 					'harga_jual_satuan' => $t['harga_jual_satuan']
 				]);
@@ -184,28 +186,28 @@ class KasirBaseController extends Controller
 				$perbaikan->terapi     = Input::get('terapi1');
 				$perbaikan->save();
 			}
-			$antriankasir             = new AntrianKasir;
-			$antriankasir->periksa_id = $periksa_id;
-			$antriankasir->jam        = date('H:i:s');
-			$antriankasir->tanggal    = date('Y-m-d');
-			$antriankasir->save();
+			$this->antriankasir             = new AntrianKasir;
+			$this->antriankasir->periksa_id = $periksa_id;
+			$this->antriankasir->jam        = date('H:i:s');
+			$this->antriankasir->tanggal    = date('Y-m-d');
+			$this->antriankasir->save();
 
 			Antrian::where('antriable_type', 'App\Models\AntrianApotek')
 					->where('antriable_id', $antrianapotek->id)
 					->update([
 						'antriable_type' => 'App\Models\AntrianKasir',
-						'antriable_id' => $antriankasir->id
+						'antriable_id' => $this->antriankasir->id
 					]);
 			PengantarPasien::where('antarable_type', 'App\Models\AntrianApotek')
 					->where('antarable_id', $antrianapotek->id)
 					->update([
 						'antarable_type' => 'App\Models\AntrianKasir',
-						'antarable_id'   => $antriankasir->id
+						'antarable_id'   => $this->antriankasir->id
 					]);
 			$antrianapotek->delete();
 			$apc = new AntrianPolisController;
 			$apc->updateJumlahAntrian(false, null);
-
+            $this->infokanPasienBahwaObatSelesaiDiracik();
 			DB::commit();
 			return redirect('antrianapoteks')
 				->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'))
@@ -342,4 +344,64 @@ class KasirBaseController extends Controller
 		return json_encode($terapis_baru);
 	}
 
+    public function getExpDates(){
+        $rak_id = Input::get('rak_id');
+        $tenant_id = session()->get('tenant_id');
+        $query  = "SELECT ";
+        $query .= "DATE_FORMAT(trp.exp_date, \"%Y-%m\") as exp_date ";
+        $query .= "FROM terapis as trp ";
+        $query .= "JOIN mereks as mrk on mrk.id = trp.merek_id ";
+        $query .= "WHERE mrk.rak_id = {$rak_id} ";
+        $query .= "AND trp.exp_date is not null ";
+        $query .= "AND trp.tenant_id = {$tenant_id} ";
+        $query .= "group by trp.exp_date ";
+        $query .= "order by trp.exp_date desc";
+        $data = DB::select($query);
+
+        $exp_dates = [];
+        foreach ($data as $d) {
+            $exp_dates[] = $d->exp_date;
+        }
+
+        $query  = "SELECT ";
+        $query .= "DATE_FORMAT(pmb.exp_date, \"%Y-%m\") as exp_date ";
+        $query .= "FROM pembelians as pmb ";
+        $query .= "JOIN mereks as mrk on mrk.id = pmb.merek_id ";
+        $query .= "WHERE mrk.rak_id = {$rak_id} ";
+        $query .= "AND pmb.exp_date > now() ";
+        $query .= "AND pmb.tenant_id = {$tenant_id} ";
+        $query .= "AND pmb.exp_date is not null ";
+        $query .= "group by pmb.exp_date ";
+        $query .= "order by pmb.exp_date desc";
+        $data = DB::select($query);
+
+        foreach ($data as $d) {
+            $exp_dates[] = $d->exp_date;
+        }
+        return array_values(array_unique($exp_dates));
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+
+    private function infokanPasienBahwaObatSelesaiDiracik()
+    {
+        if (
+             !is_null( $this->antriankasir->antrian ) &&
+             !empty( $this->antriankasir->antrian->no_telp )
+        ) {
+            $message .= 'Obat pasien atas nama ' . $this->antriankasir->pasien->nama .' sudah selesai diracik';
+            $message .= PHP_EOL;
+            $message .= 'Anda dapat mengambil obat tersebut di ruang farmasi';
+            $message .= PHP_EOL;
+            $message .= 'Terima kasih';
+
+            $wablas = new WablasController;
+            $wablas->sendSingle($this->antriankasir->antrian->no_telp, $message);
+        }
+    }
+    
+    
 }

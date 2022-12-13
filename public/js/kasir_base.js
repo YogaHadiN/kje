@@ -283,22 +283,22 @@ function caretDown(control) {
     }
 }
 function expDateChange(control) {
-    if (noEarlierThanNextMonth(control)) {
-        var key = $(control).closest("tr").find(".key").html();
-        var terapi = parseTerapi();
-        terapi[key].exp_date = $(control).val();
-        $("#terapi1").val(JSON.stringify(terapi));
-        $("#terapi2").val(JSON.stringify(terapi));
-    } else {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text:
-                "Obat sudah kadaluarsa tidak bisa digunakan lagi, maksimal kadalursa tanggal " +
-                $("#tanggal_satu_bulan_depan").val(),
-        });
-        $(control).val("");
-    }
+    // if (noEarlierThanNextMonth(control)) {
+    //     var key = $(control).closest("tr").find(".key").html();
+    //     var terapi = parseTerapi();
+    //     terapi[key].exp_date = $(control).val();
+    //     $("#terapi1").val(JSON.stringify(terapi));
+    //     $("#terapi2").val(JSON.stringify(terapi));
+    // } else {
+    //     Swal.fire({
+    //         icon: "error",
+    //         title: "Oops...",
+    //         text:
+    //             "Obat sudah kadaluarsa tidak bisa digunakan lagi, maksimal kadalursa tanggal " +
+    //             $("#tanggal_satu_bulan_depan").val(),
+    //     });
+    //     $(control).val("");
+    // }
 }
 function noEarlierThanNextMonth(control) {
     var dateOneNextMonth = new Date($("#tanggal_satu_bulan_depan").val());
@@ -312,6 +312,16 @@ function noEarlierThanNextMonth(control) {
 }
 function convertToDatabaseFriendlyDateFormat(date) {
     return date.split("-").reverse().join("-");
+}
+function focusExpDate(control) {
+    var rak_id = $(control).closest("tr").find(".rak_id").html();
+    $.get(
+        base + "/kasir/get/tanggal_kadaluarsa",
+        { rak_id: rak_id },
+        function (data, textStatus, jqXHR) {
+            $(control).typeahead({ source: data });
+        }
+    );
 }
 
 $(".touchspin").TouchSpin({

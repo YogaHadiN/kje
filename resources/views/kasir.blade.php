@@ -130,6 +130,9 @@
 									<thead>
 										<tr>
 											<th class="hide">key/th>
+											<th class="hide">id/th>
+											<th class="hide">rak_id/th>
+											<th class="hide">merek_id/th>
 											<th>Merek Obat</th>
 											<th>Signa</th>
 											<th>Jumlah</th>
@@ -145,6 +148,9 @@
 										@foreach ($terapis as $key => $terapi)
 											<tr>
 												<td class="hide key">{!! $key !!}</td>
+                                                <td class="hide id">{!! $terapi->id !!}</td>
+                                                <td class="hide rak_id">{!! $terapi->merek->rak_id !!}</td>
+                                                <td class="hide merek_id">{!! $terapi->merek_id !!}</td>
 												<td>
 													<select name="" id="ddlMerekChange" class="form-control merek_jual" onchange="ddlOnChange(this);return false;">
 														@foreach ($terapi->merek->rak->formula->merek_banyak as $ky => $mrk_id)
@@ -176,10 +182,13 @@
                                                     ]) !!}
 												</td>
                                                 <td>
+                                                    @if($terapi->adaKadaluarsa)
                                                     {!! Form::text('exp_date', $terapi->exp_date, [
-                                                        'class' => 'form-control rq tanggal',
+                                                        'class' => 'form-control rq exp_date',
                                                         'onchange' => 'expDateChange(this);return false',
+                                                        'onfocus' => 'focusExpDate(this);return false;'
                                                     ]) !!}
+                                                    @endif
 												</td>
 												<td class='uang harga_satuan'>
                                                     @if($periksa->asuransi->tipe_asuransi_id == '5')
@@ -348,6 +357,7 @@
 @stop
 @section('footer') 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-touchspin/4.3.0/jquery.bootstrap-touchspin.min.js" integrity="sha512-0hFHNPMD0WpvGGNbOaTXP0pTO9NkUeVSqW5uFG2f5F9nKyDuHE3T4xnfKhAhnAZWZIO/gBLacwVvxxq0HuZNqw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" integrity="sha512-HWlJyU4ut5HkEj0QsK/IxBCY55n5ZpskyjVlAoV9Z7XQwwkqXoYdCIC93/htL3Gu5H3R4an/S0h2NXfbZk3g7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   var base = "{!! url('/') !!}";
 </script>

@@ -624,48 +624,39 @@ class WablasController extends Controller
 		];
 	}
 	public function bulkSend($bulkMessage){
-		/* $curl = curl_init(); */
-		/* $payload = [ */
-		/* 	"data" => $bulkMessage */
-		/* ]; */
+        $curl = curl_init();
+        $token =env('WABLAS_TOKEN');
+        $random = true;
 
-		/* curl_setopt($curl, CURLOPT_HTTPHEADER, */
-		/* 	array( */
-		/* 		"Authorization: ". env('WABLAS_TOKEN'), */
-		/* 		"Content-Type: application/json" */
-		/* 	) */
-		/* ); */
-		/* curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST"); */
-		/* curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); */
-		/* curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) ); */
-		/* curl_setopt($curl, CURLOPT_URL, "https://console.wablas.com/api/v2/send-bulk/text"); */
-		/* curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0); */
-		/* curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0); */
-		/* $result = curl_exec($curl); */
+        /* $bulkMessage = [ */
+        /*         [ */
+        /*             'phone' => '6281218xxxxxx', */
+        /*             'message' => 'hello there', */
+        /*         ], */
+        /*         [ */
+        /*             'phone' => '6281218xxxxxx', */
+        /*             'message' => 'hello there', */
+        /*         ] */
+        /*     ]; */
+        $payload = [ "data" => $bulkMessage ];
 
-		/* curl_close($curl); */
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+            array(
+                "Authorization: $token",
+                "Content-Type: application/json"
+            )
+        );
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
+        curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/v2/send-message");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 
-		$curl    = curl_init();
-		$token   = env('WABLAS_TOKEN');
-		$payload = [
-			"data" => $bulkMessage
-		];
-		curl_setopt($curl, CURLOPT_HTTPHEADER,
-			array(
-				"Authorization: $token",
-				"Content-Type: application/json"
-			)
-		);
-		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
-		curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/v2/send-message");
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-
-		$result = curl_exec($curl);
-		echo "<pre>";
-		print_r($result);	curl_close($curl);
+        $result = curl_exec($curl);
+        curl_close($curl);
+        echo "<pre>";
+        print_r($result);
 	}
 
     public function sendButton($data){

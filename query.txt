@@ -1,6 +1,1 @@
-<form method="POST" action="' + base + '/bayar_gajis/' + id + '" accept-charset="UTF-8">
-    <input name="_method" type="hidden" value="DELETE" autocomplete="off">
-    <input name="_token" type="hidden" value="' + token + '" autocomplete="off">
-
-    <input class="btn btn-danger btn-xs" onclick="return confirm("Anda yakin mau menghapus gaji' + nama_staf +' ");return false;" type="submit" value="Delete" autocomplete="off">
-</form>
+select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'merek_id' order by TABLE_NAME

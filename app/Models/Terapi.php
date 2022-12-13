@@ -49,7 +49,15 @@ class Terapi extends Model{
     public function dispens(){
         return $this->morphMany('App\Models\Dispensing', 'dispensable');
     }
-
-
-
+    public function getAdaKadaluarsaAttribute(){
+        if (
+            str_contains( strtolower($this->merek->merek) , 'kertas puyer') ||
+            strtolower($this->merek->merek) == 'add sirup' ||
+            strtolower($this->signa) == 'add' ||
+            strtolower($this->signa) == 'puyer'
+        ) {
+            return false;
+        }
+        return true;
+    }
 }

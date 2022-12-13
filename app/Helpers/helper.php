@@ -240,6 +240,16 @@ if (!function_exists('convertToDatabaseFriendlyDateFormat')) {
     }
 }
 
+if (!function_exists('convertToDatabaseFriendlyDateFormatFromBulanTahun')) {
+    function convertToDatabaseFriendlyDateFormatFromBulanTahun($value) {
+        if (!empty($value)) {
+            return $value. '-01';
+        }
+        return null;
+    }
+}
+
+
 if (!function_exists('cleanUang')) {
     function cleanUang($str) {
         if ( is_numeric($str) ) {

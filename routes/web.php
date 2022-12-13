@@ -721,6 +721,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('poli/ajax/panggil_pasien', [\App\Http\Controllers\PolisController::class, 'panggilPasienAjax']);
 
 	Route::get('kasir/{id}', [\App\Http\Controllers\KasirBaseController::class, 'kasir']);
+	Route::get( 'kasir/get/tanggal_kadaluarsa', [\App\Http\Controllers\KasirBaseController::class, 'getExpDates']);
+
 	Route::post('kasir/onchange', [\App\Http\Controllers\KasirBaseController::class, 'onchange']);
 	Route::post('kasir/changemerek', [\App\Http\Controllers\KasirBaseController::class, 'changemerek']);
 	Route::post('kasir/updatejumlah', [\App\Http\Controllers\KasirBaseController::class, 'updatejumlah']);
