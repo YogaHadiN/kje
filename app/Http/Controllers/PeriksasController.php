@@ -7,6 +7,7 @@ use Input;
 use App\Http\Requests;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Validation\Rule;
 use Log;
 use App\Models\Promo;
 use App\Models\JenisTarif;
@@ -100,13 +101,15 @@ class PeriksasController extends Controller
 	 */
 	public function store()
 	{
+        /* dd(Input::all()); */ 
+        /* dd( Input::get('bb'),  $this->terapiRacikan( Input::get('terapi'), Input::get('bb') )  ); */
 		DB::beginTransaction();
 		try {
             $rules = [
               "kecelakaan_kerja"   => "required",
               "asuransi_id"        => "required",
               "hamil"              => "required",
-              "bb"              => [ "nullable", new BBHarusDiisiKalauAdaPuyer( Input::get('terapi') )],
+              "bb"                 => Rule::requiredIf( $this->terapiRacikan( Input::get('terapi'), Input::get('bb') ) ),
               /* "staf_id"            => [ "required", new StafHarusDiDalamTenant], */
               "kali_obat"          => "required",
               "pasien_id"          => "required",
@@ -121,7 +124,9 @@ class PeriksasController extends Controller
               "diagnosa_id"        => "required"
             ];
             
-            $validator = \Validator::make(Input::all(), $rules);
+            $validator = \Validator::make(Input::all(), $rules,[
+                'bb.required' => 'Berat badan harus diisi apabila berbentuk puyer atau sirup racikan'
+            ]);
             if ($validator->fails())
             {
                 return \Redirect::back()->withErrors($validator)->withInput();
@@ -1444,5 +1449,27 @@ class PeriksasController extends Controller
             ($this->asuransi->id == 0 || $this->asuransi->tipe_asuransi_id == '3') && // dengan tipe asuransi biaya pribadi dan admedika
             $jam_malam_belum_diinput;
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function terapiRacikan($terapi, $value)
+    {
+        $terapis = json_decode( $terapi, true );
+        $racikan_available = false;
+        foreach ($terapis as $terapi) {
+            if (
+                 strtolower($terapi['signa']) == 'puyer' ||
+                 strtolower($terapi['signa']) == 'add' 
+            ) {
+                $racikan_available = true;
+            }
+        }
+
+        return $racikan_available;
+    }
+    
     
 }

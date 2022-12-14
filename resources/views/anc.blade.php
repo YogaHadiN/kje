@@ -181,11 +181,15 @@
 				</div>
 			</div>
 			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-				
 				<div class="form-group @if($errors->has('bb'))has-error @endif">
 				  {!! Form::label('bb', 'Berat Badan', ['class' => 'control-label']) !!}
 					 <div class="input-group">
-						{!! Form::text('bb', $bb, ['class' => 'form-control', 'aria-describedby' => 'addonbb', 'dir' => 'rtl'])!!}
+                         {!! Form::text('bb', $bb, [
+                            'class'            => 'form-control',
+                            'aria-describedby' => 'addonbb',
+                            'id'               => 'bb_form',
+                            'dir'              => 'rtl'
+                         ])!!}
 	                    <span class="input-group-addon" id="addonbb">kg</span>
 				 	</div>
 				  @if($errors->has('bb'))<code>{{ $errors->first('bb') }}</code>@endif

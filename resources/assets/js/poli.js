@@ -3055,3 +3055,8 @@ function updatePlafon(dibayar_bpjs) {
     );
     $("#obat_dibayar_bpjs").val(sisa_plafon);
 }
+function changeBB(control) {
+    var bb = $(control).val();
+    $("#bb_form").val(bb);
+    console.log(bb);
+}

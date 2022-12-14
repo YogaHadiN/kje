@@ -126,9 +126,7 @@
 @endif
 <div class="panel panel-default">
     <div class="panel-body">
-        <!-- Tab panes -->
         <div role="tabpanel">
-        <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist" id='tab2panel'>
                 <li role="presentation" class="active">
                     <a href="#status" aria-controls="status" role="tab" data-toggle="tab" id="tab-status">Status</a>
@@ -416,7 +414,6 @@
 																</div>
 															</td>
 														</tr>
-														
 													</tbody>
 												</table>
 											</div>
@@ -671,4 +668,3 @@
 	@include('ruangperiksas.cekfoto')
 @endif
 <div></div>
-<!-- Modal -->

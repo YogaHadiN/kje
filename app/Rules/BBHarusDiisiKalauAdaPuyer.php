@@ -28,15 +28,24 @@ class BBHarusDiisiKalauAdaPuyer implements Rule
     public function passes($attribute, $value)
     {
         $terapis = json_decode( $this->terapi, true );
+        /* dd( $terapis ); */
         $racikan_available = false;
         foreach ($terapis as $terapi) {
             if (
-                 strtolower($terapi['signa']) == 'signa' ||
+                 strtolower($terapi['signa']) == 'puyer' ||
                  strtolower($terapi['signa']) == 'add' 
             ) {
                 $racikan_available = true;
             }
         }
+        /* dd($racikan_available ); */
+        /* dd($value); */
+        /* dd(!empty($value)); */
+
+        dd(
+            $racikan_available,
+            !empty($value)
+        );
 
         return ( $racikan_available && !empty($value) ) || !$racikan_available ;
     }
@@ -48,6 +57,6 @@ class BBHarusDiisiKalauAdaPuyer implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Berat Badan harus diisi apabila ada resep racikan';
     }
 }

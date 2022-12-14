@@ -23,7 +23,7 @@
                 <div class="form-group">
                      <div class="input-group">
                         <span class="input-group-addon">BB</span>
-                        <input type="text" class="form-control " id="bb_input" placeholder="" aria-describedby="addonBB" autocomplete='off' value="{!! $berat_badan_input !!}"/>
+                        <input type="text" onkeyup="changeBB(this);return false;" class="form-control " id="bb_input" placeholder="" aria-describedby="addonBB" autocomplete='off' value="{!! $berat_badan_input !!}"/>
                         <span class="input-group-addon">kg</span>
                     </div>
                     <input type="text" id="bb_aktif" autocomplete='off' class="hide">
