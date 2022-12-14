@@ -137,7 +137,9 @@
                                     <th>Signa</th>
                                     <th>Jumlah</th>
                                     <th>Cunam</th>
-                                    <th>Exp Date</th>
+                                    @if(\Auth::user()->tenant->exp_date_validation_available)
+                                        <th>Exp Date</th>
+                                    @endif
                                     <th>Satuan</th>
                                     <th>Biaya</th>
                                     <th class="hide">jumlah</th>
@@ -181,17 +183,20 @@
                                                 'placeholder' => '- Pilih Cunam -'
                                             ]) !!}
                                         </td>
-                                        <td>
-                                            @if(
-                                                $terapi->adaKadaluarsa &&
-                                                \Auth::user()->tenant->exp_date_validation_available
-                                                )
-                                            {!! Form::text('exp_date', $terapi->exp_date, [
-                                                'class' => 'form-control rq exp_date',
-                                                'onchange' => 'expDateChange(this);return false',
-                                                'onfocus' => 'focusExpDate(this);return false;'
-                                            ]) !!}
-                                            @endif
+                                        @if(\Auth::user()->tenant->exp_date_validation_available)
+                                            <td>
+                                                @if(
+                                                    $terapi->adaKadaluarsa &&
+                                                    \Auth::user()->tenant->exp_date_validation_available
+                                                    )
+                                                {!! Form::text('exp_date', $terapi->exp_date, [
+                                                    'class' => 'form-control rq exp_date',
+                                                    'onchange' => 'expDateChange(this);return false',
+                                                    'onfocus' => 'focusExpDate(this);return false;'
+                                                ]) !!}
+                                                @endif
+                                            </td>
+                                        @endif
                                         </td>
                                         <td class='uang harga_satuan'>
                                             @if($periksa->asuransi->tipe_asuransi_id == '5')
