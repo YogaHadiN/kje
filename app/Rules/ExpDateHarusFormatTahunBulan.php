@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Auth;
 
 class ExpDateHarusFormatTahunBulan implements Rule
 {
@@ -26,17 +27,18 @@ class ExpDateHarusFormatTahunBulan implements Rule
     public function passes($attribute, $value)
     {
         $terapi = json_decode($value, true);
-
         $valid_format = true;
-        foreach ($terapi as $t) {
-            if (
-                isset($t['exp_date']) &&
-                !empty($t['exp_date']) 
-            ) {
-                try {
-                    Carbon::createFromFormat('Y-m', $t['exp_date']);
-                } catch (\Exception $e) {
-                    $valid_format = false;
+        if ( Auth::user()->tenant->exp_date_validation_available ) {
+            foreach ($terapi as $t) {
+                if (
+                    isset($t['exp_date']) &&
+                    !empty($t['exp_date']) 
+                ) {
+                    try {
+                        Carbon::createFromFormat('Y-m', $t['exp_date']);
+                    } catch (\Exception $e) {
+                        $valid_format = false;
+                    }
                 }
             }
         }

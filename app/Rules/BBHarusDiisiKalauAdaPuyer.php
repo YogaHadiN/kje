@@ -12,7 +12,7 @@ class BBHarusDiisiKalauAdaPuyer implements Rule
      * @return void
      */
 
-    public $terapi
+    public $terapi;
     public function __construct($terapi)
     {
         $this->terapi = $terapi;
@@ -27,7 +27,18 @@ class BBHarusDiisiKalauAdaPuyer implements Rule
      */
     public function passes($attribute, $value)
     {
-        dd( $terapi );
+        $terapis = json_decode( $this->terapi, true );
+        $racikan_available = false;
+        foreach ($terapis as $terapi) {
+            if (
+                 strtolower($terapi['signa']) == 'signa' ||
+                 strtolower($terapi['signa']) == 'add' 
+            ) {
+                $racikan_available = true;
+            }
+        }
+
+        return ( $racikan_available && !empty($value) ) || !$racikan_available ;
     }
 
     /**
