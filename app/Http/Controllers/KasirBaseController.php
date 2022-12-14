@@ -131,7 +131,6 @@ class KasirBaseController extends Controller
 
 		DB::beginTransaction();
 		try {
-
 			$terapi1        = Input::get('terapi1');
 			$terapi1        = json_decode($terapi1, true);
 			$array          = [];

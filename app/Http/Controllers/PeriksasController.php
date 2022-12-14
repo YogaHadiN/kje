@@ -106,7 +106,7 @@ class PeriksasController extends Controller
               "kecelakaan_kerja"   => "required",
               "asuransi_id"        => "required",
               "hamil"              => "required",
-              "bb"              => [ "required", new BBHarusDiisiKalauAdaPuyer( Input::get('terapi') )],
+              "bb"              => [ "nullable", new BBHarusDiisiKalauAdaPuyer( Input::get('terapi') )],
               /* "staf_id"            => [ "required", new StafHarusDiDalamTenant], */
               "kali_obat"          => "required",
               "pasien_id"          => "required",
