@@ -30,6 +30,7 @@ use App\Models\Terapi;
 use App\Models\Poli;
 use App\Models\Staf;
 use App\Rules\StafHarusDiDalamTenant;
+use App\Rules\BBHarusDiisiKalauAdaPuyer;
 use App\Models\Usg;
 use App\Models\RegisterAnc;
 use App\Models\GambarPeriksa;
@@ -105,6 +106,7 @@ class PeriksasController extends Controller
               "kecelakaan_kerja"   => "required",
               "asuransi_id"        => "required",
               "hamil"              => "required",
+              "bb"              => [ "required", new BBHarusDiisiKalauAdaPuyer( Input::get('terapi') )],
               /* "staf_id"            => [ "required", new StafHarusDiDalamTenant], */
               "kali_obat"          => "required",
               "pasien_id"          => "required",
