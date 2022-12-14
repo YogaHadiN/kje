@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
 		 Commands\JadwalPenyusutan::class,
-		 Commands\FollowUpPengobatanPasienDuaHariYangLalu::class,
+		 /* Commands\FollowUpPengobatanPasienDuaHariYangLalu::class, */
 		 Commands\smsUndanganprolanis::class,
 		 Commands\cronTest::class,
 		 Commands\smsLaporanHarian::class,
@@ -67,8 +67,8 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-		 $schedule->command('command:followuppengobatan')
-				  ->dailyAt('12:00');
+		 /* $schedule->command('command:followuppengobatan') */
+				  /* ->dailyAt('12:00'); */
 		 $schedule->command('cek:mutasi20terakhir')
 				  ->hourly();
 		 $schedule->command('whatsapp:prolanis_dm')
