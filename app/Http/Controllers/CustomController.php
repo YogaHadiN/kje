@@ -628,9 +628,13 @@ class CustomController extends Controller
 			/* $apc->updateJumlahAntrian(false, null); */
 			// masukkan kembali whatsapp_registration dengan periksa_id untuk customer surveyable_id
 			//
+
 			if (
 				isset($antrian) &&
-				!is_null($antrian->no_telp)
+				!is_null($antrian->no_telp) &&
+                !WhatsappSatisfactionSurvey::where('no_telp', $antrian->no_telp)
+                ->whereRaw("DATE_ADD( updated_at, interval 23 hour ) > '" . date('Y-m-d H:i:s') . "'")
+                ->exists()
 			) {
                 $whatsapp_survey             = new WhatsappSatisfactionSurvey;
                 $whatsapp_survey->antrian_id = $antrian->id ;

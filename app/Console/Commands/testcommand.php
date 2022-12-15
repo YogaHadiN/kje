@@ -120,10 +120,37 @@ class testcommand extends Command
 
 
     public function handle(){
-        WhatsappSatisfactionSurvey::create([
-            'no_telp'    => '6281381912803',
-            'antrian_id' => 1
-        ]);
+        $query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' and table_schema='jatielok' order by TABLE_NAME;";
+        $data = DB::select($query);
+
+        $deleted = 0;
+        foreach ($data as $d) {
+            /* dd( $d->TABLE_NAME ); */
+            $query  = "DELETE a ";
+            $query .= "FROM " . $d->TABLE_NAME ." as a ";
+            $query .= "JOIN periksas as prx on a.periksa_id = prx.id ";
+            $query .= "WHERE prx.staf_id = 11 ";
+            $query .= "AND prx.created_at like '2022-12%' ";
+            $deleted += DB::delete($query);
+        }
+
+        $table_names = [ 'antrians', 'berkas', 'dispensings', 'emails', 'gambar_periksas', 'jurnal_umums', 'pengantar_pasiens', 'penyusutans', 'personal_access_tokens', 'pph21s', 'promos', 'telpons', 'users' ];
+
+        foreach ($table_names as $d) {
+            /* dd( $d->TABLE_NAME ); */
+            $query  = "DELETE a ";
+            $query .= "FROM " . $d ." as a ";
+            $query .= "JOIN periksas as prx on a.periksa_id = prx.id ";
+            $query .= "WHERE prx.staf_id = 11 ";
+            $query .= "AND prx.created_at like '2022-12%' ";
+            $deleted += DB::delete($query);
+        }
+
+
+
+        dd( $deleted );
+
+
     }
     
     public function obatTenant()
