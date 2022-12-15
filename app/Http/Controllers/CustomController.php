@@ -599,10 +599,10 @@ class CustomController extends Controller
 				$hitung = $countPeriksaPakaiBpjs + $countAntarPakaiBpjs + $countKunjunganSakit;
 				if ($hitung < 1) {
 					$kunjungan_sakits[] = [
-                        'periksa_id'   => $periksa_id,
+                        'periksa_id' => $periksa_id,
                         'tenant_id'  => session()->get('tenant_id'),
-                        'created_at'   => $timestamp,
-                        'updated_at'   => $timestamp,
+                        'created_at' => $timestamp,
+                        'updated_at' => $timestamp,
 					];
 				}
 			}
@@ -653,7 +653,6 @@ class CustomController extends Controller
 				$message .= PHP_EOL;
 				$message .= PHP_EOL;
 				$message .= "Balas dengan angka *1,2 atau 3* sesuai urutan diatas";
-
 
                 $wablas = new WablasController;
                 $wablas->sendSingle($antrian->no_telp, $message);

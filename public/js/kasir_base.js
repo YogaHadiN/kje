@@ -283,35 +283,39 @@ function caretDown(control) {
     }
 }
 function expDateChange(control) {
-    // if (noEarlierThanNextMonth(control)) {
-    //     var key = $(control).closest("tr").find(".key").html();
-    //     var terapi = parseTerapi();
-    //     terapi[key].exp_date = $(control).val();
-    //     $("#terapi1").val(JSON.stringify(terapi));
-    //     $("#terapi2").val(JSON.stringify(terapi));
-    // } else {
-    //     Swal.fire({
-    //         icon: "error",
-    //         title: "Oops...",
-    //         text:
-    //             "Obat sudah kadaluarsa tidak bisa digunakan lagi, maksimal kadalursa tanggal " +
-    //             $("#tanggal_satu_bulan_depan").val(),
-    //     });
-    //     $(control).val("");
-    // }
+    var exp_date = $(control).val();
+    if (exp_date.length > 6) {
+        if (noEarlierThanNextMonth(control)) {
+            var key = $(control).closest("tr").find(".key").html();
+            var terapi = parseTerapi();
+            terapi[key].exp_date = $(control).val();
+            console.log("key, terapi", key, terapi);
+            $("#terapi1").val(JSON.stringify(terapi));
+            $("#terapi2").val(JSON.stringify(terapi));
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text:
+                    "Obat sudah kadaluarsa tidak bisa digunakan lagi, maksimal kadalursa tanggal " +
+                    $("#tanggal_satu_bulan_depan").val(),
+            });
+            $(control).val("");
+        }
+    }
 }
 function noEarlierThanNextMonth(control) {
     var dateOneNextMonth = new Date($("#tanggal_satu_bulan_depan").val());
     var expDate = new Date(
-        convertToDatabaseFriendlyDateFormat($(control).val())
+        convertToDatabaseFriendlyDateFormatFromBulanTahun($(control).val())
     );
     console.log("expDate", expDate);
     console.log("dateOneNextMonth", dateOneNextMonth);
     console.log("expDate < dateOneNextMonth", expDate < dateOneNextMonth);
     return expDate > dateOneNextMonth;
 }
-function convertToDatabaseFriendlyDateFormat(date) {
-    return date.split("-").reverse().join("-");
+function convertToDatabaseFriendlyDateFormatFromBulanTahun(date) {
+    return date + "-01";
 }
 function focusExpDate(control) {
     var rak_id = $(control).closest("tr").find(".rak_id").html();

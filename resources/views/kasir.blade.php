@@ -191,7 +191,7 @@
                                                     )
                                                 {!! Form::text('exp_date', $terapi->exp_date, [
                                                     'class' => 'form-control rq exp_date',
-                                                    'onchange' => 'expDateChange(this);return false',
+                                                    'onblur' => 'expDateChange(this);return false',
                                                     'onfocus' => 'focusExpDate(this);return false;'
                                                 ]) !!}
                                                 @endif

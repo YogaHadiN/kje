@@ -408,8 +408,10 @@ class KasirBaseController extends Controller
             $message = 'Obat pasien atas nama ';
             $message .= PHP_EOL;
             $message .= PHP_EOL;
-            $message .= '*' . $this->antriankasir->periksa->pasien->nama .' sudah selesai diracik* ';
+            $message .= '*' . ucwords($this->antriankasir->periksa->pasien->nama) .'* ';
             $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .= 'sudah selesai diracik';
             $message .= PHP_EOL;
             $message .= 'Anda dapat mengambil obat tersebut di ruang farmasi';
             $message .= PHP_EOL;
