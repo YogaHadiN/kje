@@ -155,6 +155,8 @@ class testcommand extends Command
             $query .= "AND prx.created_at like '2022-12%' ";
             $deleted += DB::delete($query);
         }
+
+        $deleted += Periksa::where('staf_id', 11)->where('created_at', 'like', '2022-12%')->delete();
         dd( $deleted );
     }
     
