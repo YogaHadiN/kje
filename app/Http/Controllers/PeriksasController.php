@@ -150,11 +150,17 @@ class PeriksasController extends Controller
                  !empty(  $this->antrianapotek->antrian->no_telp  ) &&
                  $this->antrianapotek->periksa->terapi != '[]'
             ) {
-                $message = 'Obat pasien atas nama ' . $periksa->pasien->nama .' Sedang dalam antrian racikan';
+                $message = 'Obat pasien atas nama ';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= $periksa->pasien->nama;
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= 'Sedang dalam antrian racikan';
                 $message .= PHP_EOL;
                 $message .= 'Kami membutuhkan waktu yang cukup agar tidak terjadi kesalahan dalam peracikan obat';
                 $message .= PHP_EOL;
-                $message .= 'Kakak dapat *menunggu di rumah* apabila berkenan. Dan kami akan memberitahukan melalui whatsapp apabila obat telah selesai diracik. Sehingga nanti kakak dapat mengambil sendiri apabila obat telah selesai diracik';
+                $message .= 'Kakak dapat menunggu di klinik, atau ditinggalkan dan kami akan memberitahukan melalui whatsapp apabila obat sudah selesai diracik';
                 $message .= PHP_EOL;
                 $message .= PHP_EOL;
                 $message .= '1. Saya Menunggu saja  di klinik';

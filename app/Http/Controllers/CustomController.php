@@ -149,7 +149,6 @@ class CustomController extends Controller
 		} else {
 			return '0';
 		}
-
 	}
 
 	public function kembali($id){
@@ -249,7 +248,6 @@ class CustomController extends Controller
      */
     public function survey_post()
     {
-
 		DB::beginTransaction();
 		try {
 			$periksa_id               = Input::get('periksa_id');
@@ -630,6 +628,10 @@ class CustomController extends Controller
 			/* $apc->updateJumlahAntrian(false, null); */
 			// masukkan kembali whatsapp_registration dengan periksa_id untuk customer surveyable_id
 			//
+            dd( 
+				isset($antrian) &&
+				!is_null($antrian->no_telp)
+             );
 			if (
 				isset($antrian) &&
 				!is_null($antrian->no_telp)
