@@ -14,7 +14,7 @@
 		@endif
 		@if (isset($antrian->no_telp))
 			<tr>
-				<td nowrap>Nomot Telepon</td>
+				<td nowrap>Nomor Telepon</td>
 				<td nowrap>{{ $antrian->no_telp }}</td>
 			</tr>
 		@endif

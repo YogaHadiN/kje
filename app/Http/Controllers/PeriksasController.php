@@ -16,6 +16,11 @@ use App\Models\Antrian;
 use App\Models\AntrianKasir;
 use App\Models\AntrianApotek;
 use App\Models\KuesionerMenungguObat;
+use App\Models\WhatsappRegistration;
+use App\Models\WhatsappComplaint;
+use App\Models\FailedTherapy;
+use App\Models\WhatsappSatisfactionSurvey;
+use App\Models\WhatsappRecoveryIndex;
 use App\Models\AntrianFarmasi;
 use App\Models\PesertaBpjsPerbulan;
 use App\Models\Berkas;
@@ -140,35 +145,37 @@ class PeriksasController extends Controller
             $periksa = $this->inputData($periksa);
 			DB::commit();
 
-            /* if ( */
-            /*      !is_null(  $this->antrianapotek->antrian  ) && */
-            /*      !empty(  $this->antrianapotek->antrian->no_telp  ) */
-            /* ) { */
-            /*     Log::info("Masuk nih"); */
-            /*     Log::info(  $this->antrianapotek->antrian  ); */
-            /*     Log::info(  $this->antrianapotek->antrian->no_telp  ); */
-            /*     $message .= 'Obat pasien atas nama ' . $periksa->pasien->nama .' Sedang dalam antrian racikan'; */
-            /*     $message .= PHP_EOL; */
-            /*     $message .= 'Kami membutuhkan waktu yang cukup agar tidak terjadi kesalahan dalam peracikan obat'; */
-            /*     $message .= PHP_EOL; */
-            /*     $message .= 'Kakak dapat *menunggu di rumah* apabila berkenan. Dan kami akan memberitahukan melalui whatsapp apabila obat telah selesai diracik. Sehingga nanti kakak dapat mengambil sendiri apabila obat telah selesai diracik'; */
-            /*     $message .= PHP_EOL; */
-            /*     $message .= PHP_EOL; */
-            /*     $message .= '1. Saya Menunggu saja  di klinik'; */
-            /*     $message .= PHP_EOL; */
-            /*     $message .= '2. Saya pergi dulu nanti kabari saya kalau obat sudah selesai diracik'; */
-            /*     $message .= PHP_EOL; */
-            /*     $message .= PHP_EOL; */
-            /*     $message .= 'Mohon untuk dapat membalas dengan angka *1 atau 2* sesuai urutan di atas'; */
+            if (
+                 !is_null(  $this->antrianapotek->antrian  ) &&
+                 !empty(  $this->antrianapotek->antrian->no_telp  ) &&
+                 $this->antrianapotek->periksa->terapi != '[]'
+            ) {
+                $message .= 'Obat pasien atas nama ' . $periksa->pasien->nama .' Sedang dalam antrian racikan';
+                $message .= PHP_EOL;
+                $message .= 'Kami membutuhkan waktu yang cukup agar tidak terjadi kesalahan dalam peracikan obat';
+                $message .= PHP_EOL;
+                $message .= 'Kakak dapat *menunggu di rumah* apabila berkenan. Dan kami akan memberitahukan melalui whatsapp apabila obat telah selesai diracik. Sehingga nanti kakak dapat mengambil sendiri apabila obat telah selesai diracik';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= '1. Saya Menunggu saja  di klinik';
+                $message .= PHP_EOL;
+                $message .= '2. Saya pergi dulu nanti kabari saya kalau obat sudah selesai diracik';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= 'Mohon untuk dapat membalas dengan angka *1 atau 2* sesuai urutan di atas';
             
-            /*     $kuesioner_menunggu_obat             = new KuesionerMenungguObat; */
-            /*     $kuesioner_menunggu_obat->antrian_id = $this->antrianapotek->antrian->id ; */
-            /*     $kuesioner_menunggu_obat->no_telp    = $this->antrianapotek->antrian->no_telp ; */
-            /*     $kuesioner_menunggu_obat->save(); */
+                $kuesioner_menunggu_obat             = new KuesionerMenungguObat;
+                $kuesioner_menunggu_obat->antrian_id = $this->antrianapotek->antrian->id ;
+                $kuesioner_menunggu_obat->no_telp    = $this->antrianapotek->antrian->no_telp ;
+                $kuesioner_menunggu_obat->save();
 
-            /*     $wablas = new WablasController; */
-            /*     $wablas->sendSingle($this->antrianapotek->antrian->no_telp, $message); */
-            /* } */ 
+
+                $this->hapusRegistrasiSelainKuesionerMenungguObat();
+
+
+                $wablas = new WablasController;
+                $wablas->sendSingle($this->antrianapotek->antrian->no_telp, $message);
+            } 
 
 
 			$banner_button = $this->banner_button($periksa);
@@ -1470,6 +1477,20 @@ class PeriksasController extends Controller
 
         return $racikan_available;
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function hapusRegistrasiSelainKuesionerMenungguObat()
+    {
+        WhatsappRegistration::where('no_telp', $this->no_telp)->delete();
+        WhatsappComplaint::where('no_telp', $this->no_telp)->delete();
+        FailedTherapy::where('no_telp', $this->no_telp)->delete();
+        WhatsappSatisfactionSurvey::where('no_telp', $this->no_telp)->delete();
+        WhatsappRecoveryIndex::where('no_telp', $this->no_telp)->delete();
+    }
+    
     
     
 }
