@@ -791,8 +791,8 @@ class WablasController extends Controller
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         $result = curl_exec($curl);
         curl_close($curl);
-        echo "<pre>";
-        print_r($result);
+        /* echo "<pre>"; */
+        /* print_r($result); */
     }
     /**
      * undocumented function
