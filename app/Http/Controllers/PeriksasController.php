@@ -170,7 +170,7 @@ class PeriksasController extends Controller
                 $kuesioner_menunggu_obat->save();
 
 
-                $this->hapusRegistrasiSelainKuesionerMenungguObat();
+                $this->hapusRegistrasiSelainKuesionerMenungguObat($this->antrianapotek->antrian->no_telp);
 
 
                 $wablas = new WablasController;
@@ -1482,13 +1482,13 @@ class PeriksasController extends Controller
      *
      * @return void
      */
-    private function hapusRegistrasiSelainKuesionerMenungguObat()
+    private function hapusRegistrasiSelainKuesionerMenungguObat($no_telp)
     {
-        WhatsappRegistration::where('no_telp', $this->no_telp)->delete();
-        WhatsappComplaint::where('no_telp', $this->no_telp)->delete();
-        FailedTherapy::where('no_telp', $this->no_telp)->delete();
-        WhatsappSatisfactionSurvey::where('no_telp', $this->no_telp)->delete();
-        WhatsappRecoveryIndex::where('no_telp', $this->no_telp)->delete();
+        WhatsappRegistration::where('no_telp', $no_telp)->delete();
+        WhatsappComplaint::where('no_telp', $no_telp)->delete();
+        FailedTherapy::where('no_telp', $no_telp)->delete();
+        WhatsappSatisfactionSurvey::where('no_telp', $no_telp)->delete();
+        WhatsappRecoveryIndex::where('no_telp', $no_telp)->delete();
     }
     
     
