@@ -16,6 +16,7 @@ use App\Models\Coa;
 use App\Models\AntrianKelengkapanDokumen;
 use App\Models\PembayaranBpjs;
 use App\Models\BelanjaPeralatan;
+use App\Models\WhatsappSatisfactionSurvey;
 use App\Models\Dm;
 use App\Models\HomeVisit;
 use App\Models\Pengeluaran;
@@ -118,24 +119,11 @@ class testcommand extends Command
 	public $gigi_buka = true;
 
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle(){
-        $data = [
-            [
-                'phone' => '6281381912803',
-                'message' => [
-                    'buttons' => ["button 1","button 2","button 3"],
-                    'content' => 'sending template message...',
-                    'footer' => 'footer template here',
-                ],
-            ]
-        ];
-        $wa = new WablasController;
-        $wa->sendButton($data);
+        WhatsappSatisfactionSurvey::create([
+            'no_telp'    => '6281381912803',
+            'antrian_id' => 1
+        ]);
     }
     
     public function obatTenant()
