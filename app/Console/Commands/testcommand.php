@@ -136,21 +136,26 @@ class testcommand extends Command
 
         $table_names = [ 'antrians', 'berkas', 'dispensings', 'emails', 'gambar_periksas', 'jurnal_umums', 'pengantar_pasiens', 'penyusutans', 'personal_access_tokens', 'pph21s', 'promos', 'telpons', 'users' ];
 
-        foreach ($table_names as $d) {
-            /* dd( $d->TABLE_NAME ); */
+        foreach ($table_names as $dt) {
+            $descs = DB::select('Desc ' . $dt);
+            $able_type = '';
+            $able_id = '';
+            foreach ($descs as $d) {
+                if ( str_contains( $d->Field  , 'able_type') ) {
+                    $able_type = $d->Field;
+                }
+                if ( str_contains( $d->Field  , 'able_id') ) {
+                    $able_id = $d->Field;
+                }
+            }
             $query  = "DELETE a ";
-            $query .= "FROM " . $d ." as a ";
-            $query .= "JOIN periksas as prx on a.periksa_id = prx.id ";
+            $query .= "FROM " . $dt ." as a ";
+            $query .= "JOIN periksas as prx on a." . $able_id . " = prx.id and " . $able_type . " = 'App\\\Models\\\Periksa' ";
             $query .= "WHERE prx.staf_id = 11 ";
             $query .= "AND prx.created_at like '2022-12%' ";
             $deleted += DB::delete($query);
         }
-
-
-
         dd( $deleted );
-
-
     }
     
     public function obatTenant()
