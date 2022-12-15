@@ -405,7 +405,11 @@ class KasirBaseController extends Controller
              !is_null( $this->antriankasir->antrian ) &&
              !empty( $this->antriankasir->antrian->no_telp )
         ) {
-            $message = 'Obat pasien atas nama ' . $this->antriankasir->periksa->pasien->nama .' sudah selesai diracik';
+            $message = 'Obat pasien atas nama ';
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .= '*' . $this->antriankasir->periksa->pasien->nama .' sudah selesai diracik* ';
+            $message .= PHP_EOL;
             $message .= PHP_EOL;
             $message .= 'Anda dapat mengambil obat tersebut di ruang farmasi';
             $message .= PHP_EOL;
