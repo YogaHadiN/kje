@@ -628,10 +628,6 @@ class CustomController extends Controller
 			/* $apc->updateJumlahAntrian(false, null); */
 			// masukkan kembali whatsapp_registration dengan periksa_id untuk customer surveyable_id
 			//
-            dd( 
-				isset($antrian) &&
-				!is_null($antrian->no_telp)
-             );
 			if (
 				isset($antrian) &&
 				!is_null($antrian->no_telp)
