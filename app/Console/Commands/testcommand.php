@@ -1,5 +1,6 @@
 <?php
 namespace App\Console\Commands;
+use Faker\Factory as Faker;
 use Illuminate\Console\Command;
 use Session;
 use App\Models\Outbox;
@@ -121,11 +122,40 @@ class testcommand extends Command
 
 
     public function handle(){
-        WhatsappRecoveryIndex::create([
-            'antrian_id' => '120695',
-            'no_telp' => '6281381912803'
-        ]);
+        $this->hapusPemeriksaanPercobaanByPasien(17809);
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function fakeAntrianPoli()
+    {
+        $faker = Faker::create();
+        $antrian_polis = [];
+
+        $timestamp = date('Y-m-d H:i:s');
+        foreach ( $this->semingguKeDepan() as $day) {
+            $antrian_polis[] = [
+                'pasien_id'        => $faker->randomDigitNotNull(),
+                'asuransi_id'      => $faker->randomDigitNotNull(),
+                'poli_id'          => 11,
+                'staf_id'          => $faker->randomDigitNotNull(),
+                'tanggal'          => $day,
+                'jam'              => $faker->time(),
+                'created_at'       => $timestamp,
+                'updated_at'       => $timestamp,
+                'kecelakaan_kerja' => rand(0,1),
+                'self_register'    => rand(0,1),
+                'bukan_peserta'    => rand(0,1),
+                'submitted'        => rand(0,1),
+                'tenant_id'        => 1
+            ];
+        }
+        AntrianPoli::insert($antrian_polis);
+    }
+    
     
     public function obatTenant()
     {
@@ -2096,6 +2126,47 @@ class testcommand extends Command
      *
      * @return void
      */
+    private function hapusPemeriksaanPercobaanByPasien($pasien_id)
+    {
+        $query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' and table_schema='jatielok' order by TABLE_NAME;";
+        $data = DB::select($query);
+
+        $deleted = 0;
+        foreach ($data as $d) {
+            /* dd( $d->TABLE_NAME ); */
+            $query  = "DELETE a ";
+            $query .= "FROM " . $d->TABLE_NAME ." as a ";
+            $query .= "JOIN periksas as prx on a.periksa_id = prx.id ";
+            $query .= "WHERE prx.pasien_id = {$pasien_id} ";
+            $query .= "AND prx.created_at like '2022-12%' ";
+            $deleted += DB::delete($query);
+        }
+
+        $table_names = [ 'antrians', 'berkas', 'dispensings', 'emails', 'gambar_periksas', 'jurnal_umums', 'pengantar_pasiens', 'penyusutans', 'personal_access_tokens', 'pph21s', 'promos', 'telpons', 'users' ];
+
+        foreach ($table_names as $dt) {
+            $descs = DB::select('Desc ' . $dt);
+            $able_type = '';
+            $able_id = '';
+            foreach ($descs as $d) {
+                if ( str_contains( $d->Field  , 'able_type') ) {
+                    $able_type = $d->Field;
+                }
+                if ( str_contains( $d->Field  , 'able_id') ) {
+                    $able_id = $d->Field;
+                }
+            }
+            $query  = "DELETE a ";
+            $query .= "FROM " . $dt ." as a ";
+            $query .= "JOIN periksas as prx on a." . $able_id . " = prx.id and " . $able_type . " = 'App\\\Models\\\Periksa' ";
+            $query .= "WHERE prx.pasien_id = {$pasien_id} ";
+            $query .= "AND prx.created_at like '2022-12%' ";
+            $deleted += DB::delete($query);
+        }
+
+        $deleted += Periksa::where('pasien_id', $pasien_id)->where('created_at', 'like', '2022-12%')->delete();
+        dd( $deleted );
+    }
     private function hapusPemeriksaanPercobaan($staf_id)
     {
         $query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' and table_schema='jatielok' order by TABLE_NAME;";
@@ -2137,7 +2208,15 @@ class testcommand extends Command
         $deleted += Periksa::where('staf_id', $staf_id)->where('created_at', 'like', '2022-12%')->delete();
         dd( $deleted );
     }
-    
-    
-    
+
+    public function semingguKeDepan()
+    {
+        $timestamp = strtotime('yesterday');
+        $days = [];
+        for ($i = 0; $i < 7; $i++) {
+            $days[] = strftime('%Y-%m-%d', $timestamp);
+            $timestamp = strtotime('+1 day', $timestamp);
+        }
+        return $days;
+    }
 }

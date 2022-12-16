@@ -16,11 +16,13 @@ class CreateWhatsappBpjsDentistRegistrationsTable extends Migration
         Schema::create('whatsapp_bpjs_dentist_registrations', function (Blueprint $table) {
             $table->id();
             $table->string('no_telp');
-            $table->integer('asuransi_id');
-            $table->integer('previously_registered_pasien_id');
-            $table->string('nama');
-            $table->string('tanggal_lahir');
-            $table->string('nomor_asuransi_bpjs');
+            $table->integer('registrasi_pembayaran_id')->nullable();
+            $table->date('tanggal_booking')->nullable();
+            $table->integer('register_previously_saved_patient')->nullable();
+            $table->integer('pasien_id')->nullable();
+            $table->string('nama')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('nomor_asuransi_bpjs')->nullable();
             $table->timestamps();
         });
     }
