@@ -7,6 +7,7 @@ use App\Models\Ht;
 use App\Models\Pembelian;
 use App\Models\User;
 use App\Models\Formula;
+use App\Models\WhatsappRecoveryIndex;
 use App\Models\Rak;
 use App\Models\Merek;
 use App\Models\Komposisi;
@@ -120,44 +121,10 @@ class testcommand extends Command
 
 
     public function handle(){
-        $query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' and table_schema='jatielok' order by TABLE_NAME;";
-        $data = DB::select($query);
-
-        $deleted = 0;
-        foreach ($data as $d) {
-            /* dd( $d->TABLE_NAME ); */
-            $query  = "DELETE a ";
-            $query .= "FROM " . $d->TABLE_NAME ." as a ";
-            $query .= "JOIN periksas as prx on a.periksa_id = prx.id ";
-            $query .= "WHERE prx.staf_id = 11 ";
-            $query .= "AND prx.created_at like '2022-12%' ";
-            $deleted += DB::delete($query);
-        }
-
-        $table_names = [ 'antrians', 'berkas', 'dispensings', 'emails', 'gambar_periksas', 'jurnal_umums', 'pengantar_pasiens', 'penyusutans', 'personal_access_tokens', 'pph21s', 'promos', 'telpons', 'users' ];
-
-        foreach ($table_names as $dt) {
-            $descs = DB::select('Desc ' . $dt);
-            $able_type = '';
-            $able_id = '';
-            foreach ($descs as $d) {
-                if ( str_contains( $d->Field  , 'able_type') ) {
-                    $able_type = $d->Field;
-                }
-                if ( str_contains( $d->Field  , 'able_id') ) {
-                    $able_id = $d->Field;
-                }
-            }
-            $query  = "DELETE a ";
-            $query .= "FROM " . $dt ." as a ";
-            $query .= "JOIN periksas as prx on a." . $able_id . " = prx.id and " . $able_type . " = 'App\\\Models\\\Periksa' ";
-            $query .= "WHERE prx.staf_id = 11 ";
-            $query .= "AND prx.created_at like '2022-12%' ";
-            $deleted += DB::delete($query);
-        }
-
-        $deleted += Periksa::where('staf_id', 11)->where('created_at', 'like', '2022-12%')->delete();
-        dd( $deleted );
+        WhatsappRecoveryIndex::create([
+            'antrian_id' => '120695',
+            'no_telp' => '6281381912803'
+        ]);
     }
     
     public function obatTenant()
@@ -2124,6 +2091,53 @@ class testcommand extends Command
         }
         dd( $deleted );
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function hapusPemeriksaanPercobaan($staf_id)
+    {
+        $query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' and table_schema='jatielok' order by TABLE_NAME;";
+        $data = DB::select($query);
+
+        $deleted = 0;
+        foreach ($data as $d) {
+            /* dd( $d->TABLE_NAME ); */
+            $query  = "DELETE a ";
+            $query .= "FROM " . $d->TABLE_NAME ." as a ";
+            $query .= "JOIN periksas as prx on a.periksa_id = prx.id ";
+            $query .= "WHERE prx.staf_id = {$staf_id} ";
+            $query .= "AND prx.created_at like '2022-12%' ";
+            $deleted += DB::delete($query);
+        }
+
+        $table_names = [ 'antrians', 'berkas', 'dispensings', 'emails', 'gambar_periksas', 'jurnal_umums', 'pengantar_pasiens', 'penyusutans', 'personal_access_tokens', 'pph21s', 'promos', 'telpons', 'users' ];
+
+        foreach ($table_names as $dt) {
+            $descs = DB::select('Desc ' . $dt);
+            $able_type = '';
+            $able_id = '';
+            foreach ($descs as $d) {
+                if ( str_contains( $d->Field  , 'able_type') ) {
+                    $able_type = $d->Field;
+                }
+                if ( str_contains( $d->Field  , 'able_id') ) {
+                    $able_id = $d->Field;
+                }
+            }
+            $query  = "DELETE a ";
+            $query .= "FROM " . $dt ." as a ";
+            $query .= "JOIN periksas as prx on a." . $able_id . " = prx.id and " . $able_type . " = 'App\\\Models\\\Periksa' ";
+            $query .= "WHERE prx.staf_id = {$staf_id} ";
+            $query .= "AND prx.created_at like '2022-12%' ";
+            $deleted += DB::delete($query);
+        }
+
+        $deleted += Periksa::where('staf_id', $staf_id)->where('created_at', 'like', '2022-12%')->delete();
+        dd( $deleted );
+    }
+    
     
     
 }
