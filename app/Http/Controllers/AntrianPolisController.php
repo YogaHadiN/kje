@@ -467,7 +467,8 @@ class AntrianPolisController extends Controller
                     $message .= "Berhasil kami daftarkan";
                     $message .= PHP_EOL;
                     $message .= PHP_EOL;
-                    $message .= "Nama : " . $ap->pasien->nama;
+                    $message .= ucwords($ap->pasien->nama);
+                    $message .= PHP_EOL;
                     $message .= PHP_EOL;
                     $message .= "Pembayaran : " . $ap->asuransi->nama;
                     $message .= PHP_EOL;

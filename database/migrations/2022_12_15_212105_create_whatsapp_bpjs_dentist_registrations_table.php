@@ -23,6 +23,7 @@ class CreateWhatsappBpjsDentistRegistrationsTable extends Migration
             $table->string('nama')->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('nomor_asuransi_bpjs')->nullable();
+            $table->tinyInteger('data_konfirmation')->default(0);
             $table->timestamps();
         });
     }

@@ -421,6 +421,8 @@ class KasirBaseController extends Controller
             $message .= PHP_EOL;
             $message .= 'Terima kasih';
 
+            resetWhatsappRegistration( $this->antriankasir->antrian->no_telp );
+
             $wablas = new WablasController;
             $wablas->sendSingle($this->antriankasir->antrian->no_telp, $message);
         }

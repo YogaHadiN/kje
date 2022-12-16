@@ -122,7 +122,7 @@ class testcommand extends Command
 
 
     public function handle(){
-        $this->hapusPemeriksaanPercobaanByPasien(17809);
+        $this->fakeAntrianPoli();
     }
 
     /**
@@ -140,7 +140,22 @@ class testcommand extends Command
             $antrian_polis[] = [
                 'pasien_id'        => $faker->randomDigitNotNull(),
                 'asuransi_id'      => $faker->randomDigitNotNull(),
-                'poli_id'          => 11,
+                'poli_id'          => 4,
+                'staf_id'          => $faker->randomDigitNotNull(),
+                'tanggal'          => $day,
+                'jam'              => $faker->time(),
+                'created_at'       => $timestamp,
+                'updated_at'       => $timestamp,
+                'kecelakaan_kerja' => rand(0,1),
+                'self_register'    => rand(0,1),
+                'bukan_peserta'    => rand(0,1),
+                'submitted'        => rand(0,1),
+                'tenant_id'        => 1
+            ];
+            $antrian_polis[] = [
+                'pasien_id'        => $faker->randomDigitNotNull(),
+                'asuransi_id'      => $faker->randomDigitNotNull(),
+                'poli_id'          => 4,
                 'staf_id'          => $faker->randomDigitNotNull(),
                 'tanggal'          => $day,
                 'jam'              => $faker->time(),
