@@ -346,7 +346,14 @@ border-spacing: -1px;
 				</td>
 
 				<td class="content2 half">
-					<strong>RESEP :</strong>
+					<strong>RESEP : 
+                        @if( 
+                            !is_null($periksa->antrian) &&
+                            !$periksa->antrian->menunggu
+                            )
+                            (Pasien menungu di rumah)
+                        @endif
+                    </strong>
 					{!! $periksa->terapi_htmlll !!}
                    @if (!empty($periksa->resepluar))
                        Resep ditebut di apotek di Luar : <br>

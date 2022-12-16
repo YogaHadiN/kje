@@ -57,9 +57,16 @@
 					<tr>
 						<td colspan="2" class="text-center">{{ ucwords($printed_nama) }} ({{ $periksa->pasien->usia }} th)</td>
 					</tr>
-					<tr>
-						<td colspan="2" class="text-center">{{ $terapi->merek->merek }} ({{ $terapi->jumlah }})</td>
+					
+                    @if(
+                        !str_contains(strtolower($terapi->merek->merek), 'puyer'  ) &&
+                        !str_contains(strtolower($terapi->merek->merek), 'add'  )
+                    )
+                    <tr>
+                        <td colspan="2" class="text-center">{{ $terapi->merek->merek }} ({{ $terapi->jumlah }})</td>
 					</tr>
+                    @endif
+
 					<tr>
 						<td colspan="2" class="h1 text-center">{{ trim( $terapi->signa ) }}</td>
 					</tr>
@@ -80,6 +87,13 @@
                     @if( !is_null( $terapi->exp_date ) )
                     <tr>
                         <td colspan="2" class="aturan_minum text-center"> exp date : {{ $terapi->exp_date->format('d M Y') }}</td>
+					</tr>
+                    @elseif(
+                        str_contains(strtolower($terapi->merek->merek), 'puyer'  ) ||
+                        str_contains(strtolower($terapi->merek->merek), 'add'  )
+                    )
+                    <tr>
+                        <td colspan="2" class="aturan_minum text-center"><i>Hanya dikonsumsi dalam 7 hari sejak diracik</i></td>
 					</tr>
                     @endif
 				</table>
