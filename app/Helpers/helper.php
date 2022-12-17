@@ -293,6 +293,7 @@ if (!function_exists('resetWhatsappRegistration')) {
      function resetWhatsappRegistration($no_telp) {
         \App\Models\WhatsappComplaint::where('no_telp', $no_telp)->delete();
         \App\Models\WhatsappRecoveryIndex::where('no_telp', $no_telp)->delete();
+        \App\Models\WhatsappMainMenu::where('no_telp', $no_telp)->delete();
         \App\Models\WhatsappSatisfactionSurvey::where('no_telp', $no_telp)->delete();
         \App\Models\FailedTherapy::where('no_telp', $no_telp)->delete();
         \App\Models\KuesionerMenungguObat::where('no_telp', $no_telp)->delete();
