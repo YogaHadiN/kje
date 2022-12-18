@@ -171,7 +171,7 @@ class PeriksasController extends Controller
                 $kuesioner_menunggu_obat             = new KuesionerMenungguObat;
                 $kuesioner_menunggu_obat->antrian_id = $this->antrianapotek->antrian->id ;
                 $kuesioner_menunggu_obat->no_telp    = $this->antrianapotek->antrian->no_telp ;
-                $kuesioner_menunggu_obat->save();
+                /* $kuesioner_menunggu_obat->save(); */
 
                 $this->hapusRegistrasiSelainKuesionerMenungguObat($this->antrianapotek->antrian->no_telp);
 
