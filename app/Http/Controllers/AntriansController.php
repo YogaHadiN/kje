@@ -67,16 +67,12 @@ class AntriansController extends Controller
     private function prosesData($antrian)
     {
         $antrian->nama = Input::get('nama');
-        $antrian->tanggal_lahir = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal_lahir'))->format('Y-m-d');
+        $antrian->tanggal_lahir = !empty( Input::get('tanggal_lahir')) ? Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal_lahir'))->format('Y-m-d') : null;
         $antrian->nomor_bpjs = Input::get('nomor_bpjs');
         $antrian->no_telp = convertToWablasFriendlyFormat( Input::get('no_telp') );
         $antrian->save();
         return $antrian;
     }
-    
-    
-    
-
 	public function destroy($id){
 		$antrian               = Antrian::with('jenis_antrian')->where('id', $id)->first();
         if (is_null($antrian)) {

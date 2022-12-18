@@ -46,6 +46,7 @@ use App\Models\DeletedPeriksa;
 class FasilitasController extends Controller
 {
 	public $input_nomor_bpjs;
+	public $antrian;
 
 	public function __construct(){
         $this->middleware('redirectBackIfIdAntrianNotFound', ['only' => ['prosesAntrian']]);
@@ -396,7 +397,7 @@ class FasilitasController extends Controller
 	}
     public function prosesAntrian($id)
     {
-		$antrian              = Antrian::with('jenis_antrian.poli_antrian.poli')->where('id', $id )->first();
+		$this->antrian              = Antrian::with('jenis_antrian.poli_antrian.poli')->where('id', $id )->first();
 		$nama_pasien          = '';
 		$pasien_id            = '';
 		$tanggal_lahir_pasien = '';
@@ -408,7 +409,7 @@ class FasilitasController extends Controller
 
 		try {
 
-			$pasien               = Pasien::where('nomor_asuransi_bpjs', $antrian->nomor_bpjs)->firstOrFail();
+			$pasien               = Pasien::where('nomor_asuransi_bpjs', $this->antrian->nomor_bpjs)->firstOrFail();
 			$nama_pasien          = $pasien->nama;
 			$pasien_id            = $pasien->id;
 			$tanggal_lahir_pasien = $pasien->tanggal_lahir;
@@ -423,12 +424,9 @@ class FasilitasController extends Controller
 		}
 
 		$p                                                    = new PasiensController;
-		foreach ($antrian->jenis_antrian->poli_antrian as $k => $poli) {
-			$polis[ $poli->poli_id ]                          = $poli->poli->poli;
-		}
 
-		$p->dataIndexPasien['poli']                      = $polis;
-		$p->dataIndexPasien['antrian']                   = $antrian;
+		$p->dataIndexPasien['poli']                      = $this->populatePoli( $this->antrian );
+		$p->dataIndexPasien['antrian']                   = $this->antrian;
 		$p->dataIndexPasien['nama_pasien_bpjs']          = $nama_pasien;
 		$p->dataIndexPasien['pasien_id_bpjs']            = $pasien_id;
 		$p->dataIndexPasien['tanggal_lahir_pasien_bpjs'] = $tanggal_lahir_pasien;
@@ -482,6 +480,13 @@ class FasilitasController extends Controller
             $kode_unik = substr(str_shuffle(MD5(microtime())), 0, 5);
         }
         return $kode_unik;
+    }
+    public function populatePoli($antrian){
+        $polis = [];
+		foreach ($antrian->jenis_antrian->poli_antrian as $k => $poli) {
+			$polis[ $poli->poli_id ]                          = $poli->poli->poli;
+		}
+        return $polis;
     }
     
 }

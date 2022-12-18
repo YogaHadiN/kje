@@ -87,30 +87,7 @@ class PasiensController extends Controller
 	 * @return Response
 	 */
 	public function index()	{
-        $ps = new Pasien;
-        $this->dataIndexPasien['statusPernikahan']           = $ps->statusPernikahan();
-        $this->dataIndexPasien['asuransi_id_biaya_pribadi' ] = Asuransi::BiayaPribadi()->id;
-        $this->dataIndexPasien['asuransi_id_bpjs' ] = Asuransi::Bpjs()->id;
-        $this->dataIndexPasien['asuransi']                   = Yoga::asuransiList();
-        $this->dataIndexPasien['jenis_peserta']              = JenisPeserta::pluck('jenis_peserta');
-        $this->dataIndexPasien['peserta']                    = [
-                                                null => '- Pilih -',
-                                                '0'  => 'Peserta Klinik',
-                                                '1'  => 'Bukan Peserta Klinik'
-                                            ];
-        $poli_gawat_darurat = Poli::gawatDarurat();
-        $nursestation_available = Auth::user()->tenant->nursestation_availability ;
-        if (
-            !isset($this->dataIndexPasien['antrian']) 
-            &&  $nursestation_available
-        ) {
-            $this->dataIndexPasien['poli'] = [
-                $poli_gawat_darurat->id => $poli_gawat_darurat->poli
-            ];
-        } else if ( !$nursestation_available) {
-            $this->dataIndexPasien['poli'] = Poli::pluck('poli', 'id');
-        } 
-
+        $this->populateDataIndexPasien();
 		return view('pasiens.index', $this->dataIndexPasien);
 	}
 
@@ -875,6 +852,44 @@ class PasiensController extends Controller
             throw $e;
         }
     }
+    public function daftarkan($id){
+        $this->populateDataIndexPasien();
+        $this->dataIndexPasien['pasien'] = Pasien::find($id);
+        return view('antrianpolis.create', $this->dataIndexPasien );
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function populateDataIndexPasien()
+    {
+        $ps = new Pasien;
+        $this->dataIndexPasien['statusPernikahan']           = $ps->statusPernikahan();
+        $this->dataIndexPasien['asuransi_id_biaya_pribadi' ] = Asuransi::BiayaPribadi()->id;
+        $this->dataIndexPasien['asuransi_id_bpjs' ] = Asuransi::Bpjs()->id;
+        $this->dataIndexPasien['asuransi']                   = Yoga::asuransiList();
+        $this->dataIndexPasien['jenis_peserta']              = JenisPeserta::pluck('jenis_peserta');
+        $this->dataIndexPasien['peserta']                    = [
+                                                null => '- Pilih -',
+                                                '0'  => 'Peserta Klinik',
+                                                '1'  => 'Bukan Peserta Klinik'
+                                            ];
+        $poli_gawat_darurat = Poli::gawatDarurat();
+        $nursestation_available = Auth::user()->tenant->nursestation_availability ;
+        if (
+            !isset($this->dataIndexPasien['antrian']) 
+            &&  $nursestation_available
+        ) {
+            $this->dataIndexPasien['poli'] = [
+                $poli_gawat_darurat->id => $poli_gawat_darurat->poli
+            ];
+        } else if ( !$nursestation_available) {
+            $this->dataIndexPasien['poli'] = Poli::pluck('poli', 'id');
+        } 
+    }
+    
+    
     
     
     

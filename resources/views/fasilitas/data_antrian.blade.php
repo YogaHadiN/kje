@@ -60,7 +60,7 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             @if( $antrian->pasien_id )
-                <button  class="btn btn-primary btn-block">Proses</a>
+                <a href="{{ url('antrianpolis/' . $antrian->id . '/daftarkan') }}" class="btn btn-primary btn-block" target="_blank" >Proses</a>
             @endif
         </div>
     </div>

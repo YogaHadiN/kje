@@ -256,6 +256,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('antriankasirs/kembali/{id}', [\App\Http\Controllers\AntrianKasirsController::class, 'kembali']);
 	Route::resource('antriankasirs', \App\Http\Controllers\AntrianKasirsController::class);
 
+
+	Route::post('antrianpolis/{id}/daftarkan', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanPost']);
+
 	Route::resource('antrianpolis', \App\Http\Controllers\AntrianPolisController::class);
 
 	Route::get('pasiens/{id}/alergi', [\App\Http\Controllers\PasiensController::class, 'alergi']);
@@ -284,6 +287,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasiens/getTransaksi/{id}', [\App\Http\Controllers\PasiensController::class, 'getTransaksi']);
 	Route::get('pasien_dobel', [\App\Http\Controllers\PasiensController::class, 'dobel']);
 	Route::get('pasiens/riwayat/gula_darah/{id}', [\App\Http\Controllers\PasiensController::class, 'riwayat_pemeriksaan_gula_darah']);
+	Route::get('antrianpolis/{id}/daftarkan', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanAntrian']);
+
 	Route::resource('pasiens', \App\Http\Controllers\PasiensController::class);
 	Route::resource('periksas', \App\Http\Controllers\PeriksasController::class);
 

@@ -38,7 +38,7 @@ Klinik Jati Elok | Edit Antrian
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group @if($errors->has('tanggal_lahir')) has-error @endif">
                   {!! Form::label('tanggal_lahir',null, ['class' => 'control-label']) !!}
-                  {!! Form::text('tanggal_lahir' , $antrian? $antrian->tanggal_lahir->format('d-m-Y'):null, [
+                  {!! Form::text('tanggal_lahir' , $antrian->tanggal_lahir? $antrian->tanggal_lahir->format('d-m-Y'):null, [
                     'class' => 'form-control tanggal'
                   ]) !!}
                   @if($errors->has('tanggal_lahir'))<code>{!! $errors->first('tanggal_lahir') !!}</code>@endif

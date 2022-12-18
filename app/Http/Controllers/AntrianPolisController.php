@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use Storage;
 use App\Http\Controllers\AntrianPeriksasController;
 use App\Http\Controllers\WablasController;
+use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\PasiensController;
 use App\Events\FormSubmitted;
 use App\Models\Antrian;
 use App\Models\JenisAntrian;
@@ -53,7 +55,6 @@ class AntrianPolisController extends Controller
 		$this->input_staf_id       = Input::get('staf_id');
 		$this->input_tanggal       = Yoga::datePrep( Input::get('tanggal') );
 		$this->input_bukan_peserta = Input::get('bukan_peserta');
-        $this->asuransi_is_bpjs    = !empty( Input::get('asuransi_id') ) ? Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id == 5: false;
         $this->input_antrian = null;
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
     }
@@ -115,134 +116,8 @@ class AntrianPolisController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		DB::beginTransaction();
-		try {
-			$this->input_pasien           = Pasien::find(Input::get('pasien_id'));
-
-			/* Jika pasien belum difoto, arahkan ke search pasien */
-			if (
-				empty($this->input_pasien->image)
-			) {
-				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus dimasukkan terlebih dahulu');
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
-					->withPesan($pesan);
-			}
-			/* Jika pasien memiliki KTP dan nomor ktp belum diisi */
-			if (
-				!is_null( $this->input_pasien->ktp_image )  	// jika ktp_image tidak null
-				&& !empty( $this->input_pasien->ktp_image ) 	// jika ktp_image tidak empty
-				&& Storage::disk('s3')->exists( $this->input_pasien->ktp_image )  // ditemukan di database
-				&& (empty($this->input_pasien->nomor_ktp) || is_null($this->input_pasien->nomor_ktp))  // dan nomor ktp masih kogong
-			) {
-				$pesan = Yoga::gagalFlash('Nomor KTP harus diisi terlebih dahulu sebelum dilanjutkan, gunakan foto KTP'); // Nomor KTP harus diisi
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')->withPesan($pesan);
-			}
-
-			/* Jika pasien berusia kurang dari 15 tahun dan terakhir di update lebih dari satu tahun yang lalu, update foto pasien */
-			if (
-				$this->input_pasien->usia < 15 && // jika usia pasien kurang dari 15 tahun
-				Carbon::now()->subYears(1)->greaterThan( $this->input_pasien->updated_at )
-			) {
-				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 1 tahun');
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
-					->withPesan($pesan);
-			}
-
-			/* Jika pasien berusia lebih dari 15 tahun dan terakhir di update lebih dari 5 tahun yang lalu, update foto pasien */
-			if (
-				$this->input_pasien->usia > 15 && // jika usia pasien lebih dari 15 tahun
-				Carbon::now()->subYears(5)->greaterThan( $this->input_pasien->updated_at ) // dan lebih dari 5 tahun yang lalu diupdate
-			) {
-				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 5 tahun');
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
-					->withPesan($pesan);
-			}
-
-			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
-			if (
-				$this->asuransi_is_bpjs && // pasien bpjs
-				(empty($this->input_pasien->ktp_image) && $this->input_pasien->usia >= 18) // jika usia > 18 tahun tapi tidak bawa KTP
-			) {
-				$pesan = Yoga::gagalFlash('Gambar <strong>gambar KTP pasien (bila DEWASA) </strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
-					->withPesan($pesan);
-			}
-
-			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
-			if (
-				$this->asuransi_is_bpjs && // pasien bpjs
-				(empty($this->input_pasien->nomor_asuransi_bpjs) && is_null($this->input_pasien->nomor_asuransi_bpjs)) // jika usia > 18 tahun tapi tidak bawa KTP
-			) {
-				$pesan = Yoga::gagalFlash('Nomor Asuransi BPJS harus diisi');
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
-					->withPesan($pesan);
-			}
-
-			/* Jika pasien BPJS dan tidak membawa kartu BPJS */
-			if (
-				$this->asuransi_is_bpjs && // pasien bpjs
-				empty($this->input_pasien->bpjs_image) //jika kartu bpjs masih kosong
-			) {
-				$pesan = Yoga::gagalFlash('Gambar <strong>Kartu BPJS</strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
-				return redirect('pasiens/' . Input::get('pasien_id') . '/edit')
-					->withPesan($pesan);
-			}
-
-			$rules = [
-				'tanggal'   => 'required',
-				'pasien_id' => 'required',
-				'poli_id'      => 'required'
-			];
-			
-			$validator = \Validator::make(Input::all(), $rules);
-			
-			if ($validator->fails())
-			{
-				return \Redirect::back()->withErrors($validator)->withInput();
-			}
-
-			//cek jika antrian sudah tidak ada, maka jangan dilanjutkan
-			//
-			//
-            $this->input_antrian = !is_null($this->input_antrian_id) ? Antrian::with('whatsapp_registration')->where( 'id',$this->input_antrian_id )->first() : null;
-
-			if (
-				!is_null($this->input_antrian_id) &&
-				is_null( $this->input_antrian )
-			) {
-				$pesan = Yoga::gagalFlash('Antrian tidak ditemukan, mungkin tidak sengaja terhapus');
-				return redirect('antrians')->withPesan($pesan);
-			}
-			//jika pasien memilih poli rapid test gak usah masuk nurse station
-			//
-			//
-
-            $nursestation_available = \Auth::user()->tenant->nursestation_availability;
-            $ap = null;
-            if (
-                (!is_null($this->input_antrian) &&( $this->input_antrian->jenis_antrian_id == 7 || $this->input_antrian->jenis_antrian_id == 8)) ||
-                !\Auth::user()->tenant->nursestation_availability
-            ) {
-                $ap = $this->inputAntrianPeriksa();
-            } else {
-                $ap = $this->inputDataAntrianPoli();
-            }
-
-
-            $this->updateAntrianDanKirimWa($ap);
-            // hapus jika ada whatsapp registration
-
-			$this->updateJumlahAntrian(false, null);
-			DB::commit();
-            if ( get_class($ap) == "App\Models\AntrianPeriksa") {
-                return $this->arahkanAntrianPeriksa($ap);
-            } else {
-                return $this->arahkanAntrianPoli($ap);
-            }
-		} catch (\Exception $e) {
-			DB::rollback();
-			throw $e;
-		}
+        $this->pasien_id        = Input::get('pasien_id');
+        return $this->prosesData();
 	}
 
 	/**
@@ -441,6 +316,7 @@ class AntrianPolisController extends Controller
         $apx->input_jam              = date('H:i:s');
         $apx->input_hamil            = 0;
         $apx->input_pasien            = $this->input_pasien;
+        $apx->input_pasien_id            = $this->input_pasien_id;
         $apx->input_poli_id          = Input::get('poli_id');
         $apx->input_kecelakaan_kerja = 0;
         if ( $this->input_antrian ) {
@@ -483,4 +359,168 @@ class AntrianPolisController extends Controller
             } 
         }
     }
+
+    public function daftarkanAntrian($antrian_id){
+        $pasien  = new PasiensController;
+        $fs = new FasilitasController;
+		$antrian = Antrian::with('jenis_antrian.poli_antrian.poli', 'pasien.asuransi')->where('id', $antrian_id )->first();
+
+        $pasien->dataIndexPasien['poli'] = $fs->populatePoli( $antrian );
+        $pasien->dataIndexPasien['antrian'] = $antrian;
+		$pasien->dataIndexPasien['nama_pasien_bpjs']          = $antrian->pasien->nama;
+		$pasien->dataIndexPasien['pasien_id_bpjs']            = $antrian->pasien_id;
+		$pasien->dataIndexPasien['tanggal_lahir_pasien_bpjs'] = $antrian->pasien->tanggal_lahir;
+		$pasien->dataIndexPasien['asuransi_id_bpjs']          = $antrian->pasien->asuransi_id;
+		$pasien->dataIndexPasien['nama_asuransi_bpjs']        = $antrian->pasien->asuransi->nama;;
+		$pasien->dataIndexPasien['image_bpjs']                = $antrian->pasien->image_bpjs;
+		$pasien->dataIndexPasien['prolanis_dm_bpjs']          = $antrian->pasien->prolanis_dm;
+		$pasien->dataIndexPasien['prolanis_ht_bpjs']          = $antrian->pasien->prolanis_ht;;
+        $asuransi_biaya_pribadi = Asuransi::BiayaPribadi();
+        $pasien->dataIndexPasien['asuransi_list'] = [
+            $asuransi_biaya_pribadi->id => $asuransi_biaya_pribadi->nama,
+            $antrian->pasien->asuransi_id => $antrian->pasien->asuransi->nama
+        ];
+        $pasien->dataIndexPasien['pasien'] = Pasien::find($antrian->pasien_id);
+        $pasien->populateDataIndexPasien();
+        $pasien->dataIndexPasien['antrian'] = $antrian;
+        return view('antrianpolis.create', $pasien->dataIndexPasien );
+    }
+    public function prosesData(){
+		DB::beginTransaction();
+		try {
+            $this->asuransi_is_bpjs = !empty( $this->input_asuransi_id ) ? Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id == 5: false;
+			$this->input_pasien           = Pasien::find( $this->input_pasien_id );
+
+			/* Jika pasien belum difoto, arahkan ke search pasien */
+			if (
+				empty($this->input_pasien->image)
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus dimasukkan terlebih dahulu');
+				return redirect('pasiens/' . $this->pasien_id . '/edit')
+					->withPesan($pesan);
+			}
+			/* Jika pasien memiliki KTP dan nomor ktp belum diisi */
+			if (
+				!is_null( $this->input_pasien->ktp_image )  	// jika ktp_image tidak null
+				&& !empty( $this->input_pasien->ktp_image ) 	// jika ktp_image tidak empty
+				&& Storage::disk('s3')->exists( $this->input_pasien->ktp_image )  // ditemukan di database
+				&& (empty($this->input_pasien->nomor_ktp) || is_null($this->input_pasien->nomor_ktp))  // dan nomor ktp masih kogong
+			) {
+				$pesan = Yoga::gagalFlash('Nomor KTP harus diisi terlebih dahulu sebelum dilanjutkan, gunakan foto KTP'); // Nomor KTP harus diisi
+				return redirect('pasiens/' . $this->pasien_id . '/edit')->withPesan($pesan);
+			}
+
+			/* Jika pasien berusia kurang dari 15 tahun dan terakhir di update lebih dari satu tahun yang lalu, update foto pasien */
+			if (
+				$this->input_pasien->usia < 15 && // jika usia pasien kurang dari 15 tahun
+				Carbon::now()->subYears(1)->greaterThan( $this->input_pasien->updated_at )
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 1 tahun');
+				return redirect('pasiens/' . $this->pasien_id . '/edit')
+					->withPesan($pesan);
+			}
+
+			/* Jika pasien berusia lebih dari 15 tahun dan terakhir di update lebih dari 5 tahun yang lalu, update foto pasien */
+			if (
+				$this->input_pasien->usia > 15 && // jika usia pasien lebih dari 15 tahun
+				Carbon::now()->subYears(5)->greaterThan( $this->input_pasien->updated_at ) // dan lebih dari 5 tahun yang lalu diupdate
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus di update dengan yang terbaru karena sudah lewat 5 tahun');
+				return redirect('pasiens/' . $this->pasien_id . '/edit')
+					->withPesan($pesan);
+			}
+
+			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
+			if (
+				$this->asuransi_is_bpjs && // pasien bpjs
+				(empty($this->input_pasien->ktp_image) && $this->input_pasien->usia >= 18) // jika usia > 18 tahun tapi tidak bawa KTP
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>gambar KTP pasien (bila DEWASA) </strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
+				return redirect('pasiens/' . $this->pasien_id . '/edit')
+					->withPesan($pesan);
+			}
+
+			/* Jika pasien BPJS dan usia lebih dari 18 tahun namun tidak membawa KTP */
+			if (
+				$this->asuransi_is_bpjs && // pasien bpjs
+				(empty($this->input_pasien->nomor_asuransi_bpjs) && is_null($this->input_pasien->nomor_asuransi_bpjs)) // jika usia > 18 tahun tapi tidak bawa KTP
+			) {
+				$pesan = Yoga::gagalFlash('Nomor Asuransi BPJS harus diisi');
+				return redirect('pasiens/' . $this->pasien_id . '/edit')
+					->withPesan($pesan);
+			}
+
+			/* Jika pasien BPJS dan tidak membawa kartu BPJS */
+			if (
+				$this->asuransi_is_bpjs && // pasien bpjs
+				empty($this->input_pasien->bpjs_image) //jika kartu bpjs masih kosong
+			) {
+				$pesan = Yoga::gagalFlash('Gambar <strong>Kartu BPJS</strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
+				return redirect('pasiens/' . $this->pasien_id . '/edit')
+					->withPesan($pesan);
+			}
+
+			$rules = [
+				'tanggal'     => 'required',
+				'asuransi_id' => 'required',
+				'poli_id'     => 'required'
+			];
+			
+			$validator = \Validator::make(Input::all(), $rules);
+			
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
+
+			//cek jika antrian sudah tidak ada, maka jangan dilanjutkan
+			//
+			//
+            $this->input_antrian = !is_null($this->input_antrian_id) ? Antrian::with('whatsapp_registration')->where( 'id',$this->input_antrian_id )->first() : null;
+
+			if (
+				!is_null($this->input_antrian_id) &&
+				is_null( $this->input_antrian )
+			) {
+				$pesan = Yoga::gagalFlash('Antrian tidak ditemukan, mungkin tidak sengaja terhapus');
+				return redirect('antrians')->withPesan($pesan);
+			}
+			//jika pasien memilih poli rapid test gak usah masuk nurse station
+			//
+			//
+
+            $nursestation_available = \Auth::user()->tenant->nursestation_availability;
+            $ap = null;
+            if (
+                (!is_null($this->input_antrian) &&( $this->input_antrian->jenis_antrian_id == 7 || $this->input_antrian->jenis_antrian_id == 8)) ||
+                !\Auth::user()->tenant->nursestation_availability
+            ) {
+                $ap = $this->inputAntrianPeriksa();
+            } else {
+                $ap = $this->inputDataAntrianPoli();
+            }
+
+            $this->updateAntrianDanKirimWa($ap);
+            // hapus jika ada whatsapp registration
+
+			$this->updateJumlahAntrian(false, null);
+			DB::commit();
+            if ( get_class($ap) == "App\Models\AntrianPeriksa") {
+                return $this->arahkanAntrianPeriksa($ap);
+            } else {
+                return $this->arahkanAntrianPoli($ap);
+            }
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
+    }
+    public function daftarkanPost($id){
+        $antrian               = Antrian::find( $id );
+        $this->input_pasien_id = $antrian->pasien_id;
+        $this->input_antrian_id = $antrian->id;
+        return $this->prosesData();
+    }
+    
+    
 }
