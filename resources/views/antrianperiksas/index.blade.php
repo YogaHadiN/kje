@@ -1,8 +1,7 @@
 @extends('layout.master')
 
 @section('title') 
-{{ ucwords( \Auth::user()->tenant->name ) }} | Poli {!! ucfirst($poli) !!}
-
+    {{ ucwords( \Auth::user()->tenant->name ) }} | Poli {!! ucfirst($poli) !!}
 @stop
 @section('page-title') 
 <h2>Antrian Periksa</h2>

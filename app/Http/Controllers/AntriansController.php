@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Input;
 use App\Models\Antrian;
 use App\Models\JenisAntrian;
 use App\Models\Classes\Yoga;
@@ -30,6 +31,51 @@ class AntriansController extends Controller
 	public function whatsappRegistration(){
 		return $this->belongsTo('App\Models\WhatsappRegistration');
 	}
+    public function edit($id){
+        $antrian = Antrian::find($id);
+        return view('antrians.edit', compact(
+            'antrian'
+        ));
+    }
+    public function update($id){
+        $messages = [
+            'required' => ':attribute Harus Diisi',
+        ];
+        $rules = [
+            'tanggal_lahir' =>'nullable|date_format:d-m-Y',
+        ];
+
+        $validator = \Validator::make(Input::all(), $rules, $messages);
+
+        if ($validator->fails())
+        {
+            return \Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $antrian = Antrian::find( $id );
+        $antrian = $this->prosesData($antrian);
+
+        $pesan = Yoga::suksesFlash('Antrian berhasil di update');
+        return redirect()->back()->withPesan($pesan);
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function prosesData($antrian)
+    {
+        $antrian->nama = Input::get('nama');
+        $antrian->tanggal_lahir = Carbon::CreateFromFormat('d-m-Y', Input::get('tanggal_lahir'))->format('Y-m-d');
+        $antrian->nomor_bpjs = Input::get('nomor_bpjs');
+        $antrian->no_telp = convertToWablasFriendlyFormat( Input::get('no_telp') );
+        $antrian->save();
+        return $antrian;
+    }
+    
+    
+    
 
 	public function destroy($id){
 		$antrian               = Antrian::with('jenis_antrian')->where('id', $id)->first();

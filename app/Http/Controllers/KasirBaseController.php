@@ -424,7 +424,7 @@ class KasirBaseController extends Controller
             resetWhatsappRegistration( $this->antriankasir->antrian->no_telp );
 
             $wablas = new WablasController;
-            $wablas->sendSingle($this->antriankasir->antrian->no_telp, $message);
+            /* $wablas->sendSingle($this->antriankasir->antrian->no_telp, $message); */
         }
     }
     

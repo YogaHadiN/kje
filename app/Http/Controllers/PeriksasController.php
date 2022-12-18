@@ -177,7 +177,7 @@ class PeriksasController extends Controller
 
 
                 $wablas = new WablasController;
-                $wablas->sendSingle($this->antrianapotek->antrian->no_telp, $message);
+                /* $wablas->sendSingle($this->antrianapotek->antrian->no_telp, $message); */
             } 
 
 

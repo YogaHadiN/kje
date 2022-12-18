@@ -299,3 +299,17 @@ if (!function_exists('resetWhatsappRegistration')) {
         \App\Models\KuesionerMenungguObat::where('no_telp', $no_telp)->delete();
     }
 }
+
+
+if (!function_exists('convertToWablasFriendlyFormat')) {
+     function convertToWablasFriendlyFormat($no_telp) {
+         if (
+             !empty($no_telp) &&
+              $no_telp[0] == 0
+         ) {
+             $no_telp = '62' . substr($no_telp, 1);
+         }
+         return $no_telp;
+    }
+}
+
