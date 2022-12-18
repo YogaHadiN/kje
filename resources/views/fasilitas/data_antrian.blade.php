@@ -12,31 +12,31 @@
                         Pasien sedang mengisi Form</td>
                 </tr>
             @endif
-            @if (isset($antrian->no_telp))
+            @if (!empty($antrian->no_telp))
                 <tr>
                     <td nowrap>Nomor Telepon</td>
                     <td nowrap>{{ $antrian->no_telp }}</td>
                 </tr>
             @endif
-            @if (isset($antrian->nama))
+            @if (!empty($antrian->nama))
                 <tr>
                     <td nowrap>Nama</td>
                     <td nowrap>{{ $antrian->nama }}</td>
                 </tr>
             @endif
-            @if (isset($antrian->tanggal_lahir))
+            @if (!empty($antrian->tanggal_lahir))
                 <tr>
                     <td nowrap>Tanggal Lahir</td>
                     <td nowrap>{{ $antrian->tanggal_lahir->format('Y-m-d') }}</td>
                 </tr>
             @endif
-            @if (isset($antrian->alamat))
+            @if (!empty($antrian->alamat))
                 <tr>
                     <td nowrap>Alamat</td>
                     <td nowrap>{{ $antrian->alamat }}</td>
                 </tr>
             @endif
-            @if (isset($antrian->registrasi_pembayaran_id))
+            @if (!empty($antrian->registrasi_pembayaran_id))
                 <tr>
                     <td nowrap>Pembayaran</td>
                     <td nowrap>{{ $antrian->registrasi_pembayaran->pembayaran }}</td>
