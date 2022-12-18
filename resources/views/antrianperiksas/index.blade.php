@@ -75,7 +75,7 @@
 								</td>
                                 <td>{!! $periksa->nama_asuransi !!}</td>
                                 <td class="nama_pasien">{!! $periksa->pasien_id !!} - 
-                                    {{-- {!! ucwords($periksa->nama_pasien) !!} --}}
+                                    {!! ucwords($periksa->nama_pasien) !!}
                                 </td>
 								<td>
 								{!! Form::select('staf_id', $staf_list, $periksa->staf_id, ['class' => 'form-control selectpick', 'data-live-search' => 'true', 'onchange' => 'changeStaf(this);return false;']) !!}
