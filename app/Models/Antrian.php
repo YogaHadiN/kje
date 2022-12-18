@@ -10,6 +10,7 @@ class Antrian extends Model
 {
     use BelongsToTenant,HasFactory;
 
+    protected $guarded = [];
 	protected $dates = [
 		'tanggal_lahir'
 	];
