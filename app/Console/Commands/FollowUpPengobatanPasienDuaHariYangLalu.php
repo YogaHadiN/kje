@@ -9,7 +9,6 @@ use Log;
 use App\Models\Antrian;
 use App\Models\WhatsappRecoveryIndex;
 use App\Http\Controllers\WablasController;
-use App\Http\Controllers\WhatsappRecoveryIndex;
 
 class FollowUpPengobatanPasienDuaHariYangLalu extends Command
 {
