@@ -17,6 +17,9 @@ Klinik Jati Elok | Daftarkan Pasien
 
 @stop
 @section('content') 
+	@if(isset($antrian))
+		@include('fasilitas.memproses')
+	@endif
 	{!! Form::open(['url' => 'antrianpolis/' . $antrian->id .'/daftarkan', 'method' => 'post']) !!}
 	<div class="row">
 		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -36,9 +39,9 @@ Klinik Jati Elok | Daftarkan Pasien
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">Poli:</label>
-						{!! Form::select('poli_id', $poli, null, [
-							'id' => 'antrianpoli_poli', 
-							'class' => 'form-control rq', 
+						{!! Form::select('poli_id', $poli, $poli_id, [
+							'id'          => 'antrianpoli_poli',
+							'class'       => 'form-control rq',
 							'placeholder' => '- Pilih Poli -'
 						])!!}
 					</div>
@@ -57,7 +60,7 @@ Klinik Jati Elok | Daftarkan Pasien
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="form-group @if($errors->has('asuransi_id')) has-error @endif">
                       {!! Form::label('asuransi_id', 'Nama Asuransi', ['class' => 'control-label']) !!}
-                      {!! Form::select('asuransi_id' , $asuransi_list, null, [
+                      {!! Form::select('asuransi_id' , $asuransi_list, $asuransi_id, [
                         'class' => 'form-control rq',
                         'placeholder' => '- Pilih Asuransi -'
                       ]) !!}

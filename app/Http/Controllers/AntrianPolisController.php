@@ -365,7 +365,15 @@ class AntrianPolisController extends Controller
         $fs = new FasilitasController;
 		$antrian = Antrian::with('jenis_antrian.poli_antrian.poli', 'pasien.asuransi')->where('id', $antrian_id )->first();
 
-        $pasien->dataIndexPasien['poli'] = $fs->populatePoli( $antrian );
+        $polis = $fs->populatePoli( $antrian );
+        $poli_id = null;
+        if ( count( $polis ) == 1 ) {
+            foreach ($polis as $k=> $p) {
+                $poli_id = $k;
+            }
+        }
+        $pasien->dataIndexPasien['poli'] = $polis;
+        $pasien->dataIndexPasien['poli_id'] = $poli_id;
         $pasien->dataIndexPasien['antrian'] = $antrian;
 		$pasien->dataIndexPasien['nama_pasien_bpjs']          = $antrian->pasien->nama;
 		$pasien->dataIndexPasien['pasien_id_bpjs']            = $antrian->pasien_id;
@@ -376,6 +384,7 @@ class AntrianPolisController extends Controller
 		$pasien->dataIndexPasien['prolanis_dm_bpjs']          = $antrian->pasien->prolanis_dm;
 		$pasien->dataIndexPasien['prolanis_ht_bpjs']          = $antrian->pasien->prolanis_ht;;
         $asuransi_biaya_pribadi = Asuransi::BiayaPribadi();
+        $asuransi_bpjs = Asuransi::Bpjs();
         $pasien->dataIndexPasien['asuransi_list'] = [
             $asuransi_biaya_pribadi->id => $asuransi_biaya_pribadi->nama,
             $antrian->pasien->asuransi_id => $antrian->pasien->asuransi->nama
@@ -383,6 +392,14 @@ class AntrianPolisController extends Controller
         $pasien->dataIndexPasien['pasien'] = Pasien::find($antrian->pasien_id);
         $pasien->populateDataIndexPasien();
         $pasien->dataIndexPasien['antrian'] = $antrian;
+
+        if ( $antrian->registrasi_pembayaran_id == 2 ) {
+            $pasien->dataIndexPasien['asuransi_id'] = $asuransi_bpjs->id;
+        } else if ( $antrian->registrasi_pembayaran_id == 1 ) {
+            $pasien->dataIndexPasien['asuransi_id'] = $asuransi_biaya_pribadi->id;
+        } else {
+            $pasien->dataIndexPasien['asuransi_id'] = null;
+        }
         return view('antrianpolis.create', $pasien->dataIndexPasien );
     }
     public function prosesData(){
@@ -519,6 +536,7 @@ class AntrianPolisController extends Controller
         $antrian               = Antrian::find( $id );
         $this->input_pasien_id = $antrian->pasien_id;
         $this->input_antrian_id = $antrian->id;
+
         return $this->prosesData();
     }
     
