@@ -122,7 +122,8 @@ class testcommand extends Command
 
 
     public function handle(){
-        $this->fakeAntrianPoli();
+        $this->hapusPemeriksaanPercobaanByPasienId(17809);
+        $this->hapusPemeriksaanPercobaanByStafId(11);
     }
 
     /**
@@ -2141,7 +2142,7 @@ class testcommand extends Command
      *
      * @return void
      */
-    private function hapusPemeriksaanPercobaanByPasien($pasien_id)
+    private function hapusPemeriksaanPercobaanByPasienId($pasien_id)
     {
         $query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' and table_schema='jatielok' order by TABLE_NAME;";
         $data = DB::select($query);
@@ -2182,7 +2183,7 @@ class testcommand extends Command
         $deleted += Periksa::where('pasien_id', $pasien_id)->where('created_at', 'like', '2022-12%')->delete();
         dd( $deleted );
     }
-    private function hapusPemeriksaanPercobaan($staf_id)
+    private function hapusPemeriksaanPercobaanByStafId($staf_id)
     {
         $query  = "select * from INFORMATION_SCHEMA.COLUMNS where COLUMN_NAME like 'periksa_id' and table_schema='jatielok' order by TABLE_NAME;";
         $data = DB::select($query);
