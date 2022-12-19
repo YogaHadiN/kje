@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use DB;
 use Log;
 use App\Models\Antrian;
+use App\Models\WhatsappRecoveryIndex;
 use App\Http\Controllers\WablasController;
 use App\Http\Controllers\WhatsappRecoveryIndex;
 
