@@ -55,7 +55,6 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
                                             ->where('antriable_type', 'App\Models\Periksa' )
                                             ->get();
 
-
         $pasien_id_ekslusi = '';
 
         foreach ($antrian_now_and_yesterday as $k => $ant) {
@@ -122,7 +121,6 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
                 'message' => $message
             ];
         }
-
         WhatsappRecoveryIndex::insert($wa_indices);
 
         $wablas = new WablasController;

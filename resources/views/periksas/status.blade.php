@@ -19,6 +19,10 @@
 						{!! $periksa->nomor_asuransi !!} <br><br>
 						<strong>Jam Datang</strong> <br>
 						{!! $periksa->jam !!} <br><br>
+						<strong>Jam Periksa</strong> <br>
+						{!! $periksa->created_at !!} <br><br>
+						<strong>Jam Terima Obat</strong> <br>
+						{!! $periksa->jam_terima_obat !!} <br><br>
 						<strong>Periksa id</strong> <br>
 						{!! $periksa->id !!} <br></br>
 						<strong>Invoice Id</strong> <br>

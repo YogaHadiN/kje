@@ -120,8 +120,10 @@ class KasirBaseController extends Controller
         {
             return \Redirect::back()->withErrors($validator)->withInput();
         }
-		$periksa_id    = Input::get('periksa_id');
-		$prx           = Periksa::find($periksa_id);
+		$periksa_id            = Input::get('periksa_id');
+		$prx                   = Periksa::find($periksa_id);
+		$prx->jam_selesai_obat = date('H:i:s');
+		$prx->save();
 		$antrianapotek = AntrianApotek::where('periksa_id', $periksa_id)->first();
 
 		if ( is_null($antrianapotek)) {
