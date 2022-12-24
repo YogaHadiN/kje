@@ -122,8 +122,9 @@ class testcommand extends Command
 
 
     public function handle(){
-        $this->hapusPemeriksaanPercobaanByPasienId(17809);
-        $this->hapusPemeriksaanPercobaanByStafId(11);
+        $username = 'Yogaman89';
+        $fstchar = $username[0];
+        dd( $fstchar );
     }
 
     /**

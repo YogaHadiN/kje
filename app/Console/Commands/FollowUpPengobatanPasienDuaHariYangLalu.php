@@ -90,24 +90,30 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
         $wa_indices = [];
         $timestamp  = date('Y-m-d H:i:s');
         foreach ($result as $k => $d) {
-            $message = 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ';
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .= ucwords($d->nama);
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .=' setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Bagaimana kabarnya setelah pengobatan kemarin?';
-            $message .= PHP_EOL;
-            $message .='1. Sudah Sembuh';
-            $message .= PHP_EOL;
-            $message .='2. Membaik';
-            $message .= PHP_EOL;
-            $message .='3. Tidak ada perubahan';
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .='Mohon balas dengan angka *1,2 atau 3* sesuai dengan informasi di atas';
+            if ( $this->belumAdaNoTelp( $wa_indices , $d->no_telp) ) {
+                $message       = 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ';
+                $message      .= PHP_EOL;
+                $message      .= PHP_EOL;
+                $message      .= ucwords($d->nama);
+                $message      .= PHP_EOL;
+                $message      .= PHP_EOL;
+                $message      .= 'Setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Bagaimana kabarnya setelah pengobatan kemarin?';
+                $message      .= PHP_EOL;
+                $message      .= '1. Sudah Sembuh';
+                $message      .= PHP_EOL;
+                $message      .= '2. Membaik';
+                $message      .= PHP_EOL;
+                $message      .= '3. Tidak ada perubahan';
+                $message      .= PHP_EOL;
+                $message      .= PHP_EOL;
+                $message      .= 'Mohon balas dengan angka *1,2 atau 3* sesuai dengan informasi di atas';
+                Log::info("terkirim followuppengobatan ke pasien atas nama " . ucwords($d->nama));
 
-            Log::info("terkirim followuppengobatan ke pasien atas nama " . ucwords($d->nama));
+                $data[]        = [
+                    'phone'   => $d->no_telp,
+                    'message' => $message
+                ];
+            }
 
             $wa_indices[] = [
                 'antrian_id' => $d->antrian_id,
@@ -116,14 +122,26 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
                 'updated_at' => $timestamp
             ];
 
-            $data[] = [
-                'phone'   => $d->no_telp,
-                'message' => $message
-            ];
         }
         WhatsappRecoveryIndex::insert($wa_indices);
 
         $wablas = new WablasController;
         $wablas->bulkSend($data);
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function belumAdaNoTelp($wa_indices, $no_telp)
+    {
+        $result = true;
+        foreach ($wa_indices as $wa) {
+            if ($wa['no_telp'] == $no_telp) {
+                $result = false;
+            }
+        }
+        return $result;
+    }
+    
 }

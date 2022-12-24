@@ -39,6 +39,7 @@
                         <th>Tanggal</th>
                         <th>Poli</th>
                         <th>Pembayaran</th>
+                        <th class="hide">Nama Pasien</th>
                         <th>Nama Pasien</th>
                         <th>Pemeriksa</th>
                         <th class="hide">pasien_id</th>
@@ -73,7 +74,8 @@
                                     {!! Form::close() !!}
 								</td>
                                 <td>{!! $periksa->nama_asuransi !!}</td>
-                                <td class="nama_pasien">{!! $periksa->pasien_id !!} - 
+                                <td class="nama_pasien hide">{!! ucwords($periksa->nama_pasien) !!}</td>
+                                <td>{!! $periksa->pasien_id !!} - 
                                     {!! ucwords($periksa->nama_pasien) !!}
                                 </td>
 								<td>
