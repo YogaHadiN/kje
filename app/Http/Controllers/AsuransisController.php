@@ -1165,16 +1165,16 @@ class AsuransisController extends Controller
         $query .= "FROM asuransis ";
         $query .= "WHERE tipe_asuransi_id > 1 ";
         if ( !empty($id) ) {
-            $query .= "AND id like '{$id}%'";
+            $query .= "AND id like '{$id}%' ";
         }
         if ( !empty($nama) ) {
-            $query .= "AND nama like '%{$nama}%'";
+            $query .= "AND nama like '%{$nama}%' ";
         }
         if ( !empty($email) ) {
-            $query .= "AND email like '%{$email}%'";
+            $query .= "AND email like '%{$email}%' ";
         }
         if ( !empty($alamat) ) {
-            $query .= "AND alamat like '%{$alamat}%'";
+            $query .= "AND alamat like '%{$alamat}%' ";
         }
 
         if (!$count) {
