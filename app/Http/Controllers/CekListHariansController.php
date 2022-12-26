@@ -14,11 +14,12 @@ class CekListHariansController extends Controller
         return view('cek_list_harians.index', compact('ruangans'));
     }
     public function show($ruangan_id){
-        $ruangan                     = Ruangan::find($ruangan_id);
-        $cek_harian_anafilaktik_kits = CekHarianAnafilaktikKit::where('ruangan_id', $ruangan_id)->get();
+        $ruangan = Ruangan::with(
+            'cekListRuangan',
+        )
+        ->where('id', $ruangan_id)->first();
         return view('cek_list_harians.show', compact(
             'ruangan',
-            'cek_harian_anafilaktik_kits'
         ));
     }
     public function create(){

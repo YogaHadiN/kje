@@ -94,10 +94,11 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
                 $message       = 'Selamat Siang. Maaf mengganggu. Izin menanyakan kabar pasien atas nama ';
                 $message      .= PHP_EOL;
                 $message      .= PHP_EOL;
-                $message      .= ucwords($d->nama);
+                $message      .= '*'.ucwords( strtolower($d->nama) ).'*';
                 $message      .= PHP_EOL;
                 $message      .= PHP_EOL;
                 $message      .= 'Setelah berobat tanggal ' . $dua_hari_yl->format('d M Y'). '. Bagaimana kabarnya setelah pengobatan kemarin?';
+                $message      .= PHP_EOL;
                 $message      .= PHP_EOL;
                 $message      .= '1. Sudah Sembuh';
                 $message      .= PHP_EOL;
@@ -107,7 +108,7 @@ class FollowUpPengobatanPasienDuaHariYangLalu extends Command
                 $message      .= PHP_EOL;
                 $message      .= PHP_EOL;
                 $message      .= 'Mohon balas dengan angka *1,2 atau 3* sesuai dengan informasi di atas';
-                Log::info("terkirim followuppengobatan ke pasien atas nama " . ucwords($d->nama));
+                Log::info("terkirim followuppengobatan ke pasien atas nama " . ucwords( strtolower($d->nama) ));
 
                 $data[]        = [
                     'phone'   => $d->no_telp,

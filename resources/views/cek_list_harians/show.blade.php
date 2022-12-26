@@ -17,19 +17,19 @@
 @section('content') 
 <div>
         <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#anafilaktik_kit" aria-controls="anafilaktik_kit" role="tab" data-toggle="tab">Anafilaktik Kit</a></li>
-        <li role="presentation"><a href="#Temperatur" aria-controls="Temperatur" role="tab" data-toggle="tab">Temperatur</a></li>
-    </ul>
-        <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="anafilaktik_kit">
-            @include('cek_list_harians.tabel_anafilaktik_kit')
-        </div>
-        <div role="tabpanel" class="tab-pane" id="Temperatur">
-            @include('cek_list_harians.tabel_temperatur')
-        </div>
-    </div>
+    {{-- <ul class="nav nav-tabs" role="tablist"> --}}
+    {{--     <li role="presentation" class="active"><a href="#anafilaktik_kit" aria-controls="anafilaktik_kit" role="tab" data-toggle="tab">Anafilaktik Kit</a></li> --}}
+    {{--     <li role="presentation"><a href="#Temperatur" aria-controls="Temperatur" role="tab" data-toggle="tab">Temperatur</a></li> --}}
+    {{-- </ul> --}}
+    {{--     <!-- Tab panes --> --}}
+    {{-- <div class="tab-content"> --}}
+    {{--     <div role="tabpanel" class="tab-pane active" id="anafilaktik_kit"> --}}
+    {{--         @include('cek_list_harians.tabel_anafilaktik_kit') --}}
+    {{--     </div> --}}
+    {{--     <div role="tabpanel" class="tab-pane" id="Temperatur"> --}}
+    {{--         @include('cek_list_harians.tabel_temperatur') --}}
+    {{--     </div> --}}
+    {{-- </div> --}}
 
 </div>
         

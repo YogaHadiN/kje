@@ -303,6 +303,7 @@ class AntrianPolisController extends Controller
 			->withPesan($pesan);
 	}
 	public function updateJumlahAntrian($panggil_pasien, $ruangan){
+        $this->kirimkanNotifikasiPanggilanKeAntrianPeriksa();
 		event(new FormSubmitted($panggil_pasien, $ruangan));
 	}
     /**
@@ -539,6 +540,18 @@ class AntrianPolisController extends Controller
 
         return $this->prosesData();
     }
+
+    public function kirimkanNotifikasiPanggilanKeAntrianPeriksa(){
+        $antrian_periksas = AntrianPeriksa::where('created_at', 'like', date('Y-m-d') . '%')->get();
+        $data = [];
+        foreach ($antrian_periksas as $ap) {
+            $data[] = [
+                'no_telp' => $ap->antrian->no_telp,
+                'message' => 'Antrian %'
+            ];
+        }
+    }
+    
     
     
 }

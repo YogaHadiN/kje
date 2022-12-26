@@ -40,8 +40,10 @@ class AllowIfNotCash
         $jurnal_id = $jurnal->id;
 
         $tunaiAdaTapiBolehDiedit = false;
+        
 
-        if ( $checkout->jurnal_umum_id > $jurnal_id ) {
+        $jurnal_umum_id = !is_null($checkout) ? $checkout->jurnal_umum_id : 0; 
+        if ( $jurnal_umum_id > $jurnal_id ) {
             $tunaiAdaTapiBolehDiedit = true;
         }
 

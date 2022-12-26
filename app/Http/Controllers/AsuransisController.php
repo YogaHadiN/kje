@@ -1168,13 +1168,13 @@ class AsuransisController extends Controller
             $query .= "AND id like '{$id}%'";
         }
         if ( !empty($nama) ) {
-            $query .= "AND nama like '{$nama}%'";
+            $query .= "AND nama like '%{$nama}%'";
         }
         if ( !empty($email) ) {
-            $query .= "AND email like '{$email}%'";
+            $query .= "AND email like '%{$email}%'";
         }
         if ( !empty($alamat) ) {
-            $query .= "AND alamat like '{$alamat}%'";
+            $query .= "AND alamat like '%{$alamat}%'";
         }
 
         if (!$count) {

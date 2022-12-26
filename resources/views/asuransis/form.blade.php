@@ -120,7 +120,7 @@
 																		<td>
 																			<div class="form-group">
 																				{!! Form::text('telpon[]', null, array(
-																					'class'         => 'form-control phone',
+																					'class'         => 'form-control',
 																					'placeholder'   => 'No Telp'
 																					))!!}
 																			</div>

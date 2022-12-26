@@ -10,6 +10,9 @@
         <li>
             <a href="{{ url('laporans')}}">Home</a>
         </li>
+        <li>
+            <a href="{{ url('ruangans')}}">Ruangan</a>
+        </li>
         <li class="active">
             <strong>Create Cek List Rurangan {{ $ruangan->nama }}</strong>
         </li>
