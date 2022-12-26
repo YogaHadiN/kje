@@ -545,11 +545,15 @@ class AntrianPolisController extends Controller
         $antrian_periksas = AntrianPeriksa::where('created_at', 'like', date('Y-m-d') . '%')->get();
         $data = [];
         foreach ($antrian_periksas as $ap) {
-            $data[] = [
-                'no_telp' => $ap->antrian->no_telp,
-                'message' => 'Antrian %'
-            ];
+            if (!is_null( $ap->antrian )) {
+                $data[] = [
+                    'no_telp' => $ap->antrian->no_telp,
+                    'message' => 'Antrian '
+                ];
+            }
         }
+        /* $wb = new WablasController; */
+        /* $wa->bulkSend($data); */
     }
     
     
