@@ -111,19 +111,28 @@
                             <li>{!! HTML::link('suppliers', 'Supplier')!!}</li>
                             <li>{!! HTML::link('perusahaans', 'Perusahaan')!!}</li>
                             <li>{!! HTML::link('rumahsakits', 'Rumah Sakit')!!}</li>
-                            <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
                             <li>{!! HTML::link('tarifs', 'Tarif')!!}</li>
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
-                            <li>{!! HTML::link('pengeluarans/peralatans', 'Peralatan')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
-                            <li>{!! HTML::link('surats', 'Surat Masuk dan Keluar')!!}</li>
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
+                            <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Surat-menyurat</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
+                            <li>{!! HTML::link('surats', 'Surat Masuk dan Keluar')!!}</li>
                             <li>{!! HTML::link('documents', 'Dokumen Penting')!!}</li>
                             <li>{!! HTML::link('sertifikats', 'Sertifikat')!!}</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data Aset</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('pengeluarans/peralatans', 'Peralatan')!!}</li>
                             <li>{!! HTML::link('acs', 'Air Conditioner')!!}</li>
                             <li>{!! HTML::link('ruangans', 'Ruangan')!!}</li>
-                            <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
-                            <li>{!! HTML::link('pasiens/pacific_cross/2020', 'Pacific Cross 2020')!!}</li>
                         </ul>
                     </li>
                     <li>
