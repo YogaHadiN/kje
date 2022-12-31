@@ -750,10 +750,10 @@ class PolisController extends Controller
 		$apc->updateJumlahAntrian($panggil_pasien, $ruangan);
 
         $wa = new WablasController;
-        /* $data =  $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian); */
-        /* if (count($data)) { */
-        /*     $wa->bulkSend($data); */
-        /* } */
+        $data =  $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian);
+        if (count($data)) {
+            $wa->bulkSend($data);
+        }
 
 		return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
 	}
@@ -768,9 +768,10 @@ class PolisController extends Controller
                             ->where('created_at', 'like', date('Y-m-d') . '%')
                             ->where('notifikasi_panggilan_aktif', 1)
                             ->whereNotNull('no_telp')
+                            ->groupBy('no_telp')
                             ->get();
         $data     = [];
-        $message  = '*KJE* :Nomor Antrian ';
+        $message  = 'Nomor Antrian ';
         $message .= PHP_EOL;
         $message .= PHP_EOL;
         $message .= '*' . $nomor_antrian . '* Dipanggil ke ruang periksa';

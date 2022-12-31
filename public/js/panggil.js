@@ -18,15 +18,14 @@ function panggil(antrian_id, ruangan, panggil_pasien) {
                     timer: 1000,
                 });
             }
-        );
-        // .error(function () {
-        // console.log("error kampret");
-        // Swal.fire({
-        //     icon: "error",
-        //     title: "Oops...",
-        //     text: "Ada kesalahan. Mohon hubungi admin",
-        // });
-        // });
+        ).error(function () {
+            console.log("error kampret");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Ada kesalahan. Mohon hubungi admin",
+            });
+        });
     } else {
         Swal.fire({
             icon: "error",
