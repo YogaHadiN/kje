@@ -762,25 +762,36 @@ class PolisController extends Controller
                             ->where('created_at', 'like', date('Y-m-d') . '%')
                             ->where('notifikasi_panggilan_aktif', 1)
                             ->where('jenis_antrian_id', 1)
-                            ->where('id','>=', $antrian->id)
                             ->whereNotNull('no_telp')
                             ->groupBy('no_telp')
                             ->get();
         $data     = [];
         foreach ($antrians as $ant) {
-            $message  = 'Nomor Antrian ';
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            $message .= '*' . $antrian->nomor_antrian . '*';
-            $message .= PHP_EOL;
-            $message .= PHP_EOL;
-            if ( $ant->id == $antrian->id ) {
-                $message .= 'Dipanggil. Silahkan menuju ruang periksa';
+            if ( $ant->id < $antrian->id ) {
+                
+                $message = 'Antrian anda sudah terlewat';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= 'Silahkan hubungi petugas untuk dilayani dalam';
+                $message .= 'Antrian darurat';
+
+                $ant->notifikasi_panggilan_aktif = 0;
+                $ant->save();
             } else {
-                $message .= 'Dipanggil ke ruang periksa';
+                $message  = 'Nomor Antrian ';
                 $message .= PHP_EOL;
                 $message .= PHP_EOL;
-                $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
+                $message .= '*' . $antrian->nomor_antrian . '*';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                if ( $ant->id == $antrian->id ) {
+                    $message .= 'Dipanggil. Silahkan menuju ruang periksa';
+                } else {
+                    $message .= 'Dipanggil ke ruang periksa';
+                    $message .= PHP_EOL;
+                    $message .= PHP_EOL;
+                    $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
+                }
             }
 
             $data[] = [
