@@ -63,7 +63,16 @@
             @endif
         </div>
     </div>
-    @if(count( $antrian->registrasi_sebelumnya ))
+    @if(
+            count( $antrian->registrasi_sebelumnya ) &&
+            (
+                is_null( $antrian->whatsapp_registration ) ||
+                (
+                    !is_null( $antrian->whatsapp_registration ) &&
+                    empty( $antrian->whatsapp_registration->nama ) &&
+                )
+            )
+        )
         <h2>Pendaftaran Pasien Sebelumnya</h2>
         <table class="full-width small table table-condensed table-bordered">
             <tbody>
