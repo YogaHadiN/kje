@@ -76,7 +76,7 @@
                             {{ ucwords( strtolower( $reg->nama_pasien ) ) }}
                         </td>
                         <td>
-                            {{ \Carbon\Carbon::parse( $reg->tanggal_lahir )->format(d M Y) }}
+                            {{ \Carbon\Carbon::parse( $reg->tanggal_lahir )->format('d M Y') }}
                         </td>
                         <td style="width: 1%; white-space: nowrap;" >
                             <a href="{{ url('antrianpolis/antrian/' . $antrian->id. '/pasien/' . $reg->id_pasien) }}" class="btn btn-primary btn-sm" target="_blank" ><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
