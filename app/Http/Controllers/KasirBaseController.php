@@ -403,6 +403,11 @@ class KasirBaseController extends Controller
 
     private function infokanPasienBahwaObatSelesaiDiracik()
     {
+        Log::info('==============================');
+        Log::info('antrian_kasir');
+        Log::info( $this->antriankasir->antrian );
+        Log::info( $this->antriankasir->antrian->no_telp );
+        Log::info('==============================');
         if (
              !is_null( $this->antriankasir->antrian ) &&
              !empty( $this->antriankasir->antrian->no_telp )

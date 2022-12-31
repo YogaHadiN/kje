@@ -769,8 +769,8 @@ class PolisController extends Controller
                             ->where('notifikasi_panggilan_aktif', 1)
                             ->whereNotNull('no_telp')
                             ->get();
-        $data = [];
-        $message = 'Nomor Antrian *' . $nomor_antrian . '* dipanggil';
+        $data     = [];
+        $message  = 'Nomor Antrian *' . $nomor_antrian . '* dipanggil';
         $message .= PHP_EOL;
         $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
         foreach ($antrians as $antrian) {
