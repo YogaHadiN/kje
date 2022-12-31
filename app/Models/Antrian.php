@@ -64,7 +64,9 @@ class Antrian extends Model
         $query .= "FROM antrians as ant ";
         $query .= "JOIN periksas as prx on prx.id = ant.antriable_id and antriable_type = 'App\\\Models\\\Periksa' ";
         $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
-        $query .= "WHERE ant.no_telp = '{$no_telp}' and trim(no_telp) not like '' ";
+        $query .= "WHERE ant.no_telp = '{$no_telp}' ";
+        $query .= "and trim(no_telp) not like '' ";
+        $query .= "and no_telp not null;";
         return DB::select($query);
     }
 }
