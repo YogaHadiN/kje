@@ -70,6 +70,8 @@
                 (
                     !is_null( $antrian->whatsapp_registration ) &&
                     empty( $antrian->whatsapp_registration->nama ) &&
+                    empty( $antrian->whatsapp_registration->tanggal_lahir ) &&
+                    empty( $antrian->whatsapp_registration->registrasi_pembayaran_id )
                 )
             )
         )
