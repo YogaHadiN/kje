@@ -758,51 +758,53 @@ class PolisController extends Controller
      */
     private function ingatKanYangNgantriDiAntrianPeriksa($antrian)
     {
-        $antrians = Antrian::where('antriable_type', 'App\Models\AntrianPeriksa')
-                            ->where('created_at', 'like', date('Y-m-d') . '%')
-                            ->where('notifikasi_panggilan_aktif', 1)
-                            ->where('jenis_antrian_id', 1)
-                            ->whereNotNull('no_telp')
-                            ->groupBy('no_telp')
-                            ->get();
-        $data     = [];
-        foreach ($antrians as $ant) {
-            if ( $ant->id < $antrian->id ) {
-                
-                $message = 'Antrian anda sudah terlewat';
-                $message .= PHP_EOL;
-                $message .= PHP_EOL;
-                $message .= 'Silahkan hubungi petugas untuk dilayani dalam ';
-                $message .= PHP_EOL;
-                $message .= 'Antrian darurat';
+        if ( $antrian->jenis_antrian_id == 1 ) {
+            $antrians = Antrian::where('antriable_type', 'App\Models\AntrianPeriksa')
+                                ->where('created_at', 'like', date('Y-m-d') . '%')
+                                ->where('notifikasi_panggilan_aktif', 1)
+                                ->where('jenis_antrian_id', 1)
+                                ->whereNotNull('no_telp')
+                                ->groupBy('no_telp')
+                                ->get();
+            $data     = [];
+            foreach ($antrians as $ant) {
+                if ( $ant->id < $antrian->id ) {
+                    
+                    $message = 'Antrian anda sudah terlewat';
+                    $message .= PHP_EOL;
+                    $message .= PHP_EOL;
+                    $message .= 'Silahkan hubungi petugas untuk dilayani dalam ';
+                    $message .= PHP_EOL;
+                    $message .= 'Antrian darurat';
 
-                $ant->notifikasi_panggilan_aktif = 0;
-                $ant->save();
-            } else {
-                $message  = 'Nomor Antrian ';
-                $message .= PHP_EOL;
-                $message .= PHP_EOL;
-                $message .= '*' . $antrian->nomor_antrian . '*';
-                $message .= PHP_EOL;
-                $message .= PHP_EOL;
-                if ( $ant->id == $antrian->id ) {
-                    $message .= 'Dipanggil. Silahkan menuju ruang periksa';
+                    $ant->notifikasi_panggilan_aktif = 0;
+                    $ant->save();
                 } else {
-                    $message .= 'Dipanggil ke ruang periksa';
+                    $message  = 'Nomor Antrian ';
                     $message .= PHP_EOL;
                     $message .= PHP_EOL;
-                    $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
+                    $message .= '*' . $antrian->nomor_antrian . '*';
+                    $message .= PHP_EOL;
+                    $message .= PHP_EOL;
+                    if ( $ant->id == $antrian->id ) {
+                        $message .= 'Dipanggil. Silahkan menuju ruang periksa';
+                    } else {
+                        $message .= 'Dipanggil ke ruang periksa';
+                        $message .= PHP_EOL;
+                        $message .= PHP_EOL;
+                        $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
+                    }
                 }
-            }
 
-            $data[] = [
-                'message' => $message,
-                'phone'   => $ant->no_telp
-            ];
-        }
-        if (count($data)) {
-            $wa = new WablasController;
-            $wa->bulkSend($data);
+                $data[] = [
+                    'message' => $message,
+                    'phone'   => $ant->no_telp
+                ];
+            }
+            if (count($data)) {
+                $wa = new WablasController;
+                $wa->bulkSend($data);
+            }
         }
     }
 }
