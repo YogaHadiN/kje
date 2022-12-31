@@ -4,7 +4,7 @@
 			<tr>
 				<th class="id hide">id</th>
 				<th>Antrian</th>
-				<th>Asuransi</th>
+				{{-- <th>Asuransi</th> --}}
 				<th>Pasien</th>
 				<th>Poli</th>
 				<th>Jam</th>
@@ -41,7 +41,7 @@
 							{!! $antrianpoli->antrian->jenis_antrian->prefix!!}{!! $antrianpoli->antrian->nomor!!}
 						@endif
 					</td>
-					<td class="nama">{!! $antrianpoli->asuransi->nama !!}</td>
+					{{-- <td class="nama">{!! $antrianpoli->asuransi->nama !!}</td> --}}
 					<td class="nama_pasien">{!! $antrianpoli->pasien->nama!!} </td>
                     <td class="poli_id">{!! $antrianpoli->poli_id !!}</td>
 					<td class="jam">{!! $antrianpoli->jam!!}</td>

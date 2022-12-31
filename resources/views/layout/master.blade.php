@@ -119,7 +119,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Surat-menyurat</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Surat menyurat</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('kirim_berkas', 'Kirim Berkas')!!}</li>
                             <li>{!! HTML::link('surats', 'Surat Masuk dan Keluar')!!}</li>
@@ -143,6 +143,7 @@
                             <li>{!! HTML::link('cek_list_harians', 'Cek List Harian')!!}</li>
                             <li>{!! HTML::link('cek_list_mingguan', 'Cek List Mingguan')!!}</li>
                             <li>{!! HTML::link('cek_list_bulanan', 'Cek List Bulanan')!!}</li>
+                            <li>{!! HTML::link('daftar_hadirs', 'Daftar Hadir')!!}</li>
                         </ul>
                     </li>
                     <li>

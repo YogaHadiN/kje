@@ -13,24 +13,26 @@ use App\Models\JurnalUmum;
 use App\Models\JenisTarif;
 use App\Models\CekList;
 use App\Models\RecoveryIndex;
+use App\Models\WaktuHadir;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        DB::update("update whatsapp_complaints set tenant_id = 1;");
-        DB::update("update recovery_index set tenant_id = 1;");
-        DB::update("update failed_therapies set tenant_id = 1;");
-        DB::update("update whatsapp_cek_list_harians set tenant_id = 1;");
-        DB::update("update cek_list_harians set tenant_id = 1;");
-        DB::update("update cek_list_ruangans set tenant_id = 1;");
-        DB::update("update perusahaans set tenant_id = 1;");
-        DB::update("update peserta_bpjs_perusahaans set tenant_id = 1;");
-        DB::update("update whatsapp_satisfaction_surveys set tenant_id = 1;");
-        DB::update("update whatsapp_recovery_indices set tenant_id = 1;");
-        DB::update("update kuesioner_menunggu_obats set tenant_id = 1;");
-        DB::update("update whatsapp_main_menus set tenant_id = 1;");
-        DB::update("update whatsapp_bpjs_dentist_registrations set tenant_id = 1;");
-        DB::update("update dentist_reservations set tenant_id = 1;");
+        WaktuHadir::create([
+            'waktu_hadir' => 'pagi'
+        ]);
+        WaktuHadir::create([
+            'waktu_hadir' => 'siang'
+        ]);
+        WaktuHadir::create([
+            'waktu_hadir' => 'sore'
+        ]);
+        WaktuHadir::create([
+            'waktu_hadir' => 'malam'
+        ]);
+        WaktuHadir::create([
+            'waktu_hadir' => 'estetik'
+        ]);
     }
 }
