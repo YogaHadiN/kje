@@ -55,7 +55,7 @@
 				<table class="table table-hover table-condensed table-bordered">
 					<thead>
 						<tr>
-							<th>Id</th>
+							{{-- <th>Id</th> --}}
 							<th>Tanggal</th>
 							<th>Nomor Antrian</th>
 							<th>Jenis Antrian</th>
@@ -75,7 +75,7 @@
                                         @endif
 
                                     >
-									<td>{{ $antrian->id }}</td>
+									{{-- <td>{{ $antrian->id }}</td> --}}
 									<td>{{ $antrian->created_at->format('d M y H:i:s') }}</td>
 									<td>{{ $antrian->jenis_antrian->prefix }}{{ $antrian->nomor }}</td>
 									<td>{{ $antrian->jenis_antrian->jenis_antrian }}</td>

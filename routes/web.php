@@ -258,6 +258,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 	Route::post('antrianpolis/{id}/daftarkan', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanPost']);
+	Route::post('antrianpolis/{antrian_id}/daftarkan/{pasien_id}', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanRegistrasiSebelumnyaPost']);
+
 
 	Route::resource('antrianpolis', \App\Http\Controllers\AntrianPolisController::class);
 
@@ -288,6 +290,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasien_dobel', [\App\Http\Controllers\PasiensController::class, 'dobel']);
 	Route::get('pasiens/riwayat/gula_darah/{id}', [\App\Http\Controllers\PasiensController::class, 'riwayat_pemeriksaan_gula_darah']);
 	Route::get('antrianpolis/{id}/daftarkan', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanAntrian']);
+	Route::get('antrianpolis/antrian/{antrian_id}/pasien/{pasien_id}', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanRegistrasiSebelumnya']);
+
+
 
 	Route::resource('pasiens', \App\Http\Controllers\PasiensController::class);
 	Route::resource('periksas', \App\Http\Controllers\PeriksasController::class);

@@ -53,7 +53,6 @@
             @endif
         </tbody>
     </table>
-</div>
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <a href="{{ url('antrians/' . $antrian->id . '/edit') }}" class="btn btn-info btn-block" target="_blank" >Edit</a>
@@ -64,3 +63,21 @@
             @endif
         </div>
     </div>
+    @if(count( $antrian->registrasi_sebelumnya ))
+        <h2>Pendaftaran Pasien Sebelumnya</h2>
+        <table class="full-width small table table-condensed table-bordered">
+            <tbody>
+                @foreach ($antrian->registrasi_sebelumnya as $reg)
+                    <tr>
+                        <td>
+                            {{ ucwords( strtolower( $reg->nama_pasien ) ) }}
+                        </td>
+                        <td style="width: 1%; white-space: nowrap;" >
+                            <a href="{{ url('antrianpolis/antrian/' . $antrian->id. '/pasien/' . $reg->id_pasien) }}" class="btn btn-primary btn-sm" target="_blank" ><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>

@@ -20,7 +20,11 @@ Klinik Jati Elok | Daftarkan Pasien
 	@if(isset($antrian))
 		@include('fasilitas.memproses')
 	@endif
-	{!! Form::open(['url' => 'antrianpolis/' . $antrian->id .'/daftarkan', 'method' => 'post']) !!}
+    @if( $antrian->pasien )
+        {!! Form::open(['url' => 'antrianpolis/' . $antrian->id .'/daftarkan', 'method' => 'post']) !!}
+    @else
+        {!! Form::open(['url' => 'antrianpolis/' . $antrian->id .'/daftarkan/' . $pasien->id, 'method' => 'post']) !!}
+    @endif
 	<div class="row">
 		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
              <img src="{{ \Storage::disk('s3')->url( $pasien->image ) }}" alt="" class="img-rounded upload"> 

@@ -769,7 +769,6 @@ class PolisController extends Controller
             $data     = [];
             foreach ($antrians as $ant) {
                 if ( $ant->id < $antrian->id ) {
-                    
                     $message = 'Antrian anda sudah terlewat';
                     $message .= PHP_EOL;
                     $message .= PHP_EOL;

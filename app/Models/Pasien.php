@@ -272,6 +272,10 @@ class Pasien extends Model{
         return Pasien::where('kepala_keluarga_id', $this->kepala_keluarga_id)->get();
         
     }
+    public function getNamaAttribute($value){
+        return ucwords( strtolower($value) );
+    }
+    
     public function hubunganKeluarga(){
         return $this->belongsTo('App\Models\HubunganKeluarga');
     }

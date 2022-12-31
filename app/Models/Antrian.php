@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\BelongsToTenant; 
 use App\Models\Asuransi;
+use DB;
 
 class Antrian extends Model
 {
@@ -55,5 +56,18 @@ class Antrian extends Model
     public function pasien(){
         return $this->belongsTo(Pasien::class);
     }
+    public function getRegistrasiSebelumnyaAttribute(){
+        $no_telp = $this->no_telp;
+        $query  = "SELECT ";
+        $query .= "psn.nama as nama_pasien, ";
+        $query .= "psn.id as id_pasien ";
+        $query .= "FROM antrians as ant ";
+        $query .= "JOIN periksas as prx on prx.id = ant.antriable_id and antriable_type = 'App\\\Models\\\Periksa' ";
+        $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+        $query .= "WHERE ant.no_telp = '{$no_telp}' ";
+        return DB::select($query);
+
+    }
+    
     
 }

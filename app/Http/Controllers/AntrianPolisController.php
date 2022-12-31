@@ -554,6 +554,56 @@ class AntrianPolisController extends Controller
         /* $wb = new WablasController; */
         /* $wa->bulkSend($data); */
     }
+    public function daftarkanRegistrasiSebelumnya($antrian_id, $pasien_id){
+        $pasien  = new PasiensController;
+        $fs = new FasilitasController;
+		$antrian = Antrian::with('jenis_antrian.poli_antrian.poli', 'pasien.asuransi')->where('id', $antrian_id )->first();
+
+        $polis = $fs->populatePoli( $antrian );
+        $poli_id = null;
+        if ( count( $polis ) == 1 ) {
+            foreach ($polis as $k=> $p) {
+                $poli_id = $k;
+            }
+        }
+        $psn = Pasien::find($pasien_id);
+        $pasien->dataIndexPasien['poli'] = $polis;
+        $pasien->dataIndexPasien['poli_id'] = $poli_id;
+        $pasien->dataIndexPasien['antrian'] = $antrian;
+		$pasien->dataIndexPasien['nama_pasien_bpjs']          = $psn->nama;
+		$pasien->dataIndexPasien['pasien_id_bpjs']            = $pasien_id;
+		$pasien->dataIndexPasien['tanggal_lahir_pasien_bpjs'] = $psn->tanggal_lahir;
+		$pasien->dataIndexPasien['asuransi_id_bpjs']          = $psn->asuransi_id;
+		$pasien->dataIndexPasien['nama_asuransi_bpjs']        = $psn->asuransi->nama;;
+		$pasien->dataIndexPasien['image_bpjs']                = $psn->image_bpjs;
+		$pasien->dataIndexPasien['prolanis_dm_bpjs']          = $psn->prolanis_dm;
+		$pasien->dataIndexPasien['prolanis_ht_bpjs']          = $psn->prolanis_ht;;
+        $asuransi_biaya_pribadi = Asuransi::BiayaPribadi();
+        $asuransi_bpjs = Asuransi::Bpjs();
+        $pasien->dataIndexPasien['asuransi_list'] = [
+            $asuransi_biaya_pribadi->id => $asuransi_biaya_pribadi->nama,
+            $psn->asuransi_id => $psn->asuransi->nama
+        ];
+        $pasien->dataIndexPasien['pasien'] = $psn;
+        $pasien->populateDataIndexPasien();
+        $pasien->dataIndexPasien['antrian'] = $antrian;
+
+        if ( $antrian->registrasi_pembayaran_id == 2 ) {
+            $pasien->dataIndexPasien['asuransi_id'] = $asuransi_bpjs->id;
+        } else if ( $antrian->registrasi_pembayaran_id == 1 ) {
+            $pasien->dataIndexPasien['asuransi_id'] = $asuransi_biaya_pribadi->id;
+        } else {
+            $pasien->dataIndexPasien['asuransi_id'] = null;
+        }
+        return view('antrianpolis.create', $pasien->dataIndexPasien );
+    }
+    public function daftarkanRegistrasiSebelumnyaPost($antrian_id, $pasien_id){
+        $this->input_pasien_id = $pasien_id;
+        $this->input_antrian_id = $antrian_id;
+
+        return $this->prosesData();
+    }
+    
     
     
     
