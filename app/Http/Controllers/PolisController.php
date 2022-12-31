@@ -770,7 +770,11 @@ class PolisController extends Controller
                             ->whereNotNull('no_telp')
                             ->get();
         $data     = [];
-        $message  = 'Nomor Antrian *' . $nomor_antrian . '* dipanggil';
+        $message  = '*KJE* :Nomor Antrian ';
+        $message .= PHP_EOL;
+        $message .= PHP_EOL;
+        $message .= '*' . $nomor_antrian . '* Dipanggil ke ruang periksa';
+        $message .= PHP_EOL;
         $message .= PHP_EOL;
         $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
         foreach ($antrians as $antrian) {
