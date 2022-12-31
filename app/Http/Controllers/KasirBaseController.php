@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Input;
 use DB;
+use Log;
 use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Rules\ExpDateHarusFormatTahunBulan;
