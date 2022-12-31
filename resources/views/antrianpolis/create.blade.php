@@ -7,12 +7,12 @@ Klinik Jati Elok | Daftarkan Pasien
 @section('page-title') 
 <h2>Daftarkan Pasien</h2>
 <ol class="breadcrumb">
-            <li>
-                <a href="{{ url('laporans')}}">Home</a>
-            </li>
-            <li class="active">
-                <strong>Daftarkan Pasien</strong>
-            </li>
+    <li>
+        <a href="{{ url('laporans')}}">Home</a>
+    </li>
+    <li class="active">
+        <strong>Daftarkan Pasien</strong>
+    </li>
 </ol>
 
 @stop
