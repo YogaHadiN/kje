@@ -10,6 +10,7 @@ use App\Models\Coa;
 
 class Coa extends Model{
     use BelongsToTenant, HasFactory;
+    protected $guarded = [];
 
 	public function kelompokCoa(){
 

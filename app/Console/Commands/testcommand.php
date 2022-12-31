@@ -122,9 +122,21 @@ class testcommand extends Command
 
 
     public function handle(){
-        $username = 'Yogaman89';
-        $fstchar = $username[0];
-        dd( $fstchar );
+        $data= [];
+        foreach (Asuransi::all() as $ass) {
+            if (!$ass->coa) {
+                $coa = Coa::create([
+                    'kelompok_coa_id' => 11,
+                    'coa' => 'Piutang ' . $ass->nama,
+                    'tenant_id' => 1,
+                    'kode_coa' => 111117,
+                    'master_template' => 0,
+                ]);
+
+                $ass->coa_id = $coa->id;
+                $ass->save();
+            }
+        }
     }
 
     /**

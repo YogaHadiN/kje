@@ -774,7 +774,9 @@ class PolisController extends Controller
         $message  = 'Nomor Antrian ';
         $message .= PHP_EOL;
         $message .= PHP_EOL;
-        $message .= '*' . $nomor_antrian . '* Dipanggil ke ruang periksa';
+        $message .= '*' . $nomor_antrian . '*';
+        $message .= PHP_EOL;
+        $message .= 'Dipanggil ke ruang periksa';
         $message .= PHP_EOL;
         $message .= PHP_EOL;
         $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';

@@ -33,7 +33,8 @@
 					<table class="table table-hover table-condensed DTa">
 						<thead>
 							<tr>
-								<th>Coa Id</th>
+								<th>Id</th>
+								<th>Kode Coa</th>
 								<th>Chart Of Account</th>
 								<th>Kelompok Coa</th>
 								<th>Saldo Awal</th>
@@ -45,6 +46,7 @@
 							@foreach($coas as $coa)
 								<tr>
 									<td>{{ $coa->id }}</td>
+									<td>{{ $coa->kode_coa }}</td>
 									<td>{{ $coa->coa }}</td>
 									<td>{{ $coa->kelompokCoa->kelompok_coa }}</td>
 									<td class="uang">{{ $coa->saldo_awal }}</td>
