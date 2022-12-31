@@ -750,10 +750,10 @@ class PolisController extends Controller
 		$apc->updateJumlahAntrian($panggil_pasien, $ruangan);
 
         $wa = new WablasController;
-        /* $data =  $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian); */
-        /* if (count($data)) { */
-        /*     $wa->bulkSend($data); */
-        /* } */
+        $data =  $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian);
+        if (count($data)) {
+            $wa->bulkSend($data);
+        }
 
 		return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
 	}
@@ -766,12 +766,16 @@ class PolisController extends Controller
     {
         $antrians = Antrian::where('antriable_type', 'App\Models\AntrianPeriksa')
                             ->where('created_at', 'like', date('Y-m-d') . '%')
+                            ->where('notifikasi_panggilan_aktif', 1)
                             ->whereNotNull('no_telp')
                             ->get();
         $data = [];
+        $message = 'Nomor Antrian ' . $nomor_antrian . ' dipanggil';
+        $message .= PHP_EOL;
+        $message .= 'Balas *stop* ntuk menonaktifkan notifikasi ini.';
         foreach ($antrians as $antrian) {
             $data[] = [
-                'message' => 'Nomor Antrian ' . $nomor_antrian . ' Sudah dipanggil',
+                'message' => $message,
                 'phone'   => $antrian->no_telp
             ];
         }

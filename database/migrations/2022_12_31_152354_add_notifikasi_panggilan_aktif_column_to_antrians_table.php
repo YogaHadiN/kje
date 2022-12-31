@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDaftarHadirsTable extends Migration
+class AddNotifikasiPanggilanAktifColumnToAntriansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateDaftarHadirsTable extends Migration
      */
     public function up()
     {
-        Schema::create('daftar_hadirs', function (Blueprint $table) {
-            $table->id();
-            $table->date('tanggal');
-            $table->integer('staf_id');
-            $table->integer('waktu_hadir_id');
-            $table->timestamps();
+        Schema::table('antrians', function (Blueprint $table) {
+            $table->tinyInteger('notifikasi_panggilan_aktif')->default(1);
         });
     }
 
@@ -29,6 +25,8 @@ class CreateDaftarHadirsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daftar_hadirs');
+        Schema::table('antrians', function (Blueprint $table) {
+            $table->dropColumn('notifikasi_panggilan_aktif');
+        });
     }
 }

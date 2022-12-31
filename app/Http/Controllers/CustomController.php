@@ -246,8 +246,7 @@ class CustomController extends Controller
     /**
      * @group failing
      */
-    public function survey_post()
-    {
+    public function survey_post() {
 		DB::beginTransaction();
 		try {
 			$periksa_id               = Input::get('periksa_id');
@@ -482,6 +481,7 @@ class CustomController extends Controller
 			$coa_id_112000 = Coa::where('kode_coa', '112000')->first()->id;
 
 			if ($hutang_asisten_tindakan > 0) {
+
 				$periksa->jurnals()->create([
 					'coa_id'          => $coa_id_50205, // Biaya Produksi : Bonus per pasien Jasa TIndakan untuk Asisten
 					'debit'           => 1,
@@ -492,6 +492,7 @@ class CustomController extends Controller
 					'debit'           => 0,
 					'nilai'           => $hutang_asisten_tindakan,
 				]);
+
 			}
 			//
 			// Input hutang kepada dokter

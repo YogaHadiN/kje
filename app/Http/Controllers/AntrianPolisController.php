@@ -303,7 +303,6 @@ class AntrianPolisController extends Controller
 			->withPesan($pesan);
 	}
 	public function updateJumlahAntrian($panggil_pasien, $ruangan){
-        $this->kirimkanNotifikasiPanggilanKeAntrianPeriksa();
 		event(new FormSubmitted($panggil_pasien, $ruangan));
 	}
     /**

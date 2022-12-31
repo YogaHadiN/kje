@@ -19,20 +19,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        WaktuHadir::create([
-            'waktu_hadir' => 'pagi'
-        ]);
-        WaktuHadir::create([
-            'waktu_hadir' => 'siang'
-        ]);
-        WaktuHadir::create([
-            'waktu_hadir' => 'sore'
-        ]);
-        WaktuHadir::create([
-            'waktu_hadir' => 'malam'
-        ]);
-        WaktuHadir::create([
-            'waktu_hadir' => 'estetik'
-        ]);
+
     }
 }
