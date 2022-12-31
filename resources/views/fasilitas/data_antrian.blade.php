@@ -65,15 +65,7 @@
     </div>
     @if(
             count( $antrian->registrasi_sebelumnya ) &&
-            (
-                is_null( $antrian->whatsapp_registration ) ||
-                (
-                    !is_null( $antrian->whatsapp_registration ) &&
-                    empty( $antrian->whatsapp_registration->nama ) &&
-                    empty( $antrian->whatsapp_registration->tanggal_lahir ) &&
-                    empty( $antrian->whatsapp_registration->registrasi_pembayaran_id )
-                )
-            )
+            is_null($antrian->pasien_id)
         )
         <h2>Pendaftaran Pasien Sebelumnya</h2>
         <table class="full-width small table table-condensed table-bordered">
@@ -82,6 +74,9 @@
                     <tr>
                         <td>
                             {{ ucwords( strtolower( $reg->nama_pasien ) ) }}
+                        </td>
+                        <td>
+                            {{ \Carbon\Carbon::parse( $reg->tanggal_lahir )->format(d M Y) }}
                         </td>
                         <td style="width: 1%; white-space: nowrap;" >
                             <a href="{{ url('antrianpolis/antrian/' . $antrian->id. '/pasien/' . $reg->id_pasien) }}" class="btn btn-primary btn-sm" target="_blank" ><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>

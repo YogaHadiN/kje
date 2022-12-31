@@ -60,6 +60,7 @@ class Antrian extends Model
         $no_telp = $this->no_telp;
         $query  = "SELECT ";
         $query .= "psn.nama as nama_pasien, ";
+        $query .= "psn.tanggal_lahir as tanggal_lahir, ";
         $query .= "psn.id as id_pasien ";
         $query .= "FROM antrians as ant ";
         $query .= "JOIN periksas as prx on prx.id = ant.antriable_id and antriable_type = 'App\\\Models\\\Periksa' ";
