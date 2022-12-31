@@ -748,13 +748,7 @@ class PolisController extends Controller
 
 		$apc                                = new AntrianPolisController;
 		$apc->updateJumlahAntrian($panggil_pasien, $ruangan);
-
-        $wa = new WablasController;
-        $data =  $this->ingatKanYangNgantriDiAntrianPeriksa($antrian->nomor_antrian);
-        if (count($data)) {
-            $wa->bulkSend($data);
-        }
-
+        $this->ingatKanYangNgantriDiAntrianPeriksa($antrian);
 		return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
 	}
     /**
@@ -762,31 +756,41 @@ class PolisController extends Controller
      *
      * @return void
      */
-    private function ingatKanYangNgantriDiAntrianPeriksa($nomor_antrian)
+    private function ingatKanYangNgantriDiAntrianPeriksa($antrian)
     {
         $antrians = Antrian::where('antriable_type', 'App\Models\AntrianPeriksa')
                             ->where('created_at', 'like', date('Y-m-d') . '%')
                             ->where('notifikasi_panggilan_aktif', 1)
                             ->where('jenis_antrian_id', 1)
+                            ->where('id','>=', $antrian->id)
                             ->whereNotNull('no_telp')
                             ->groupBy('no_telp')
                             ->get();
         $data     = [];
-        $message  = 'Nomor Antrian ';
-        $message .= PHP_EOL;
-        $message .= PHP_EOL;
-        $message .= '*' . $nomor_antrian . '*';
-        $message .= PHP_EOL;
-        $message .= 'Dipanggil ke ruang periksa';
-        $message .= PHP_EOL;
-        $message .= PHP_EOL;
-        $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
-        foreach ($antrians as $antrian) {
+        foreach ($antrians as $ant) {
+            $message  = 'Nomor Antrian ';
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            $message .= '*' . $antrian->nomor_antrian . '*';
+            $message .= PHP_EOL;
+            $message .= PHP_EOL;
+            if ( $ant->id == $antrian->id ) {
+                $message .= 'Dipanggil. Silahkan menuju ruang periksa';
+            } else {
+                $message .= 'Dipanggil ke ruang periksa';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
+            }
+
             $data[] = [
                 'message' => $message,
-                'phone'   => $antrian->no_telp
+                'phone'   => $ant->no_telp
             ];
         }
-        return $data;
+        if (count($data)) {
+            $wa = new WablasController;
+            $wa->bulkSend($data);
+        }
     }
 }
