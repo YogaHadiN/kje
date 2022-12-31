@@ -421,8 +421,6 @@ class KasirBaseController extends Controller
             } else {
                 $message .= 'Kakak dapat mengambil obat tersebut di ruang farmasi.';
             }
-            $message .= PHP_EOL;
-            $message .= 'Terima kasih';
 
             resetWhatsappRegistration( $this->antriankasir->antrian->no_telp );
 

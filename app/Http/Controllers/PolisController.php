@@ -772,7 +772,8 @@ class PolisController extends Controller
                 $message = 'Antrian anda sudah terlewat';
                 $message .= PHP_EOL;
                 $message .= PHP_EOL;
-                $message .= 'Silahkan hubungi petugas untuk dilayani dalam';
+                $message .= 'Silahkan hubungi petugas untuk dilayani dalam ';
+                $message .= PHP_EOL;
                 $message .= 'Antrian darurat';
 
                 $ant->notifikasi_panggilan_aktif = 0;
