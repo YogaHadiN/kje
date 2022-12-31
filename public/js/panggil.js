@@ -10,6 +10,7 @@ function panggil(antrian_id, ruangan, panggil_pasien) {
                 ruangan: ruangan,
             },
             function (data) {
+                console.log("Panggil berhasil");
                 Swal.fire({
                     icon: "success",
                     title: "Panggil pasien berhasil",
