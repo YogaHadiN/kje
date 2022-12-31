@@ -767,6 +767,7 @@ class PolisController extends Controller
         $antrians = Antrian::where('antriable_type', 'App\Models\AntrianPeriksa')
                             ->where('created_at', 'like', date('Y-m-d') . '%')
                             ->where('notifikasi_panggilan_aktif', 1)
+                            ->where('jenis_antrian_id', 1)
                             ->whereNotNull('no_telp')
                             ->groupBy('no_telp')
                             ->get();
