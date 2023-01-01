@@ -800,6 +800,7 @@ class PolisController extends Controller
                     'phone'   => $ant->no_telp
                 ];
             }
+
             if (count($data)) {
                 $wa = new WablasController;
                 $wa->bulkSend($data);

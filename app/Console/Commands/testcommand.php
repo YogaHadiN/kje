@@ -122,21 +122,7 @@ class testcommand extends Command
 
 
     public function handle(){
-        $data= [];
-        foreach (Asuransi::all() as $ass) {
-            if (!$ass->coa) {
-                $coa = Coa::create([
-                    'kelompok_coa_id' => 11,
-                    'coa' => 'Piutang ' . $ass->nama,
-                    'tenant_id' => 1,
-                    'kode_coa' => 111117,
-                    'master_template' => 0,
-                ]);
-
-                $ass->coa_id = $coa->id;
-                $ass->save();
-            }
-        }
+        $this->revisiModal(798);
     }
 
     /**
@@ -2247,5 +2233,26 @@ class testcommand extends Command
             $timestamp = strtotime('+1 day', $timestamp);
         }
         return $days;
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function revisiModal($id)
+    {
+        $query  = "select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'jatielok' AND COLUMN_NAME like '%able_type' order by TABLE_NAME ";
+        $data = DB::select($query);
+        $tables = [];
+        $query = '';
+        foreach ($data as $d) {
+            $query  = "SELECT * ";
+            $query .= "FROM {$d->TABLE_NAME} ";
+            $query .= "WHERE {$d->COLUMN_NAME} = 'App\\\Models\\\Modal' ";
+            if ( count( DB::select($query) ) ) {
+                $tables[] = $d->TABLE_NAME;
+            }
+        }
+        dd( $tables );
     }
 }

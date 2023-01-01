@@ -125,6 +125,7 @@ class KasirBaseController extends Controller
 		$prx                   = Periksa::find($periksa_id);
 		$prx->jam_selesai_obat = date('H:i:s');
 		$prx->save();
+
 		$antrianapotek = AntrianApotek::where('periksa_id', $periksa_id)->first();
 
 		if ( is_null($antrianapotek)) {
@@ -406,6 +407,7 @@ class KasirBaseController extends Controller
     {
         if (
              !is_null( $this->antriankasir->antrian ) &&
+             $this->antriankasir->antrian->notifikasi_panggilan_aktif &&
              !empty( $this->antriankasir->antrian->no_telp )
         ) {
             $message = 'Obat pasien atas nama :';
