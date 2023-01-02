@@ -141,6 +141,11 @@
                         <a href="#usg" aria-controls="usg" role="tab" data-toggle="tab" id="tab-usg">USG</a>
                     </li> 
                 @endif
+                {{-- @if($antrianperiksa->poli->poli == 'Poli Gigi') --}}
+                    <li role="presentation">
+                        <a href="#gigi" aria-controls="gigi" role="tab" data-toggle="tab" id="tab-gigi">Gigi</a>
+                    </li> 
+                {{-- @endif --}}
                 <li role="presentation">
                     <a href="#resep" aria-controls="resep" role="tab" data-toggle="tab" id="tab-resep">Resep</a>
                 </li>
@@ -502,7 +507,174 @@
 						</div>
 					</div>
 				</div>
-				<div role="tabpanel" class="tab-pane" id="resep">
+				<div role="tabpanel" class="tab-pane" id="gigi">
+                    <div class="text-center">
+                        <h3>Odontogram</h3>
+                    </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-condensed table-bordered table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th>Taksonomi Gigi</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if($taksonomis->count() > 0)
+                                                @foreach($taksonomis as $t)
+                                                    @if(str_starts_with( $t->taksonomi_gigi  , '1'))
+                                                        @include('polis.keadaan_gigi')
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-condensed table-bordered table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th>Taksonomi Gigi</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if($taksonomis->count() > 0)
+                                                @foreach($taksonomis as $t)
+                                                    @if(str_starts_with( $t->taksonomi_gigi  , '2'))
+                                                        @include('polis.keadaan_gigi')
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <img src="{{ url('/odontogram.jpeg') }}" alt=""/>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-condensed table-bordered table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th>Taksonomi Gigi</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if($taksonomis->count() > 0)
+                                                @foreach($taksonomis as $t)
+                                                    @if(str_starts_with( $t->taksonomi_gigi  , '3'))
+                                                        
+                                                        @include('polis.keadaan_gigi')
+
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-condensed table-bordered table-xs">
+                                        <thead>
+                                            <tr>
+                                                <th>Taksonomi Gigi</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if($taksonomis->count() > 0)
+                                                @foreach($taksonomis as $t)
+                                                    @if(str_starts_with( $t->taksonomi_gigi  , '4'))
+                                                        
+                                                        @include('polis.keadaan_gigi')
+
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Large modal -->
+                        <div class="modal fade bs-example-modal-lg" id="odontogramEditor" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div>
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li role="presentation" class="active"><a href="#rekap" aria-controls="rekap" role="tab" data-toggle="tab">Rekap</a></li>
+                                                <li role="presentation"><a href="#Mesial" aria-controls="Mesial" role="tab" data-toggle="tab">Mesial</a></li>
+                                                <li role="presentation"><a href="#Occlusal" aria-controls="Occlusal" role="tab" data-toggle="tab">Occlusal</a></li>
+                                                <li role="presentation"><a href="#Distal" aria-controls="Distal" role="tab" data-toggle="tab">Distal</a></li>
+                                                <li role="presentation"><a href="#Vestibular" aria-controls="Vestibular" role="tab" data-toggle="tab">Vestibular</a></li>
+                                                <li role="presentation"><a href="#Lingual" aria-controls="Lingual" role="tab" data-toggle="tab">Lingual</a></li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div role="tabpanel" class="tab-pane active" id="rekap">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover table-condensed table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tanggal</th>
+                                                                    <th>Permukaan</th>
+                                                                    <th>Tindakan</th>
+                                                                    <th>Diagnosa</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="Mesial">
+                                                    @include('polis.permukaan_gigi')
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="Occlusal">
+                                                    @include('polis.permukaan_gigi')
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="Distal">
+                                                    @include('polis.permukaan_gigi')
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="Vestibular">
+                                                    @include('polis.permukaan_gigi')
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="Lingual">
+                                                    @include('polis.permukaan_gigi')
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    
+
+
+
+                            </div>
+                        </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="resep">
 					<div class="row">
 						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
 							<div id="resume"></div>

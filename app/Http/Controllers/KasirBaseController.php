@@ -225,6 +225,7 @@ class KasirBaseController extends Controller
 			$apc = new AntrianPolisController;
 			$apc->updateJumlahAntrian(false, null);
             $this->infokanPasienBahwaObatSelesaiDiracik();
+
 			DB::commit();
 			return redirect('antrianapoteks')
 				->with('pesan', Yoga::suksesFlash('Resep pasien periksa ' . $prx->id. ' <strong>' . $prx->pasien->id . ' - ' . $prx->pasien->nama . '</strong> telah dicetak'))

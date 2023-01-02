@@ -26,6 +26,7 @@ use App\Models\Icd10;
 use App\Models\Tarif;
 use App\Models\Asuransi;
 use App\Models\GambarPeriksa;
+use App\Models\TaksonomiGigi;
 use File;
 
 class PolisController extends Controller
@@ -37,6 +38,7 @@ class PolisController extends Controller
         /* $this->middleware('harusUrut', ['only' => ['poli']]); */
     }
 	public function poli($id, Request $request){
+        $taksonomis = TaksonomiGigi::all();
         $jenis_tarif_id_rapid_antibodi = JenisTarif::where('jenis_tarif', 'rapid test')->first()->id;
         $jenis_tarif_id_rapid_antigen  = JenisTarif::where('jenis_tarif', 'rapid test antigen')->first()->id;
         $jenis_tarif_id_gula_darah     = JenisTarif::where('jenis_tarif', 'gula darah')->first()->id;
@@ -355,6 +357,7 @@ class PolisController extends Controller
             $merek_id_add_sirup = Merek::addSirup()->id;
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
+			->with('taksonomis', $taksonomis)
 			->withDiagnosa($diagnosa)
 			->with('jenis_tarif_id_rapid_antibodi',$jenis_tarif_id_rapid_antibodi)
 			->with('jenis_tarif_id_rapid_antigen',$jenis_tarif_id_rapid_antigen)
@@ -596,6 +599,7 @@ class PolisController extends Controller
 			->withSigna($signa)
 			->withStafs($stafs)
 			->with('asuransi_biaya_pribadi', $asuransi_biaya_pribadi)
+			->with('taksonomis', $taksonomis)
 			->with('generik_list', $generik_list)
 			->with('asuransi_list', $asuransi_list)
 			->withAturans($aturans)
