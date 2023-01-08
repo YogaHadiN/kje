@@ -36,12 +36,16 @@ if ($("#terapi").val() == "" || $("#terapi").val() == "[]") {
     viewResep(resepJson($("#terapi").val())[1]);
 }
 console.log("tindakan", $("#tindakan").val());
-if ($("#tindakan").val() == "" || $("#tindakan").val() == "[]") {
-    var dataTindakan = [];
-} else {
-    var dataTindakan = JSON.parse($("#tindakan").val());
-    viewTindakan(dataTindakan);
+function getDataTindakan() {
+    if ($("#tindakan").val() == "" || $("#tindakan").val() == "[]") {
+        var dataTindakan = [];
+    } else {
+        var dataTindakan = JSON.parse($("#tindakan").val());
+        viewTindakan(dataTindakan);
+    }
+    return dataTindakan;
 }
+var dataTindakan = getDataTindakan();
 
 $("#dummy_submit_perujuk_baru").click(function () {
     var nama_perujuk = $("#nama_perujuk").val();
@@ -467,6 +471,9 @@ jQuery(document).ready(function ($) {
     });
     // valueTextArea();
     $("#modalTindakan").on("hidden.bs.modal", function () {
+        console.log("====================");
+        console.log("hidden");
+        console.log("====================");
         bahanHabisPakai();
     });
 
@@ -2159,18 +2166,7 @@ function submitTindakan() {
         });
     } else {
         if (valJsonAwal != "") {
-            console.log(dataTindakan);
-            dataTindakan[dataTindakan.length] = {
-                jenis_tarif_id: jenis_tarif_id,
-                jenis_tarif: tarif,
-                biaya: biaya,
-                keterangan_tindakan: keterangan_tindakan,
-            };
-            var string = JSON.stringify(dataTindakan);
-            $("#tindakan").val(string);
-
-            viewTindakan(dataTindakan);
-            resetInputTIndakan();
+            inputTindakan(jenis_tarif_id, tarif, biaya, keterangan_tindakan);
         } else {
             validasi("#selectTindakan", "Harus Diisi!");
             resetInputTIndakan();
@@ -2193,6 +2189,9 @@ function viewTindakan(MyArray) {
     }
 
     $("#ajaxTindakan").html(temp);
+    console.log("dataTindakan");
+    console.log("2199");
+    console.log(dataTindakan);
     $("#tindakan").val(JSON.stringify(dataTindakan));
     var temp = "";
     var biaya = 0;
@@ -2215,12 +2214,41 @@ function viewTindakan(MyArray) {
 
 function tindakanDel(control) {
     var i = $(control).val();
+    deleteTindakan(i);
+    var transaksi_periksa_key_yang_akan_dihapus = "";
+    var tindakan_gigi_key_yang_akan_dihapus = "";
+    var taksonomi_gigi_key_yang_akan_dihapus = "";
 
-    dataTindakan.splice(i, 1);
+    var tindakan_gigi_template = tindakanGigiArray();
 
-    viewTindakan(dataTindakan);
-    resetInputTIndakan();
-    optionBilaNebuBpjs();
+    var transaksi_periksa_key_yang_akan_dihapus = i;
+    $.each(tindakan_gigi_template, function (index, value) {
+        if (value != null && value.length > 0) {
+            for (let i = 0, len = value.length; i < len; i++) {
+                if (
+                    transaksi_periksa_key_yang_akan_dihapus ==
+                    value[i].transaksi_periksa_key
+                ) {
+                    tindakan_gigi_key_yang_akan_dihapus = i;
+                    taksonomi_gigi_key_yang_akan_dihapus = index;
+                    break;
+                }
+            }
+        }
+    });
+
+    if (
+        taksonomi_gigi_key_yang_akan_dihapus !== "" &&
+        tindakan_gigi_key_yang_akan_dihapus !== ""
+    ) {
+        tindakan_gigi_template[taksonomi_gigi_key_yang_akan_dihapus].splice(
+            tindakan_gigi_key_yang_akan_dihapus,
+            1
+        );
+
+        viewTindakanGigiOnly(tindakan_gigi_template);
+        viewKeadaanGigi();
+    }
 }
 
 function resetInputTIndakan() {
@@ -3059,4 +3087,36 @@ function changeBB(control) {
     var bb = $(control).val();
     $("#bb_form").val(bb);
     console.log(bb);
+}
+function inputTindakan(
+    jenis_tarif_id,
+    jenis_tarif,
+    biaya,
+    keterangan_tindakan
+) {
+    var key = dataTindakan.length;
+    console.log(3076);
+    console.log("dataTindakan");
+    console.log(dataTindakan);
+    dataTindakan[key] = {
+        jenis_tarif_id: jenis_tarif_id,
+        jenis_tarif: jenis_tarif,
+        biaya: biaya,
+        keterangan_tindakan: keterangan_tindakan,
+    };
+    var string = JSON.stringify(dataTindakan);
+    $("#tindakan").val(string);
+
+    viewTindakan(dataTindakan);
+    resetInputTIndakan();
+    bahanHabisPakai();
+    return key;
+}
+
+function deleteTindakan(i) {
+    dataTindakan.splice(i, 1);
+    viewTindakan(dataTindakan);
+    resetInputTIndakan();
+    optionBilaNebuBpjs();
+    bahanHabisPakai();
 }

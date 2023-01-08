@@ -16,7 +16,9 @@ class CreateKeadaanGigisTable extends Migration
         Schema::create('keadaan_gigis', function (Blueprint $table) {
             $table->id();
             $table->integer('odontogram_id');
-            $table->integer('odontogram_abbrevation_id');
+            $table->integer('odontogram_abbreviation_id');
+            $table->integer('permukaan_gigi_id');
+            $table->tinyInteger('matur');
             $table->bigInteger('tenant_id')->index();
             $table->timestamps();
         });

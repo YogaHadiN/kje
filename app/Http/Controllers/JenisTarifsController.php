@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Input;
 
 use App\Http\Requests;
+use DB;
 
 use App\Models\JenisTarif;
 
@@ -112,5 +113,15 @@ class JenisTarifsController extends Controller
 
 		return \Redirect::route('jenistarifs.index');
 	}
+    public function cari(){
+        $param = Input::get('q');
+        $tenant_id = session()->get('tenant_id');
+        $query  = "SELECT id, jenis_tarif as text ";
+        $query .= "FROM jenis_tarifs ";
+        $query .= "WHERE tenant_id = {$tenant_id} ";
+        $query .= "AND jenis_tarif like '{$param}%' and '{$param}' not like '' ";
+        return DB::select($query);
+    }
+    
 
 }

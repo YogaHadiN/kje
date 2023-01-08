@@ -353,3 +353,81 @@ function loaderGif(selector) {
             "/img/loader.gif' /></td>"
     );
 }
+
+function ajax_search_on_modal(route, if_null, modal_content_element) {
+    var result = {
+        width: "100%",
+        theme: "bootstrap",
+        dropdownParent: modal_content_element, //$('#myModal .modal-content')
+        ajax: {
+            url: base + "/" + route,
+            dataType: "json",
+            allowClear: true,
+            delay: 200,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page,
+                };
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
+
+                return {
+                    results: data,
+                    pagination: {
+                        more: params.page * 30 < data.total_count,
+                    },
+                };
+            },
+            cache: true,
+        },
+        dropdownPosition: "below",
+        placeholder: if_null,
+        selectOnClose: true,
+        minimumInputLength: 2,
+    };
+    return result;
+}
+function ajax_search(route, if_null) {
+    var result = {
+        width: "100%",
+        theme: "bootstrap",
+        ajax: {
+            url: base + "/" + route,
+            dataType: "json",
+            allowClear: true,
+            delay: 200,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page,
+                };
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
+
+                return {
+                    results: data,
+                    pagination: {
+                        more: params.page * 30 < data.total_count,
+                    },
+                };
+            },
+            cache: true,
+        },
+        dropdownPosition: "below",
+        placeholder: if_null,
+        selectOnClose: true,
+        minimumInputLength: 2,
+    };
+    return result;
+}

@@ -17,8 +17,7 @@ class CreateOdontogramsTable extends Migration
             $table->id();
             $table->integer('pasien_id');
             $table->integer('taksonomi_gigi_id');
-            $table->integer('permukaan_gigi_id');
-            $table->integer('menjadi_dewasa')->nullable();
+            $table->tinyInteger('matur')->nullable();
             $table->bigInteger('tenant_id')->index();
             $table->timestamps();
         });

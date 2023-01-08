@@ -104,12 +104,12 @@
 @endif
 <script>
 var base  = '{!! url('/') !!}';
-{{-- pglPasien(sound); --}}
 </script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
  <script src="{!! asset('js/panggil.js') !!}"></script>
 {!! HTML::script('js/allpoli.js')!!} 
 {!! HTML::script('js/alergi.js')!!} 
+{!! HTML::script('js/odontogram.js')!!} 
 <script>
     afiCount();
 </script>

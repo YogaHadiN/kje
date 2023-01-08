@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDiagnosaGigisTable extends Migration
+class CreateTindakanGigisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateDiagnosaGigisTable extends Migration
      */
     public function up()
     {
-        Schema::create('diagnosa_gigis', function (Blueprint $table) {
+        Schema::create('tindakan_gigis', function (Blueprint $table) {
             $table->id();
             $table->integer('odontogram_id');
-            $table->integer('diagnosa_id');
+            $table->integer('permukaan_gigi_id');
+            $table->integer('transaksi_periksa_id');
+            $table->tinyInteger('matur');
             $table->bigInteger('tenant_id')->index();
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ class CreateDiagnosaGigisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diagnosa_gigis');
+        Schema::dropIfExists('tindakan_gigis');
     }
 }

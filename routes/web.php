@@ -1,5 +1,5 @@
 <?php
-
+header('Access-Control-Allow-Credentials: true');
 use Illuminate\Support\Facades\Route;
 use App\Events\FormSubmitted;
 use App\Mail\SendEmailMailable;
@@ -131,6 +131,14 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('antrian_pasien', [\App\Http\Controllers\SupplierBelanjasController::class, 'belanja_obat']);
 	Route::get('suppliers/belanja_bukan_obat', [\App\Http\Controllers\SupplierBelanjasController::class, 'belanja_bukan_obat']);
 	Route::get('antrianpolis/ajax/getGolonganProlanis', [\App\Http\Controllers\AntrianPolisAjaxController::class, 'getProlanis']);
+	Route::get('polis/diagnosa/search/ajax', [\App\Http\Controllers\PoliAjaxController::class, 'getDiagnosaIdAjax']);
+	Route::post('polis/ajax/submit/keadaan_gigi', [\App\Http\Controllers\PoliAjaxController::class, 'postKeadaanGigi']);
+	Route::post('polis/ajax/update/ovolusi_gigi', [\App\Http\Controllers\PoliAjaxController::class, 'updateEvolusiGigi']);
+	Route::post('polis/ajax/remove/keadaan_gigi', [\App\Http\Controllers\PoliAjaxController::class, 'removeKeadaanGigi']);
+	Route::get('polis/ajax/search/tindakan', [\App\Http\Controllers\PoliAjaxController::class, 'getTindakanAjax']);
+	Route::get('polis/ajax/resume/keadaan_gigi/awal/{pasien_id}', [\App\Http\Controllers\PasiensAjaxController::class, 'keadaanGigi']);
+	Route::get('polis/ajax/get/biaya', [\App\Http\Controllers\PoliAjaxController::class, 'getBiayaTarif']);
+    
 
 	Route::get('{posisi_antrian}/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'pengantar']);
 	Route::post('{posisi_antrian}/pengantar/{id}', [\App\Http\Controllers\PengantarsController::class, 'store']);
@@ -737,6 +745,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('kasir/changemerek', [\App\Http\Controllers\KasirBaseController::class, 'changemerek']);
 	Route::post('kasir/updatejumlah', [\App\Http\Controllers\KasirBaseController::class, 'updatejumlah']);
 
+
+	Route::get('pasiens/ajax/odontogram', [\App\Http\Controllers\PasiensAjaxController::class, 'ajaxOdontogram']);
 	Route::get('pasiens/ajax/ajaxpasiens', [\App\Http\Controllers\PasiensAjaxController::class, 'ajaxpasiens']);
 	Route::post('pasiens/ajax/ajaxpasien', [\App\Http\Controllers\PasiensAjaxController::class, 'ajaxpasien']);
 	Route::post('pasiens/ajax/create', [\App\Http\Controllers\PasiensAjaxController::class, 'create']);
@@ -763,6 +773,9 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('ruangperiksa/{jenis_antrian_id}', [\App\Http\Controllers\RuangPeriksaController::class, 'index']);
 	Route::post('ruangperiksa/ruangan', [\App\Http\Controllers\RuangPeriksaController::class, 'ruangan']);
+
+	Route::get('jenis_tarifs/ajax/cari', [\App\Http\Controllers\JenisTarifsController::class, 'cari']);
+
 
 
 	Route::get('/home_visits/ajax/angka_kontak_bpjs', [\App\Http\Controllers\HomeVisitController::class, 'searchAjax']);

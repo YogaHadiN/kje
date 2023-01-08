@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
 		'https://app.moota.co',
+		'https://api.github.com/*',
 		'moota/*',
 		"https://app.moota.co/*",
 		'http://3.1.25.111/moota/*',

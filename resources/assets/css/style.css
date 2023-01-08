@@ -5491,3 +5491,6 @@ input:checked + .slider:before {
 .ml-6 {
     margin-left: 6px;
 }
+.w-50-pecent {
+    width: 50%;
+}

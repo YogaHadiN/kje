@@ -2666,3 +2666,4 @@ function updateKeteranganNebuBpjs(ket, bool) {
     }
     $("#option_bila_nebu_bpjs").hide().fadeIn(500);
 }
+

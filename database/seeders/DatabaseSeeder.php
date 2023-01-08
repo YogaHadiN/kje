@@ -157,6 +157,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         PermukaanGigi::create([
+            'abbreviation' => 'All',
+            'extension' => 'All'
+        ]);
+        PermukaanGigi::create([
             'abbreviation' => 'M',
             'extension' => 'MESIAL'
         ]);

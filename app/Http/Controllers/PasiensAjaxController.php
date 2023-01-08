@@ -8,7 +8,9 @@ use DB;
 use Auth;
 use Hash;
 use App\Models\AntrianPoli;
+use App\Models\Odontogram;
 use App\Models\Promo;
+use App\Models\TaksonomiGigi;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Periksa;
@@ -41,20 +43,20 @@ class PasiensAjaxController extends Controller
 
 		if(Input::ajax()){
 
-			$ID_PASIEN  = Input::get('id');
-		    $nama       = Input::get('nama');
-			$namaPasien = $this->pecah($nama);
-		    $alamats    = Input::get('alamat');
-            $array      = str_split($alamats);
-			$alamat = $this->pecah($alamats);
-		    $tanggalLahir = Input::get('tanggal_lahir');
-		    $noTelp       = Input::get('no_telp');
+			$ID_PASIEN     = Input::get('id');
+		    $nama          = Input::get('nama');
+			$namaPasien    = $this->pecah($nama);
+		    $alamats       = Input::get('alamat');
+            $array         = str_split($alamats);
+			$alamat        = $this->pecah($alamats);
+		    $tanggalLahir  = Input::get('tanggal_lahir');
+		    $noTelp        = Input::get('no_telp');
 		    $namaIbu       = Input::get('nama_ibu');
 		    $namaAyah      = Input::get('nama_ayah');
 		    $namaPeserta   = Input::get('nama_peserta');
 		    $namaAsuransi  = Input::get('nama_asuransi');
 		    $nomorAsuransi = Input::get('nomorAsuransi');
-		    $sudah_kontak = Input::get('sudah_kontak');
+		    $sudah_kontak  = Input::get('sudah_kontak');
 
 		    $displayed_rows = Input::get('displayed_rows');
 		    $key = Input::get('key');
@@ -472,5 +474,200 @@ class PasiensAjaxController extends Controller
 		$data = DB::select($query);
 		return $data[0]->jumlah;
 	}
-	
+    public function ajaxOdontogram(){
+        $pasien_id         = Input::get('pasien_id');
+        $taksonomi_gigi_id = Input::get('taksonomi_gigi_id');
+        $taksonomi_gigi = TaksonomiGigi::find( $taksonomi_gigi_id );
+        $odontogram       = Odontogram::with(
+                                            'keadaanGigi.odontogramAbbreviation',
+                                            'keadaanGigi.permukaanGigi',
+                                            'keadaanGigi.odontogram.taksonomiGigi',
+                                            'tindakanGigi',
+                                            'taksonomiGigi'
+                                        )
+                                    ->where('pasien_id', $pasien_id)
+                                    ->where('taksonomi_gigi_id', $taksonomi_gigi_id)
+                                    ->first();
+        if (is_null($odontogram)) {
+            $odontogram = Odontogram::create([
+                'pasien_id'         => $pasien_id,
+                'taksonomi_gigi_id' => $taksonomi_gigi_id,
+            ]);
+            $odontogram = Odontogram::with(
+                                            'keadaanGigi.odontogramAbbreviation',
+                                            'keadaanGigi.permukaanGigi',
+                                            'keadaanGigi.odontogram.taksonomiGigi',
+                                            'tindakanGigi',
+                                            'taksonomiGigi'
+                                        )
+                                    ->where('id', $odontogram->id)
+                                    ->first();
+        }
+
+        $odontogram_id = $odontogram->id;
+        $tenant_id = session()->get('tenant_id');
+        $query  = "SELECT ";
+        $query .= "prx.tanggal as tanggal, ";
+        $query .= "jtf.jenis_tarif as jenis_tarif, ";
+        $query .= "pmg.extension as permukaan_gigi, ";
+        $query .= "trp.keterangan_pemeriksaan as keterangan_pemeriksaan ";
+        $query .= "FROM periksas as prx ";
+        $query .= "JOIN transaksi_periksas as trp on trp.periksa_id = prx.id ";
+        $query .= "JOIN jenis_tarifs as jtf on trp.jenis_tarif_id = jtf.id ";
+        $query .= "JOIN tindakan_gigis as tdg on tdg.transaksi_periksa_id = trp.id ";
+        $query .= "JOIN permukaan_gigis as pmg on pmg.id = tdg.permukaan_gigi_id ";
+        $query .= "WHERE prx.pasien_id = {$pasien_id} ";
+        $query .= "AND tdg.odontogram_id = {$odontogram_id} ";
+        $query .= "AND prx.tenant_id = {$tenant_id} ";
+        $data = DB::select($query);
+
+        $dd = [];
+        foreach ($data as $d) {
+            $dd[$d->tanggal]['tanggal'] = $d->tanggal;
+            $dd[$d->tanggal]['tindakan'][] = [
+                'jenis_tarif'            => $d->jenis_tarif,
+                'keterangan_pemeriksaan' => $d->keterangan_pemeriksaan,
+                'permukaan_gigi'         => $d->permukaan_gigi
+            ];
+        }
+
+        $diagnosa_dan_tindakan = [];
+        foreach ($dd as $da) {
+            $diagnosa_dan_tindakan[] = $da;
+        }
+
+        $keadaanGigi = $this->keadaanGigi($pasien_id);
+        return compact(
+            'odontogram',
+            'keadaanGigi',
+            'taksonomi_gigi',
+            'diagnosa_dan_tindakan',
+        );
+    }
+    public function ajaxOdontogram2(){
+        $pasien_id         = Input::get('pasien_id');
+        $taksonomi_gigi_id = Input::get('taksonomi_gigi_id');
+        $odontograms       = Odontogram::with(
+                                            'keadaanGigi.odontogramAbbreviation',
+                                            'keadaanGigi.permukaanGigi'
+                                        )
+                                    ->where('pasien_id', $pasien_id)
+                                    ->where('taksonomi_gigi_id', $taksonomi_gigi_id)
+                                    ->get();
+        $taksonomi_gigis   = TaksonomiGigi::all();
+        $odontogram_pasien = [];
+
+        foreach ($taksonomi_gigis as $tak) {
+            $exists = false;
+            $keadaan_gigi = '';
+            foreach ($odontograms as $odo) {
+                if ($odo->taksonomi_gigi_id == $tak->id) {
+                    $exists = true;
+                    //
+                    // keadaan gigi
+                    //
+                    foreach ($odo->keadaanGigi as $kg) {
+                        $keadaan_gigi .= $kg->permukaanGigi->abbreviation . ': ';
+                        $keadaan_gigi .= $kg->odontogramAbbreviation->abbreviation;
+                    }
+                }
+            }
+            if ( $exists ) {
+                $odontogram_pasien[] = [
+                    'taksonomi_gigi_id' => $tak->id,
+                    'keadaan_gigi' => $keadaan_gigi
+                ];
+            } else {
+                $odontogram_pasien[] = [
+                    'taksonomi_gigi_id' => $tak->id,
+                    'keadaan_gigi' => null
+                ];
+            }
+        }
+        return $odontogram_pasien;
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function keadaanGigi($pasien_id)
+    {
+        $odontograms = Odontogram::with(
+                            'keadaanGigi.odontogramAbbreviation',
+                            'keadaanGigi.permukaanGigi',
+                            'keadaanGigi.odontogram',
+                            'taksonomiGigi',
+                            'tindakanGigi'
+                        )->where('pasien_id', $pasien_id)
+                         ->get();
+        $taksonomis = TaksonomiGigi::all();
+        $odontogram_by_taksonomi_id = [];
+        foreach ($taksonomis as $tak) {
+            $taksonomi_exist = false;
+            foreach ($odontograms as $odo) {
+                if ($tak->id == $odo->taksonomi_gigi_id) {
+                    //tentukan taksonomi gigi
+                    if (
+                         !empty(  $tak->taksonomi_gigi_anak  ) && // jika tg anak tidak kosong
+                         is_null( $odo->matur ) // dan odo matur null
+                    ) {
+                        // maka tampilkan keduanya
+                        $taksonomi_gigi = $odo->taksonomiGigi->taksonomi_gigi . "/". $odo->taksonomiGigi->taksonomi_gigi_anak;
+                    } else if (
+                         !$odo->matur && // jika odo tidak matur
+                         !empty(  $tak->taksonomi_gigi_anak  ) // dan ta g tidak kosong
+                    ){
+                        $taksonomi_gigi = '<s>'.$odo->taksonomiGigi->taksonomi_gigi . "</s>/". $odo->taksonomiGigi->taksonomi_gigi_anak; // maka tampilkan tg anak
+                    } else if (
+                         $odo->matur // jika odo matur
+                    ) {
+                        $taksonomi_gigi = !empty($odo->taksonomiGigi->taksonomi_gigi_anak) ? $odo->taksonomiGigi->taksonomi_gigi . "/<s>". $odo->taksonomiGigi->taksonomi_gigi_anak . '</s>' : $odo->taksonomiGigi->taksonomi_gigi; // maka tampilkan tg anak
+                    } else if (
+                         !$odo->matur && // jika odo tidak matur
+                         empty(  $tak->taksonomi_gigi_anak  ) // dan ta g tidak kosong
+                    ) {
+                        $odo->matur = 1; // rubah menjadi matur
+                        $odo->save();
+                        $taksonomi_gigi = $odo->taksonomiGigi->taksonomi_gigi . "/<s>". $odo->taksonomiGigi->taksonomi_gigi_anak . '</s>'; // maka tampilkan tg anak
+                    }
+
+                    // resume keadaan gigi
+                    $resume_keadaan_gigi = '';
+                    $o = 0;
+                    foreach ($odo->keadaanGigi as $k => $kg) {
+                        if ( $kg->matur == $odo->matur ) {
+                            if ($o > 0) {
+                                $resume_keadaan_gigi .= ', ';
+                            }
+                            $resume_keadaan_gigi .= $kg->permukaanGigi->abbreviation . ': ' . $kg->odontogramAbbreviation->abbreviation;
+                            $o++;
+                        }
+                    }
+
+                    $odontogram_by_taksonomi_id[] = [
+                        'matur'                => $odo->matur,
+                        'taksonomi_gigi_id'    => $tak->id,
+                        'jumlah_tindakan_gigi' => $odo->tindakanGigi->count(),
+                        'taksonomi_gigi'       => $taksonomi_gigi,
+                        'resume_keadaan_gigi'  => $resume_keadaan_gigi,
+                        'keadaanGigi'          => $odo->keadaanGigi
+                    ];
+                    $taksonomi_exist = true;
+                }
+            }
+            if (!$taksonomi_exist) {
+                $odontogram_by_taksonomi_id[] = [
+                    'matur'                => null,
+                    'taksonomi_gigi_id'    => $tak->id,
+                    'jumlah_tindakan_gigi' => 0,
+                    'resume_keadaan_gigi'  => '',
+                    'taksonomi_gigi'       => !empty($tak->taksonomi_gigi_anak) ? $tak->taksonomi_gigi . '/' . $tak->taksonomi_gigi_anak : $tak->taksonomi_gigi,
+                    'keadaanGigi'          => []
+                ];
+            }
+        }
+        return  $odontogram_by_taksonomi_id ;
+    }
+    
 }

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title')</title>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Data Tables 
     <link href="{!! asset('css/bootstrap.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet">
@@ -19,7 +21,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs/1.11.3/dataTables.bootstrap.min.css" integrity="sha512-yCRBUUWCQq1Erz8aNpDN5pQUyvY1HSWNhTzdJlL26L1RBS2RcCw4tt/k1CtiaDkLY6QOBwGIVDD90x1/NZ0ROw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/css/TableTools.min.css" integrity="sha512-oEVHwl7M7R9Kw5nzXKGqZw5pT6vd6p1/TuntOAjrnSHQkR2mooXyEwwdysdvI9yEPAuXPcfuskkwp5RjFfDLlw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
@@ -82,7 +83,7 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">
                                 {!! \Auth::user()->username !!}</strong>
-                             </span> <span class="text-muted text-xs block">
+                             </span> <span class="block text-xs text-muted">
                                 
 
                              <b class="caret"></b></span> </span> </a>
@@ -352,7 +353,7 @@
         </nav>
         <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-        <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-static-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
 			<div class="panelLeft">
 				<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
@@ -456,7 +457,7 @@
                                 </div>
                         @endif
 							@if( gethostname() == 'dell' )
-								<div class="row fixed" id="antrianPasien" >
+								<div class="fixed row" id="antrianPasien" >
 									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bg-red fixed-left">
 										<p>Sudah Diperiksa No :</p>
 										<h4 id="antrianMaster">{{ App\Antrian::find(1)->antrian_terakhir }}</h4>
@@ -473,12 +474,12 @@
             </div>
         </div>
 	</div>
-            {{--{!! HTML::script("js/all.js")!!}--}}
     <script src="{!! asset('js/all.js') !!}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs/1.11.3/dataTables.bootstrap.min.js" integrity="sha512-RA3qzjBY4vccd5aCAuSeZUo4/X0wYyUBbHmyDvVpQYNesAvWZH6fB5RK6slf7+0wxzwsH1ko8ouO8oXH+XkFZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-responsive/2.2.9/dataTables.responsive.min.js" integrity="sha512-4knl+8+KWBNyMb27V1fosX42eCyJFH383Sus6gnxuqzwmQpiLpyBJyuC17RRwLd5X6cmVUQeT5lOkVXbwajvCA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="{!! asset('js/select2_dropdown_position.js') !!}"></script>
     <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script>
     <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js') !!}"></script>
     <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js') !!}"></script>

@@ -14,7 +14,7 @@
         "browner12/helpers": "^3.3",
         "endroid/qr-code": "^4.0",
         "fideloper/proxy": "^4.0",
-        "fruitcake/laravel-cors": "^2.0",
+        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^6.3@dev",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",

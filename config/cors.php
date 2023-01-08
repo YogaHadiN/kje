@@ -15,15 +15,18 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'api/admin/*', 'api/users/*', '*'],
+    /* 'paths' => ['api/*', 'sanctum/csrf-cookie'], */
+    'allowed_methods' => ['POST', 'GET', 'DELETE', 'PUT', '*'],
+    /* 'allowed_methods' => ['*'], */
 
-    'allowed_methods' => ['*'],
-
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://api.github.com'],
+    /* 'allowed_origins' => ['*'], */
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['X-Custom-Header', 'Upgrade-Insecure-Requests', '*'],
+    /* 'allowed_headers' => ['*'], */
 
     'exposed_headers' => [],
 

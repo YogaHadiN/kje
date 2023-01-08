@@ -7,6 +7,7 @@ use DB;
 use Log;
 use App\Http\Requests;
 use App\Models\Merek;
+use App\Models\Tarif;
 use App\Models\Pasien;
 use App\Models\Diagnosa;
 use App\Models\Classes\Yoga;
@@ -16,6 +17,7 @@ use App\Models\Generik;
 use App\Models\BahanHabisPakai;
 use App\Models\Rak;
 use App\Models\Alergi;
+use App\Models\Odontogram;
 use App\Models\Staf;
 use App\Models\Terapi;
 use App\Models\Tidakdirujuk;
@@ -26,6 +28,7 @@ use App\Models\Komposisi;
 use App\Models\Formula;
 use App\Models\AntrianPeriksa;
 use App\Models\Periksa;
+use App\Models\KeadaanGigi;
 use App\Models\GambarPeriksa;
 
 class PoliAjaxController extends Controller
@@ -677,6 +680,51 @@ class PoliAjaxController extends Controller
         return false;
 
     }
-    
-    
+    public function getDiagnosaIdAjax(){
+        $param = Input::get('q');
+        $query  = "SELECT id, diagnosa as text ";
+        $query .= "FROM diagnosas ";
+        $query .= "WHERE diagnosa like '{$param}%';";
+        return DB::select($query);
+    }
+
+
+    public function postKeadaanGigi(){
+        KeadaanGigi::create([
+            'odontogram_id'              => Input::get('odontogram_id'),
+            'odontogram_abbreviation_id' => Input::get('odontogram_abbreviation_id'),
+            'permukaan_gigi_id'          => Input::get('permukaan_gigi_id'),
+        ]);
+    }
+    public function updateEvolusiGigi(){
+        $odontogram =  Odontogram::with(
+            'keadaanGigi.odontogramAbbreviation',
+            'keadaanGigi.permukaanGigi',
+            'tindakanGigi',
+            'taksonomiGigi'
+        )->where('id', Input::get('odontogram_id'))->first();
+        $odontogram->matur = Input::get('evolusi_gigi');
+        $odontogram->save();
+
+        $pa = new PasiensAjaxController;
+        return $pa->keadaanGigi($odontogram->pasien_id);
+    }
+    public function removeKeadaanGigi(){
+        return KeadaanGigi::destroy( Input::get('keadaan_gigi_id') );
+    }
+    public function getTindakanAjax(){
+        $param = Input::get('q');
+        $query  = "SELECT id, jenis_tarif as text ";
+        $query .= "FROM jenis_tarifs ";
+        $query .= "WHERE jenis_tarif like '%{$param}%';";
+        return DB::select($query);
+    }
+    public function getResumeOdontogramAwal(){
+        
+    }
+    public function getBiayaTarif(){
+        return Tarif::where('jenis_tarif_id', Input::get('jenis_tarif_id'))
+            ->where('asuransi_id', Input::get('asuransi_id'))
+            ->first()->biaya;
+    }
 }

@@ -517,11 +517,11 @@
                                     <table class="table table-hover table-condensed table-bordered table-xs">
                                         <thead>
                                             <tr>
-                                                <th>Taksonomi Gigi</th>
+                                                <th colspan="2">Taksonomi Gigi</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="keadaan_gigi_taksonomi_id_1">
                                             @if($taksonomis->count() > 0)
                                                 @foreach($taksonomis as $t)
                                                     @if(str_starts_with( $t->taksonomi_gigi  , '1'))
@@ -538,11 +538,11 @@
                                     <table class="table table-hover table-condensed table-bordered table-xs">
                                         <thead>
                                             <tr>
-                                                <th>Taksonomi Gigi</th>
+                                                <th colspan="2">Taksonomi Gigi</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="keadaan_gigi_taksonomi_id_2">
                                             @if($taksonomis->count() > 0)
                                                 @foreach($taksonomis as $t)
                                                     @if(str_starts_with( $t->taksonomi_gigi  , '2'))
@@ -568,11 +568,11 @@
                                     <table class="table table-hover table-condensed table-bordered table-xs">
                                         <thead>
                                             <tr>
-                                                <th>Taksonomi Gigi</th>
+                                                <th colspan="2">Taksonomi Gigi</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="keadaan_gigi_taksonomi_id_3">
                                             @if($taksonomis->count() > 0)
                                                 @foreach($taksonomis as $t)
                                                     @if(str_starts_with( $t->taksonomi_gigi  , '3'))
@@ -591,17 +591,15 @@
                                     <table class="table table-hover table-condensed table-bordered table-xs">
                                         <thead>
                                             <tr>
-                                                <th>Taksonomi Gigi</th>
+                                                <th colspan="2">Taksonomi Gigi</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="keadaan_gigi_taksonomi_id_4">
                                             @if($taksonomis->count() > 0)
                                                 @foreach($taksonomis as $t)
                                                     @if(str_starts_with( $t->taksonomi_gigi  , '4'))
-                                                        
                                                         @include('polis.keadaan_gigi')
-
                                                     @endif
                                                 @endforeach
                                             @endif
@@ -614,63 +612,137 @@
                         <div class="modal fade bs-example-modal-lg" id="odontogramEditor" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">
+
+                                        </h4>
+                                    </div>
                                     <div class="modal-body">
+                                        {!! Form::text('taksonomi_gigi_id', null, ['class' => 'hide taksonomi_gigi_id']) !!}
+                                        {!! Form::text('nama_taksonomi_gigi', null, ['class' => 'hide nama_taksonomi_gigi']) !!}
+                                        {!! Form::text('odontogram_id', null, ['class' => 'hide odontogram_id']) !!}
                                         <div>
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li role="presentation" class="active"><a href="#rekap" aria-controls="rekap" role="tab" data-toggle="tab">Rekap</a></li>
-                                                <li role="presentation"><a href="#Mesial" aria-controls="Mesial" role="tab" data-toggle="tab">Mesial</a></li>
-                                                <li role="presentation"><a href="#Occlusal" aria-controls="Occlusal" role="tab" data-toggle="tab">Occlusal</a></li>
-                                                <li role="presentation"><a href="#Distal" aria-controls="Distal" role="tab" data-toggle="tab">Distal</a></li>
-                                                <li role="presentation"><a href="#Vestibular" aria-controls="Vestibular" role="tab" data-toggle="tab">Vestibular</a></li>
-                                                <li role="presentation"><a href="#Lingual" aria-controls="Lingual" role="tab" data-toggle="tab">Lingual</a></li>
+                                            <ul id="odontogramEditorTab" class="nav nav-tabs" role="tablist">
+                                                <li role="presentation" class="active"><a href="#odontogram" aria-controls="odontogram" role="tab" data-toggle="tab">Odontogram</a></li>
+                                                <li role="presentation"><a href="#diagnosaDanTindakanGigi" aria-controls="diagnosaDanTindakanGigi" role="tab" id="tabButtonTindakanGigi" data-toggle="tab">Tindakan Gigi</a></li>
                                             </ul>
                                             <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane active" id="rekap">
+                                                <div role="tabpanel" class="tab-pane active" id="odontogram">
+                                                    <div role="tabpanel" class="tab-pane active" id="odontogram">
+                                                        <div class="form-group @if($errors->has('gigi_tetap')) has-error @endif">
+                                                          {!! Form::label('gigi_tetap', 'Gigi Tetap', ['class' => 'control-label']) !!}
+                                                          {!! Form::select('gigi_tetap' , [
+                                                              0 => 'Gigi Susu',
+                                                              1 => 'Gigi Permanen',
+                                                          ] , null, [
+                                                            'class' => 'form-control evolusi_gigi',
+                                                            'placeholder' => '- Pilih -',
+                                                            'onchange' => 'updateEvolusiGigi(this);return false;'
+                                                      ]) !!}
+                                                          @if($errors->has('gigi_tetap'))<code>{!! $errors->first('gigi_tetap') !!}</code>@endif
+                                                        </div>
+
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover table-condensed table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="hide">keadaan_id</th>
+                                                                        <th class="hide">pasien_id</th>
+                                                                        <th class="hide">permukaan_gigi_id</th>
+                                                                        <th class="hide">taksonomi_gigi_id</th>
+                                                                        <th class="taksonomi_gigi"></th>
+                                                                        <th>Permukaan</th>
+                                                                        <th>Abbrev</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="odontogram_container">
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td id="td_permukaan_gigi_id" colspan="2">
+                                                                            {!! Form::select('permukaan_gigi_id', \App\Models\PermukaanGigi::pluck('abbreviation', 'id') ,null, [
+                                                                                'class' => 'form-control permukaan_gigi_id',
+                                                                                'placeholder' => '- Pilih -'
+                                                                            ]) !!}
+                                                                        </td>
+                                                                        <td>
+                                                                            {!! Form::select('abbreviation_id', \App\Models\OdontogramAbbreviation::pluck('abbreviation', 'id') ,null, [
+                                                                                'class'            => 'form-control selectpick odontogram_abbreviation_id',
+                                                                                'data-live-search' => 'true',
+                                                                                'placeholder'      => '- Pili -',
+                                                                            ]) !!}
+                                                                        </td>
+                                                                        <td style="width: 1px; nowrap;">
+                                                                            <button class="btn btn-primary btn-sm" onclick="submitKeadaanGigi(this);return false;">
+                                                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane" id="diagnosaDanTindakanGigi">
                                                     <div class="table-responsive">
                                                         <table class="table table-hover table-condensed table-bordered">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Tanggal</th>
-                                                                    <th>Permukaan</th>
-                                                                    <th>Tindakan</th>
-                                                                    <th>Diagnosa</th>
+                                                                    <th class="fit">Tanggal</th>
+                                                                    <th class="fit">Tindakan</th>
+                                                                    <th class="fit">Permukaan Gigi</th>
+                                                                    <th>Keterangan</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            </tbody>
+                                                            <tbody id="diagnosa_dan_tindakan_gigi_container"></tbody>
                                                         </table>
                                                     </div>
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane" id="Mesial">
-                                                    @include('polis.permukaan_gigi')
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane" id="Occlusal">
-                                                    @include('polis.permukaan_gigi')
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane" id="Distal">
-                                                    @include('polis.permukaan_gigi')
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane" id="Vestibular">
-                                                    @include('polis.permukaan_gigi')
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane" id="Lingual">
-                                                    @include('polis.permukaan_gigi')
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover table-condensed table-bordered tindakan_gigi_table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="i hide">i</th>
+                                                                    <th class="w-50-pecent">Nama Tindakan</th>
+                                                                    <th class="fit">Permukaan Gigi</th>
+                                                                    <th>Keterangan Tindakan</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="tindakan_gigi_container">
+
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <td class="w-50-pecent">
+                                                                        <select class="tindakan_gigi_id">
+                                                                            
+                                                                        </select>
+                                                                    </td>
+                                                                    <td class="fit">
+                                                                        {!! Form::select('permukaan_gigi_id', \App\Models\PermukaanGigi::pluck('extension', 'id'), null, [
+                                                                            'class'       => 'form-control permukaan_gigi_id',
+                                                                            'placeholder' => '- Pilih -'
+                                                                        ]) !!}
+                                                                    </td>
+                                                                    <td>
+                                                                        {!! Form::text('keterangan_tindakan_gigi', null, ['class' => 'form-control keterangan_tindakan_gigi']) !!}
+                                                                    </td>
+                                                                    <td style="width: 1px; nowrap;">
+                                                                        <button class="btn btn-primary btn-sm" onclick="submitTindakanGigi(this);return false;">
+                                                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                    
-
-
-
                             </div>
                         </div>
                 </div>
