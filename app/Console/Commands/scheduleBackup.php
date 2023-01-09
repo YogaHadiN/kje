@@ -39,6 +39,10 @@ class scheduleBackup extends Command
     public function handle()
     {
 		Log::info('dibackup ' . date('Y-m-d H:i:s'));
-		exec('mysqldump --user=root --password=Yogaman89 jatielok | gzip > /var/database/jatielok_`date +"%Y-%m-%d_%H:%M:%S"`.sql.gz');
+        if (gethostname() == 'MacBook-Pro-2.local') {
+            exec('mysqldump --user=root --password=Yogaman89 jatielok | gzip > ~/Sites/database/jatielok_`date +"%Y-%m-%d_%H:%M:%S"`.sql.gz');
+        } else {
+            exec('mysqldump --user=root --password=Yogaman89 jatielok | gzip > /var/database/jatielok_`date +"%Y-%m-%d_%H:%M:%S"`.sql.gz');
+        }
     }
 }

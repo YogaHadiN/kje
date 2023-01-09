@@ -34,6 +34,7 @@
 					<thead>
 						<tr>
 							<th>jenis tarif id</th>
+							<th class="hide">tindakan gigi</th>
 							<th>Jenis Tarif</th>
 							<th>Tipe Tindakan</th>
 							<th >Biaya</th>
@@ -50,6 +51,7 @@
 						@foreach($tarifs as $tarif)
 							<tr>
 								<td class="jenis_tarif_id"><div>{!!$tarif->jenis_tarif_id!!}</div></td>
+                                <td class="tindakan_gigi hide"><div>{!!$tarif->jenisTarif->tindakan_gigi!!}</div></td>
 								<td class="jenis_tarif"><div>{!!$tarif->jenisTarif->jenis_tarif!!}</div></td>
 								<td class="tipe_tindakan"> <div>{!! $tarif->tipeTindakan->tipe_tindakan !!}</div> </td>
 								<td class="biaya"><div class="uang">{!!$tarif->biaya!!}</div></td>
@@ -272,6 +274,20 @@
 					  @if($errors->has('murni_jasa_dokter'))<code>{{ $errors->first('murni_jasa_dokter') }}</code>@endif
 					</div>
 				</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<div class="form-group @if($errors->has('tindakan_gigi')) has-error @endif">
+					  {!! Form::label('tindakan_gigi', 'Tindakan Gigi', ['class' => 'control-label']) !!}
+                      {!! Form::select('tindakan_gigi', [
+                          0 => 'Tidak',
+                          1 => 'Ya'
+                      ], null, [
+                        'class'       => 'form-control',
+                        'id'          => 'tindakan_gigi',
+                        'placeholder' => '-Pilih-'
+                      ]) !!}
+					  @if($errors->has('tindakan_gigi'))<code>{!! $errors->first('tindakan_gigi') !!}</code>@endif
+					</div>
+				</div>
 			</div>
             <input type="text" id="ID_JENIS_TARIF_UPDATE" class="displayNone">
             </div>
@@ -370,6 +386,7 @@
         var tipe_laporan_admedika_id = $(control).closest('tr').find('.tipe_laporan_admedika_id div').html();
         var jenis_tarif_id = $(control).closest('tr').find('.jenis_tarif_id div').html();
         var murni_jasa_dokter = $(control).closest('tr').find('.murni_jasa_dokter div').html();
+        var tindakan_gigi = $(control).closest('tr').find('.tindakan_gigi div').html();
         var asuransi_id = $('#asuransi_id').val();
 
         biaya = cleanUang(biaya);
@@ -396,6 +413,7 @@
         $('#txtAsuransiIdUpdate').val(asuransi_id);
         $('#tipe_laporan_admedika_id_update').val(tipe_laporan_admedika_id);
         $('#murni_jasa_dokter_update').val(murni_jasa_dokter);
+        $('#tindakan_gigi').val(tindakan_gigi);
 
         if(bhp_items != ''){
           dataUpdate = JSON.parse(bhp_items);
@@ -597,6 +615,7 @@
                     biaya = uang(biaya);
                     jasa_dokter = uang(jasa_dokter);
                     temp += '<td class="jenis_tarif_id"><div>' + result.jenis_tarif_id + '</div></td>';
+                    temp += '<td class="tindakan_gigi"><div>' + result.tindakan_gigi + '</div></td>';
                     temp += '<td class="jenis_tarif"><div>' + jenis_tarif + '</div></td>';
                     temp += '<td class="tipe_tindakan"><div>' + tipe_tindakan + '</div></td>';
                     temp += '<td class="biaya uang"><div>' + biaya + '</div></td>';
@@ -634,6 +653,7 @@
         var asuransi_id = $('#txtAsuransiIdUpdate').val();
         var tipe_laporan_admedika_id = $('#tipe_laporan_admedika_id_update').val();
         var bhp_items = $('#bhp_items_update').val();
+        var tindakan_gigi = $('#tindakan_gigi').val();
         
        console.log('jenis_tarif = ' + jenis_tarif);
        console.log('tipe_tindakan_id = ' + tipe_tindakan_id);
@@ -650,6 +670,7 @@
             $('#ddlTipeTindakanUpdate').val() == '' ||
             $('#tipe_laporan_admedika_id_update').val() == '' ||
             $('#txtBiayaUpdate').val() == '' ||
+            $('#tindakan_gigi').val() == '' ||
             murni_jasa_dokter == '' ||
             $('#txtJasaDokterUpdate').val() == '')
           {
@@ -671,6 +692,9 @@
             if($('#txtJasaDokterUpdate').val() == ''){
               validasi('#txtJasaDokterUpdate', 'Harus Diisi!');
             }
+            if($('#tindakan_gigi').val() == ''){
+              validasi('#tindakan_gigi', 'Harus Diisi!');
+            }
           } else {
 
             var jenis_tarif_id = $('#txtJenisTarifIdUpdate').val()  ;
@@ -679,6 +703,7 @@
                 type: 'POST',
                 data: {
                   'jenis_tarif':              jenis_tarif,
+                  'tindakan_gigi':              tindakan_gigi,
                   'tipe_tindakan_id':         tipe_tindakan_id,
                   'biaya':                    biaya,
                   'jasa_dokter':              jasa_dokter,
@@ -705,6 +730,7 @@
                       $('#table_tarif tbody tr:nth-child(' + row_index + ')').find('td').find('div').slideUp('500', function(){
                             $edit.find('.jenis_tarif_id').find('div').html(result.jenis_tarif_id);
                             $edit.find('.jenis_tarif').find('div').html(jenis_tarif);
+                            $edit.find('.tindakan_gigi').find('div').html(tindakan_gigi);
                             $edit.find('.tipe_tindakan').find('div').html(tipe_tindakan);
                             $edit.find('.biaya').find('div').html(biaya);
                             $edit.find('.jasa_dokter').find('div').html(jasa_dokter);

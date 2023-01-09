@@ -9,6 +9,7 @@ use Storage;
 use App\Http\Requests;
 use App\Models\Classes\Yoga;
 use App\Models\Antrian;
+use App\Models\Odontogram;
 use App\Models\WhatsappRegistration;
 use App\Http\Controllers\WablasController;
 use App\Models\Poli;
@@ -83,7 +84,6 @@ class CustomController extends Controller
 	}
 
 	public function updtrf(){
-
 		$asuransi_id    = Input::get('asuransi_id');
 		$jenis_tarif_id = Input::get('jenis_tarif_id');
 
@@ -138,6 +138,7 @@ class CustomController extends Controller
 		$jt->jenis_tarif              = Input::get('jenis_tarif');
 		$jt->tipe_laporan_admedika_id = Input::get('tipe_laporan_admedika_id');
 		$jt->murni_jasa_dokter        = Input::get('murni_jasa_dokter');
+		$jt->tindakan_gigi            = Input::get('tindakan_gigi');
 		$jt->save();
 
 		if($jt->save() && $tarif->save()){
@@ -418,6 +419,7 @@ class CustomController extends Controller
 			$hutang_asisten_tindakan = 0;
             $jt_gula_darah = JenisTarif::where('jenis_tarif', 'Gula Darah')->first();
             $jt_diskon = JenisTarif::where('jenis_tarif', 'Diskon')->first();
+            $tindakan_gigis = json_decode($periksa->tindakan_gigi, true);
 			foreach ($transaksis as $k => $transaksi) {
 				$adaBiaya = false;
                 $tp = $periksa->transaksii()->create([
@@ -425,7 +427,24 @@ class CustomController extends Controller
                     'biaya'                  => $transaksi['biaya'],
                     'keterangan_pemeriksaan' => isset($transaksi['keterangan_tindakan'])?$transaksi['keterangan_tindakan']:null
                 ]);
-
+                $dummyData = [];
+                foreach ($tindakan_gigis as $taksonomi_gigi_id => $tindakan_gigi) {
+                    if (!is_null( $tindakan_gigi )) {
+                        foreach ($tindakan_gigi as $tg) {
+                            if ($tg['transaksi_periksa_key'] == $k) {
+                                $dummyData[] = $k;
+                                $odontogram = Odontogram::where('pasien_id', $periksa->pasien_id)
+                                                        ->where('taksonomi_gigi_id', $taksonomi_gigi_id)
+                                                        ->first();
+                                $tp->tindakanGigi()->create([
+                                    'odontogram_id'     => $odontogram->id,
+                                    'permukaan_gigi_id' => $tg['permukaan_gigi_id'],
+                                    'matur'             => $odontogram->matur,
+                                ]);
+                            }
+                        }
+                    }
+                }
 
 				if ( !($transaksi['jenis_tarif_id'] ==  $jt_gula_darah->id || $transaksi['biaya'] == 0) ) {
 					$feeDokter += Tarif::where('asuransi_id', $periksa->asuransi_id)->where('jenis_tarif_id', $transaksi['jenis_tarif_id'])->first()->jasa_dokter;

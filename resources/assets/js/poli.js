@@ -3043,6 +3043,9 @@ function refresh() {
 }
 
 function selectChange(control) {
+    console.log("control");
+    console.log(control);
+    console.log("3046 selectChange");
     var html = "";
     var tindakan = $(control).val();
     tindakan = $.parseJSON(tindakan);

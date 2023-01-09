@@ -25,6 +25,9 @@ class TransaksiPeriksa extends Model{
     public function getTanggalAttribute(){
          return $this->created_at->format('d-m-Y');
     }
+    public function tindakanGigi(){
+        return $this->hasOne(TindakanGigi::class);
+    }
     
     public function dispens(){
         return $this->morphMany('App\Models\Dispensing', 'dispensable');

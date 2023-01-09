@@ -1179,6 +1179,7 @@ class PeriksasController extends Controller
         $periksa->kecelakaan_kerja      = $this->input_kecelakaan_kerja;
         $periksa->keterangan            = Input::get('keterangan_periksa');
         $periksa->transaksi             = json_encode($transaksis);
+        $periksa->tindakan_gigi             = Input::get('tindakan_gigi');
         $periksa->prolanis_dm           = $pasien->prolanis_dm;
         $periksa->prolanis_ht           = $pasien->prolanis_ht;
         $periksa->antrian_id            = !is_null($this->antrianperiksa->antrian)?$this->antrianperiksa->antrian->id:null;

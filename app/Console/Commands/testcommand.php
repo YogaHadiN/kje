@@ -122,7 +122,8 @@ class testcommand extends Command
 
 
     public function handle(){
-        $this->revisiModal(798);
+        dd( gethostname() );
+        /* $this->revisiModal(798); */
     }
 
     /**

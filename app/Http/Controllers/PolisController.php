@@ -171,7 +171,7 @@ class PolisController extends Controller
 			return Icd10::all()->take(10);
 		});
 
-        $tindakans   = Tarif::listByAsuransi($asuransi_id);
+        $tindakans   = Tarif::listByAsuransiNonGigi($asuransi_id);
 
 		$periksaExist = Periksa::with(
 			'terapii.merek.rak', 
@@ -355,6 +355,8 @@ class PolisController extends Controller
             $merek_id_kertas_puyer_biasa = Merek::kertasPuyerBiasa()->id;
             $merek_id_kertas_puyer_sablon = Merek::kertasPuyerSablon()->id;
             $merek_id_add_sirup = Merek::addSirup()->id;
+
+            $tindakan_gigis = $periksa->tindakan_gigi;
 			return view('poliedit')
 			->withAntrianperiksa($antrianperiksa)
 			->with('taksonomis', $taksonomis)
@@ -362,6 +364,7 @@ class PolisController extends Controller
 			->with('jenis_tarif_id_rapid_antibodi',$jenis_tarif_id_rapid_antibodi)
 			->with('jenis_tarif_id_rapid_antigen',$jenis_tarif_id_rapid_antigen)
 			->with('jenis_tarif_id_gula_darah',$jenis_tarif_id_gula_darah)
+			->with('tindakan_gigis',$tindakan_gigis)
 			->withUrl($url)
 			->withText($text)
 			->withIcd10s($icd10s)

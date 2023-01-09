@@ -135,7 +135,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('polis/ajax/submit/keadaan_gigi', [\App\Http\Controllers\PoliAjaxController::class, 'postKeadaanGigi']);
 	Route::post('polis/ajax/update/ovolusi_gigi', [\App\Http\Controllers\PoliAjaxController::class, 'updateEvolusiGigi']);
 	Route::post('polis/ajax/remove/keadaan_gigi', [\App\Http\Controllers\PoliAjaxController::class, 'removeKeadaanGigi']);
-	Route::get('polis/ajax/search/tindakan', [\App\Http\Controllers\PoliAjaxController::class, 'getTindakanAjax']);
+	Route::get('polis/ajax/search/tindakan', [\App\Http\Controllers\PoliAjaxController::class, 'getTindakanGigiAjax']);
+	Route::get('polis/ajax/search/jenis_tarif/non_gigi', [\App\Http\Controllers\PoliAjaxController::class, 'getJenisTarifBiasaAjax']);
 	Route::get('polis/ajax/resume/keadaan_gigi/awal/{pasien_id}', [\App\Http\Controllers\PasiensAjaxController::class, 'keadaanGigi']);
 	Route::get('polis/ajax/get/biaya', [\App\Http\Controllers\PoliAjaxController::class, 'getBiayaTarif']);
     

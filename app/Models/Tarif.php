@@ -70,6 +70,34 @@ class Tarif extends Model{
         $data =DB::select($query);
         return $data[0];
     }
+    public static function listByAsuransiNonGigi($asuransi_id){
+        $query  = "SELECT ";
+        $query .= "trf.id as id, ";
+        $query .= "trf.biaya as biaya, ";
+        $query .= "trf.jenis_tarif_id as jenis_tarif_id, ";
+        $query .= "jtf.jenis_tarif as jenis_tarif ";
+        $query .= "FROM tarifs as trf ";
+        $query .= "JOIN jenis_tarifs as jtf on jtf.id = trf.jenis_tarif_id ";
+        $query .= "WHERE jtf.jenis_tarif not like 'Biaya Obat'";
+        $query .= "AND jtf.jenis_tarif not like 'Jasa Dokter'";
+        $query .= "AND jtf.jenis_tarif not like 'Diskon' ";
+        $query .= "AND trf.asuransi_id = {$asuransi_id} ";
+        $query .= "AND trf.tenant_id = " .session()->get('tenant_id'). " ";
+        $query .= "AND jtf.tindakan_gigi = 0;";
+        $data = DB::select($query);
+
+		$tindakans = [null => '- Pilih -'];
+        $is_bpjs   = Asuransi::find($asuransi_id)->tipe_asuransi_id == 5 ;
+
+        foreach ($data as $d) {
+            if ( $is_bpjs && $d->biaya > 0 ) {
+                $tindakans[ json_encode($d) ] = $d->jenis_tarif . ' (TIDAK DITANGGUNG BPJS)';
+            } else {
+                $tindakans[ json_encode($d) ] = $d->jenis_tarif;
+            }
+        }
+        return $tindakans;
+    }
     public static function listByAsuransi($asuransi_id){
         $query  = "SELECT ";
         $query .= "trf.id as id, ";

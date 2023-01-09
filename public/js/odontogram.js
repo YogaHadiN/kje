@@ -407,8 +407,9 @@ function submitTindakanGigi(control) {
                     keterangan_tindakan_gigi
                 );
 
+                key = parseInt(key) + 2;
                 tindakan_gigi_template[taksonomi_gigi_id].push({
-                    transaksi_periksa_key: key,
+                    transaksi_periksa_key: parseInt(key),
                     jenis_tarif_id: jenis_tarif_id,
                     jenis_tarif: jenis_tarif,
                     permukaan_gigi: permukaan_gigi,
@@ -527,6 +528,18 @@ $(document).ready(function () {
                 $("#odontogramEditor .modal-content")
             )
         );
+    // $("#selectTindakan")
+    //     .select2(
+    //         ajax_search_on_modal(
+    //             "polis/ajax/search/jenis_tarif/non_gigi",
+    //             "Pilih tindakan",
+    //             $("#modalTindakan .modal-content")
+    //         )
+    //     )
+    //     .on("change", function (e) {
+    //         selectChange(this);
+    //         return false;
+    //     });
 });
 
 function rowKeadaanGigi(keadaanGigi) {

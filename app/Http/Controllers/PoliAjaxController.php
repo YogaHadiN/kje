@@ -712,11 +712,14 @@ class PoliAjaxController extends Controller
     public function removeKeadaanGigi(){
         return KeadaanGigi::destroy( Input::get('keadaan_gigi_id') );
     }
-    public function getTindakanAjax(){
+    public function getTindakanGigiAjax(){
         $param = Input::get('q');
+        $tenant_id = session()->get('tenant_id');
         $query  = "SELECT id, jenis_tarif as text ";
         $query .= "FROM jenis_tarifs ";
-        $query .= "WHERE jenis_tarif like '%{$param}%';";
+        $query .= "WHERE jenis_tarif like '%{$param}%' ";
+        $query .= "AND tindakan_gigi = 1 ";
+        $query .= "AND tenant_id = {$tenant_id}";
         return DB::select($query);
     }
     public function getResumeOdontogramAwal(){
@@ -727,4 +730,15 @@ class PoliAjaxController extends Controller
             ->where('asuransi_id', Input::get('asuransi_id'))
             ->first()->biaya;
     }
+    public function getJenisTarifBiasaAjax(){
+        $param = Input::get('q');
+        $tenant_id = session()->get('tenant_id');
+        $query  = "SELECT id, jenis_tarif as text ";
+        $query .= "FROM jenis_tarifs ";
+        $query .= "WHERE jenis_tarif like '%{$param}%' ";
+        $query .= "AND tindakan_gigi = 0 ";
+        $query .= "AND tenant_id = {$tenant_id}";
+        return DB::select($query);
+    }
+    
 }
