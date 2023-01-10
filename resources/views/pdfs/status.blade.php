@@ -326,9 +326,9 @@ border-spacing: -1px;
 						{!! $periksa->sistolik !!} / {!! $periksa->diastolik !!} mmHg<br>
 					@endif
                     <strong>Suhu</strong><br>
-                    {!! $periksa->suhu ? $perik->suhu . '<sup>o</sup>C' : 'Tidak diisi' !!}<br>
+                    {!! $periksa->suhu ? $periksa->suhu . '<sup>o</sup>C' : 'Tidak diisi' !!}<br>
                     <strong>Berat Badan</strong><br>
-                    {!! $periksa->berat_badan ? $perik->berat_badan . ' kg' : 'Tidak diisi' !!}<br>
+                    {!! $periksa->berat_badan ? $periksa->berat_badan . ' kg' : 'Tidak diisi' !!}<br>
 
 					@if($periksa->pemeriksaan_penunjang != '')
 						<strong>Pemeriksaan Penunjang dan Tindakan</strong><br>
