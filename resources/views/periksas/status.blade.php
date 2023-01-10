@@ -40,6 +40,8 @@
 							<strong>Tekanan Darah</strong> <br>
 							{!! $periksa->sistolik !!}/{!! $periksa->diastolik !!} mmHg  <br>
 						@endif
+                        <strong>Suhu</strong><br>
+                        {!! $periksa->suhu ? $perik->suhu . '<sup>o</sup>C' : 'Tidak diisi' !!}<br>
                         <strong>Berat Badan</strong><br>
                         {!! $periksa->berat_badan ? $perik->berat_badan . ' kg' : 'Tidak diisi' !!}<br>
 						<strong>Diagnosa :</strong> <br>

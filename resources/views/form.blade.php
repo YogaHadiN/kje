@@ -222,21 +222,31 @@
 											  @if($errors->has('sistolik'))<code>{{ $errors->first('sistolik') }}</code>@endif
 											</div>
 										</div>
-										<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 											<div class="form-group @if($errors->has('diastolik'))has-error @endif">
 											  {!! Form::label('diastolik', 'Diastolik', ['class' => 'control-label']) !!}
-											  {!! Form::text('diastolik' , $diastolik, ['class' => 'form-control angka']) !!}
+                                                <div class="input-group">
+                                                  {!! Form::text('diastolik' , $diastolik, ['class' => 'form-control angka']) !!}
+                                                    <span class="input-group-addon" id="addonDiastolik">mmHg</span>
+                                                </div>
 											  @if($errors->has('diastolik'))<code>{{ $errors->first('diastolik') }}</code>@endif
 											</div>
 										</div>
-										<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-											<div class="form-group @if($errors->has('mmHg'))has-error @endif">
-												<br />
-												<br />
-											  {!! Form::label('mmHg', 'mmHg', ['class' => 'control-label']) !!}
-											  @if($errors->has('mmHg'))<code>{{ $errors->first('mmHg') }}</code>@endif
-											</div>
-										</div>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group @if($errors->has('suhu')) has-error @endif">
+                                              {!! Form::label('suhu', 'Suhu', ['class' => 'control-label']) !!}
+                                                <div class="input-group">
+                                                    {!! Form::text('suhu' , isset($periksaExist->suhu) ? $periksaExist->suhu : $antrianperiksa->suhu, [
+                                                        'id'               => 'suhu',
+                                                        'class'            => 'form-control',
+                                                        'dit'              => 'rtl',
+                                                        'aria-describedby' => 'addonSuhu'
+                                                     ]) !!}
+                                                    <span class="input-group-addon" id="addonSuhu"><sup>o</sup>C</span>
+                                                </div>
+                                              @if($errors->has('suhu'))<code>{{ $errors->first('suhu') }}</code>@endif
+                                            </div>
+                                        </div>
 									</div>
 									<div class="row">
 										<div class="col-lg-12 col-md-12">

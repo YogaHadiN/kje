@@ -1162,6 +1162,7 @@ class PeriksasController extends Controller
         $periksa->asisten_id            = Input::get('asisten_id');
         $periksa->periksa_awal          = Input::get('periksa_awal');
         $periksa->jam                   = Input::get('jam');
+        $periksa->suhu                   = Input::get('suhu');
         $periksa->hamil                 = Input::get('hamil');
         $periksa->jam_resep             = date('H:i:s');
         $periksa->keterangan_diagnosa   = Input::get('keterangan_diagnosa');

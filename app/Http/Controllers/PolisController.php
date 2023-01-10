@@ -111,15 +111,6 @@ class PolisController extends Controller
 
 		Yoga::registerHamilList($pasien_id);
 
-		if($tekanan_darah){
-			$pemeriksaan_awal .= $tekanan_darah . ' mmHg ';
-		}
-		if($suhu){
-			$pemeriksaan_awal .= $suhu . ' C ';
-		}
-		if($berat_badan){
-			$pemeriksaan_awal .= $berat_badan . ' kg ';
-		}
 		if($tinggi_badan){
 			$pemeriksaan_awal .= $tinggi_badan . ' cm ';
 		}
