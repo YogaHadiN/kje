@@ -59,12 +59,11 @@
         <div class="form-group">
             <div class="tfoot" id="formResep">
                 <div class="row">
-                    
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                          <select id="tipeResep" class="form-control selectpick" title='Tipe Resep'>
-                                    <option value="0">Standar</option>
-                                    <option value="1">Puyer</option>
-                                    <option value="2">Add</option>
+                            <option value="0">Standar</option>
+                            <option value="1">Puyer</option>
+                            <option value="2">Add</option>
                         </select>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -95,8 +94,8 @@
                     <a href="#" id="inputResep" class="btn btn-success btn-block" onclick="insertTerapi();return false;">input</a>
                 </div>
             </div>
-            {!! Form::textarea('terapi', $terapiArray, ['class' => 'form-control hide', 'id' => 'terapi'])!!}
-            {!! Form::textarea('transaksi', $transaksi, ['class' => 'form-control hide', 'id' => 'tindakan'])!!}
+            {!! Form::textarea('terapi', $terapiArray, ['class' => 'form-control', 'id' => 'terapi'])!!}
+            {!! Form::textarea('transaksi', $transaksi, ['class' => 'form-control', 'id' => 'tindakan'])!!}
             {!! Form::textarea('tindakan_gigi', isset($tindakan_gigis) ? $tindakan_gigis : '[]', ['class' => 'form-control', 'id' => 'tindakan_gigi'])!!}
             @if($showSubmit)
             <br>

@@ -2218,10 +2218,16 @@ function tindakanDel(control) {
     var transaksi_periksa_key_yang_akan_dihapus = "";
     var tindakan_gigi_key_yang_akan_dihapus = "";
     var taksonomi_gigi_key_yang_akan_dihapus = "";
-
     var tindakan_gigi_template = tindakanGigiArray();
+    var transaksi_periksa_key_yang_akan_dihapus = parseInt(i) + 2;
 
-    var transaksi_periksa_key_yang_akan_dihapus = i;
+    console.log("----------------------");
+    console.log("transaksi_periksa_key_yang_akan_dihapus");
+    console.log(transaksi_periksa_key_yang_akan_dihapus);
+    console.log("i");
+    console.log(i);
+    console.log("----------------------");
+
     $.each(tindakan_gigi_template, function (index, value) {
         if (value != null && value.length > 0) {
             for (let i = 0, len = value.length; i < len; i++) {
@@ -2229,8 +2235,15 @@ function tindakanDel(control) {
                     transaksi_periksa_key_yang_akan_dihapus ==
                     value[i].transaksi_periksa_key
                 ) {
+                    console.log(tindakan_gigi_key_yang_akan_dihapus);
                     tindakan_gigi_key_yang_akan_dihapus = i;
                     taksonomi_gigi_key_yang_akan_dihapus = index;
+                    console.log("----------------------");
+                    console.log("tindakan_gigi_key_yang_akan_dihapus");
+                    console.log(tindakan_gigi_key_yang_akan_dihapus);
+                    console.log("taksonomi_gigi_key_yang_akan_dihapus");
+                    console.log(taksonomi_gigi_key_yang_akan_dihapus);
+                    console.log("----------------------");
                     break;
                 }
             }

@@ -449,7 +449,7 @@ function removeTindakanGigi(control) {
     tindakan_gigi_template[taksonomi_gigi_id].splice(i, 1);
     viewTindakanGigi(tindakan_gigi_template);
     viewKeadaanGigi();
-    deleteTindakan(transaksi_periksa_key);
+    deleteTindakan(parseInt(transaksi_periksa_key) - 2);
 }
 function tindakanGigiArray() {
     var tindakan_gigi_template = $("#tindakan_gigi").val();

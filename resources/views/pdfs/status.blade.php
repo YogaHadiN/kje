@@ -269,9 +269,9 @@ border-spacing: -1px;
 				<table style="width:100%" class="content1">
 					<tbody>
 						<tr>
-							<td nowrap>Nama Pasien</td>
-							<td nowrap>:</td>
-							<td nowrap>{!! $periksa->pasien->nama !!}</td>
+                            <td nowrap>Nama Pasien</td>
+                            <td nowrap>:</td>
+                            <td nowrap>{!! $periksa->pasien->nama !!} ( {{ \App\Models\Classes\Yoga::umurSaatPeriksa( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} thn)</td>
 						</tr>
 						<tr>
 							<td nowrap>Tanggal Lahir</td>
@@ -325,6 +325,9 @@ border-spacing: -1px;
 						<strong>Tekanan Darah</strong><br>
 						{!! $periksa->sistolik !!} / {!! $periksa->diastolik !!} mmHg<br>
 					@endif
+                    <strong>Berat Badan</strong><br>
+                    {!! $periksa->berat_badan ? $perik->berat_badan . ' kg' : 'Tidak diisi' !!}<br>
+
 					@if($periksa->pemeriksaan_penunjang != '')
 						<strong>Pemeriksaan Penunjang dan Tindakan</strong><br>
 						{!! $periksa->pemeriksaan_penunjang !!} <br>
@@ -849,7 +852,7 @@ border-spacing: -1px;
 						<tr>
 							<td nowrap>Nama Pasien</td>
 							<td nowrap>:</td>
-							<td nowrap>{!! $periksa->pasien->nama !!}</td>
+                            <td nowrap>{!! $periksa->pasien->nama !!} ( {{ \App\Models\Classes\Yoga::umurSaatPeriksa( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} )</td>
 						</tr>
 						<tr>
 							<td nowrap>Tanggal Lahir</td>
@@ -1043,9 +1046,9 @@ border-spacing: -1px;
 										<table style="width:100%" class="content1">
 											<tbody>
 												<tr>
-													<td nowrap>Nama Pasien</td>
-													<td nowrap>:</td>
-													<td nowrap>{!! $periksa->pasien->nama !!}</td>
+                                                    <td nowrap>Nama Pasien</td>
+                                                    <td nowrap>:</td>
+                                                    <td nowrap>{!! $periksa->pasien->nama !!} ( {{ \App\Models\Classes\Yoga::umurSaatPeriksa( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} )</td>
 												</tr>
 												<tr>
 													<td nowrap>Tanggal Lahir</td>
@@ -1125,9 +1128,10 @@ border-spacing: -1px;
 													<td nowrap colspan="3">Mohon agar dapat dilakukan pemeriksaan <strong>Gula Darah Puasa</strong> untuk pasien :</td>
 												</tr>
 												<tr>
-													<td nowrap>Nama Pasien</td>
-													<td nowrap>:</td>
-													<td nowrap>{!! $periksa->pasien->nama !!}</td>
+                                                    <td nowrap>Nama Pasien</td>
+                                                    <td nowrap>:</td>
+                                                    <td nowrap>{!! $periksa->pasien->nama !!} ( {{ \App\Models\Classes\Yoga::umurSaatPeriksa( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} )</td>
+												</tr>
 												</tr>
 												<tr>
 													<td nowrap>Tanggal Lahir</td>

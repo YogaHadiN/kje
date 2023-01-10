@@ -40,6 +40,8 @@
 							<strong>Tekanan Darah</strong> <br>
 							{!! $periksa->sistolik !!}/{!! $periksa->diastolik !!} mmHg  <br>
 						@endif
+                        <strong>Berat Badan</strong><br>
+                        {!! $periksa->berat_badan ? $perik->berat_badan . ' kg' : 'Tidak diisi' !!}<br>
 						<strong>Diagnosa :</strong> <br>
 						{!! $periksa->diagnosa->diagnosa !!} - {!! $periksa->diagnosa->icd10_id !!} ({!! $periksa->diagnosa->icd10->diagnosaICD !!})
                         @if( !empty( trim( $periksa->keterangan_diagnosa ) ) )
