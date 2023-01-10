@@ -301,6 +301,16 @@ if (!function_exists('resetWhatsappRegistration')) {
 }
 
 
+
+if (!function_exists('hitungUsia')) {
+    function hitungUsia($birthDate, $checkDate){
+        if(empty($birthDate) || $birthDate == '0000-00-00'){
+            return ' -- ';
+        } else {
+            return date_diff(date_create($birthDate), date_create($checkDate))->y . ' th';
+        }
+    }
+}
 if (!function_exists('convertToWablasFriendlyFormat')) {
      function convertToWablasFriendlyFormat($no_telp) {
          if (

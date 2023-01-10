@@ -428,19 +428,21 @@ class CustomController extends Controller
                     'keterangan_pemeriksaan' => isset($transaksi['keterangan_tindakan'])?$transaksi['keterangan_tindakan']:null
                 ]);
                 $dummyData = [];
-                foreach ($tindakan_gigis as $taksonomi_gigi_id => $tindakan_gigi) {
-                    if (!is_null( $tindakan_gigi )) {
-                        foreach ($tindakan_gigi as $tg) {
-                            if ($tg['transaksi_periksa_key'] == $k) {
-                                $dummyData[] = $k;
-                                $odontogram = Odontogram::where('pasien_id', $periksa->pasien_id)
-                                                        ->where('taksonomi_gigi_id', $taksonomi_gigi_id)
-                                                        ->first();
-                                $tp->tindakanGigi()->create([
-                                    'odontogram_id'     => $odontogram->id,
-                                    'permukaan_gigi_id' => $tg['permukaan_gigi_id'],
-                                    'matur'             => $odontogram->matur,
-                                ]);
+                if (!is_null( $tindakan_gigis )) {
+                    foreach ($tindakan_gigis as $taksonomi_gigi_id => $tindakan_gigi) {
+                        if (!is_null( $tindakan_gigi )) {
+                            foreach ($tindakan_gigi as $tg) {
+                                if ($tg['transaksi_periksa_key'] == $k) {
+                                    $dummyData[] = $k;
+                                    $odontogram = Odontogram::where('pasien_id', $periksa->pasien_id)
+                                                            ->where('taksonomi_gigi_id', $taksonomi_gigi_id)
+                                                            ->first();
+                                    $tp->tindakanGigi()->create([
+                                        'odontogram_id'     => $odontogram->id,
+                                        'permukaan_gigi_id' => $tg['permukaan_gigi_id'],
+                                        'matur'             => $odontogram->matur,
+                                    ]);
+                                }
                             }
                         }
                     }

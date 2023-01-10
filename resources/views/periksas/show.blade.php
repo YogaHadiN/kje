@@ -21,7 +21,7 @@
       <div class="panel-heading">
             <div class="panel-title">
                 <div class="panelLeft">
-                    <h3>Nama Pasien : {!!$periksa->pasien->id!!} - {!!$periksa->pasien->nama!!}</h3>
+                    <h3>Nama Pasien : {!!$periksa->pasien->id!!} - {!!$periksa->pasien->nama!!} ( {{ hitungUsia( $periksa->pasien->tanggal_lahir, $periksa->tanggal ) }} )</h3>
                 </div>
                 <div class="panelRight">
 					<a class="btn btn-lg btn-warning " href="{{ url('periksas/' .$periksa->id . '/edit/transaksiPeriksa') }}">

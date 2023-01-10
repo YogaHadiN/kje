@@ -271,7 +271,7 @@ border-spacing: -1px;
 						<tr>
                             <td nowrap>Nama Pasien</td>
                             <td nowrap>:</td>
-                            <td nowrap>{!! $periksa->pasien->nama !!} ( {{ \App\Models\Classes\Yoga::umurSaatPeriksa( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} thn)</td>
+                            <td nowrap>{!! $periksa->pasien->nama !!} ( {{ hitungUsia( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }})</td>
 						</tr>
 						<tr>
 							<td nowrap>Tanggal Lahir</td>
@@ -716,7 +716,7 @@ border-spacing: -1px;
 								<tr>
 									<td>Nama</td>
 									<td>:</td>
-									<td>{!! $periksa->pasien->nama !!}, {!! App\Models\Classes\Yoga::umurSaatPeriksa($periksa->pasien->tanggal, date('Y-m-d'))!!}</td>
+                                    <td>{!! $periksa->pasien->nama !!}, {!! hitungUsia($periksa->pasien->tanggal,  $periksa->tanggal)!!}</td>
 								</tr>
 								<tr>
 									<td>Keterangan</td>
@@ -1050,7 +1050,7 @@ border-spacing: -1px;
 												<tr>
                                                     <td nowrap>Nama Pasien</td>
                                                     <td nowrap>:</td>
-                                                    <td nowrap>{!! $periksa->pasien->nama !!} ( {{ \App\Models\Classes\Yoga::umurSaatPeriksa( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} )</td>
+                                                    <td nowrap>{!! $periksa->pasien->nama !!} ( {{ hitungUsia( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} )</td>
 												</tr>
 												<tr>
 													<td nowrap>Tanggal Lahir</td>
@@ -1132,7 +1132,7 @@ border-spacing: -1px;
 												<tr>
                                                     <td nowrap>Nama Pasien</td>
                                                     <td nowrap>:</td>
-                                                    <td nowrap>{!! $periksa->pasien->nama !!} ( {{ \App\Models\Classes\Yoga::umurSaatPeriksa( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} )</td>
+                                                    <td nowrap>{!! $periksa->pasien->nama !!} ( {{ hitungUsia( $periksa->pasien->tanggal_lahir, $periksa->tanggal)  }} )</td>
 												</tr>
 												</tr>
 												<tr>
