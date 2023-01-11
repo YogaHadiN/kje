@@ -29,6 +29,7 @@ $(document).ready(function () {
         autoclose: true,
         format: "dd-mm-yyyy",
     });
+    $(".jam").clockpicker();
     $(".tanggal").closest("form").attr("autocomplete", "off");
     $(".bulanTahun").datepicker({
         todayBtn: "linked",

@@ -55,6 +55,7 @@ Route::get('fasilitas/survey', [\App\Http\Controllers\FasilitasController::class
 
 Route::group(['middleware' => 'auth'], function(){
 
+    Route::resource('jadwal_konsultasis', \App\Http\Controllers\JadwalKonsultasiController::class);
     Route::resource('sent_emails', \App\Http\Controllers\SentEmailController::class);
     Route::get('invoices/inv/{id}', [\App\Http\Controllers\InvoiceController::class, 'test']);
     Route::get('invoices/getData', [\App\Http\Controllers\InvoiceController::class, 'getData']);

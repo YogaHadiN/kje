@@ -22,6 +22,7 @@ Klinik Jati Elok | Ruangan Yang Tersedia
         <thead>
             <tr>
                 <th>Nama</th>
+                <th>Jumlah Cek List</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -30,6 +31,7 @@ Klinik Jati Elok | Ruangan Yang Tersedia
                 @foreach($ruangans as $ruangan)
                     <tr>
                         <td>{{ $ruangan->nama }}</td>
+                        <td>{{ $ruangan->cekListRuangan->count() }}</td>
                         <td> <a href="{{ url('cek_list_ruangans/' . $ruangan->id) }}" class="btn btn-primary btn-sm">Ceklist</a> </td>
                     </tr>
                 @endforeach

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs/1.11.3/dataTables.bootstrap.min.css" integrity="sha512-yCRBUUWCQq1Erz8aNpDN5pQUyvY1HSWNhTzdJlL26L1RBS2RcCw4tt/k1CtiaDkLY6QOBwGIVDD90x1/NZ0ROw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/css/TableTools.min.css" integrity="sha512-oEVHwl7M7R9Kw5nzXKGqZw5pT6vd6p1/TuntOAjrnSHQkR2mooXyEwwdysdvI9yEPAuXPcfuskkwp5RjFfDLlw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" integrity="sha512-MT4B7BDQpIoW1D7HNPZNMhCD2G6CDXia4tjCdgqQLyq2a9uQnLPLgMNbdPY7g6di3hHjAI8NGVqhstenYrzY1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen">
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
@@ -114,6 +114,7 @@
                             <li>{!! HTML::link('rumahsakits', 'Rumah Sakit')!!}</li>
                             <li>{!! HTML::link('tarifs', 'Tarif')!!}</li>
                             <li>{!! HTML::link('diagnosas', 'Diangosa')!!}</li>
+                            <li>{!! HTML::link('jadwal_konsultasis', 'Jadwal Konsultasi')!!}</li>
                             <li>{!! HTML::link('users', 'User')!!}</li>
                             <li>{!! HTML::link('discounts', 'Discount')!!}</li>
                             <li>{!! HTML::link('pasiens/gabungkan/pasien/ganda', 'Gabungkan Pasien Dobel')!!}</li>
@@ -496,11 +497,13 @@
     <script src="{!! url('js/plugins/dataTables/dataTables.responsive.min.js') !!}"></script>
     <script src="{!! url('js/inspinia.js') !!}"></script>
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
+
     WebCam -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/js/TableTools.min.js" integrity="sha512-dhjVdIKMLTgZ/WJHddxj8uA0IxV71JItZdd5s6ckPBZnjNn0hgE+m1vdVnsWSaBsihM40gNqDjZq+yMuTFRu3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js" integrity="sha512-x0qixPCOQbS3xAQw8BL9qjhAh185N7JSw39hzE/ff71BXg7P1fkynTqcLYMlNmwRDtgdoYgURIvos+NJ6g0rNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
   <script src="{!! url('js/master.js') !!}"></script>
 	<script>
