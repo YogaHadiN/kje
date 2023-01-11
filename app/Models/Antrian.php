@@ -67,7 +67,8 @@ class Antrian extends Model
         $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
         $query .= "WHERE ant.no_telp = '{$no_telp}' ";
         $query .= "and trim(ant.no_telp) not like '' ";
-        $query .= "and ant.no_telp is not null;";
+        $query .= "and ant.no_telp is not null ";
+        $query .= "group by psn.id";
         return DB::select($query);
     }
 }
