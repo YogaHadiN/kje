@@ -180,5 +180,5 @@
 @stop
 @section('footer') 
   <script src="{!! asset('js/antrianperiksa.js') !!}"></script>
-  <script src="{!! asset('js/panggil.js') !!}"></script>
+  <script src="{!! asset('js/panggil.js?ver=123') !!}"></script>
 @stop
