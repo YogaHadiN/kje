@@ -689,8 +689,6 @@ class WablasController extends Controller
 
         $result = curl_exec($curl);
         curl_close($curl);
-        /* echo "<pre>"; */
-        /* print_r($result); */
     }
 
     public function send(){
@@ -713,8 +711,6 @@ class WablasController extends Controller
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         $result = curl_exec($curl);
         curl_close($curl);
-        echo "<pre>";
-        print_r($result);
     }
     public function sendTemplate(){
         $curl = curl_init();
@@ -765,8 +761,6 @@ class WablasController extends Controller
 
         $result = curl_exec($curl);
         curl_close($curl);
-        echo "<pre>";
-        print_r($result);
     }
 
     public function sendSingle($phone, $message){
@@ -789,8 +783,6 @@ class WablasController extends Controller
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         $result = curl_exec($curl);
         curl_close($curl);
-        /* echo "<pre>"; */
-        /* print_r($result); */
     }
     /**
      * undocumented function

@@ -35,7 +35,6 @@ if ($("#terapi").val() == "" || $("#terapi").val() == "[]") {
     var data = JSON.parse($("#terapi").val());
     viewResep(resepJson($("#terapi").val())[1]);
 }
-console.log("tindakan", $("#tindakan").val());
 function getDataTindakan() {
     if ($("#tindakan").val() == "" || $("#tindakan").val() == "[]") {
         var dataTindakan = [];
@@ -46,6 +45,9 @@ function getDataTindakan() {
     return dataTindakan;
 }
 var dataTindakan = getDataTindakan();
+console.log(50);
+console.log(dataTindakan);
+console.log(51);
 
 $("#dummy_submit_perujuk_baru").click(function () {
     var nama_perujuk = $("#nama_perujuk").val();
@@ -2189,10 +2191,7 @@ function viewTindakan(MyArray) {
     }
 
     $("#ajaxTindakan").html(temp);
-    console.log("dataTindakan");
-    console.log("2199");
-    console.log(dataTindakan);
-    $("#tindakan").val(JSON.stringify(dataTindakan));
+    $("#tindakan").val(JSON.stringify(MyArray));
     var temp = "";
     var biaya = 0;
     for (var i = 0; i < MyArray.length; i++) {
@@ -3120,7 +3119,11 @@ function inputTindakan(
         biaya: biaya,
         keterangan_tindakan: keterangan_tindakan,
     };
+    console.log(3122);
+    console.log("dataTindakan");
+    console.log(dataTindakan);
     var string = JSON.stringify(dataTindakan);
+
     $("#tindakan").val(string);
 
     viewTindakan(dataTindakan);
