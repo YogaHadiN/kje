@@ -108,4 +108,5 @@
 {!! HTML::script('js/allpoli.js')!!} 
 {!! HTML::script('js/alergi.js')!!} 
 {!! HTML::script('js/gambar_periksa.js')!!} 
+{!! HTML::script('js/odontogram.js?ver=123')!!} 
 @stop

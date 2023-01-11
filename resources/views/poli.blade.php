@@ -109,7 +109,7 @@ var base  = '{!! url('/') !!}';
  <script src="{!! asset('js/panggil.js') !!}"></script>
 {!! HTML::script('js/allpoli.js')!!} 
 {!! HTML::script('js/alergi.js')!!} 
-{!! HTML::script('js/odontogram.js')!!} 
+{!! HTML::script('js/odontogram.js?ver=123')!!} 
 <script>
     afiCount();
 </script>
