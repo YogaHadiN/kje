@@ -769,7 +769,7 @@ class PolisController extends Controller
             foreach ($antrians as $k => $ant) {
                 if ( $ant->id < $antrian->id ) {
                     $antrian_terlewat = Antrian::where('created_at', 'like', date('Y-m-d') . '%')
-                        ->whereRaw('antriable_type = "App\\\Models\\\AntrianPoli" or antriable_type = "App\\\Models\\\AntrianPeriksa" of antriable_type = "App\\\Models\\\Antrian"')
+                        ->whereRaw('antriable_type = "App\\\Models\\\AntrianPoli" or antriable_type = "App\\\Models\\\AntrianPeriksa" or antriable_type = "App\\\Models\\\Antrian"')
                         ->where('notifikasi_panggilan_aktif', 1)
                         ->where('jenis_antrian_id', 1)
                         ->where('id', '<', $ant->id)
