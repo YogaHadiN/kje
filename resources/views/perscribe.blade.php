@@ -94,9 +94,9 @@
                     <a href="#" id="inputResep" class="btn btn-success btn-block" onclick="insertTerapi();return false;">input</a>
                 </div>
             </div>
-            {!! Form::textarea('terapi', $terapiArray, ['class' => 'form-control hide', 'id' => 'terapi'])!!}
-            {!! Form::textarea('transaksi', $transaksi, ['class' => 'form-control hide', 'id' => 'tindakan'])!!}
-            {!! Form::textarea('tindakan_gigi', isset($tindakan_gigis) ? $tindakan_gigis : '[]', ['class' => 'form-control hide', 'id' => 'tindakan_gigi'])!!}
+            {!! Form::textarea('terapi', $terapiArray, ['class' => 'form-control', 'id' => 'terapi'])!!}
+            {!! Form::textarea('transaksi', $transaksi, ['class' => 'form-control', 'id' => 'tindakan'])!!}
+            {!! Form::textarea('tindakan_gigi', isset($tindakan_gigis) ? $tindakan_gigis : '[]', ['class' => 'form-control', 'id' => 'tindakan_gigi'])!!}
             @if($showSubmit)
             <br>
                 <div class="row">

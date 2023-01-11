@@ -31,6 +31,7 @@
 	])!!}
       @include('form', [
           'pemeriksaan_awal'             => $pemeriksaan_awal,
+          'transaksi'                    => $transaksiusg,
           'berat_badan'                  => $antrianperiksa->berat_badan,
           'sudah'                        => $sudah,
 		  'sistolik'                     => $antrianperiksa->sistolik,
