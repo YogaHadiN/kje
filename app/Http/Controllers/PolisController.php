@@ -805,11 +805,17 @@ class PolisController extends Controller
                     } else {
                         $message .= 'Dipanggil ke ruang periksa.';
                         $message .= PHP_EOL;
-                        if ( $k == 1 ) {
-                            $message .= '*Setelah ini giliran kakak* . Mohon bersiap di dekat ruang periksa';
-                        } else {
-                            $message .= '*Masih ada ' . $k . ' antrian lagi* sebelum giliran anda dipanggil';
-                        }
+                        $message .= 'Nomor antrian Anda adalah';
+                        $message .= PHP_EOL;
+                        $message .= '*'.$ant->nomor_antrian.'*';
+                        /* if ( $k == 1 ) { */
+                        /*     $message .= '*Setelah ini giliran kakak* . Mohon bersiap di dekat ruang periksa'; */
+                        /* } else { */
+                        /*     $message .= '*Masih ada ' . $k . ' antrian lagi*'; */
+                        /*     $message .= PHP_EOL; */
+                        /*     $message .= 'sebelum giliran Anda dipanggil'; */
+                        /* } */
+                        $message .= PHP_EOL;
                         $message .= PHP_EOL;
                         $message .= 'Balas *stop* untuk berhenti menerima notifikasi ini';
                     }
@@ -818,9 +824,7 @@ class PolisController extends Controller
                         'phone'   => $ant->no_telp
                     ];
                 }
-
             }
-
             if (count($data)) {
                 $wa = new WablasController;
                 $wa->bulkSend($data);
