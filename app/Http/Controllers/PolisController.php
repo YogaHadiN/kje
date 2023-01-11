@@ -807,6 +807,7 @@ class PolisController extends Controller
                         $message .= PHP_EOL;
                         $message .= 'Nomor antrian Anda adalah';
                         $message .= PHP_EOL;
+                        $message .= PHP_EOL;
                         $message .= '*'.$ant->nomor_antrian.'*';
                         /* if ( $k == 1 ) { */
                         /*     $message .= '*Setelah ini giliran kakak* . Mohon bersiap di dekat ruang periksa'; */
