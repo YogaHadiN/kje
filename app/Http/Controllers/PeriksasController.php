@@ -503,8 +503,8 @@ class PeriksasController extends Controller
 				// jika pasien masuk dalam kategori prolanis ht
 				$this->input_pasien->prolanis_ht == '1' &&
 				// jika nilai sistolik < 140  dan diastolik < 90
-				$this->input_sistolik < 140 &&
-				$this->input_diastolik < 90 &&
+				$this->input_sistolik < 131 &&
+				$this->input_diastolik < 86 &&
 				!empty($this->input_sistolik)  &&
 				( 
 					// jika sistolik tidak diantara 120 dan 130 untuk pasien kurang dari 64 tahun
@@ -538,8 +538,8 @@ class PeriksasController extends Controller
 				// jika pasien masuk dalam kategori prolanis ht
 				$this->input_pasien->prolanis_ht == '1' &&
 				// jika nilai sistolik =< 140  dan diastolik =< 90
-				$this->input_sistolik < 140 &&
-				$this->input_diastolik < 90 &&
+				$this->input_sistolik < 131 &&
+				$this->input_diastolik < 86 &&
 				!empty($this->input_diastolik)  &&
 				// jika diastolik tidak diantara 70 dan 79
 				(!in_array($this->input_diastolik, range(70, 79)))

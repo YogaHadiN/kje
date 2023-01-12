@@ -505,7 +505,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js" integrity="sha512-x0qixPCOQbS3xAQw8BL9qjhAh185N7JSw39hzE/ff71BXg7P1fkynTqcLYMlNmwRDtgdoYgURIvos+NJ6g0rNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
-  <script src="{!! url('js/master.js?ver=123') !!}"></script>
+  <script src="{!! url('js/master.js') !!}"></script>
 	<script>
 		var base = "{{ url('/') }}";
 		var base_s3 = "{{ env('AWS_URL') }}";

@@ -288,12 +288,11 @@ class PesertaBpjsPerbulanController extends Controller
     }
     public function destroy($id){
         $prolanis = Prolanis::find( $id );
-
         $periode = $prolanis->periode;
         Prolanis::where('periode', $periode)->delete();
         $pesan = Yoga::suksesFlash('Prolanis bulan ' . \Carbon\Carbon::parse($periode)->format('M Y') . ' berhasil dihapus');
         return redirect('model_plural')->withPesan($pesan);
     }
-    
+
 }
 

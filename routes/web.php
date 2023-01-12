@@ -787,6 +787,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('setor_tunais', \App\Http\Controllers\SetorTunaiController::class);
 	Route::post('peserta_bpjs_perusahaans/{id}/import', [\App\Http\Controllers\PesertaBpjsPerusahaanController::class, 'import']);
 	Route::get('peserta_bpjs_perusahaans/perusahaan/{id}', [\App\Http\Controllers\PesertaBpjsPerusahaanController::class, 'peserta']);
+	Route::get('pemeriksaan/perusahaan/{id}', [\App\Http\Controllers\PesertaBpjsPerusahaanController::class, 'pemeriksaan']);
 
 	Route::resource('perusahaans', \App\Http\Controllers\PerusahaanController::class);
 	Route::resource('peserta_bpjs_perusahaans', \App\Http\Controllers\PesertaBpjsPerusahaanControlleid::class);

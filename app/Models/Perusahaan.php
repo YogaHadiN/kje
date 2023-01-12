@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Perusahaan extends Model
 {
     use HasFactory;
+
     public function peserta(){
         return $this->hasMany(PesertaBpjsPerusahaan::class);
     }

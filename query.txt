@@ -1,2 +1,1 @@
-            $table->integer('hari_id');
-            $table->integer('tipe_konsultasi_id');
+Transfer antar Mandiri DARI SARANA USAHA SEJAHTERA INSANPALAPA RS RS Transfer Fee RS

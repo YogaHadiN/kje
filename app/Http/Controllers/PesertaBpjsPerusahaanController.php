@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PesertaBpjsPerusahaan;
+use App\Models\Periksa;
+use App\Models\Asuransi;
 use Input;
 use Excel;
 use App\Models\Classes\Yoga;
@@ -113,6 +115,29 @@ class PesertaBpjsPerusahaanController extends Controller
         return view('peserta_bpjs_perusahaans.peserta', compact(
             'perusahaan',
             'peserta',
+        ));
+    }
+    public function pemeriksaan($id){
+        $perusahaan = Perusahaan::with('peserta')->where('id', $id )->first();
+        $nomor_asuransi_bpjs = [];
+        foreach ($perusahaan->peserta as $peserta){
+            if ( !empty( $peserta->nomor_asuransi_bpjs ) ) {
+                $nomor_asuransi_bpjs[] = $peserta->nomor_asuransi_bpjs;
+            }
+        }
+        $periksas = Periksa::with(
+            'pasien', 
+            'asuransi', 
+            'suratSakit',
+            'staf'
+        )
+                            ->where('asuransi_id', Asuransi::BPJS()->id)
+                            ->whereIn('nomor_asuransi', $nomor_asuransi_bpjs)
+                            ->orderBy('tanggal', 'desc')
+                            ->paginate(50);
+        return view('perusahaans.pemeriksaan', compact(
+            'periksas',
+            'perusahaan'
         ));
     }
     
