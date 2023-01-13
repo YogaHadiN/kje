@@ -17,7 +17,6 @@
         <strong>Surat Ketarangan Sakit {{ $perusahaan->id }}</strong>
     </li>
 </ol>
-
 @stop
 @section('content') 
 {{ $periksas->links() }}
@@ -37,8 +36,12 @@
             @if($periksas->count() > 0)
                 @foreach($periksas as $periksa)
                     <tr>
-                        <td nowrap>{{ $periksa->tanggal }}</td>
-                        <td>{{ $periksa->pasien->nama }}</td>
+                        <td nowrap>
+                            <a href="{{ url('periksas/' . $periksa->id) }}" target="_blank">{{ $periksa->tanggal }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ url('pasiens/' . $periksa->pasien_id . '/edit') }}" target="_blank">{{ $periksa->pasien->nama }}</a>
+                        </td>
                         <td>{{ $periksa->asuransi->nama }}</td>
                         <td>{{ $periksa->staf->nama }}</td>
                         <td>{{ !is_null($periksa->suratSakit)? $periksa->suratSakit->tanggal_mulai : '-' }}</td>

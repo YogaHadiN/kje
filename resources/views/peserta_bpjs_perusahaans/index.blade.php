@@ -33,7 +33,9 @@ Online Electronic Medical Record | Nurse Station
             @if($daftars->count() > 0)
                 @foreach($daftars as $daftar)
                     <tr>
-                        <td>{{ $daftar->pasien->nama }}</td>
+                        <td>
+                            <a href="{{ url('pasiens/' .  $daftar->pasien_id ) }}" target="_blank">{{ $daftar->pasien->nama }}</a>
+                        </td>
                         <td>{{ $daftar->poli->poli }}</td>
                         <td>{{ $daftar->asuransi->nama_asuransi }}</td>
                         <td>{{ $daftar->staf->nama }}</td>

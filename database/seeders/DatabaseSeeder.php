@@ -7,6 +7,7 @@ use DB;
 use App\Models\Tenant;
 use App\Models\KategoriCekList;
 use App\Models\FrekuensiCek;
+use App\Models\Staf;
 use App\Models\Coa;
 use App\Models\Hari;
 use App\Models\TipeKonsultasi;
@@ -25,39 +26,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        Hari::truncate();
-        Hari::create([
-            'hari' => 'senin'
-        ]);
-        Hari::create([
-            'hari' => 'selasa'
-        ]);
-        Hari::create([
-            'hari' => 'rabu'
-        ]);
-        Hari::create([
-            'hari' => 'kamis'
-        ]);
-        Hari::create([
-            'hari' => 'jumat'
-        ]);
-        Hari::create([
-            'hari' => 'sabtu'
-        ]);
-        Hari::create([
-            'hari' => 'minggu'
-        ]);
-        TipeKonsultasi::create([
-            'tipe_konsultasi' => 'dokter'
-        ]);
-        TipeKonsultasi::create([
-            'tipe_konsultasi' => 'dokter gigi'
-        ]);
-        TipeKonsultasi::create([
-            'tipe_konsultasi' => 'bidan'
-        ]);
-        TipeKonsultasi::create([
-            'tipe_konsultasi' => 'usg'
+        Staf::where('id', 16)->update([
+            'nama' => 'Ika Setyaningsih'
         ]);
     }
 }
