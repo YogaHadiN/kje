@@ -21,13 +21,18 @@ use App\Models\WaktuHadir;
 use App\Models\OdontogramAbbreviation;
 use App\Models\TaksonomiGigi;
 use App\Models\PermukaanGigi;
+use App\Models\WhatsappBotService;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        Staf::where('id', 16)->update([
-            'nama' => 'Ika Setyaningsih'
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Cek List Harian'
+        ]);
+
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Input Cek List Harian'
         ]);
     }
 }

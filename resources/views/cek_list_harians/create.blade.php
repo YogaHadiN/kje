@@ -18,28 +18,27 @@ Klinik Jati Elok | Buat Cek List Harian Baru
 @stop
 @section('content') 
 {!! Form::open(['url' => 'cek_list_harians', 'method' => 'post']) !!}
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="form-group @if($errors->has('no_telp')) has-error @endif">
-                  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
-                  {!! Form::text('no_telp' , null, ['class' => 'form-control rq']) !!}
-                  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
-                </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group @if($errors->has('no_telp')) has-error @endif">
+              {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
+              {!! Form::text('no_telp' , null, ['class' => 'form-control rq']) !!}
+              @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="form-group @if($errors->has('staf_id')) has-error @endif">
-                  {!! Form::label('staf_id', 'Nama Staf', ['class' => 'control-label']) !!}
-                  {!! Form::select('staf_id' , \App\Models\Staf::pluck('nama', 'id'), null, [
-                    'class'       => 'form-control',
-                    'placeholder' => '-Pilih-'
-                  ]) !!}
-                  @if($errors->has('staf_id'))<code>{!! $errors->first('staf_id') !!}</code>@endif
-                </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group @if($errors->has('staf_id')) has-error @endif">
+              {!! Form::label('staf_id', 'Nama Staf', ['class' => 'control-label']) !!}
+              {!! Form::select('staf_id' , \App\Models\Staf::pluck('nama', 'id'), null, [
+                'class'       => 'form-control',
+                'placeholder' => '-Pilih-'
+              ]) !!}
+              @if($errors->has('staf_id'))<code>{!! $errors->first('staf_id') !!}</code>@endif
             </div>
         </div>
-
+    </div>
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
