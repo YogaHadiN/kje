@@ -58,11 +58,13 @@ class CekListHariansController extends Controller
 
     public function processData($whatsapp_bot){
         $whatsapp_bot->whatsapp_bot_service_id = 1;
-        $whatsapp_bot->no_telp = Input::get('no_telp');
+        $whatsapp_bot->no_telp =  '62' . substr(Input::get('no_telp'), 1) ;
         $whatsapp_bot->save();
 
         $wa = WablasController;
-        $wa->sendSingle( Input::get('no_telp'), 'silahkan mulai mengisi' );
+        $cek = $this->cekListBelumDilakukan();
+        $message = "Silahkan mulai cek " . $cek->cekList->cek_list . " di ruangan " . $cek->ruangan->ruangan;
+        $wa->sendSingle( $whatsapp_bot->no_telp, $message);
     }
     public function masihAdaYangBelumCekListHariIni(){
         $cek_list_ruangan_harian_ids  = CekListRuangan::where('frekuensi_cek_id', 1)->pluck('id');
@@ -71,6 +73,35 @@ class CekListHariansController extends Controller
                                                         ->groupBy('cek_list_ruangan_id')
                                                         ->get();
         return $cek_list_ruangan_harian_ids->count() == $cek_list_dikerjakan_hari_ini->count();
+    }
+    public function cekListBelumDilakukan(){
+        $cek_list_ruangan_harians = CekListRuangan::with('cekList', 'ruangan')
+                                    ->where('frekuensi_cek_id', 1)
+                                    ->orderBy('ruangan_id', 'asc')
+                                    ->orderBy('cek_list_id', 'asc')
+                                    ->get();
+        $cek_list_ruangan_ids = [];
+        foreach ($cek_list_ruangan_harians as $cek) {
+            $cek_list_ruangan_ids[] = $cek->id;
+        }
+        $cek_list_harians_dikerjakans = CekListDikerjakan::whereIn('cek_list_ruangan_id', $cek_list_ruangan_ids)
+                                                        ->where('created_at', 'like', date('Y-m-d') . '%')
+                                                        ->groupBy('cek_list_ruangan_id')
+                                                        ->get();
+        if ( $cek_list_ruangan_harians->count() !== $cek_list_harians_dikerjakans->count() {
+            WhatsappBot::where('no_telp', $this->no_telp)->where('whatsapp_bot_service_id',1)->update([
+                'whatsapp_bot_service_id' => 2
+            ]);
+            foreach ($cek_list_ruangan_harians as $cek) {
+                $cek_list_dikerjakan = $this->cekListDikerjakanUntukCekListRuanganIni( $cek->id );
+                if ( 
+                    is_null(  $cek_list_dikerjakan  )
+                ) {
+                    return $cek;
+                    break;
+                }
+            }
+        }
     }
     
 }

@@ -123,12 +123,24 @@ class testcommand extends Command
 
 
     public function handle(){
+        $mes2 = substr('081381912803', 1);
+        dd( '62' . $mes2 );
+
+        /* $this->revisiModal(798); */
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function newWaBot()
+    {
         $whatsapp_bot = new WhatsappBot;
         $whatsapp_bot->whatsapp_bot_service_id = 1;
         $whatsapp_bot->no_telp = "6281381912803";
         $whatsapp_bot->save();
-        /* $this->revisiModal(798); */
     }
+    
 
     /**
      * undocumented function
