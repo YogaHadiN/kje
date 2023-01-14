@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ruangan;
+use App\Http\Controllers\WablasController;
 use Input;
 use App\Models\CekHarianAnafilaktikKit;
 
@@ -40,21 +41,20 @@ class CekListHariansController extends Controller
         {
             return \Redirect::back()->withErrors($validator)->withInput();
         }
-        $whatsapp_cek_list_harian = new WhatsappCekListHarian;
-        $this->processData($whatsapp_cek_list_harian);
+        $whatsapp_bot = new WhatsappBot;
+        $this->processData($whatsapp_bot);
 
         $pesan = Yoga::suksesFlash('Permintaan cek list sudah dikirim');
         return redirect()->back()->withPesan($pesan);
     }
 
-    public function processData($whatsapp_cek_list_harian){
-        $whatsapp_cek_list_harian->staf_id = Input::get('staf_id');
-        $whatsapp_cek_list_harian->no_telp = Input::get('no_telp');
-        $whatsapp_cek_list_harian->save();
+    public function processData($whatsapp_bot){
+        $whatsapp_bot->whatsapp_bot_service_id = 1;
+        $whatsapp_bot->no_telp = Input::get('no_telp');
+        $whatsapp_bot->save();
 
-        $whatsapp_cek_list_harian->whatsappbot()->create([
-            'no_telp' => Input::get('no_telp');
-        ]);
+        $wa = WablasController;
+        $wa->sendSingle( Input::get('no_telp'), 'silahkan mulai mengisi' );
     }
 }
 

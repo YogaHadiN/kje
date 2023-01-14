@@ -8,6 +8,7 @@ use App\Models\Ht;
 use App\Models\Pembelian;
 use App\Models\User;
 use App\Models\Formula;
+use App\Models\WhatsappBot;
 use App\Models\WhatsappRecoveryIndex;
 use App\Models\Rak;
 use App\Models\Merek;
@@ -122,7 +123,10 @@ class testcommand extends Command
 
 
     public function handle(){
-        dd( gethostname() );
+        $whatsapp_bot = new WhatsappBot;
+        $whatsapp_bot->whatsapp_bot_service_id = 1;
+        $whatsapp_bot->no_telp = "6281381912803";
+        $whatsapp_bot->save();
         /* $this->revisiModal(798); */
     }
 
