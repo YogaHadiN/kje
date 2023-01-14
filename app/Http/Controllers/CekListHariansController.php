@@ -7,6 +7,8 @@ use App\Models\Ruangan;
 use App\Http\Controllers\WablasController;
 use Input;
 use App\Models\CekHarianAnafilaktikKit;
+use App\Models\CekListDikerjakan;
+use App\Models\CekListRuangan;
 
 class CekListHariansController extends Controller
 {
@@ -41,8 +43,14 @@ class CekListHariansController extends Controller
         {
             return \Redirect::back()->withErrors($validator)->withInput();
         }
-        $whatsapp_bot = new WhatsappBot;
-        $this->processData($whatsapp_bot);
+        
+        if ( $this->masihAdaYangBelumCekListHariIni() ) {
+            
+        }
+        if ( $this->masihAdaYangBelumCekListHariIni() ) {
+            $whatsapp_bot = new WhatsappBot;
+            $this->processData($whatsapp_bot);
+        }
 
         $pesan = Yoga::suksesFlash('Permintaan cek list sudah dikirim');
         return redirect()->back()->withPesan($pesan);
@@ -56,9 +64,15 @@ class CekListHariansController extends Controller
         $wa = WablasController;
         $wa->sendSingle( Input::get('no_telp'), 'silahkan mulai mengisi' );
     }
+    public function masihAdaYangBelumCekListHariIni(){
+        $cek_list_ruangan_harian_ids  = CekListRuangan::where('frekuensi_cek_id', 1)->pluck('id');
+        $cek_list_dikerjakan_hari_ini = CekListDikerjakan::where('created_at', 'like', date('Y-m-d') . '%')
+                                                        ->whereIn('cek_list_ruangan_id', $cek_list_ruangan_harian_ids)
+                                                        ->groupBy('cek_list_ruangan_id')
+                                                        ->get();
+        return $cek_list_ruangan_harian_ids->count() == $cek_list_dikerjakan_hari_ini->count();
+    }
+    
 }
-
-
-
 
 
