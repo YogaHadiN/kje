@@ -4,6 +4,7 @@ use Faker\Factory as Faker;
 use Illuminate\Console\Command;
 use Session;
 use App\Models\Outbox;
+use App\Models\CekListRuangan;
 use App\Models\Ht;
 use App\Models\Pembelian;
 use App\Models\User;
@@ -123,8 +124,7 @@ class testcommand extends Command
 
 
     public function handle(){
-        $mes2 = substr('081381912803', 1);
-        dd( '62' . $mes2 );
+        dd( CekListRuangan::find(1)->ruangan );
 
         /* $this->revisiModal(798); */
     }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CekListRuangan extends Model
 {
     use HasFactory;
-    public function cek_list(){
+    public function cekList(){
         return $this->belongsTo(CekList::class);
     }
     public function limit(){

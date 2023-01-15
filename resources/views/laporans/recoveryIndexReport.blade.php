@@ -21,7 +21,6 @@ Klinik Jati Elok | Lapora Recovery Index
     <table class="table table-hover table-condensed table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Tanggal</th>
                 <th>Nama</th>
                 <th>Dokter</th>
@@ -33,9 +32,16 @@ Klinik Jati Elok | Lapora Recovery Index
             @if($antrians->count() > 0)
                 @foreach($antrians as $antrian)
                     <tr>
-                        <td>{{ $antrian->id }}</td>
-                        <td>{{ $antrian->created_at->format('d M Y') }}</td>
-                        <td>{{ ucwords($antrian->antriable->pasien->nama) }}</td>
+                        <td>
+                            <a href="{{ url('periksas/' . $antrian->antriable->id }}" target="_blank">
+                                {{ $antrian->created_at->format('d M Y') }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ url('pasiens/' . $antrian->antriable->id . '/edit' }}" target="_blank">
+                                {{ ucwords($antrian->antriable->pasien->nama) }}
+                            </a>
+                        </td>
                         <td>{{ ucwords($antrian->antriable->staf->nama) }}</td>
                         <td>{{ $antrian->antriable->asuransi->nama }}</td>
                         <td>{{ $antrian->informasi_terapi_gagal }}</td>
