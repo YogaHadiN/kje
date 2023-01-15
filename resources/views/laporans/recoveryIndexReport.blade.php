@@ -33,12 +33,12 @@ Klinik Jati Elok | Lapora Recovery Index
                 @foreach($antrians as $antrian)
                     <tr>
                         <td>
-                            <a href="{{ url('periksas/' . $antrian->antriable->id }}" target="_blank">
+                            <a href="{{ url('periksas/' . $antrian->antriable->id) }}" target="_blank">
                                 {{ $antrian->created_at->format('d M Y') }}
                             </a>
                         </td>
                         <td>
-                            <a href="{{ url('pasiens/' . $antrian->antriable->id . '/edit' }}" target="_blank">
+                            <a href="{{ url('pasiens/' . $antrian->antriable->id . '/edit') }}" target="_blank">
                                 {{ ucwords($antrian->antriable->pasien->nama) }}
                             </a>
                         </td>
