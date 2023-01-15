@@ -409,7 +409,8 @@ class KasirBaseController extends Controller
         if (
              !is_null( $this->antriankasir->antrian ) &&
              $this->antriankasir->antrian->notifikasi_panggilan_aktif &&
-             !empty( $this->antriankasir->antrian->no_telp )
+             !empty( $this->antriankasir->antrian->no_telp ) &&
+             count( json_decode( $this->antriankasir->periksa->terapi , true) ) > 0
         ) {
             $message = 'Obat pasien atas nama :';
             $message .= PHP_EOL;
