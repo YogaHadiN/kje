@@ -45,9 +45,7 @@ class CekListHariansController extends Controller
             return \Redirect::back()->withErrors($validator)->withInput();
         }
         
-        if ( $this->masihAdaYangBelumCekListHariIni() ) {
-            
-        }
+        dd('   $this->masihAdaYangBelumCekListHariIni() ',   $this->masihAdaYangBelumCekListHariIni() );
         if ( $this->masihAdaYangBelumCekListHariIni() ) {
             $whatsapp_bot = new WhatsappBot;
             $this->processData($whatsapp_bot);
