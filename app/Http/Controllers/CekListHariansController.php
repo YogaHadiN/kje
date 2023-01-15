@@ -7,6 +7,7 @@ use App\Models\Ruangan;
 use App\Http\Controllers\WablasController;
 use Input;
 use App\Models\CekHarianAnafilaktikKit;
+use App\Models\Classes\Yoga;
 use App\Models\CekListDikerjakan;
 use App\Models\CekListRuangan;
 
