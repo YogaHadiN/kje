@@ -88,7 +88,7 @@ class CekListHariansController extends Controller
                                                         ->where('created_at', 'like', date('Y-m-d') . '%')
                                                         ->groupBy('cek_list_ruangan_id')
                                                         ->get();
-        if ( $cek_list_ruangan_harians->count() !== $cek_list_harians_dikerjakans->count() {
+        if ( $cek_list_ruangan_harians->count() !== $cek_list_harians_dikerjakans->count()) {
 
             WhatsappBot::where('no_telp', $this->no_telp)
                 ->where('whatsapp_bot_service_id',1)
