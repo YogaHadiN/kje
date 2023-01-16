@@ -14,7 +14,7 @@ class AddStafIdColumnToWhatsappBotsTable extends Migration
     public function up()
     {
         Schema::table('whatsapp_bots', function (Blueprint $table) {
-            //
+            $table->integer('staf_id');
         });
     }
 
@@ -26,7 +26,7 @@ class AddStafIdColumnToWhatsappBotsTable extends Migration
     public function down()
     {
         Schema::table('whatsapp_bots', function (Blueprint $table) {
-            //
+            $table->dropColumn('staf_id');
         });
     }
 }
