@@ -59,6 +59,7 @@ class CekListHariansController extends Controller
     public function processData($whatsapp_bot){
         $this->no_telp = '62' . substr(Input::get('no_telp'), 1) ;
         $whatsapp_bot->whatsapp_bot_service_id = 1;
+        $whatsapp_bot->staf_id = Input::get('staf_id');
         $whatsapp_bot->no_telp =  $this->no_telp;
         $whatsapp_bot->save();
 
