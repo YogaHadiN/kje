@@ -29,14 +29,13 @@ class AntrianKasirsController extends Controller
 		foreach ($antriankasirs as $an) {
 			try {
 				$pasien = $an->periksa->pasien;
-                $periksa_hilang[] = $an;
 			} catch (\Exception $e) {
-				dd( $an );
+                $periksa_hilang[] = $an;
+                $an->delete();
+				/* dd( $an ); */
 			}
 		}
-        dd( $periksa_hilang );
-
-
+        /* dd( $periksa_hilang ); */
 		return view('antriankasirs.index', compact('antriankasirs'));
 	}
 	public function kembali($id){
