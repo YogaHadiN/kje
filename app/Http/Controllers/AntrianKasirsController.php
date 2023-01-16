@@ -25,13 +25,16 @@ class AntrianKasirsController extends Controller
 	{
 		$antriankasirs = AntrianKasir::with('periksa.pasien', 'periksa.asuransi', 'antrian.jenis_antrian')->get();
 
+        $periksa_hilang = [];
 		foreach ($antriankasirs as $an) {
 			try {
 				$pasien = $an->periksa->pasien;
+                $periksa_hilang[] = $an;
 			} catch (\Exception $e) {
 				dd( $an );
 			}
 		}
+        dd( $periksa_hilang );
 
 
 		return view('antriankasirs.index', compact('antriankasirs'));
