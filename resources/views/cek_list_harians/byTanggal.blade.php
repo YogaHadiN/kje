@@ -22,8 +22,8 @@ Klinik Jati Elok | Cek List Dikerjakan By Tanggal
                 <thead>
                     <tr>
                         <th>Tanggal</th>
-                        <th>Cek List</th>
                         <th>Ruangan</th>
+                        <th>Cek List</th>
                         <th>jumlah</th>
                         <th class="w-30-percent">Image</th>
                         <th>Action</th>
@@ -34,8 +34,8 @@ Klinik Jati Elok | Cek List Dikerjakan By Tanggal
                         @foreach($cek_list_dikerjakans as $cek)
                             <tr>
                                 <td>{{ $cek->created_at->format('d M Y') }}</td>
-                                <td>{{ $cek->cekListRuangan->cekList->cek_list }}</td>
                                 <td>{{ $cek->cekListRuangan->ruangan->nama }}</td>
+                                <td>{{ $cek->cekListRuangan->cekList->cek_list }}</td>
                                 <td>{{ $cek->jumlah }}</td>
                                 <td class="w-30-percent">
                                     <p> <img src="{{ \Storage::disk('s3')->url($cek->image) }}" alt="" class="img-rounded upload"> </p>
