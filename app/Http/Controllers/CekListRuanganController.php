@@ -12,6 +12,7 @@ class CekListRuanganController extends Controller
 {
     public function index($id){
         $cek_list_ruangans = CekListRuangan::where('ruangan_id', $id)->get();
+        /* dd( $cek_list_ruangans ); */
         $ruangan           = Ruangan::find( $id );
         return view('cek_list_ruangans.index', compact(
             'ruangan',

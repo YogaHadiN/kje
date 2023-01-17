@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class CekListDikerjakan extends Model
 {
     use HasFactory;
+    public function cekListRuangan(){
+        return $this->belongsTo(CekListRuangan::class);
+    }
 }
+

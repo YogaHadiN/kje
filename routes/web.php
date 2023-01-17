@@ -54,8 +54,8 @@ Route::resource('pasien_rujuk_baliks', \App\Http\Controllers\PasienRujukBalikCon
 Route::get('fasilitas/survey', [\App\Http\Controllers\FasilitasController::class, 'survey']); //survey kepuasan pelanggan
 
 Route::group(['middleware' => 'auth'], function(){
-
     Route::resource('jadwal_konsultasis', \App\Http\Controllers\JadwalKonsultasiController::class);
+    Route::resource('cek_lists', \App\Http\Controllers\CekListController::class);
     Route::resource('sent_emails', \App\Http\Controllers\SentEmailController::class);
     Route::get('invoices/inv/{id}', [\App\Http\Controllers\InvoiceController::class, 'test']);
     Route::get('invoices/getData', [\App\Http\Controllers\InvoiceController::class, 'getData']);
@@ -108,6 +108,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('cek_harian_anafilaktik_kits/{ruangan_id}', [\App\Http\Controllers\CekHarianAnafilaktikKitController::class, 'store']);
 
 
+	Route::get('cek_list_dikerjakans/byTanggal/{tanggal}', [\App\Http\Controllers\CekListDikerjakanController::class, 'byTanggal']);
 	Route::get('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'index']);
 	Route::post('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'store']);
 	Route::get('cek_list_harians/create', [\App\Http\Controllers\CekListHariansController::class, 'create']);

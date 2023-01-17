@@ -5494,3 +5494,6 @@ input:checked + .slider:before {
 .w-50-pecent {
     width: 50%;
 }
+.w-30-percent {
+    width: 10%;
+}

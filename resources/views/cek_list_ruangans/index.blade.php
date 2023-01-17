@@ -40,7 +40,7 @@
             @if($cek_list_ruangans->count() > 0)
                 @foreach($cek_list_ruangans as $cek_list)
                     <tr>
-                        <td>{{ $cek_list->cek_list->cek_list }}</td>
+                        <td>{{ $cek_list->cekList->cek_list }}</td>
                         <td>{{ $cek_list->limit->limit }}</td>
                         <td>{{ $cek_list->jumlah_normal }}</td>
                         <td>{{ $cek_list->frekuensi_cek->frekuensi_cek }}</td>

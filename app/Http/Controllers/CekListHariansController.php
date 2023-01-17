@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ruangan;
 use Input;
+use DB;
 use Log;
 use App\Models\CekHarianAnafilaktikKit;
 use App\Http\Controllers\WablasController;
@@ -17,7 +18,14 @@ class CekListHariansController extends Controller
 {
     public function index(){
         $ruangans = Ruangan::all();
-        return view('cek_list_harians.index', compact('ruangans'));
+        $query  = "SELECT date(created_at) as tanggal ";
+        $query .= "FROM cek_list_dikerjakans ";
+        $query .= "GROUP BY date(created_at)";
+        $cek_list_dikerjakans_by_tanggal = DB::select($query);
+        return view('cek_list_harians.index', compact(
+            'ruangans',
+            'cek_list_dikerjakans_by_tanggal'
+        ));
     }
     public function show($ruangan_id){
         $ruangan = Ruangan::with(
@@ -120,7 +128,6 @@ class CekListHariansController extends Controller
                             ->whereNull('jumlah')
                             ->first();
     }
-    
 }
 
 
