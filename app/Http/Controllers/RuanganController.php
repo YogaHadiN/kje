@@ -23,7 +23,6 @@ class RuanganController extends Controller
         return view('ruangans.edit', compact('ruangan'));
     }
     public function store(Request $request){
-        dd( Input::all() );
         if ($this->valid( Input::all() )) {
             return $this->valid( Input::all() );
         }
@@ -50,8 +49,7 @@ class RuanganController extends Controller
     }
 
     public function processData($ruangan){
-        dd( 'processData belum diatur' );
-        $ruangan = $this->ruangan;
+        $ruangan->nama = Input::get('nama');
         $ruangan->save();
 
         return $ruangan;
@@ -80,12 +78,11 @@ class RuanganController extends Controller
         return redirect()->back()->withPesan($pesan);
     }
     private function valid( $data ){
-        dd( 'validasi belum diatur' );
         $messages = [
             'required' => ':attribute Harus Diisi',
         ];
         $rules = [
-            'data'           => 'required',
+            'ruangan'           => 'required',
         ];
         $validator = \Validator::make($data, $rules, $messages);
         

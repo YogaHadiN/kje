@@ -36,6 +36,7 @@ use App\Models\PengantarPasien;
 use App\Models\SuratSakit;
 use App\Models\RegisterAnc;
 use App\Models\Usg;
+use App\Http\Controllers\WablasController;
 
 class AntrianPeriksasController extends Controller
 {
@@ -146,7 +147,7 @@ class AntrianPeriksasController extends Controller
 	 * @return Response
 	 */
 	public function store(Request $request, $id) {
-        $antrianpoli = AntrianPoli::with('pasien', 'asuransi')->where( 'id',  $id )->where('submitted', '0')->first();
+        $antrianpoli = AntrianPoli::with('pasien', 'asuransi', 'antrian')->where( 'id',  $id )->where('submitted', '0')->first();
         if (is_null($antrianpoli)) {
             $pesan = Yoga::gagalFlash('Antrian sudah masuk antrian periksa');
             return redirect()->back()->withPesan($pesan);
@@ -216,6 +217,50 @@ class AntrianPeriksasController extends Controller
         $this->input_pasien      = $antrianpoli->pasien;
         $this->input_antrianpoli = $antrianpoli;
         $this->inputData();
+
+
+        //cari semua pasien di antrianpoli yang belum dipanggil yang memiliki antrian_id lebih kecil dari pada antrian_id ini
+        //
+        if ( !is_null(  $antrianpoli->antrian  ) ) {
+            $antrian_id  = $antrianpoli->antrian->id;
+            $query       = "SELECT  ";
+            $query      .= "ant.id as antrian_id,";
+            $query      .= "ant.nomor as nomor,";
+            $query      .= "jnt.prefix as prefix,";
+            $query      .= "ant.no_telp as no_telp ";
+            $query      .= "FROM antrian_polis as apo ";
+            $query      .= "JOIN antrians as ant on ant.antriable_id = apo.id and ant.antriable_type = 'App\\\Models\\\AntrianPoli' ";
+            $query      .= "JOIN jenis_antrians as jnt on jnt.id = ant.jenis_antrian_id ";
+            $query      .= "WHERE ant.id < {$antrian_id} ";
+            $query      .= "AND ant.no_telp is not null ";
+            $query      .= "AND ant.notifikasi_panggilan_aktif = 1 ";
+            $data        = DB::select($query);
+
+            $bulk_message_container = [];
+            foreach ($data as $d) {
+                $message = 'Mohon maaf Antrian Pemeriksaan Fisik untuk antrian Nomor : ';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= '*' . $d->prefix . $d->nomor . '*';
+                $message .= PHP_EOL;
+                $message .= PHP_EOL;
+                $message .= 'Sudah terlewat. Mohon agar dapat menghubungi pendaftaran untuk dilakukan pemeriksaan fisik';
+                $message .= PHP_EOL;
+                $message .= 'Karena antrian Pemeriksaan Fisik tidak dipanggil melalui pengeras suara';
+
+                Antrian::where('id', $d->antrian_id)->update([
+                    'notifikasi_panggilan_aktif' => 0
+                ]);
+
+                $bulk_message_container[] = [
+                    'phone'   => $d->no_telp,
+                    'message' => $message;
+                ];
+            }
+            $wa = new WablasController;
+            $wa->bulkSend($bulk_message_container);
+        }
+
 
         return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$antrianpoli->pasien->id . ' - ' . $antrianpoli->pasien->nama . '</strong> berhasil masuk antrian periksa'));
 	}

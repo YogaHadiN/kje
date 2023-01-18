@@ -17,6 +17,9 @@ Klinik Jati Elok | Ruangan Yang Tersedia
 
 @stop
 @section('content') 
+<div class="float-right">
+    <a href="{{ url('ruangans/create') }}" type="button" class="btn btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ruangan</a>
+</div>
 <div class="table-responsive">
     <table class="table table-hover table-condensed table-bordered">
         <thead>
@@ -32,7 +35,13 @@ Klinik Jati Elok | Ruangan Yang Tersedia
                     <tr>
                         <td>{{ $ruangan->nama }}</td>
                         <td>{{ $ruangan->cekListRuangan->count() }}</td>
-                        <td> <a href="{{ url('cek_list_ruangans/' . $ruangan->id) }}" class="btn btn-primary btn-sm">Ceklist</a> </td>
+                        <td> 
+                            {!! Form::open(['url' => 'ruangans/' . $ruangan->id, 'method' => 'delete']) !!}
+                                <a href="{{ url('cek_list_ruangans/' . $ruangan->id) }}" class="btn btn-primary btn-sm">Ceklist</a> 
+                                <a class="btn btn-warning btn-sm" href="{{ url('ruangans/' . $ruangan->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $ruangan->id }} - {{ $ruangan->nama }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+                            {!! Form::close() !!}
+                        </td>
                     </tr>
                 @endforeach
             @else
