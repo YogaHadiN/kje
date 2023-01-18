@@ -188,6 +188,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('laporans/recovery_index/{recovery_index_id}/harian/{tanggal}', [\App\Http\Controllers\LaporansController::class, 'recoverIndexHarian']);
 	Route::get('laporans/recovery_index/{recovery_index_id}/bulanan/{bulanTahun}', [\App\Http\Controllers\LaporansController::class, 'recoverIndexBulanan']);
 
+	Route::get('recoveryIndexReport/ajax', [\App\Http\Controllers\LaporansController::class, 'recoveryIndexAjax']);
+
+
 
 
 

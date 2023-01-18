@@ -17,46 +17,85 @@ Klinik Jati Elok | Lapora Recovery Index
 
 @stop
 @section('content') 
+{!! Form::text('recovery_index_id', $recovery_index_id, ['class' => 'form-control hide', 'id' => 'recovery_index_id']) !!}
 <div class="table-responsive">
+    <div class="row">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+            Menampilkan <span id="rows"></span> hasil
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
+            {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
+                'class'    => 'form-control',
+                'onchange' => 'clearAndSelectPasien();return false;',
+                'id'       => 'displayed_rows'
+            ]) !!}
+        </div>
+      </div>
     <table class="table table-hover table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Tanggal</th>
-                <th>Nama</th>
-                <th>Dokter</th>
-                <th>Pembayaran</th>
-                <th>Current Condition</th>
+                <th nowrap class="kolom_tanggal">
+                    Tanggal
+                    {!! Form::text('tanggal', null, [
+                        'class' => 'form-control-inline tgl form-control ajaxsearchrekening',
+                        'onkeyup' => 'clearAndSearch();return false;',
+                        'id'    => 'tanggal'
+                    ])!!}
+                </th>
+                <th nowrap class="kolom_nama">
+                    Nama <br>
+                    {!! Form::text('nama', null, [
+                        'class' => 'form-control-inline tgl form-control ajaxsearchrekening',
+                        'onkeyup' => 'clearAndSearch();return false;',
+                        'id'    => 'nama'
+                    ])!!}
+                </th>
+                <th nowrap class="kolom_dokter">
+                    Dokter</br>
+                    {!! Form::select('staf_id', \App\Models\Staf::pluck('nama','id'), null, [
+                        'class'            => 'form-control-inline tgl form-control ajaxsearchrekening selectpick',
+                        'data-live-search' => 'true',
+                        'placeholder' => '- Pilih -',
+                        'onchange'         => 'clearAndSearch();return false;',
+                        'id'               => 'staf_id'
+                    ])!!}
+                </th>
+                <th nowrap class="kolom_pembayaran">
+                    Pembayaran</br>
+                    {!! Form::select('asuransi_id', \App\Models\Asuransi::pluck('nama','id'), null, [
+                        'class'            => 'form-control-inline tgl form-control ajaxsearchrekening selectpick',
+                        'data-live-search' => 'true',
+                        'placeholder' => '- Pilih -',
+                        'onchange'         => 'clearAndSearch();return false;',
+                        'id'               => 'asuransi_id'
+                    ])!!}
+                </th>
+                <th nowrap class="kolom_keluhan">
+                    Current Condition
+                    {!! Form::text('keluhan', null, [
+                        'class' => 'form-control-inline tgl form-control ajaxsearchrekening',
+                        'onkeyup' => 'clearAndSearch();return false;',
+                        'id'    => 'keluhan'
+                    ])!!}
+                </th>
             </tr>
         </thead>
-        <tbody>
-            @if($antrians->count() > 0)
-                @foreach($antrians as $antrian)
-                    <tr>
-                        <td>
-                            <a href="{{ url('periksas/' . $antrian->antriable->id) }}" target="_blank">
-                                {{ $antrian->created_at->format('d M Y') }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ url('pasiens/' . $antrian->antriable->id . '/edit') }}" target="_blank">
-                                {{ ucwords($antrian->antriable->pasien->nama) }}
-                            </a>
-                        </td>
-                        <td>{{ ucwords($antrian->antriable->staf->nama) }}</td>
-                        <td>{{ $antrian->antriable->asuransi->nama }}</td>
-                        <td>{{ $antrian->informasi_terapi_gagal }}</td>
-                        {{-- <td>{{ $antrian->informa }}</td> --}}
-                    </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="4">Tidak ada data untuk Ditampilkan</td>
-                </tr>
-            @endif
+        <tbody id="rek_container">
+
         </tbody>
     </table>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="page-box">
+                <nav class="text-right" aria-label="Page navigation" id="paging">
+                
+                </nav>
+            </div>
+        </div>
+    </div>
 </div>
 @stop
 @section('footer') 
-    
+	<script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
+	{!! HTML::script('js/recoveryIndexReport.js')!!}
 @stop

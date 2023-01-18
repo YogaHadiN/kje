@@ -2601,25 +2601,14 @@ class LaporansController extends Controller
     }
 
     public function recoverIndexBulanan($recovery_index_id, $bulanTahun){
-        $antrians = Antrian::with('antriable.asuransi', 'antriable.pasien')
-                            ->where('recovery_index_id', $recovery_index_id)
-                            ->where('antriable_type', 'App\Models\Periksa')
-                            ->where('created_at', 'like', $bulanTahun.'%')
-                            ->get();
-
         return view('laporans.recoveryIndexReport', compact(
-            'antrians'
+            'recovery_index_id'
         ));
     }
 
     public function recoverIndexHarian($recovery_index_id, $tanggal){
-        $antrians = Antrian::with('antriable.asuransi', 'antriable.pasien')
-                            ->where('recovery_index_id', $recovery_index_id)
-                            ->where('antriable_type', 'App\Models\Periksa')
-                            ->where('created_at', 'like', $tanggal.'%')
-                            ->get();
         return view('laporans.recoveryIndexReport', compact(
-            'antrians'
+            'recovery_index_id'
         ));
     }
     public function tindakanHarianData($tanggal, $asuransi_id){
@@ -2655,5 +2644,65 @@ class LaporansController extends Controller
 
         return $data;
     }
-    
+    public function recoveryIndexAjax(){
+		$data          = $this->queryRecoveryIndex();
+		$count         = $this->queryRecoveryIndex(true);
+		$pages = ceil( $count/ Input::get('displayed_rows') );
+		return [
+			'data'  => $data,
+			'pages' => $pages,
+			'key'   => Input::get('key'),
+			'rows'  => $count
+		];
+    }
+    public function queryRecoveryIndex($count = false){
+		$pass        = Input::get('key') * Input::get('displayed_rows');
+        $recovery_index_id = Input::get('recovery_index_id');
+        $tenant_id   = session()->get('tenant_id');
+        $nama        = Input::get('nama');
+        $staf_id     = Input::get('staf_id');
+        $asuransi_id = Input::get('asuransi_id');
+        $keluhan     = Input::get('keluhan');
+        $tanggal     = Input::get('tanggal');
+
+        $query  = "SELECT ";
+        if ($count) {
+            $query .= "count(ant.id) as jumlah ";
+        } else {
+            $query .= "prx.tanggal as tanggal,";
+            $query .= "prx.id as periksa_id,";
+            $query .= "psn.nama as nama,";
+            $query .= "psn.id as pasien_id,";
+            $query .= "asu.nama as pembayaran,";
+            $query .= "stf.nama as dokter,";
+            $query .= "ant.informasi_terapi_gagal as keluhan ";
+        }
+        $query .= "FROM antrians as ant ";
+        $query .= "JOIN periksas as prx on prx.id = ant.antriable_id and ant.antriable_type = 'App\\\Models\\\Periksa' ";
+        $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "JOIN stafs as stf on prx.staf_id = stf.id ";
+        $query .= "WHERE ant.tenant_id = {$tenant_id} ";
+        $query .= "AND (prx.staf_id = '{$staf_id}' or '' = '{$staf_id}') ";
+        $query .= "AND (prx.asuransi_id = '{$asuransi_id}' or '' = '{$asuransi_id}') ";
+        $query .= "AND psn.nama like '%{$nama}%' ";
+        $query .= "AND ant.informasi_terapi_gagal like '%{$keluhan}%' ";
+        $query .= "AND ant.recovery_index_id = {$recovery_index_id} ";
+        $query .= "AND prx.tanggal like '{$tanggal}%' ";
+        $query .= "ORDER BY ant.id desc ";
+
+        $displayed_rows = Input::get('displayed_rows');
+		if (!$count) {
+			$query .= " LIMIT {$pass}, {$displayed_rows}";
+		}
+        $query .= ";";
+        if (!empty( Input::get('displayed_rows') )) {
+            $query_result = DB::select($query);
+            if (!$count) {
+                return $query_result;
+            } else {
+                return $query_result[0]->jumlah;
+            }
+        }
+    }
 }

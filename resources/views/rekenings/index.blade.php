@@ -21,18 +21,18 @@
 	{!! Form::text('akun_bank_id', $rekening->akun_bank_id, ['class' => 'form-control hide', 'id' => 'akun_bank_id']) !!}
 	{!! Form::text('auth_id', Auth::id(), ['class' => 'form-control hide', 'id' => 'auth_id']) !!}
 	<div class="table-responsive">
-			<div class="row">
-			  	<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-			  		Menampilkan <span id="rows"></span> hasil
-			  	</div>
-				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
-					{!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
-						'class'    => 'form-control',
-						'onchange' => 'clearAndSelectPasien();return false;',
-						'id'       => 'displayed_rows'
-					]) !!}
-				</div>
-			  </div>
+        <div class="row">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                Menampilkan <span id="rows"></span> hasil
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
+                {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
+                    'class'    => 'form-control',
+                    'onchange' => 'clearAndSelectPasien();return false;',
+                    'id'       => 'displayed_rows'
+                ]) !!}
+            </div>
+          </div>
 		<table id="table_rekening" class="table table-hover table-condensed table-bordered">
 			<thead>
 				<tr>
