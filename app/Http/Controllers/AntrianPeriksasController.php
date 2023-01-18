@@ -223,6 +223,8 @@ class AntrianPeriksasController extends Controller
         //
         if ( !is_null(  $antrianpoli->antrian  ) ) {
             $antrian_id  = $antrianpoli->antrian->id;
+            $hari_ini = date('Y-m-d');
+            $tenant_id = session()->get('tenant_id');
             $query       = "SELECT  ";
             $query      .= "ant.id as antrian_id,";
             $query      .= "ant.nomor as nomor,";
@@ -234,6 +236,8 @@ class AntrianPeriksasController extends Controller
             $query      .= "WHERE ant.id < {$antrian_id} ";
             $query      .= "AND ant.no_telp is not null ";
             $query      .= "AND ant.notifikasi_panggilan_aktif = 1 ";
+            $query      .= "AND ant.created_at like '{$hari_ini}%' ";
+            $query      .= "AND ant.tenant_id = {$tenant_id} ";
             $data        = DB::select($query);
 
             $bulk_message_container = [];
@@ -254,13 +258,12 @@ class AntrianPeriksasController extends Controller
 
                 $bulk_message_container[] = [
                     'phone'   => $d->no_telp,
-                    'message' => $message;
+                    'message' => $message
                 ];
             }
             $wa = new WablasController;
             $wa->bulkSend($bulk_message_container);
         }
-
 
         return \Redirect::route('antrianpolis.index')->withPesan(Yoga::suksesFlash('<strong>' .$antrianpoli->pasien->id . ' - ' . $antrianpoli->pasien->nama . '</strong> berhasil masuk antrian periksa'));
 	}
