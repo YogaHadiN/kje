@@ -262,6 +262,9 @@ class AntrianPeriksasController extends Controller
                 ];
             }
             $wa = new WablasController;
+            Log::info(265);
+            Log::info('$bulk_message_container');
+            Log::info($bulk_message_container);
             $wa->bulkSend($bulk_message_container);
         }
 
