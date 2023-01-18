@@ -383,6 +383,66 @@ class StafsController extends Controller
             'no_telp'         => 'required'
         ];
     }
+    public function recoveryIndexSortByDiagnosa($staf_id){
+        $data = $this->queryRecoveryIndexByStafDanDiagnosaId($staf_id, null);
+        $staf = Staf::find( $staf_id );
+        return view('stafs.ri', compact(
+            'data',
+            'staf'
+        ));
+    }
+    public function recoveryIndexByDiagnosa($staf_id, $diagnosa_id){
+        $data = $this->queryRecoveryIndexByStafDanDiagnosaId( $staf_id ,$diagnosa_id );
+        $staf = Staf::find( $staf_id );
+        return view('stafs.riByDiagnosa', compact(
+            'data',
+            'staf'
+        ));
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function queryRecoveryIndexByStafDanDiagnosaId( $staf_id, $diagnosa_id )
+    {
+        $query  = "SELECT  ";
+        if ( !is_null( $diagnosa_id ) ) {
+            $query .= "prx.tanggal as tanggal, ";
+            $query .= "prx.id as periksa_id, ";
+            $query .= "prx.pasien_id as pasien_id, ";
+            $query .= "psn.nama as nama_pasien, ";
+            $query .= "asu.nama as pembayaran, ";
+            $query .= "dgn.diagnosa as diagnosa, ";
+            $query .= "ant.informasi_terapi_gagal as keluhan ";
+        } else {
+            $query .= "dgn.diagnosa as diagnosa, ";
+            $query .= "dgn.id as diagnosa_id, ";
+            $query .= "count( prx.diagnosa_id ) as jumlah ";
+        }
+        $query .= "FROM antrians as ant ";
+        $query .= "JOIN periksas as prx on prx.id = ant.antriable_id and ant.antriable_type = 'App\\\Models\\\Periksa' ";
+        $query .= "JOIN diagnosas as dgn on dgn.id = prx.diagnosa_id ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+        $query .= "WHERE prx.staf_id = {$staf_id} ";
+        if ( !is_null( $diagnosa_id ) ) {
+            $query .= "AND prx.diagnosa_id = {$diagnosa_id} ";
+        }
+        $query .= "AND ant.recovery_index_id = 1 ";
+        if ( is_null( $diagnosa_id ) ) {
+            $query .= "GROUP BY prx.diagnosa_id ";
+        }
+        if ( is_null( $diagnosa_id ) ) {
+            $query .= "ORDER BY count( prx.diagnosa_id ) desc";
+        } else {
+            $query .= "ORDER BY prx.tanggal desc";
+        }
+        return DB::select($query);
+    }
+    
+    
     
 
 	

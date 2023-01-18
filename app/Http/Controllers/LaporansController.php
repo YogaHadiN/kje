@@ -2664,6 +2664,7 @@ class LaporansController extends Controller
         $asuransi_id = Input::get('asuransi_id');
         $keluhan     = Input::get('keluhan');
         $tanggal     = Input::get('tanggal');
+        $diagnosa_id     = Input::get('diagnosa_id');
 
         $query  = "SELECT ";
         if ($count) {
@@ -2671,8 +2672,10 @@ class LaporansController extends Controller
         } else {
             $query .= "prx.tanggal as tanggal,";
             $query .= "prx.id as periksa_id,";
+            $query .= "prx.staf_id as staf_id,";
             $query .= "psn.nama as nama,";
             $query .= "psn.id as pasien_id,";
+            $query .= "dgn.diagnosa as diagnosa,";
             $query .= "asu.nama as pembayaran,";
             $query .= "stf.nama as dokter,";
             $query .= "ant.informasi_terapi_gagal as keluhan ";
@@ -2680,12 +2683,16 @@ class LaporansController extends Controller
         $query .= "FROM antrians as ant ";
         $query .= "JOIN periksas as prx on prx.id = ant.antriable_id and ant.antriable_type = 'App\\\Models\\\Periksa' ";
         $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+        $query .= "JOIN diagnosas as dgn on dgn.id = prx.diagnosa_id ";
         $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
         $query .= "JOIN stafs as stf on prx.staf_id = stf.id ";
         $query .= "WHERE ant.tenant_id = {$tenant_id} ";
         $query .= "AND (prx.staf_id = '{$staf_id}' or '' = '{$staf_id}') ";
         $query .= "AND (prx.asuransi_id = '{$asuransi_id}' or '' = '{$asuransi_id}') ";
         $query .= "AND psn.nama like '%{$nama}%' ";
+        if (!empty($diagnosa_id)) {
+            $query .= "AND prx.diagnosa_id = {$diagnosa_id} ";
+        }
         $query .= "AND ant.informasi_terapi_gagal like '%{$keluhan}%' ";
         $query .= "AND ant.recovery_index_id = {$recovery_index_id} ";
         $query .= "AND prx.tanggal like '{$tanggal}%' ";
@@ -2705,4 +2712,14 @@ class LaporansController extends Controller
             }
         }
     }
+    public function diagnosaAjax(){
+        $param = Input::get('q');
+        $tenant_id = session()->get('tenant_id');
+
+        $query  = "SELECT id, diagnosa as text ";
+        $query .= "FROM diagnosas ";
+        $query .= "WHERE diagnosa like '%{$param}%' ";
+        return DB::select($query);
+    }
+    
 }

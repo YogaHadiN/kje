@@ -188,6 +188,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('laporans/recovery_index/{recovery_index_id}/harian/{tanggal}', [\App\Http\Controllers\LaporansController::class, 'recoverIndexHarian']);
 	Route::get('laporans/recovery_index/{recovery_index_id}/bulanan/{bulanTahun}', [\App\Http\Controllers\LaporansController::class, 'recoverIndexBulanan']);
 
+	Route::get("laporans/recovery_index/diagnosa", [\App\Http\Controllers\LaporansController::class, 'diagnosaAjax']);
+
 	Route::get('recoveryIndexReport/ajax', [\App\Http\Controllers\LaporansController::class, 'recoveryIndexAjax']);
 
 
@@ -796,6 +798,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('perusahaans', \App\Http\Controllers\PerusahaanController::class);
 	Route::resource('peserta_bpjs_perusahaans', \App\Http\Controllers\PesertaBpjsPerusahaanControlleid::class);
 
+
+    Route::get('stafs/{id}/recovery_index/by_diagnosa', [\App\Http\Controllers\StafsController::class, 'recoveryIndexSortByDiagnosa']);
+    Route::get('stafs/{id}/recovery_index/by_diagnosa/{diagnosa_id}', [\App\Http\Controllers\StafsController::class, 'recoveryIndexByDiagnosa']);
+    Route::get('stafs/{id}/satisfaction_index', [\App\Http\Controllers\StafsController::class, 'satisfactionIndexByDiagnosa']);
     Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}/pdf', [\App\Http\Controllers\PdfsController::class, 'jumlahPasienPerTahun']);
 	Route::get('pdfs/amortisasi/{tahun}', [\App\Http\Controllers\PdfsController::class, 'amortisasi']);
 	Route::get('pdfs/peredaranBruto/{tahun}', [\App\Http\Controllers\PdfsController::class, 'peredaranBruto']);

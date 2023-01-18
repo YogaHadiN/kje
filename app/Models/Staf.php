@@ -57,6 +57,9 @@ class Staf extends Model{
 		}
 
 	}
+    public function titel(){
+        return $this->belongsTo(Titel::class);
+    }
     public function berkas(){
         return $this->morphMany('App\Models\Berkas', 'berkasable');
     }

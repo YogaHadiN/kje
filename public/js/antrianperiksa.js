@@ -23,7 +23,6 @@ function hapusSajalah() {
     $("#" + id).val($("#alasan_textarea").val());
     $("#" + submit_id).click();
 }
-
 function cekMasihAda(control, periksa_id) {
     $.post(
         base + "/antrianperiksas/ajax/cekada",

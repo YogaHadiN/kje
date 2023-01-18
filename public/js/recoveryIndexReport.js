@@ -30,6 +30,7 @@ function search(key = 0) {
         {
             recovery_index_id: $("#recovery_index_id").val(),
             tanggal: $("#tanggal").val(),
+            diagnosa_id: $("#diagnosa_id").val(),
             staf_id: $("#staf_id").val(),
             nama: $("#nama").val(),
             asuransi_id: $("#asuransi_id").val(),
@@ -62,10 +63,18 @@ function search(key = 0) {
                 temp += "</a>";
                 temp += "</td>";
                 temp += '<td class="kolom_dokter">';
+                temp +=
+                    '<a href="' +
+                    base +
+                    "/stafs/" +
+                    data.data[i].staf_id +
+                    "/recovery_index/by_diagnosa" +
+                    '" target="_blank">';
                 temp += data.data[i].dokter;
+                temp += "</a>";
                 temp += "</td>";
                 temp += '<td class="kolom_pembayaran">';
-                temp += data.data[i].pembayaran;
+                temp += data.data[i].diagnosa;
                 temp += "</td>";
                 temp += '<td class="kolom_keluhan">';
                 temp += data.data[i].keluhan;
@@ -88,3 +97,9 @@ function search(key = 0) {
         }
     );
 }
+
+$(document).ready(function () {
+    $("#diagnosa_id").select2(
+        ajax_search("laporans/recovery_index/diagnosa", "Pilih Diagnosa")
+    );
+});

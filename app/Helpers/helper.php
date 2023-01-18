@@ -326,3 +326,17 @@ if (!function_exists('convertToWablasFriendlyFormat')) {
     }
 }
 
+if (!function_exists('tambahkanGelar')) {
+     function tambahkanGelar($titel, $nama) {
+        if (
+            !str_contains( strtolower($nama), 'dr.' ) &&
+            !str_contains( strtolower($nama), 'drg' ) &&
+            !str_contains( strtolower($nama), 'dr ' )
+        ) {
+            return $titel.'. ' . $nama;
+        } else {
+            return $nama;
+        }
+    }
+}
+

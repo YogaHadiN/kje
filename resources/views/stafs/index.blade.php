@@ -62,6 +62,8 @@
 									@if( \Auth::id() == '28' )
 									<a href="stafs/{!!$user->id!!}/gaji" class="btn btn-info btn-sm">Daftar Gaji</a>
 									@endif
+									<a href="stafs/{!!$user->id!!}/recovery_index/by_diagnosa" class="btn btn-info btn-sm">RI</a>
+									<a href="stafs/{!!$user->id!!}/satisfaction_index" class="btn btn-info btn-sm">SI</a>
 									<a href="stafs/{!!$user->id!!}/jumlah_pasien" class="btn btn-info btn-sm">Jumlah Pasien</a>
 									<a href="stafs/{!!$user->id!!}/edit" class="btn btn-success btn-sm">Edit</a>
 								</td>

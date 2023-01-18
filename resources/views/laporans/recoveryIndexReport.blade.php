@@ -76,15 +76,11 @@ th:nth-child(5), td:nth-child(5) {
                         'id'               => 'staf_id'
                     ])!!}
                 </th>
-                <th nowrap class="kolom_pembayaran">
-                    Pembayaran</br>
-                    {!! Form::select('asuransi_id', \App\Models\Asuransi::pluck('nama','id'), null, [
-                        'class'            => 'form-control-inline tgl form-control ajaxsearchrekening selectpick',
-                        'data-live-search' => 'true',
-                        'placeholder' => '- Pilih -',
-                        'onchange'         => 'clearAndSearch();return false;',
-                        'id'               => 'asuransi_id'
-                    ])!!}
+                <th nowrap class="kolom_diagnosa">
+                    Diagnosa</br>
+                    <select id="diagnosa_id" onchange="clearAndSearch();return false;">
+                        
+                    </select>
                 </th>
                 <th nowrap class="kolom_keluhan">
                     Current Condition
