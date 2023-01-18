@@ -11,6 +11,7 @@ class CekListDikerjakanController extends Controller
         $cek_list_dikerjakans = CekListDikerjakan::where('created_at', 'like' , $tanggal . '%')
                                                 ->orderBy('id', 'desc')
                                                 ->get();
+        dd( $cek_list_dikerjakans );
         return view('cek_list_harians.byTanggal', compact(
             'cek_list_dikerjakans'
         ));

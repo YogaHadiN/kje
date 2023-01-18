@@ -2,8 +2,24 @@
 
 @section('title') 
 Klinik Jati Elok | Lapora Recovery Index
-
 @stop
+@section('head') 
+<style type="text/css" media="screen">
+th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) {
+    width: 15%;
+}
+th:nth-child(3), td:nth-child(3) {
+    width: 10%;
+}
+th:nth-child(4), td:nth-child(4) {
+    width: 15%;
+}
+th:nth-child(5), td:nth-child(5) {
+    width: 30%;
+}
+</style>
+@stop
+
 @section('page-title') 
 <h2>Lapora Recovery Index</h2>
 <ol class="breadcrumb">
@@ -26,7 +42,7 @@ Klinik Jati Elok | Lapora Recovery Index
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
             {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
                 'class'    => 'form-control',
-                'onchange' => 'clearAndSelectPasien();return false;',
+                'onchange' => 'clearAndSearch();return false;',
                 'id'       => 'displayed_rows'
             ]) !!}
         </div>
