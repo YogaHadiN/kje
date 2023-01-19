@@ -489,69 +489,6 @@ class PeriksasController extends Controller
 	*
 	* @return void
 	*/
-	private function sesuaikanSistolikBPJS()
-	{
-		if ( 
-			Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id ==  5 &&
-			$this->belum_ada_tekanan_darah_terkontrol
-	   	) {
-			$tanggal_object       = Carbon::parse( $this->input_tanggal );
-			$tanggal_lahir_object = Carbon::parse( $this->input_pasien->tanggal_lahir );
-			if ( 
-				// jika target terkendali 10 % belum tercapai
-				$this->persenRpptTerkendali < 10 &&
-				// jika pasien masuk dalam kategori prolanis ht
-				$this->input_pasien->prolanis_ht == '1' &&
-				// jika nilai sistolik < 140  dan diastolik < 90
-				$this->input_sistolik < 131 &&
-				$this->input_diastolik < 86 &&
-				!empty($this->input_sistolik)  &&
-				( 
-					// jika sistolik tidak diantara 120 dan 130 untuk pasien kurang dari 64 tahun
-					(!in_array($this->input_sistolik, range(120, 130)) && $tanggal_lahir_object->diffInYears( $tanggal_object ) <65  ) ||
-					// atau jika sistolik tidak diantara 130 dan 139 untuk pasien lebih dari 65 tahun
-					(!in_array($this->input_sistolik, range(130, 139)) && $tanggal_lahir_object->diffInYears( $tanggal_object ) >=65  )
-				)
-			) {
-				if ($tanggal_lahir_object->diffInYears( $tanggal_object ) >= 65) {
-					return 130;
-				} else {
-					return 120;
-				}
-			} else {
-				return $this->input_sistolik;
-			}
-		} else {
-			return $this->input_sistolik;
-		}
-	}
-
-	private function sesuaikanDiastolikBPJS()
-	{
-		if (
-			Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id ==  5&&
-			$this->belum_ada_tekanan_darah_terkontrol
-		) {
-			if ( 
-				// jika target terkendali 10 % belum tercapai
-				$this->persenRpptTerkendali < 10 &&
-				// jika pasien masuk dalam kategori prolanis ht
-				$this->input_pasien->prolanis_ht == '1' &&
-				// jika nilai sistolik =< 140  dan diastolik =< 90
-				$this->input_sistolik < 131 &&
-				$this->input_diastolik < 86 &&
-				!empty($this->input_diastolik)  &&
-				// jika diastolik tidak diantara 70 dan 79
-				(!in_array($this->input_diastolik, range(70, 79)))
-			) {
-				return 70;
-			} else {
-				return $this->input_diastolik;
-			}
-		} else {
-			return $this->input_diastolik;
-		}
-	}
 
 	/**
 	* undocumented function
