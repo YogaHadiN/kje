@@ -553,8 +553,9 @@ class AntrianPeriksasController extends Controller
         $antrian =!is_null( $this->input_antrianpoli)? $this->input_antrianpoli->antrian :Antrian::find( $this->input_antrian_id );  
 
         if(isset($antrian)){
-            $antrian->antriable_id   = $ap->id;
-            $antrian->antriable_type = 'App\\Models\\AntrianPeriksa';
+            $antrian->antriable_id               = $ap->id;
+            $antrian->notifikasi_panggilan_aktif = 1;
+            $antrian->antriable_type             = 'App\\Models\\AntrianPeriksa';
             $antrian->save();
         }
 
