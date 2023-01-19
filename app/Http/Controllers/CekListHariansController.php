@@ -20,7 +20,8 @@ class CekListHariansController extends Controller
         $ruangans = Ruangan::all();
         $query  = "SELECT date(created_at) as tanggal ";
         $query .= "FROM cek_list_dikerjakans ";
-        $query .= "GROUP BY date(created_at)";
+        $query .= "GROUP BY date(created_at) ";
+        $query .= "ORDER BY id desc;";
         $cek_list_dikerjakans_by_tanggal = DB::select($query);
         return view('cek_list_harians.index', compact(
             'ruangans',
