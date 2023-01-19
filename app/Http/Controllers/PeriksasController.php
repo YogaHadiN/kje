@@ -492,7 +492,7 @@ class PeriksasController extends Controller
 	private function sesuaikanSistolikBPJS()
 	{
 		if ( 
-			Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id ==  5&&
+			Asuransi::find($this->input_asuransi_id)->tipe_asuransi_id ==  5 &&
 			$this->belum_ada_tekanan_darah_terkontrol
 	   	) {
 			$tanggal_object       = Carbon::parse( $this->input_tanggal );
@@ -1172,8 +1172,8 @@ class PeriksasController extends Controller
         $periksa->pemeriksaan_fisik     = Input::get('pemeriksaan_fisik');
         $periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
         $periksa->tanggal               = Input::get('tanggal');
-        $periksa->sistolik              = Yoga::returnNull( $this->sesuaikanSistolikBPJS() );
-        $periksa->diastolik             = Yoga::returnNull( $this->sesuaikanDiastolikBPJS() );
+        $periksa->sistolik              = Yoga::returnNull( $this->input_sistolik );
+        $periksa->diastolik             = Yoga::returnNull( $this->input_diastolik );
         $periksa->terapi                = $this->terapisBaru($terapis);
         $periksa->jam_periksa           = Input::get('jam_periksa');
         $periksa->jam_selesai_periksa   = date('H:i:s');
