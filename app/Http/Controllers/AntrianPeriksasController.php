@@ -572,7 +572,6 @@ class AntrianPeriksasController extends Controller
             $promo->save();
         }
         return $ap;
-        /* } */
     }
 
     /**
@@ -583,7 +582,6 @@ class AntrianPeriksasController extends Controller
     private function is_asuransi_bpjs()
     {
         return !empty(Input::get('asuransi_id')) ? Asuransi::find( Input::get('asuransi_id') )->tipe_asuransi_id == 5: false;
-;
     }
     
 }
