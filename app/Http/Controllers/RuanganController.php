@@ -10,7 +10,7 @@ use DB;
 class RuanganController extends Controller
 {
     public function index(){
-        $ruangans = Ruangan::all();
+        $ruangans = Ruangan::with('cekListRuangan')->get();
         return view('ruangans.index', compact(
             'ruangans'
         ));

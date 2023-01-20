@@ -2,7 +2,6 @@
 
 @section('title') 
 Klinik Jati Elok | Ruangan Yang Tersedia
-
 @stop
 @section('page-title') 
 <h2>Ruangan Yang Tersedia</h2>
@@ -14,7 +13,6 @@ Klinik Jati Elok | Ruangan Yang Tersedia
         <strong>Ruangan Yang Tersedia</strong>
     </li>
 </ol>
-
 @stop
 @section('content') 
 <div class="float-right">

@@ -22,13 +22,27 @@ use App\Models\OdontogramAbbreviation;
 use App\Models\TaksonomiGigi;
 use App\Models\PermukaanGigi;
 use App\Models\WhatsappBotService;
+use App\Models\Document;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
         WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Registrasi Cek List Bulanan'
+        ]);
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Input Cek List Bulanan'
+        ]);
+        WhatsappBotService::create([
             'whatsapp_bot_service' => 'Registrasi Konstulasi Estetik Online'
+        ]);
+        Document::create([
+            'nama' => 'PERMENKES NO 3 TAHUN 2023 TTG STANDAR TARIF PELAYANAN KESEHATAN DALAM PENYELENGGARAAN JAMINAN KESEHATAN',
+            'tanggal' => date('Y-m-d'),
+            'url' => 'upload/dokumen_penting/PERMENKES-NO-3-TAHUN-2023-TTG-STANDAR-TARIF-PELAYANAN-KESEHATAN-DALAM-PENYELENGGARAAN-JAMINAN-KESEHATAN-1 (1).pdf',
+            'expiry_date' => null,
+            'tenant_id' =>1
         ]);
     }
 }
