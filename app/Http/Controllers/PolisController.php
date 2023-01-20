@@ -729,25 +729,27 @@ class PolisController extends Controller
 		$panggil_pasien                     = Input::get('panggil_pasien');
 		$ruangan                            = Input::get('ruangan');
 		$antrian                            = Antrian::find($antrian_id);
-		$jenis_antrian                      = $antrian->jenis_antrian;
-		if (
-			 $antrian->antriable_type !== 'App\Models\AntrianApotek' &&
-			 $antrian->antriable_type !== 'App\Models\AntrianKasir' &&
-			 $antrian->antriable_type !== 'App\Models\AntrianAntrian' &&
-			 $antrian->antriable_type !== 'App\Models\AntrianFarmasi'
-		) {
-			$jenis_antrian->antrian_terakhir_id = $antrian->id;
-		}
+        if (!is_null( $antrian )) {
+            $jenis_antrian                      = $antrian->jenis_antrian;
+            if (
+                 $antrian->antriable_type !== 'App\Models\AntrianApotek' &&
+                 $antrian->antriable_type !== 'App\Models\AntrianKasir' &&
+                 $antrian->antriable_type !== 'App\Models\AntrianAntrian' &&
+                 $antrian->antriable_type !== 'App\Models\AntrianFarmasi'
+            ) {
+                $jenis_antrian->antrian_terakhir_id = $antrian->id;
+            }
 
-		$jenis_antrian->updated_at          = date('Y-m-d H:i:s');
-		$jenis_antrian->save();
+            $jenis_antrian->updated_at          = date('Y-m-d H:i:s');
+            $jenis_antrian->save();
 
-		$antrian->touch();
+            $antrian->touch();
 
-		$apc                                = new AntrianPolisController;
-		$apc->updateJumlahAntrian($panggil_pasien, $ruangan);
-        $this->ingatKanYangNgantriDiAntrianPeriksa($antrian);
-		return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
+            $apc                                = new AntrianPolisController;
+            $apc->updateJumlahAntrian($panggil_pasien, $ruangan);
+            $this->ingatKanYangNgantriDiAntrianPeriksa($antrian);
+            return $this->panggilPasien($antrian->nomor_antrian, $ruangan);
+        }
 	}
     /**
      * undocumented function

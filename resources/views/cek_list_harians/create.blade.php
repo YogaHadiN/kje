@@ -32,7 +32,8 @@ Klinik Jati Elok | Buat Cek List Harian Baru
             <div class="form-group @if($errors->has('staf_id')) has-error @endif">
               {!! Form::label('staf_id', 'Nama Staf', ['class' => 'control-label']) !!}
               {!! Form::select('staf_id' , \App\Models\Staf::pluck('nama', 'id'), null, [
-                'class'       => 'form-control',
+                'class'       => 'form-control selectpick',
+                'data-live-search'       => 'true',
                 'placeholder' => '-Pilih-'
               ]) !!}
               @if($errors->has('staf_id'))<code>{!! $errors->first('staf_id') !!}</code>@endif
