@@ -109,6 +109,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 	Route::get('cek_list_dikerjakans/byTanggal/{tanggal}', [\App\Http\Controllers\CekListDikerjakanController::class, 'byTanggal']);
+	Route::resource('cek_list_bulanans', \App\Http\Controllers\CekListBulananController::class);
 	Route::get('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'index']);
 	Route::post('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'store']);
 	Route::get('cek_list_harians/create', [\App\Http\Controllers\CekListHariansController::class, 'create']);

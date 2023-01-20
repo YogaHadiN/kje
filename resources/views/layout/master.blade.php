@@ -143,8 +143,7 @@
                             <li>{!! HTML::link('followup_tunggakans', 'Follow Up Tunggakan')!!}</li>
                             <li>{!! HTML::link('followup_transaksis', 'Follow Up Transaksi')!!}</li>
                             <li>{!! HTML::link('cek_list_harians', 'Cek List Harian')!!}</li>
-                            <li>{!! HTML::link('cek_list_mingguan', 'Cek List Mingguan')!!}</li>
-                            <li>{!! HTML::link('cek_list_bulanan', 'Cek List Bulanan')!!}</li>
+                            <li>{!! HTML::link('cek_list_bulanans', 'Cek List Bulanan')!!}</li>
                             <li>{!! HTML::link('cek_lists', 'Daftar Cek List')!!}</li>
                             <li>{!! HTML::link('daftar_hadirs', 'Daftar Hadir')!!}</li>
                         </ul>

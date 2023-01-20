@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="float-right">
-                <a href="{{ url('cek_list_harians/create') }}" target="_blank" class="btn btn-primary">Buat Baru</a>
+                <a href="{{ url( isset( $bulanan ) ? 'cek_list_bulanans/create' :  'cek_list_harians/create') }}" target="_blank" class="btn btn-primary">Buat Baru</a>
             </div>
         </div>
     </div>
@@ -49,8 +49,8 @@
                             @if($ruangans->count() > 0)
                                 @foreach($ruangans as $ruangan)
                                     <tr>
-                                        <td>{{ $ruangan->nama }}</td>
-                                        <td>{{ $ruangan->status }}</td>
+                                        <td>{{ $ruangan->ruangan->nama }}</td>
+                                        <td>{{ isset( $bulanan ) ? $ruangan->ruangan->status_bulanan : $ruangan->ruangan->status_harian }}</td>
                                         <td nowrap class="autofit">
                                             <a href="{{ url('cek_list_harians/' . $ruangan->id) }}" target="_blank" class="btn btn-primary btn-xs">Buka</a>
                                         </td>

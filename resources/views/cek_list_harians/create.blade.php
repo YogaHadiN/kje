@@ -17,7 +17,7 @@ Klinik Jati Elok | Buat Cek List Harian Baru
 
 @stop
 @section('content') 
-{!! Form::open(['url' => 'cek_list_harians', 'method' => 'post']) !!}
+{!! Form::open(['url' => $bulanan? 'cek_list_bulanans': 'cek_list_harians', 'method' => 'post']) !!}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="form-group @if($errors->has('no_telp')) has-error @endif">

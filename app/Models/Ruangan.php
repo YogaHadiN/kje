@@ -12,15 +12,11 @@ class Ruangan extends Model
     public function cekListRuangan(){
         return $this->hasMany(CekListRuangan::class);
     }
-    public function getStatusAttribute(){
-        $cek_list_dikerjakan = CekListDikerjakan::where('created_at', 'like', date('Y-m-d') . '%')
-            ->where('cek_list_ruangan_id', $this->id)
-            ->first();
-        if ( !is_null( $cek_list_dikerjakan ) ) {
-            return 'oke';
-        } else {
-            return 'bloooom';
-        }
+    public function getStatusHarianAttribute(){
+        return $this->status(1);
+    }
+    public function getStatusBulananAttribute(){
+        return $this->status(3);
     }
 
     public function getJumlahCekListHarianAttribute(){
@@ -44,4 +40,26 @@ class Ruangan extends Model
         }
         return $jumlah;
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function status( $frekuensi_cek_id )
+    {
+        $cek_list_ruangan_ids = CekListRuangan::where('ruangan_id', $this->id)
+                                            ->where('frekuensi_cek_id', $frekuensi_cek_id)
+                                            ->pluck('id');
+        $cek_list_dikerjakan_hari_inis = CekListDikerjakan::whereIn('cek_list_ruangan_id', $cek_list_ruangan_ids)
+                                                            ->where('created_at', 'like', $frekuensi_cek_id == 1 ? date('Y-m-d').'%' :date('Y-m').'%' )
+                                                            ->groupBy('cek_list_ruangan_id')
+                                                            ->get();
+
+        if( $cek_list_ruangan_ids->count() == $cek_list_dikerjakan_hari_inis->count() ){
+            return 'oke';
+        } else {
+            return 'belom';
+        }
+    }
+    
 }
