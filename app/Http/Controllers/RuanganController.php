@@ -82,7 +82,7 @@ class RuanganController extends Controller
             'required' => ':attribute Harus Diisi',
         ];
         $rules = [
-            'ruangan'           => 'required',
+            'nama'           => 'required',
         ];
         $validator = \Validator::make($data, $rules, $messages);
         
