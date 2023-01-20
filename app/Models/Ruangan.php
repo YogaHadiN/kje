@@ -22,6 +22,26 @@ class Ruangan extends Model
             return 'bloooom';
         }
     }
-    
 
+    public function getJumlahCekListHarianAttribute(){
+        $cek_list_ruangans = $this->cekListRuangan;
+        $jumlah = 0;
+        foreach ($cek_list_ruangans as $cek) {
+            if ( $cek->frekuensi_cek_id == 1 ) {
+                $jumlah++;
+            }
+        }
+        return $jumlah;
+    }
+
+    public function getJumlahCekListBulananAttribute(){
+        $cek_list_ruangans = $this->cekListRuangan;
+        $jumlah = 0;
+        foreach ($cek_list_ruangans as $cek) {
+            if ( $cek->frekuensi_cek_id == 3 ) {
+                $jumlah++;
+            }
+        }
+        return $jumlah;
+    }
 }
