@@ -25,14 +25,14 @@
 						{!! $periksa->jam_terima_obat !!} <br><br>
 						<strong>Periksa id</strong> <br>
 						{!! $periksa->id !!} <br></br>
-						<strong>Invoice Id</strong> <br>
+						<strong>Invoice Id</strong> <br></br>
 						<a href="{{ url('invoices/' . $periksa->invoice_id   ) }}" target="_blank">
 							{!! $periksa->invoice_id !!}
 						</a>
                         @if( $periksa->antrian )
 						<strong>Antrian</strong> <br>
-                        {!! $periksa->antrian->nomor_antrian !!} <br>
-                        {!! $periksa->antrian->no_telp !!} 
+                        {!! $periksa->antrian->nomor_antrian !!}
+                        ( {!! $periksa->antrian->no_telp !!} ) 
                         @endif
                         
 					</td>
