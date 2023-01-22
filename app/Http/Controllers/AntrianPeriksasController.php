@@ -291,19 +291,6 @@ class AntrianPeriksasController extends Controller
 		$conf             = $kabur->save();
 
 		$periksa = Periksa::where('antrian_periksa_id', $id)->first();
-	/* if(isset($periksa)){ */
-		/* 	TransaksiPeriksa::where('periksa_id', $periksa->id)->delete(); // Haput Transaksi bila ada periksa id */
-		/* 	Terapi::where('periksa_id', $periksa->id)->delete(); // Haput Terapi bila ada periksa id */
-		/* 	BukanPeserta::where('periksa_id', $periksa->id)->delete(); // Haput Terapi bila ada periksa id */
-		/* 	Rujukan::where('periksa_id', $periksa->id)->delete(); //hapus rujukan yang memiliki id periksa ini */
-		/* 	SuratSakit::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini */
-		/* 	RegisterAnc::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini */
-		/* 	Usg::where('periksa_id', $periksa->id)->delete(); // hapus surat sakit yang memiliki id periksa ini */
-		/* 	JurnalUmum::where('jurnalable_id', $periksa->id) */
-		/* 		->where('jurnalable_type', 'App\Models\Periksa') */
-		/* 		->delete(); // hapus jurnalumum yang dimiliki pasien ini */
-		/* 	Periksa::destroy($periksa->id); */
-		/* } */
 		$ap->delete();
 
 		return redirect('ruangperiksa/' . $jenis_antrian_id)->withPesan(Yoga::suksesFlash('Pasien <strong>' . $pasien_id . ' - ' . $nama_pasien . '</strong> Berhasil dihapus dari antrian'  ));
