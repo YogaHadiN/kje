@@ -29,6 +29,11 @@
 						<a href="{{ url('invoices/' . $periksa->invoice_id   ) }}" target="_blank">
 							{!! $periksa->invoice_id !!}
 						</a>
+                        @if( $periksa->antrian )
+						<strong>Antrian</strong> <br>
+                        {!! $periksa->antrian->nomor_antrian !!} <br>
+                        {!! $periksa->antrian->no_telp !!} 
+                        
 					</td>
 					<td>
 						<strong>Anamnesa :</strong> <br>
