@@ -33,6 +33,7 @@
 						<strong>Antrian</strong> <br>
                         {!! $periksa->antrian->nomor_antrian !!} <br>
                         {!! $periksa->antrian->no_telp !!} 
+                        @endif
                         
 					</td>
 					<td>
