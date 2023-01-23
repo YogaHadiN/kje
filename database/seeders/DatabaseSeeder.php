@@ -28,6 +28,22 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        WhatsappBotService::truncate();
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Cek List Harian'
+        ]);
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Input Cek List Harian'
+        ]);
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Registrasi Cek List Bulanan'
+        ]);
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Input Cek List Bulanan'
+        ]);
+        WhatsappBotService::create([
+            'whatsapp_bot_service' => 'Registrasi Konstulasi Estetik Online'
+        ]);
         WhatsappBotService::create([
             'whatsapp_bot_service' => 'whatsapp antrian online'
         ]);
