@@ -21,6 +21,7 @@ class CreateReservasiOnlinesTable extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->longText('alamat')->nullable();
             $table->integer('registrasi_pembayaran_id')->nullable();
+            $table->integer('whatsapp_bot_id');
             $table->integer('register_previously_saved_patient')->nullable();
             $table->integer('pasien_id')->nullable();
             $table->bigInteger('tenant_id')->index();
