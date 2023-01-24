@@ -14,8 +14,8 @@ class ChangeComplaintAndInformasiTerapiGagalColumnToLongtextTypeInAntriansTable 
     public function up()
     {
         Schema::table('antrians', function (Blueprint $table) {
-            $table->longText('complaint')->change();
-            $table->longText('informasi_terapi_gagal')->change();
+            $table->text('complaint')->change();
+            $table->text('informasi_terapi_gagal')->change();
         });
     }
 
