@@ -298,7 +298,6 @@ if (!function_exists('resetWhatsappRegistration')) {
         \App\Models\WhatsappSatisfactionSurvey::where('no_telp', $no_telp)->delete();
         \App\Models\FailedTherapy::where('no_telp', $no_telp)->delete();
         \App\Models\KuesionerMenungguObat::where('no_telp', $no_telp)->delete();
-        \App\Models\WhatsappBot::where('no_telp', $no_telp)->delete();
         \App\Models\WhatsappBpjsDentistRegistration::where('no_telp', $no_telp)->delete();
         \App\Models\WhatsappJadwalKonsultasiInquiry::where('no_telp', $no_telp)->delete();
     }

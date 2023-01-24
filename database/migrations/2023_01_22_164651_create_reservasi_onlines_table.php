@@ -16,6 +16,8 @@ class CreateReservasiOnlinesTable extends Migration
         Schema::create('reservasi_onlines', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->nullable();
+            $table->tinyInteger('konfirmasi_sdk')->default(0);
+            $table->integer('jenis_antrian_id')->nullable();
             $table->string('nomor_asuransi_bpjs')->nullable();
             $table->string('no_telp');
             $table->date('tanggal_lahir')->nullable();
@@ -25,7 +27,6 @@ class CreateReservasiOnlinesTable extends Migration
             $table->integer('register_previously_saved_patient')->nullable();
             $table->integer('pasien_id')->nullable();
             $table->bigInteger('tenant_id')->index();
-            $table->string('nomor_bpjs')->nullable();
             $table->timestamps();
         });
     }
