@@ -33,7 +33,7 @@
             @if (!empty($antrian->alamat))
                 <tr>
                     <td nowrap>Alamat</td>
-                    <td nowrap>{{ $antrian->alamat }}</td>
+                    <td>{{ $antrian->alamat }}</td>
                 </tr>
             @endif
             @if (!empty($antrian->registrasi_pembayaran_id))

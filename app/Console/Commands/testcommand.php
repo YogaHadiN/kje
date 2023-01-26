@@ -124,7 +124,16 @@ class testcommand extends Command
 
 
     public function handle(){
-        dd( CekListRuangan::find(1)->ruangan );
+        $periksa_id_awal_2022 = Periksa::where('created_at', 'like', '2022%')->first()->id;
+        $periksa_id_akhir = Periksa::where('created_at', 'like', '2022%')->orderBy('id', 'desc')->first()->id;
+
+
+
+        dd( [
+            $periksa_id_awal_2022,
+            $periksa_id_akhir
+        ] );
+
 
         /* $this->revisiModal(798); */
     }
