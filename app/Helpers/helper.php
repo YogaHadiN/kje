@@ -340,3 +340,18 @@ if (!function_exists('tambahkanGelar')) {
     }
 }
 
+if (!function_exists('umur')) {
+    function umur($birthDate){
+        if ( !empty( $birthDate ) ) {
+            $num = number_format(((int)strtotime(date('Y-m-d')) - (int)strtotime(date( 'Y-m-d', strtotime( $birthDate . ' -1 day' ) )))/31556952);
+            if(empty($birthDate) || $birthDate == '0000-00-00'){
+                return null;
+            } else {
+                return $num;
+            }
+        } else {
+            return null;
+        }
+    }
+}
+

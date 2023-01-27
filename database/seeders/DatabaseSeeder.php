@@ -4,48 +4,42 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use DB;
-use App\Models\Tenant;
-use App\Models\KategoriCekList;
-use App\Models\FrekuensiCek;
-use App\Models\Staf;
-use App\Models\Coa;
-use App\Models\Hari;
-use App\Models\TipeKonsultasi;
-use App\Models\Modal;
-use App\Models\Limit;
-use App\Models\JurnalUmum;
-use App\Models\JenisTarif;
-use App\Models\CekList;
-use App\Models\RecoveryIndex;
-use App\Models\WaktuHadir;
-use App\Models\OdontogramAbbreviation;
-use App\Models\TaksonomiGigi;
-use App\Models\PermukaanGigi;
-use App\Models\WhatsappBotService;
-use App\Models\Document;
+use App\Models\JenisKulit;
+use App\Models\PeriodeKeluhanUtama;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        WhatsappBotService::truncate();
-        WhatsappBotService::create([
-            'whatsapp_bot_service' => 'Cek List Harian'
+        JenisKulit::create([
+            'jenis_kulit' => 'normal'
         ]);
-        WhatsappBotService::create([
-            'whatsapp_bot_service' => 'Input Cek List Harian'
+        JenisKulit::create([
+            'jenis_kulit' => 'sensitif'
         ]);
-        WhatsappBotService::create([
-            'whatsapp_bot_service' => 'Registrasi Cek List Bulanan'
+        JenisKulit::create([
+            'jenis_kulit' => 'kering'
         ]);
-        WhatsappBotService::create([
-            'whatsapp_bot_service' => 'Input Cek List Bulanan'
+        JenisKulit::create([
+            'jenis_kulit' => 'berminyak'
         ]);
-        WhatsappBotService::create([
-            'whatsapp_bot_service' => 'Registrasi Konstulasi Estetik Online'
+        JenisKulit::create([
+            'jenis_kulit' => 'tidak tahu'
         ]);
-        WhatsappBotService::create([
-            'whatsapp_bot_service' => 'whatsapp antrian online'
+        PeriodeKeluhanUtama::create([
+            'periode_keluhan_utama' => '< 1 minggu'
+        ]);
+        PeriodeKeluhanUtama::create([
+            'periode_keluhan_utama' => '1 minggu - 1 bulan'
+        ]);
+        PeriodeKeluhanUtama::create([
+            'periode_keluhan_utama' => '1 bulan - 3 bulan'
+        ]);
+        PeriodeKeluhanUtama::create([
+            'periode_keluhan_utama' => '3 bulan - 1 tahun'
+        ]);
+        PeriodeKeluhanUtama::create([
+            'periode_keluhan_utama' => '> 1 tahun'
         ]);
     }
 }

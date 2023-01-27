@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\BelongsToTenant; 
 
-class ReservasiOnline extends Model
+class KonsultasiEstetikOnline extends Model
 {
     use HasFactory, BelongsToTenant;
+    protected $guarded = [];
 }

@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'selesai' => \App\Http\Middleware\SudahSelesai::class,
         'selesaiPeriksa' => \App\Http\Middleware\SudahSelesaiPeriksa::class,
         'super' => \App\Http\Middleware\SuperAdminOnly::class,
+        'filterBpjs' => \App\Http\Middleware\FilterBpjsDiNurseStation::class,
         'allowifnotcash' => \App\Http\Middleware\AllowIfNotCash::class,
         'admin' => \App\Http\Middleware\adminOnly::class,
         'keuangan' => \App\Http\Middleware\KeuanganAccessOnly::class,

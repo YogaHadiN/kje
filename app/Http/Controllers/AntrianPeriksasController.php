@@ -113,6 +113,8 @@ class AntrianPeriksasController extends Controller
         $this->previous_complaint_resolved = Input::get('previous_complaint_resolved');
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
         /* $this->middleware('super', ['only' => ['delete','update']]); */
+
+        $this->middleware('filterBpjs', ['only' => ['create']]);
     }
 	public function index()
 	{

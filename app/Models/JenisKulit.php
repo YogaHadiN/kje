@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\BelongsToTenant; 
 
-class ReservasiOnline extends Model
+class JenisKulit extends Model
 {
-    use HasFactory, BelongsToTenant;
+    use HasFactory;
+    protected $guarded = [];
 }
