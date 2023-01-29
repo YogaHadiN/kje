@@ -105,6 +105,7 @@
 <script>
 var base  = '{!! url('/') !!}';
 var base_s3_wa = "{{ env('AWS_URL') }}";
+console.log( 'base_s3_wa', base_s3_wa );
 </script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
  <script src="{!! asset('js/panggil.js') !!}"></script>

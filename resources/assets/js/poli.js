@@ -3165,7 +3165,8 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
                 temp += "</ol>";
                 temp += '<div class="carousel-inner" role="listbox">';
                 for (let i = 0, len = data.length; i < len; i++) {
-                    temp += '<div class="item' + i == 0 ? "active" : "" + '">';
+                    var active = i == 0 ? " active" : "";
+                    temp += '<div class="item' + active + '">';
                     temp +=
                         '<img src="' +
                         base_s3_wa +
