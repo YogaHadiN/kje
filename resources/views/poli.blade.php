@@ -5,6 +5,26 @@
 @stop
 @section('head')
     {{-- <link href="{!! asset('css/poli.css') !!}" rel="stylesheet"> --}}
+    <style type="text/css" media="screen">
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    text-indent: 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    background-color: #B0B0B0;
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5);    
+}
+.carousel-indicators .active {
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+    background-color: #DCDCDC;
+}
+    </style>
 @stop
 @section('page-title') 
     <h2>RUANG PERIKSA {!! ucfirst($antrianperiksa->poli->poli)!!}</h2>

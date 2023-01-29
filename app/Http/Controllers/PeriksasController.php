@@ -1461,6 +1461,8 @@ class PeriksasController extends Controller
     }
     public function refreshGambar(){
         $antrian_periksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
+        $result = [];
+
         return $antrian_periksa->gambars;
     }
     

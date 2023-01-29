@@ -3193,19 +3193,22 @@ function refreshGambar(data) {
         temp +=
             '<div id="carousel-gambar-periksa" class="carousel slide" data-ride="carousel">';
         temp += '<ol class="carousel-indicators">';
-        for (let i = 0, len = data.length; i < len; i++) {
-            var active = i == 0 ? 'class="active"' : "";
+        var a = 0;
+        for (var i = data.length - 1; i >= 0; i--) {
+            var active = a == 0 ? 'class="active"' : "";
             temp +=
                 '<li data-target="#carousel-gambar-periksa" data-slide-to="' +
-                i +
+                a +
                 '" ' +
                 active +
                 "></li>";
+            a++;
         }
         temp += "</ol>";
         temp += '<div class="carousel-inner" role="listbox">';
-        for (let i = 0, len = data.length; i < len; i++) {
-            var active = i == 0 ? " active" : "";
+        var a = 0;
+        for (var i = data.length - 1; i >= 0; i--) {
+            var active = a == 0 ? " active" : "";
             temp += '<div class="item' + active + '">';
             temp +=
                 '<img src="' +
@@ -3214,6 +3217,7 @@ function refreshGambar(data) {
                 data[i].nama +
                 '" alt="" class="img-rounded upload"> ';
             temp += "</div>";
+            a++;
         }
         temp += "</div>";
         temp +=
