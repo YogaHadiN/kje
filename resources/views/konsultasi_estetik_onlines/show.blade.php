@@ -32,6 +32,7 @@
                         <td>Tanggal Lahir</td>
                         <td>{{ $konsultasi_estetik_online->tanggal_lahir }}</td>
                     </tr>
+                    @if ( $konsultasi_estetik_online->gambarPeriksa->count() )
                     <tr>
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -65,6 +66,7 @@
                             </div>
                         </div>
                     </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

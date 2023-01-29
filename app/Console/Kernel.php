@@ -39,6 +39,7 @@ class Kernel extends ConsoleKernel
 		 Commands\smsCekInbox::class,
 		 Commands\piutangAsuransiBelumDibayar3Bulan::class,
 		 Commands\testJurnal::class,
+		 Commands\resetPlafonBpjs::class,
 		 Commands\TestKirimWaAPIButtonKeIphone::class,
 		 /* Commands\dbBackup::class, */
 		 Commands\refreshKunjunganPasien::class,
@@ -81,6 +82,8 @@ class Kernel extends ConsoleKernel
 				  ->monthlyOn(date('t'), '15:00');
 		 $schedule->command('db:refreshKunjunganPasien')
 				  ->monthlyOn(1, '01:00');
+		 $schedule->command('db:resetPlafonBpjs')
+				  ->dailyAt('00:05');
 		 /* $schedule->command('sms:promoUlangTahun') */
 				  /* ->monthlyOn('1', '14:00'); */
 		 $schedule->command('refresh:antrian')

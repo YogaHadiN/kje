@@ -29,7 +29,7 @@ class KonsultasiEstetikOnlineController extends Controller
         return view('konsultasi_estetik_onlines.create');
     }
     public function show($id){
-        $konsultasi_estetik_online = KonsultasiEstetikOnline::find($id);
+        $konsultasi_estetik_online = KonsultasiEstetikOnline::with('gambarPeriksa')->where('id',$id)->first();
         return view('konsultasi_estetik_onlines.show', compact('konsultasi_estetik_online'));
     }
     public function edit($id){
