@@ -19,6 +19,9 @@ class AntrianPeriksa extends Model{
 	// Don't forget to fill this array
 	protected $fillable = [];
 
+    public function whatsappBot(){
+        return $this->belongsTo(WhatsappBot::class);
+    }
 	public function asuransi() {
 		return $this->belongsTo('App\Models\Asuransi');
 	}

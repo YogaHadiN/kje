@@ -5506,7 +5506,7 @@ input:checked + .slider:before {
     width: 50%;
 }
 .w-30-percent {
-    width: 30%;
+    width: 10%;
 }
 
 /*! jQuery UI - v1.11.4 - 2016-01-02

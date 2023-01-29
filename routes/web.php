@@ -213,6 +213,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pdfs/tindakanHarian/{tanggal}/{asuransi_id}', [\App\Http\Controllers\PdfsController::class, 'tindakanHarian']);
 
 
+
+	Route::post('periksas/notif/inputGambar', [\App\Http\Controllers\PeriksasController::class, 'notifInputGambar']);
 	Route::get('periksas/cari/by_asuransi/{asuransi_id}/{from}/{until}', [\App\Http\Controllers\PeriksasController::class, 'cariByAsuransiByPeriode']);
 	Route::get('periksas/edit/transaksiPeriksa/get/coa_id', [\App\Http\Controllers\PeriksaCustomController::class, 'getCoaId']);
 	Route::get('periksas/edit/transaksiPeriksa/get/coa_list', [\App\Http\Controllers\PeriksaCustomController::class, 'getCoaList']);

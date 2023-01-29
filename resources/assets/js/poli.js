@@ -3139,3 +3139,27 @@ function deleteTindakan(i) {
     optionBilaNebuBpjs();
     bahanHabisPakai();
 }
+$("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
+    $.post(
+        base + "/periksas/notif/inputGambar",
+        {
+            staf_id: $("#staf_id").val(),
+            pasien_id: $("#pasien_id").val(),
+            antrian_periksa_id: $("#antrian_periksa_id").val(),
+        },
+        function (data, textStatus, jqXHR) {
+            var result = "";
+            for (var i = data.length - 1; i >= 0; i--) {
+                result += '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">';
+                result +=
+                    '<img src="' +
+                    base_s3 +
+                    "/" +
+                    data[i].nama +
+                    '" alt="" class="img-rounded upload">';
+                result += "</div>";
+            }
+            $("#container_gambar_periksa").html(result);
+        }
+    );
+});

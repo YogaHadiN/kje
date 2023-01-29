@@ -42,6 +42,7 @@ use App\Models\RegisterAnc;
 use App\Models\GambarPeriksa;
 use App\Models\PengantarPasien;
 use App\Models\Tarif;
+use App\Models\WhatsappBot;
 use App\Http\Controllers\CustomController;
 use App\Http\Controllers\AntrianPeriksasController;
 use App\Http\Controllers\WablasController;
@@ -1432,7 +1433,24 @@ class PeriksasController extends Controller
         WhatsappSatisfactionSurvey::where('no_telp', $no_telp)->delete();
         WhatsappRecoveryIndex::where('no_telp', $no_telp)->delete();
     }
-    
-    
-    
+    public function notifInputGambar(){
+        $staf_id   = Input::get('staf_id');
+        $pasien_id = Input::get('pasien_id');
+        $antrian_periksa_id = Input::get('antrian_periksa_id');
+        $pasien    = Pasien::find( $pasien_id );
+        $staf      = Staf::find($staf_id);
+        $no_telp   = convertToWablasFriendlyFormat($staf->no_hp);
+
+        $whatsapp_bot = WhatsappBot::create([
+            'no_telp' => $no_telp,
+            'whatsapp_bot_service_id' => 7
+        ]);
+
+        $antrian_periksa = AntrianPeriksa::find( $antrian_periksa_id );
+        $antrian_periksa->whatsapp_bot_id = $whatsapp_bot->id;
+        $antrian_periksa->save();
+
+        $wa = new WablasController;
+        $wa->sendSingle($no_telp, 'Silahkan kirim gambar untuk pasien atas nama ' . $pasien->nama . ' sekarang');
+    }
 }
