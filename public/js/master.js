@@ -254,6 +254,7 @@ function pusherCaller() {
     channel.bind(event_name, function (data) {
         $("#jumlah_antrian").html(data.text.count);
         updateLandingLinkClass();
+        console.log(data);
     });
 }
 function validatePass2(control, extraValid = []) {

@@ -764,8 +764,16 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="gambar_periksa">
-                    <div class="row" id="container_gambar_periksa">
-
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                            
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" id="container_gambar_periksa">
+                            
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                            
+                        </div>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="resep">

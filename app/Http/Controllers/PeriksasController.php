@@ -1434,24 +1434,25 @@ class PeriksasController extends Controller
         WhatsappRecoveryIndex::where('no_telp', $no_telp)->delete();
     }
     public function notifInputGambar(){
-        $staf_id   = Input::get('staf_id');
-        $pasien_id = Input::get('pasien_id');
+        $staf_id            = Input::get('staf_id');
+        $pasien_id          = Input::get('pasien_id');
         $antrian_periksa_id = Input::get('antrian_periksa_id');
-        $pasien    = Pasien::find( $pasien_id );
-        $staf      = Staf::find($staf_id);
-        $no_telp   = convertToWablasFriendlyFormat($staf->no_hp);
+        $pasien             = Pasien::find( $pasien_id );
+        $staf               = Staf::find($staf_id);
+        $no_telp            = convertToWablasFriendlyFormat($staf->no_hp);
+        $antrian_periksa    = AntrianPeriksa::find( $antrian_periksa_id );
+        if ( !WhatsappBot::where('no_telp', $no_telp)->where('whatsapp_bot_service_id', 7)->exists() ) {
+            $whatsapp_bot = WhatsappBot::create([
+                'no_telp' => $no_telp,
+                'whatsapp_bot_service_id' => 7
+            ]);
 
-        $whatsapp_bot = WhatsappBot::create([
-            'no_telp' => $no_telp,
-            'whatsapp_bot_service_id' => 7
-        ]);
+            $antrian_periksa->whatsapp_bot_id = $whatsapp_bot->id;
+            $antrian_periksa->save();
 
-        $antrian_periksa = AntrianPeriksa::find( $antrian_periksa_id );
-        $antrian_periksa->whatsapp_bot_id = $whatsapp_bot->id;
-        $antrian_periksa->save();
-
-        $wa = new WablasController;
-        $wa->sendSingle($no_telp, 'Silahkan kirim gambar untuk pasien atas nama ' . $pasien->nama . ' sekarang');
+            $wa = new WablasController;
+            $wa->sendSingle($no_telp, 'Silahkan kirim gambar untuk pasien atas nama ' . $pasien->nama . ' sekarang');
+        } 
         return $antrian_periksa->gambars;
     }
 }

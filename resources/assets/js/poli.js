@@ -3148,9 +3148,6 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
             antrian_periksa_id: $("#antrian_periksa_id").val(),
         },
         function (data, textStatus, jqXHR) {
-            console.log("======================");
-            console.log("base_s3_wa", base_s3_wa);
-            console.log("======================");
             var temp = "";
             if (data.length) {
                 temp +=
@@ -3180,13 +3177,13 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
                 }
                 temp += "</div>";
                 temp +=
-                    '<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">';
+                    '<a class="left carousel-control" href="#carousel-gambar-periksa" role="button" data-slide="prev">';
                 temp +=
                     '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>';
                 temp += '<span class="sr-only">Previous</span>';
                 temp += "</a>";
                 temp +=
-                    '<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">';
+                    '<a class="right carousel-control" href="#carousel-gambar-periksa" role="button" data-slide="next">';
                 temp +=
                     '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>';
                 temp += '<span class="sr-only">Next</span>';
