@@ -108,7 +108,8 @@ var base_s3_wa = "{{ env('AWS_URL') }}";
 console.log( 'base_s3_wa', base_s3_wa );
 </script>
 {!! HTML::script('js/gambar_periksa.js')!!} 
- <script src="{!! asset('js/panggil.js') !!}"></script>
+<script src="{!! asset('js/panggil.js') !!}"></script>
+<script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 {!! HTML::script('js/allpoli.js')!!} 
 {!! HTML::script('js/alergi.js')!!} 
 {!! HTML::script('js/odontogram.js')!!} 

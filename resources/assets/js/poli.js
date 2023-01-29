@@ -29,11 +29,16 @@ var pusher = new Pusher(pusher_app_key, {
 
 var channel = pusher.subscribe(channel_name);
 channel.bind(event_name, function (data) {
-    if (typeof data.antrian_periksa_id !== "undefined") {
+    console.log("panggil_refresh_gambar");
+    if (
+        typeof data.antrian_periksa_id !== "undefined" &&
+        data.antrian_periksa_id == $("#antrian_periksa_id").val()
+    ) {
         $.get(
             base + "/periksas/refresh/gambar",
             { antrian_periksa_id: $("#antrian_periksa_id").val() },
             function (data, textStatus, jqXHR) {
+                console.log("masuk refresh gambar");
                 refreshGambar(data);
                 Swal.fire({
                     position: "top-end",
