@@ -3140,7 +3140,7 @@ function deleteTindakan(i) {
     bahanHabisPakai();
 }
 $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
-    $.post(
+    var base_s3_wa = $.post(
         base + "/periksas/notif/inputGambar",
         {
             staf_id: $("#staf_id").val(),
@@ -3148,12 +3148,14 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
             antrian_periksa_id: $("#antrian_periksa_id").val(),
         },
         function (data, textStatus, jqXHR) {
+            console.log("data", data);
             var result = "";
             for (var i = data.length - 1; i >= 0; i--) {
+                console.log("data", data[i]);
                 result += '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">';
                 result +=
                     '<img src="' +
-                    base_s3 +
+                    base_s3_wa +
                     "/" +
                     data[i].nama +
                     '" alt="" class="img-rounded upload">';

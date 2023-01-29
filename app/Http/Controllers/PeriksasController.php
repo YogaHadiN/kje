@@ -1452,5 +1452,6 @@ class PeriksasController extends Controller
 
         $wa = new WablasController;
         $wa->sendSingle($no_telp, 'Silahkan kirim gambar untuk pasien atas nama ' . $pasien->nama . ' sekarang');
+        return $antrian_periksa->gambars;
     }
 }
