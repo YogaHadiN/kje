@@ -3148,6 +3148,9 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
             antrian_periksa_id: $("#antrian_periksa_id").val(),
         },
         function (data, textStatus, jqXHR) {
+            console.log("======================");
+            console.log("base_s3_wa", base_s3_wa);
+            console.log("======================");
             var temp = "";
             if (data.length) {
                 temp +=
