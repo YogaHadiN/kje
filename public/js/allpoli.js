@@ -3154,14 +3154,13 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
                     '<div id="carousel-gambar-periksa" class="carousel slide" data-ride="carousel">';
                 temp += '<ol class="carousel-indicators">';
                 for (let i = 0, len = data.length; i < len; i++) {
+                    var active = i == 0 ? 'class="active"' : "";
                     temp +=
                         '<li data-target="#carousel-gambar-periksa" data-slide-to="' +
-                            i +
-                            '" ' +
-                            i ==
-                        0
-                            ? 'class="active"'
-                            : '""' + "></li>";
+                        i +
+                        '" ' +
+                        active +
+                        "></li>";
                 }
                 temp += "</ol>";
                 temp += '<div class="carousel-inner" role="listbox">';
