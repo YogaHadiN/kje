@@ -3148,31 +3148,48 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
             antrian_periksa_id: $("#antrian_periksa_id").val(),
         },
         function (data, textStatus, jqXHR) {
-            var temp = '';
+            var temp = "";
             if (data.length) {
-                temp += '<div id="carousel-gambar-periksa" class="carousel slide" data-ride="carousel">';
+                temp +=
+                    '<div id="carousel-gambar-periksa" class="carousel slide" data-ride="carousel">';
                 temp += '<ol class="carousel-indicators">';
                 for (let i = 0, len = data.length; i < len; i++) {
-                    temp += '<li data-target="#carousel-gambar-periksa" data-slide-to="' +i+ '" ' + i == 0? 'class="active" : ""'+ '></li>';
+                    temp +=
+                        '<li data-target="#carousel-gambar-periksa" data-slide-to="' +
+                            i +
+                            '" ' +
+                            i ==
+                        0
+                            ? 'class="active"'
+                            : '""' + "></li>";
                 }
-                temp += '</ol>';
+                temp += "</ol>";
                 temp += '<div class="carousel-inner" role="listbox">';
                 for (let i = 0, len = data.length; i < len; i++) {
-                    temp += '<div class="item' + i==0? "active" : ""+  '">';
-                    temp += '<img src="' + base_s3_wa + '/' + data[i].nama + '" alt="" class="img-rounded upload"> ';
-                    temp += '</div>';
+                    temp += '<div class="item' + i == 0 ? "active" : "" + '">';
+                    temp +=
+                        '<img src="' +
+                        base_s3_wa +
+                        "/" +
+                        data[i].nama +
+                        '" alt="" class="img-rounded upload"> ';
+                    temp += "</div>";
                 }
-                temp += '</div>';
-                temp += '<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">';
-                temp += '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>';
+                temp += "</div>";
+                temp +=
+                    '<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">';
+                temp +=
+                    '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>';
                 temp += '<span class="sr-only">Previous</span>';
-                temp += '</a>';
-                temp += '<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">';
-                temp += '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>';
+                temp += "</a>";
+                temp +=
+                    '<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">';
+                temp +=
+                    '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>';
                 temp += '<span class="sr-only">Next</span>';
-                temp += '</a>';
-                temp += '</div>';
-                temp += ' ';
+                temp += "</a>";
+                temp += "</div>";
+                temp += " ";
             }
             $("#container_gambar_periksa").html(temp);
         }
