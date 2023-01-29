@@ -512,6 +512,8 @@
 	<script>
 		var base = "{{ url('/') }}";
 		var base_s3 = "{{ env('AWS_URL') }}";
+        var pusher_app_key =  "{{ env('PUSHER_APP_KEY') }}"
+        var pusher_cluster =  "{{ env('PUSHER_APP_CLUSTER') }}"
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
