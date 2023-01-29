@@ -3140,7 +3140,7 @@ function deleteTindakan(i) {
     bahanHabisPakai();
 }
 $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
-    var base_s3_wa = $.post(
+    $.post(
         base + "/periksas/notif/inputGambar",
         {
             staf_id: $("#staf_id").val(),
