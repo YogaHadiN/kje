@@ -347,6 +347,9 @@
                             @endforeach
                         </ul>
                     </li>
+                    <li>
+                        <a href="{{ url('konsultasi_estetik_onlines') }}"><i class="fa fa-flask"></i> <span class="nav-label">Konsultasi Estetik</span></a>
+                    </li>
 					 <li>{!! HTML::link('backup', 'Backup Database', ['onclick' => 'return confirm("Anda yakin mau backup database saat ini?")'])!!}</li>
 					 <li>{!! HTML::link('copy_log_file', 'Copy Log File')!!}</li>
                 </ul>

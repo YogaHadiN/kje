@@ -93,6 +93,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 	Route::resource('ruangans', \App\Http\Controllers\RuanganController::class);
+	Route::resource('konsultasi_estetik_onlines', \App\Http\Controllers\KonsultasiEstetikOnlineController::class);
 	Route::get('cek_list_ruangans/{ruangan_id}', [\App\Http\Controllers\CekListRuanganController::class, 'index']);
 	Route::get('cek_list_ruangans/{ruangan_id}/create', [\App\Http\Controllers\CekListRuanganController::class, 'create']);
 	Route::post('cek_list_ruangans/{ruangan_id}', [\App\Http\Controllers\CekListRuanganController::class, 'store']);
