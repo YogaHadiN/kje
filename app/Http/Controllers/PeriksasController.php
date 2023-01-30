@@ -1462,8 +1462,8 @@ class PeriksasController extends Controller
 
             $wa = new WablasController;
             $wa->sendSingle($no_telp, 'Silahkan kirim gambar untuk pasien atas nama ' . $pasien->nama . ' sekarang');
+            return $no_telp;
         } 
-        return $no_telp;
     }
     public function refreshGambar(){
         $antrian_periksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
