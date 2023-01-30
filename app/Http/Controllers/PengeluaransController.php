@@ -218,10 +218,6 @@ class PengeluaransController extends Controller
 		}
 		return json_encode($result);
     }
-
-
-
-    
     public function nota_z(){
         $checkout       = CheckoutKasir::latest()->first();
 
@@ -242,7 +238,7 @@ class PengeluaransController extends Controller
 		$pengeluarans = JurnalUmum::with('jurnalable')
 									->where('coa_id', $coa_id_110000)
                                     ->where('debit', '0')
-                                    ->where('id', '>=', $checkout->jurnal_umum_id)
+                                    ->where('id', '>', $checkout->jurnal_umum_id)
                                     ->where('jurnalable_type', 'not like', 'App\\\Models\\\CheckoutKasir')
                                     ->get();
 
@@ -255,20 +251,20 @@ class PengeluaransController extends Controller
         $asuransis = Periksa::where('created_at', '>=', $tanggal)->groupBy('asuransi_id')->get();
 
 		$uang_masuks = JurnalUmum::with('jurnalable')
-									->where('id', '>=', $checkout->jurnal_umum_id)
+									->where('id', '>', $checkout->jurnal_umum_id)
 									->where('coa_id', $coa_id_110000)
 									->where('jurnalable_type', '!=', 'App\Models\Modal')
 									->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
 									->where('debit', '1')
 									->get();
 
-        $modal_awals = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
+        $modal_awals = JurnalUmum::where('id', '>', $checkout->jurnal_umum_id)
                                     ->where('coa_id', $coa_id_110000)
                                     ->where('jurnalable_type', 'App\Models\Modal')
                                     ->where('debit', '1')
                                     ->get();
 
-        $uang_keluar = JurnalUmum::where('id', '>=', $checkout->jurnal_umum_id)
+        $uang_keluar = JurnalUmum::where('id', '>', $checkout->jurnal_umum_id)
                                     ->where('coa_id', $coa_id_110000)
                                     ->where('jurnalable_type', '!=', 'App\Models\Modal')
                                     ->where('jurnalable_type', '!=', 'App\Models\CheckoutKasir')
@@ -365,10 +361,6 @@ class PengeluaransController extends Controller
 		DB::beginTransaction();
 		try {
 			$parameterKasir = $this->parameterKasir();
-			//
-			//backup database
-			/* $kernel = new scheduleBackup; */
-			/* $kernel->handle(); */
 
 			$uang_di_kasir     = $parameterKasir['uang_di_kasir'];
 			$total_uang_keluar = $parameterKasir['total_uang_keluar'];

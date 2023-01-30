@@ -307,7 +307,7 @@
                                     <td class="uang">{{  $checkout->uang_masuk  }}</td>
                                     <td class="uang">{{  $checkout->uang_di_kasir  }}</td>
                                     <td> 
-                                        <a href="{{ url('pengeluarans/checkout/' . $checkout->id) }}" class="btn btn-primary btn-xs">details</a> 
+                                        <a href="{{ url('pengeluarans/checkout/' . $checkout->id) }}" class="btn btn-primary btn-xs">Details</a> 
                                         <a href='{!! url("pdfs/notaz/" . $checkout->id )!!}' class="btn btn-info btn-xs">Struk</a> 
                                         <a href='{!! url("pdfs/notaz/keluar_masuk/" . $checkout->id )!!}' class="btn btn-success btn-xs">Keluar Masuk</a> 
                                     </td>

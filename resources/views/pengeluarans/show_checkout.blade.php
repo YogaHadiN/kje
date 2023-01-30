@@ -80,20 +80,18 @@
 							  <tr>
 							  <td nowrap class="text-left">{{$plr->created_at->format('d-M')}}</td>
 								  <td>
-										  @if ($plr->jurnalable_type == 'App\Models\FakturBelanja')
-											  @if (isset($plr->jurnalable->supplier['nama']))
-											  {{ $plr->jurnalable->supplier['nama'] }}
-											 @endif
-										  @elseif ($plr->jurnalable_type == 'App\Models\BayarDokter')
-											  {{ $plr->jurnalable->staf->nama }}
-										  @elseif ($plr->jurnalable_type == 'App\Models\Pengeluaran')
-											  {{ $plr->jurnalable->supplier['nama'] }}
-										  @elseif ($plr->jurnalable_type == 'App\Models\BayarGaji')
-											  {{ $plr->jurnalable->staf->nama }}
-										  @endif
-										  
-									  </td>
-
+                                      @if ($plr->jurnalable_type == 'App\Models\FakturBelanja')
+                                          @if (isset($plr->jurnalable->supplier['nama']))
+                                          {{ $plr->jurnalable->supplier['nama'] }}
+                                         @endif
+                                      @elseif ($plr->jurnalable_type == 'App\Models\BayarDokter')
+                                          {{ $plr->jurnalable->staf->nama }}
+                                      @elseif ($plr->jurnalable_type == 'App\Models\Pengeluaran')
+                                          {{ $plr->jurnalable->supplier['nama'] }}
+                                      @elseif ($plr->jurnalable_type == 'App\Models\BayarGaji')
+                                          {{ $plr->jurnalable->staf->nama }}
+                                      @endif
+                                  </td>
 								  <td>{{ $plr->jurnalable_type }}</td>
 								  <td class="text-right">{{App\Models\Classes\Yoga::buatrp(  $plr->nilai  )}}</td>
 								  <td> <button class="btn btn-info btn-xs" type="button">detail</button> </td>
