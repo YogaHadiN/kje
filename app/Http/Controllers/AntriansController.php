@@ -9,6 +9,8 @@ use Input;
 use App\Models\Antrian;
 use App\Models\JenisAntrian;
 use App\Models\Classes\Yoga;
+use App\Models\WhatsappRegistration;
+
 use Carbon\Carbon;
 
 class AntriansController extends Controller
@@ -90,6 +92,7 @@ class AntriansController extends Controller
 		}
 		$apc              = new AntrianPolisController;
 		$apc->updateJumlahAntrian(false, null);
+        WhatsappRegistration::where('antrian_id', $antrian->id)->delete();
 		$antrian->delete();
 		return redirect()->back()->withPesan($pesan);
 	}
