@@ -3233,10 +3233,10 @@ function kirimWaGambar(control) {
             antrian_periksa_id: $("#antrian_periksa_id").val(),
         },
         function (data, textStatus, jqXHR) {
-            if (!is_null(data)) {
+            if (data.terkirim) {
                 Swal.fire({
                     icon: "success",
-                    title: "Permintaan sudah dikirim ke " + data,
+                    title: "Permintaan berhasil terkirim ke " + data.no_telp,
                     showConfirmButton: false,
                     timer: 1500,
                 });
@@ -3244,7 +3244,10 @@ function kirimWaGambar(control) {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Permintaan ke nomor yang sama sudah pernah dikirim sebelumnya. Silahkan langsung ambil foto",
+                    text:
+                        "Permintaan ke nomor yang sama ke " +
+                        data.no_telp +
+                        " dikirim sebelumnya. Silahkan langsung ambil foto",
                 });
             }
         }
