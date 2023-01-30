@@ -92,7 +92,6 @@ class AntriansController extends Controller
 		}
 		$apc              = new AntrianPolisController;
 		$apc->updateJumlahAntrian(false, null);
-        WhatsappRegistration::where('antrian_id', $antrian->id)->delete();
 		$antrian->delete();
 		return redirect()->back()->withPesan($pesan);
 	}

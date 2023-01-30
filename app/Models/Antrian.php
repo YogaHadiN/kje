@@ -4,12 +4,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\BelongsToTenant; 
 use App\Models\Asuransi;
+use App\Models\WhatsappRegistration;
 use DB;
 
 class Antrian extends Model
 {
     use BelongsToTenant,HasFactory;
 
+    public static function boot(){
+        parent::boot();
+        self::deleted(function($model){
+            WhatsappRegistration::where('antrian_id', $antrian->id)->delete();
+        });
+    }
+    
     protected $guarded = [];
 	protected $dates = [
 		'tanggal_lahir'
