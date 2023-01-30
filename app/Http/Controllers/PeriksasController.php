@@ -421,6 +421,9 @@ class PeriksasController extends Controller
                     'antriable_type' => 'App\Models\AntrianApotek'
                 ]);
 
+            if ( !is_null(  $this->antrianperiksa->whatsappBot  ) ) {
+                $this->antrianperiksa->whatsappBot->delete();
+            }
 			$this->antrianperiksa->delete();
 		}
 		$apc = new AntrianPolisController;
