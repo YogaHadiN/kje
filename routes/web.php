@@ -487,6 +487,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('pengeluarans/checkout/{id}', [\App\Http\Controllers\PengeluaransController::class, 'show_checkout']);
 		Route::post('pengeluarans/confirm_staf', [\App\Http\Controllers\PengeluaransController::class, 'confirm_staf']);
 
+
+		Route::get('pembayaran_gaji_karyawan/ajax', [\App\Http\Controllers\BayarGajiController::class, 'pembayaran_gaji_ajax']);
 		Route::get('pengeluarans/bayar_gaji_karyawan', [\App\Http\Controllers\BayarGajiController::class, 'bayar_gaji_karyawan']);
 		Route::post('pengeluarans/bayar_gaji_karyawan', [\App\Http\Controllers\BayarGajiController::class, 'bayar_gaji']);
 		Route::post('pengeluarans/bayar_gaji_karyawan/{staf_id}', [\App\Http\Controllers\BayarGajiController::class, 'bayar_gaji']);

@@ -998,4 +998,46 @@ class BayarGajiController extends Controller
         $pesan = Yoga::suksesFlash('Pembayaran gaji ' . $nama_staf . ' Berhasil dihapus');
         return redirect()->back()->withPesan($pesan);
     }
+    public function pembayaran_gaji_ajax(){
+		$data          = $this->queryPembayaranGaji();
+		$count         = $this->queryPembayaranGaji(true);
+		$pages = ceil( $count/ Input::get('displayed_rows') );
+		return [
+			'data'  => $data,
+			'pages' => $pages,
+			'key'   => Input::get('key'),
+			'rows'  => $count
+		];
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function queryPembayaranGaji()
+    {
+		$query  = "SELECT ";
+		$query .= "bgj.tanggal_dibayar as tanggal_dibayar, ";
+		$query .= "stf.nama as nama_staf, ";
+		$query .= "bgj.mulai as mulai, ";
+		$query .= "bgj.gaji_pokok as gaji_pokok, ";
+		$query .= "bgj.bonus as bonus, ";
+		$query .= "bgj.akhir as akhir, ";
+		$query .= "bgj.gaji_pokok + bgj.bonus as nilai, ";
+		$query .= "bgj.id  as id, ";
+		$query .= "pph.pph21  as pph21, ";
+		$query .= "pph.pph21able_type  as pph21_type ";
+		$query .= "FROM bayar_gajis as bgj ";
+		$query .= "JOIN stafs as stf on stf.id = bgj.staf_id ";
+		$query .= "LEFT JOIN pph21s as pph on pph.pph21able_id = bgj.id ";
+		$query .= "WHERE {$param} ";
+		$query .= "AND (pph.pph21able_type = 'App\\\\\Models\\\\\BayarGaji' ";
+		$query .= "AND bgj.tenant_id = " . session()->get('tenant_id') . " ";
+		$query .= "OR pph.pph21able_type is null) ";
+		$query .= "ORDER BY id desc ";
+		$query .= "LIMIT 30";
+		return DB::select($query);
+    }
+    
+    
 }

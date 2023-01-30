@@ -10,7 +10,6 @@ use DB;
 class Antrian extends Model
 {
     use BelongsToTenant,HasFactory;
-
     public static function boot(){
         parent::boot();
         self::deleted(function($model){

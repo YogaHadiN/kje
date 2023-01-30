@@ -151,6 +151,7 @@
 					<div class="panel-title">List Semua Pembayaran Gaji Karyawan</div>
 				</div>
 				<div class="panel-body">
+                    {{ $pembayarans->links() }}
 					<div class-"table-responsive">
 						<table class="table table-hover table-condensed">
 							<thead>
@@ -165,26 +166,9 @@
 									<th>Action</th>
 								</tr>
 							</thead>
-							<tbody>
-								@foreach($pembayarans as $pemb)
-								<tr>
-									<td>{{  $pemb->tanggal_dibayar  }}</td>
-									<td>{{  $pemb->nama_staf  }}</td>
-									<td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $pemb->mulai   )->format('d M') }} s/d {{ \Carbon\Carbon::createFromFormat('Y-m-d', $pemb->akhir   )->format('d M Y') }}</td>
-									<td class="uang">{{  $pemb->gaji_pokok }}</td>
-									<td class="uang">{{  $pemb->bonus }}</td>
-									<td class="uang">
-										@if(  empty(  $pemb->pph21 ))
-											0
-										@else
-											{{  $pemb->pph21 }}
-										@endif
-									</td>
-									<td class="uang"> {{  $pemb->gaji_pokok + $pemb->bonus - $pemb->pph21 }}</td>
-									<td> <a class="btn btn-success btn-sm" href="{{ url('pdfs/bayar_gaji_karyawan/' . $pemb->id) }}" target="_blank">Struk</a> </td>
-								</tr>
-								@endforeach
-							</tbody>
+							<tbody id="rek_container">
+
+                            </tbody>
 						</table>
 					</div>
 				</div>
@@ -198,5 +182,7 @@
 	var session_print = "{{ Session::get('print') }}";
 	console.log(session_print);
 </script>
+<script src="{!! url('js/twbs-pagination/jquery.twbsPagination.min.js') !!}"></script>
 <script src="{!! asset('js/bayar_gaji_karyawan.js') !!}"></script>
+<script src="{!! asset('js/pembayaran_gaji_karyawan.js') !!}"></script>
 @stop
