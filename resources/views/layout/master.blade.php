@@ -340,6 +340,14 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Periksa Hilang</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @foreach ( range( date('Y'), 2016 ) as $year)
+                                <li>{!! HTML::link('periksas/hilang/'. $year, $year)!!}</li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Tunggakan Asuransi</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             @foreach ( range( date('Y'), 2016 ) as $year)

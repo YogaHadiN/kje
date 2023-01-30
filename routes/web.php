@@ -217,6 +217,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 
+	Route::get('periksas/hilang/{year}', [\App\Http\Controllers\PeriksasController::class, 'periksaHilang']);
 	Route::get('periksas/refresh/gambar', [\App\Http\Controllers\PeriksasController::class, 'refreshGambar']);
 	Route::post('periksas/notif/inputGambar', [\App\Http\Controllers\PeriksasController::class, 'notifInputGambar']);
 	Route::get('periksas/cari/by_asuransi/{asuransi_id}/{from}/{until}', [\App\Http\Controllers\PeriksasController::class, 'cariByAsuransiByPeriode']);

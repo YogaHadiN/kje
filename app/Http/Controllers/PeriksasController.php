@@ -1465,5 +1465,29 @@ class PeriksasController extends Controller
 
         return $antrian_periksa->gambars;
     }
+    public function periksaHilang($year){
+        $periksa_id_awal_2022 = Periksa::where('created_at', 'like', '2022%')->first()->id;
+        $periksa_id_akhir = Periksa::where('created_at', 'like', '2022%')->orderBy('id', 'desc')->first()->id;
+        /* $periksa_id_awal_2022 = Periksa::where('created_at', 'like', "{$year}%")->first()->id; */
+        /* $periksa_id_akhir = Periksa::where('created_at', 'like', "$year%")->orderBy('id', 'desc')->first()->id; */
+        $str1 = range($periksa_id_awal_2022, $periksa_id_akhir);
+
+
+        $query  = "SELECT id ";
+        $query .= "FROM periksas ";
+        $query .= "WHERE id between {$periksa_id_awal_2022} and {$periksa_id_akhir};";
+
+        $str2 = [];
+        foreach (DB::select($query) as $q) {
+            $str2[] = $q->id;
+        }
+
+        $periksa_hilang = array_merge(array_diff($str1,$str2),array_diff($str2,$str1));
+        return view('periksas.hilang', compact(
+            'periksa_hilang',
+            'year'
+        ));
+    }
+    
     
 }

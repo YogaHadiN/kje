@@ -453,6 +453,9 @@ function removeTindakanGigi(control) {
 }
 function tindakanGigiArray() {
     var tindakan_gigi_template = $("#tindakan_gigi").val();
+    if (tindakan_gigi_template == "") {
+        tindakan_gigi_template = "[]";
+    }
     return JSON.parse(tindakan_gigi_template);
 }
 function viewTindakanGigiOnly(tindakan_gigi_template) {

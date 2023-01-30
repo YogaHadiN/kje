@@ -127,15 +127,10 @@ class testcommand extends Command
         $periksa_id_awal_2022 = Periksa::where('created_at', 'like', '2022%')->first()->id;
         $periksa_id_akhir = Periksa::where('created_at', 'like', '2022%')->orderBy('id', 'desc')->first()->id;
 
-
-
-        dd( [
-            $periksa_id_awal_2022,
-            $periksa_id_akhir
-        ] );
-
-
-        /* $this->revisiModal(798); */
+        $str1 = range($periksa_id_awal_2022, $periksa_id_akhir);
+        $str2 = Periksa::whereRaw("id between {$periksa_id_awal_2022} and {$periksa_id_akhir}")->pluck('id')->toArray();
+        $periksa_ids = array_merge(array_diff($str1,$str2),array_diff($str2,$str1));
+        dd( $periksa_ids );
     }
     /**
      * undocumented function
