@@ -3174,19 +3174,6 @@ function deleteTindakan(i) {
     optionBilaNebuBpjs();
     bahanHabisPakai();
 }
-$("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
-    $.post(
-        base + "/periksas/notif/inputGambar",
-        {
-            staf_id: $("#staf_id").val(),
-            pasien_id: $("#pasien_id").val(),
-            antrian_periksa_id: $("#antrian_periksa_id").val(),
-        },
-        function (data, textStatus, jqXHR) {
-            // refreshGambar(data);
-        }
-    );
-});
 function refreshGambar(data) {
     var temp = "";
     if (data.length) {
@@ -3236,6 +3223,24 @@ function refreshGambar(data) {
         temp += " ";
     }
     $("#container_gambar_periksa").html(temp);
+}
+function kirimWaGambar(control) {
+    $.post(
+        base + "/periksas/notif/inputGambar",
+        {
+            staf_id: $("#staf_id").val(),
+            pasien_id: $("#pasien_id").val(),
+            antrian_periksa_id: $("#antrian_periksa_id").val(),
+        },
+        function (data, textStatus, jqXHR) {
+            Swal.fire({
+                icon: "success",
+                title: "Permintaan sudah dikirim ke " + data,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+    );
 }
 
 

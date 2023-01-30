@@ -766,7 +766,7 @@
                 <div role="tabpanel" class="tab-pane" id="gambar_periksa">
                     <div class="row">
                         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                            
+                            <button class="btn btn-info btn-block" onclick="kirimWaGambar(this);return false;">Kirim Permintaan Gambar</button>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" id="container_gambar_periksa">
                             <div id="carousel-gambar-periksa" class="carousel slide" data-ride="carousel">

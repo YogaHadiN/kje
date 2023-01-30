@@ -1443,8 +1443,11 @@ class PeriksasController extends Controller
         $antrian_periksa    = AntrianPeriksa::find( $antrian_periksa_id );
         $whatsapp_bot = WhatsappBot::where('no_telp', $no_telp)->where('whatsapp_bot_service_id', 7)->first();
         if (
-            !is_null( $whatsapp_bot )  &&
-            $antrian_periksa->whatsapp_bot_id !== $whatsapp_bot->id
+            is_null( $whatsapp_bot ) ||
+            (
+                !is_null( $whatsapp_bot ) &&
+                $antrian_periksa->whatsapp_bot_id != $whatsapp_bot->id
+            )
         ) {
             $whatsapp_bot = WhatsappBot::create([
                 'no_telp' => $no_telp,
@@ -1457,7 +1460,7 @@ class PeriksasController extends Controller
             $wa = new WablasController;
             $wa->sendSingle($no_telp, 'Silahkan kirim gambar untuk pasien atas nama ' . $pasien->nama . ' sekarang');
         } 
-        return $antrian_periksa->gambars;
+        return $no_telp;
     }
     public function refreshGambar(){
         $antrian_periksa = AntrianPeriksa::find( Input::get('antrian_periksa_id') );
