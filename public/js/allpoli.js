@@ -3183,7 +3183,7 @@ $("#tab-gambar_periksa").on("shown.bs.tab", function (e) {
             antrian_periksa_id: $("#antrian_periksa_id").val(),
         },
         function (data, textStatus, jqXHR) {
-            refreshGambar(data);
+            // refreshGambar(data);
         }
     );
 });

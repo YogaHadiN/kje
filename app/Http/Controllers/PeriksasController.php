@@ -1442,10 +1442,10 @@ class PeriksasController extends Controller
         $no_telp            = convertToWablasFriendlyFormat($staf->no_hp);
         $antrian_periksa    = AntrianPeriksa::find( $antrian_periksa_id );
         $whatsapp_bot = WhatsappBot::where('no_telp', $no_telp)->where('whatsapp_bot_service_id', 7)->first();
-            if (
-                !is_null( $whatsapp_bot )  &&
-                $antrian_periksa->whatsapp_bot_id == $whatsapp_bot->id
-            ) {
+        if (
+            !is_null( $whatsapp_bot )  &&
+            $antrian_periksa->whatsapp_bot_id !== $whatsapp_bot->id
+        ) {
             $whatsapp_bot = WhatsappBot::create([
                 'no_telp' => $no_telp,
                 'whatsapp_bot_service_id' => 7

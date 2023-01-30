@@ -769,7 +769,28 @@
                             
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" id="container_gambar_periksa">
-                            
+                            <div id="carousel-gambar-periksa" class="carousel slide" data-ride="carousel">
+                                 <ol class="carousel-indicators">
+                                     @foreach ($antrianperiksa->gambars as $k => $gambar)
+                                        <li data-target="#carousel-gambar-periksa" data-slide-to="$k" {{ $k == 0? 'class="active"' : "" }} ></li>;
+                                     @endforeach
+                                 </ol>
+                                <div class="carousel-inner" role="listbox">
+                                     @foreach ($antrianperiksa->gambars as $k => $gambar)
+                                        <div class="item {{ $k==0? 'active' : '' }}">
+                                            <img src="{{  \Storage::disk('s3')->url($gambar->nama)  }}" alt="" class="img-rounded upload">
+                                        </div>
+                                     @endforeach
+                                </div>
+                                <a class="left carousel-control" href="#carousel-gambar-periksa" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                     <span class="sr-only">Previous</span>;
+                                </a>
+                                <a class="right carousel-control" href="#carousel-gambar-periksa" role="button" data-slide="next">;
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                     <span class="sr-only">Next</span>
+                                </a>
+                            </div>
                         </div>
                         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                             
