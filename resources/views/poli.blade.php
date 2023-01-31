@@ -113,7 +113,6 @@
           'hpht'                         => App\Models\Classes\Yoga::updateDatePrep($antrianperiksa->hpht)
       ])
 {!! Form::close()!!}
-{{-- @include('images.formPoli') --}}
 @include('after', ['cekGdsBulanIni' => $cekGdsBulanIni])
 @include('gambar_periksa')
 @stop

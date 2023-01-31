@@ -96,7 +96,6 @@
 ])
 
 {!! Form::close()!!}
-@include('images.formPoli', ['periksaex' => $periksaex])
 @include('after')
 @include('gambar_periksa')
 

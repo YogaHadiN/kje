@@ -13,7 +13,7 @@ class Antrian extends Model
     public static function boot(){
         parent::boot();
         self::deleted(function($model){
-            WhatsappRegistration::where('antrian_id', $antrian->id)->delete();
+            WhatsappRegistration::where('antrian_id', $model->id)->delete();
         });
     }
     
