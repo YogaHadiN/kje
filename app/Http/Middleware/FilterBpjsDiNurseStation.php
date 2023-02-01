@@ -10,22 +10,20 @@ use App\Models\Classes\Yoga;
 
 class FilterBpjsDiNurseStation
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request, Closure $next)
     {
         $asuransi_bpjs_id = Asuransi::Bpjs()->id;
-        $antrian_poli_id = $request->route()->parameters()['id'];
+        $antrian_poli_id  = $request->route()->parameters()['id'];
+        $antrian_poli     = AntrianPoli::with('pasien')->where('id', $antrian_poli_id)->first();
+        $pesanGagal       = [];
 
-        $antrian_poli = AntrianPoli::with('pasien')->where('id', $antrian_poli_id)->first();
 
-        $pesanGagal = [];
-        if ($antrian_poli->asuransi_id == $asuransi_bpjs_id) {
+        if (is_null( $antrian_poli )) {
+            $pesan = Yoga::gagalFlash(
+                'Pasien sudah tidak ada lagi di antrian poli'
+            );
+            return redirect('antrianpolis')->withPesan($pesan);
+        } else if (!is_null( $antrian_poli ) && $antrian_poli->asuransi_id == $asuransi_bpjs_id) {
             if ( empty(  $antrian_poli->pasien->nomor_asuransi_bpjs  )   ) {
                 $pesanGagal[] = 'nomor asuransi bpjs pasien masih kosong';
             }

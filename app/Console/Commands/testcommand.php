@@ -124,6 +124,27 @@ class testcommand extends Command
 
 
     public function handle(){
+        $antrians = Antrian::where('antriable_type', 'App\Models\Periksa')
+                            ->where('tenant_id', 1)
+                            ->where('created_at', '>', '2022-07-01')
+                            ->get();
+
+
+        $periksa_ids = [];
+        foreach ($antrians as $an) {
+            if ( is_null(  $an->antriable  ) ) {
+                $periksa_ids[] = $an->antriable_id;
+            }
+        }
+        dd( count(  $periksa_ids  ) );
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function periksaHilang()
+    {
         $periksa_id_awal_2022 = Periksa::where('created_at', 'like', '2022%')->first()->id;
         $periksa_id_akhir = Periksa::where('created_at', 'like', '2022%')->orderBy('id', 'desc')->first()->id;
 
@@ -132,6 +153,7 @@ class testcommand extends Command
         $periksa_ids = array_merge(array_diff($str1,$str2),array_diff($str2,$str1));
         dd( $periksa_ids );
     }
+    
     /**
      * undocumented function
      *
