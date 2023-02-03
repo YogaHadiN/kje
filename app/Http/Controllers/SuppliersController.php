@@ -121,6 +121,11 @@ class SuppliersController extends Controller
 	public function show($id)
 	{
 		$supplier = Supplier::find($id);
+        if (is_null( $supplier )) {
+            $pesan = Yoga::gagalFlash('Supplier dengan id <strong>' . $id . '</strong> Tidak ditemukan');
+            return redirect()->back()->withPesan($pesan);
+        }
+
 		$belanja_obats = FakturBelanja::with('belanja', 'pembelian')
 			->where('supplier_id', $id)
 			->where('belanja_id', '1')

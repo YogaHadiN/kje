@@ -703,8 +703,10 @@ class PoliAjaxController extends Controller
             'tindakanGigi',
             'taksonomiGigi'
         )->where('id', Input::get('odontogram_id'))->first();
-        $odontogram->matur = Input::get('evolusi_gigi');
-        $odontogram->save();
+        if (!is_null( $odontogram )) {
+            $odontogram->matur = Input::get('evolusi_gigi');
+            $odontogram->save();
+        }
 
         $pa = new PasiensAjaxController;
         return $pa->keadaanGigi($odontogram->pasien_id);

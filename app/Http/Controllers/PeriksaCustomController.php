@@ -55,11 +55,6 @@ class PeriksaCustomController extends Controller
             $timestamp  = date('Y-m-d H:i:s');
             $jurnal     = [];
 
-			foreach ($transaksis as $t) {
-				$trans        = TransaksiPeriksa::find($t['id']);
-				$trans->biaya = $t['biaya'];
-				$trans->save();
-			}
 
 			$prx                 = Periksa::find($periksa['id']);
 
@@ -79,6 +74,14 @@ class PeriksaCustomController extends Controller
 				$pesan = Yoga::gagalFlash('coa_id asuransi tidak ditemukan padahal piutang pemeriksaan tidak nol');
 				return \Redirect::back()->withPesan($pesan);
             }
+
+			foreach ($transaksis as $t) {
+                if (isset($t['id'])) {
+                    $trans        = TransaksiPeriksa::find($t['id']);
+                    $trans->biaya = $t['biaya'];
+                    $trans->save();
+                }
+			}
 
 
 			$prx->tunai          = $periksa['tunai'];

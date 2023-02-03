@@ -3,7 +3,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use DB;
 use Log;
-use App\Models\Pph21Dokter;
+use App\Models\Pph21;
 use App\Models\Staf;
 use App\Http\Controllers\PengeluaransController;
 
@@ -68,7 +68,7 @@ class pphDokter extends Command
 
 
 		foreach ($datas as $d) {
-			$catatan_pph_awal_tahun    = PPh21Dokter::where('tahun', $tahun_kemarin)
+			$catatan_pph_awal_tahun    = PPh21::where('tahun', $tahun_kemarin)
 										->where('staf_id', $d->staf_id)
 										->first();
 
@@ -130,7 +130,7 @@ class pphDokter extends Command
 				];
 			}
 		}
-		Pph21Dokter::insert($stafs);
+		Pph21::insert($stafs);
     }
 	private function catatan_awal_tahun($catatan_awal, $staf, $param){
 		if (empty($catatan_awal->$param)) {

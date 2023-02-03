@@ -63,6 +63,8 @@
 
 @stop
 @section('footer') 
+{!! HTML::script('js/informasi_obat.js')!!}
+
 @stop
 
 

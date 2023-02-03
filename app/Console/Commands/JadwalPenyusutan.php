@@ -156,16 +156,15 @@ class JadwalPenyusutan extends Command
 			->where('tax_amnesty', 0)
 			->where('created_at', '>=', '2017-12-01 00:00:00')
 			->get();
-			/* ->toSql(); */
-
-
-		
 		
 		foreach ($hartas as $harta) {
 			$bayarPenyusutan = $this->penyusutan($harta);
 			$last_ringkasan_penyustan_id++;
-			/* if ( $harta->coa_penyusutan_id == '120018' && $tanggal == '2019-10-30'	) { */
+            if ( is_null(   Coa::where('id', $harta->coa_penyusutan_id)->first()  ) ) {
+                dd( $harta );
+            }
 			$rekam = $this->rekamPenyusutan(
+
 				$harta->harta, 
 				$harta->id, 
 				$last_ringkasan_penyustan_id, 
@@ -282,7 +281,7 @@ class JadwalPenyusutan extends Command
 			$jurnals[] = [
 				'jurnalable_id'   => $last_ringkasan_penyustan_id,
 				'jurnalable_type' => 'App\Models\RingkasanPenyusutan',
-				'coa_id'          => Coa::where('kode_coa', $coa_id_akumulasi_penyusutan)->first()->id, // Akumulasi Penyusutan Peralatan
+				'coa_id'          => Coa::where('id', $coa_id_akumulasi_penyusutan)->first()->id, // Akumulasi Penyusutan Peralatan
 				'debit'           => 0,
 				'nilai'           => $total_penyusutan,
 				'tenant_id'       => $tenant_id,
