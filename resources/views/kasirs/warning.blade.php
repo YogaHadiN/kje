@@ -109,21 +109,38 @@
 		</div>
 	</div>
 
-    <div class="panel panel-danger">
+    {{-- <div class="panel panel-danger"> --}}
+		{{-- <div class="panel-heading"> --}}
+			{{-- <h3 class="panel-title">Followup Tunggakan Asuransi</h3> --}}
+		{{-- </div> --}}
+		{{-- <div class="panel-body"> --}}
+    {{--         @if( $asuransi_menunggaks->count() ) --}}
+    {{--             <ul> --}}
+    {{--                 @foreach( $asuransi_menunggaks as $asuransi ) --}}
+    {{--                     <li><strong>{{ $asuransi->nama }}</strong> belum dilakukan follow up minggu ini</li> --}}
+    {{--                 @endforeach --}}
+    {{--             </ul> --}}
+    {{--         @else --}}
+    {{--             Asuransi yang menunggak sudah dilakukan folllowup --}}
+    {{--         @endif --}}
+    {{--         <ul> --}}
+    {{--     </div> --}}
+	{{-- </div> --}}
+    <div class="panel panel-{{ $validateCekListHarian }}">
 		<div class="panel-heading">
-			<h3 class="panel-title">Followup Tunggakan Asuransi</h3>
+			<h3 class="panel-title">Cek List Harian</h3>
 		</div>
 		<div class="panel-body">
-            @if( $asuransi_menunggaks->count() )
-                <ul>
-                    @foreach( $asuransi_menunggaks as $asuransi )
-                        <li><strong>{{ $asuransi->nama }}</strong> belum dilakukan follow up minggu ini</li>
-                    @endforeach
-                </ul>
+            @if ($validateCekListHarian == 'danger')
+                <h3>Cek List Harian Belum Dilakukan</h3>
+                <h4>
+                    <a href="{{ url('cek_list_harians/create') }}">
+                        Klik Disini Untuk Cek Harian
+                    </a>
+                </h4>
             @else
-                Asuransi yang menunggak sudah dilakukan folllowup
+                <h3>Cek List Harian Sudah Dilakukan</h3>
             @endif
-            <ul>
         </div>
 	</div>
 

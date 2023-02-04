@@ -6,6 +6,7 @@ use Input;
 use Carbon\Carbon;
 use App\Http\Controllers\PengeluaransController;
 use App\Http\Controllers\WablasController;
+use App\Http\Controllers\CekListHariansController;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use App\Http\Requests;
@@ -266,43 +267,54 @@ class KasirsController extends Controller
 		// Follow up Asuransi yang menunggak
 		// ==========================================================================================
         //
-        $asu = new AsuransisController;
-        $asuransi_menunggak_ids = [];
-        foreach (DB::select($asu->queryTunggakan(date('Y'),true)) as $tunggakan) {
-            $asuransi_menunggak_ids[] = $tunggakan->asuransi_id;
+        /* $asu = new AsuransisController; */
+        /* $asuransi_menunggak_ids = []; */
+        /* foreach (DB::select($asu->queryTunggakan(date('Y'),true)) as $tunggakan) { */
+        /*     $asuransi_menunggak_ids[] = $tunggakan->asuransi_id; */
+        /* } */
+
+        /* $followup_tunggakans = FollowupTunggakan::whereIn('asuransi_id', $asuransi_menunggak_ids) */
+        /*                 ->where('tanggal', '>=', Carbon::now()->subDays(14)) */
+        /*                 ->get(); */
+
+
+        /* if ( $followup_tunggakans->count() > 0 ) { */
+        /*     foreach ($followup_tunggakans as $fu) { */
+        /*         $asuransi_menunggak_ids = array_diff($asuransi_menunggak_ids, array($fu->asuransi_id)); */
+        /*     } */
+        /* } */
+
+		/* if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 20) { */
+			/* $admedikaWarning = 'warning'; */
+		/* } */ 
+
+		/* if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 24) { */
+			/* $status          = 'danger'; */
+			/* $admedikaWarning = 'danger'; */
+		/* } */ 
+
+        /* $asuransi_menunggaks = Asuransi::whereIn('id', $asuransi_menunggak_ids)->get(); */
+
+		// ==========================================================================================
+		// Cek List Harian Sudah semua dikerjakan
+		// ==========================================================================================
+        //
+
+        $clh                              = new CekListHariansController;
+        $validateCekListHarian            = 'success';
+        if ($clh->masihAdaCekListHarianBelumDikerjakan()) {
+			$status                = 'danger';
+			$validateCekListHarian = 'danger';
         }
 
-        $followup_tunggakans = FollowupTunggakan::whereIn('asuransi_id', $asuransi_menunggak_ids)
-                        ->where('tanggal', '>=', Carbon::now()->subDays(14))
-                        ->get();
-
-
-        if ( $followup_tunggakans->count() > 0 ) {
-            foreach ($followup_tunggakans as $fu) {
-                $asuransi_menunggak_ids = array_diff($asuransi_menunggak_ids, array($fu->asuransi_id));
-            }
-        }
-
-		if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 20) {
-			/* $status          = 'warning'; */
-			$admedikaWarning = 'warning';
-		} 
-
-		if ( $this->countDay( $pasien_pertama_belum_dikirim  ) > 24) {
-			$status          = 'danger';
-			$admedikaWarning = 'danger';
-		} 
-
-        $asuransi_menunggaks = Asuransi::whereIn('id', $asuransi_menunggak_ids)->get();
-
-        /* dd( $status, 293 ); */
 		return view('kasirs.saldo', compact(
 			'saldos',
 			'admedikaWarning',
 			'invoiceBelumDiterimaAdmedika',
 			'validateReceivedVerification',
+			'validateCekListHarian',
 			'denominatorBpjsWarning',
-            'asuransi_menunggaks',
+            /* 'asuransi_menunggaks', */
 			/* 'validasiProlanisBpjsWarning', */
 			/* 'pasienProlanisBulanIniSudahDiupload', */
 			/* 'uploadDataPesertaBpjsWarning', */

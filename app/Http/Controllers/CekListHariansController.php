@@ -16,6 +16,8 @@ use App\Models\CekListRuangan;
 
 class CekListHariansController extends Controller
 {
+    public $cek_list_ruangan_harians;
+    
     public function index(){
         $ruangans = CekListRuangan::where('frekuensi_cek_id', 1)->groupBy('ruangan_id')->get();
         $query  = "SELECT date(cld.created_at) as tanggal ";
@@ -77,9 +79,11 @@ class CekListHariansController extends Controller
         $whatsapp_bot->save();
 
         $cek     = $this->cekListBelumDilakukan();
-        $message = "Silahkan mulai cek " . $cek->cekList->cek_list . " di ruangan " . $cek->ruangan->nama;
-        $wa      = new WablasController;
-        $wa->sendSingle( $whatsapp_bot->no_telp, $message);
+        if (!is_null( $cek )) {
+            $message = "Silahkan mulai cek " . $cek->cekList->cek_list . " di ruangan " . $cek->ruangan->nama;
+            $wa      = new WablasController;
+            $wa->sendSingle( $whatsapp_bot->no_telp, $message);
+        }
     }
     public function masihAdaYangBelumCekListHariIni(){
         $cek_list_ruangan_harian_ids  = CekListRuangan::where('frekuensi_cek_id', 1)->pluck('id');
@@ -93,32 +97,15 @@ class CekListHariansController extends Controller
         return $cek_list_ruangan_harian_ids->count() !== $cek_list_dikerjakan_hari_ini->count();
     }
     public function cekListBelumDilakukan(){
-        $cek_list_ruangan_harians = CekListRuangan::with('cekList', 'ruangan')
-                                    ->where('frekuensi_cek_id', 1)
-                                    ->orderBy('ruangan_id', 'asc')
-                                    ->orderBy('cek_list_id', 'asc')
-                                    ->get();
-        $cek_list_ruangan_ids = [];
-        foreach ($cek_list_ruangan_harians as $cek) {
-            $cek_list_ruangan_ids[] = $cek->id;
-        }
-        $cek_list_harians_dikerjakans = CekListDikerjakan::whereIn('cek_list_ruangan_id', $cek_list_ruangan_ids)
-                                                        ->where('created_at', 'like', date('Y-m-d') . '%')
-                                                        ->groupBy('cek_list_ruangan_id')
-                                                        ->get();
-        if ( $cek_list_ruangan_harians->count() !== $cek_list_harians_dikerjakans->count() ) {
-
+        if ( $this->masihAdaYangBelumCekListHariIni() ) {
             WhatsappBot::where('no_telp', $this->no_telp)
                 ->where('whatsapp_bot_service_id',1)
                 ->update([
                 'whatsapp_bot_service_id' => 2
             ]);
-
-            foreach ($cek_list_ruangan_harians as $cek) {
+            foreach ($this->cek_list_ruangan_harians as $cek) {
                 $cek_list_dikerjakan = $this->cekListDikerjakanUntukCekListRuanganIni( $cek->id );
-                if ( 
-                    is_null(  $cek_list_dikerjakan  )
-                ) {
+                if ( is_null(  $cek_list_dikerjakan  )) {
                     return $cek;
                     break;
                 }
@@ -131,6 +118,19 @@ class CekListHariansController extends Controller
                             ->whereNull('image')
                             ->whereNull('jumlah')
                             ->first();
+    }
+    public function masihAdaCekListHarianBelumDikerjakan(){
+        $this->cek_list_ruangan_harians = CekListRuangan::harian();
+        $cek_list_ruangan_ids = [];
+        foreach ($this->cek_list_ruangan_harians as $cek) {
+            $cek_list_ruangan_ids[] = $cek->id;
+        }
+        $cek_list_harians_dikerjakans = CekListDikerjakan::whereIn('cek_list_ruangan_id', $cek_list_ruangan_ids)
+                                                        ->where('created_at', 'like', date('Y-m-d') . '%')
+                                                        ->groupBy('cek_list_ruangan_id')
+                                                        ->get();
+        return $this->cek_list_ruangan_harians->count() !== $cek_list_harians_dikerjakans->count();
+    
     }
 }
 

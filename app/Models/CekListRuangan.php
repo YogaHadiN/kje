@@ -20,4 +20,18 @@ class CekListRuangan extends Model
     public function ruangan(){
         return $this->belongsTo(Ruangan::class);
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public static function harian()
+    {
+        return CekListRuangan::with('cekList', 'ruangan')
+                            ->where('frekuensi_cek_id', 1)
+                            ->orderBy('ruangan_id', 'asc')
+                            ->orderBy('cek_list_id', 'asc')
+                            ->get();
+    }
+    
 }
