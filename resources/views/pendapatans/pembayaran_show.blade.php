@@ -361,7 +361,7 @@
 </div>
 @stop
 @section('footer') 
-<script src="{!! asset('js/pembayaran_show.js') !!}"></script>
+<script src="{!! asset('js/pembayaran_show.js?ver=123') !!}"></script>
 <script type="text/javascript" charset="utf-8">
 view(true);
 @if(isset($id))
