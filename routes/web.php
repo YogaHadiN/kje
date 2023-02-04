@@ -812,7 +812,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('stafs/{id}/recovery_index/by_diagnosa', [\App\Http\Controllers\StafsController::class, 'recoveryIndexSortByDiagnosa']);
     Route::get('stafs/{id}/recovery_index/by_diagnosa/{diagnosa_id}', [\App\Http\Controllers\StafsController::class, 'recoveryIndexByDiagnosa']);
-    Route::get('stafs/{id}/satisfaction_index', [\App\Http\Controllers\StafsController::class, 'satisfactionIndexByDiagnosa']);
+    Route::get('stafs/{id}/satisfaction_index', [\App\Http\Controllers\StafsController::class, 'satisfactionIndexByStafId']);
     Route::get('stafs/{id}/jumlah_pasien/pertahun/{tahun}/pdf', [\App\Http\Controllers\PdfsController::class, 'jumlahPasienPerTahun']);
 	Route::get('pdfs/amortisasi/{tahun}', [\App\Http\Controllers\PdfsController::class, 'amortisasi']);
 	Route::get('pdfs/peredaranBruto/{tahun}', [\App\Http\Controllers\PdfsController::class, 'peredaranBruto']);

@@ -333,6 +333,18 @@
                                 </div>
                             </div>
 							<div role="tabpanel" class="tab-pane" id="Tarif">
+                                <div class="row">
+                                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                        Menampilkan <span id="rows"></span> hasil
+                                    </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
+                                        {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
+                                            'class'    => 'form-control',
+                                            'onchange' => 'clearAndSearch();return false;',
+                                            'id'       => 'displayed_rows'
+                                        ]) !!}
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
@@ -360,7 +372,7 @@
                                                    {!! Form::text('jasa_dokter', null, [
                                                         'class' => 'form-control-inline form-control',
                                                         'id' => 'sp_jasa_dokter',
-                                                        'onchange' => 'viewTarif(); return false;'
+                                                        'onkeyup' => 'viewTarif(); return false;'
                                                    ])!!}
                                                 </th>
                                                 <th>
@@ -373,7 +385,6 @@
                                                    ])!!}
                                                 </th>
                                                 <th>Action</th>
-                                                <th class="hide">id</th>
                                                 <th class="hide key">id</th>
                                                 <th class="hide">tipe_tindakan_id</th>
                                             </tr>
@@ -381,6 +392,15 @@
                                         <tbody id="tarifContainer">
                                         </tbody>
                                     </table>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div id="page-box">
+                                                <nav class="text-right" aria-label="Page navigation" id="paging">
+                                                
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 							</div>
 						</div>

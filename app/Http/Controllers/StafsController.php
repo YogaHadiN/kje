@@ -442,8 +442,27 @@ class StafsController extends Controller
         return DB::select($query);
     }
     
-    
-    
+    public function satisfactionIndexByStafId($staf_id){
+        $query  = "SELECT ";
+        $query .= "prx.tanggal as tanggal, ";
+        $query .= "prx.tanggal as tanggal, ";
+        $query .= "prx.pasien_id as pasien_id, ";
+        $query .= "psn.nama as nama_pasien, ";
+        $query .= "stf.nama as nama_staf, ";
+        $query .= "asu.nama as nama_asuransi, ";
+        $query .= "ant.antriable_id as antriable_id, ";
+        $query .= "ant.complaint as complaint ";
+        $query .= "FROM antrians as ant ";
+        $query .= "JOIN periksas as prx on prx.id = ant.antriable_id AND ant.antriable_type = 'App\\\Models\\\Periksa' ";
+        $query .= "JOIN pasiens as psn on psn.id = prx.pasien_id ";
+        $query .= "JOIN stafs as stf on stf.id = prx.staf_id ";
+        $query .= "JOIN asuransis as asu on asu.id = prx.asuransi_id ";
+        $query .= "WHERE prx.staf_id = {$staf_id} ";
+        $antrians = DB::select($query);
 
-	
+        return view('stafs.satisfaction', compact(
+            'antrians'
+        ));
+
+    }
 }

@@ -19,15 +19,15 @@
 @section('content') 
 <div class="panel panel-primary">
       <div class="panel-heading">
-            <div class="panel-title">
-                <div class="panelLeft">
-                    <h3>Total : </h3>
-                </div>
-                <div class="panelRight">
-                   <a href='{{ url("asuransis/create") }}' type="button" class="btn btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ASURANSI Baru</a>
-
-                </div>
+        <div class="panel-title">
+            <div class="panelLeft">
+                <h3>Total : </h3>
             </div>
+            <div class="panelRight">
+               <a href='{{ url("asuransis/create") }}' type="button" class="btn btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ASURANSI Baru</a>
+
+            </div>
+        </div>
       </div>
       <div class="panel-body">
             <div class="row">
@@ -92,6 +92,5 @@
 </div>
 @stop
 @section('footer') 
-	
 {!! HTML::script('js/asuransi.js')!!}
 @stop
