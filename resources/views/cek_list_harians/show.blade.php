@@ -8,7 +8,7 @@
 <ol class="breadcrumb">
     <li>
         <a href="{{ url('laporans')}}">Home</a>
-        Klinik Jati Elok | Cek List Harian Ruangan {{ $ruangan->nama }}
+         {{ $ruangan->nama }}
     <li class="active">
         <strong>Cek List Harian Ruangan {{ $ruangan->nama }}</strong>
     </li>

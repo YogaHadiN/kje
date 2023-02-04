@@ -97,7 +97,7 @@ class CekListHariansController extends Controller
         return $cek_list_ruangan_harian_ids->count() !== $cek_list_dikerjakan_hari_ini->count();
     }
     public function cekListBelumDilakukan(){
-        if ( $this->masihAdaYangBelumCekListHariIni() ) {
+        if ( $this->masihAdaCekListHarianBelumDikerjakan() ) {
             WhatsappBot::where('no_telp', $this->no_telp)
                 ->where('whatsapp_bot_service_id',1)
                 ->update([
