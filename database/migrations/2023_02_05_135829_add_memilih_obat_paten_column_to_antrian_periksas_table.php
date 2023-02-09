@@ -14,7 +14,7 @@ class AddMemilihObatPatenColumnToAntrianPeriksasTable extends Migration
     public function up()
     {
         Schema::table('antrian_periksas', function (Blueprint $table) {
-            $table->tinyInteger('konfirmasi_obat_paten')->default(1);
+            $table->tinyInteger('memilih_obat_paten')->default(1);
         });
     }
 
@@ -26,7 +26,7 @@ class AddMemilihObatPatenColumnToAntrianPeriksasTable extends Migration
     public function down()
     {
         Schema::table('antrian_periksas', function (Blueprint $table) {
-            $table->dropColumn('konfirmasi_obat_paten');
+            $table->dropColumn('memilih_obat_paten');
         });
     }
 }

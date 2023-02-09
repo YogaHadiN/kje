@@ -57,7 +57,9 @@
                                     @if( \Auth::user()->tenant->nursestation_availability )
                                         <td class="nomor_antrian">
                                             @if(isset($periksa->nomor_antrian))
-                                                {!! $periksa->prefix !!}{!! $periksa->nomor_antrian !!}
+                                                <a href="{{ url('antrians/' . $periksa->antrian_id . '/edit') }}" target="_blank">
+                                                    {!! $periksa->prefix !!}{!! $periksa->nomor_antrian !!}
+                                                </a>
                                             @endif
                                         </td>
                                     @endif

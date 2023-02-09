@@ -50,7 +50,9 @@
                                     @if( \Auth::user()->tenant->nursestation_availability )
                                         <td>
                                             @if(isset( $antrianapotek->antrian  ))
-                                                {!! $antrianapotek->antrian->nomor_antrian !!}
+                                                <a href="{{ url('antrians/' . $antrianapotek->antrian->id  . '/edit') }}" target="_blank">
+                                                    {!! $antrianapotek->antrian->nomor_antrian !!}
+                                                </a>
                                             @endif
                                         </td>
                                     @endif

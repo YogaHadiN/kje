@@ -38,7 +38,9 @@
 					<td class="hide id">{!! $antrianpoli->id !!}</td>
 					<td class="antrian_id">
 						@if( isset($antrianpoli->antrian) )
-							{!! $antrianpoli->antrian->jenis_antrian->prefix!!}{!! $antrianpoli->antrian->nomor!!}
+                            <a href="{{ url('antrians/' . $antrianpoli->antrian->id . '/edit') }}" target="_blank">
+                                {!! $antrianpoli->antrian->nomor_antrian !!}
+                            </a>
 						@endif
 					</td>
 					{{-- <td class="nama">{!! $antrianpoli->asuransi->nama !!}</td> --}}

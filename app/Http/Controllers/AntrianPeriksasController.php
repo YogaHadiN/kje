@@ -159,22 +159,22 @@ class AntrianPeriksasController extends Controller
             return redirect()->back()->withPesan($pesan);
         }
         $rules = [
-            'asisten_id'             => 'required',
-            'gds'                    => Rule::requiredIf( $this->cekGDSDiNurseStation($antrianpoli) ),
-            'G'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
-            'P'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
-            'A'                      => Rule::requiredIf( Input::get('hamil') == 1  ),
-            'hpht'                   => Rule::requiredIf( Input::get('hamil') == 1  ),
-            'sistolik'               => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
-            'diastolik'              => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
-            'pengantars'             => Rule::requiredIf(  Input::get('pengantars') !== '[]'  ),
-            'kecelakaan_kerja'       => 'required',
-            'hamil'                  => 'required',
-            'menyusui'               => 'required',
-            'peserta_klinik'         => 'required',
-            'verifikasi_wajah'       => 'required',
-            'sex'                    => 'required',
-            'verifikasi_alergi_obat' => 'required',
+            'asisten_id'       => 'required',
+            'gds'              => Rule::requiredIf( $this->cekGDSDiNurseStation($antrianpoli) ),
+            'G'                => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'P'                => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'A'                => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'hpht'             => Rule::requiredIf( Input::get('hamil') == 1  ),
+            'sistolik'         => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
+            'diastolik'        => Rule::requiredIf( $this->harusCekTekananDarah($antrianpoli) ),
+            'pengantars'       => Rule::requiredIf(  Input::get('pengantars') !== '[]'  ),
+            'kecelakaan_kerja' => 'required',
+            'hamil'            => 'required',
+            'menyusui'         => 'required',
+            'peserta_klinik'   => 'required',
+            'verifikasi_wajah' => 'required',
+            'sex'              => 'required',
+            'alergi_obat'      => 'required',
         ];
 
         $validator = \Validator::make(Input::all(), $rules, [
@@ -218,6 +218,7 @@ class AntrianPeriksasController extends Controller
         $this->input_pasien_id   = $antrianpoli->pasien_id;
         $this->input_poli_id     = $antrianpoli->poli_id;
         $this->input_staf_id     = $antrianpoli->staf_id;
+        $this->input_alergi_obat = Input::get('alergi_obat');
         $this->input_jam         = $antrianpoli->jam;
         $this->input_tanggal     = !is_null($antrianpoli->tanggal)?Carbon::parse($antrianpoli->tanggal)->format('d-m-Y') : null;
         $this->input_pasien      = $antrianpoli->pasien;
@@ -492,7 +493,7 @@ class AntrianPeriksasController extends Controller
         $ap->sistolik                    = $this->input_sistolik;
         $ap->diastolik                   = $this->input_diastolik;
         $ap->tinggi_badan                = $this->input_tinggi_badan;
-        $ap->alergi_obat                = $this->input_alergi_obat;
+        $ap->alergi_obat                 = $this->input_alergi_obat;
         $ap->gds                         = $this->input_gds;
         $ap->g                           = $this->input_g;
         $ap->p                           = $this->input_p;

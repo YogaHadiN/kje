@@ -143,7 +143,7 @@
           {!! Form::select('memilih_obat_paten' , [
               0 => 'Obat Generik',
               1 => 'Obat Paten'
-          ], $antrian_poli->asuransi->tipe_asuransi_id != 3? 1 : null, [
+          ], $antrian_poli->asuransi->tipe_asuransi_id == 3 && $antrian_poli->asuransi->konfirmasi_obat_paten ? null : 1, [
             'class' => 'form-control rq',
             'placeholder' => '- Pilih -',
       ]) !!}

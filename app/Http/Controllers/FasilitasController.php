@@ -439,7 +439,9 @@ class FasilitasController extends Controller
 	}
 	public function antrianPoliPost($id, Request $request ){
 		$apc = new AntrianPolisController;
-		$apc->input_antrian_id   = $id;
+		$apc->input_antrian_id         = $id;
+		$apc->input_memilih_obat_paten = 0;
+		$apc->input_alergi_obat        = 0;
 		return $apc->store($request);
 	}
 	public function createPasien($id){

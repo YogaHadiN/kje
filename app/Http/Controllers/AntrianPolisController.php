@@ -312,13 +312,15 @@ class AntrianPolisController extends Controller
      */
     private function inputAntrianPeriksa()
     {
-        $apx                         = new AntrianPeriksasController;
-        $apx->input_jam              = date('H:i:s');
-        $apx->input_hamil            = 0;
-        $apx->input_pasien            = $this->input_pasien;
-        $apx->input_pasien_id            = $this->input_pasien_id;
-        $apx->input_poli_id          = Input::get('poli_id');
-        $apx->input_kecelakaan_kerja = 0;
+        $apx                           = new AntrianPeriksasController;
+        $apx->input_jam                = date('H:i:s');
+        $apx->input_hamil              = 0;
+        $apx->input_pasien             = $this->input_pasien;
+        $apx->input_pasien_id          = $this->input_pasien_id;
+		$apx->input_memilih_obat_paten = 1;
+		$apx->input_alergi_obat        = 0;
+        $apx->input_poli_id            = Input::get('poli_id');
+        $apx->input_kecelakaan_kerja   = 0;
         if ( $this->input_antrian ) {
             $apx->input_antrian_id       = $this->input_antrian->id;
         }
