@@ -422,6 +422,7 @@ class BayarGajiController extends Controller
 
     
     public function dokterdibayar(){
+        dd( 'o' );
 		$rules           = [
 			'staf_id'        => 'required',
 			'hutang'         => 'required',
@@ -431,6 +432,7 @@ class BayarGajiController extends Controller
 		];
 		
 		$validator = \Validator::make(Input::all(), $rules);
+
 		if ($validator->fails()){
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
@@ -526,6 +528,7 @@ class BayarGajiController extends Controller
 				'potongan15persen_setahun'       => $this->perhitunganPph_ini['potongan15persen_setahun'],
 				'potongan25persen_setahun'       => $this->perhitunganPph_ini['potongan25persen_setahun'],
 				'potongan30persen_setahun'       => $this->perhitunganPph_ini['potongan30persen_setahun'],
+				'potongan35persen_setahun'       => $this->perhitunganPph_ini['potongan35persen_setahun'],
 				'ikhtisar_gaji_bruto'           => json_encode($this->gaji_bruto_bulan_ini),
 				'pph21_setahun'                  => $this->perhitunganPph_ini['pph21_setahun']
 			];
@@ -606,23 +609,31 @@ class BayarGajiController extends Controller
 		$potongan15persen3                    = 0;
 		$potongan25persen                     = 0;
 		$potongan30persen                     = 0;
-		if ( $penghasilan_kena_pajak         <= 50000000) {
+		$potongan35persen                     = 0;
+		if ( $penghasilan_kena_pajak         <= 60000000) {
 			$potongan5persen                  = $penghasilan_kena_pajak * 0.05;
 		} else if(  $penghasilan_kena_pajak  <= 250000000 ){
-			$potongan5persen                  = 50000000 * 0.05;
-			$potongan15persen                += ( $penghasilan_kena_pajak - 50000000 ) * 0.15;
-			$potongan15persen1               += ( $penghasilan_kena_pajak - 50000000 ) * 0.15;
+			$potongan5persen                  = 60000000 * 0.05;
+			$potongan15persen                += ( $penghasilan_kena_pajak - 60000000 ) * 0.15;
+			$potongan15persen1               += ( $penghasilan_kena_pajak - 60000000 ) * 0.15;
 		} else if(   $penghasilan_kena_pajak <= 500000000  ){
-			$potongan5persen                  = 50000000 * 0.05;
-			$potongan15persen                += 200000000 * 0.15;
-			$potongan15persen2               += ( $penghasilan_kena_pajak - 50000000 ) * 0.15;
+			$potongan5persen                  = 60000000 * 0.05;
+			$potongan15persen                += 190000000 * 0.15;
+			$potongan15persen2               += ( $penghasilan_kena_pajak - 60000000 ) * 0.15;
 			$potongan25persen                += ( $penghasilan_kena_pajak - 250000000 ) * 0.25;
-		} else if(    $penghasilan_kena_pajak > 500000000   ){
-			$potongan5persen                  = 50000000 * 0.05;
-			$potongan15persen                += 200000000 * 0.15;
-			$potongan15persen3               += ( $penghasilan_kena_pajak - 50000000 ) * 0.15;
+		} else if(    $penghasilan_kena_pajak <= 5000000000   ){
+			$potongan5persen                  = 60000000 * 0.05;
+			$potongan15persen                += 190000000 * 0.15;
+			$potongan15persen3               += ( $penghasilan_kena_pajak - 60000000 ) * 0.15;
 			$potongan25persen                += 250000000 * 0.25;
 			$potongan30persen                += ( $penghasilan_kena_pajak - 500000000 ) * 0.30;
+		} else if(    $penghasilan_kena_pajak > 5000000000   ){
+			$potongan5persen                  = 60000000 * 0.05;
+			$potongan15persen                += 190000000 * 0.15;
+			$potongan15persen3               += ( $penghasilan_kena_pajak - 60000000 ) * 0.15;
+			$potongan25persen                += 250000000 * 0.25;
+			$potongan30persen                += 4500000000 * 0.30;
+			$potongan35persen                += ( $penghasilan_kena_pajak - 5000000000 ) * 0.30;
 		}
 		$pph21setahun                         = $potongan5persen + $potongan15persen + $potongan25persen + $potongan30persen;
 		if ( $pph21setahun < 0 ) {
@@ -640,6 +651,9 @@ class BayarGajiController extends Controller
 		if ( $potongan30persen < 0 ) {
 			$potongan30persen                 = 0;
 		}
+		if ( $potongan35persen < 0 ) {
+			$potongan35persen                 = 0;
+		}
 		return [
 			'potongan15persen1' => $potongan15persen1,
 			'potongan15persen2' => $potongan15persen2,
@@ -648,7 +662,8 @@ class BayarGajiController extends Controller
 			'potongan5persen'   => $potongan5persen,
 			'potongan15persen'  => $potongan15persen,
 			'potongan25persen'  => $potongan25persen,
-			'potongan30persen'  => $potongan30persen
+			'potongan30persen'  => $potongan30persen,
+			'potongan35persen'  => $potongan35persen
 		];
 	}
 	private function perhitunganPtkp($ptkp){
@@ -687,6 +702,7 @@ class BayarGajiController extends Controller
 		];
 	}
 	public function pph21($total_gaji_bulan_ini, $total_pph_bulan_ini, $ptkp){
+
 		 $pph21                  = 0;
 		 $total_ptkp             = 0;
 		 $biaya_jabatan          = 0;
@@ -699,7 +715,6 @@ class BayarGajiController extends Controller
 		 $penghasilan_kena_pajak = 0;
 		 $faktor_kali_pph        = 0;
 		 $pph21_setahun          = 0;
-
 
 		//jika total gaji bulan ini melebihi ptkp
 		if ( $total_gaji_bulan_ini > $ptkp ) {
@@ -734,6 +749,7 @@ class BayarGajiController extends Controller
 			$potongan15persen  = $pph21_setahun_ini['potongan15persen'];
 			$potongan25persen  = $pph21_setahun_ini['potongan25persen'];
 			$potongan30persen  = $pph21_setahun_ini['potongan30persen'];
+			$potongan35persen  = $pph21_setahun_ini['potongan35persen'];
 			//Untuk Wajib Pajak yang tidak memiliki NPWP, dikenai tarif pph 21 sebesar 20% lebih tinggi dari mereka yang memiliki NPWP.
 			$faktor_kali_pph              = 1;
 			if (empty(trim( $this->staf->npwp ))) {
@@ -763,6 +779,7 @@ class BayarGajiController extends Controller
 		   'potongan15persen_setahun'       => $potongan15persen,
 		   'potongan25persen_setahun'       => $potongan25persen,
 		   'potongan30persen_setahun'       => $potongan30persen,
+		   'potongan35persen_setahun'       => $potongan35persen,
 		   'pph21_setahun'                  => $pph21_setahun,
 		   'punya_npwp'                     => $punya_npwp,
 		   'pph21_setahun'                  => $pph21_setahun,
@@ -1014,29 +1031,70 @@ class BayarGajiController extends Controller
      *
      * @return void
      */
-    private function queryPembayaranGaji()
-    {
+    private function queryPembayaranGaji($count = false){
+        $gaji_netto     = Input::get('gaji_netto');
+        $gaji_pokok     = Input::get('gaji_pokok');
+        $staf_id        = Input::get('staf_id');
+        $bonus          = Input::get('bonus');
+        $pph21          = Input::get('pph21');
+        $displayed_rows = Input::get('displayed_rows');
+        $key            = Input::get('key');
+		$pass           = $key * $displayed_rows;
+
 		$query  = "SELECT ";
-		$query .= "bgj.tanggal_dibayar as tanggal_dibayar, ";
-		$query .= "stf.nama as nama_staf, ";
-		$query .= "bgj.mulai as mulai, ";
-		$query .= "bgj.gaji_pokok as gaji_pokok, ";
-		$query .= "bgj.bonus as bonus, ";
-		$query .= "bgj.akhir as akhir, ";
-		$query .= "bgj.gaji_pokok + bgj.bonus as nilai, ";
-		$query .= "bgj.id  as id, ";
-		$query .= "pph.pph21  as pph21, ";
-		$query .= "pph.pph21able_type  as pph21_type ";
+		if (!$count) {
+            $query .= "bgj.tanggal_dibayar as tanggal_dibayar, ";
+            $query .= "stf.nama as nama_staf, ";
+            $query .= "bgj.mulai as mulai, ";
+            $query .= "bgj.gaji_pokok as gaji_pokok, ";
+            $query .= "bgj.bonus as bonus, ";
+            $query .= "bgj.akhir as akhir, ";
+            $query .= "bgj.gaji_pokok + bgj.bonus as nilai, ";
+            $query .= "bgj.id  as id, ";
+            $query .= "pph.pph21  as pph21, ";
+            $query .= "pph.pph21able_type  as pph21_type ";
+		} else {
+			$query .= "count(bgj.id) as jumlah ";
+		}
 		$query .= "FROM bayar_gajis as bgj ";
 		$query .= "JOIN stafs as stf on stf.id = bgj.staf_id ";
 		$query .= "LEFT JOIN pph21s as pph on pph.pph21able_id = bgj.id ";
-		$query .= "WHERE {$param} ";
+		$query .= "WHERE '' = '' ";
+
+        if (!empty( $staf_id )) {
+            $query .= "AND bgj.staf_id = {$staf_id} ";
+        }
+        if (!empty( $gaji_pokok )) {
+            $query .= "AND gaji_pokok like '{$gaji_pokok}%' ";
+        }
+        if (!empty( $bonus )) {
+            $query .= "AND bonus like like '{$bonus}%' ";
+        }
+        if (!empty( $pph21 )) {
+            $query .= "AND bonus like '{$pph21}%' ";
+        }
+        if (!empty( $gaji_netto )) {
+            $query .= "AND gaji_pokok + bonus - pph21 like '{$gaji_netto}%' ";
+        }
+
 		$query .= "AND (pph.pph21able_type = 'App\\\\\Models\\\\\BayarGaji' ";
 		$query .= "AND bgj.tenant_id = " . session()->get('tenant_id') . " ";
 		$query .= "OR pph.pph21able_type is null) ";
-		$query .= "ORDER BY id desc ";
-		$query .= "LIMIT 30";
-		return DB::select($query);
+		$query .= "ORDER BY bgj.id desc ";
+
+		if (!$count) {
+			$query .= " LIMIT {$pass}, {$displayed_rows}";
+		}
+		$query .= ";";
+
+        if (!empty( $displayed_rows )) {
+            $query_result = DB::select($query);
+            if (!$count) {
+                return $query_result;
+            } else {
+                return $query_result[0]->jumlah;
+            }
+        }
     }
     
     

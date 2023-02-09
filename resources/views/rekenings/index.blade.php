@@ -28,7 +28,7 @@
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
                 {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
                     'class'    => 'form-control',
-                    'onchange' => 'clearAndSelectPasien();return false;',
+                    'onchange' => 'clearAndSearch();return false;',
                     'id'       => 'displayed_rows'
                 ]) !!}
             </div>

@@ -1,6 +1,14 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		@include('alergi')
+        {!! Form::text('alergi_obat', $antrianperiksa->alergi_obat, [
+            'class' => 'form-control hide',
+            'id'    => 'alergi_obat'
+        ]) !!}
+        {!! Form::text('previous_complaint_resolved', $antrianperiksa->previous_complaint_resolved, [
+            'class' => 'form-control hide',
+            'id'    => 'previous_complaint_resolved'
+        ]) !!}
         {!! Form::text('antrian_periksa_id', $antrianperiksa->id, [
             'class' => 'form-control hide',
             'id'    => 'antrian_periksa_id'
@@ -103,6 +111,24 @@
 		</div>
 	</div>
 </div>
+@if (
+         !$antrianperiksa->previous_complaint_resolved ||
+         $antrianperiksa->alergi_obat
+    )
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title">Pasien Dengan Perhatian Khusus</h3>
+        </div>
+        <div class="panel-body">
+            <h4 id="text_previous_complaint_resolved" @if( $antrianperiksa->previous_complaint_resolved ) class="hide" @endif>
+                Pengobatan sebelumnya tidak ada perbaikan
+            </h4>
+            <h4 id="text_alergi_obat" @if( $antrianperiksa->alergi_obat ) class="hide" @endif>
+                Pengobatan sebelumnya tidak ada perbaikan
+            </h4>
+        </div>
+    </div>
+@endif
 @if($pakai_bayar_pribadi)
 <div class="alert alert-danger">
     <div class="row">

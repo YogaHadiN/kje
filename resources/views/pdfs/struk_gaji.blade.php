@@ -19,10 +19,6 @@ z   <head>
             <div>
                 <table>
                     <tbody>
-                        {{-- <tr> --}}
-                        {{--     <td nowrap>Periode</td> --}}
-                        {{--     <td>{{ $bayar->mulai->format('d M') }} sampai {{ $bayar->akhir->format('d M Y') }}</td> --}}
-                        {{-- </tr> --}}
                         <tr>
                             <td nowrap>Tanggal Dibayar</td>
                             <td>{{ $bayar->tanggal_dibayar->format('d M Y') }}</td>
@@ -139,6 +135,10 @@ z   <head>
                         <tr>
                             @include('pdfs.potongan30persen', ['bayar' => $bayar->pph21s->penghasilan_kena_pajak_setahun])
                             <td class="text-right">{{ App\Models\Classes\Yoga::buatrp($bayar->pph21s->potongan30persen_setahun ) }}</td>
+                        </tr>
+                        <tr>
+                            @include('pdfs.potongan35persen', ['bayar' => $bayar->pph21s->penghasilan_kena_pajak_setahun])
+                            <td class="text-right">{{ App\Models\Classes\Yoga::buatrp($bayar->pph21s->potongan35persen_setahun ) }}</td>
                         </tr>
                         @if(empty( trim(  $bayar->staf->npwp  ) ))
                             <tr class="border-top">

@@ -56,6 +56,7 @@ class AntrianPeriksasController extends Controller
 	public $input_hamil;
 	public $input_asisten_id;
 	public $input_pasien_id;
+    public $input_memilih_obat_paten;
 	public $input_pasien;
 	public $input_poli_id;
 	public $input_staf_id;
@@ -65,6 +66,7 @@ class AntrianPeriksasController extends Controller
 	public $input_bukan_peserta;
 	public $input_sex;
 	public $input_riwayat_alergi_obat;
+	public $input_alergi_obat;
 	public $input_suhu;
 	public $input_G;
 	public $input_P;
@@ -80,37 +82,39 @@ class AntrianPeriksasController extends Controller
     public $previous_complaint_resolved;
 
 	public function __construct() {
-		$this->input_antrian_id            = Input::get('antrian_id');
-		$this->input_antrian_poli_id       = Input::get('antrian_poli_id');
-		$this->input_sistolik              = Input::get('sistolik');
-		$this->input_diastolik             = Input::get('diastolik');
-		$this->input_kecelakaan_kerja      = Input::get('kecelakaan_kerja');
-		$this->input_asuransi_id           = Input::get('asuransi_id');
-		$this->input_berat_badan           = Input::get('berat_badan');
-		$this->input_hamil                 = Input::get('hamil');
-		$this->input_asisten_id            = Input::get('asisten_id');
-		$this->input_pasien_id             = Input::get('pasien_id');
-		$this->input_poli_id               = Input::get('poli_id');
-		$this->input_staf_id               = Input::get('staf_id');
-		$this->input_jam                   = Input::get('jam');
-		$this->input_menyusui              = Input::get('menyusui');
-		$this->input_bukan_peserta         = Input::get('bukan_peserta');
-		$this->input_riwayat_alergi_obat   = Input::get('riwayat_alergi_obat');
-		$this->input_suhu                  = Input::get('suhu');
-		$this->input_G                     = Input::get('G');
-		$this->input_P                     = Input::get('P');
-		$this->input_A                     = Input::get('A');
-		$this->input_sex                   = Input::get('sex');
-		$this->input_hpht                  = Input::get('hpht');
-	    $this->input_tanggal               = Input::get('tanggal');
-		$this->input_tinggi_badan          = Input::get('tinggi_badan');
-		$this->input_gds                   = Input::get('gds');
-		$this->input_tekanan_darah         = Input::get('tekanan_darah');
-		$this->input_perujuk_id            = Input::get('perujuk_id');
-        $this->input_g                     = Input::get('G');
-        $this->input_a                     = Input::get('A');
-        $this->input_p                     = Input::get('P');
-        $this->previous_complaint_resolved = Input::get('previous_complaint_resolved');
+		$this->input_antrian_id                  = Input::get('antrian_id');
+		$this->input_antrian_poli_id             = Input::get('antrian_poli_id');
+		$this->input_sistolik                    = Input::get('sistolik');
+		$this->input_diastolik                   = Input::get('diastolik');
+		$this->input_kecelakaan_kerja            = Input::get('kecelakaan_kerja');
+		$this->input_asuransi_id                 = Input::get('asuransi_id');
+		$this->input_berat_badan                 = Input::get('berat_badan');
+		$this->input_hamil                       = Input::get('hamil');
+		$this->input_asisten_id                  = Input::get('asisten_id');
+		$this->input_pasien_id                   = Input::get('pasien_id');
+		$this->input_poli_id                     = Input::get('poli_id');
+		$this->input_staf_id                     = Input::get('staf_id');
+		$this->input_jam                         = Input::get('jam');
+		$this->input_menyusui                    = Input::get('menyusui');
+		$this->input_bukan_peserta               = Input::get('bukan_peserta');
+		$this->input_riwayat_alergi_obat         = Input::get('riwayat_alergi_obat');
+		$this->alergi_obat                       = Input::get('alergi_obat');
+		$this->input_suhu                        = Input::get('suhu');
+		$this->input_memilih_obat_paten          = Input::get('memilih_obat_paten');
+		$this->input_G                           = Input::get('G');
+		$this->input_P                           = Input::get('P');
+		$this->input_A                           = Input::get('A');
+		$this->input_sex                         = Input::get('sex');
+		$this->input_hpht                        = Input::get('hpht');
+	    $this->input_tanggal                     = Input::get('tanggal');
+		$this->input_tinggi_badan                = Input::get('tinggi_badan');
+		$this->input_gds                         = Input::get('gds');
+		$this->input_tekanan_darah               = Input::get('tekanan_darah');
+		$this->input_perujuk_id                  = Input::get('perujuk_id');
+        $this->input_g                           = Input::get('G');
+        $this->input_a                           = Input::get('A');
+        $this->input_p                           = Input::get('P');
+        $this->previous_complaint_resolved       = Input::get('previous_complaint_resolved');
         /* $this->middleware('nomorAntrianUnik', ['only' => ['store']]); */
         /* $this->middleware('super', ['only' => ['delete','update']]); */
 
@@ -264,9 +268,6 @@ class AntrianPeriksasController extends Controller
                 ];
             }
             $wa = new WablasController;
-            Log::info(265);
-            Log::info('$bulk_message_container');
-            Log::info($bulk_message_container);
             $wa->bulkSend($bulk_message_container);
         }
 
@@ -469,6 +470,7 @@ class AntrianPeriksasController extends Controller
 
         $ap->berat_badan  = $this->input_berat_badan;
         $ap->hamil        = $this->input_hamil;
+        $ap->memilih_obat_paten        = $this->input_memilih_obat_paten;
         $ap->menyusui     = $this->input_menyusui;
         $ap->asisten_id   = $this->input_asisten_id;
         $ap->periksa_awal = $periksa_awal;
@@ -490,6 +492,7 @@ class AntrianPeriksasController extends Controller
         $ap->sistolik                    = $this->input_sistolik;
         $ap->diastolik                   = $this->input_diastolik;
         $ap->tinggi_badan                = $this->input_tinggi_badan;
+        $ap->alergi_obat                = $this->input_alergi_obat;
         $ap->gds                         = $this->input_gds;
         $ap->g                           = $this->input_g;
         $ap->p                           = $this->input_p;

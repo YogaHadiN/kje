@@ -1,5 +1,5 @@
-@if( $bayar >= 50000000 )
-	<td nowrap>Potongan 5 % x Rp. 50.000.000,-</td>
+@if( $bayar <= 60000000 )
+	<td nowrap>Potongan 5 % x {{\App\Models\Classes\Yoga::buatrp(  $bayar  )}}</td>
 @else
-	<td nowrap>Potongan 5 % x {{App\Models\Classes\Yoga::buatrp(  $bayar  )}}</td>
+	<td nowrap>Potongan 5 % x Rp. 60.000.000,-</td>
 @endif

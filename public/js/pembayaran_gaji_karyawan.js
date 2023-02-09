@@ -1,4 +1,15 @@
 search();
+panggil();
+function panggil() {
+    var tanggal = $("#form_tanggal").val();
+    var staf_id = $("#form_staf_id").val();
+    var gaji_pokok = $("#form_gaji_pokok").val();
+    var bonus = $("#form_bonus").val();
+    var pph21 = $("#form_pph21").val();
+    console.log("============================================");
+    console.log(tanggal, staf_id, gaji_pokok, bonus, pph21);
+    console.log("============================================");
+}
 var auth_id = $("#auth_id").val();
 var csrf_token = $('meta[name="csrf-token"]').attr("content");
 var timeout;
@@ -28,13 +39,12 @@ function search(key = 0) {
     $.get(
         base + url,
         {
-            recovery_index_id: $("#recovery_index_id").val(),
-            tanggal: $("#tanggal").val(),
-            diagnosa_id: $("#diagnosa_id").val(),
-            staf_id: $("#staf_id").val(),
-            nama: $("#nama").val(),
-            asuransi_id: $("#asuransi_id").val(),
-            keluhan: $("#keluhan").val(),
+            tanggal: $("#form_tanggal").val(),
+            staf_id: $("#form_staf_id").val(),
+            gaji_pokok: $("#form_gaji_pokok").val(),
+            bonus: $("#form_bonus").val(),
+            pph21: $("#form_pph21").val(),
+            gaji_netto: $("#form_gaji_netto").val(),
             displayed_rows: $("#displayed_rows").val(),
             key: key,
         },
@@ -42,42 +52,24 @@ function search(key = 0) {
             var temp = "";
             for (var i = 0; i < data.data.length; i++) {
                 temp += "<tr>";
-                temp += '<td nowrap class="kolom_tanggal">';
-                temp +=
-                    '<a href="' +
-                    base +
-                    "/periksas/" +
-                    data.data[i].periksa_id +
-                    '" target="_blank">';
-                temp += data.data[i].tanggal;
+                temp += '<td nowrap class="tanggal">';
+                temp += data.data[i].tanggal_dibayar;
                 temp += "</a>";
                 temp += "</td>";
-                temp += '<td nowrap class="kolom_nama">';
-                temp +=
-                    '<a href="' +
-                    base +
-                    "/pasiens/" +
-                    data.data[i].pasien_id +
-                    '/edit" target="_blank">';
-                temp += data.data[i].nama;
-                temp += "</a>";
+                temp += '<td nowrap class="nama_staf">';
+                temp += data.data[i].nama_staf;
                 temp += "</td>";
-                temp += '<td class="kolom_dokter">';
-                temp +=
-                    '<a href="' +
-                    base +
-                    "/stafs/" +
-                    data.data[i].staf_id +
-                    "/recovery_index/by_diagnosa" +
-                    '" target="_blank">';
-                temp += data.data[i].dokter;
-                temp += "</a>";
+                temp += '<td class="gaji_pokok uang">';
+                temp += uang(data.data[i].gaji_pokok);
                 temp += "</td>";
-                temp += '<td class="kolom_pembayaran">';
-                temp += data.data[i].diagnosa;
+                temp += '<td class="bonus uang">';
+                temp += uang(data.data[i].bonus);
                 temp += "</td>";
-                temp += '<td class="kolom_keluhan">';
-                temp += data.data[i].keluhan;
+                temp += '<td class="pph21 uang">';
+                temp += uang(data.data[i].pph21);
+                temp += "</td>";
+                temp += '<td class="netto uang">';
+                temp += uang(data.data[i].gaji_pokok - data.data[i].pph21);
                 temp += "</td>";
                 temp += "</tr>";
             }
@@ -97,9 +89,3 @@ function search(key = 0) {
         }
     );
 }
-
-$(document).ready(function () {
-    $("#diagnosa_id").select2(
-        ajax_search("laporans/recovery_index/diagnosa", "Pilih Diagnosa")
-    );
-});

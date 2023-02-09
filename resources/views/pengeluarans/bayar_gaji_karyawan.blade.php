@@ -151,18 +151,72 @@
 					<div class="panel-title">List Semua Pembayaran Gaji Karyawan</div>
 				</div>
 				<div class="panel-body">
-                    {{ $pembayarans->links() }}
 					<div class-"table-responsive">
+                    <div class="row">
+                        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                            Menampilkan <span id="rows"></span> hasil
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-bottom">
+                            {!! Form::select('displayed_rows', App\Models\Classes\Yoga::manyRows(), 15, [
+                                'class'    => 'form-control',
+                                'onchange' => 'clearAndSearch();return false;',
+                                'id'       => 'displayed_rows'
+                            ]) !!}
+                        </div>
+                      </div>
 						<table class="table table-hover table-condensed">
 							<thead>
 								<tr>
-									<th>Tanggal Pembayaran</th>
-									<th>Nama Staf</th>
-									<th>Periode</th>
-									<th>Gaji Pokok </th>
-									<th>Bonus</th>
-									<th>Pph 21</th>
-									<th>Gaji Yang Dibayarkan</th>
+                                    <th nowrap class="kolom_2">
+                                        Tanggal Pembayaran <br>
+                                        {!! Form::text('tanggal', null, [
+                                            'class' => 'form-control-inline tgl form-control',
+                                            'onkeyup' => 'clearAndSearch();return false;',
+                                            'id'    => 'form_tanggal'
+                                        ])!!}
+                                    </th>
+									<th nowrap class="kolom_2">
+                                        Nama Staf <br>
+                                        {!! Form::select('staf_id', \App\Models\Staf::pluck('nama', 'id'), null, [
+                                            'class' => 'form-control selectpick',
+                                            'placeholder' => '- Pilih -',
+                                            'data-live-search' => 'true',
+                                            'onchange' => 'clearAndSearch();return false;',
+                                            'id'    => 'form_staf_id'
+                                        ])!!}
+                                    </th>
+									<th>
+                                        Gaji Pokok 
+                                        {!! Form::text('gaji_pokok', null, [
+                                            'class' => 'form-control-inline form-control',
+                                            'onkeyup' => 'clearAndSearch();return false;',
+                                            'id'    => 'form_gaji_pokok'
+                                        ])!!}
+                                    </th>
+									<th>
+                                        Bonus
+                                        {!! Form::text('bonus', null, [
+                                            'class' => 'form-control-inline form-control',
+                                            'onkeyup' => 'clearAndSearch();return false;',
+                                            'id'    => 'form_bonus'
+                                        ])!!}
+                                    </th>
+									<th>
+                                        Pph 21
+                                        {!! Form::text('pph21', null, [
+                                            'class' => 'form-control-inline form-control',
+                                            'onkeyup' => 'clearAndSearch();return false;',
+                                            'id'    => 'form_pph21'
+                                        ])!!}
+                                    </th>
+									<th>
+                                        Gaji Netto
+                                        {!! Form::text('gaji_netto', null, [
+                                            'class' => 'form-control-inline form-control',
+                                            'onkeyup' => 'clearAndSearch();return false;',
+                                            'id'    => 'form_gaji_netto'
+                                        ])!!}
+                                    </th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -170,6 +224,15 @@
 
                             </tbody>
 						</table>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div id="page-box">
+                                    <nav class="text-right" aria-label="Page navigation" id="paging">
+                                    
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
 					</div>
 				</div>
 			</div>

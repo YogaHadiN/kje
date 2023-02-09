@@ -706,10 +706,9 @@ class PoliAjaxController extends Controller
         if (!is_null( $odontogram )) {
             $odontogram->matur = Input::get('evolusi_gigi');
             $odontogram->save();
+            $pa = new PasiensAjaxController;
+            return $pa->keadaanGigi($odontogram->pasien_id);
         }
-
-        $pa = new PasiensAjaxController;
-        return $pa->keadaanGigi($odontogram->pasien_id);
     }
     public function removeKeadaanGigi(){
         return KeadaanGigi::destroy( Input::get('keadaan_gigi_id') );

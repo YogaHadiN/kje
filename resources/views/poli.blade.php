@@ -131,7 +131,9 @@ console.log( 'base_s3_wa', base_s3_wa );
 <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 {!! HTML::script('js/allpoli.js?ver=123')!!} 
 {!! HTML::script('js/alergi.js')!!} 
+{!! HTML::script('js/perhatian_khusus.js')!!} 
 {!! HTML::script('js/odontogram.js')!!} 
+
 <script>
     afiCount();
 </script>

@@ -609,6 +609,13 @@
 														<td><input type="text" class="form-control bulanTahun" name="bulanTahun" value="{!!date('m-Y')!!}"/></td>
 														<td colspan="2"></td>
 													</form>
+												</tr><tr>
+													<form action="{{ url('laporans/pph21/tahunan') }}" method="get">
+														<td><input type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"/></td>
+														<td>Laporan pph21 Tahunan</td>
+														<td><input type="text" class="form-control" name="tahun" value="{!!date('Y')!!}"/></td>
+														<td colspan="2"></td>
+													</form>
 												</tr>
                                                 @endif
 										</tbody>

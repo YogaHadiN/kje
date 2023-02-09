@@ -84,11 +84,6 @@ class PeriksasController extends Controller
 		$this->belum_ada_tekanan_darah_terkontrol    = false;
    }
 
-	public function index()
-	{
-		$periksas = Periksa::all();
-		return view('periksas.index', compact('periksas'));
-	}
 
 	/**
 	 * Show the form for creating a new periksa
@@ -327,13 +322,17 @@ class PeriksasController extends Controller
 
 
 	private function sesuaikanResep($terapis, $asuransi){
-		if($asuransi->tipe_asuransi_id ==  5|| $asuransi->tipe_asuransi_id == '4') { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
+		if($asuransi->tipe_asuransi_id ==  5|| $asuransi->tipe_asuransi_id == 4) { // asuransi_id 32 = BPJS atau tipe_asuransi 4 == flat
 			if ($terapis != '' && $terapis != '[]') {
 				$terapis = Yoga::sesuaikanResep($terapis, 'asc');
 			}
 		} elseif($asuransi->tipe_asuransi_id == '3'){ //tipe_asuransi 1 = admedika
 			if ($terapis != '' && $terapis != '[]') {
-				$terapis = Yoga::sesuaikanResep($terapis, 'desc');
+                if ( $this->antrianperiksa->memilih_obat_paten ) {
+                    $terapis = Yoga::sesuaikanResep($terapis, 'desc');
+                } else {
+                    $terapis = Yoga::sesuaikanResepPasienUmum($terapis);
+                }
 			}
         } else {
 			if ($terapis != '' && $terapis != '[]') {
@@ -1103,7 +1102,7 @@ class PeriksasController extends Controller
         $periksa->asisten_id            = Input::get('asisten_id');
         $periksa->periksa_awal          = Input::get('periksa_awal');
         $periksa->jam                   = Input::get('jam');
-        $periksa->suhu                   = Input::get('suhu');
+        $periksa->suhu                  = Input::get('suhu');
         $periksa->hamil                 = Input::get('hamil');
         $periksa->jam_resep             = date('H:i:s');
         $periksa->keterangan_diagnosa   = Input::get('keterangan_diagnosa');
@@ -1113,6 +1112,7 @@ class PeriksasController extends Controller
         $periksa->pemeriksaan_fisik     = Input::get('pemeriksaan_fisik');
         $periksa->pemeriksaan_penunjang = Input::get('pemeriksaan_penunjang');
         $periksa->tanggal               = Input::get('tanggal');
+        $periksa->memilih_obat_paten    = $this->antrianperiksa->memilih_obat_paten;
         $periksa->sistolik              = Yoga::returnNull( $this->input_sistolik );
         $periksa->diastolik             = Yoga::returnNull( $this->input_diastolik );
         $periksa->terapi                = $this->terapisBaru($terapis);
@@ -1121,7 +1121,7 @@ class PeriksasController extends Controller
         $periksa->kecelakaan_kerja      = $this->input_kecelakaan_kerja;
         $periksa->keterangan            = Input::get('keterangan_periksa');
         $periksa->transaksi             = json_encode($transaksis);
-        $periksa->tindakan_gigi             = is_null(Input::get('tindakan_gigi'))? '[]': Input::get('tindakan_gigi');
+        $periksa->tindakan_gigi         = is_null(Input::get('tindakan_gigi'))? '[]': Input::get('tindakan_gigi');
         $periksa->prolanis_dm           = $pasien->prolanis_dm;
         $periksa->prolanis_ht           = $pasien->prolanis_ht;
         $periksa->antrian_id            = !is_null($this->antrianperiksa->antrian)?$this->antrianperiksa->antrian->id:null;

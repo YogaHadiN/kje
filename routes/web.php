@@ -258,12 +258,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('/asuransis/{asuransi_id}/tarifs/{tarif_id}', [\App\Http\Controllers\AsuransisController::class, 'editTarifForCurrentAsuransi']);
 	Route::put('/asuransis/{asuransi_id}/tarifs/{tarif_id}', [\App\Http\Controllers\AsuransisController::class, 'updateTarifForCurrentAsuransi']);
-
-
-
 	Route::put('antrianperiksas/{id}/editPoli', [\App\Http\Controllers\AntrianPeriksasController::class, 'editPoli']);
-
-
 	// dari menu users
 	Route::post('mereks/ajax/obat', [\App\Http\Controllers\MereksController::class, 'ajaxObat']);
 	Route::get('/pasiens/cek/tanggal_lahir/sama', [\App\Http\Controllers\PasiensAjaxController::class, 'ajaxTanggalLahir']);
@@ -316,9 +311,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasiens/riwayat/gula_darah/{id}', [\App\Http\Controllers\PasiensController::class, 'riwayat_pemeriksaan_gula_darah']);
 	Route::get('antrianpolis/{id}/daftarkan', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanAntrian']);
 	Route::get('antrianpolis/antrian/{antrian_id}/pasien/{pasien_id}', [\App\Http\Controllers\AntrianPolisController::class, 'daftarkanRegistrasiSebelumnya']);
-
-
-
 	Route::resource('pasiens', \App\Http\Controllers\PasiensController::class);
 	Route::resource('periksas', \App\Http\Controllers\PeriksasController::class);
 
@@ -372,6 +364,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::resource('pajaks/lapor_pajaks', \App\Http\Controllers\LaporPajakController::class);
 		Route::get('/lapor_pajaks/get_periode_pajak', [\App\Http\Controllers\LaporPajakController::class, 'getPeriodePajak']);
 		Route::get('pajaks/pph21s/{staf_id}/{bulanTahun}', [\App\Http\Controllers\Pph21Controller::class, 'pph21Detil']);
+		Route::get('laporans/pph21/tahunan', [\App\Http\Controllers\LaporansController::class, 'pph21Tahunan']);
 	});
 
 		Route::get('stafs/{id}/jumlah_pasien', [\App\Http\Controllers\StafsController::class, 'jumlahPasien']);

@@ -124,16 +124,30 @@
                 </ul>
             </div>
         @endif
-        <div class="form-group @if($errors->has('verifikasi_alergi_obat')) has-error @endif">
-          {!! Form::label('verifikasi_alergi_obat', 'Verifikasi Alergi Obat', ['class' => 'control-label']) !!}
-          {!! Form::select('verifikasi_alergi_obat', [
+        <div class="form-group @if($errors->has('alergi_obat')) has-error @endif">
+          {!! Form::label('alergi_obat', 'Verifikasi Alergi Obat', ['class' => 'control-label']) !!}
+          {!! Form::select('alergi_obat', [
               '0' => $antrian_poli->pasien->alergies->count() > 0 ? 'Tidak ada alergi obat lainnya' :'Tidak ada alergi obat' ,
               '1' => $antrian_poli->pasien->alergies->count() > 0 ? 'Ada alergi obat lainnya' :'Ada alergi obat' ,
           ] , null, [
             'class' => 'form-control rq',
             'placeholder' => $antrian_poli->pasien->alergies->count() < 1 ?'Apakah pasien memiliki alergi obat?' : 'Tanyakan apakah ada alergi obat selain yang disebutkan sebelumnya?',
       ]) !!}
-          @if($errors->has('verifikasi_alergi_obat'))<code>{{ $errors->first('verifikasi_alergi_obat') }}</code>@endif
+          @if($errors->has('alergi_obat'))<code>{{ $errors->first('alergi_obat') }}</code>@endif
+        </div>
+        <div class="form-group @if($errors->has('memilih_obat_paten')) has-error @endif @if(
+                 $antrian_poli->asuransi->tipe_asuransi_id !== 3  ||
+                 ( $antrian_poli->asuransi->tipe_asuransi_id == 3 && $antrian_poli->asuransi->konfirmasi_obat_paten == 0  ) 
+            ) hide @endif  ">
+          {!! Form::label('memilih_obat_paten', 'Preferensi Jenis Obat Pasien Asuransi', ['class' => 'control-label']) !!}
+          {!! Form::select('memilih_obat_paten' , [
+              0 => 'Obat Generik',
+              1 => 'Obat Paten'
+          ], $antrian_poli->asuransi->tipe_asuransi_id != 3? 1 : null, [
+            'class' => 'form-control rq',
+            'placeholder' => '- Pilih -',
+      ]) !!}
+          @if($errors->has('memilih_obat_paten'))<code>{!! $errors->first('memilih_obat_paten') !!}</code>@endif
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">

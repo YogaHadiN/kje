@@ -124,20 +124,50 @@ class testcommand extends Command
 
 
     public function handle(){
-        $antrians = Antrian::where('antriable_type', 'App\Models\Periksa')
-                            ->where('tenant_id', 1)
-                            ->where('created_at', '>', '2022-07-01')
-                            ->get();
 
-
-        $periksa_ids = [];
-        foreach ($antrians as $an) {
-            if ( is_null(  $an->antriable  ) ) {
-                $periksa_ids[] = $an->antriable_id;
-            }
-        }
-        dd( count(  $periksa_ids  ) );
     }
+
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function updatePeriksaHilang($new_periksa_id, $new_created_at)
+    {
+        $query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS 
+                    where COLUMN_NAME like 'periksa_id' 
+                    order by TABLE_NAME";
+        $data = DB::select($query);
+
+        $queryPolim  = "select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS
+                        where COLUMN_NAME like '%able_type'
+                        and COLUMN_NAME not like 'table_type' 
+                        and COLUMN_NAME not like 'variable_type'
+                        order by TABLE_NAME";
+        $polim = DB::select($queryPolim);
+
+        $periksa             = Periksa::where('anamnesa', 'like', $new_periksa_id .'%')->first();
+        $periksa->id         = $new_periksa_id;
+        $periksa->tanggal    = $new_created_at->format('Y-m-d');
+        $periksa->created_at = $new_created_at->format('Y-m-d H:i:s');
+        $periksa->updated_at = $new_created_at->format('Y-m-d H:i:s');
+        $periksa->save();
+
+        $periksa_id = $periksa->id;
+        $created_at = Carbon::createFromFormat('d-m-Y', $new_created_at)->format('Y-m-d');
+        foreach ($data as $d) {
+            $query  = "UPDATE " . $d->TABLE_NAME . " SET created_at='" . $created_at . "' and updated_at='" . $created_at . "' where periksa_id = {$periksa_id}";
+            DB::statement($query);
+
+        }
+        foreach ($polim as $d) {
+            $able_id = $this->ableTypeToId( $d->COLUMN_NAME );
+            $query  = "UPDATE " . $d->TABLE_NAME . " SET created_at='" . $created_at . "', updated_at='" . $created_at . "' where " . $d->COLUMN_NAME. " = 'App\\\Models\\\Periksa' and " . $able_id . " = {$periksa_id}";
+            DB::statement($query);
+        }
+    }
+    
     /**
      * undocumented function
      *
@@ -2298,4 +2328,26 @@ class testcommand extends Command
         }
         dd( $tables );
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function randomTime()
+    {
+        return rand(0,23).":".str_pad(rand(0,59), 2, "0", STR_PAD_LEFT);
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function ableTypeToId($able_type)
+    {
+        $able = str_replace("_type", "", $able_type);
+        return $able . '_id';
+
+    }
+    
+    
 }
