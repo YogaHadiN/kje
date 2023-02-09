@@ -203,10 +203,13 @@ class KasirBaseController extends Controller
 				$perbaikan->terapi     = Input::get('terapi1');
 				$perbaikan->save();
 			}
-			$this->antriankasir             = new AntrianKasir;
-			$this->antriankasir->periksa_id = $periksa_id;
-			$this->antriankasir->jam        = date('H:i:s');
-			$this->antriankasir->tanggal    = date('Y-m-d');
+			$this->antriankasir                              = new AntrianKasir;
+			$this->antriankasir->periksa_id                  = $periksa_id;
+			$this->antriankasir->jam                         = date('H:i:s');
+			$this->antriankasir->tanggal                     = date('Y-m-d');
+			$this->antriankasir->memilih_obat_paten          = $antrianapotek->memilih_obat_paten;
+			$this->antriankasir->alergi_obat                 = $antrianapotek->alergi_obat;
+			$this->antriankasir->previous_complaint_resolved = $antrianapotek->previous_complaint_resolved;
 			$this->antriankasir->save();
 
 			Antrian::where('antriable_type', 'App\Models\AntrianApotek')

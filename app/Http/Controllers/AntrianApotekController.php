@@ -26,15 +26,18 @@ class AntrianApotekController extends Controller
 
             $periksa = $antrianapotek->periksa;
 
-			$antrian              = new AntrianPeriksa;
-			$antrian->poli_id     = $periksa->poli_id;
-			$antrian->periksa_id  = $periksa->periksa_id;
-			$antrian->staf_id     = $periksa->staf_id;
-			$antrian->asuransi_id = $periksa->asuransi_id;
-			$antrian->asisten_id  = $periksa->asisten_id;
-			$antrian->pasien_id   = $periksa->pasien_id;
-			$antrian->jam         = $periksa->jam;
-			$antrian->tanggal     = $periksa->tanggal;
+			$antrian                              = new AntrianPeriksa;
+			$antrian->poli_id                     = $periksa->poli_id;
+			$antrian->periksa_id                  = $periksa->periksa_id;
+			$antrian->staf_id                     = $periksa->staf_id;
+			$antrian->asuransi_id                 = $periksa->asuransi_id;
+			$antrian->asisten_id                  = $periksa->asisten_id;
+			$antrian->pasien_id                   = $periksa->pasien_id;
+			$antrian->jam                         = $periksa->jam;
+			$antrian->tanggal                     = $periksa->tanggal;
+			$antrian->memilih_obat_paten          = $antrianapotek->memilih_obat_paten;
+			$antrian->previous_complaint_resolved = $antrianapotek->previous_complaint_resolved;
+			$antrian->alergi_obat                 = $antrianapotek->alergi_obat;
 			$antrian->save();
 
 			$periksa->antrian_periksa_id = $antrian->id;

@@ -46,10 +46,13 @@ class AntrianKasirsController extends Controller
 		}
 		if (!AntrianApotek::where('periksa_id', $antriankasir->periksa_id)->exists() ) {
 
-			$antrianapotek             = new AntrianApotek;
-			$antrianapotek->periksa_id = $antriankasir->periksa_id;
-			$antrianapotek->jam        = date('H:i:s');
-			$antrianapotek->tanggal    = date('Y-m-d');
+			$antrianapotek                              = new AntrianApotek;
+			$antrianapotek->periksa_id                  = $antriankasir->periksa_id;
+			$antrianapotek->memilih_obat_paten          = $antriankasir->memilih_obat_paten;
+			$antrianapotek->alergi_obat                 = $antriankasir->alergi_obat;
+			$antrianapotek->previous_complaint_resolved = $antriankasir->previous_complaint_resolved;
+			$antrianapotek->jam                         = date('H:i:s');
+			$antrianapotek->tanggal                     = date('Y-m-d');
 			$antrianapotek->save();
 
 			Antrian::where('antriable_id', $antriankasir->id)

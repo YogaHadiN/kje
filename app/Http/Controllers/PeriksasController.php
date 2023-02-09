@@ -399,10 +399,13 @@ class PeriksasController extends Controller
 			!AntrianApotek::where('periksa_id', $periksa_id)->exists() &&
 			!is_null($this->antrianperiksa)
 	   	) {
-            $this->antrianapotek             = new AntrianApotek;
-            $this->antrianapotek->periksa_id = $periksa_id;
-            $this->antrianapotek->jam        = date('H:i:s');
-            $this->antrianapotek->tanggal    = date('Y-m-d');
+            $this->antrianapotek                              = new AntrianApotek;
+            $this->antrianapotek->periksa_id                  = $periksa_id;
+            $this->antrianapotek->jam                         = date('H:i:s');
+            $this->antrianapotek->tanggal                     = date('Y-m-d');
+            $this->antrianapotek->memilih_obat_paten          = $this->antrianperiksa->memilih_obat_paten;
+            $this->antrianapotek->alergi_obat                 = $this->antrianperiksa->alergi_obat;
+            $this->antrianapotek->previous_complaint_resolved = $this->antrianperiksa->previous_complaint_resolved;
             $this->antrianapotek->save();
 
 
@@ -605,30 +608,22 @@ class PeriksasController extends Controller
 				$pesan = Yoga::gagalFlash('antrian periksa tidak ditemukan');
 				return redirect()->back()->withPesan($pesan);
 			}
-			$antrian              = new AntrianPeriksa;
-			$antrian->poli_id     = $periksa->poli_id;
-			$antrian->periksa_id  = $periksa->periksa_id;
-			$antrian->staf_id     = $periksa->staf_id;
-			$antrian->asuransi_id = $periksa->asuransi_id;
-			$antrian->asisten_id  = $periksa->asisten_id;
-			$antrian->hamil       = $periksa->hamil;
-			$antrian->pasien_id   = $periksa->pasien_id;
-			$antrian->jam         = $periksa->jam;
-			$antrian->tanggal     = $periksa->tanggal;
-			$antrian->save();
-			$periksa->antrian_periksa_id = $antrian->id;
-			$periksa->save();
-
 
 			$antriankasir =  AntrianKasir::where('periksa_id', $id)->first();
 			if ( isset($antriankasir) ) {
-				$antarable_type = 'App\Models\AntrianKasir';
-				$antarable_id   = $antriankasir->id;
+				$antarable_type              = 'App\Models\AntrianKasir';
+				$antarable_id                = $antriankasir->id;
+				$memilih_obat_paten          = $antriankasir->memilih_obat_paten;
+				$alergi_obat                 = $antriankasir->alergi_obat;
+				$previous_complaint_resolved = $antriankasir->previous_complaint_resolved;
 			}
 			$antrianapotek =  AntrianApotek::where('periksa_id', $id)->first();
 			if ( isset($antrianapotek) ) {
 				$antarable_type = 'App\Models\AntrianApotek';
 				$antarable_id   = $antrianapotek->id;
+				$memilih_obat_paten          = $antrianapotek->memilih_obat_paten;
+				$alergi_obat                 = $antrianapotek->alergi_obat;
+				$previous_complaint_resolved = $antrianapotek->previous_complaint_resolved;
 			}
 
 			if (!isset($antarable_type)) {
@@ -636,6 +631,22 @@ class PeriksasController extends Controller
 				return redirect()->back()->withPesan($pesan);
 			}
 
+			$antrian                              = new AntrianPeriksa;
+			$antrian->poli_id                     = $periksa->poli_id;
+			$antrian->periksa_id                  = $periksa->periksa_id;
+			$antrian->staf_id                     = $periksa->staf_id;
+			$antrian->asuransi_id                 = $periksa->asuransi_id;
+			$antrian->asisten_id                  = $periksa->asisten_id;
+			$antrian->hamil                       = $periksa->hamil;
+			$antrian->pasien_id                   = $periksa->pasien_id;
+			$antrian->jam                         = $periksa->jam;
+			$antrian->tanggal                     = $periksa->tanggal;
+			$antrian->memilih_obat_paten          = $memilih_obat_paten;
+			$antrian->alergi_obat                 = $alergi_obat;
+			$antrian->previous_complaint_resolved = $previous_complaint_resolved;
+			$antrian->save();
+			$periksa->antrian_periksa_id = $antrian->id;
+			$periksa->save();
 			Antrian::where('antriable_type', $antarable_type)
 					->where('antriable_id', $antarable_id)
 					->update([
@@ -649,7 +660,6 @@ class PeriksasController extends Controller
 					 'antarable_type' => 'App\Models\AntrianPeriksa',
 					 'antarable_id' => $antrian->id
 			]);
-
 			DB::commit();
 			
 		} catch (\Exception $e) {
@@ -1212,21 +1222,17 @@ class PeriksasController extends Controller
 
         if ($nama_poli == 'Poli ANC' || $nama_poli == 'Poli USG Kebidanan') {
             $hamil = RegisterHamil::where('g', Input::get('G'))->where('pasien_id', Input::get('pasien_id'))->first();
-
             if (is_null($hamil)) {
                 $hamil = $pasien->registerHamil()->create($this->inputRegisterHamil());
             } else {
                 $hamil->update($this->inputRegisterHamil());
             }
-
             $anc = RegisterAnc::where('periksa_id', $periksa->id)->where('register_hamil_id', $hamil->id)->first();
-
             if ( is_null($anc) ) {
                 $hamil->registerAnc()->create( $this->inputRegisterAnc($periksa) );
             } else {
                 $anc->update( $this->inputRegisterAnc($periksa) );
             }
-
         }
 
         //UPDATE pengantar tambahkan periksa_id
