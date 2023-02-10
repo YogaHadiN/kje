@@ -422,7 +422,6 @@ class BayarGajiController extends Controller
 
     
     public function dokterdibayar(){
-        dd( 'o' );
 		$rules           = [
 			'staf_id'        => 'required',
 			'hutang'         => 'required',
