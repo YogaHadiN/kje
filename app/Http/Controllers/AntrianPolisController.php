@@ -415,7 +415,7 @@ class AntrianPolisController extends Controller
 				empty($this->input_pasien->image)
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>Foto pasien</strong> harus dimasukkan terlebih dahulu');
-				return redirect('pasiens/' . $this->pasien_id . '/edit')
+				return redirect('pasiens/' . $this->input_pasien_id . '/edit')
 					->withPesan($pesan);
 			}
 			/* Jika pasien memiliki KTP dan nomor ktp belum diisi */
