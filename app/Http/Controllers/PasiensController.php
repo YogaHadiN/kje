@@ -845,6 +845,9 @@ class PasiensController extends Controller
             $apcon->input_hpht                  = '';
             $apcon->previous_complaint_resolved = 1;
             $apcon->input_perujuk_id            = '';
+            $apcon->input_alergi_obat           = 0;
+            $apcon->input_memilih_obat_paten    = 1;
+            $apcon->previous_complaint_resolved = 1;
             DB::commit();
             return $apcon->inputData();
         } catch (\Exception $e) {

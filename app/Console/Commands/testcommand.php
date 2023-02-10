@@ -124,7 +124,51 @@ class testcommand extends Command
 
 
     public function handle(){
+        $periksas = Periksa::where('anamnesa', 'like', '220618015%')
+                ->orWhere('anamnesa', 'like', '220708015%')
+                ->orWhere('anamnesa', 'like', '220718122%')
+                ->orWhere('anamnesa', 'like', '220720014%')
+                ->orWhere('anamnesa', 'like', '220720083%')
+                ->orWhere('anamnesa', 'like', '220720120%')
+                ->orWhere('anamnesa', 'like', '220731101%')
+                ->orWhere('anamnesa', 'like', '314988%')
+                ->orWhere('anamnesa', 'like', '324551%')
+                ->orWhere('anamnesa', 'like', '334926%')
+                ->orWhere('anamnesa', 'like', '338245%')
+                ->orWhere('anamnesa', 'like', '339501%')
+                ->orWhere('anamnesa', 'like', '340703%')
+                ->orWhere('anamnesa', 'like', '341424%')
+                ->orWhere('anamnesa', 'like', '341474%')
+                ->orWhere('anamnesa', 'like', '341668%')->get();
 
+        $deleted = 0;
+        foreach ($periksas as $prx) {
+            $query  = "select TABLE_NAME from INFORMATION_SCHEMA.COLUMNS 
+                        where COLUMN_NAME like 'periksa_id' 
+                        order by TABLE_NAME";
+            $data = DB::select($query);
+            $queryPolim  = "select TABLE_NAME, COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS
+                            where COLUMN_NAME like '%able_type'
+                            and COLUMN_NAME not like 'table_type' 
+                            and COLUMN_NAME not like 'variable_type'
+                            order by TABLE_NAME";
+            $polim = DB::select($queryPolim);
+
+            foreach ($data as $d) {
+                $query  = "delete from " . $d->TABLE_NAME . " where periksa_id = " .$prx->id. ";";
+                $n = DB::delete($query);
+                $deleted += $n;
+
+            }
+            foreach ($polim as $d) {
+                $able_id = $this->ableTypeToId( $d->COLUMN_NAME );
+                $query  = "delete from " . $d->TABLE_NAME . " where {$able_id} = " .$prx->id. " and " .$d->COLUMN_NAME. " = 'App\\\Models\\\Periksa';";
+                $n = DB::delete($query);
+                $deleted += $n;
+            }
+            $prx->delete();
+        }
+        dd( $deleted );
     }
 
 
