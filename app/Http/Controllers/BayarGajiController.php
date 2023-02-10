@@ -711,6 +711,7 @@ class BayarGajiController extends Controller
 		 $gaji_netto_setahun     = 0;
 		 $potongan25persen       = 0;
 		 $potongan30persen       = 0;
+		 $potongan35persen       = 0;
 		 $penghasilan_kena_pajak = 0;
 		 $faktor_kali_pph        = 0;
 		 $pph21_setahun          = 0;
