@@ -933,12 +933,10 @@ class PdfsController extends Controller
 	}
 	public function label_obat($id){
 
-		$periksa = Periksa::with('terapii.merek.rak.formula.komposisi.generik', 'pasien', 'terapii.merek.rak.formula.cunam')->where('id', $id)->first();
-
-		$nama = $periksa->pasien->nama;
-
+		$periksa       = Periksa::with('terapii.merek.rak.formula.komposisi.generik', 'pasien', 'terapii.merek.rak.formula.cunam')->where('id', $id)->first();
+		$nama          = $periksa->pasien->nama;
 		$exploded_nama = explode(" ", $nama);
-		$printed_nama = $exploded_nama[0];
+		$printed_nama  = $exploded_nama[0];
 		if (isset( $exploded_nama[1] )) {
 			$printed_nama .=  ' ' . $exploded_nama[1];
 		}

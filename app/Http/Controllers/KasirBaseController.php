@@ -121,6 +121,7 @@ class KasirBaseController extends Controller
         {
             return \Redirect::back()->withErrors($validator)->withInput();
         }
+
 		$periksa_id            = Input::get('periksa_id');
 		$prx                   = Periksa::find($periksa_id);
 		$prx->jam_selesai_obat = date('H:i:s');
@@ -203,6 +204,7 @@ class KasirBaseController extends Controller
 				$perbaikan->terapi     = Input::get('terapi1');
 				$perbaikan->save();
 			}
+
 			$this->antriankasir                              = new AntrianKasir;
 			$this->antriankasir->periksa_id                  = $periksa_id;
 			$this->antriankasir->jam                         = date('H:i:s');
@@ -227,7 +229,7 @@ class KasirBaseController extends Controller
 			$antrianapotek->delete();
 			$apc = new AntrianPolisController;
 			$apc->updateJumlahAntrian(false, null);
-            $this->infokanPasienBahwaObatSelesaiDiracik();
+            /* $this->infokanPasienBahwaObatSelesaiDiracik(); */
 
 			DB::commit();
 			return redirect('antrianapoteks')

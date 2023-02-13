@@ -828,7 +828,7 @@ class BayarGajiController extends Controller
 		$this->staf              = Staf::find( $this->input_staf_id );
 		$carbon_mulai            = Carbon::createFromFormat('d-m-Y', $this->input_tanggal_dibayar);
 		$bayar_dokters_bulan_ini = BayarGaji::where('staf_id', $this->input_staf_id)
-									->where('mulai', 'like', $carbon_mulai->format('Y-m') . '%' )
+									->where('tanggal_dibayar', 'like', $carbon_mulai->format('Y-m') . '%' )
 								    ->get();
 		$total_gaji_bulan_ini    = Yoga::clean($this->input_gaji_pokok) + $this->input_bonus;
 		$total_pph_bulan_ini     = 0;
