@@ -16,10 +16,23 @@ class AntrianKasir extends Model
         self::created(function($model){
             if (is_null( $model->antrian )) {
                 Log::info('=================================');
+                Log::info($model);
                 Log::info("waktu");
                 Log::info( date('Y-m-d H:i:s') );
+                $periksa = Periksa::find( Input::get('periksa_id') );
+                Log::info("URL");
                 Log::info(Input::url());
-                Log::info(Input::all());
+                Log::info("Method");
+                Log::info(Input::method());
+                Log::info('Tanggal periksa = ' . $periksa->tanggal);
+                Log::info('created_at = ' . $periksa->created_at);
+                Log::info('updated_at = ' . $periksa->updated_at);
+                Log::info('=================================');
+            } else {
+                Log::info('=================================');
+                Log::info('ada antrian');
+                Log::info('$model');
+                Log::info($model);
                 Log::info('=================================');
             }
         });

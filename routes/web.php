@@ -286,6 +286,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('pasiens/{id}/alergi', [\App\Http\Controllers\PasiensController::class, 'alergi']);
 	Route::get('pasiens/{id}/alergi/create', [\App\Http\Controllers\PasiensController::class, 'alergiCreate']);
 	Route::get('stafs/{id}/gaji', [\App\Http\Controllers\StafsCustomController::class, 'gaji']);
+	Route::get("/stafs/{id}/search/gaji", [\App\Http\Controllers\StafsCustomController::class, 'gajiSearch']);
+
 	Route::get('qrcode', [\App\Http\Controllers\QrCodeController::class, 'index']);
 	/* Route::get('qrcode/pdf', 'QrCodeController@inPdf'); */
 
@@ -365,6 +367,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/lapor_pajaks/get_periode_pajak', [\App\Http\Controllers\LaporPajakController::class, 'getPeriodePajak']);
 		Route::get('pajaks/pph21s/{staf_id}/{bulanTahun}', [\App\Http\Controllers\Pph21Controller::class, 'pph21Detil']);
 		Route::get('laporans/pph21/tahunan', [\App\Http\Controllers\LaporansController::class, 'pph21Tahunan']);
+		Route::get('laporans/pph21/tahunan/search', [\App\Http\Controllers\LaporansController::class, 'pph21TahunanSearch']);
+
 	});
 
 		Route::get('stafs/{id}/jumlah_pasien', [\App\Http\Controllers\StafsController::class, 'jumlahPasien']);

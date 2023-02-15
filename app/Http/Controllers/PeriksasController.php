@@ -94,6 +94,11 @@ class PeriksasController extends Controller
 	{
 		return view('periksas.create');
 	}
+    public function index(){
+        $pesan = Yoga::gagalFlash('Url ini tidak ditemukan');
+        return redirect()->back()->withPesan($pesan);
+    }
+    
 
 	/**
 	 * Store a newly created periksa in storage.

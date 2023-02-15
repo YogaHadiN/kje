@@ -205,6 +205,22 @@ class KasirBaseController extends Controller
 				$perbaikan->save();
 			}
 
+            $statement = DB::select("SHOW TABLE STATUS LIKE 'antrian_kasirs'");
+            $next_antrian_kasir_id = $statement[0]->Auto_increment;
+
+			Antrian::where('antriable_type', 'App\Models\AntrianApotek')
+					->where('antriable_id', $antrianapotek->id)
+					->update([
+						'antriable_type' => 'App\Models\AntrianKasir',
+						'antriable_id' => $next_antrian_kasir_id
+					]);
+			PengantarPasien::where('antarable_type', 'App\Models\AntrianApotek')
+					->where('antarable_id', $antrianapotek->id)
+					->update([
+						'antarable_type' => 'App\Models\AntrianKasir',
+						'antarable_id'   => $next_antrian_kasir_id
+					]);
+
 			$this->antriankasir                              = new AntrianKasir;
 			$this->antriankasir->periksa_id                  = $periksa_id;
 			$this->antriankasir->jam                         = date('H:i:s');
@@ -214,22 +230,9 @@ class KasirBaseController extends Controller
 			$this->antriankasir->previous_complaint_resolved = $antrianapotek->previous_complaint_resolved;
 			$this->antriankasir->save();
 
-			Antrian::where('antriable_type', 'App\Models\AntrianApotek')
-					->where('antriable_id', $antrianapotek->id)
-					->update([
-						'antriable_type' => 'App\Models\AntrianKasir',
-						'antriable_id' => $this->antriankasir->id
-					]);
-			PengantarPasien::where('antarable_type', 'App\Models\AntrianApotek')
-					->where('antarable_id', $antrianapotek->id)
-					->update([
-						'antarable_type' => 'App\Models\AntrianKasir',
-						'antarable_id'   => $this->antriankasir->id
-					]);
 			$antrianapotek->delete();
 			$apc = new AntrianPolisController;
 			$apc->updateJumlahAntrian(false, null);
-            /* $this->infokanPasienBahwaObatSelesaiDiracik(); */
 
 			DB::commit();
 			return redirect('antrianapoteks')

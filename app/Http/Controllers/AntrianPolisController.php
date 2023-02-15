@@ -475,7 +475,7 @@ class AntrianPolisController extends Controller
 				empty($this->input_pasien->bpjs_image) //jika kartu bpjs masih kosong
 			) {
 				$pesan = Yoga::gagalFlash('Gambar <strong>Kartu BPJS</strong> untuk peserta asuransi harus dimasukkan terlebih dahulu');
-				return redirect('pasiens/' . $this->pasien_id . '/edit')
+				return redirect('pasiens/' . $this->input_pasien->id . '/edit')
 					->withPesan($pesan);
 			}
 

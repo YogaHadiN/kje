@@ -407,20 +407,20 @@ class PoliAjaxController extends Controller
 
 			$query = "SELECT * FROM icd10s WHERE ";
 			if(!empty($byDiagnosa)) {
-				$query .= "(diagnosaICD like '%" . $byDiagnosaList[0] . "%')";
+				$query .= "(diagnosaICD like '%" . $this->clean( $byDiagnosaList[0] ) . "%')";
 				for ($i = 1; $i < count($byDiagnosaList); $i++) {
-					$query .= " AND (diagnosaICD like '%" . $byDiagnosaList[$i] . "%')";
+					$query .= " AND (diagnosaICD like '%" . $this->clean($byDiagnosaList[$i]) . "%')";
 				}
 			}
 			if (!empty($byICD) && empty($byDiagnosa)) {
-				$query .= "(id like '%" . $byICDlist[0] . "%')";
+				$query .= "(id like '%" . $this->clean($byICDlist[0]) . "%')";
 				for ($i = 1; $i < count($byICDlist); $i++) {
-					$query .= " AND (id like '%" . $byICDlist[$i] . "%')";
+					$query .= " AND (id like '%" . $this->clean($byICDlist[$i]) . "%')";
 				}
 			} else if (!empty($byICD) && !empty($byDiagnosa)) {
-				$query .= " AND (id like '%" . $byICDlist[0] . "%')";
+				$query .= " AND (id like '%" . $this->clean($byICDlist[0]) . "%')";
 				for ($i = 1; $i < count($byICDlist); $i++) {
-					$query .= " AND (id like '%" . $byICDlist[$i] . "%')";
+					$query .= " AND (id like '%" . $this->clean($byICDlist[$i]) . "%')";
 				}
 			}
 
@@ -741,5 +741,14 @@ class PoliAjaxController extends Controller
         $query .= "AND tenant_id = {$tenant_id}";
         return DB::select($query);
     }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function function clean($string) {
+       $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+       return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }    
     
 }

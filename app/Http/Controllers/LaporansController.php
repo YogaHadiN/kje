@@ -2752,4 +2752,71 @@ class LaporansController extends Controller
             'result'
         ));
     }
+    public function pph21TahunanSearch(){
+		$data          = $this->queryDataPph21Tahunan(false);
+		$count         = $this->queryDataPph21Tahunan(false, true);
+		$pages = ceil( $count/ Input::get('displayed_rows') );
+		return [
+			'data'  => $data,
+			'pages' => $pages,
+			'key'   => Input::get('key'),
+			'rows'  => $count
+		];
+
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+	private function queryDataPph21Tahunan(
+		$include_abaikan = false,
+		$count = false
+	){
+		$pass        = Input::get('key') * Input::get('displayed_rows');;
+		$query       = "SELECT ";
+		if (!$count) {
+			$query .= "stf.nama as nama, ";
+			$query .= "bgj.tanggal_dibayar as tanggal_dibayar, ";
+			$query .= "bgj.gaji_pokok as gaji_pokok, ";
+			$query .= "pph.pph21 as pph21 ";
+		} else {
+			$query .= "count(bgj.id) as jumlah ";
+		}
+		$query .= "FROM bayar_gajis as bgj ";
+		$query .= "JOIN stafs as stf on stf.id = bgj.staf_id ";
+		$query .= "JOIN pph21s as pph on pph.pph21able_id = bgj.id and pph.pph21able_type = 'App\\\Models\\\BayarGaji' ";
+		$query .= "WHERE 0=0 ";
+        if ( !empty( Input::get('staf_id') ) ) {
+            $query .= "AND bgj.staf_id =  " . Input::get('staf_id') . " ";
+        }
+        if ( Input::get('bulanTahun') ) {
+            $query .= "AND bgj.tanggal_dibayar like  '" . Input::get('staf_id') . "%' ";
+        }
+        if ( Input::get('gaji_pokok') ) {
+            $query .= "AND bgj.gaji_pokok like  '" . Input::get('gaji_pokok') . "%' ";
+        }
+        if ( Input::get('pph21') ) {
+            $query .= "AND pph.pph21 like  '" . Input::get('pph21') . "%' ";
+        }
+		$query .= "AND bgj.tenant_id = " . session()->get('tenant_id') . " ";
+		/* $query .= "ORDER BY tanggal desc, created_at desc"; */
+
+		if (!$count) {
+			$query .= " LIMIT {$pass}, " . Input::get('displayed_rows'). ";";
+		}
+        $query .= ";";
+
+        if (!empty( Input::get('displayed_rows') )) {
+            $query_result = DB::select($query);
+            if (!$count) {
+                return $query_result;
+            } else {
+                return $query_result[0]->jumlah;
+            }
+        }
+    }
+    
+    
 }
