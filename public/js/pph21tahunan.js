@@ -1,4 +1,4 @@
-search();
+resultsearch();
 var auth_id = $("#auth_id").val();
 var csrf_token = $('meta[name="csrf-token"]').attr("content");
 var timeout;

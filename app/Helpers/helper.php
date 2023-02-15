@@ -354,4 +354,12 @@ if (!function_exists('umur')) {
         }
     }
 }
+if (!function_exists('pph21BulanIni')) {
+    function pph21BulanIni($gaji_bulan_ini, $staf_id){
+
+        $by = new \App\Http\Controllers\BayarGajiController;
+        $by->staf = \App\Models\Staf::find( $staf_id );
+        return round( $by->pph21($gaji_bulan_ini, 0, 4500000)['pph21'] );
+    }
+}
 

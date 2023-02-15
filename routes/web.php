@@ -367,6 +367,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/lapor_pajaks/get_periode_pajak', [\App\Http\Controllers\LaporPajakController::class, 'getPeriodePajak']);
 		Route::get('pajaks/pph21s/{staf_id}/{bulanTahun}', [\App\Http\Controllers\Pph21Controller::class, 'pph21Detil']);
 		Route::get('laporans/pph21/tahunan', [\App\Http\Controllers\LaporansController::class, 'pph21Tahunan']);
+		Route::get('laporans/pph21/revisi/tahunan', [\App\Http\Controllers\LaporansController::class, 'pph21RevisiTahunan']);
+
 		Route::get('laporans/pph21/tahunan/search', [\App\Http\Controllers\LaporansController::class, 'pph21TahunanSearch']);
 
 	});

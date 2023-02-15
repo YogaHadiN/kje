@@ -2723,33 +2723,25 @@ class LaporansController extends Controller
     }
     public function pph21Tahunan(){
         $tahun = Input::get('tahun');
+        $staf_id = Input::get('staf_id');
+        $staf = Staf::find( $staf_id );
         $query  = "SELECT ";
         $query .= "DATE_FORMAT(byg.tanggal_dibayar, '%Y-%M') as periode, ";
         $query .= "stf.nama as nama, ";
         $query .= "stf.id as staf_id, ";
-        $query .= "sum(byg.gaji_pokok + byg.bonus) as gaji_bruto, ";
-        $query .= "sum(pph.pph21) as pph21 ";
+        $query .= "sum(byg.gaji_pokok) as gaji_pokok, ";
+        $query .= "sum(byg.bonus) as bonus, ";
+        $query .= "sum(pph.pph21) as pph ";
         $query .= "FROM bayar_gajis as byg ";
         $query .= "JOIN pph21s as pph on pph.pph21able_id = byg.id and pph21able_type = 'App\\\Models\\\BayarGaji' ";
         $query .= "JOIN stafs as stf on stf.id = byg.staf_id ";
         $query .= "WHERE byg.tanggal_dibayar like '{$tahun}%' ";
+        $query .= "AND byg.staf_id = {$staf_id} ";
         $query .= "GROUP BY byg.staf_id, YEAR(byg.tanggal_dibayar), MONTH(byg.tanggal_dibayar) ";
-        $data = DB::select($query);
-        $result = [];
-        $by = new BayarGajiController;
-        foreach ($data as $d) {
-            $by->staf = Staf::find( $d->staf_id );
-            $pph_riil = $by->pph21($d->gaji_bruto, 0, 4500000);
-            $result[] = [
-                'periode'    => $d->periode,
-                'nama'       => $d->nama,
-                'gaji_bruto' => $d->gaji_bruto,
-                'pph21'      => $d->pph21,
-                'pph21_baru' => round($pph_riil['pph21'])
-            ];
-        }
+        $result = DB::select($query);
         return view('laporans.pph21tahunan', compact(
-            'result'
+            'result',
+            'staf'
         ));
     }
     public function pph21TahunanSearch(){
@@ -2817,6 +2809,45 @@ class LaporansController extends Controller
             }
         }
     }
+    public function pph21RevisiTahunan(){
+        $tahun = Input::get('tahun');
+        $query  = "SELECT ";
+        $query .= "DATE_FORMAT(byg.tanggal_dibayar, '%Y-%M') as periode, ";
+        $query .= "stf.nama as nama, ";
+        $query .= "stf.id as staf_id, ";
+        $query .= "sum(byg.gaji_pokok) as gaji_pokok, ";
+        $query .= "sum(byg.bonus) as bonus, ";
+        $query .= "sum(pph.pph21) as pph ";
+        $query .= "FROM bayar_gajis as byg ";
+        $query .= "JOIN pph21s as pph on pph.pph21able_id = byg.id and pph21able_type = 'App\\\Models\\\BayarGaji' ";
+        $query .= "JOIN stafs as stf on stf.id = byg.staf_id ";
+        $query .= "WHERE byg.tanggal_dibayar like '{$tahun}%' ";
+        $query .= "GROUP BY byg.staf_id, YEAR(byg.tanggal_dibayar), MONTH(byg.tanggal_dibayar) ";
+        $result = DB::select($query);
+        $data = [];
+        foreach ($result as $r) {
+            $data[$r->staf_id]['nama'] = $r->nama;
+            $data[$r->staf_id]['gaji_pokok'] = 
+                isset( $data[$r->staf_id]['gaji_pokok'] ) ? $data[$r->staf_id]['gaji_pokok'] + $r->gaji_pokok : $r->gaji_pokok ;
+            $data[$r->staf_id]['bonus'] = 
+                isset( $data[$r->staf_id]['bonus'] ) ? $data[$r->staf_id]['bonus'] + $r->bonus : $r->bonus ;
+            $data[$r->staf_id]['pph'] = 
+                isset( $data[$r->staf_id]['pph'] ) ? $data[$r->staf_id]['pph'] + $r->pph : $r->pph ;
+            $gaji_bruto = $r->gaji_pokok + $r->bonus;
+            $data[$r->staf_id]['pph_revisi'] = 
+                isset( $data[$r->staf_id]['pph_revisi'] ) ?
+                $data[$r->staf_id]['pph_revisi'] + pph21BulanIni( $gaji_bruto, $r->staf_id ) : 
+                pph21BulanIni( $gaji_bruto, $r->staf_id );
+        }
+
+        /* dd( $data ); */
+        return view('laporans.pph21_revisi_tahunan', compact(
+            'data',
+            'tahun'
+
+        ));
+    }
+    
     
     
 }
