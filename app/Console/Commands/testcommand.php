@@ -124,7 +124,7 @@ class testcommand extends Command
 
 
     public function handle(){
-        dd( idate('H') );
+        $this->hapusPeriksa(344904);
     }
 
 
@@ -2185,7 +2185,7 @@ class testcommand extends Command
 
         foreach ($data as $d) {
             $query = "DELETE from " . $d->TABLE_NAME . " WHERE periksa_id = " . $periksa_id;
-            $data  = DB::statement($query);
+            $data  = DB::delete($query);
             if ($data) {
                 $deleted++;
             }
@@ -2198,7 +2198,7 @@ class testcommand extends Command
             $column_able_type = str_replace('_id', '_type', $d->COLUMN_NAME);
             $column_able_id   = $d->COLUMN_NAME;
             $query  = "DELETE from " . $d->TABLE_NAME . " WHERE " . $column_able_type. " = 'App\\\Models\\\Periksa' and " . $column_able_id. "=" . $periksa_id;
-            $data = DB::statement($query);
+            $data = DB::delete($query);
             if ($data) {
                 $deleted++;
             }
