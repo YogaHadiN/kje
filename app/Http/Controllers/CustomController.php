@@ -437,11 +437,13 @@ class CustomController extends Controller
                                     $odontogram = Odontogram::where('pasien_id', $periksa->pasien_id)
                                                             ->where('taksonomi_gigi_id', $taksonomi_gigi_id)
                                                             ->first();
-                                    $tp->tindakanGigi()->create([
-                                        'odontogram_id'     => $odontogram->id,
-                                        'permukaan_gigi_id' => $tg['permukaan_gigi_id'],
-                                        'matur'             => $odontogram->matur,
-                                    ]);
+                                    if (!is_null( $odontogram )) {
+                                        $tp->tindakanGigi()->create([
+                                            'odontogram_id'     => $odontogram->id,
+                                            'permukaan_gigi_id' => $tg['permukaan_gigi_id'],
+                                            'matur'             => $odontogram->matur,
+                                        ]);
+                                    }
                                 }
                             }
                         }

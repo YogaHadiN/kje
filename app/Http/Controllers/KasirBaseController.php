@@ -124,6 +124,10 @@ class KasirBaseController extends Controller
 
 		$periksa_id            = Input::get('periksa_id');
 		$prx                   = Periksa::find($periksa_id);
+        if (is_null( $prx )) {
+            $pesan = Yoga::gagalFlash('Pasien sudah dilakukan submit kasir');
+            return redirect()->back()->withPesan($pesan);
+        }
 		$prx->jam_selesai_obat = date('H:i:s');
 		$prx->save();
 
