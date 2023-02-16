@@ -1,4 +1,8 @@
 refreshResumeKeadaanGigi();
+var focus_evolusi_gigi;
+function focusEvolusiGigi(control) {
+    focus_evolusi_gigi = $(control).val();
+}
 $("#odontogramEditor").on("shown.bs.modal", function (e) {
     $("#odontogramEditorTab a:first").tab("show");
 });
@@ -107,7 +111,7 @@ function submitKeadaanGigi(control) {
                 "Odontogram harus diisi"
             );
         }
-        if (evolusi_gigi == "" || evolusi_gigi == null) {
+        if (!evolusi_gigi) {
             validasi1(
                 $("#odontogramEditor")
                     .find(".modal-body")
@@ -318,20 +322,30 @@ function viewKeadaanGigi() {
 }
 function updateEvolusiGigi(control) {
     var evolusi_gigi = $(control).val();
-    var odontogram_id = $("#odontogramEditor")
-        .find(".modal-body")
-        .find(".odontogram_id")
-        .val();
-    $.post(
-        base + "/polis/ajax/update/ovolusi_gigi",
-        {
-            odontogram_id: odontogram_id,
-            evolusi_gigi: evolusi_gigi,
-        },
-        function (data, textStatus, jqXHR) {
-            viewDataResumeKeadaanGigi(data);
-        }
-    );
+    if (evolusi_gigi) {
+        var odontogram_id = $("#odontogramEditor")
+            .find(".modal-body")
+            .find(".odontogram_id")
+            .val();
+        $.post(
+            base + "/polis/ajax/update/ovolusi_gigi",
+            {
+                odontogram_id: odontogram_id,
+                evolusi_gigi: evolusi_gigi,
+            },
+            function (data, textStatus, jqXHR) {
+                viewDataResumeKeadaanGigi(data);
+            }
+        );
+        focus_evolusi_gigi = $(control).val();
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "evolusi gigi harus terisi",
+        });
+        $(control).val(focus_evolusi_gigi);
+    }
 }
 function removeKeadaanGigi(control) {
     Swal.fire({

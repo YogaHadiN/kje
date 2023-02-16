@@ -129,10 +129,10 @@ console.log( 'base_s3_wa', base_s3_wa );
 {!! HTML::script('js/gambar_periksa.js')!!} 
 <script src="{!! asset('js/panggil.js') !!}"></script>
 <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
-{!! HTML::script('js/allpoli.js?ver=123')!!} 
+{!! HTML::script('js/allpoli.js?ver=23')!!} 
 {!! HTML::script('js/alergi.js')!!} 
 {!! HTML::script('js/perhatian_khusus.js')!!} 
-{!! HTML::script('js/odontogram.js')!!} 
+{!! HTML::script('js/odontogram.js?ver=123')!!} 
 
 <script>
     afiCount();

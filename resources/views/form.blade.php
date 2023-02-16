@@ -681,7 +681,8 @@
                                                       ] , null, [
                                                         'class' => 'form-control evolusi_gigi',
                                                         'placeholder' => '- Pilih -',
-                                                        'onchange' => 'updateEvolusiGigi(this);return false;'
+                                                        'onchange' => 'updateEvolusiGigi(this);return false;',
+                                                        'onfocus' => 'focusEvolusiGigi(this);return false;'
                                                   ]) !!}
                                                       @if($errors->has('gigi_tetap'))<code>{!! $errors->first('gigi_tetap') !!}</code>@endif
                                                     </div>
