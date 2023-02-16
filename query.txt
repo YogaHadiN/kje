@@ -1,1 +1,14 @@
-Transfer dari PT. BANK CIMB NIAGA TBK ASURANSI RELIANCE INDONESIA EL PROV MANUAL 221004168766 2023021421
+aturan_minum
+cunam_id
+exp_date
+harga_beli_satuan
+harga_jual_satuan
+id
+jumlah
+merek
+merek_id
+periksa_id
+signa
+tenant_id
+created_at
+updated_at

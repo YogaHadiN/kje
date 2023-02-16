@@ -5,6 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Auth;
 use Carbon\Carbon;
+use Log;
 
 class ExpDateHarusFormatTahunBulan implements Rule
 {
@@ -38,6 +39,9 @@ class ExpDateHarusFormatTahunBulan implements Rule
                     try {
                         Carbon::createFromFormat('Y-m', $t['exp_date']);
                     } catch (\Exception $e) {
+                        Log::info("==========================");
+                        Log::info($t['exp_date']);
+                        Log::info("==========================");
                         $valid_format = false;
                     }
                 }

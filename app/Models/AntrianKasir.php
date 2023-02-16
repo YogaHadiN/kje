@@ -27,7 +27,11 @@ class AntrianKasir extends Model
                 Log::info('created_at = ' . $periksa->created_at);
                 Log::info('updated_at = ' . $periksa->updated_at);
                 Log::info('=================================');
-            } 
+            } else {
+                Log::info('=================================');
+                Log::info('Not null');
+                Log::info('=================================');
+            }
         });
     }
     

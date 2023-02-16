@@ -77,6 +77,30 @@ class Periksa extends Model{
     public function terapii(){
         return $this->hasMany('App\Models\Terapi');
     }
+    public function getTerapiapotekAttribute(){
+        $terapis = $this->terapii;
+        $result = [];
+        foreach ($terapis as $terapi) {
+            $result[] = [
+                'aturan_minum'      => $terapi->aturan_minum,
+                'cunam_id'          => $terapi->cunam_id,
+                'exp_date'          => Carbon::parse( $terapi->exp_date )->format('Y-m'),
+                'harga_beli_satuan' => $terapi->harga_beli_satuan,
+                'harga_jual_satuan' => $terapi->harga_jual_satuan,
+                'id'                => $terapi->id,
+                'jumlah'            => $terapi->jumlah,
+                'merek'             => $terapi->merek,
+                'merek_id'          => $terapi->merek_id,
+                'periksa_id'        => $terapi->periksa_id,
+                'signa'             => $terapi->signa,
+                'tenant_id'         => $terapi->tenant_id,
+                'created_at'        => $terapi->created_at,
+                'updated_at'        => $terapi->updated_at,
+                'merek'             => $terapi->merek
+            ];
+        }
+        return $result;
+    }
     public function transaksii(){
         return $this->hasMany('App\Models\TransaksiPeriksa');
     }

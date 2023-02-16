@@ -82,14 +82,12 @@
                                        <p>Resep ditebut di apotek di Luar :</p>
                                        {!! $periksa->resepluar !!}
                                    @endif
-                                   
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             @endif
-
         </div>
     </div>
 </div>
@@ -189,7 +187,7 @@
                                                     $terapi->adaKadaluarsa &&
                                                     \Auth::user()->tenant->exp_date_validation_available
                                                     )
-                                                {!! Form::text('exp_date', $terapi->exp_date, [
+                                                    {!! Form::text('exp_date', !is_null( $terapi->exp_date )?\Carbon\Carbon::parse( $terapi->exp_date )->format('Y-m') : null, [
                                                     'class' => 'form-control rq exp_date',
                                                     'onblur' => 'expDateChange(this);return false',
                                                     'onfocus' => 'focusExpDate(this);return false;'
@@ -250,10 +248,10 @@
             </div>
            <div class="row hide">
                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                   {!! Form::textarea('terapi_awal', $periksa->terapii, ['class' => 'form-control hide', 'id' => 'terapi_awal']) !!}
+                   {!! Form::textarea('terapi_awal', json_encode( $periksa->terapiapotek ), ['class' => 'form-control', 'id' => 'terapi_awal']) !!}
                </div>
                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                   {!! Form::textarea('terapi1', $periksa->terapii, ['class' => 'form-control', 'id' => 'terapi1']) !!}
+                   {!! Form::textarea('terapi1', json_encode( $periksa->terapiapotek ), ['class' => 'form-control', 'id' => 'terapi1']) !!}
                </div>
                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                    {!! Form::textarea('terapi2', null, ['class' => 'form-control', 'id' => 'terapi2'])!!} 

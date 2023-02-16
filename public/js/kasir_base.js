@@ -289,7 +289,6 @@ function expDateChange(control) {
             var key = $(control).closest("tr").find(".key").html();
             var terapi = parseTerapi();
             terapi[key].exp_date = $(control).val();
-            console.log("key, terapi", key, terapi);
             $("#terapi1").val(JSON.stringify(terapi));
             $("#terapi2").val(JSON.stringify(terapi));
         } else {
