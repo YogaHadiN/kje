@@ -441,7 +441,7 @@ class CustomController extends Controller
                                         $tp->tindakanGigi()->create([
                                             'odontogram_id'     => $odontogram->id,
                                             'permukaan_gigi_id' => $tg['permukaan_gigi_id'],
-                                            'matur'             => $odontogram->matur,
+                                            'matur'             => is_null( $odontogram->matur )? 1 : $odontogram->matur
                                         ]);
                                     }
                                 }
