@@ -84,7 +84,7 @@ class Periksa extends Model{
             $result[] = [
                 'aturan_minum'      => $terapi->aturan_minum,
                 'cunam_id'          => $terapi->cunam_id,
-                'exp_date'          => Carbon::parse( $terapi->exp_date )->format('Y-m'),
+                'exp_date'          => !is_null( $terapi->exp_date )?Carbon::parse( $terapi->exp_date )->format('Y-m') : null,
                 'harga_beli_satuan' => $terapi->harga_beli_satuan,
                 'harga_jual_satuan' => $terapi->harga_jual_satuan,
                 'id'                => $terapi->id,
