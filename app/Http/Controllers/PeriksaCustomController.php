@@ -174,11 +174,20 @@ class PeriksaCustomController extends Controller
      */
     private function coa_id_asuransi_tidak_ditemukan_saat_piutang_periksa_tidak_nol($jurnals, $periksa) {
         $asuransi = Asuransi::find($periksa['asuransi_id']);
+        $coa_id_asuransi_ditemukan = false;
         foreach ($jurnals as $jurnal) {
-            if ( $jurnal['coa_id'] == $asuransi->coa_id) {
-                return false;
+            if (
+                 $jurnal['coa_id'] == $asuransi->coa_id && $periksa['piutang']
+            ) {
+                $coa_id_asuransi_ditemukan = true;
                 break;
             } 
+        }
+        if (
+            $coa_id_asuransi_ditemukan && $periksa['piutang'] ||
+            !$coa_id_asuransi_ditemukan && !$periksa['piutang']
+        ) {
+            return false;
         }
         return true;
     }

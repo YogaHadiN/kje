@@ -898,7 +898,7 @@ class PeriksasController extends Controller
 		}
 	}
 	public function cariByAsuransiByPeriode($asuransi_id, $from, $until){
-		$periksas = Periksa::with('pasien', 'asuransi')
+		$periksas = Periksa::with('pasien', 'asuransi', 'pembayarans')
 			->where('asuransi_id', $asuransi_id)
 			->whereBetween('tanggal',[ $from, $until ])
 			->get();

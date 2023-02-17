@@ -299,7 +299,7 @@
 
 @section('footer') 
 <script src="{!! asset('js/jurnalManual.js') !!}"></script>
-<script src="{!! asset('js/transaksiPeriksaEdit.js') !!}"></script>
+<script src="{!! asset('js/transaksiPeriksaEdit.js?ver=123') !!}"></script>
 @stop
 
 	

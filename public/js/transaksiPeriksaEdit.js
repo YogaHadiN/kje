@@ -90,7 +90,7 @@ function refreshTunaiPiutang(control) {
                     $("#totalTransaksiTunai").val(uang(total_transaksi));
                     piutang = 0;
                     $("#totalTransaksiPiutang").val(uang(piutang));
-                } else if (tunai == "") {
+                } else if (!tunai) {
                     tunai = 0;
                     piutang = total_transaksi;
                     $("#totalTransaksiTunai").val(uang(tunai));
@@ -108,7 +108,11 @@ function refreshTunaiPiutang(control) {
                             jurnals[i]["coa"]["kode_coa"] ==
                             data["kode_coa_asuransi"]
                         ) {
-                            jurnals[i]["nilai"] = piutang;
+                            if (piutang) {
+                                jurnals[i]["nilai"] = piutang;
+                            } else {
+                                jurnals.splice(i, 1);
+                            }
                         }
 
                         if (jurnals[i]["coa"]["kode_coa"] == 110000) {
