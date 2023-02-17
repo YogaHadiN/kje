@@ -9,7 +9,7 @@
 	}
 	@page 
 	.font-smaller {
-	  font-size: 12px;
+	  font-size: 15px;
 	}
 	.text-center {
 		text-align: center;
@@ -23,7 +23,7 @@
 		padding: 0;
 		font-family: "Lucida Console", "Courier New", monospace;
         page-break-inside: avoid;
-		font-size: 14px;
+		font-size: 11px;
 	}
 	.underline {
 		border-bottom: 1px solid black;
