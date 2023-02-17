@@ -9,7 +9,7 @@
 	}
 	@page 
 	.font-smaller {
-	  font-size: 15px;
+	  font-size: 12px;
 	}
 	.text-center {
 		text-align: center;
