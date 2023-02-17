@@ -23,7 +23,7 @@
 		padding: 0;
 		font-family: "Lucida Console", "Courier New", monospace;
         page-break-inside: avoid;
-		font-size: 11px;
+		font-size: 12px;
 	}
 	.underline {
 		border-bottom: 1px solid black;
