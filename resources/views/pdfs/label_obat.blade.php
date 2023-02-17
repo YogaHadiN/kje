@@ -84,16 +84,18 @@
                             @endif
                         </td>
 					</tr>
-                    @if( !is_null( $terapi->exp_date ) )
-                    <tr>
-                        <td colspan="2" class="aturan_minum text-center"> exp date : {{ $terapi->exp_date->format('d M Y') }}</td>
-					</tr>
-                    @elseif(
+                    @if(
                         str_contains(strtolower($terapi->merek->merek), 'puyer'  ) ||
                         str_contains(strtolower($terapi->merek->merek), 'add'  )
                     )
                     <tr>
                         <td colspan="2" class="aturan_minum text-center"><i>Hanya dikonsumsi dalam 7 hari sejak diracik</i></td>
+					</tr>
+                    @else
+                    <tr>
+                        <td colspan="2" class="aturan_minum text-center">
+                             exp date : {{ $terapi->exp_date->format('d M Y') }}
+                        </td>
 					</tr>
                     @endif
 				</table>
