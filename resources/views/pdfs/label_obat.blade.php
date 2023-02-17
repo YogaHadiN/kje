@@ -94,7 +94,7 @@
                     @else
                     <tr>
                         <td colspan="2" class="aturan_minum text-center">
-                             exp date : {{ $terapi->exp_date->format('d M Y') }}
+                            exp date : {{ !is_null( $terapi->exp_date )?$terapi->exp_date->format('d M Y') : '' }}
                         </td>
 					</tr>
                     @endif
