@@ -15,7 +15,7 @@
 		text-align: center;
 	}
 	.h1  {
-		font-size: 20px;
+		font-size: 17px;
 			font-weight: bold;
 	}
 	table {
