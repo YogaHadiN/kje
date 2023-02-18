@@ -3,6 +3,7 @@
 	<meta charset="UTF-8">
 	<title>{{ ucwords( \Auth::user()->tenant->name ) }} | Kuitansi</title>
     <style>
+        table {border: none;}
         @page 
         {
             margin: 2em;
@@ -17,17 +18,18 @@
       font-size: 9px;
     }
     .pt-8 {
-        padding-top: 8px;
-    }
-    .content1 td, .content1 th{
-        border: none
+        padding-top: 4px;
     }
 
     .text-right {
         text-align: right;
     }
 
-    .border-all {
+    .border-all td{
+        border:0.5px solid black;
+        padding:5px;
+    }
+    .border-all th {
         border:0.5px solid black;
         padding:5px;
     }
@@ -36,12 +38,9 @@
             text-align:center;
             font-size:20px;
             font-weight:bold;
-            border-bottom: 2px solid black;
         }
         .content2 {
             padding:10px;
-            border-collapse: collapse;
-            border: 1px solid black;
         }
         table{
     border-spacing: -1px;
@@ -100,7 +99,6 @@
 
         .rujukan0 {
             padding-right:20px;
-            border-right: 1px solid #000000;
         }
 
         .rujukan1 {
@@ -108,7 +106,6 @@
         }
         .sakit0 {
             padding-right:20px;
-            border-right: 1px solid #000000;
             color:#fff;
         }
 
@@ -131,7 +128,6 @@
         }
 
         .foot-note {
-            border:1px solid black;
             text-align: center;
             margin-top: 10px;
         }
@@ -177,7 +173,6 @@
             padding: 3px 0px;
         }
         .alert{
-            border : 0.5px solid #000000;
             padding: 5px;
         }
 
@@ -189,12 +184,6 @@
             font-weight: bold;
         }
 
-        .border td, .border th{
-            border : 0.5px solid black;
-        }
-        .noBorder td, .noBorder th{
-            border : none;
-        }
 
         #qc{
             height: 50px;
@@ -204,10 +193,6 @@
         }
         table {
             border-collapse : collapse;
-        }
-        table td{
-            border-collapse : collapse;
-            border : 0.1px solid #2f4050;
         }
         table{
              font-size:9px !important;
@@ -223,20 +208,29 @@
         border:none;
     }
 
+	.status
+	{
+		text-align:center;
+		font-size:16px !important;
+		font-weight:bold;
+	}
+    .bb {
+		border-bottom: 2px solid black;
+    }
+
     </style>
 </head>
 <body style="font-size:12px; font-family:sans-serif">
 	<div style="" class="bottom">
 		<table width="100%">
 			<tr>
-				<table id="header no-border">
+				<table width="100%" class="status bb">
                     <tr>
-                        <td class="text-center">
-                            <div class="klinik">{{ \Auth::user()->tenant->name }} </div>
-                            <div class="title">
-                                Jl. Raya Legok - Parung Panjang km. 3, <br>
-                                Malangnengah, Pagedangan, Tangerang, Banten 021 5977529
-                            </div>
+                        <td nowrap class="text-left">
+                            {{ \Auth::user()->tenant->name }}
+                        </td>
+                        <td nowrap colspan="3" class="text-right">
+                            KUITANSI - {!! $periksa->id !!}
                         </td>
                     </tr>
                 </table>
@@ -245,10 +239,7 @@
 	</div>
 	<table style="width:100%">
 		<tr>
-			<td colspan="2" class="status">KUITANSI - {!! $periksa->id !!}</td>
-		</tr>
-		<tr>
-			<td>
+			<td class="bb">
 				<table style="width:100%" class="content1">
 					<tbody>
 						<tr>
@@ -264,13 +255,13 @@
 					</tbody>
 				</table>
 			</td>
-			<td>
+			<td class="bb">
 				<table style="width:100%" class="content1">
 					<tbody>
 						<tr>
 							<td>Diperiksa Oleh</td>
 							<td>:</td>
-							<td>{!! $periksa->staf->nama !!}</td>
+							<td>{!! tambahkanGelar( 'dr' , $periksa->staf->nama ) !!}</td>
 						</tr>
 						<tr>
 							<td>No Asuransi</td>
@@ -284,19 +275,19 @@
 		<tr>
 			<td class="content2">
                 <strong class="detail">Rincian Biaya Obat</strong> <br></br> 
-                <table width="100%" class="pt-8">
+                <table width="100%" class="pt-8 border-all">
                     <thead>
                         <tr>
-                            <th class="border-all">
+                            <th>
                                 Merek
                             </th>
-                            <th class="border-all">
+                            <th>
                                 Jumlah
                             </th>
-                            <th class="border-all">
+                            <th>
                                 Harga Satuan
                             </th>
-                            <th class="border-all">
+                            <th>
                                 Harga Total
                             </th>
                         </tr>
@@ -307,7 +298,7 @@
                         @endphp
                         @foreach( $periksa->terapii as $terapi )
                             <tr>
-                                <td>{{ $terapi->merek->merek }}</td>
+                                <td>{{  $terapi->merek->merek == 'Add Sirup' ? 'Biaya Racik' : $terapi->merek->merek }}</td>
                                 <td class="text-right">{{ $terapi->jumlah }}</td>
                                 <td class="text-right">{{ buatrp( $terapi->harga_jual_satuan ) }}</td>
                                 <td class="text-right">{{ buatrp(   $terapi->harga_jual_satuan * $terapi->jumlah  ) }}</td>
@@ -326,7 +317,7 @@
 				</table>
                 <br></br>
                 <strong class="detail">Rincian Biaya Pelayanan</strong> <br></br> 
-				<table width="100%">
+				<table width="100%" class="border-all">
 					<tbody>
                         @php
                             $total_biaya_transaksi = 0;
@@ -350,15 +341,24 @@
 					</tfoot>
 
 				</table>
-                <div class="pt-8">Terbilang : {!! $periksa->terbilang !!}</div>
+                <div class="pt-8">
+                    <br>
+                    Terbilang : 
+                    <br>
+                    <br>
+                    <h3>
+                        {!! $periksa->terbilang !!}
+                    </h3>
+                </div>
 			</td>
 
 			<td class="content1">
 					<strong>RESEP :</strong> <br>
-					{!! $periksa->terapi_htmll !!}
+					{!! $periksa->terapi_htmlll !!}
+                    <br></br>
+                <div class="text-right bold pt-8">Tangerang, {!! \Carbon\Carbon::parse($periksa->tanggal)->format('d M Y') !!}</div>
 			</td>
 		</tr>
 	</table>
-    <div class="text-right bold pt-8">Tangerang, {!! \Carbon\Carbon::parse($periksa->tanggal)->format('d M Y') !!}</div>
 </body>
 </html>
