@@ -38,7 +38,11 @@ Klinik Jati Elok | Cek List Dikerjakan By Tanggal
                                 <td>{{ $cek->cekListRuangan->cekList->cek_list }}</td>
                                 <td>{{ $cek->jumlah }}</td>
                                 <td class="w-30-percent">
-                                    <p> <img src="{{ \Storage::disk('s3')->url($cek->image) }}" alt="" class="img-rounded upload"> </p>
+                                    <p>
+                                        <a href="{{ \Storage::disk('s3')->url($cek->image) }}" target="_blank"> 
+                                            <img src="{{ \Storage::disk('s3')->url($cek->image) }}" alt="" class="img-rounded upload"> 
+                                        </a>
+                                    </p>
                                 </td>
                                 <td nowrap class="autofit">
 

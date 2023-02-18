@@ -8,7 +8,7 @@
 
     </head>
     <body>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box title-print text-center border-bottom">
                 <h1>{{ ucwords( \Auth::user()->tenant->name ) }}</h1>
                 <h5>

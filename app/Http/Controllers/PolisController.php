@@ -756,8 +756,7 @@ class PolisController extends Controller
      *
      * @return void
      */
-    private function ingatKanYangNgantriDiAntrianPeriksa($antrian)
-    {
+    private function ingatKanYangNgantriDiAntrianPeriksa($antrian){
         $antrians = Antrian::whereRaw('
                                     antriable_type = "App\\\Models\\\AntrianPeriksa" or
                                     antriable_type = "App\\\Models\\\AntrianPoli" or

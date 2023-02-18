@@ -1,0 +1,12 @@
+#header {
+    font-size: 30px !important;
+}
+.klinik {
+    font-size: 30px !important;
+}
+
+* {
+    font-size: 30px !important;
+    padding: 2px;
+    margin: 2px;
+}

@@ -163,7 +163,10 @@ class KasirBaseController extends Controller
 			//rubah harga obat sesuai dengan terapi yang sudah diubah
 			//
 			//
-			if ($prx->poli->poli != 'Poli Estetika') {
+            if (
+                $prx->poli->poli != 'Poli Estetika' &&
+                $prx->asuransi->tipe_asuransi_id != 3
+            ) {
 				$hargaObat = Yoga::rataAtas5000( $hargaObat );
 			}
 
