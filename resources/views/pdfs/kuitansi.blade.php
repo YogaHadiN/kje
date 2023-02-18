@@ -354,7 +354,7 @@
 
 			<td class="content1">
 					<strong>RESEP :</strong> <br>
-					{!! $periksa->terapi_htmlll !!}
+					{!! $periksa->terapi_htmllll !!}
                     <br></br>
                 <div class="text-right bold pt-8">Tangerang, {!! \Carbon\Carbon::parse($periksa->tanggal)->format('d M Y') !!}</div>
 			</td>
