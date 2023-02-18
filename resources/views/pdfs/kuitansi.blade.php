@@ -26,11 +26,11 @@
     }
 
     .border-all td{
-        border:0.5px solid black;
+        border:1px solid black;
         padding:5px;
     }
     .border-all th {
-        border:0.5px solid black;
+        border:1px solid black;
         padding:5px;
     }
         .status
