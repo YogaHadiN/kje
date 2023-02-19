@@ -20,6 +20,7 @@ class CekListHariansController extends Controller
     
     public function index(){
         $ruangans = CekListRuangan::where('frekuensi_cek_id', 1)->groupBy('ruangan_id')->get();
+
         $query  = "SELECT date(cld.created_at) as tanggal ";
         $query .= "FROM cek_list_dikerjakans as cld ";
         $query .= "JOIN cek_list_ruangans as clg on clg.id = cld.cek_list_ruangan_id ";
@@ -27,9 +28,9 @@ class CekListHariansController extends Controller
         $query .= "GROUP BY date(cld.created_at) ";
         $query .= "ORDER BY cld.id desc;";
         $cek_list_dikerjakans_by_tanggal = DB::select($query);
+
         return view('cek_list_harians.index', compact(
-            'ruangans',
-            'cek_list_dikerjakans_by_tanggal'
+            'ruangans'
         ));
     }
     public function show($ruangan_id){
@@ -131,6 +132,58 @@ class CekListHariansController extends Controller
                                                         ->get();
         return $this->cek_list_ruangan_harians->count() !== $cek_list_harians_dikerjakans->count();
     
+    }
+
+    public function search(){
+		$data          = $this->queryData();
+		$count         = $this->queryData(true);
+		$pages = ceil( $count/ Input::get('displayed_rows') );
+		return [
+			'data'  => $data,
+			'pages' => $pages,
+			'key'   => Input::get('key'),
+			'rows'  => $count
+		];
+    }
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    private function queryData($count = false){
+        $tanggal          = Input::get('tanggal');
+        $displayed_rows = Input::get('displayed_rows');
+        $key            = Input::get('key');
+		$pass           = $key * $displayed_rows;
+
+		$query  = "SELECT ";
+		if (!$count) {
+            $query .= "date(cld.created_at) as tanggal ";
+		} else {
+			$query .= "count(cld.id) as jumlah ";
+		}
+        $query .= "FROM cek_list_dikerjakans as cld ";
+        $query .= "JOIN cek_list_ruangans as clg on clg.id = cld.cek_list_ruangan_id ";
+        $query .= "WHERE clg.frekuensi_cek_id = 1 ";
+        if (!empty( $tanggal )) {
+            $query .= "AND cld.created_at like '{$tanggal}%' ";
+        }
+		$query .= "AND cld.tenant_id = " . session()->get('tenant_id') . " ";
+        $query .= "GROUP BY date(cld.created_at) ";
+		if (!$count) {
+            $query .= "ORDER BY cld.id desc ";
+			$query .= " LIMIT {$pass}, {$displayed_rows}";
+		}
+		$query .= ";";
+
+        if (!empty( $displayed_rows )) {
+            $query_result = DB::select($query);
+            if (!$count) {
+                return $query_result;
+            } else {
+                return $query_result[0]->jumlah;
+            }
+        }
     }
 }
 

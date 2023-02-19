@@ -35,7 +35,11 @@ Klinik Jati Elok | Cek List Dikerjakan By Tanggal
                             <tr>
                                 <td>{{ $cek->created_at->format('d M Y') }}</td>
                                 <td>{{ $cek->cekListRuangan->ruangan->nama }}</td>
-                                <td>{{ $cek->cekListRuangan->cekList->cek_list }}</td>
+                                <td>
+                                    <a href="{{ url('cek_list_dikerjakans/byCekListRuangan/' . $cek->cek_list_ruangan_id ) }}" target="_blank">
+                                        {{ $cek->cekListRuangan->cekList->cek_list }}
+                                    </a>
+                                </td>
                                 <td>{{ $cek->jumlah }}</td>
                                 <td class="w-30-percent">
                                     <p>

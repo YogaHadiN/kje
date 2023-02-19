@@ -110,8 +110,13 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 	Route::get('cek_list_dikerjakans/byTanggal/{tanggal}', [\App\Http\Controllers\CekListDikerjakanController::class, 'byTanggal']);
+	Route::get('cek_list_dikerjakans/byCekListRuangan/{id}', [\App\Http\Controllers\CekListDikerjakanController::class, 'byCekListRuangan']);
+
 	Route::resource('cek_list_bulanans', \App\Http\Controllers\CekListBulananController::class);
 	Route::get('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'index']);
+	Route::get('cek_list_harians/byTanggal/search', [\App\Http\Controllers\CekListHariansController::class, 'search']);
+
+
 	Route::post('cek_list_harians', [\App\Http\Controllers\CekListHariansController::class, 'store']);
 	Route::get('cek_list_harians/create', [\App\Http\Controllers\CekListHariansController::class, 'create']);
 	Route::get('cek_list_harians/{ruangan_id}', [\App\Http\Controllers\CekListHariansController::class, 'show']);

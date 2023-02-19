@@ -15,4 +15,14 @@ class CekListDikerjakanController extends Controller
             'cek_list_dikerjakans'
         ));
     }
+    public function byCekListRuangan($id){
+        $ceks = CekListDikerjakan::with(
+                                        'cekListRuangan.ruangan'
+                                    )
+                                    ->where('cek_list_ruangan_id', $id)
+                                    ->orderBy('id', 'desc')
+                                    ->paginate(10);
+        return view('cek_list_dikerjakans.by_cek_list_ruangan', compact('ceks'));
+    }
+    
 }
