@@ -30,7 +30,9 @@ Klinik Jati Elok | Cek List By Cek List Ruangan
             </thead>
             <tbody>
                 @foreach( $ceks as $c )
-                    <tr>
+                    <tr 
+                            @if( $c->danger ) class='danger' @endif
+                        >
                         <td nowrap>{{ $c->created_at->format( 'Y-m-d' ) }}</td>
                         <td>{{ $c->jumlah }}</td>
                         <td>

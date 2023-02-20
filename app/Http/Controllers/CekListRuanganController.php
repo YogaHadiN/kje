@@ -46,7 +46,7 @@ class CekListRuanganController extends Controller
             return $this->valid( Input::all() );
         }
         $cek_list_ruangan = CekListRuangan::find($id);
-        $cek_list_ruangan = $this->processData($cek_list_ruangan, $id);
+        $cek_list_ruangan = $this->processData($cek_list_ruangan, $cek_list_ruangan->ruangan_id);
 
         $pesan = Yoga::suksesFlash('CekListRuangan berhasil diupdate');
         return redirect('cek_list_ruangans/' . $cek_list_ruangan->ruangan_id)->withPesan($pesan);
