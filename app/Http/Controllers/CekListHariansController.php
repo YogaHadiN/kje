@@ -26,7 +26,7 @@ class CekListHariansController extends Controller
         return view('cek_list_harians.index', compact(
             'ruangans',
             'frekuensi_id',
-            'cek_list_harians'
+            'cek_lists'
         ));
     }
     public function show($ruangan_id){
