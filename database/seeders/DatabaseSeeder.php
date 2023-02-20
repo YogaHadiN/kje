@@ -13,11 +13,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        foreach (CekListDikerjakan::all() as $cek) {
-            if (!$cek->cekListRuangan) {
-                $cek->delete();
-            }
-        }
     }
 }
 

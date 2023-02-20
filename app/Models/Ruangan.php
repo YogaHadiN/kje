@@ -61,5 +61,15 @@ class Ruangan extends Model
             return 'belom';
         }
     }
+    public static function boot(){
+        parent::boot();
+        self::deleting(function($model){
+            if ( $this->cekListRuangan->count() ) {
+                $pesan = Yoga::gagalFlash('Tidak bisa menghapus ruangan, karena masih digunakan untuk Cek List Ruangan');
+                return redirect()->back()->withPesan($pesan);
+            }
+        });
+    }
+    
     
 }
