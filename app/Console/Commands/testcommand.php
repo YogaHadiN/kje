@@ -124,7 +124,16 @@ class testcommand extends Command
 
 
     public function handle(){
-        $this->hapusPeriksa(344904);
+        $hari_ini = date('Y-m-d');
+        $antrians = Antrian::whereRaw('
+                                    (antriable_type = "App\\\Models\\\AntrianPeriksa" or
+                                    antriable_type = "App\\\Models\\\AntrianPoli" or
+                                    antriable_type = "App\\\Models\\\Antrian")
+                                ')
+                                ->where('created_at', 'like', $hari_ini . '%')
+                                ->where('tenant_id',1)
+                                ->get();
+        dd( $antrians->count() );
     }
 
 

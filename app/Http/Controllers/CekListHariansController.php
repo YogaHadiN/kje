@@ -19,18 +19,14 @@ class CekListHariansController extends Controller
     public $cek_list_ruangan_harians;
     
     public function index(){
-        $ruangans = CekListRuangan::where('frekuensi_cek_id', 1)->groupBy('ruangan_id')->get();
-
-        $query  = "SELECT date(cld.created_at) as tanggal ";
-        $query .= "FROM cek_list_dikerjakans as cld ";
-        $query .= "JOIN cek_list_ruangans as clg on clg.id = cld.cek_list_ruangan_id ";
-        $query .= "WHERE clg.frekuensi_cek_id = 1 ";
-        $query .= "GROUP BY date(cld.created_at) ";
-        $query .= "ORDER BY cld.id desc;";
-        $cek_list_dikerjakans_by_tanggal = DB::select($query);
+        $frekuensi_id =1;
+        $ruangans = CekListRuangan::where('frekuensi_cek_id', $frekuensi_id)->groupBy('ruangan_id')->get();
+        $cek_lists = CekListRuangan::where('frekuensi_cek_id', $frekuensi_id)->get();
 
         return view('cek_list_harians.index', compact(
-            'ruangans'
+            'ruangans',
+            'frekuensi_id',
+            'cek_list_harians'
         ));
     }
     public function show($ruangan_id){

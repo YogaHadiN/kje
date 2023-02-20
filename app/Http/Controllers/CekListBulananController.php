@@ -14,17 +14,13 @@ class CekListBulananController extends Controller
 {
     public $no_telp;
     public function index(){
-        $ruangans = CekListRuangan::where('frekuensi_cek_id', 3)->groupBy('ruangan_id')->get(); //bulanan
-        $query  = "SELECT date(cld.created_at) as tanggal ";
-        $query .= "FROM cek_list_dikerjakans as cld ";
-        $query .= "JOIN cek_list_ruangans as clg on clg.id = cld.cek_list_ruangan_id ";
-        $query .= "WHERE clg.frekuensi_cek_id = 3 ";
-        $query .= "GROUP BY date(cld.created_at) ";
-        $query .= "ORDER BY cld.id desc;";
-        $cek_list_dikerjakans_by_tanggal = DB::select($query);
-        $bulanan = true;
+        $frekuensi_id = 3;
+        $ruangans  = CekListRuangan::where('frekuensi_cek_id', $frekuensi_id)->groupBy('ruangan_id')->get();
+        $cek_lists = CekListRuangan::where('frekuensi_cek_id', $frekuensi_id)->get();
         return view('cek_list_harians.index', compact(
-            'ruangans', 'cek_list_dikerjakans_by_tanggal', 'bulanan'
+            'ruangans', 
+            'frekuensi_id', 
+            'cek_lists'
         ));
     }
     public function create(){

@@ -5,7 +5,7 @@
 
 @stop
 @section('page-title') 
-<h2>Cek List Harian</h2>
+<h2>Cek List {{ $frekuensi_id == 1? 'Harian' : 'Bulanan' }}</h2>
 <ol class="breadcrumb">
             <li>
                 <a href="{{ url('laporans')}}">Home</a>
@@ -29,13 +29,54 @@
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#hari_ini" aria-controls="hari_ini" role="tab" data-toggle="tab">Hari Ini</a></li>
+            <li role="presentation" class="active">
+                <a href="#cek_list_harians" aria-controls="cek_list_harians" role="tab" data-toggle="tab">
+                    Cek List {{ $frekuensi_id == 1? 'Harian' : 'Bulanan' }}
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#hari_ini" aria-controls="hari_ini" role="tab" data-toggle="tab">
+                    {{ $frekuensi_id == 1? 'Hari' : 'Bulan' }} Ini
+                </a>
+            </li>
             <li role="presentation"><a href="#perTanggal" aria-controls="perTanggal" role="tab" data-toggle="tab">Per Tanggal</a></li>
         </ul>
 
             <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="hari_ini">
+            <div role="tabpanel" class="tab-pane active" id="cek_list_harians">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-condensed table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Ruangan</th>
+                                    <th>Cek List</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($cek_lists->count() > 0)
+                                    @foreach($cek_lists as $k => $cek)
+                                        <tr>
+                                            <td>{{ $k + 1 }}</td>
+                                            <td>{{ $cek->ruangan->nama }}</td>
+                                            <td>{{ $cek->cekList->cek_list }}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="2" class="text-center">
+                                            Tidak ada data untuk ditampilkan
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="hari_ini">
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed table-bordered">
                         <thead>

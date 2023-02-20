@@ -33,5 +33,4 @@ class CekListRuangan extends Model
                             ->orderBy('cek_list_id', 'asc')
                             ->get();
     }
-    
 }
